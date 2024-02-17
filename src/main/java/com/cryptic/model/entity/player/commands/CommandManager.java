@@ -650,19 +650,16 @@ public class CommandManager {
         /*    p.getPacketSender().sendInterface(81375);
             p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
             var task = World.getWorld().getSlayerTasks();
-            task.getRandomTask(p, 6797);
+            task.sendTaskInformation(p);
         });
 
         dev("c1", (p, c, s) -> {
-            var task = World.getWorld().getSlayerTasks();
-            int id = Integer.parseInt(s[1]);
-            var current = task.getCurrentAssignment(p);
-            p.message("isLinked: " + task.isLinkedById(p, id) + " is extendable: " + task.isExtendable(p));
+            p.getSlayerRewards().block();
         });
 
         dev("cleartask", (p, c, s) -> {
             var task = World.getWorld().getSlayerTasks();
-            task.cancelSlayerTask(p);
+            task.cancelSlayerTask(p, false);
         });
 
         dev("cl", (p, c, s) -> {

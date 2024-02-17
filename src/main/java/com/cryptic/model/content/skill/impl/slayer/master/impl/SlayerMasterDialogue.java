@@ -4,6 +4,7 @@ import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.master.SlayerMaster;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
@@ -20,37 +21,37 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.DURADEL;
 public class SlayerMasterDialogue extends Dialogue {
 
     public static void giveTask(Player player) {
-        // Time to check our task state. Can we hand out?
-        int numleft = player.slayerTaskAmount();
-        if (numleft > 0) {
-            DialogueManager.npcChat(player, Expression.H, player.getInteractingNpcId(), "You're still hunting " + Slayer.taskName(player.slayerTaskId()) + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
-            return;
-        }
-
-        // Give them a task.
-        SlayerMaster.assign(player, DURADEL);
-        SlayerCreature task = SlayerCreature.lookup(player.slayerTaskId());
-        if(task == null) {
-            return;
-        }
-        int num = player.slayerTaskAmount();
-        player.getDialogueManager().start(new Dialogue() {
-            @Override
-            protected void start(Object... parameters) {
-                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.THORODIN_5526, Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill "+num+" "+Slayer.taskName(task.uid));
-                setPhase(0);
+        SlayerTask slayer = World.getWorld().getSlayerTasks();
+        SlayerTask assignment = slayer.getCurrentAssignment(player);
+        if (assignment != null) {
+            int numleft = assignment.getRemainingTaskAmount(player);
+            if (numleft > 0) {
+                DialogueManager.npcChat(player, Expression.H, player.getInteractingNpcId(), "You're still hunting " + assignment.getTaskName() + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
             }
-
-            @Override
-            protected void next() {
-                if(isPhase(0)) {
-                    send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Great, thanks!");
-                    setPhase(1);
-                } else if(isPhase(1)) {
-                    stop();
+        } else {
+            slayer.getRandomTask(player, NpcIdentifiers.NIEVE);
+            assignment = slayer.getCurrentAssignment(player);
+            if (assignment == null) return;
+            int num = slayer.getRemainingTaskAmount(player);
+            SlayerTask finalAssignment = assignment;
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    send(DialogueType.NPC_STATEMENT, NpcIdentifiers.NIEVE, Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill " + num + " " + finalAssignment.getTaskName());
+                    setPhase(0);
                 }
-            }
-        });
+
+                @Override
+                protected void next() {
+                    if (isPhase(0)) {
+                        send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Great, thanks!");
+                        setPhase(1);
+                    } else if (isPhase(1)) {
+                        stop();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -61,7 +62,7 @@ public class SlayerMasterDialogue extends Dialogue {
 
     @Override
     protected void next() {
-        if(isPhase(0)) {
+        if (isPhase(0)) {
             send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I need another assignment.", "Have you any rewards for me, or anything to trade?", "Er... Nothing...");
             setPhase(1);
         } else if (isPhase(2)) {
@@ -94,7 +95,7 @@ public class SlayerMasterDialogue extends Dialogue {
             if (option == 1) {
                 stop();
                 player.getSlayerRewards().open();
-            } else if(option == 2) {
+            } else if (option == 2) {
                 stop();
                 World.getWorld().shop(14).open(player);
             }

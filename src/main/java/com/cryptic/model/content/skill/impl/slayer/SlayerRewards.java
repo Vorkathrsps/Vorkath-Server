@@ -6,17 +6,24 @@ import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.Slaye
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerRewardButtons;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTaskDef;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.cryptic.model.content.skill.impl.slayer.SlayerConstants.DRAKE;
 import static com.cryptic.model.content.skill.impl.slayer.SlayerConstants.*;
@@ -39,23 +46,9 @@ public class SlayerRewards {
     public SlayerRewards(Player player) {
         this.player = player;
     }
+    @Getter @Setter
+    ArrayList<Integer> blockedSlayerTask = new ArrayList<>();
 
-    /**
-     * The list of all blocked slayer tasks.
-     */
-    private ArrayList<Integer> blocked = new ArrayList<>();
-
-    public ArrayList<Integer> getBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(ArrayList<Integer> blocked) {
-        this.blocked = blocked;
-    }
-
-    public boolean isTaskBlocked(SlayerTaskDef task) {
-        return player.getSlayerRewards().blocked.contains(task.getCreatureUid());
-    }
 
     /**
      * The list of all slayer tasks extensions.
@@ -72,79 +65,79 @@ public class SlayerRewards {
     }
 
     public int slayerTaskAmount(Player player, SlayerTaskDef def) {
-        if(extendable.containsKey(ADAMIND_SOME_MORE)) {
+        if (extendable.containsKey(ADAMIND_SOME_MORE)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(RUUUUUNE)) {
+        if (extendable.containsKey(RUUUUUNE)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(BARRELCHEST)) {
+        if (extendable.containsKey(BARRELCHEST)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(FLUFFY)) {
+        if (extendable.containsKey(FLUFFY)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(PURE_CHAOS)) {
+        if (extendable.containsKey(PURE_CHAOS)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(CORPOREAL_LECTURE)) {
+        if (extendable.containsKey(CORPOREAL_LECTURE)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(CRAZY_SCIENTIST)) {
+        if (extendable.containsKey(CRAZY_SCIENTIST)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(GORILLA_DEMON)) {
+        if (extendable.containsKey(GORILLA_DEMON)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(DRAGON_SLAYER)) {
+        if (extendable.containsKey(DRAGON_SLAYER)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(SCYLLA)) {
+        if (extendable.containsKey(SCYLLA)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(JUMPING_JACKS)) {
+        if (extendable.containsKey(JUMPING_JACKS)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(SPOOKY_SCARY_SKELETONS)) {
+        if (extendable.containsKey(SPOOKY_SCARY_SKELETONS)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(ATOMIC_BOMB)) {
+        if (extendable.containsKey(ATOMIC_BOMB)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(VORKI)) {
+        if (extendable.containsKey(VORKI)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(NAGINI)) {
+        if (extendable.containsKey(NAGINI)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(WYVER_ANOTHER_ONE)) {
+        if (extendable.containsKey(WYVER_ANOTHER_ONE)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(ARAGOG)) {
+        if (extendable.containsKey(ARAGOG)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(BEWEAR)) {
+        if (extendable.containsKey(BEWEAR)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(DRAKE)) {
+        if (extendable.containsKey(DRAKE)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(WYRM_ME_ON)) {
+        if (extendable.containsKey(WYRM_ME_ON)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(DR_CHAOS)) {
+        if (extendable.containsKey(DR_CHAOS)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(DIG_ME_UP)) {
+        if (extendable.containsKey(DIG_ME_UP)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(LAVA)) {
+        if (extendable.containsKey(LAVA)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(WORLD_BOSSILONGER)) {
+        if (extendable.containsKey(WORLD_BOSSILONGER)) {
             return (int) (def.range(player) * 1.4);
         }
-        if(extendable.containsKey(GOD_WAR)) {
+        if (extendable.containsKey(GOD_WAR)) {
             return (int) (def.range(player) * 1.4);
         }
         return def.range(player);
@@ -202,8 +195,12 @@ public class SlayerRewards {
     }
 
     public void open() {
-        sendTaskInformation();
-        Slayer.displayCurrentAssignment(player);
+        SlayerTask task = World.getWorld().getSlayerTasks();
+        SlayerTask assignment = task.getCurrentAssignment(player);
+        task.sendTaskInformation(player);
+        if (assignment == null) player.message("You currently do not have an assigned Slayer task.");
+        else
+            player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + assignment.getRemainingTaskAmount(player)));
         player.getInterfaceManager().open(63200);
     }
 
@@ -219,7 +216,7 @@ public class SlayerRewards {
         for (int lineId = 63108; lineId <= 63110; lineId++)
             player.getPacketSender().sendString(lineId, "");
 
-        player.getPacketSender().sendString(63110, "Pay "+selectedButton.getRewardPoints()+" points?");
+        player.getPacketSender().sendString(63110, "Pay " + selectedButton.getRewardPoints() + " points?");
     }
 
     private void toggleExtendState(int id) {
@@ -234,16 +231,20 @@ public class SlayerRewards {
         for (int lineId = 63108; lineId <= 63110; lineId++)
             player.getPacketSender().sendString(lineId, "");
 
-        player.getPacketSender().sendString(63110, "Pay "+selectedButton.getRewardPoints()+" points?");
+        player.getPacketSender().sendString(63110, "Pay " + selectedButton.getRewardPoints() + " points?");
     }
 
     private void blockWidget() {
-        player.putAttrib(SLAYER_UI_ACTION,1);
-        String name = Slayer.taskName(player.getAttribOr(SLAYER_TASK_ID, 0));
-        player.getPacketSender().sendString(63106, "You are about to block: " + name);
-        player.getPacketSender().sendString(63107, "This costs 100 Slayer Points");
-        player.getPacketSender().sendString(63110, "<col=ca0d0d>Are you sure you want to pay?</col>");
-        player.getInterfaceManager().open(63100);
+        player.putAttrib(SLAYER_UI_ACTION, 1);
+        SlayerTask task = World.getWorld().getSlayerTasks();
+        SlayerTask assignment = task.getCurrentAssignment(player);
+        if (assignment != null) {
+            String name = assignment.getTaskName();
+            player.getPacketSender().sendString(63106, "You are about to block: " + name);
+            player.getPacketSender().sendString(63107, "This costs 100 Slayer Points");
+            player.getPacketSender().sendString(63110, "<col=ca0d0d>Are you sure you want to pay?</col>");
+            player.getInterfaceManager().open(63100);
+        }
     }
 
     private boolean purchase(int amount) {
@@ -260,14 +261,19 @@ public class SlayerRewards {
 
     private void sendTaskInformation() {
         try {
-            Slayer.displayCurrentAssignment(player);
+            SlayerTask slayer = World.getWorld().getSlayerTasks();
+            SlayerTask assignment = slayer.getCurrentAssignment(player);
+            if (assignment == null) player.message("You currently do not have an assigned Slayer task.");
+            else
+                player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + assignment.getRemainingTaskAmount(player)));
+
             for (int index = 0; index < 6; index++) {
                 player.getPacketSender().sendString(63220 + index, "Empty");
                 player.getPacketSender().sendString(63232 + index, "<col=-8434673>Unblock Task</col>");
-                if (player.getSlayerRewards().getBlocked().size() > 0 && player.getSlayerRewards().getBlocked().size() > index) {
-                    int task = player.getSlayerRewards().getBlocked().get(index);
-                    SlayerCreature assignedTask = SlayerCreature.lookup(task);
-                    player.getPacketSender().sendString(63220 + index, Utils.formatEnum(assignedTask.name()));
+                if (player.getSlayerRewards().getBlockedSlayerTask().size() > 0 && player.getSlayerRewards().getBlockedSlayerTask().size() > index) {
+                    if (assignment != null) {
+                        player.getPacketSender().sendString(63220 + index, Utils.formatEnum(assignment.getTaskName()));
+                    }
                 } else {
                     player.getPacketSender().sendString(63220 + index, "Empty");
                 }
@@ -310,11 +316,13 @@ public class SlayerRewards {
                 World.getWorld().shop(7).open(player);
                 return true;
             case CANCEL:
-                Slayer.cancelTask(player,false);
+                Slayer.cancelTask(player, false);
                 return true;
 
             case BLOCK:
-                int num = player.getAttribOr(AttributeKey.SLAYER_TASK_AMT, 0);
+                SlayerTask task = World.getWorld().getSlayerTasks();
+                SlayerTask assignment = task.getCurrentAssignment(player);
+                int num = assignment.getRemainingTaskAmount(player);
                 if (num > 0) {
                     blockWidget();
                 } else {
@@ -374,7 +382,7 @@ public class SlayerRewards {
                     //Unlock feature
                     if (type == 0) {
                         SlayerUnlockable unlockable = SlayerUnlockable.byButton(selectedChild);
-                        if(unlockable == null) {
+                        if (unlockable == null) {
                             return false;
                         }
 
@@ -388,7 +396,7 @@ public class SlayerRewards {
                             player.getSlayerRewards().getUnlocks().put(selectedChild, name);
                             player.getPacketSender().sendConfig(750 + unlockable.ordinal(), 1);
                             player.getInterfaceManager().open(getPreviousInterface());
-                            player.message("You successfully purchased " + Utils.capitalizeJustFirst(name).replaceAll("_", " ")+".");
+                            player.message("You successfully purchased " + Utils.capitalizeJustFirst(name).replaceAll("_", " ") + ".");
                             return true;
                         }
                     }
@@ -403,7 +411,7 @@ public class SlayerRewards {
                         }
 
                         player.getSlayerRewards().getExtendable().put(selectedChild, name);
-                        player.message("You successfully purchased " + Utils.capitalizeJustFirst(name).replaceAll("_", " ")+".");
+                        player.message("You successfully purchased " + Utils.capitalizeJustFirst(name).replaceAll("_", " ") + ".");
                         player.getPacketSender().sendConfig(560 + extendable.ordinal(), 1);
                         player.getInterfaceManager().open(getPreviousInterface());
                         return true;
@@ -438,36 +446,30 @@ public class SlayerRewards {
     public void block() {
         int pts = player.getAttribOr(SLAYER_REWARD_POINTS, 0);
         int required = 100;
-        boolean extremeMember = player.getMemberRights().isExtremeMemberOrGreater(player);
-
-        if (pts < 100 && !extremeMember) {
-            player.message("You need " + required + " points to block your task.");
-        } else {
-            SlayerCreature assignedTask = SlayerCreature.lookup(player.slayerTaskId());
-
-            //Firstly we check to see if the task has already been blocked!
-            if (player.getSlayerRewards().getBlocked() != null && player.getSlayerRewards().getBlocked().contains(assignedTask.uid)) {
-                player.message("This task is already blocked... Report to a Administrator"); //Huh how can we block a task that was already blocked?
+        SlayerTask slayer = World.getWorld().getSlayerTasks();
+        SlayerTask assignment = slayer.getCurrentAssignment(player);
+        if (pts < 100) {
+            player.message(Color.RED.wrap("You need " + required + " points to block your task."));
+            return;
+        }
+        if (player.getSlayerRewards().getBlockedSlayerTask() != null) {
+            if (player.getSlayerRewards().getBlockedSlayerTask().contains(assignment.getUid())) {
+                player.message("This task is already blocked... Report to a Administrator");
                 return;
             }
-
-            //Next, we check if we have any available slots, if we do, BLOCK! :^ )
-            if (blocked.size() >= 6) {
-                player.message("You can only block up to 6 tasks.");
-                player.getInterfaceManager().open(getPreviousInterface());
-                return;
-            }
-
-            blocked.add(assignedTask.uid);
-            if (!extremeMember) {
-                player.putAttrib(SLAYER_REWARD_POINTS, pts - required);
-            }
-            player.putAttrib(SLAYER_TASK_ID, 0);
-            player.putAttrib(AttributeKey.SLAYER_TASK_AMT,0);
-            player.message("You have successfully blocked your task.");
-            sendTaskInformation();
+        }
+        if (blockedSlayerTask.size() >= 6) {
+            player.message("You can only block up to 6 tasks.");
             player.getInterfaceManager().open(getPreviousInterface());
-            player.putAttrib(SLAYER_UI_ACTION,0);
+            return;
+        }
+        if (assignment != null) {
+            slayer.blockTask(player, assignment);
+            slayer.cancelSlayerTask(player, true);
+            slayer.sendTaskInformation(player);
+            player.getInterfaceManager().open(getPreviousInterface());
+            player.putAttrib(SLAYER_UI_ACTION, 0);
+            player.message(Color.BLUE.wrap("You have successfully blocked your task."));
         }
     }
 
@@ -475,33 +477,32 @@ public class SlayerRewards {
      * Unblocks the slayer task.
      */
     public void unblock(int button) {
-        if (blocked.isEmpty()) {
+        if (blockedSlayerTask.isEmpty()) {
             //System.out.println("Nothing to block");
             return;
         }
 
-        int size = blocked.size();
+        int size = blockedSlayerTask.size();
         int max = 63226 + size;
         if (button == 63226) {
             if (max >= 63226)
-                blocked.remove(0);
+                blockedSlayerTask.remove(0);
         } else if (button == 63227 && size >= 2) {
             if (max >= 63227)
-                blocked.remove(1);
+                blockedSlayerTask.remove(1);
         } else if (button == 63228 && size >= 3) {
             if (max >= 63228)
-                blocked.remove(2);
+                blockedSlayerTask.remove(2);
         } else if (button == 63229 && size >= 4) {
             if (max >= 63229)
-                blocked.remove(3);
+                blockedSlayerTask.remove(3);
         } else if (button == 63230 && size >= 5) {
             if (max >= 63230)
-                blocked.remove(4);
+                blockedSlayerTask.remove(4);
         } else if (button == 63231 && size >= 6) {
             if (max >= 63231)
-                blocked.remove(5);
+                blockedSlayerTask.remove(5);
         }
-        blocked.trimToSize();
         sendTaskInformation();
     }
 }

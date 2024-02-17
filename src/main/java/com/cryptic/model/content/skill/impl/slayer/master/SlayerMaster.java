@@ -27,17 +27,17 @@ public class SlayerMaster {
 
     public final List<SlayerTaskDef> defs = new ArrayList<>();
 
-    private SlayerTaskDef randomTask(Player player) {
+    /*private SlayerTaskDef randomTask(Player player) {
         int last = player.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
 
         final int[] tmp = {0};
 
-        TreeMap<Integer, SlayerTaskDef> taskMap = new TreeMap<>();
+       *//* TreeMap<Integer, SlayerTaskDef> taskMap = new TreeMap<>();
         defs.forEach(task -> {
             if (task != null && task.getCreatureUid() != last &&
                 player.getSkills().xpLevel(Skills.SLAYER) >= SlayerCreature.lookup(task.getCreatureUid()).req &&
                 player.getSkills().combatLevel() >= SlayerCreature.lookup(task.getCreatureUid()).cbreq &&
-                !player.getSlayerRewards().isTaskBlocked(task) && player.getSlayerRewards().canAssign(task)) {
+                //!player.getSlayerRewards().isTaskBlocked(task) && player.getSlayerRewards().canAssign(task)) {
                 taskMap.put(tmp[0], task);
                 tmp[0] += task.getWeighing();
             }
@@ -45,17 +45,17 @@ public class SlayerMaster {
 
         if (tmp[0] == 0) {
             return null;
-        }
+        }*//*
 
         int rnd = World.getWorld().random(tmp[0] - 1);
         Map.Entry<Integer, SlayerTaskDef> entry = taskMap.floorEntry(rnd);
         return entry.getValue();
-    }
+    }*/
 
     public static void assign(Player player, int id) {
         var master = Slayer.master(id);
         if (master == null) return;
-        SlayerTaskDef def = master.randomTask(player);
+        SlayerTaskDef def = null;
 
         if(def == null) {
             System.out.println("no task available.");

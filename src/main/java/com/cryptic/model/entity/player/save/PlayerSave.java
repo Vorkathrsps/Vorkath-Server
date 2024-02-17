@@ -8,6 +8,7 @@ import com.cryptic.model.content.collection_logs.Collection;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.sigils.data.SigilData;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -33,6 +34,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.internal.ConstructorConstructor;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -254,7 +256,7 @@ public class PlayerSave {
             }
 
             if (details.blockedSlayerTasks != null) {
-                player.getSlayerRewards().setBlocked(details.blockedSlayerTasks);
+                player.getSlayerRewards().setBlockedSlayerTask(details.blockedSlayerTasks);
             }
 
             if (details.slayerUnlocks != null) {
@@ -800,7 +802,7 @@ public class PlayerSave {
             skillXP = player.getSkills().xp();
             unlockedPets = player.getUnlockedPets();
             insuredPets = player.getInsuredPets();
-            blockedSlayerTasks = player.getSlayerRewards().getBlocked();
+            blockedSlayerTasks = player.getSlayerRewards().getBlockedSlayerTask();
             slayerUnlocks = player.getSlayerRewards().getUnlocks();
             slayerExtensionsList = player.getSlayerRewards().getExtendable();
             inventory = player.inventory().toArray();

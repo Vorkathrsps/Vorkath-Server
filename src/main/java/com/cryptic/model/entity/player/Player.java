@@ -1908,7 +1908,7 @@ public class Player extends Entity {
         achievements().clear();
         getHostAddressMap().clear();
         getInsuredPets().clear();
-        getSlayerRewards().getBlocked().clear();
+        getSlayerRewards().getBlockedSlayerTask().clear();
         getSlayerRewards().getUnlocks().clear();
         getSlayerRewards().getExtendable().clear();
         getRecentKills().clear();
@@ -1987,7 +1987,7 @@ public class Player extends Entity {
         }
 
         //Clear slayer blocks
-        getSlayerRewards().getBlocked().clear();
+        getSlayerRewards().getBlockedSlayerTask().clear();
 
         //Clear slayer unlocks
         getSlayerRewards().getUnlocks().clear();

@@ -6,6 +6,7 @@ import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.master.SlayerMaster;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.skill.impl.slayer.superior_slayer.SuperiorSlayer;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
@@ -126,6 +127,7 @@ public class Slayer {
 
             @Override
             protected void select(int option) {
+                SlayerTask slayer = World.getWorld().getSlayerTasks();
                 if (isPhase(0)) {
                     if (option == 1) {
                         send(DialogueType.OPTION, "Reset slayer task with BM or Slayer points?", "BM. (5.000)", "Slayer Points. (10)");
@@ -155,7 +157,7 @@ public class Slayer {
                         player.putAttrib(AttributeKey.SLAYER_TASK_SPREE, 0);
                         player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
                         player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
-                        Slayer.displayCurrentAssignment(player);
+                        slayer.displayCurrentAssignment(player);
                         player.message("You have successfully cancelled your task.");
                     } else {
                         int pts = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
@@ -171,7 +173,7 @@ public class Slayer {
                             player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
                             player.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, pts - required);
                             player.getPacketSender().sendString(SLAYER_POINTS.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_POINTS.childId).fetchLineData(player));
-                            Slayer.displayCurrentAssignment(player);
+                            slayer.displayCurrentAssignment(player);
                             player.message("You have successfully cancelled your task.");
                         }
                     }

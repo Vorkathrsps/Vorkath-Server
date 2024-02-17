@@ -477,10 +477,7 @@ public class PlayerSave {
             }
             player.putAttrib(AttributeKey.DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(AttributeKey.DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
-            player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, details.previousSlayerTask);
-            player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, details.currentSlayerTask);
-            player.putAttrib(AttributeKey.SLAYER_TASK_UID, details.slayerTaskUid);
-            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, details.remainingSlayerTaskAmount);
+
 
             ARGS_DESERIALIZER.accept(player, details.allAttribs);
 
@@ -618,10 +615,6 @@ public class PlayerSave {
         private final int starterStaffCharges;
         private final int starterSwordCharges;
         private final PlainTile lastRecallSave;
-        private final String previousSlayerTask;
-        private final String currentSlayerTask;
-        private final int slayerTaskUid;
-        private final int remainingSlayerTaskAmount;
         private final boolean alchemicalHydraLogClaimed;
         private final boolean ancientBarrelchestLogClaimed;
         private final boolean ancientChaosElementalLogClaimed;
@@ -954,11 +947,6 @@ public class PlayerSave {
             };
             dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
             dailyTasksExtensions = player.getOrT(AttributeKey.DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
-            previousSlayerTask = Player.getAttribStringOr(player, AttributeKey.PREVIOUS_SLAYER_TASK, "");
-            currentSlayerTask = Player.getAttribStringOr(player, AttributeKey.CURRENT_SLAYER_TASK, "");
-            slayerTaskUid = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_UID, -1);
-            remainingSlayerTaskAmount = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, -1);
-
             allAttribs = ARGS_SERIALIZER.apply(player);
 
             starterBowCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_BOW_CHARGES, 0);

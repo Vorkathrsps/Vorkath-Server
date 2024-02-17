@@ -9406,14 +9406,15 @@
   {"x":3073,"y":3498,"z":0,"id":5007,"walkRange":2,"direction":"s"},
   {"x":3078,"y":3461,"z":0,"id":5007,"walkRange":4,"direction":"s"},
   {"x":3079,"y":3492,"z":0,"id":4808,"walkRange":5,"direction":"s"},
-  {"x":3080,"y":3511,"z":0,"id":2821,"walkRange":2,"direction":"e"},
-  {"x":3081,"y":3511,"z":0,"id":2822,"walkRange":2,"direction":"e"},
+  {"x":3079,"y":3512,"z":0,"id":2821,"walkRange":0,"direction":"e"},
+  {"x":3079,"y":3510,"z":0,"id":2822,"walkRange":0,"direction":"e"},
+  {"x":3079,"y":3511,"z":0,"id":6481,"walkRange":0,"direction":"e"},
   {"x":3088,"y":3471,"z":0,"id":10642,"walkRange":3,"direction":"e"},
   {"x":3090,"y":3494,"z":0,"id":7458,"walkRange":5,"direction":"n"},
   {"x":1754,"y":11539,"z":0,"id":6609,"direction":"s"}, //callisto
   {"x":1629,"y":11546,"z":2,"id":6610,"direction":"s"}, //venenatis
   {"x":1886,"y":11545,"z":1,"id":6611,"direction":"w"}, //vetion
-  {"x":3078,"y":3502,"z":0,"id":308,"direction":"e"},
+  {"x":3081,"y":3502,"z":0,"id":7663,"direction":"e"},
   {"x":3097,"y":3525,"z":0,"id":2200,"walkRange":2,"direction":"w"},
   {"x":3078,"y":3501,"z":0,"id":7663,"direction":"e"},
   {"x":3116,"y":3473,"z":0,"id":4175,"walkRange":2,"direction":"s"},
@@ -23890,5 +23891,6 @@
   {"x":3246,"y":10157,"z":0,"id":7934,"walkRange":2,"direction":"s"},
   {"x":3237,"y":10161,"z":0,"id":7936,"walkRange":2,"direction":"s"},
   {"x":3248,"y":10150,"z":0,"id":7937,"walkRange":2,"direction":"e"},
-  {"x":3252,"y":10141,"z":0,"id":7938,"walkRange":2,"direction":"e"}
+  {"x":3252,"y":10141,"z":0,"id":7938,"walkRange":2,"direction":"e"},
+  {"x":3081,"y":3501,"z":0,"id":6797,"walkRange":0,"direction":"e"}
 ]

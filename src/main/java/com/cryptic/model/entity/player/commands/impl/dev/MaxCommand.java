@@ -22,6 +22,6 @@ public class MaxCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isCommunityManager(player));
+        return (player.getPlayerRights().isOwner(player));
     }
 }

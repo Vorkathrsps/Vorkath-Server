@@ -6465,7 +6465,7 @@
   {
     "shopId": 38,
     "name": "Skilling Store",
-    "currency": "COINS_995",
+    "currency": "COINS",
     "restock": true,
     "noiron": false,
     "sellType": "NONE",

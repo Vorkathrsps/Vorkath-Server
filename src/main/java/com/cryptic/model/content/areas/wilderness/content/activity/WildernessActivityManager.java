@@ -46,7 +46,6 @@ public class WildernessActivityManager {
      */
     public void init() {
         logger.info("Loading Wilderness Activity Manager");
-
         activities.add(new EdgevileActivity());
         activities.add(new PureActivity());
         activities.add(new ZerkerActivity());

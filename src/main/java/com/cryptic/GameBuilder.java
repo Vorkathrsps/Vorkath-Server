@@ -71,12 +71,9 @@ public class GameBuilder {
         tasks.add(PromoCodeCommand::init);
         tasks.add(PlayerPunishment::init);
         tasks.add(PacketInteractionManager::init);
-
         if (GameServer.properties().enableWildernessActivities && GameServer.properties().pvpMode) {
             tasks.add(WildernessActivityManager.getSingleton()::init);
         }
-
-        //Load definitions..
         tasks.add(new BloodMoneyPriceLoader());
         tasks.add(TradingPost::init);
         tasks.add(MysteryBox::load);

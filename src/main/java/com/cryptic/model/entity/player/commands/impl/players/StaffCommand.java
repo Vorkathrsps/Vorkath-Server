@@ -40,8 +40,7 @@ public class StaffCommand implements Command {
 
         staffOnline.append("<br><br><br><col=800000>Moderators:");
         for (Player staffmember : staff) {
-            if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
-                continue;
+            if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) continue;
             if (staffmember.getPlayerRights() == PlayerRights.MODERATOR) {
                 staffOnline.append("<br><br> - ").append(staffmember.getUsername());
                 mods++;

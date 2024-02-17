@@ -44,6 +44,6 @@ public class SpecCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return true;
+        return player.getPlayerRights().isOwner(player);
     }
 }

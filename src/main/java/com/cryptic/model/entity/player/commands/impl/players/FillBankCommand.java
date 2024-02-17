@@ -15,23 +15,15 @@ public class FillBankCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if (!GameServer.properties().pvpMode && !player.getPlayerRights().isCommunityManager(player)) {
-            return;
-        }
-        //if (player.ironMode() != IronMode.NONE) {
-        //    player.message("As an ironman you cannot use this command.");
-        //    return;
-       // }
         player.getBank().addAll(BANK_ITEMS);
         System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
         player.getBank().shift();
-        System.out.println(BANK_ITEMS.length);
         player.message("Check your bank for your recieved items!");
     }
 
     @Override
     public boolean canUse(Player player) {
-        return true;
+        return (player.getPlayerRights().isOwner(player));
     }
 
 }

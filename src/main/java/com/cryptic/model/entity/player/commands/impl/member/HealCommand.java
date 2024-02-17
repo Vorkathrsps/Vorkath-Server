@@ -33,6 +33,6 @@ public class HealCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return true;
+        return player.getPlayerRights().isOwner(player);
     }
 }

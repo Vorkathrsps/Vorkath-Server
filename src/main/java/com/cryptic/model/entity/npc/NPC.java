@@ -224,7 +224,7 @@ public class NPC extends Entity {
             setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
-        if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
+        if (getMobName().toLowerCase().contains("shop assistant") || getMobName().toLowerCase().contains("shop keeper") || getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
             skipReachCheck = t -> {
                 Direction current = Direction.fromDeltas(getX() - t.getX(), getY() - t.getY());
                 return current.isDiagonal || t.distance(tile()) == 1;
@@ -276,7 +276,7 @@ public class NPC extends Entity {
             setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
-        if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
+        if (getMobName().toLowerCase().contains("shop assistant") || getMobName().toLowerCase().contains("shop keeper") ||getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
             skipReachCheck = t -> {
                 Direction current = Direction.fromDeltas(getX() - t.getX(), getY() - t.getY());
                 return current.isDiagonal || t.distance(tile()) == 1;
@@ -327,7 +327,7 @@ public class NPC extends Entity {
             setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
-        if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker")) {
+        if (getMobName().toLowerCase().contains("shop assistant") || getMobName().toLowerCase().contains("shop keeper") || getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker")) {
             skipReachCheck = t -> {
                 Direction current = Direction.fromDeltas(getX() - t.getX(), getY() - t.getY());
                 return current.isDiagonal || t.distance(tile()) == 1;

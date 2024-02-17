@@ -106,36 +106,26 @@ public class CommandManager {
          * Player commands in exact order of ::commands
          */
 
-        //PVP commands
-        commands.put("combo", new ComboCommand());
         SkullCommand skullCommand = new SkullCommand();
         commands.put("skull", skullCommand);
         commands.put("redskull", skullCommand);
         commands.put("kdr", new KDRCommand());
-        commands.put("testp", new SetLevelOther.TestProjecttile());
         commands.put("chins", new ChinsCommand());
         commands.put("revs", new RevsCommand());
         commands.put("mb", new MageBankCommand());
         commands.put("50s", new Wilderness50TeleportCommand());
-        commands.put("cp", new ClanOutpostCommand());
-        commands.put("gamble", new GambleCommand());
         commands.put("tourney", new TourneyTeleportCommand());
         commands.put("44s", new Wilderness44TeleportCommand());
         commands.put("graves", new GravesTeleportCommand());
         commands.put("wests", new WestsTeleportCommand());
         commands.put("easts", new EastsTeleportCommand());
         commands.put("event", new EventTeleportCommand());
-        commands.put("kraken", new KrakenCommand());
-        commands.put("kbd", new KbdCommand());
-        commands.put("corp", new CorpCommand());
-        commands.put("cerberus", new CerberusCommand());
-        commands.put("callisto", new CallistoCommand());
-        commands.put("jad", new JadCommand());
-        commands.put("zulrah", new ZulrahCommand());
-        commands.put("forcemove", new InvulnerableCommand.ForcemoveCommand());
+        //commands.put("kraken", new KrakenCommand());
+        //commands.put("zulrah", new ZulrahCommand());
+        // commands.put("forcemove", new InvulnerableCommand.ForcemoveCommand());
         DuelArenaCommand duelArenaCommand = new DuelArenaCommand();
-        commands.put("duel", duelArenaCommand);
-        commands.put("duelarena", duelArenaCommand);
+        // commands.put("duel", duelArenaCommand);
+        // commands.put("duelarena", duelArenaCommand);
         //Regular commands
         commands.put("changepassword", new ChangePasswordCommand());
         commands.put("changepass", new ChangePasswordCommand());
@@ -150,8 +140,8 @@ public class CommandManager {
         commands.put("master", new MasterCommand());
         commands.put("toggledidyouknow", new ToggleDidYouKnowCommand());
         commands.put("home", new HomeCommand());
-        commands.put("vasa", new testVasa());
-        commands.put("shops", new ShopsCommand());
+        // commands.put("vasa", new testVasa());
+        // commands.put("shops", new ShopsCommand());
         commands.put("staff", new StaffCommand());
         commands.put("creationdate", new CreationDateCommand());
         PlayersOnlineCommand playersOnlineCommand = new PlayersOnlineCommand();
@@ -162,40 +152,32 @@ public class CommandManager {
         commands.put("showplayers", playersOnlineCommand);
         commands.put("empty", new EmptyCommand());
         commands.put("clearbank", new ClearBankCommand());
-        //render -> client command
-        //viewrender -> client command
-        commands.put("gdz", new GdzCommand());
         commands.put("togglevialsmash", new ToggleVialSmashCommand());
-        commands.put("levelup", new ToggleLevelUpCommand());
         commands.put("commands", new CommandsCommand());
-        commands.put("claimvote", new ClaimVoteCommand());
-        commands.put("claim", new ClaimCommand());
-        commands.put("raids", new RaidsTeleportCommand());
-        commands.put("riskzone", new RiskzoneCommand());
-        commands.put("vekers", new VekeRSCommand());
-        commands.put("fpkmerk", new FpkMerkCommand());
-        commands.put("capalot", new CapalotCommand());
-        commands.put("primatol", new PrimatolCommand());
-        commands.put("respire", new RespireCommand());
-        commands.put("vexia", new VexiaCommand());
-        commands.put("vihtic", new VihticCommand());
-        commands.put("smoothie", new SmoothieCommand());
-        commands.put("ipkmaxjr", new IPKMaxJrCommand());
-        commands.put("skii", new SkiiCommand());
-        commands.put("sipsick", new SipSickCommand());
-        commands.put("walkchaos", new WalkchaosCommand());
-        commands.put("tidus", new TidusCommand());
-        commands.put("slayerguide", new SlayerGuideCommand());
+        //commands.put("claimvote", new ClaimVoteCommand());
+        //commands.put("claim", new ClaimCommand());
+        //commands.put("raids", new RaidsTeleportCommand());
+        //commands.put("riskzone", new RiskzoneCommand());
+        //commands.put("vekers", new VekeRSCommand());
+        //commands.put("fpkmerk", new FpkMerkCommand());
+        //commands.put("capalot", new CapalotCommand());
+        //commands.put("primatol", new PrimatolCommand());
+        //commands.put("respire", new RespireCommand());
+        //commands.put("vexia", new VexiaCommand());
+        //commands.put("vihtic", new VihticCommand());
+        //commands.put("smoothie", new SmoothieCommand());
+        //commands.put("ipkmaxjr", new IPKMaxJrCommand());
+        //commands.put("skii", new SkiiCommand());
+        //commands.put("sipsick", new SipSickCommand());
+        //commands.put("walkchaos", new WalkchaosCommand());
         commands.put("features", new FeaturesCommand());
-        commands.put("raidsguide", new RaidsGuideCommand());
-        commands.put("promocode", new PromoCodeCommand());
+        //commands.put("raidsguide", new RaidsGuideCommand());
+        //commands.put("promocode", new PromoCodeCommand());
 
         /*
          * Donator commands
          */
-        commands.put("dzone", new DzoneCommand());
         commands.put("unskull", new UnskullCommand());
-        commands.put("dcave", new DCaveCommand());
 
         /*
          * Super donator commands
@@ -207,11 +189,6 @@ public class CommandManager {
          */
         commands.put("heal", new HealCommand());
         commands.put("spec", new SpecCommand());
-
-        /*
-         * Emerald Member commands
-         */
-        commands.put("newtask", new NewTaskCommand());
 
         /*
          * Youtuber commands
@@ -301,12 +278,8 @@ public class CommandManager {
         commands.put("reload", new ReloadCommand());
         commands.put("setlevel", new SetLevelCommand());
         commands.put("lvl", new SetLevelCommand());
-        commands.put("showitem", new ShowItemOnWidgetCommand());
         commands.put("click", new ClickLinkCommand());
-        commands.put("test", new TestCommand());
-        commands.put("nex", new NexCommand());
         commands.put("sethp", new SetHitPointsCommand());
-
         commands.put("noclip", new NoclipCommandCommand());
         commands.put("tasknames", new TaskNamesCommand());
         commands.put("taskamount", new TaskAmountCommand());
@@ -351,15 +324,9 @@ public class CommandManager {
         commands.put("kick", new Command() {
             @Override
             public void execute(Player player, String command, String[] parts) {
-                String player2 = Utils.formatText(command.substring(5)); // after "kick "
+                String player2 = Utils.formatText(command.substring(5));
                 Optional<Player> plr = World.getWorld().getPlayerByName(player2);
                 if (plr.isPresent()) {
-                    /*if (plr.get().getPlayerRights().isDeveloper(player.getPlayerRights())) {
-                        player.message("You cannot kick that player!");
-                        logger.warn(player.getUsername() + " tried to kick " + plr.get().getUsername(), "warning");
-                        Utils.sendDiscordInfoLog(player.getUsername() + " tried to kick " + plr.get().getUsername(), "warning");
-                        return;
-                    }*/
                     plr.get().requestLogout();
                     player.message("Player " + player2 + " (" + plr.get().getUsername() + ") has been kicked.");
                     Utils.sendDiscordInfoLog(player.getUsername() + " has kicked " + plr.get().getUsername(), "sanctions");
@@ -382,29 +349,6 @@ public class CommandManager {
         commands.put("reset", new EcoResetCommand());
         commands.put("tradepost", new TradingPostCommand());
         commands.put("savepost", new SaveTradingPostCommand());
-        commands.put("vp1", new Command() {
-            @Override
-            public void execute(Player player, String command, String[] parts) {
-                player.varps().varbit(Varbit.IN_WILDERNESS, 1);
-            }
-
-            @Override
-            public boolean canUse(Player player) {
-                return true;
-            }
-        });
-        commands.put("test1", new Command() {
-            @Override
-            public void execute(Player player, String command, String[] parts) {
-                player.putAttrib(LOOT_KEYS_ACTIVE, true);
-                player.putAttrib(LOOT_KEYS_UNLOCKED, true);
-            }
-
-            @Override
-            public boolean canUse(Player player) {
-                return true;
-            }
-        });
         dev("nex1", (p, c, s) -> {
             ZarosGodwars.clear();
             ZarosGodwars.nex = null;

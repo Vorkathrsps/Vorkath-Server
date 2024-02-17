@@ -57,7 +57,7 @@ public class SetLevelOther implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return player.getPlayerRights().isAdministrator(player);
+        return player.getPlayerRights().isOwner(player);
     }
 
     /**
@@ -76,50 +76,8 @@ public class SetLevelOther implements Command {
 
         @Override
         public boolean canUse(Player player) {
-            return player.getPlayerRights().isAdministrator(player);
+            return player.getPlayerRights().isOwner(player);
         }
     }
 
-    /**
-     * @author Ynneh | 02/03/2022 - 00:15
-     * <https://github.com/drhenny>
-     */
-    public static class TestProjecttile implements Command {
-
-        @Override
-        public void execute(Player player, String command, String[] parts) {
-            int delay = 51;
-            int delayMod = -60;// because server is old-fashion has manual server 2 tick delay
-            //new Projectile(player.tile(), new Tile(player.getX(), player.getY()+2), -1, 1465, 12 * 5, 10, 43, 35, 0, 16, 64).sendProjectile();
-        }
-
-        /**
-         *  public PacketSender sendProjectile(Tile tile, Tile offset, int angle, int speed, int id, int startHeight, int endHeight, int lockon, int delay, int slope, int radius) {
-         *         sendPosition(tile);
-         *         PacketBuilder out = new PacketBuilder(117);
-         *         out.put(angle);
-         *         out.put(offset.getY());
-         *         out.put(offset.getX());
-         *         out.putShort(lockon);
-         *         out.putShort(id);
-         *         out.put(startHeight);
-         *         out.put(endHeight);
-         *         out.putShort(delay);
-         *         out.putShort(speed);
-         *         out.put(slope);
-         *         out.put(radius);
-         *         player.getSession().write(out);
-         *         //System.out.println(String.format("pos %s offset %s angle %d speed %d id %d startHeight %d endHeight %d lockon %d delay %d slope %d radius %d%n", position, offset, angle, speed, id, startHeight, endHeight, lockon, delay, slope, radius));
-         *         return this;
-         *     }
-         * @param player
-         * @return
-         */
-
-        @Override
-        public boolean canUse(Player player) {
-            return false;
-        }
-
-    }
 }

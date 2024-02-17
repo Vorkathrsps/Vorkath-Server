@@ -12,6 +12,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.TASK_STREAK;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.DURADEL;
@@ -27,7 +28,13 @@ public class Krystalia extends PacketInteraction {
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if(option == 1) {
+        if (option == 1) {
+            if (npc.id() == KRYSTILIA) {
+                player.message(Color.RED.wrap("Coming soon."));
+                return true;
+            }
+        }
+       /* if(option == 1) {
             if (npc.id() == KRYSTILIA) {
                 displayOptions(player);
                 return true;
@@ -50,7 +57,7 @@ public class Krystalia extends PacketInteraction {
                 player.getSlayerRewards().open();
                 return true;
             }
-        }
+        }*/
         return false;
     }
 

@@ -44,7 +44,7 @@ public class NpcMovement extends MovementQueue {
         }
     }
 
-    private void randomWalk() {
+    public void randomWalk() {
         if (!npc.isRandomWalkAllowed()) return;
         if (npc.def().walkingAnimation == npc.def().standingAnimation) return;
         if (npc.def().walkingAnimation == -1) return;

@@ -7,6 +7,7 @@ import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.npc.NPC;
 
 import com.cryptic.model.entity.player.Player;
@@ -15,9 +16,11 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.EnumSet;
 import java.util.Optional;
@@ -36,8 +39,11 @@ public final class Chinchompas extends Trap {
      *
      * @param player {@link #getPlayer()}.
      */
+    final Player player;
+
     public Chinchompas(Player player) {
         super(player, TrapType.BOX_TRAP);
+        this.player = player;
     }
 
     /**
@@ -63,8 +69,8 @@ public final class Chinchompas extends Trap {
     /**
      * A collection of all the npcs that can be caught with a box trap.
      */
-    private static final ImmutableSet<Integer> NPC_IDS = ImmutableSet.of(BoxTrapData.GREY_CHINCHOMPA.npcId,
-        BoxTrapData.RED_CHINCHOMPA.npcId, BoxTrapData.BLACK_CHINCHOMPA.npcId);
+    private static final int[] NPC_IDS = new int[]{BoxTrapData.GREY_CHINCHOMPA.npcId,
+        BoxTrapData.RED_CHINCHOMPA.npcId, BoxTrapData.BLACK_CHINCHOMPA.npcId};
 
     public static boolean hunterNpc(int id) {
         //Fastest to check the IDs with conditional operators, otherwise use an int array with lang3 ArrayUtils.contains
@@ -115,75 +121,72 @@ public final class Chinchompas extends Trap {
         }
         final Trap boxtrap = this;
 
-        TaskManager.submit(new Task("catch_box_trap_task", 1, true) {
-            @Override
-            protected void execute() {
-                npc.smartPathTo(new Tile(getObject().getX(), getObject().getY()));
-                //npc.forceChat("going to trap");
-                if (isAbandoned()) {
-                    stop();
+        Chain.bound(null).name("catch_box_trap_task").repeatingTask(1, task -> {
+            if (isAbandoned()) {
+                task.stop();
+                return;
+            }
+            npc.getMovementQueue().clear();
+            npc.stepAbs(this.getObject().tile().transform(0, 0), MovementQueue.StepType.FORCED_WALK);
+            TrapProcessor trapProcessor = Hunter.GLOBAL_TRAPS.get(player);
+            if (trapProcessor == null) {
+                task.stop();
+                return;
+            }
+            if (this.getState().equals(TrapState.CAUGHT)) {
+                npc.stopActions(true);
+                task.stop();
+                return;
+            }
+            if (npc.tile().equals(getObject().getX(), getObject().getY())) {
+                if (Utils.rollDie(50, 1)) {
+                    setState(TrapState.FALLEN);
+                    task.stop();
                     return;
                 }
-                TrapProcessor trapProcessor = Hunter.GLOBAL_TRAPS.get(player);
-                if (trapProcessor != null && trapProcessor.getTraps() != null && !trapProcessor.getTraps().contains(boxtrap)) {
-                    stop();
-                    return;
-                }
-                if (npc.getX() == getObject().getX() && npc.getY() == getObject().getY()) {
-                    stop();
-                    //npc.forceChat("attempt trap");
-
-                    int count = random.inclusive(180);
-                    int formula = successFormula(npc);
-                    if (count > formula) {
-                        setState(TrapState.FALLEN);
-                        stop();
-                        // npc.forceChat("fail");
-                        return;
-                    }
-                    kill(npc);
-                    // Equivilent of dying.. reset the npc
-                    npc.hidden(true);
-                    npc.teleport(npc.spawnTile());
-                    npc.setPositionToFace(npc.tile().transform(0, 0));
-                    npc.hp(npc.maxHp(), 0); // Heal up to full hp
-                    npc.animate(-1); // Reset death animation
-                    npc.getCombat().getKiller();
-                    npc.getCombat().clearDamagers();
-
-                    // Reset npc
-                    Chain.bound(null).runFn(8, () -> {
-                        npc.hidden(false);
-                        npc.unlock();
-                        World.getWorld().registerNpc(npc);
-                    });
-                    ObjectManager.removeObj(getObject());
-                    boxtrap.setObject(CAUGHT_ID);
-                    ObjectManager.addObj(getObject());
-                    setState(TrapState.CAUGHT);
-                }
+                kill(npc);
+                npc.hidden(true);
+                npc.teleport(npc.spawnTile());
+                npc.setPositionToFace(npc.tile().transform(0, 0));
+                npc.hp(npc.maxHp(), 0);
+                npc.animate(-1);
+                npc.getCombat().getKiller();
+                npc.getCombat().clearDamagers();
+                npc.getMovementQueue().clear();
+                Chain.bound(null).runFn(8, () -> {
+                    npc.hidden(false);
+                    npc.unlock();
+                    World.getWorld().registerNpc(npc);
+                });
+                ObjectManager.removeObj(getObject());
+                boxtrap.setObject(CAUGHT_ID);
+                ObjectManager.addObj(getObject());
+                setState(TrapState.CAUGHT);
+                task.stop();
             }
         });
     }
 
     @Override
     public void onSequence() {
-        for (NPC npc : World.getWorld().getNpcs()) {
-            if (npc == null || npc.dead()) {
-                continue;
-            }
-            if (NPC_IDS.stream().noneMatch(id -> npc.id() == id)) {
-                continue;
-            }
-            if (this.getObject().getHeight() == npc.getZ() && Math.abs(this.getObject().getX() - npc.getX()) <= DISTANCE_PORT && Math.abs(this.getObject().getY() - npc.getY()) <= DISTANCE_PORT) {
-                if (random.inclusive(100) < 20) {
-                    return;
+        var map = Hunter.GLOBAL_TRAPS.get(player);
+        for (var trap : map.getTraps()) {
+            var player = trap.getPlayer();
+            if (this.player != player) continue;
+            for (var region : player.getRegions()) {
+                for (var npc : region.getNpcs()) {
+                    if (npc == null || npc.dead()) continue;
+                    if (!ArrayUtils.contains(NPC_IDS, npc.id())) continue;
+                    if (this.getObject().getHeight() == npc.getZ() && Math.abs(this.getObject().getX() - npc.getX()) <= DISTANCE_PORT && Math.abs(this.getObject().getY() - npc.getY()) <= DISTANCE_PORT) {
+                        if (this.isAbandoned()) {
+                            return;
+                        }
+                        if (Utils.rollDie(2, 1)) {
+                            trap(npc);
+                            break;
+                        }
+                    }
                 }
-                if (this.isAbandoned()) {
-                    return;
-                }
-                trap(npc);
-                break;
             }
         }
     }
@@ -206,7 +209,7 @@ public final class Chinchompas extends Trap {
             case BLACK_CHINCHOMPA -> new Item(BLACK_CHINCHOMPA);
         };
 
-        if(data.get() == BoxTrapData.BLACK_CHINCHOMPA) {
+        if (data.get() == BoxTrapData.BLACK_CHINCHOMPA) {
             player.getTaskMasterManager().increase(Tasks.BLACK_CHINCHOMPAS);
         }
 

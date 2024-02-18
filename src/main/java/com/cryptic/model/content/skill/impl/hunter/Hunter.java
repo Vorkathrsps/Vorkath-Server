@@ -1,5 +1,6 @@
 package com.cryptic.model.content.skill.impl.hunter;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.hunter.trap.Trap;
 import com.cryptic.model.content.skill.impl.hunter.trap.Trap.TrapState;
 import com.cryptic.model.content.skill.impl.hunter.trap.Trap.TrapType;
@@ -7,6 +8,8 @@ import com.cryptic.model.content.skill.impl.hunter.trap.TrapProcessor;
 import com.cryptic.model.content.skill.impl.hunter.trap.TrapTask;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.entity.MovementQueue;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -16,14 +19,20 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
+import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
+
+import static com.cryptic.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_STEPS;
 
 /**
  * The class which holds static functionality for the hunter skill.
+ *
  * @author <a href="http://www.rune-server.org/members/stand+up/">Stand Up</a>
  */
 public final class Hunter {
@@ -37,7 +46,8 @@ public final class Hunter {
 
     /**
      * Retrieves the maximum amount of traps a player can lay.
-     * @param player    the player to lay a trap down for.
+     *
+     * @param player the player to lay a trap down for.
      * @return a numerical value determining the amount a player can lay.
      */
     private static int getMaximumTraps(Player player) {
@@ -47,8 +57,9 @@ public final class Hunter {
 
     /**
      * Attempts to abandon the specified {@code trap} for the player.
-     * @param trap      the trap that was abandoned.
-     * @param logout    if the abandon was due to the player logging out.
+     *
+     * @param trap   the trap that was abandoned.
+     * @param logout if the abandon was due to the player logging out.
      */
     public static void abandon(Player player, Trap trap, boolean logout) {
         if (GLOBAL_TRAPS.get(player) == null) {
@@ -78,8 +89,9 @@ public final class Hunter {
 
     /**
      * Attempts to lay down the specified {@code trap} for the specified {@code player}.
-     * @param player    the player to lay the trap for.
-     * @param trap      the trap to lay down for the player.
+     *
+     * @param player the player to lay the trap for.
+     * @param trap   the trap to lay down for the player.
      * @return {@code true} if the trap was laid, {@code false} otherwise.
      */
     public static boolean lay(Player player, Trap trap) {
@@ -89,11 +101,11 @@ public final class Hunter {
 
         player.last_trap_layed.reset();
 
-        int[] areas = {9271, 9272, 10285, 10029, 10810, 12346, 12347, 12602, 12603, 12090, 13113 };
+        int[] areas = {9271, 9272, 10285, 10029, 10810, 12346, 12347, 12602, 12603, 12090, 13113};
 
         boolean isHunterArea = player.getPlayerRights().isCommunityManager(player) || Arrays.stream(areas).anyMatch(area -> area == player.tile().region());
 
-        if(!isHunterArea) {
+        if (!isHunterArea) {
             player.message("This is not a suitable spot to place a trap.");
             return false;
         }
@@ -112,26 +124,46 @@ public final class Hunter {
             return false;
         }
 
-        trapProcessor.getTraps().add(trap);
-
-        // only start a task after you've added the trap to the list
-        if (trapProcessor.getTask().isEmpty()) {
-            trapProcessor.setTask(new TrapTask(player));
-            TaskManager.submit(trapProcessor.getTask().get());
-        }
-
-        trap.submit();
         player.animate(5208);
-        player.inventory().remove(trap.getType().getItemId());
-        ObjectManager.addObj(trap.getObject());
-        MovementQueue.clippedStep(player, 1);
+        MutableObject<GroundItem> groundItem = new MutableObject<GroundItem>();
+        groundItem.setValue(new GroundItem(new Item(trap.getType().getItemId()), player.tile(), player));
+        int[] ticks = new int[]{0};
+        Chain.bound(player).name("trap_placement_task").runFn(1, () -> {
+            player.inventory().remove(trap.getType().getItemId());
+            groundItem.getValue().setState(GroundItem.State.SEEN_BY_OWNER);
+            groundItem.getValue().spawn();
+        }).repeatingTask(1, task -> {
+            ticks[0]++;
+            if (task.isStopped()) {
+                task.stop();
+                return;
+            }
+            if (ticks[0] >= 3) {
+                ticks[0] = 0;
+                player.animate(5208);
+            }
+            if (World.getWorld().random(0, 5) == 1) {
+                trapProcessor.getTraps().add(trap);
+                if (trapProcessor.getTask().isEmpty()) {
+                    trapProcessor.setTask(new TrapTask(player));
+                    TaskManager.submit(trapProcessor.getTask().get());
+                }
+                trap.submit();
+                player.animate(Animation.DEFAULT_RESET_ANIMATION);
+                GroundItemHandler.sendRemoveGroundItem(groundItem.getValue());
+                ObjectManager.addObj(trap.getObject());
+                MovementQueue.clippedStep(player, 1);
+                task.stop();
+            }
+        });
         return true;
     }
 
     /**
      * Attempts to pick up the trap for the specified {@code player}.
-     * @param player    the player to pick this trap up for.
-     * @param object        the object id that was clicked.
+     *
+     * @param player the player to pick this trap up for.
+     * @param object the object id that was clicked.
      * @return {@code true} if the trap was picked up, {@code false} otherwise.
      */
     public static boolean pickup(Player player, GameObject object) {
@@ -151,29 +183,29 @@ public final class Hunter {
             player.message("You can't pickup someone elses trap...");
             return false;
         }
-        
+
         if (trap.getState().equals(TrapState.CAUGHT)) {
             return false;
-        }
-
-        GLOBAL_TRAPS.get(player).getTraps().remove(trap);
-
-        if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
-            GLOBAL_TRAPS.get(player).setTask(Optional.empty());
-            GLOBAL_TRAPS.remove(player);
         }
 
         trap.onPickUp();
         ObjectManager.removeObj(trap.getObject());
         player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
         player.animate(827);
+        GLOBAL_TRAPS.get(player).getTraps().remove(trap);
+        System.out.println("removing trap");
+        if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
+            GLOBAL_TRAPS.get(player).setTask(Optional.empty());
+            GLOBAL_TRAPS.remove(player);
+        }
         return true;
     }
 
     /**
      * Attempts to claim the rewards of this trap.
-     * @param player        the player attempting to claim the items.
-     * @param object        the object being interacted with.
+     *
+     * @param player the player attempting to claim the items.
+     * @param object the object being interacted with.
      * @return {@code true} if the trap was claimed, {@code false} otherwise.
      */
     public static boolean claim(Player player, GameObject object) {
@@ -198,12 +230,12 @@ public final class Hunter {
         }
 
         GLOBAL_TRAPS.get(player).getTraps().remove(trap);
-        
+
         if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
             GLOBAL_TRAPS.get(player).setTask(Optional.empty());
             GLOBAL_TRAPS.remove(player);
         }
-        
+
         ObjectManager.removeObj(trap.getObject());
         player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
         //Caskets Money, money, money..
@@ -220,8 +252,9 @@ public final class Hunter {
 
     /**
      * Gets a trap for the specified global object given.
-     * @param player    the player to return a trap for.
-     * @param object    the object to compare.
+     *
+     * @param player the player to return a trap for.
+     * @param object the object to compare.
      * @return a trap wrapped in an optional, {@link Optional#empty()} otherwise.
      */
     public static Optional<Trap> getTrap(Player player, GameObject object) {

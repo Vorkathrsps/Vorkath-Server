@@ -248,24 +248,22 @@ public final class Hunter {
             player.animate(5207);
         }
         BooleanSupplier waitUntil = () -> player.tile().equals(trap.getObject().tile().transform(0,0));
-        player.waitUntil(waitUntil, () -> {
-            Chain.noCtx().runFn(2, () -> {
-                player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
-                player.getSkills().addXp(Skills.HUNTER, (int) trap.experience());
-                trap.reward();
-                if (Utils.rollDie(20, 1)) {
-                    player.inventory().addOrDrop(new Item(7956, 1));
-                    player.message("You collect your prey from the trap and found a casket!");
-                }
-                ObjectManager.removeObj(trap.getObject());
-                GLOBAL_TRAPS.get(player).getTraps().remove(trap);
+        player.waitUntil(waitUntil, () -> Chain.noCtx().runFn(2, () -> {
+            player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
+            player.getSkills().addXp(Skills.HUNTER, (int) trap.experience());
+            trap.reward();
+            if (Utils.rollDie(20, 1)) {
+                player.inventory().addOrDrop(new Item(7956, 1));
+                player.message("You collect your prey from the trap and found a casket!");
+            }
+            ObjectManager.removeObj(trap.getObject());
+            GLOBAL_TRAPS.get(player).getTraps().remove(trap);
 
-                if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
-                    GLOBAL_TRAPS.get(player).setTask(Optional.empty());
-                    GLOBAL_TRAPS.remove(player);
-                }
-            });
-        });
+            if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
+                GLOBAL_TRAPS.get(player).setTask(Optional.empty());
+                GLOBAL_TRAPS.remove(player);
+            }
+        }));
         return true;
     }
 

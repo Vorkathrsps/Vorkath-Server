@@ -19,10 +19,12 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import lombok.Setter;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -91,6 +93,7 @@ public final class Birds extends Trap {
     @Override
     public void onPickUp() {
         player.message("You pick up your bird snare.");
+        this.setPickup(true);
     }
 
     @Override
@@ -98,6 +101,8 @@ public final class Birds extends Trap {
         player.message("You set-up your bird snare.");
     }
 
+    @Setter
+    private boolean pickup = false;
     @Override
     public void onCatch(NPC npc) {
         if (!ObjectManager.exists(new Tile(getObject().getX(), getObject().getY(), getObject().getHeight()))) {
@@ -113,7 +118,14 @@ public final class Birds extends Trap {
         final Trap birdSnare = this;
         BirdData bird = data.get();
 
-        Chain.bound(null).name("catch_box_trap_task").repeatingTask(1, task -> {
+        BooleanSupplier pickup = () -> this.pickup;
+        Chain.bound(null).name("catch_box_trap_task").cancelWhen(() -> {
+            if (pickup.getAsBoolean()) {
+                npc.stopActions(true);
+                return true;
+            }
+            return false;
+        }).repeatingTask(1, task -> {
             if (isAbandoned()) {
                 task.stop();
                 return;

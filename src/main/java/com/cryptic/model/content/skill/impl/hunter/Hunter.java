@@ -128,6 +128,7 @@ public final class Hunter {
         MutableObject<GroundItem> groundItem = new MutableObject<GroundItem>();
         groundItem.setValue(new GroundItem(new Item(trap.getType().getItemId()), player.tile(), player));
         int[] ticks = new int[]{0};
+        int[] attempts = new int[]{0};
         Chain.bound(player).name("trap_placement_task").runFn(1, () -> {
             player.inventory().remove(trap.getType().getItemId());
             groundItem.getValue().setState(GroundItem.State.SEEN_BY_OWNER);
@@ -140,9 +141,10 @@ public final class Hunter {
             }
             if (ticks[0] >= 3) {
                 ticks[0] = 0;
+                attempts[0]++;
                 player.animate(5208);
             }
-            if (World.getWorld().random(0, 5) == 1) {
+            if (World.getWorld().random(0, 4) == 1 || attempts[0] >= 1) {
                 trapProcessor.getTraps().add(trap);
                 if (trapProcessor.getTask().isEmpty()) {
                     trapProcessor.setTask(new TrapTask(player));

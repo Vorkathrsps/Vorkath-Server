@@ -20,10 +20,12 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import lombok.Setter;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -107,13 +109,14 @@ public final class Chinchompas extends Trap {
     @Override
     public void onPickUp() {
         player.message("You pick up your box trap.");
+        this.setPickup(true);
     }
 
     @Override
     public void onSetup() {
         player.message("You set-up your box trap.");
     }
-
+    @Setter private boolean pickup = false;
     @Override
     public void onCatch(NPC npc) {
         if (!ObjectManager.exists(new Tile(getObject().getX(), getObject().getY(), getObject().getHeight()))) {
@@ -121,7 +124,14 @@ public final class Chinchompas extends Trap {
         }
         final Trap boxtrap = this;
 
-        Chain.bound(null).name("catch_box_trap_task").repeatingTask(1, task -> {
+        BooleanSupplier pickup = () -> this.pickup;
+        Chain.bound(null).name("catch_box_trap_task").cancelWhen(() -> {
+            if (pickup.getAsBoolean()) {
+                npc.stopActions(true);
+                return true;
+            }
+            return false;
+        }).repeatingTask(1, task -> {
             if (isAbandoned()) {
                 task.stop();
                 return;
@@ -203,10 +213,17 @@ public final class Chinchompas extends Trap {
             throw new IllegalStateException("Invalid object id.");
         }
 
+        int amount;
+        switch (player.getMemberRights()) {
+            case RUBY_MEMBER,SAPPHIRE_MEMBER,EMERALD_MEMBER -> amount = 2;
+            case DIAMOND_MEMBER,DRAGONSTONE_MEMBER -> amount = 3;
+            case ONYX_MEMBER,ZENYTE_MEMBER -> amount = 4;
+            default -> amount = 1;
+        }
         Item reward = switch (data.get()) {
-            case GREY_CHINCHOMPA -> new Item(CHINCHOMPA_10033);
-            case RED_CHINCHOMPA -> new Item(RED_CHINCHOMPA_10034);
-            case BLACK_CHINCHOMPA -> new Item(BLACK_CHINCHOMPA);
+            case GREY_CHINCHOMPA -> new Item(CHINCHOMPA_10033, amount);
+            case RED_CHINCHOMPA -> new Item(RED_CHINCHOMPA_10034, amount);
+            case BLACK_CHINCHOMPA -> new Item(BLACK_CHINCHOMPA, amount);
         };
 
         if (data.get() == BoxTrapData.BLACK_CHINCHOMPA) {

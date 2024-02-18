@@ -116,7 +116,10 @@ public final class Chinchompas extends Trap {
     public void onSetup() {
         player.message("You set-up your box trap.");
     }
-    @Setter private boolean pickup = false;
+
+    @Setter
+    private boolean pickup = false;
+
     @Override
     public void onCatch(NPC npc) {
         if (!ObjectManager.exists(new Tile(getObject().getX(), getObject().getY(), getObject().getHeight()))) {
@@ -125,9 +128,11 @@ public final class Chinchompas extends Trap {
         final Trap boxtrap = this;
 
         BooleanSupplier pickup = () -> this.pickup;
+
         Chain.bound(null).name("catch_box_trap_task").cancelWhen(() -> {
             if (pickup.getAsBoolean()) {
                 npc.stopActions(true);
+                npc.unlock();
                 return true;
             }
             return false;
@@ -148,29 +153,37 @@ public final class Chinchompas extends Trap {
                 task.stop();
                 return;
             }
-            if (npc.tile().equals(getObject().getX(), getObject().getY())) {
+            if (npc.tile().equals(getObject().tile().getX(), getObject().tile().getY())) {
                 if (Utils.rollDie(50, 1)) {
                     setState(TrapState.FALLEN);
                     task.stop();
                     return;
                 }
-                kill(npc);
-                npc.hidden(true);
-                npc.teleport(npc.spawnTile());
+                npc.lockNoDamage();
                 npc.setPositionToFace(npc.tile().transform(0, 0));
-                npc.hp(npc.maxHp(), 0);
                 npc.animate(-1);
-                npc.getCombat().getKiller();
-                npc.getCombat().clearDamagers();
-                npc.getMovementQueue().clear();
-                Chain.bound(null).runFn(8, () -> {
+                npc.animate(5184);
+                ObjectManager.removeObj(getObject());
+                boxtrap.setObject(9381);
+                ObjectManager.addObj(getObject());
+                Chain.bound(null).runFn(1, () -> {
+                    kill(npc);
+                    npc.hidden(true);
+                    npc.teleport(npc.spawnTile());
+                    npc.hp(npc.maxHp(), 0);
+                    npc.getCombat().getKiller();
+                    npc.getCombat().clearDamagers();
+                    npc.getMovementQueue().clear();
+                }).then(2, () -> {
+                    ObjectManager.removeObj(getObject());
+                    boxtrap.setObject(CAUGHT_ID);
+                    ObjectManager.addObj(getObject());
+                }).then(4, () -> {
                     npc.hidden(false);
+                    npc.animate(-1);
                     npc.unlock();
                     World.getWorld().registerNpc(npc);
                 });
-                ObjectManager.removeObj(getObject());
-                boxtrap.setObject(CAUGHT_ID);
-                ObjectManager.addObj(getObject());
                 setState(TrapState.CAUGHT);
                 task.stop();
             }
@@ -178,7 +191,7 @@ public final class Chinchompas extends Trap {
     }
 
     @Override
-    public void onSequence() {
+    public void onSequence() { //TODO add region check for safety
         var map = Hunter.GLOBAL_TRAPS.get(player);
         for (var trap : map.getTraps()) {
             var player = trap.getPlayer();
@@ -215,9 +228,9 @@ public final class Chinchompas extends Trap {
 
         int amount;
         switch (player.getMemberRights()) {
-            case RUBY_MEMBER,SAPPHIRE_MEMBER,EMERALD_MEMBER -> amount = 2;
-            case DIAMOND_MEMBER,DRAGONSTONE_MEMBER -> amount = 3;
-            case ONYX_MEMBER,ZENYTE_MEMBER -> amount = 4;
+            case RUBY_MEMBER, SAPPHIRE_MEMBER, EMERALD_MEMBER -> amount = 2;
+            case DIAMOND_MEMBER, DRAGONSTONE_MEMBER -> amount = 3;
+            case ONYX_MEMBER, ZENYTE_MEMBER -> amount = 4;
             default -> amount = 1;
         }
         Item reward = switch (data.get()) {

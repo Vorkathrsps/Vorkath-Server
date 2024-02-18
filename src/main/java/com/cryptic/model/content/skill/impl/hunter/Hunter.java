@@ -124,6 +124,7 @@ public final class Hunter {
             return false;
         }
 
+        player.animate(Animation.DEFAULT_RESET_ANIMATION);
         player.animate(5208);
         MutableObject<GroundItem> groundItem = new MutableObject<GroundItem>();
         groundItem.setValue(new GroundItem(new Item(trap.getType().getItemId()), player.tile(), player));
@@ -191,15 +192,22 @@ public final class Hunter {
         }
 
         trap.onPickUp();
-        ObjectManager.removeObj(trap.getObject());
-        player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
-        player.animate(827);
-        GLOBAL_TRAPS.get(player).getTraps().remove(trap);
-        System.out.println("removing trap");
-        if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
-            GLOBAL_TRAPS.get(player).setTask(Optional.empty());
-            GLOBAL_TRAPS.remove(player);
+        player.getMovementQueue().clear();
+        player.stepAbs(trap.getObject().tile().transform(0,0), MovementQueue.StepType.REGULAR);
+        if (trap.getObject().definition().name.equalsIgnoreCase("Box Trap") || trap.getObject().definition().name.equalsIgnoreCase("Shaking Box")) {
+            player.animate(5212);
+        } else if (trap.getObject().definition().name.equalsIgnoreCase("Bird Snare")) {
+            player.animate(5207);
         }
+        Chain.noCtx().runFn(2, () -> {
+            ObjectManager.removeObj(trap.getObject());
+            player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
+            GLOBAL_TRAPS.get(player).getTraps().remove(trap);
+            if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
+                GLOBAL_TRAPS.get(player).setTask(Optional.empty());
+                GLOBAL_TRAPS.remove(player);
+            }
+        });
         return true;
     }
 
@@ -231,23 +239,33 @@ public final class Hunter {
             return false;
         }
 
-        GLOBAL_TRAPS.get(player).getTraps().remove(trap);
 
-        if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
-            GLOBAL_TRAPS.get(player).setTask(Optional.empty());
-            GLOBAL_TRAPS.remove(player);
+        player.getMovementQueue().clear();
+        player.stepAbs(trap.getObject().tile().transform(0,0), MovementQueue.StepType.REGULAR);
+        if (trap.getObject().definition().name.equalsIgnoreCase("Shaking Box")) {
+            player.animate(5212);
+        } else if (trap.getObject().definition().name.equalsIgnoreCase("Bird Snare")) {
+            player.animate(5207);
         }
+        BooleanSupplier waitUntil = () -> player.tile().equals(trap.getObject().tile().transform(0,0));
+        player.waitUntil(waitUntil, () -> {
+            Chain.noCtx().runFn(2, () -> {
+                player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
+                player.getSkills().addXp(Skills.HUNTER, (int) trap.experience());
+                trap.reward();
+                if (Utils.rollDie(20, 1)) {
+                    player.inventory().addOrDrop(new Item(7956, 1));
+                    player.message("You collect your prey from the trap and found a casket!");
+                }
+                ObjectManager.removeObj(trap.getObject());
+                GLOBAL_TRAPS.get(player).getTraps().remove(trap);
 
-        ObjectManager.removeObj(trap.getObject());
-        player.inventory().addOrDrop(new Item(trap.getType().getItemId(), 1));
-        //Caskets Money, money, money..
-        if (Utils.rollDie(20, 1)) {
-            player.inventory().addOrDrop(new Item(7956, 1));
-            player.message("You collect your prey from the trap and found a casket!");
-        }
-        player.getSkills().addXp(Skills.HUNTER, (int) trap.experience());
-        trap.reward();
-        player.animate(827);
+                if (GLOBAL_TRAPS.get(player).getTraps().isEmpty()) {
+                    GLOBAL_TRAPS.get(player).setTask(Optional.empty());
+                    GLOBAL_TRAPS.remove(player);
+                }
+            });
+        });
         return true;
     }
 

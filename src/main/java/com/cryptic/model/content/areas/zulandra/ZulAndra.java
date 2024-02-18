@@ -76,10 +76,29 @@ public class ZulAndra extends PacketInteraction {
                                 player.animate(3864);
                                 player.graphic(1039, GraphicHeight.HIGH, 0);
                                 stop();
-                                Chain.bound(null).name("ZulrahReturnTask").runFn(4, () -> {
+                                var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
+                                NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
+                                Chain.noCtx().runFn(3, () -> {
                                     player.animate(-1);
                                     player.getInterfaceManager().close();
-                                    enterInstance(player);
+                                    player.getMovementQueue().clear();
+                                    player.setInstancedArea(instance);
+                                    instance.addNpc(zulrah);
+                                    instance.addPlayer(player);
+                                    zulrah.setInstancedArea(instance);
+                                    zulrah.respawns(false);
+                                    zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                                    zulrah.setPositionToFace(null);
+                                    zulrah.noRetaliation(true);
+                                    zulrah.getCombatInfo().aggressive = false;
+                                    player.teleport(ZULRAH_PLAYER_START_TILE.x, ZULRAH_PLAYER_START_TILE.y, instance.getzLevel());
+                                }).then(1, () -> {
+                                    player.unlock();
+                                }).then(2, () -> {
+                                    World.getWorld().registerNpc(zulrah);
+                                    zulrah.setPositionToFace(zulrah.tile().transform(0, -10, 0));
+                                    zulrah.animate(5073);
+                                    Zulrah.startZulrahBattle(zulrah, player);
                                 });
                             } else if (option == 2) {
                                 stop();

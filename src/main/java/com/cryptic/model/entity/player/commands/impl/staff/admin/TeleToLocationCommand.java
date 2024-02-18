@@ -11,9 +11,7 @@ public class TeleToLocationCommand implements Command {
         int x = Integer.parseInt(parts[1]);
         int y = Integer.parseInt(parts[2]);
         int z = player.tile().getLevel(); // stay on current lvl
-        if (parts.length == 4) {
-            z = Integer.parseInt(parts[3]);
-        }
+        if (parts.length == 4) z = Integer.parseInt(parts[3]);
         player.teleport(new Tile(x, y, z));
     }
 

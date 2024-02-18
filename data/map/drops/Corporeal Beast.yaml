@@ -128,29 +128,29 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 77
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: HOLY_ELIXIR
   minimumAmount: 1
   maximumAmount: 1
   chance: 77
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: SPECTRAL_SPIRIT_SHIELD
   minimumAmount: 1
   maximumAmount: 1
   chance: 515
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ARCANE_SPIRIT_SHIELD
   minimumAmount: 1
   maximumAmount: 1
   chance: 772
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ELYSIAN_SPIRIT_SHIELD
   minimumAmount: 1
   maximumAmount: 1
   chance: 1545
-  rareDrop: false
+  rareDrop: true
   sendToBank: false

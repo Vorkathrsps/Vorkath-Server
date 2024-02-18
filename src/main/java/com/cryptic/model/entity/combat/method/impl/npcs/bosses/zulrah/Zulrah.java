@@ -176,8 +176,7 @@ public class Zulrah {
                 case MAGIC:
                     cooldown += 5 * 3;
                     for (int i = 0; i < 5; i++) {
-                        recurringCumlativeTimer[0]++; // start at 1
-                        // runs code with tick values: 3, 6, 9, 12, 15
+                        recurringCumlativeTimer[0]++;
                         runFn(npc, recurringCumlativeTimer[0] * 3, () -> {
                             if (Utils.getRandom(6) == 1) {
                                 doRangedAttack(npc, target);
@@ -240,7 +239,6 @@ public class Zulrah {
         }
 
         runFn(npc, cooldown, () -> {
-            //npc.forceChat("sinking down...");
             target.stopActions(false);
             npc.getCombat().reset();
             npc.animate(5072);
@@ -309,15 +307,16 @@ public class Zulrah {
         if (!Stream.of(NpcIdentifiers.ZULRAH, NpcIdentifiers.ZULRAH_2043, NpcIdentifiers.ZULRAH_2044).anyMatch(i -> i == npc.id())) {
             return;
         }
-        if (killer == null) {
-            return;
-        }
-        killer.getLocalNpcs().forEach(n -> {
-            if (n.id() == NpcIdentifiers.SNAKELING && n.tile().getLevel() == killer.tile().getLevel()) {
-                n.hit(n, n.hp());
+        if (killer == null) return;
+        for (var region : killer.getRegions()) {
+            for (var n : region.getNpcs()) {
+                if (n == null) continue;
+                if (n.tile().getZ() != killer.getZ()) continue;
+                if (n.id() == NpcIdentifiers.SNAKELING) {
+                    n.hit(n, n.hp());
+                }
             }
-        });
-
+        }
         ObjectManager.addObj(new GameObject(11701, new Tile(2263, 3071, killer.tile().getLevel())));
     }
 
@@ -541,10 +540,8 @@ public class Zulrah {
 
         var tileDist = npc.tile().distance(obj.tile());
         int duration = (40 + (5 * tileDist));
-        new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 40, duration, 92, 5, 10, 5, 5).sendProjectile();
-//        Chain.noCtx().runFn(delay, () -> {
-//            int internalCounter = 30;
-//        });
+        Projectile projectile = new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 40, duration, 92, 5, 10, 5, 5);
+        projectile.send(projectile.getStart(), projectile.getEnd());
         TaskManager.submit(new TickAndStop(delay) {
             @Override
             public void executeAndStop() {
@@ -589,7 +586,6 @@ public class Zulrah {
             snakeling.getValue().animate(2413);
             snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             snakeling.getValue().lockNoDamage();
-         /*   snakeling.getValue().setController(npc.getController());*/
         }).then(3, () -> {
             snakeling.getValue().unlock();
             snakeling.getValue().getCombat().attack(target);

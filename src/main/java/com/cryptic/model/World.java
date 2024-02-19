@@ -594,7 +594,7 @@ public class World {
 
         int total = 0;
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(new GsonPropertyValidator()).create();
-        File defs = new File("data/combat/npc");
+        File defs = new File("data/combat/scriptloader");
         for (File def : defs.listFiles()) {
             if (def.getName().endsWith(".json")) {
                 NPCCombatInfo[] s = null;
@@ -670,7 +670,7 @@ public class World {
 
     public void loadDrops() {
         ItemRepository.load();
-        NpcDropRepository.loadAll(new File("data/map/drops"));
+        NpcDropRepository.loadAll(new File("data/combat/drops"));
     }
 
     public static void loadNpcSpawns(File dir) {

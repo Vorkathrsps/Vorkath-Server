@@ -97,7 +97,7 @@ public class DropsConverter {
         tables.forEach((npc, table) -> {
             if (npc == null || table == null) return;
             String name = World.getWorld().definitions().get(NpcDefinition.class, npc).name;
-            Path file = Path.of("data/map/drops/" + name + ".yaml");
+            Path file = Path.of("data/combat/drops/" + name + ".yaml");
             if(npcsWritten.contains(name)) return;
             try {
                 mapper.writeValue(file.toFile(), table);

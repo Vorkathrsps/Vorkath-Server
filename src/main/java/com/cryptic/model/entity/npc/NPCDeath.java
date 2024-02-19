@@ -12,16 +12,14 @@ import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
-import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstForm;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstFormCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondFormCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TzTokJad;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
@@ -556,10 +554,10 @@ public class NPCDeath {
             }
 
             if (npc.id() == KALPHITE_QUEEN_6500) {
-                KalphiteQueenFirstForm.death(npc);
+                KalphiteQueenFirstFormCombat.death(npc);
                 return;
             } else if (npc.id() == KALPHITE_QUEEN_6501) {
-                KalphiteQueenSecondForm.death(npc);
+                KalphiteQueenSecondFormCombat.death(npc);
             }
 
             if (npc.id() == 6716 || npc.id() == 6723 || npc.id() == 7649) {

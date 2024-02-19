@@ -2,10 +2,10 @@ package com.cryptic.model.entity.combat.method.impl.npcs.godwars;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArraCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.GraardorCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.ZilyanaCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.KrilCombat;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.NPCDeath;
 import com.cryptic.model.map.position.Area;
@@ -34,7 +34,7 @@ public class GwdLogic {
 
     public static void onServerStart() {
         Optional<NPC> boss = Optional.empty();
-        Area[] areas =  {KreeArra.getENCAMPMENT(), Zilyana.getENCAMPMENT(), Kril.getENCAMPMENT(), Graardor.getBandosArea()};
+        Area[] areas =  {KreeArraCombat.getENCAMPMENT(), ZilyanaCombat.getENCAMPMENT(), KrilCombat.getENCAMPMENT(), GraardorCombat.getBandosArea()};
 
         for (Area a : areas) {
             // Identify the boss

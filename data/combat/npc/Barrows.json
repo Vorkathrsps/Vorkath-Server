@@ -29,7 +29,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Verac"
+      "combat": "VeracCombat"
     }
   },
   {
@@ -92,7 +92,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Guthan"
+      "combat": "GuthanCombat"
     }
   },
   {
@@ -125,7 +125,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Dharok"
+      "combat": "DharokCombat"
     }
   },
   {
@@ -156,11 +156,10 @@
     "animations": {
       "attack": 2075,
       "block": -1,
-      // TODO find this lo
       "death": 4167
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Karils"
+      "combat": "KarilCombat"
     }
   },
   {
@@ -189,11 +188,10 @@
     "animations": {
       "attack": 727,
       "block": 2079,
-      // TODO find this lo
       "death": 4167
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Ahrims"
+      "combat": "AhrimsCombat"
     }
   }
 ]

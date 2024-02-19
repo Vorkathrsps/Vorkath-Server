@@ -36,7 +36,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDNex",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat"
+      "combat": "NexCombat"
     }
   },
   {
@@ -71,7 +71,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Fumus"
+      "combat": "FumusCombat"
     }
   },
   {
@@ -106,7 +106,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Umbra"
+      "combat": "UmbraCombat"
     }
   },
   {
@@ -141,7 +141,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Cruor"
+      "combat": "CruorCombat"
     }
   },
   {
@@ -176,7 +176,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Glacies"
+      "combat": "GlaciesCombat"
     }
   },
   {
@@ -211,7 +211,7 @@
       "death": 9192
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.minions.BloodReaver"
+      "combat": "BloodReaverCombat"
     }
   },
   {
@@ -989,7 +989,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Bree"
+      "combat": "BreeCombat"
     }
   },
   {
@@ -1024,7 +1024,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Growler"
+      "combat": "GrowlerCombat"
     }
   },
   {
@@ -1062,7 +1062,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana"
+      "combat": "ZilyanaCombat"
     }
   },
   {
@@ -1301,7 +1301,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.WingmanSkree"
+      "combat": "WingmanSkreeCombat"
     }
   },
   {
@@ -1336,7 +1336,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.FlockleaderGeerin"
+      "combat": "FlockleaderGeerinCombat"
     }
   },
   {
@@ -1375,7 +1375,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra"
+      "combat": "KreeArraCombat"
     }
   }
 ]

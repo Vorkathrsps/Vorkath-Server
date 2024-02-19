@@ -32,11 +32,11 @@ import com.cryptic.model.entity.combat.method.impl.MagicCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.MeleeCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.RangedCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.abyssalsire.AbyssalSireState;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.VorkathCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArraCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.GraardorCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.ZilyanaCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.KrilCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizardsCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
@@ -124,7 +124,7 @@ public class CombatFactory {
         }
     }
 
-    private static final Area[] GWD_ROOMS = {KreeArra.getENCAMPMENT(), Zilyana.getENCAMPMENT(), Kril.getENCAMPMENT(), Graardor.getBandosArea()};
+    private static final Area[] GWD_ROOMS = {KreeArraCombat.getENCAMPMENT(), ZilyanaCombat.getENCAMPMENT(), KrilCombat.getENCAMPMENT(), GraardorCombat.getBandosArea()};
 
     public static boolean bothInFixedRoom(Entity mob, Entity other) {
         for (Area area : GWD_ROOMS) {
@@ -812,7 +812,7 @@ public class CombatFactory {
                     hit.setDamage(npc.capDamage());
                 }
 
-                if (npc.getCombatMethod() instanceof Vorkath combatMethod) {
+                if (npc.getCombatMethod() instanceof VorkathCombat combatMethod) {
                     if (combatMethod.resistance != null) {
                         switch (combatMethod.resistance) {
                             case PARTIAL -> hit.setDamage((int) (hit.getDamage() * 0.5d));

@@ -77,7 +77,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.thralls.MagicThrall"
+      "combat": "MagicThrallCombat"
     }
   },
   {
@@ -1718,7 +1718,7 @@
     },
     "scripts": {
       //"droptable": "droptables.ReanimatedMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+      "combat": "BasicDragonCombat"
     }
   },
   {
@@ -2110,7 +2110,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "DarkWizardCombat"
     }
   },
   {
@@ -2153,7 +2153,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "DarkWizardCombat"
     }
   },
   {
@@ -2348,7 +2348,7 @@
       "death": 5898
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.Barrelchest"
+      "combat": "BarrelchestCombat"
     }
   },
   {
@@ -2846,7 +2846,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.RuneDragon"
+      "combat": "RuneDragonCombat"
     }
   },
   {
@@ -2885,7 +2885,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.AdamantDragon"
+      "combat": "AdamantDragonCombat"
     }
   },
   {
@@ -2953,7 +2953,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DeathSpawn"
+      "combat": "DeathSpawnCombat"
     }
   },
   {
@@ -2985,7 +2985,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMelee"
+      "combat": "ChaoticDeathSpawnMeleeCombat"
     }
   },
   {
@@ -3017,7 +3017,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnRange"
+      "combat": "ChaoticDeathSpawnRangeCombat"
     }
   },
   {
@@ -3049,7 +3049,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMagic"
+      "combat": "ChaoticDeathSpawnMagicCombat"
     }
   },
   {
@@ -3181,7 +3181,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "BrutalDragonsCombat"
     }
   },
   {
@@ -3216,7 +3216,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "BrutalDragonsCombat"
     }
   },
   {
@@ -3252,7 +3252,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "BrutalDragonsCombat"
     }
   },
   {
@@ -3287,7 +3287,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "BrutalDragonsCombat"
     }
   },
   {
@@ -3322,7 +3322,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "BrutalDragonsCombat"
     }
   },
   {
@@ -3357,7 +3357,7 @@
       "death": 2367
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.waterbirth.Wallasalki"
+      "combat": "WallasalkiCombat"
     }
   },
   {

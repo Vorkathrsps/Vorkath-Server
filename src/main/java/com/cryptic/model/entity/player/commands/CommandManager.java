@@ -7,7 +7,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
-import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlmCombat;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.verzik.Verzik;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
@@ -20,7 +20,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -532,8 +532,8 @@ public class CommandManager {
         });
         dev("calv", (p, c, s) -> {
             p.teleport(1888, 11547, 1);
-            if (!Vetion.playersInArea.contains(p))
-                Vetion.playersInArea.add(p);
+            if (!VetionCombat.playersInArea.contains(p))
+                VetionCombat.playersInArea.add(p);
         });
         dev("vet2", (p, c, s) -> {
             p.teleport(3303, 10199, 1);
@@ -578,12 +578,12 @@ public class CommandManager {
         dev("olm2", (p, c, s) -> {
             var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
             olm.getCombat().delayAttack(25);
-            ((GreatOlm) olm.getCombatMethod()).ceilingCrystals(olm, 1, 20);
+            ((GreatOlmCombat) olm.getCombatMethod()).ceilingCrystals(olm, 1, 20);
         });
         dev("olm3", (p, c, s) -> {
             var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
             olm.getCombat().delayAttack(30);
-            ((GreatOlm) olm.getCombatMethod()).crystalMark(olm);
+            ((GreatOlmCombat) olm.getCombatMethod()).crystalMark(olm);
         });
         dev("olm4", (p, c, s) -> {
             p.clearAttrib(CHOKED);

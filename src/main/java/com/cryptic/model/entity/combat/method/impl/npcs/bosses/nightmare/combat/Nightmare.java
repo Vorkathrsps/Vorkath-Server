@@ -11,10 +11,10 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthEastTotem;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthWestTotem;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthEastTotem;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotem;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthEastTotemCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthWestTotemCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthEastTotemCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotemCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.state.AshihamaPhase;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.state.AshihamaState;
@@ -59,7 +59,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
     @Getter
     @Setter
     AshihamaPhase ashihamaPhase = AshihamaPhase.ONE;
-    CommonCombatMethod[] totemCombatMethods = {new SouthWestTotem(), new NorthWestTotem(), new SouthEastTotem(), new NorthEastTotem()};
+    CommonCombatMethod[] totemCombatMethods = {new SouthWestTotemCombat(), new NorthWestTotemCombat(), new SouthEastTotemCombat(), new NorthEastTotemCombat()};
     public static Area[] QUADS = new Area[]{new Area(3863, 9951, 3872, 9961, 3), new Area(3872, 9951, 3881, 9961, 3), new Area(3863, 9941, 3872, 9951, 3), new Area(3872, 9941, 3881, 9951, 3)};
     private static final int ASHIHAMA_TOTEM_INTERFACE_ID = 75000;
     private static final int TOTEM_TRANSFORMATION_OFFSET = 1;

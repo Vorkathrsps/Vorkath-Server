@@ -20,10 +20,10 @@ import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.demonicgorillas.DemonicGorilla;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TzTokJad;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArraCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.GraardorCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.ZilyanaCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.KrilCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Drake;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Hydra;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -1000,10 +1000,10 @@ public class NPC extends Entity {
     public void autoRetaliate(Entity attacker) {
 
         // If the bosses' current target has not attacked us back for at least 10, we change target to whoever attacked us last.
-        if ((id == 2215 && target_fleeing(Graardor.getBandosArea(), attacker))
-            || (id == 3162 && target_fleeing(KreeArra.getENCAMPMENT(), attacker))
-            || (id == 2205 && target_fleeing(Zilyana.getENCAMPMENT(), attacker))
-            || (id == 3129 && target_fleeing(Kril.getENCAMPMENT(), attacker))
+        if ((id == 2215 && target_fleeing(GraardorCombat.getBandosArea(), attacker))
+            || (id == 3162 && target_fleeing(KreeArraCombat.getENCAMPMENT(), attacker))
+            || (id == 2205 && target_fleeing(ZilyanaCombat.getENCAMPMENT(), attacker))
+            || (id == 3129 && target_fleeing(KrilCombat.getENCAMPMENT(), attacker))
             || (id == 7709)
             || (id == 7710)
             || (id == 7707) || Zulrah.is(this)) {

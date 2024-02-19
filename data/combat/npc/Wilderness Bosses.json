@@ -32,7 +32,7 @@
       "death": 9979
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+      "combat": "VetionCombat"
     }
   },
   {
@@ -67,7 +67,7 @@
       "death": 9980
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+      "combat": "VetionCombat"
     }
   },
   {
@@ -205,7 +205,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon"
+      "combat": "KingBlackDragonCombat"
     }
   },
   {
@@ -242,7 +242,7 @@
       "death": 6949
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+      "combat": "KrilCombat"
     }
   },
   {
@@ -280,7 +280,7 @@
       "death": 10017
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Callisto",
+      "combat": "CallistoCombat",
       "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
@@ -346,7 +346,7 @@
       "death": 9992
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis"
+      "combat": "VenenatisCombat"
     }
   },
   {
@@ -415,7 +415,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosFanatic"
+      "combat": "ChaosFanaticCombat"
     }
   },
   {
@@ -451,7 +451,7 @@
       "death": 9280
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.RevenantMaledictus"
+      "combat": "RevenantMaledictusCombat"
     }
   },
   {
@@ -489,7 +489,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.DerangedArchaeologist"
+      "combat": "DerangedArchaeologistCombat"
     }
   },
   {
@@ -527,7 +527,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.CrazyArchaeologist"
+      "combat": "CrazyArchaeologistCombat"
     }
   },
   {
@@ -562,8 +562,7 @@
       "death": 6256
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia"
-      // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
+      "combat": "ScorpiaCombat"
     }
   },
   {
@@ -680,7 +679,7 @@
       "death": 3147
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosElemental",
+      "combat": "ChaosElementalCombat",
       "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   }

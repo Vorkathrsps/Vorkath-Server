@@ -426,7 +426,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.OlmRightClaw"
+      "combat": "OlmRightClawCombat"
     }
   },
   {
@@ -464,7 +464,7 @@
       "death": 7348
     },
     "scripts": {
-      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm"
+      "combat": "GreatOlmCombat"
     }
   },
   {
@@ -501,7 +501,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.OlmLeftClaw"
+      "combat": "OlmLeftClawCombat"
     }
   }
 ]

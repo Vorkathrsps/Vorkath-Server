@@ -1,10 +1,8 @@
 package com.cryptic.model.entity.combat.hit;
 
-import cn.hutool.log.level.Level;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
@@ -13,7 +11,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.VorkathCombat;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.NPC;
@@ -362,7 +360,7 @@ public class Hit {
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
-            if (npc.getCombatMethod() instanceof Vorkath vorkath) {
+            if (npc.getCombatMethod() instanceof VorkathCombat vorkath) {
                 if (vorkath.resistance != null) {
                     switch (vorkath.resistance) {
                         case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));

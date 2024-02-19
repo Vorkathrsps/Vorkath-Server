@@ -35,7 +35,7 @@
       "death": 6242
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstForm"
+      "combat": "KalphiteQueenFirstFormCombat"
       //"death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenFirstForm.death"
     }
   },
@@ -73,7 +73,7 @@
       "death": 6233
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm"
+      "combat": "KalphiteQueenSecondFormCombat"
     //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
     }
   },
@@ -222,7 +222,7 @@
       "death": 4495
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.cerberus.Cerberus"
+      "combat": "CerberusCombat"
     }
   },
   {
@@ -371,7 +371,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Zakln"
+      "combat": "ZaklnCombat"
     }
   },
   {
@@ -409,7 +409,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Balfrug"
+      "combat": "BalfrugCombat"
     }
   },
   {
@@ -449,7 +449,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+      "combat": "KrilCombat"
     }
   },
   {
@@ -484,7 +484,7 @@
       "death": 1676
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.corporeal.CorporealBeast"
+      "combat": "CorporealBeastCombat"
     }
   },
   {
@@ -521,7 +521,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon",
+      "combat": "KingBlackDragonCombat",
       "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
@@ -590,7 +590,7 @@
       "death": 2856
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.DagannothSupreme"
+      "combat": "DagannothSupremeCombat"
     }
   },
   {
@@ -626,7 +626,7 @@
       "death": 2856
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.DagannothPrime"
+      "combat": "DagannothPrimeCombat"
     }
   },
   {
@@ -659,7 +659,7 @@
       "death": 2865
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Spinolyp"
+      "combat": "SpinolypCombat"
     }
   },
   {
@@ -698,7 +698,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor"
+      "combat": "GraardorCombat"
     }
   },
   {
@@ -755,7 +755,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Steelwill"
+      "combat": "SteelwillCombat"
     }
   },
   {
@@ -783,7 +783,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Grimspike"
+      "combat": "GrimspikeCombat"
     }
   },
   {
@@ -817,7 +817,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.ThermonuclearSmokeDevil"
+      "combat": "ThermonuclearSmokeDevilCombat"
     }
   },
   {
@@ -992,7 +992,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.LizardShaman"
+      "combat": "LizardShamanCombat"
     }
   },
   {
@@ -1096,7 +1096,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.ZombifiedSpawn"
+      "combat": "ZombifiedSpawnCombat"
     }
   },
   {
@@ -1136,7 +1136,7 @@
       "death": 7949
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath"
+      "combat": "VorkathCombat"
     }
   },
   {
@@ -1180,7 +1180,7 @@
       "death": 8262
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydraAttackScript"
+      "combat": "AlchemicalHydraCombat"
     }
   },
   {
@@ -1216,7 +1216,7 @@
       "death": 3310
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.GiantMole"
+      "combat": "GiantMoleCombat"
     }
   },
   {
@@ -1253,7 +1253,7 @@
       "death": 6369
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.CorruptedNechryarch"
+      "combat": "CorruptedNechryarchCombat"
     }
   },
   {
@@ -1358,7 +1358,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.husk.Husk"
+      "combat": "HuskCombat"
     }
   },
   {
@@ -1394,7 +1394,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotem"
+      "combat": "SouthWestTotemCombat"
     }
   },
   {
@@ -1430,7 +1430,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthEastTotem"
+      "combat": "SouthEastTotemCombat"
     }
   },
   {
@@ -1466,7 +1466,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthWestTotem"
+      "combat": "NorthWestTotemCombat"
     }
   },
   {
@@ -1502,7 +1502,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthEastTotem"
+      "combat": "NorthEastTotemCombat"
     }
   },
   {
@@ -1608,7 +1608,7 @@
       "death": 9042
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.judgeofyama.Judge"
+      "combat": "JudgeOfYamaCombat"
     }
   }
 ]

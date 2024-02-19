@@ -32,7 +32,7 @@
 	  "death": 7652
 	},
 	"scripts": {
-	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.fossilisland.AncientWyvern"
+	  "combat": "AncientWyvernCombat"
 	}
   }
 ]

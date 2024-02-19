@@ -163,7 +163,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
+      "combat": "VerzikPillarCombat"
     }
   },
   {

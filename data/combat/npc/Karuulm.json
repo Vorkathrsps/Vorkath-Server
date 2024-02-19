@@ -31,7 +31,7 @@
       "death": 8272
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.WyrmCombatScript"
+      "combat": "WyrmCombat"
     }
   },
   {
@@ -68,7 +68,7 @@
       "death": 8278
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.DrakeCombatScript"
+      "combat": "DrakeCombat"
     }
   },
   {
@@ -102,7 +102,7 @@
       "death": 8264
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.HydraCombatScript"
+      "combat": "HydraCombat"
     }
   }
 ]

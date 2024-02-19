@@ -70,7 +70,7 @@ public class VorkathArea extends PacketInteraction {
                 npc.setHitpoints(npc.getCombatInfo().stats.hitpoints);
                 npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
                 npc.getMovementQueue().setBlockMovement(true);
-                npc.setCombatMethod(new Vorkath());
+                npc.setCombatMethod(new VorkathCombat());
                 npc.getCombat().attack(player);
             });
             return true;

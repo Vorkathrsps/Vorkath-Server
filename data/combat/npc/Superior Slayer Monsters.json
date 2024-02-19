@@ -224,7 +224,7 @@
       "death": 7815
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.MarbleGargoyle"
+      "combat": "MarbleGargoyleCombat"
     }
   },
   {
@@ -257,7 +257,7 @@
       "death": 2733
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.NightBeast"
+      "combat": "NightBeastCombat"
     }
   },
   {

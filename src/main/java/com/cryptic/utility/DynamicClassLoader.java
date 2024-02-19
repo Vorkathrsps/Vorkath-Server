@@ -18,7 +18,9 @@ public class DynamicClassLoader {
             ClassInfoList directBoxes = scanResult.getClassesWithAnnotation(CombatScript.class);
             for (var d : directBoxes) {
                 for (var n : d.getSubclasses().directOnly()) {
-                    scriptmap.put((Class<? extends CombatMethod>) n.loadClass(), (Class<? extends CombatMethod>) n.loadClass());
+                    if (!scriptmap.containsValue(n.loadClass()) && scriptmap.containsKey(n.loadClass())) {
+                        scriptmap.put((Class<? extends CombatMethod>) n.loadClass(), (Class<? extends CombatMethod>) n.loadClass());
+                    }
                 }
             }
         }

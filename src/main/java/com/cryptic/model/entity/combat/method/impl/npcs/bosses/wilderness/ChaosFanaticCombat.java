@@ -69,17 +69,10 @@ public class ChaosFanaticCombat extends CommonCombatMethod {
     private void attack(NPC npc, Entity target) {
         var tileDist = npc.tile().distance(target.tile());
         int duration = (41 + 5 + (5 * tileDist));
-
         Projectile p = new Projectile(npc, target, 554, 41, duration, 40, 36, 15, 1, 5);
-
         final int delay = npc.executeProjectile(p);
-
         npc.animate(811);
-
-        Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-
-        hit.submit();
-
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(305, GraphicHeight.MIDDLE, p.getSpeed());
     }
 
@@ -136,8 +129,7 @@ public class ChaosFanaticCombat extends CommonCombatMethod {
 
             Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
                 if (target.tile().equals(p.getEnd())) {
-                    Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-                    hit.submit();
+                    new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 }
                 tileList.clear();
             });

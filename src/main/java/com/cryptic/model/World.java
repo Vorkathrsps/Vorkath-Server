@@ -98,8 +98,6 @@ public class World {
         return shops.get(id);
     }
 
-    public static long LAST_FLUSH;
-
     /**
      * The collection of active {@link Player}s.
      */

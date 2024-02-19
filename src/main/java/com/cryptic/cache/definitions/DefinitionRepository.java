@@ -151,7 +151,7 @@ public class DefinitionRepository {
         logger.info("Loaded {} varclient definitions.", store.getIndex(2).getDescriptor().getLastFileId(19));
         logger.info("Loaded {} varclientstring definitions.", store.getIndex(2).getDescriptor().getLastFileId(15));
         logger.info("Loaded {} varplayer definitions.", store.getIndex(2).getDescriptor().getLastFileId(16));
-        logger.info("Loaded {} runscript definitions.", store.getIndex(12).getDescriptor().getCount());
+        logger.info("Loaded {} clientscript definitions.", store.getIndex(12).getDescriptor().getCount());
         logger.info("Loaded {} sprites.", store.getIndex(8).getDescriptor().getCount());
         logger.info("Loaded {} textures.", store.getIndex(9).getDescriptor().getCount());
         logger.info("Loaded {} skeletons.", store.getIndex(0).getDescriptor().getCount());

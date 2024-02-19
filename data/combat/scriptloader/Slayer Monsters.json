@@ -1030,6 +1030,7 @@
     "maxhit": 13,
     "slayerxp": 29,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 15,
       "strength": 28,

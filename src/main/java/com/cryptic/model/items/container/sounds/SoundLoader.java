@@ -24,7 +24,7 @@ public class SoundLoader implements Runnable {
             Type linkedData = new TypeToken<Object2ObjectLinkedOpenHashMap<Integer, WeaponSounds>>() {
             }.getType();
             weapon_sounds = gson.fromJson(reader, linkedData);
-            logger.info("Loaded {} Linked Sound Information", weapon_sounds.size());
+            logger.info("Loaded {} Linked Weapon Sound Information", weapon_sounds.size());
         }
     }
 
@@ -35,7 +35,7 @@ public class SoundLoader implements Runnable {
             Type linkedData = new TypeToken<Object2ObjectLinkedOpenHashMap<Integer, SpellSounds>>() {
             }.getType();
             spell_sounds = gson.fromJson(reader, linkedData);
-            logger.info("Loaded {} Linked Sound Information", spell_sounds.size());
+            logger.info("Loaded {} Linked Spell Sound Information", spell_sounds.size());
         }
     }
 

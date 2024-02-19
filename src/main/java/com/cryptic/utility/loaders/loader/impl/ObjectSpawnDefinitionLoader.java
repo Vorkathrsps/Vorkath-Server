@@ -33,6 +33,6 @@ public class ObjectSpawnDefinitionLoader extends DefinitionLoader {
 
     @Override
     public String file() {
-        return GameServer.properties().definitionsDirectory + "object_spawns.json";
+        return "data/def/objects/object_spawns.json";
     }
 }

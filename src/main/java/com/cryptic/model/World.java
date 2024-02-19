@@ -580,7 +580,7 @@ public class World {
         equipmentInfo = new com.cryptic.model.items.container.equipment.EquipmentInfo(
             new File("data/list/equipment_info.json"),
             new File("data/list/renderpairs.txt"),
-            new File("data/list/weapon_types.txt"));
+            new File("data/combat/weapons/weapon_types.txt"));
     }
 
     public NPCCombatInfo combatInfo(int id) {
@@ -742,25 +742,25 @@ public class World {
         }
 
         try {
-            equipmentLoader.loadEquipmentDefinitions(new File("data/def/Stats.json"));
+            equipmentLoader.loadEquipmentDefinitions(new File("data/combat/equipment/bonuses.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            slayerTasks.loadSlayerTasks(new File("data/slayer/SlayerTask.json"));
+            slayerTasks.loadSlayerTasks(new File("data/combat/slayer/SlayerTask.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            soundLoader.loadWeaponSounds(new File("data/list/weapon_sounds.json"));
+            soundLoader.loadWeaponSounds(new File("data/combat/combatsounds/weapon_sounds.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            soundLoader.loadSpellSounds(new File("data/list/spell_sounds.json"));
+            soundLoader.loadSpellSounds(new File("data/combat/combatsounds/spell_sounds.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -772,7 +772,7 @@ public class World {
         }
 
         try {
-            loadNpcSpawns(new File("data/map/npcs"));
+            loadNpcSpawns(new File("data/def/npcs/worldspawns"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -785,7 +785,7 @@ public class World {
         logger.info("Loaded {} NPC spawns.", npcs.size());
 
         try {
-            loadItemSpawns(new File("data/map/items"));
+            loadItemSpawns(new File("data/def/items/worldspawns/"));
         } catch (Exception e) {
             e.printStackTrace();
         }

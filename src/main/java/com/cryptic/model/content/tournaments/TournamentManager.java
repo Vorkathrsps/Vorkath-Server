@@ -637,7 +637,7 @@ public class TournamentManager extends PacketInteraction {
      * Loads settings from torn.conf and initializes the {@link TournamentCycle}
      */
     public static void loadTournamentConfigFile() {
-        final File file = new File("data/def/tournaments.conf");
+        final File file = new File("data/combat/tournaments/tournaments.conf");
         if (!file.exists()) {
             try {
                 throw new FileNotFoundException("missing tournaments.conf!");

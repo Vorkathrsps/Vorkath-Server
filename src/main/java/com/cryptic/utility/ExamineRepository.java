@@ -29,9 +29,9 @@ public class ExamineRepository {
         objects = new String[defrepo.total(ObjectDefinition.class)];
         npcs = new String[defrepo.total(NpcDefinition.class)];
 
-        readFile("data/examine/item_examines.txt", items);
-        readFile("data/examine/object_examines.txt", objects);
-        readFile("data/examine/npc_examines.txt", npcs);
+        readFile("data/def/items/item_examines.txt", items);
+        readFile("data/def/objects/object_examines.txt", objects);
+        readFile("data/def/npcs/npc_examines.txt", npcs);
 
         logger.info("Loaded {} item examines.", items.length);
         logger.info("Loaded {} object examines.", objects.length);

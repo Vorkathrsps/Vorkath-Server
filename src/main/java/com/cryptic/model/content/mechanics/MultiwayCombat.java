@@ -174,6 +174,9 @@ public class MultiwayCombat {
         13725,
         13473,
         13215,
+        6966,
+        7222,
+        6965,
 
         /* Wildy: (uses 8x8 chunks for some sections as well as chunks) **/
         5789,

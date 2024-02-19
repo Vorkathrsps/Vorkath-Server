@@ -555,6 +555,9 @@
       "attack": 2853,
       "block": 2852,
       "death": 2856
+    },
+    "scripts": {
+      "combat": "DagannothRexCombat"
     }
   },
   {

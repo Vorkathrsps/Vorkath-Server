@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
+import com.cryptic.annotate.CombatScript;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;

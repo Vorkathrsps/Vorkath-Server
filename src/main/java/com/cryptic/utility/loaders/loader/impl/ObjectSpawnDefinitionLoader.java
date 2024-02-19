@@ -16,16 +16,7 @@ public class ObjectSpawnDefinitionLoader extends DefinitionLoader {
         try (FileReader reader = new FileReader(file())) {
             ObjectSpawnDefinition[] defs = new Gson().fromJson(reader, ObjectSpawnDefinition[].class);
             for (ObjectSpawnDefinition def : defs) {
-                if (!def.isEnabled())
-                    continue;
-                if (!GameServer.properties().pvpMode && def.PVPWorldExclusive) {
-                    //Skip PVP objects in eco world.
-                    continue;
-                }
-                if (GameServer.properties().pvpMode && def.economyExclusive) {
-                    //Skip eco objects in PVP world.
-                    continue;
-                }
+                if (!def.isEnabled()) continue;
                 ObjectManager.addObj(new GameObject(def.getId(), def.getTile(), def.getType(), def.getFace()));
             }
         }

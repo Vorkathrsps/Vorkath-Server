@@ -135,8 +135,8 @@ public class NPCCombatInfo {
 
         public void resolve() {
             try {
-                combat_ = (CombatMethod) resolveCombat_(combat);
-                if (combat != null && combat.length() > 0) combatMethodClass = (Class<CombatMethod>) resolveCCM_(combat);
+                combat_ = (CombatMethod) resolveCombat(combat);
+                if (combat != null) combatMethodClass = (Class<CombatMethod>) resolveCCM(combat);
                 droptable_ = (Droptable) resolveClass(droptable);
                 agro_ = (AggressionCheck) resolveClass(aggression);
             } catch (ClassNotFoundException e) {
@@ -150,12 +150,36 @@ public class NPCCombatInfo {
             if (combatMethodClass != null) {
                 try {
                     return combatMethodClass.getDeclaredConstructor().newInstance();
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
                     System.err.println("issue init " + combat + ": " + e);
                     e.printStackTrace();
                 }
             }
             return null;
+        }
+
+        public Class<? extends CombatMethod> resolveCCM(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+            Class<? extends CombatMethod> clazz = null;
+            for (var v : DynamicClassLoader.scriptmap.values()) {
+                if (v.getSimpleName().equalsIgnoreCase(className)) {
+                    clazz = v;
+                    break;
+                }
+            }
+            return (Class<? extends CombatMethod>) clazz;
+        }
+
+        public static CombatMethod resolveCombat(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+            CombatMethod result = null;
+            for (var c : DynamicClassLoader.scriptmap.keySet()) {
+                if (c == null) continue;
+                if (c.getSimpleName().equalsIgnoreCase(className)) {
+                    result = (CombatMethod) c.getDeclaredConstructor().newInstance();
+                    break;
+                }
+            }
+            return result;
         }
 
         private static Object resolveClass(String str) throws Exception {
@@ -166,31 +190,6 @@ public class NPCCombatInfo {
                 logger.error("bad class name mapping: " + str);
                 return null;
             }
-        }
-
-        private Class<? extends CombatMethod> resolveCCM_(String className) throws Exception {
-            if (className != null && className.length() > 0) {
-                String classpath = DynamicClassLoader.resolveClasspath(className);
-                if (classpath != null) {
-                    Class<?> clazz = Class.forName(classpath);
-                    if (CombatMethod.class.isAssignableFrom(clazz)) return (Class<? extends CombatMethod>) clazz;
-                    else throw new IllegalArgumentException("Class " + className + " does not extend/implement required interfaces.");
-                } else throw new ClassNotFoundException("Class not found: " + className);
-            }
-            return null;
-        }
-
-        private Object resolveCombat_(String className) throws Exception {
-            if (className != null && className.length() > 0) {
-                String classpath = DynamicClassLoader.resolveClasspath(className);
-                if (classpath != null) {
-                    Class<?> clazz = Class.forName(classpath);
-                    if (CombatMethod.class.isAssignableFrom(clazz)) return clazz.getDeclaredConstructor().newInstance();
-                    else
-                        throw new IllegalArgumentException("Class " + className + " does not extend/implement required interfaces.");
-                } else throw new ClassNotFoundException("Class not found: " + className);
-            }
-            return null;
         }
     }
 }

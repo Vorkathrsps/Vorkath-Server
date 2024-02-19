@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.String.format;
 
@@ -46,7 +47,7 @@ public class ReloadCommand implements Command {
             player.message("Reloading npcs...");
             GameEngine.getInstance().addSyncTask(() -> {
                 for (NPC worldNpcs : World.getWorld().getNpcs()) {
-                    if(worldNpcs == null || worldNpcs.def().isPet) {
+                    if (worldNpcs == null || worldNpcs.def().isPet) {
                         continue;
                     }
                     World.getWorld().unregisterNpc(worldNpcs);
@@ -92,7 +93,7 @@ public class ReloadCommand implements Command {
             player.message("Finished.");
         } else if (reload.equalsIgnoreCase("presets")) {
             player.message("Reloading presets...");
-           // new PresetLoader().run();
+            // new PresetLoader().run();
             player.message("Finished.");
         }
     }

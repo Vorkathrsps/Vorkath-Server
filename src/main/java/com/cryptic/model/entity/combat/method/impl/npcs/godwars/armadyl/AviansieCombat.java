@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl;
 
 
+import com.cryptic.annotate.CombatScript;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;

@@ -52,6 +52,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
@@ -725,8 +726,10 @@ public class World {
 
     @Getter
     EquipmentLoader equipmentLoader = new EquipmentLoader();
-    @Getter SlayerTask slayerTasks = new SlayerTask();
-    @Getter SoundLoader soundLoader = new SoundLoader();
+    @Getter
+    SlayerTask slayerTasks = new SlayerTask();
+    @Getter
+    SoundLoader soundLoader = new SoundLoader();
 
     public void postLoad() {
         try {
@@ -762,6 +765,12 @@ public class World {
         try {
             soundLoader.loadSpellSounds(new File("data/combat/combatsounds/spell_sounds.json"));
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DynamicClassLoader.load();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

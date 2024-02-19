@@ -2478,7 +2478,7 @@
       "block": 6482
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.MaxHitDummyCombatMethod"
+      "combat": "MaxHitDummyCombatMethod"
     }
   },
   {
@@ -2770,6 +2770,7 @@
     "deathlen": 3,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 68,
       "strength": 70,

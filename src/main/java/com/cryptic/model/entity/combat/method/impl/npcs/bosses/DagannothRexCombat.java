@@ -1,11 +1,11 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 
-public class DagannothRex extends CommonCombatMethod {
+public class DagannothRexCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
@@ -13,7 +13,7 @@ public class DagannothRex extends CommonCombatMethod {
             return false;
         }
         entity.animate(2851);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.misc;
 
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
@@ -22,7 +23,7 @@ public class DarkWizardCombat extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 97, 51, duration, 43, 31, 16, 1, 10);
         final int delay = (int) (p.getSpeed() / 20D);
         entity.executeProjectile(p);
-        new Hit(entity, target, delay, this).checkAccuracy(true).submit();
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(98, GraphicHeight.HIGH, p.getSpeed());
         return true;
     }

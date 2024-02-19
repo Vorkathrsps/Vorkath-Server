@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
+import com.cryptic.annotate.CombatScript;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -31,6 +32,7 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
  *
  * @author Jak Shadowrs tardisfan121@gmail.com
  */
+@CombatScript
 public abstract class CommonCombatMethod implements CombatMethod {
 
     public Entity entity, target;

@@ -2,6 +2,8 @@ package com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.utility.chainedwork.Chain;
@@ -9,14 +11,14 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.util.function.BooleanSupplier;
 
-public class RockCrab extends CommonCombatMethod {
+public class CrabCombat extends CommonCombatMethod {
     int[] ids = new int[]{100, 102, 5935, 7206, 7266, 7267};
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) return false;
         entity.animate(1312);
-        entity.submitHit(target, 0, this);
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         return true;
     }
 

@@ -1,7 +1,7 @@
 package com.cryptic.model.content.skill.impl.slayer.content;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards;
+import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizardsCombat;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
@@ -24,7 +24,7 @@ public class IceCooler {
                 int item = player.getAttrib(AttributeKey.ITEM_ID);
 
                 if (item == ItemIdentifiers.ICE_COOLER) {
-                    DesertLizards.iceCooler(player, npc, true);
+                    DesertLizardsCombat.iceCooler(player, npc, true);
                 }
                 return true;
             }

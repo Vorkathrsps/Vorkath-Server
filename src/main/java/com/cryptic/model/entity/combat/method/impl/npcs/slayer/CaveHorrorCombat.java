@@ -12,7 +12,7 @@ import com.cryptic.utility.Utils;
  * @author PVE
  * @Since augustus 06, 2020
  */
-public class CaveHorror extends CommonCombatMethod {
+public class CaveHorrorCombat extends CommonCombatMethod {
 
     private void basicAttack(Entity entity, Entity target) {
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();

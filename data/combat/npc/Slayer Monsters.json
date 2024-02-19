@@ -91,7 +91,7 @@
       "death": 2778
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards"
+      "combat": "DesertLizardsCombat"
     }
   },
   {
@@ -123,7 +123,7 @@
       "death": 1538
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AbyssalDemon"
+      "combat": "AbyssalDemonCombat"
     }
   },
   {
@@ -220,7 +220,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "combat": "CrabCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
@@ -968,7 +968,7 @@
       "death": 2987
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SkeletalWyvern"
+      "combat": "SkeletalWyvernCombat"
     }
   },
   {
@@ -2097,7 +2097,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "AberrantSpectreCombat"
     }
   },
   {
@@ -2131,7 +2131,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "AberrantSpectreCombat"
     }
   },
   {
@@ -2297,7 +2297,8 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
-      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro",
+      "combat": "FireGiantCombat"
     }
   },
   {
@@ -2441,7 +2442,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.MetalDragon"
+      "combat": "MetalDragonCombat"
     }
   },
   {
@@ -2512,7 +2513,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
+      "combat": "SpiritualMageCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -2739,7 +2740,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
+      "combat": "SmokeDevilCombat"
     }
   },
   {
@@ -3093,7 +3094,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Lizardman"
+      "combat": "LizardmanCombat"
     }
   },
   {
@@ -3128,7 +3129,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.LizardmanBrute"
+      "combat": "LizardmanBruteCombat"
     }
   },
   {
@@ -3159,7 +3160,7 @@
     "scripts": {
       "hit": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKrakens.onhit",
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.CaveKrakenDeath",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
+      "combat": "CaveKrakenCombat"
     }
   },
   {
@@ -3188,7 +3189,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.EnormousTentacleDeath",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Tentacles"
+      "combat": "TentacleCombat"
     }
   },
   {
@@ -3218,8 +3219,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.KrakenBossDrops",
-      // "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Kraken"
+      "combat": "KrakenBossCombat"
     }
   },
   {
@@ -3323,7 +3323,7 @@
       "death": 2733
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DarkBeasts"
+      "combat": "DarkBeastCombat"
     }
   },
   {
@@ -3459,7 +3459,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.Aviansie",
+      "combat": "AviansieCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.ArmadylAgro"
     }
   },
@@ -3520,7 +3520,7 @@
       "block": 1313
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "combat": "CrabCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
@@ -3556,7 +3556,7 @@
       "death": 4624
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.Skotizo",
+      "combat": "SkotizoCombat",
       //"death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.WildernessEventController.bossDeathScript",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Skotizo.hitScript"
     }
@@ -3612,34 +3612,35 @@
       2259,
       3185
     ],
-    "maxhit": 11,
-    "slayerxp": 85,
-    "slayerlvl": 1,
+    "maxhit": 8,
     "deathlen": 2,
     "aggressive": true,
     "aggroradius": 4,
     "attackspeed": 4,
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 85
+      "attack": 68,
+      "strength": 70,
+      "defence": 71,
+      "hitpoints": 120
     },
     "bonuses": {
-      "stabdefence": 10,
-      "slashdefence": 10,
-      "crushdefence": 90,
-      "magicdefence": 200,
-      "rangeddefence": 150
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 50,
+      "rangeddefence": 50
     },
     "animations": {
       "attack": 1341,
       "block": 1340,
       "death": 1342
+    },
+    "scripts": {
+      "combat": "DagannothMeleeCombat"
     }
   },
   {
-    // Dagannoth (88) ( ranged)
+    // Dagannoth (88) (ranged)
     "ids": [
       5942
     ],
@@ -3671,7 +3672,7 @@
       "death": 1342
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.waterbirth.RangedDagannoth"
+      "combat": "DagannothRangeCombat"
     }
   },
   {
@@ -3798,7 +3799,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.InfernalMage"
+      "combat": "InfernalMageCombat"
     }
   },
   {
@@ -3832,7 +3833,7 @@
       "death": 1524
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.Banshee"
+      "combat": "BansheeCombat"
     }
   },
   {
@@ -3866,7 +3867,7 @@
       "death": 4233
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveHorror"
+      "combat": "CaveHorrorCombat"
     }
   },
   {
@@ -3925,7 +3926,7 @@
       "death": 1524
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.Banshee"
+      "combat": "BansheeCombat"
     }
   },
   {

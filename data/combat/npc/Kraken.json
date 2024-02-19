@@ -27,7 +27,7 @@
       "magicdefence": 130
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Kraken"
+      "combat": "KrakenBossCombat"
     }
   },
   {
@@ -58,7 +58,7 @@
       "magicdefence": -5
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Tentacles"
+      "combat": "TentacleCombat"
     }
   }
 ]

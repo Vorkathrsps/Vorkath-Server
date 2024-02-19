@@ -1,10 +1,10 @@
 package com.cryptic.model.entity.npc;
 
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.npc.droptables.Droptable;
+import com.cryptic.utility.DynamicClassLoader;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,10 +19,10 @@ public class NPCCombatInfo {
 
     public int[] ids;
 
-    @Getter public Bonuses bonuses = new Bonuses();
+    public Bonuses bonuses = new Bonuses();
     public Bonuses originalBonuses;
     public Stats originalStats;
-    @Getter public Stats stats;
+    public Stats stats;
     public Animations animations;
     public Sounds sounds;
     public Scripts scripts;
@@ -117,13 +117,13 @@ public class NPCCombatInfo {
         public int[] death;
     }
 
+    @SuppressWarnings("ALL")
     public static class Scripts {
         public String hit;
         public String combat;
         public String droptable;
         public String death;
         public String aggression;
-
         public CombatMethod combat_;
         public Class<CombatMethod> combatMethodClass;
         public Droptable droptable_;
@@ -131,15 +131,12 @@ public class NPCCombatInfo {
 
         public void resolve() {
             try {
-                combat_ = (CombatMethod) resolveClass(combat);
-                if (combat != null && combat.length() > 0)
-                    combatMethodClass = (Class<CombatMethod>) Class.forName(combat);
+                combat_ = (CombatMethod) resolveCombat_(combat);
+                if (combat != null && combat.length() > 0) combatMethodClass = (Class<CombatMethod>) resolveCCM_(combat);
                 droptable_ = (Droptable) resolveClass(droptable);
                 agro_ = (AggressionCheck) resolveClass(aggression);
-                if (death != null && death.length() > 0) // TODO resolve to class and call in npcDeath
-                    logger.warn("death script has no linking yet {}", death);
-            } catch (ClassNotFoundException e) { // it could be one of the others not agro
-                System.err.println("missing script, no such class: "+e);
+            } catch (ClassNotFoundException e) {
+                System.err.println("Missing script, no such class: " + e);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -149,9 +146,8 @@ public class NPCCombatInfo {
             if (combatMethodClass != null) {
                 try {
                     return combatMethodClass.getDeclaredConstructor().newInstance();
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                         NoSuchMethodException e) {
-                    System.err.println("issue init "+combat+": "+e);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    System.err.println("issue init " + combat + ": " + e);
                     e.printStackTrace();
                 }
             }
@@ -159,15 +155,38 @@ public class NPCCombatInfo {
         }
 
         private static Object resolveClass(String str) throws Exception {
-            if (str == null)
-                return null;
-
+            if (str == null) return null;
             try {
                 return Class.forName(str).getDeclaredConstructor().newInstance();
             } catch (NullPointerException e) {
                 logger.error("bad class name mapping: " + str);
                 return null;
             }
+        }
+
+        private Class<? extends CombatMethod> resolveCCM_(String className) throws Exception {
+            if (className != null && className.length() > 0) {
+                String classpath = DynamicClassLoader.resolveClasspath(className);
+                if (classpath != null) {
+                    Class<?> clazz = Class.forName(classpath);
+                    if (CombatMethod.class.isAssignableFrom(clazz)) return (Class<? extends CombatMethod>) clazz;
+                    else throw new IllegalArgumentException("Class " + className + " does not extend/implement required interfaces.");
+                } else throw new ClassNotFoundException("Class not found: " + className);
+            }
+            return null;
+        }
+
+        private Object resolveCombat_(String className) throws Exception {
+            if (className != null && className.length() > 0) {
+                String classpath = DynamicClassLoader.resolveClasspath(className);
+                if (classpath != null) {
+                    Class<?> clazz = Class.forName(classpath);
+                    if (CombatMethod.class.isAssignableFrom(clazz)) return clazz.getDeclaredConstructor().newInstance();
+                    else
+                        throw new IllegalArgumentException("Class " + className + " does not extend/implement required interfaces.");
+                } else throw new ClassNotFoundException("Class not found: " + className);
+            }
+            return null;
         }
     }
 }

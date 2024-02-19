@@ -11,7 +11,7 @@ import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
  * @author PVE
  * @Since augustus 07, 2020
  */
-public class InfernalMage extends CommonCombatMethod {
+public class InfernalMageCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

@@ -95,6 +95,8 @@ public class NPCDeath {
         npc.getCombat().reset();
         npc.lockNoDamage();
 
+        npc.ignoreOccupiedTiles = false;
+
         // Reset interacting entity..
         npc.setEntityInteraction(null);
 

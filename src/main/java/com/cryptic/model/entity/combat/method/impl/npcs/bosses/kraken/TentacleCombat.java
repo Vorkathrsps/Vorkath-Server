@@ -13,7 +13,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Tentacles extends CommonCombatMethod {
+public class TentacleCombat extends CommonCombatMethod {
     @Getter
     @Setter
     boolean awakened = false;

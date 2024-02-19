@@ -4,6 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -21,7 +22,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author PVE
  * @Since augustus 08, 2020
  */
-public class SkeletalWyvern extends CommonCombatMethod {
+public class SkeletalWyvernCombat extends CommonCombatMethod {
 
     private enum AttackStyle {
         MELEE, RANGED, ICE_BREATH
@@ -29,11 +30,11 @@ public class SkeletalWyvern extends CommonCombatMethod {
 
     private AttackStyle attackStyle = AttackStyle.MELEE;
     private final List<Integer> SHIELDS = Arrays.asList(ANCIENT_WYVERN_SHIELD, ANCIENT_WYVERN_SHIELD_21634, DRAGONFIRE_WARD, DRAGONFIRE_WARD_22003, MIND_SHIELD, ELEMENTAL_SHIELD, DRAGONFIRE_SHIELD, DRAGONFIRE_SHIELD_11284);
-    private final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
+    private final int[] DRAIN = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
 
     private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void jumpAttack(Entity entity, Entity target) {
@@ -42,8 +43,9 @@ public class SkeletalWyvern extends CommonCombatMethod {
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void rangedAttack(Entity entity, Entity target) {
@@ -51,9 +53,10 @@ public class SkeletalWyvern extends CommonCombatMethod {
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.performGraphic(new Graphic(502, GraphicHeight.LOW, delay));
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
+        target.performGraphic(new Graphic(502, GraphicHeight.LOW, p.getSpeed()));
     }
 
     private void iceBreath(Entity entity, Entity target) {
@@ -70,7 +73,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
         }
         if (Utils.rollDie(3, 1))
             target.freeze(3, entity, true);
-        target.hit(entity, World.getWorld().random(maxDamage), CombatType.MAGIC).submit();
+        new Hit(entity, target, 3, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     @Override

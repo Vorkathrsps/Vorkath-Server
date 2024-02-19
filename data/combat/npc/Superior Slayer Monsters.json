@@ -318,7 +318,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
+      "combat": "SmokeDevilCombat"
     }
   },
   {
@@ -352,7 +352,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "AberrantSpectreCombat"
     }
   },
   {

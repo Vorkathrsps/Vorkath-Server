@@ -9,7 +9,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.ItemIdentifiers;
 
-public class AberrantSpectre extends CommonCombatMethod {
+public class AberrantSpectreCombat extends CommonCombatMethod {
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

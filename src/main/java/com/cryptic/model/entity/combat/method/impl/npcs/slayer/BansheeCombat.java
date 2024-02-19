@@ -12,7 +12,7 @@ import com.cryptic.utility.ItemIdentifiers;
  * @author PVE
  * @Since augustus 06, 2020
  */
-public class Banshee extends CommonCombatMethod {
+public class BansheeCombat extends CommonCombatMethod {
 
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC, Skills.PRAYER, Skills.AGILITY};
 

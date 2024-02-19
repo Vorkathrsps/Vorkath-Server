@@ -1,8 +1,10 @@
 package com.cryptic.model.entity.combat.hit;
 
+import cn.hutool.log.level.Level;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
@@ -37,7 +39,9 @@ public class Hit {
     public boolean reflected;
     public boolean forceShowSplashWhenMissMagic;
     public boolean prayerIgnored = false;
-    @Getter @Setter public boolean isImmune = false;
+    @Getter
+    @Setter
+    public boolean isImmune = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
     private Entity attacker;
     private Entity target;
@@ -107,12 +111,12 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
-    public Hit(Entity attacker, Entity target, int damage, int delay, CombatType method) {
+    public Hit(Entity attacker, Entity target, int damage, int delay, CombatType type) {
         this.attacker = attacker;
         this.target = target;
         this.damage = damage;
         this.delay = delay;
-        this.combatType = method;
+        this.combatType = type;
     }
 
     /**
@@ -208,13 +212,15 @@ public class Hit {
         return maxHit;
     }
 
-    @Getter @Setter public static boolean debugAccuracy = false;
+    @Getter @Setter public static boolean debugAccuracy = true;
+
     public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
-        if (this.attacker instanceof Player player) player.sigil.processAccuracy(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+        if (this.attacker instanceof Player player)
+            player.sigil.processAccuracy(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
         if (target instanceof NPC npc) {
             if (npc.getCombatInfo() == null) {
                 logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());
@@ -223,6 +229,11 @@ public class Hit {
             if (npc.isCombatDummy()) this.checkAccuracy = false;
         }
         double chance = World.getWorld().random().nextDouble();
+        if (this.attacker instanceof NPC npc) {
+            if (this.combatType == null) {
+                logger.warn("NPC [ID] {} - Name {} combat type is null - [CombatMethod] {}", npc.getId(), npc.getMobName(), npc.getCombatMethod());
+            }
+        }
         if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> accurate = magicAccuracy.successful(chance);

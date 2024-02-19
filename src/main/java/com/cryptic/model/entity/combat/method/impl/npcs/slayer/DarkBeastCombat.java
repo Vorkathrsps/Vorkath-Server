@@ -6,7 +6,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 
-public class DarkBeasts extends CommonCombatMethod {
+public class DarkBeastCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

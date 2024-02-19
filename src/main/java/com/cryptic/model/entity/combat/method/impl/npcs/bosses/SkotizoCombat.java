@@ -18,7 +18,7 @@ import com.cryptic.utility.timers.TimerKey;
 
 import java.security.SecureRandom;
 
-public class Skotizo extends CommonCombatMethod {
+public class SkotizoCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

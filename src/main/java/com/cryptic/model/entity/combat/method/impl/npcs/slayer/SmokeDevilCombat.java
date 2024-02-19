@@ -9,7 +9,7 @@ import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 
-public class SmokeDevil extends CommonCombatMethod {
+public class SmokeDevilCombat extends CommonCombatMethod {
 
     private boolean smokeAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());

@@ -13,7 +13,7 @@ import com.cryptic.utility.ItemIdentifiers;
  * @author PVE
  * @Since augustus 05, 2020
  */
-public class DesertLizards extends CommonCombatMethod {
+public class DesertLizardsCombat extends CommonCombatMethod {
 
     public static void iceCooler(Player player, NPC npc, boolean manual) {
         if (npc.getCombat().getTarget() != player) {

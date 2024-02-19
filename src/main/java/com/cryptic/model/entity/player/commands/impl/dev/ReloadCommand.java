@@ -4,6 +4,7 @@ import com.cryptic.GameEngine;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.items.container.sounds.SoundLoader;
 import com.cryptic.utility.loaders.loader.impl.ObjectSpawnDefinitionLoader;
 import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
@@ -29,6 +30,10 @@ public class ReloadCommand implements Command {
             player.message("Reloading blood money prices...");
             new BloodMoneyPriceLoader().run();
             player.message("Finished.");
+        } else if (reload.equalsIgnoreCase("combat")) {
+            player.message("reloading combat scripts...");
+            GameEngine.getInstance().addSyncTask(() -> World.getWorld().loadNpcCombatInfo());
+            player.message("finished reloading combat scripts.");
         } else if (reload.equalsIgnoreCase("sounds")) {
             player.message("reloading sounds...");
             new SoundLoader().run();

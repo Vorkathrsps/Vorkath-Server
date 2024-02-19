@@ -13,7 +13,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Utils;
 
-public class MetalDragon extends CommonCombatMethod {
+public class MetalDragonCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

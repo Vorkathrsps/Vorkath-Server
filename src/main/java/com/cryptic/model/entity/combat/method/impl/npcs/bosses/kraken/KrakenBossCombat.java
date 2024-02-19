@@ -15,7 +15,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Kraken extends CommonCombatMethod {
+public class KrakenBossCombat extends CommonCombatMethod {
     @Getter
     @Setter
     boolean awakened = false;
@@ -29,12 +29,12 @@ public class Kraken extends CommonCombatMethod {
             n.setInstancedArea(player.getKrakenInstance());
             n.spawn(false);
             n.noRetaliation(true);
-            n.setCombatMethod(new Tentacles());
+            n.setCombatMethod(new TentacleCombat());
             player.getKrakenInstance().getNonAwakenedTentacles().add(n);
         }
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
             npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL, true);
-            npc.setCombatMethod(new Kraken());
+            npc.setCombatMethod(new KrakenBossCombat());
             player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
         }
     }

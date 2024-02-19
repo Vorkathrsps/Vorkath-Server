@@ -1,9 +1,9 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.waterbirth;
+package com.cryptic.model.entity.combat.method.impl.npcs.misc.dagannoths;
 
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 
@@ -11,7 +11,7 @@ import com.cryptic.model.entity.masks.Projectile;
  * @author Origin | March, 04, 2021, 17:05
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
-public class RangedDagannoth extends CommonCombatMethod {
+public class DagannothRangeCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
@@ -20,8 +20,7 @@ public class RangedDagannoth extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 294, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
-        target.hit(entity, hit, delay, CombatType.RANGED).checkAccuracy(true).submit();
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;
     }
 

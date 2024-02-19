@@ -43,6 +43,9 @@ public class MeleeAccuracy {
         if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
         if (Hit.isDebugAccuracy()) this.attacker.message("[Melee] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
+        if (Hit.isDebugAccuracy() &&this.defender instanceof Player player && this.attacker instanceof NPC) {
+            player.message("[Melee] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
+        }
         return this.chance > selectedChance;
     }
 

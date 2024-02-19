@@ -9,7 +9,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 
-public class Aviansie extends CommonCombatMethod {
+public class AviansieCombat extends CommonCombatMethod {
 
     private int get_animation(int npc) {
         return npc == 3168 ? 6975 : 6956;

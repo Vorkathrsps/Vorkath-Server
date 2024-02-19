@@ -12,7 +12,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.chainedwork.Chain;
 
-public class Kraken extends CommonCombatMethod {
+public class CaveKrakenCombat extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {

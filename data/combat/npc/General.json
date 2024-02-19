@@ -1749,7 +1749,7 @@
     },
     "scripts": {
       //"droptable": "droptables.ReanimatedMinion",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Dagannoths"
+      "combat": "DagannothRangeCombat"
     }
   },
   {
@@ -2179,7 +2179,7 @@
       "death": 196
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
+      "combat": "SpiritualMageCombat"
     }
   },
   {
@@ -2206,7 +2206,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
+      "combat": "SpiritualMageCombat"
     }
   },
   {
@@ -3391,7 +3391,7 @@
       "death": 2367
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "combat": "CrabCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
@@ -3425,7 +3425,7 @@
       "death": 1314
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "combat": "CrabCombat",
       "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },

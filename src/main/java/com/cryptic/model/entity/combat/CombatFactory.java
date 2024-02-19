@@ -11,7 +11,6 @@ import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.content.members.MemberZone;
-import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.teleport.Teleports;
@@ -39,7 +38,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril;
 import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
-import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards;
+import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizardsCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -80,7 +79,6 @@ import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.MAXHIT_OVERRIDE;
-import static com.cryptic.model.entity.attributes.AttributeKey.STARTER_WEAPON_DAMAGE;
 import static com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.KRAKEN_WHIRLPOOL;
 import static com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.TENTACLE_WHIRLPOOL;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -1142,7 +1140,7 @@ public class CombatFactory {
                     if (npc.id() == NpcIdentifiers.DESERT_LIZARD || npc.id() == NpcIdentifiers.DESERT_LIZARD_460 || npc.id() == NpcIdentifiers.DESERT_LIZARD_461) {
                         damage = npc.hp();
                         hit.setDamage(npc.hp());
-                        DesertLizards.iceCooler(attackerAsPlayer, npc, false);
+                        DesertLizardsCombat.iceCooler(attackerAsPlayer, npc, false);
                     }
                 }
 

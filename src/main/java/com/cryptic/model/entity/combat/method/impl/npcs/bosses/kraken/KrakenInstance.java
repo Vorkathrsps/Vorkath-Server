@@ -45,12 +45,12 @@ public class KrakenInstance extends KrakenArea {
         for (var n : npcs) {
             if (n.id() == 5534) {
                 nonAwakenedTentacles.add(n);
-                n.setCombatMethod(new Tentacles());
+                n.setCombatMethod(new TentacleCombat());
                 n.setInstancedArea(this);
                 n.spawn(false);
                 n.noRetaliation(true);
             } else {
-                n.setCombatMethod(new Kraken());
+                n.setCombatMethod(new KrakenBossCombat());
                 n.setInstancedArea(this);
                 n.spawn(true);
                 n.noRetaliation(true);

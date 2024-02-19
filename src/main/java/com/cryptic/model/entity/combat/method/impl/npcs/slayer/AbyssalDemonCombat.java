@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.slayer;
 
-import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
@@ -15,7 +14,7 @@ import java.util.List;
  * @author PVE
  * @Since augustus 05, 2020
  */
-public class AbyssalDemon extends CommonCombatMethod {
+public class AbyssalDemonCombat extends CommonCombatMethod {
 
     private void teleportAttack(Entity entity, Entity target) {
         List<Tile> tiles = target.tile().area(1, tile -> !tile.equals(target.tile()) && ProjectileRoute.hasLineOfSight(entity, tile));

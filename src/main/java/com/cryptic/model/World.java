@@ -578,8 +578,8 @@ public class World {
 
     public void loadEquipmentInfo() {
         equipmentInfo = new com.cryptic.model.items.container.equipment.EquipmentInfo(
-            new File("data/list/equipment_info.json"),
-            new File("data/list/renderpairs.txt"),
+            new File("data/combat/equipment/equipment_info.json"),
+            new File("data/combat/weapons/animations/renderpairs.txt"),
             new File("data/combat/weapons/weapon_types.txt"));
     }
 
@@ -720,7 +720,7 @@ public class World {
             }
         }
         long elapsed = System.currentTimeMillis() - start;
-        logger.info("Loaded definitions for ./data/map/npcs. It took {}ms.", elapsed);
+        logger.info("Loaded World Npc Spawns. It took {}ms.", elapsed);
     }
 
     @Getter
@@ -736,7 +736,7 @@ public class World {
         }
 
         try {
-            PresetHandler.defaultKits = PresetData.loadDefaultPresets(new File("data/list/presets.json")).toArray(new PresetData[0]);
+            PresetHandler.defaultKits = PresetData.loadDefaultPresets(new File("data/combat/preset/presets.json")).toArray(new PresetData[0]);
         } catch (Throwable t) {
             t.printStackTrace();
         }

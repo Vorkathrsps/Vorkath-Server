@@ -50,7 +50,7 @@ public class EquipmentInfo {
         loadEquipmentDefinitions(equipmentDefinitions);
         loadRenderPairs(renderPairs);
         loadWeaponTypes(weaponTypes);
-        loadEquipmentRequirements(new File("data/list/requirements.txt"));
+        loadEquipmentRequirements(new File("data/combat/weapons/requirements.txt"));
     }
 
     public static Bonuses totalBonuses(Entity mob, EquipmentInfo infoo) {

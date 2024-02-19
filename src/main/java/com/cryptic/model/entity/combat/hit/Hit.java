@@ -229,7 +229,11 @@ public class Hit {
         double chance = World.getWorld().random().nextDouble();
         if (this.attacker instanceof NPC npc) {
             if (this.combatType == null) {
-                logger.warn("NPC [ID] {} - Name {} combat type is null - [CombatMethod] {}", npc.getId(), npc.getMobName(), npc.getCombatMethod());
+                if (npc.getCombatInfo().getCombattype() != null) {
+                    this.setCombatType(npc.getCombatInfo().getCombattype());
+                } else {
+                    logger.warn("NPC [ID] {} - Name {} combat type is null - [CombatMethod] {}", npc.getId(), npc.getMobName(), npc.getCombatMethod());
+                }
             }
         }
         if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {

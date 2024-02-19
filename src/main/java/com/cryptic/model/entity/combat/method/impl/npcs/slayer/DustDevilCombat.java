@@ -14,7 +14,7 @@ import com.cryptic.utility.Utils;
  * @author PVE
  * @Since augustus 06, 2020
  */
-public class DustDevil extends CommonCombatMethod {
+public class DustDevilCombat extends CommonCombatMethod {
 
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.RANGED, Skills.MAGIC};
 

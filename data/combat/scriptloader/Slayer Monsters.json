@@ -2,7 +2,8 @@
   {
     // Guard Bandit
     "ids": [
-      1026, 1027
+      1026,
+      1027
     ],
     "maxhit": 3,
     "attackspeed": 4,
@@ -97,7 +98,9 @@
   {
     // Abyssal demon
     "ids": [
-      415, 416, 7241
+      415,
+      416,
+      7241
     ],
     "maxhit": 8,
     "slayerxp": 150,
@@ -941,7 +944,10 @@
   {
     // Skeletal Wyvern
     "ids": [
-      465, 466, 467, 468
+      465,
+      466,
+      467,
+      468
     ],
     "maxhit": 13,
     "slayerxp": 210,
@@ -985,19 +991,27 @@
     "maxhit": 6,
     "slayerxp": 35,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 35,
       "attack": 18,
       "strength": 22,
       "defence": 26,
       "magic": 1,
-      "hitpoints": 35
+      "ranged": 1
     },
     "bonuses": {
-      "stabdefence": 18,
-      "slashdefence": 18,
-      "crushdefence": 18,
-      "rangeddefence": 18,
-      "magicdefence": 18
+      "attack": 18,
+      "strength": 16,
+      "magic": 0,
+      "magicstrength": 0,
+      "ranged": 0,
+      "rangestrength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 4652,
@@ -1302,20 +1316,23 @@
     "slayerxp": 79,
     "aggressive": true,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 79,
       "attack": 68,
       "strength": 70,
       "defence": 71,
       "magic": 1,
-      "ranged": 1,
-      "hitpoints": 79
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
+      "magicdefence": -10,
       "rangeddefence": 0,
-      "magicdefence": -10
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 64,
@@ -1379,7 +1396,16 @@
   {
     // Blue Dragon
     "ids": [
-      265, 266, 267, 268, 269, 5878, 5879, 5880, 5881, 5882
+      265,
+      266,
+      267,
+      268,
+      269,
+      5878,
+      5879,
+      5880,
+      5881,
+      5882
     ],
     "maxhit": 10,
     "slayerxp": 107.5,
@@ -1433,20 +1459,23 @@
     "slayerxp": 157,
     "aggressive": true,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 157,
       "attack": 145,
       "strength": 148,
       "defence": 152,
       "magic": 1,
-      "ranged": 1,
-      "hitpoints": 157
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
+      "magicdefence": -10,
       "rangeddefence": 0,
-      "magicdefence": -10
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 64,
@@ -1462,47 +1491,6 @@
       ],
       "death": [
         403
-      ]
-    }
-  },
-  {
-    // Hellhound
-    "ids": [
-      104
-    ],
-    "maxhit": 11,
-    "slayerxp": 116,
-    "aggressive": true,
-    "slayerlvl": 1,
-    "stats": {
-      "attack": 105,
-      "strength": 104,
-      "defence": 102,
-      "magic": 1,
-      "ranged": 1,
-      "hitpoints": 116
-    },
-    "bonuses": {
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "rangeddefence": 0,
-      "magicdefence": 0
-    },
-    "animations": {
-      "attack": 6562,
-      "block": 6566,
-      "death": 6576
-    },
-    "sounds": {
-      "attack": [
-        3717
-      ],
-      "block": [
-        3719
-      ],
-      "death": [
-        3718
       ]
     }
   },
@@ -1839,7 +1827,9 @@
   {
     // Ankous
     "ids": [
-      2515, 2517, 2519
+      2515,
+      2517,
+      2519
     ],
     "maxhit": 8,
     "slayerxp": 65,
@@ -1951,6 +1941,7 @@
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 10,
       "attack": 75,
@@ -1968,7 +1959,10 @@
   {
     // Hellhound
     "ids": [
+      104,
       105,
+      135,
+      3133,
       7256,
       7877
     ],
@@ -1978,13 +1972,23 @@
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 116,
       "attack": 105,
+      "strength": 104,
       "defence": 102,
-      "strength": 104
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 6559,
@@ -2006,7 +2010,8 @@
   {
     // Nechryael
     "ids": [
-      8, 11
+      8,
+      11
     ],
     "maxhit": 11,
     "slayerxp": 105,
@@ -2180,19 +2185,23 @@
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 87,
       "attack": 76,
-      "defence": 81,
       "strength": 78,
-      "magic": 1
+      "defence": 81,
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
-      "magicdefence": 0,
-      "rangeddefence": 0
+      "magicdefence": -10,
+      "rangeddefence": 0,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 64,
@@ -2214,7 +2223,9 @@
   {
     // Greater Demon
     "ids": [
-      7244, 7245, 7246
+      7244,
+      7245,
+      7246
     ],
     "maxhit": 10,
     "slayerxp": 130,
@@ -2256,7 +2267,18 @@
   {
     // Fire Giant
     "ids": [
-      2075, 2076, 2077, 2078, 2079, 2080, 2081, 2082, 2083, 2084, 7251, 7252
+      2075,
+      2076,
+      2077,
+      2078,
+      2079,
+      2080,
+      2081,
+      2082,
+      2083,
+      2084,
+      7251,
+      7252
     ],
     "maxhit": 11,
     "aggressive": true,
@@ -2746,7 +2768,9 @@
   {
     // Cows
     "ids": [
-      2790, 2791, 2793
+      2790,
+      2791,
+      2793
     ],
     "maxhit": 1,
     "slayerxp": 8,
@@ -3135,7 +3159,8 @@
   {
     // Cave Kraken LOL who makes this up it must be savoins S-S-S_SAVOINSSSSSS DUDUDUDUDUDUDUD
     "ids": [
-      493, 492
+      493,
+      492
     ],
     "maxhit": 13,
     "slayerxp": 125,
@@ -3166,7 +3191,8 @@
   {
     // Enormous Tentacle
     "ids": [
-      5535, 5534
+      5535,
+      5534
     ],
     "maxhit": 2,
     "attackspeed": 4,
@@ -3689,18 +3715,23 @@
     "aggressive": true,
     "aggroradius": 4,
     "attackspeed": 4,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 40,
       "attack": 20,
       "strength": 20,
       "defence": 20,
-      "hitpoints": 40
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 5,
       "slashdefence": 5,
       "crushdefence": 1,
       "magicdefence": 10,
-      "rangeddefence": 10
+      "rangeddefence": 10,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 6223,
@@ -3721,18 +3752,23 @@
     "aggressive": true,
     "aggroradius": 4,
     "attackspeed": 4,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 90,
       "attack": 70,
       "strength": 70,
       "defence": 70,
-      "hitpoints": 90
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 25,
       "slashdefence": 25,
       "crushdefence": 5,
       "magicdefence": 50,
-      "rangeddefence": 50
+      "rangeddefence": 50,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 6223,
@@ -3747,25 +3783,30 @@
       960,
       962
     ],
-    "maxhit": 16,
+    "maxhit": 12,
     "slayerxp": 170,
     "slayerlvl": 1,
     "deathlen": 3,
     "aggressive": true,
     "aggroradius": 4,
     "attackspeed": 4,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 170,
       "attack": 110,
       "strength": 110,
       "defence": 110,
-      "hitpoints": 171
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 25,
       "slashdefence": 25,
       "crushdefence": 5,
       "magicdefence": 50,
-      "rangeddefence": 50
+      "rangeddefence": 50,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 6223,
@@ -3776,7 +3817,11 @@
   {
     // Infernal Mage
     "ids": [
-      443, 444, 445, 446, 447
+      443,
+      444,
+      445,
+      446,
+      447
     ],
     "maxhit": 8,
     "slayerxp": 60,
@@ -3839,7 +3884,11 @@
   {
     // Cave horror
     "ids": [
-      1047, 1048, 1049, 1050, 1051
+      1047,
+      1048,
+      1049,
+      1050,
+      1051
     ],
     "maxhit": 9,
     "slayerxp": 55,
@@ -3932,7 +3981,8 @@
   {
     // Shade
     "ids": [
-      5633, 7258
+      5633,
+      7258
     ],
     "maxhit": 15,
     "slayerxp": 115,
@@ -3970,20 +4020,23 @@
     "slayerxp": 5,
     "slayerlvl": 7,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
+      "hitpoints": 50,
       "attack": 70,
       "strength": 79,
       "defence": 40,
       "magic": 1,
-      "ranged": 1,
-      "hitpoints": 50
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
       "rangeddefence": 0,
-      "magicdefence": 0
+      "magicdefence": 0,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 6117,

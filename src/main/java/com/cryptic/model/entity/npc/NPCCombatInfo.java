@@ -2,6 +2,7 @@ package com.cryptic.model.entity.npc;
 
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.method.CombatMethod;
+import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.npc.droptables.Droptable;
 import com.cryptic.utility.DynamicClassLoader;
 import lombok.Data;
@@ -35,11 +36,13 @@ public class NPCCombatInfo {
     public boolean aggressive;
     public int aggroradius = 1;
     public boolean retaliates = true;
-    public boolean unstacked = false; // True means it won't stack on other npcs.
+    public boolean unstacked = false;
     public int respawntime = 50;
     public boolean unattackable = false;
     public int droprolls = 1;
     public boolean boss = false;
+    public CombatType combattype;
+    public AttackType attackType;
 
     public int poison;
     public int poisonchance = 100;
@@ -101,6 +104,7 @@ public class NPCCombatInfo {
             bonuses.rangeddefence = rangeddefence;
             bonuses.magicdefence = magicdefence;
             bonuses.rangestrength = rangestrength;
+            bonuses.magicstrength = magicstrength;
             return bonuses;
         }
     }

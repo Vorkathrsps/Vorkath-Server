@@ -194,37 +194,6 @@
     }
   },
   {
-    // Kalphite Guardian
-    "ids": [
-      959,
-      960
-    ],
-    "maxhit": 12,
-    "attackspeed": 4,
-    "aggroradius": 3,
-    "aggressive": true,
-    "slayerxp": 170,
-    "slayerlvl": 1,
-    "stats": {
-      "attack": 110,
-      "strength": 110,
-      "defence": 110,
-      "hitpoints": 170
-    },
-    "bonuses": {
-      "stabdefence": 25,
-      "slashdefence": 25,
-      "crushdefence": 5,
-      "rangeddefence": 50,
-      "magicdefence": 50
-    },
-    "animations": {
-      "attack": 6223,
-      "block": 6227,
-      "death": 6228
-    }
-  },
-  {
     // Guards @ Varrock
     "ids": [
       3010,
@@ -1197,6 +1166,9 @@
       "attack": 1557,
       "block": 1555,
       "death": 1558
+    },
+    "scripts": {
+      "combat": "DustDevilCombat"
     }
   },
   {
@@ -1785,11 +1757,24 @@
     "slayerlvl": 50,
     "attackspeed": 4,
     "deathlen": 2,
+    "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 170,
       "attack": 110,
+      "strength": 115,
       "defence": 30,
-      "strength": 115
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0,
+      "rangestrength": 0,
+      "magicstrength": 0
     },
     "animations": {
       "attack": 1552,

@@ -286,7 +286,7 @@ public enum AttributeKey {
 
     DEFENSIVE_AUTOCAST("defensive_autocast", AttribType.BOOLEAN),
 
-    AUTOCAST_SELECTED("autocast_selected", AttribType.BOOLEAN),
+    AUTOCAST_SELECTED,
 
     POWERED_STAFF_AUTOCAST("powered_staff_equipped", AttribType.BOOLEAN),
 
@@ -1572,8 +1572,7 @@ public enum AttributeKey {
     SLAYER_TASK_UID("slayer_task_uid", AttribType.INTEGER),
     SLAYER_TASK_AMOUNT_REMAINING("slayer_task_amount_remaining", AttribType.INTEGER),
     IS_WILDERNESS_TASK("wilderness_task", AttribType.BOOLEAN),
-    SAVE_LAST_TILE("last_saved_type", AttribType.BOOLEAN),
-    LAST_SAVED_TILE,
+    RECALL_ATTUNE_ACTIVE("last_saved_type", AttribType.BOOLEAN),
     SIGIL_OF_REMOTE_STORAGE, REMOTE_STORAGE, SIGIL_OF_THE_NINJA, NINJA, SIGIL_OF_INFERNAL_SMITH, INFERNAL_SMITH;
 
     private String saveName;

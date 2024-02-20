@@ -483,7 +483,7 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_BOW_CHARGES, details.starterBowCharges);
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
-            if (details.lastRecallSave != null) player.putAttrib(AttributeKey.LAST_SAVED_TILE, details.lastRecallSave.tile());
+            if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
         }
 
         //Account

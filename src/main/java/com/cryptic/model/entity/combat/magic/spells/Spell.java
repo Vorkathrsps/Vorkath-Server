@@ -53,7 +53,7 @@ public abstract class Spell {
                     return false;
                 }
 
-                boolean autoCastSelected = player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false);
+                boolean autoCastSelected = player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, null) != null;
                 boolean hasActivePoweredStaffSpell = player.getCombat().getPoweredStaffSpell() != null;
                 var setPoweredStaffSpell = CombatSpells.getCombatSpell(spellId());
                 //Reset auto casting if we were autocasting

@@ -360,7 +360,7 @@ public class WeaponInterfaces {
                 if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
                     return false;
                 }
-                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
+                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, null) != null) {
                     Autocasting.setAutocast(player, null);
                 }
                 player.getCombat().setFightType(FightType.STAFF_BASH);
@@ -370,7 +370,7 @@ public class WeaponInterfaces {
                 if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
                     return false;
                 }
-                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
+                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, null) != null) {
                     Autocasting.setAutocast(player, null);
                 }
                 player.getCombat().setFightType(FightType.STAFF_POUND);
@@ -381,7 +381,7 @@ public class WeaponInterfaces {
                 if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
                     return false;
                 }
-                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
+                if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, null) != null) {
                     Autocasting.setAutocast(player, null);
                 }
                 player.getCombat().setFightType(FightType.STAFF_FOCUS);

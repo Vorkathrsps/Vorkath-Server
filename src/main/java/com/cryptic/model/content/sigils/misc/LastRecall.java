@@ -12,13 +12,13 @@ import com.cryptic.model.entity.player.Player;
 public class LastRecall extends AbstractSigil {
     @Override
     protected void onRemove(Player player) {
-        player.clearAttrib(AttributeKey.SAVE_LAST_TILE);
+        player.clearAttrib(AttributeKey.RECALL_ATTUNE_ACTIVE);
     }
 
     @Override
     protected void processMisc(Player player) {
         if (!attuned(player)) return;
-        player.putAttrib(AttributeKey.SAVE_LAST_TILE, true);
+        player.putAttrib(AttributeKey.RECALL_ATTUNE_ACTIVE, true);
     }
 
     @Override

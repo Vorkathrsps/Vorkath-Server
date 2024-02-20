@@ -20,7 +20,10 @@ public class LastRecallInteraction extends PacketInteraction { //TODO remember t
                     Chain.noCtx().runFn(4, () -> {
                         player.teleport(player.getLastSavedTile());
                         player.animate(9149);
-                    }).then(1, player::unlock);
+                    }).then(1, () -> {
+                        player.setUsingLastRecall(false);
+                        player.unlock();
+                    });
                     return true;
                 } else {
                     player.message(Color.BLUE.wrap("You do not currently have a saved location."));

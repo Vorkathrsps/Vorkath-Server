@@ -1944,9 +1944,9 @@ public abstract class Entity {
         }
 
         if (this instanceof Player player) {
-            if (player.hasAttrib(AttributeKey.SAVE_LAST_TILE) && !player.isUsingLastRecall()) {
+            if (player.hasAttrib(AttributeKey.RECALL_ATTUNE_ACTIVE) && !player.isUsingLastRecall()) {
                 if (player.getInstancedArea() == null) {
-                    player.setLastSavedTile(this.tile);
+                    player.setLastSavedTile(this.tile.copy());
                 }
             }
         }

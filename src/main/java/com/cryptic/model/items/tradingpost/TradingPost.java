@@ -283,19 +283,19 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
-    private static void sendOverviewTab(Player player) {
+    public static void sendOverviewTab(Player player) {
         sendOfferInventory(player, OVERVIEW);
         refreshOverview(player);
     }
 
-    private static void refreshOverview(Player player) {
+    public static void refreshOverview(Player player) {
         String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
         ObjectList<Player.TextData> strings = ObjectList.of(
-            new Player.TextData(NumberUtils.formatNumber(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))), 81073),
-            new Player.TextData("Active: " + NumberUtils.formatNumber(list == null ? 0 : list.size()), 81074),
-            new Player.TextData(NumberUtils.formatNumber(sales.size()), 81075)
+            new Player.TextData(Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))), 81073),
+            new Player.TextData("Active: " + Utils.formatPriceKMB(list == null ? 0 : list.size()), 81074),
+            new Player.TextData(Utils.formatPriceKMB(sales.size()), 81075)
         );
         for (int i = 0; i < 10; i++) {
             var item = i >= (list != null ? list.size() : 0) ? null : list.get(i);
@@ -348,7 +348,7 @@ public class TradingPost {
             var tpl = i >= recentTransactions.size() ? null : recentTransactions.get(i);
             TradingPost.sendRecentListingIndex(tpl == null ? null : tpl.getSaleItem().unnote(),
                 tpl == null ? "" : tpl.getSellerName(),
-                tpl == null ? "" : "%d | %d (ea)".formatted(tpl.getTotalAmount(), tpl.getPrice()),
+                tpl == null ? "" : "%s | %s (ea)".formatted(Utils.formatPriceKMB(tpl.getTotalAmount()), Utils.formatPriceKMB(tpl.getPrice())),
                 i,
                 p);
         }
@@ -649,7 +649,7 @@ public class TradingPost {
                 trade.getSaleItem().name(),
                 trade.getSellerName(),
                 trade.buyersInfo.stream().findFirst().orElse("?"),
-                NumberUtils.formatNumber(trade.getPrice()),
+                Utils.formatPriceKMB(trade.getPrice()),
                 i,
                 player);
         }
@@ -981,7 +981,7 @@ public class TradingPost {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
             sendBuyIndex(item == null ? null : item.getSaleItem(),
                 item == null ? "" : item.getSellerName(),
-                item == null ? "" : Utils.formatNumber(item.getTotalAmount()),
+                item == null ? "" : Utils.formatPriceKMB(item.getTotalAmount()),
                 i, player);
         }
     }
@@ -1071,15 +1071,9 @@ public class TradingPost {
         player.tradingPostListedAmount = selected.getRemaining();
         player.tradingPostSelectedListing = selected;
 
-        if (selected.getRemaining() == 1) {
-            handlePurchasing(player, selected, 1);
-            return true;
-        }
-
         player.getInterfaceManager().open(81375);
-        player.getInterfaceManager().removeOverlay(); // TODO this isnt working as an overlay
         player.getPacketSender().resetParallelInterfaces();
-        player.getPacketSender().sendParallelInterfaceVisibility(81375, true);
+        player.getPacketSender().sendParallelInterfaceVisibility(BUY_ID, true);
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
         ObjectList<Player.TextData> list = ObjectList.of(
             new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
@@ -1218,9 +1212,11 @@ public class TradingPost {
         Optional<Player> sel = World.getWorld().getPlayerByName(seller);
 
         if (sel.isPresent()) {
-            sel.get().message("One or more of your trading post offers have been updated.");
-            sendOverviewTab(sel.get());
-            sel.get().tradePostHistory.add(selected);
+            var p2 = sel.get();
+            p2.message("One or more of your trading post offers have been updated.");
+            if (p2.getInterfaceManager().getMain() == OVERVIEW) // only refresh if open otherwise it'd interrupt our other work
+                sendOverviewTab(p2);
+            p2.tradePostHistory.add(selected);
         }
 
         Utils.sendDiscordInfoLog(player.getUsername() + " bought: ItemName=" + purchased.name() + " ItemAmount=" + amount + " Price=" + Utils.formatRunescapeStyle(totalPrice), "trading_post_purchases");

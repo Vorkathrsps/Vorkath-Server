@@ -1020,11 +1020,11 @@ public class Utils {
     }
 
     /**
-     * Formats a price for longs.
+     * Formats a price for longs. RUNESCAPE STYLE K, M, B for thousands, mill, billions
      *
      * @param amount
      */
-    public static String formatPrice(final int amount) {
+    public static String formatPriceKMB(final int amount) {
         if (amount >= 0 && amount < 1_000) {
             return "" + amount;
         }
@@ -1045,7 +1045,7 @@ public class Utils {
      *
      * @param amount
      */
-    public static String formatPrice(final long amount) {
+    public static String formatPriceKMB(final long amount) {
         if (amount >= 0 && amount < 1_000) {
             return "" + amount;
         }

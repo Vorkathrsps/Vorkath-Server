@@ -85,21 +85,22 @@ public class EquipPacketListener implements PacketListener {
                 EquipmentInfo info = World.getWorld().equipmentInfo();
 
                 if (info != null) {
-                    player.getEquipment().equip(slot);
-                    player.sendPrivateSound(getAudioId(item.name()), 0);
-                    BonusesInterface.sendBonuses(player);
-                    player.getCombat().setRangedWeapon(null);
-                    player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
-                    player.setSpecialActivated(false);
-                    player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
-                    player.getCombat().reset();
-                    CombatSpecial.updateBar(player);
-                    WeaponInterfaces.updateWeaponInterface(player);
-                    player.getInventory().refresh();
-                    player.getEquipment().refresh();
-                    if (player.getEquipment().getWeapon() != null && player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
+                    if (player.getEquipment().equip(slot)) {
+                        player.sendPrivateSound(getAudioId(item.name()), 0);
+                        BonusesInterface.sendBonuses(player);
+                        player.getCombat().setRangedWeapon(null);
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
-                        player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
+                        player.setSpecialActivated(false);
+                        player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
+                        player.getCombat().reset();
+                        CombatSpecial.updateBar(player);
+                        WeaponInterfaces.updateWeaponInterface(player);
+                        player.getInventory().refresh();
+                        player.getEquipment().refresh();
+                        if (player.getEquipment().getWeapon() != null && player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
+                            player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                            player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
+                        }
                     }
                 }
             }

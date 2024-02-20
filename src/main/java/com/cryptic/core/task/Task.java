@@ -245,7 +245,7 @@ public abstract class Task {
                 countdown = delay;
             }
             long elapsed = System.currentTimeMillis() - start;
-            if (Arrays.stream(IGNORED_TASKS).noneMatch(task -> task.equals(getClass().getSimpleName())) && uptime > GameEngine.IGNORE_LAG_TIME && elapsed > 75) {
+            if (Arrays.stream(IGNORED_TASKS).noneMatch(task -> task.equals(getClass().getSimpleName())) && uptime > GameEngine.IGNORE_LAG_TIME && elapsed > 750) {
                 logger.error(String.format("It took %s milliseconds to execute the %s task.", elapsed, (!getClass().getSimpleName().equals("") ? getClass().getSimpleName() : getClass().getName()) + " at " + codeOrigin));
             }
         }

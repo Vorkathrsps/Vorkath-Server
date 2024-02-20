@@ -94,6 +94,7 @@ public enum AttributeKey {
      * The buy items trading post page
      */
     TRADING_POST_BUY_PAGE,
+    TRADING_POST_COFFER("tp_coffer", AttribType.LONG),
 
     HP_EVENT_ACTIVE,
     MUTTADILE_EATING_STATE,

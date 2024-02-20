@@ -3,6 +3,7 @@ package com.cryptic.model.inter.dialogue;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.areas.burthope.rogues_den.dialogue.EmeraldBenedict;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
@@ -302,4 +303,7 @@ public abstract class Dialogue {
         }
     }
 
+    public void begin(Player p) {
+        p.getDialogueManager().start(this);
+    }
 }

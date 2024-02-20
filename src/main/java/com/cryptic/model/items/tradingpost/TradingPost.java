@@ -6,6 +6,10 @@ import com.cryptic.cache.definitions.identifiers.NumberUtils;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
+import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.IronMode;
@@ -35,6 +39,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.EMERALD_BENEDICT;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -292,8 +297,13 @@ public class TradingPost {
         String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
+        String s = "%s. Inv: %s".formatted(
+                Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
+                Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))
+        );
+
         ObjectList<Player.TextData> strings = ObjectList.of(
-            new Player.TextData(Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))), 81073),
+            new Player.TextData(s, 81073),
             new Player.TextData("Active: " + Utils.formatPriceKMB(list == null ? 0 : list.size()), 81074),
             new Player.TextData(Utils.formatPriceKMB(sales.size()), 81075)
         );
@@ -446,8 +456,12 @@ public class TradingPost {
                 }
             }
         }
-        if (buttonId == 81069) { // TODO overview tab: add to coffer dialogue
-            p.message("This feature is coming soon.");
+        if (buttonId == 81069) {
+            if (p.<Long>getAttribOr(TRADING_POST_COFFER, 0L) > 0) {
+                new CofferChat().begin(p);
+            } else {
+                openCofferAddChat(p);
+            }
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
@@ -597,6 +611,80 @@ public class TradingPost {
             return true;
         }
         return false;
+    }
+
+    public static class CofferChat extends Dialogue {
+
+        @Override
+        protected void start(Object... parameters) {
+            send(DialogueType.OPTION, "Edit Coffer", "Withdraw", "Add");
+            setPhase(0);
+        }
+
+        @Override
+        protected void select(int option) {
+            if (isPhase(0)) {
+                if (option == 1) {
+                    stop();
+                    player.<Integer>setAmountScript("Withdraw how many coins?", i -> {
+                        if (!player.inventory().hasCapacity(new Item(995))) {
+                            player.message("Your inventory is full.");
+                            stop();
+                            return true;
+                        }
+                        long current = player.<Long>getAttribOr(TRADING_POST_COFFER, 0L);
+                        if (current == 0L)
+                            return true;
+                        long toAdd = Long.min(current, 1L * Integer.MAX_VALUE - player.inventory().count(995));
+                        if (player.inventory().add(995, (int) toAdd)) {
+                            player.putAttrib(TRADING_POST_COFFER, Math.max(0, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) - toAdd));
+                            player.message(Utils.formatNumber(toAdd)+" was removed from your coffer, it now holds "+Utils.formatNumber(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L))+" gp.");
+                            sendOverviewTab(player);
+                        }
+                        stop();
+                        return true;
+                    });
+                } else if (option == 2) {
+                    stop();
+                    openCofferAddChat(player);
+                }
+            }
+        }
+    }
+
+    private static void openCofferAddChat(Player p) {
+        if (p.inventory().count(995) > 0) {
+            p.<Integer>setAmountScript("Store how many coins?", i -> {
+                int amt = Integer.min(i, p.inventory().count(995));
+                long newAmt = p.<Long>getAttribOr(TRADING_POST_COFFER, 0L) + (long) amt;
+                if (newAmt < 0 || newAmt > Long.MAX_VALUE) {
+                    p.message("Your coffer cannot hold any more coins.");
+                    return true;
+                }
+                if (p.inventory().remove(995, amt)) {
+                    p.putAttrib(TRADING_POST_COFFER, newAmt);
+                    p.message(Utils.formatNumber(amt)+" was added to your coffer, it now holds "+Utils.formatNumber(newAmt)+" gp.");
+                    sendOverviewTab(p);
+                }
+                return true;
+            });
+        }
+        else if (p.inventory().count(PLATINUM_TOKEN) > 0) {
+            p.<Integer>setAmountScript("Store how many tokens?", i -> {
+                int amt = Integer.min(i, p.inventory().count(PLATINUM_TOKEN));
+                long newAmt = p.<Long>getAttribOr(TRADING_POST_COFFER, 0L) + (amt * 1000L);
+                if (newAmt < 0 || newAmt > Long.MAX_VALUE) {
+                    p.message("Your coffer cannot hold any more coins.");
+                    return true;
+                }
+                if (p.inventory().remove(PLATINUM_TOKEN, amt)) {
+                    p.putAttrib(TRADING_POST_COFFER, newAmt);
+                    p.message(Utils.formatNumber(amt)+" was added to your coffer, it now holds "+Utils.formatNumber(newAmt)+" gp.");
+                    sendOverviewTab(p);
+                }
+                return true;
+            });
+        }
     }
 
     public static void featureSpotText(Player player, String a, String b, int index) {

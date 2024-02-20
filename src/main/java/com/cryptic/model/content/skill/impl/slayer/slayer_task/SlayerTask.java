@@ -240,10 +240,12 @@ public class SlayerTask {
             if (inWilderness) {
                 this.upgradeEmblem(player);
             }
+            player.getSlayerKillLog().addKill(npc);
+            player.getSkills().addXp(Skill.SLAYER.getId(), experience);
+            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
             if (this.isRemoveSlayerTask(player)) {
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
                 increment += incrementMemberBonusSlayerPoints(player, increment);
-                player.getSkills().addXp(Skill.SLAYER.getId(), experience);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
                 player.putAttrib(SLAYER_REWARD_POINTS, +increment);
@@ -251,9 +253,6 @@ public class SlayerTask {
                 this.cancelSlayerTask(player, false);
                 return;
             }
-            player.getSlayerKillLog().addKill(npc);
-            player.getSkills().addXp(Skill.SLAYER.getId(), experience);
-            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, amount - 1);
         }
     }
 

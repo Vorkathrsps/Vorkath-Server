@@ -12,6 +12,7 @@ import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.verzik.Verzik;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -1082,6 +1083,13 @@ public class CommandManager {
         dev("rp1", (player, c, s) -> {
             player.getPacketSender().resetParallelInterfaces();
             player.getInterfaceManager().close(true);
+        });
+        dev("slay1", (player, c, s) -> {
+            SlayerTask assignment = World.getWorld().getSlayerTasks().getCurrentAssignment(player);
+            int amt = assignment.getRemainingTaskAmount(player) + 1;
+            for (int i = 0; i < amt; i++) {
+                World.getWorld().getSlayerTasks().handleSlayerDeath(player, new NPC(assignment.getNpcs()[0], player.tile()));
+            }
         });
     }
 

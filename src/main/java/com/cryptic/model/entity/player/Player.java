@@ -351,18 +351,6 @@ public class Player extends Entity {
         }
     }
 
-    private final Map<Integer, TinterfaceText> interfaceText = new HashMap<>();
-
-    public static class TinterfaceText {
-        public int id;
-        public String currentState;
-
-        public TinterfaceText(String s, int id) {
-            this.currentState = s;
-            this.id = id;
-        }
-    }
-
     private final UnnecessaryPacketDropper packetDropper = new UnnecessaryPacketDropper();
 
     public UnnecessaryPacketDropper getPacketDropper() {

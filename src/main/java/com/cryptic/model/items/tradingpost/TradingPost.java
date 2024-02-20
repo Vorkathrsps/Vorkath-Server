@@ -67,7 +67,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800;
+    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600;
     /**
      * username: data
      */
@@ -323,7 +323,7 @@ public class TradingPost {
     }
 
     public static void showRecents(Player p) {
-        p.getInterfaceManager().open(HISTORY_ID);
+        p.getInterfaceManager().open(RECENT);
         ObjectList<TradingPostListing> list = new ObjectArrayList<>();
         for (var sale : sales.values()) {
             if (sale == null) continue;
@@ -334,7 +334,7 @@ public class TradingPost {
                 logger.info("Item: %s seller: %s buyer:%s listed at: %s %d".formatted(item.getSaleItem().unnote().name(), item.getSellerName(), item.getLastBuyerName(), item.getListedTime(), item.getTimeListed()));
                 Item i = item.getSaleItem().unnote();
                 if (i == null) continue;
-                if (i.name().equalsIgnoreCase(i.name())) {
+                if (i.name().equalsIgnoreCase(i.name())) { // no fucking idea what this check is about but we'll leave it
                     list.add(item);
                 }
             }
@@ -438,8 +438,8 @@ public class TradingPost {
             if (buttonId >= base && buttonId <= base + 6) {
                 for (Kys value : Kys.values()) {
                     var delta = buttonId - base;
-                    logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
                     if (delta == value.delta) {
+                        logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
                         value.open(p);
                         return true;
                     }
@@ -727,7 +727,7 @@ public class TradingPost {
             new Player.TextData(itemname == null ? "" : "Price", base + 4),
             new Player.TextData(pricePer, base + 5)
         );
-        System.out.println("sending: " + itemname + " at base: " + base);
+        //System.out.println("sending: " + itemname + " at base: " + base);
         player.getPacketSender().sendItemOnInterfaceSlot(base, itemname == null ? null : itemname.unnote(), 0);
         player.getPacketSender().sendMultipleStrings(list);
     }
@@ -842,7 +842,7 @@ public class TradingPost {
 
         player.tradingPostListedItemId = itemId;
         player.tradingPostListedAmount = (int) amount;//no longer needs to be a long due to it being item Amount
-
+        player.tpListingPrice = offerItem.getBloodMoneyPrice().value();
 
         setSellUIText(player, offerItem,
             offerItem.name(),

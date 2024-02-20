@@ -101,11 +101,6 @@ public class EquipPacketListener implements PacketListener {
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                         player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
                     }
-
-                    if (player.getCombat().getAutoCastSpell() != null) {
-                        Autocasting.setAutocast(player, null);
-                        player.getPacketSender().sendMessage("Autocast spell cleared.");
-                    }
                 }
             }
         }

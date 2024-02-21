@@ -23,11 +23,13 @@ public class KalphiteQueen {
     public static int animation(int npc, CombatType combatType) {
         if(npc == 6500) {
             return switch (combatType) {
+                case TYPELESS -> 0;
                 case MELEE -> 6241;
                 case MAGIC, RANGED -> 6240;
             };
         } else if(npc == 6501) {
             return switch (combatType) {
+                case TYPELESS -> 0;
                 case MELEE -> 6235;
                 case MAGIC, RANGED -> 6234;
             };

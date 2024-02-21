@@ -7,7 +7,7 @@ package com.cryptic.model.entity.combat;
  * @author lare96
  */
 public enum CombatType {
-
+    TYPELESS,
     MELEE,
     RANGED,
     MAGIC;

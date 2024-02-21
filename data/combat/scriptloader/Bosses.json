@@ -1613,5 +1613,47 @@
     "scripts": {
       "combat": "JudgeOfYamaCombat"
     }
+  },
+  {
+    "ids": [
+      7221
+    ],
+    "maxhit": 30,
+    "slayerxp": 255,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggroradius": 9,
+    "respawntime": 30,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "hitpoints": 500,
+      "attack": 300,
+      "strength": 100,
+      "defence": 60,
+      "magic": 50,
+      "ranged": 50
+    },
+    "bonuses": {
+      "attack": 150,
+      "strength": 10,
+      "magic": 150,
+      "ranged": 150,
+      "stabdefence": 150,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 20,
+      "magicdefence": 10,
+      "rangestrength": 10,
+      "magicstrength": 20
+    },
+    "animations": {
+      "attack": 2855,
+      "block": 10694,
+      "death": 10705
+    },
+    "scripts": {
+      "combat": "ScurriusCombat"
+    }
   }
 ]

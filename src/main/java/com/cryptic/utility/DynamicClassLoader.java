@@ -13,14 +13,13 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
  */
 public class DynamicClassLoader {
     public static Object2ObjectMap<Class<? extends CombatMethod>, Class<? extends CombatMethod>> scriptmap = new Object2ObjectOpenHashMap<>();
+
     public static void load() {
         try (ScanResult scanResult = new ClassGraph().enableAllInfo().enableAnnotationInfo().scan()) {
             ClassInfoList directBoxes = scanResult.getClassesWithAnnotation(CombatScript.class);
             for (var d : directBoxes) {
                 for (var n : d.getSubclasses().directOnly()) {
-                    if (!scriptmap.containsValue(n.loadClass()) && scriptmap.containsKey(n.loadClass())) {
-                        scriptmap.put((Class<? extends CombatMethod>) n.loadClass(), (Class<? extends CombatMethod>) n.loadClass());
-                    }
+                    scriptmap.put((Class<? extends CombatMethod>) n.loadClass(), (Class<? extends CombatMethod>) n.loadClass());
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.cryptic.model.map.position.areas;
 
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusArea;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -30,6 +31,7 @@ public class ControllerManager {
         CONTROLLERS.add(new CallistoArea());
         CONTROLLERS.add(new VetionArea());
         CONTROLLERS.add(new CorporealArea());
+        CONTROLLERS.add(new ScurriusArea());
     }
 
     /**

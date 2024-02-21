@@ -353,7 +353,6 @@ public class Combat {
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
         if (combatAttackTicksRemaining <= 0) {
-            if (!ProjectileRoute.hasLineOfSight(mob, target)) return;
             if (!method.prepareAttack(mob, target)) return;
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.isInWilderness((Player) mob)) {

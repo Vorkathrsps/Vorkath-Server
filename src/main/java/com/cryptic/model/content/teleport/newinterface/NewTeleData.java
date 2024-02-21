@@ -76,6 +76,7 @@ public enum NewTeleData {
 
     ALCHEMICAL_HYDRA(new Tile(1354, 10258), "Alchemical Hydra", "", BOSSING, MEDIUM),
     NEX(new Tile(2903, 5203), "Nex", "", BOSSING, HARD),
+    SCURRIUS(new Tile(3279, 9869), "Scurrius", "", BOSSING, MEDIUM),
     //Skilling Teleports
     GNOME_AGILITY(new Tile(2474, 3438),"Gnome Stronghold Agility Course", "", SKILLING, MEDIUM),
     BARB_AGILITY(new Tile(2552, 3563),"Barbarian Outpost Agility Course", "", SKILLING, MEDIUM),

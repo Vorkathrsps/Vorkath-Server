@@ -138,6 +138,10 @@ public class ObjectInteractionHandler implements PacketListener {
             return;
         }
 
+        logger.debug("[DEBUG] {} - {}", object, option);
+
+        player.message("[DEBUG] - Object [" + object + "] - Option[" + option + "]");
+
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
             return;
 

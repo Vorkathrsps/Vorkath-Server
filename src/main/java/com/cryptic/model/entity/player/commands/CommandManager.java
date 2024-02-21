@@ -19,8 +19,10 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -54,8 +56,11 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -63,6 +68,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -592,9 +598,38 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-        /*    p.getPacketSender().sendInterface(81375);
-            p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
-            System.out.println(p.getPetEntity().getPet());
+            ScurriusCombat.HealState state;
+            NPC npc = new NPC(7221, p.tile()).spawn(false);
+            state = ScurriusCombat.HealState.THREE;
+            if (state.equals(ScurriusCombat.HealState.ONE)) {
+                npc.getCombatInfo().setAggressive(false);
+                npc.canAttack(false);
+                var tile = new Tile(3298, 9873);
+                BooleanSupplier cancel = () -> npc.tile().equals(tile);
+                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
+                    npc.setPositionToFace(tile);
+                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
+                });
+            } else if (state.equals(ScurriusCombat.HealState.TWO)) {
+                npc.getCombatInfo().setAggressive(false);
+                npc.canAttack(false);
+                var tile = new Tile(3303, 9867);
+                BooleanSupplier cancel = () -> npc.tile().equals(tile);
+                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
+                    npc.setPositionToFace(tile);
+                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
+                });
+            } else if (state.equals(ScurriusCombat.HealState.THREE)) {
+                npc.getCombatInfo().setAggressive(false);
+                npc.canAttack(false);
+                var tile = new Tile(3298, 9855);
+                BooleanSupplier cancel = () -> npc.tile().equals(tile);
+                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
+                    npc.setPositionToFace(tile);
+                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
+                });
+            }
+            Chain.noCtx().runFn(15, npc::remove);
         });
 
         dev("c1", (p, c, s) -> {

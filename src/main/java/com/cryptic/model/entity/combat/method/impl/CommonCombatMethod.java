@@ -27,11 +27,7 @@ import java.util.function.Consumer;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
 
-/**
- * reduce code replication for the 90+ npc classes
- *
- * @author Jak Shadowrs tardisfan121@gmail.com
- */
+
 @CombatScript
 public abstract class CommonCombatMethod implements CombatMethod {
 

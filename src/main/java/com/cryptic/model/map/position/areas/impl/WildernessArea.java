@@ -332,7 +332,7 @@ public class WildernessArea extends Controller {
     @Override
     public void defeated(Player killer, Entity entity) {
         if (killer != null) killer.getRisk().update();
-        
+
     }
 
     @Override

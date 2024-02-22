@@ -155,7 +155,7 @@ public class IKODTest {
         }
         for (int equipId : equipIds) {
             p1.getEquipment().equip(new Item(equipId, 1));
-            BonusesInterface.sendBonuses(p1);
+            p1.getBonusInterface().sendBonuses();
         }
         if (!p1.getEquipment().get(3).matchesId(TOXIC_BLOWPIPE)) {
             assertFalse(true); // fuck

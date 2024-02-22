@@ -331,22 +331,19 @@ public class WildernessArea extends Controller {
 
     @Override
     public void defeated(Player killer, Entity entity) {
-        if (killer.isPlayer()) {
-            killer.getRisk().update(); // Make sure wealth attribs are up to date!
-        }
+        if (killer != null) killer.getRisk().update();
+        
     }
 
     @Override
     public boolean handleObjectClick(Player player, GameObject object, int type) {
-        switch (object.getId()) {
-            case 40390 -> {
-                if (player.tile().x == 3293 && player.tile().y == 3746) {
-                    Chain.bound(player)
-                        .runFn(1, player::lockDelayDamage)
-                        .then(2, () -> player.teleport(3385, 10052))
-                        .then(1, player::unlock);
-                    return true;
-                }
+        if (object.getId() == 40390) {
+            if (player.tile().x == 3293 && player.tile().y == 3746) {
+                Chain.bound(player)
+                    .runFn(1, player::lockDelayDamage)
+                    .then(2, () -> player.teleport(3385, 10052))
+                    .then(1, player::unlock);
+                return true;
             }
         }
         return false;

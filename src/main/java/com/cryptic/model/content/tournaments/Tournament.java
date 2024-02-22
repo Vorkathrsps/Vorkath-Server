@@ -237,7 +237,7 @@ public class Tournament {
             for (int i = 0; i < player.inventory().capacity(); i++) {
                 if (player.inventory().get(i) == null) continue;
                 player.getEquipment().equip(i);
-                BonusesInterface.sendBonuses(player);
+                player.getBonusInterface().sendBonuses();
             }
             for (int i = 0; i < loadout.inv.capacity(); i++) {
                 if (loadout.inv.getItems()[i] == null)

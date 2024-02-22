@@ -118,7 +118,7 @@ public class Autocasting {
             player.putAttrib(AttributeKey.AUTOCAST_SELECTED, spell);
         }
         player.getCombat().setAutoCastSpell(spell);
-        BonusesInterface.sendBonuses(player);
+        player.getBonusInterface().sendBonuses();
         updateConfigsOnAutocast(player, spell != null);
     }
 

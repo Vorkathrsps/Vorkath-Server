@@ -104,6 +104,7 @@ import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.bank.Bank;
@@ -253,6 +254,8 @@ public class Player extends Entity {
     public ArrayList<String> newPlayerChat = new ArrayList<String>();
 
     private Raids raids;
+
+    @Getter public BonusesInterface bonusInterface = new BonusesInterface(this);
 
     private ZarosGodwars zarosGodwars;
 
@@ -497,12 +500,12 @@ public class Player extends Entity {
         player.getPacketSender().sendString(80028, "Time Played: " + QuestTabUtils.getTimeDHS(player));
     }
 
-    static void updateAccountStatus(Player player) {
+    public void updateAccountStatus(Player player) {
         player.getPacketSender().sendString(73005, "Donator Rank: " + player.getMemberRights().getName());
         player.getPacketSender().sendString(73015, "Name: " + player.getUsername());
     }
 
-    static void updateServerInformation(Player player) {
+    public void updateServerInformation(Player player) {
         LocalDateTime now = LocalDateTime.now();
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
         long risked = ItemsKeptOnDeath.getLostItemsValue();

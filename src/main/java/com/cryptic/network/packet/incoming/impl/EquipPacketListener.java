@@ -87,7 +87,7 @@ public class EquipPacketListener implements PacketListener {
                 if (info != null) {
                     if (player.getEquipment().equip(slot)) {
                         player.sendPrivateSound(getAudioId(item.name()), 0);
-                        BonusesInterface.sendBonuses(player);
+                        player.getBonusInterface().sendBonuses();
                         player.getCombat().setRangedWeapon(null);
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                         player.setSpecialActivated(false);

@@ -787,11 +787,7 @@ public class CommandManager {
 
         dev("varbit", (p, c, s) -> p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
-        dev("ht1", (p, c, s) ->
-
-        {
-            CommandManager.attempt(p, "oa 8280 34570");
-        });
+        dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
 
         dev("ht2", (p, c, s) ->
 

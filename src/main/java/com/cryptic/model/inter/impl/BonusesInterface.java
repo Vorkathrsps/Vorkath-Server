@@ -10,23 +10,29 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import lombok.Getter;
 
 /**
  * Created by Bart on 10/2/2015.
  * <p>
  * Handles the bonuses interface and stats panel.
  */
-public class BonusesInterface {
+public class BonusesInterface extends PacketInteraction {
 
-    static int bloodMoneyDrop = 0;
+    @Getter Player player;
+    int bloodMoneyDrop = 0;
+    public BonusesInterface(Player player) {
+        this.player = player;
+    }
 
-    public static void showEquipmentInfo(Player player) {
+    public void showEquipmentInfo(Player player) {
         if (player.locked())
             return;
 
         player.stopActions(false);
-        sendBonuses(player);
+        sendBonuses();
         var target = player.getCombat().getTarget();
 
         if (target != null && target.isPlayer()) {
@@ -43,7 +49,7 @@ public class BonusesInterface {
         return (bonus < 0) ? Integer.toString(bonus) : "+" + bonus;
     }
 
-    public static void sendBonuses(Player player) {
+    public void sendBonuses() {
         EquipmentInfo.Bonuses b = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         var dropRateBonus = player.getDropRateBonus();
 
@@ -65,13 +71,13 @@ public class BonusesInterface {
 
         player.getPacketSender().sendString(1687, "Prayer: " + plusify(b.getPray()));
         player.getPacketSender().sendString(24754, "Undead: " + plusify(getUndead(player)) + "%");
-        player.getPacketSender().sendString(24755, "Slayer: " + plusify(getSlay(player)) + "%");
+        player.getPacketSender().sendString(24755, "Slayer: " + plusify(getSlay()) + "%");
         player.getPacketSender().sendString(24757, "Base: " + plusify(player.getBaseAttackSpeed()) + "s");
         player.getPacketSender().sendString(24774, "BM: " + (bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)));
         player.getPacketSender().sendString(24775, "Drop Rate: " + (dropRateBonus > 0 ? Color.GREEN.wrap(dropRateBonus + "%") : dropRateBonus + "%"));
     }
 
-    public static int getSlay(Player player) {
+    public int getSlay() {
         int slay = 0;
         Item helmItem = player.getEquipment().get(EquipSlot.HEAD);
         if (helmItem != null) {
@@ -103,7 +109,8 @@ public class BonusesInterface {
         return undead;
     }
 
-    public static boolean bonusesButtons(Player player, int button) {
+    @Override
+    public boolean handleButtonInteraction(Player player, int button) {
         if (button == 27653) {
             ItemWeight.calculateWeight(player);
             showEquipmentInfo(player);
@@ -112,41 +119,42 @@ public class BonusesInterface {
         return false;
     }
 
-    public static boolean onContainerAction(Player player, int id, int slot) {
-        if (id == InterfaceConstants.EQUIPMENT_DISPLAY_ID) { //do sounds here for equipping
+    @Override
+    public boolean handleItemContainerActionInteraction(Player player, Item item, int slot, int interfaceId, int type) {
+        if (interfaceId == InterfaceConstants.EQUIPMENT_DISPLAY_ID) { //do sounds here for equipping
             if (slot == 0) {
                 player.getEquipment().unequip(EquipSlot.HEAD);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 1) {
                 player.getEquipment().unequip(EquipSlot.CAPE);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 2) {
                 player.getEquipment().unequip(EquipSlot.AMULET);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 3) {
                 player.getEquipment().unequip(EquipSlot.WEAPON);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 4) {
                 player.getEquipment().unequip(EquipSlot.BODY);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 5) {
                 player.getEquipment().unequip(EquipSlot.SHIELD);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 7) {
                 player.getEquipment().unequip(EquipSlot.LEGS);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 9) {
                 player.getEquipment().unequip(EquipSlot.HANDS);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 10) {
                 player.getEquipment().unequip(EquipSlot.FEET);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 12) {
                 player.getEquipment().unequip(EquipSlot.RING);
-                sendBonuses(player);
+                sendBonuses();
             } else if (slot == 13) {
                 player.getEquipment().unequip(EquipSlot.AMMO);
-                sendBonuses(player);
+                sendBonuses();
             }
             return true;
         }

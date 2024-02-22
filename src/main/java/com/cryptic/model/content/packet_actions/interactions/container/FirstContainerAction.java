@@ -32,10 +32,6 @@ public class FirstContainerAction {
 
         if (TradingPost.handleSellingItem(player, interfaceId, id, 1))
             return;
-
-        if(BonusesInterface.onContainerAction(player, interfaceId, slot)) {
-            return;
-        }
         
         if(player.getRunePouch().removeFromPouch(interfaceId, id, slot,1)) {
             return;

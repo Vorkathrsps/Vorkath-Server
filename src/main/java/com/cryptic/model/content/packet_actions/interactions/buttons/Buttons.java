@@ -352,9 +352,6 @@ public class Buttons {
                 if (Smelting.handleButton(player, button)) {
                     return;
                 }
-                if (BonusesInterface.bonusesButtons(player, button)) {
-                    return;
-                }
                 if (player.getTheatreInterface() != null) {
                     if (player.getTheatreInterface().close(player, button)) {
                         return;

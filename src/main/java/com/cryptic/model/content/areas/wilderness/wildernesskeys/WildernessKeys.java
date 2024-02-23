@@ -1,6 +1,5 @@
 package com.cryptic.model.content.areas.wilderness.wildernesskeys;
 
-import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
@@ -10,88 +9,65 @@ import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
-import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import static com.cryptic.utility.ItemIdentifiers.KEY_298;
 
 /**
  * @Author: Origin
  * @Date: 5/17/2023
  */
-public class WildernessKeys {
-    @Getter
-    @Setter
-    private NPC npc;
-    @Getter
-    @Setter
-    private Player player;
-    @Getter
-    private final List<Player> targetList = new ArrayList<>();
-
-    public WildernessKeys(Player player, NPC npc) {
-        this.player = player;
-        this.npc = npc;
-    }
-
-    public void rollForWildernessKey(NPC npc) {
-        boolean hasKey = player.getAttribOr(AttributeKey.WILDERNESS_KEY, false);
-        if (!hasKey && Utils.securedRandomChance(0.15F)) {
-            Item item = new Item(298, 1);
-            GroundItem groundItem = new GroundItem(item, npc.tile(), player);
-            GroundItemHandler.createGroundItem(groundItem);
-            player.message(Color.RED.wrap("<img=2010>You've received a wilderness key drop!"));
+public class WildernessKeys extends PacketInteraction {
+    /**
+     * Rolls the drops for the wilderness keys
+     * @param player
+     * @param npc
+     */
+    public static void rollWildernessKey(Player player, NPC npc) {
+        if (WildernessArea.inWilderness(npc.tile())) {
+            if (Utils.rollDie(85, 1)) {
+                Item item = new Item(ItemIdentifiers.KEY_298, 1);
+                GroundItem groundItem = new GroundItem(item, npc.tile(), player);
+                GroundItemHandler.createGroundItem(groundItem);
+                player.message(Color.PURPLE.wrap("<img=2010>You've received a Wilderness Key drop!"));
+            }
         }
     }
 
-    public boolean digToSpawnNpc(Item item) {
-        Tile digTile = new Tile(3028, 3915, 0);
-        boolean playerOnDigTile = Objects.equals(player.tile(), digTile);
-        boolean playerInRange = player.tile().inSqRadius(digTile, 8);
-        boolean clickDelay = player.getClickDelay().elapsed(500);
-        if (hasSpawnedNpc() && clickDelay) {
-            player.getClickDelay().reset();
-            player.message(Color.RED.wrap("You can only spawn one of the wilderness key NPCs."));
-            return false;
-        } else {
-            player.message("Please wait before doing this again.");
-        }
-        if (!playerOnDigTile && playerInRange && clickDelay) {
-            if (!hasSpawnedNpc()) {
+    /**
+     * Handles the spade interaction to spawn the @KeyNpc
+     * @param player
+     *            the player
+     * @param item
+     *            the item
+     * @param option
+     *            the type
+     * @return
+     */
+    @Override
+    public boolean handleItemInteraction(Player player, Item item, int option) {
+        if (item.getId() == ItemIdentifiers.SPADE) {
+            Tile digTile = new Tile(3028, 3915, 0);
+            KeyNpc npc = new KeyNpc(10938, new Tile(player.tile().getX(), player.tile().getY(), player.tile().getZ()), player);
+            boolean playerOnDigTile = Objects.equals(player.tile(), digTile);
+            boolean playerInRange = player.tile().inSqRadius(digTile, 8);
+            boolean clickDelay = player.getClickDelay().elapsed(500);
+            if (!playerOnDigTile && playerInRange && clickDelay) {
                 player.getClickDelay().reset();
                 player.getPacketSender().sendPositionalHint(digTile, 2);
                 player.message(Color.BLUE.wrap("Use your spade to dig on the marked tile."));
-            }
-        } else {
-            player.message("Please wait before doing this again.");
-        }
-        if (item.getId() == ItemIdentifiers.SPADE) {
+            } else player.message("Please wait before doing this again.");
             if (clickDelay) {
                 player.waitForTile(digTile, () -> {
                     if (player.tile().equals(3028, 3915, 0) && player.getInventory().contains(ItemIdentifiers.KEY_298)) {
-                        player.getInventory().remove(ItemIdentifiers.KEY_298);
                         player.getClickDelay().reset();
+                        player.getInventory().remove(ItemIdentifiers.KEY_298);
                         player.getPacketSender().sendEntityHintRemoval(true);
-                        this.setNpc(new NPC(NpcIdentifiers.JUDGE_OF_YAMA_10938, new Tile(player.tile().getX(), player.tile().getY(), player.tile().getZ())));
-                        this.setPlayer(this.player);
-                        targetList.add(player);
-                        npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
-                        npc.getCombatInfo().aggressive = true;
                         player.getCombat().setTarget(npc);
                         player.getPacketSender().sendEntityHint(npc);
                         World.getWorld().registerNpc(npc);
-                        npc.putAttrib(AttributeKey.NPC_LINKED_TO_PLAYER, player);
-                        npc.respawns(false);
-                        npc.getCombat().setTarget(player);
-                        npc.face(player);
                     }
                 });
             }
@@ -100,27 +76,15 @@ public class WildernessKeys {
         return false;
     }
 
-    public void onDeath() {
-        npc.clearAttrib(AttributeKey.NPC_LINKED_TO_PLAYER);
-        player.clearAttrib(AttributeKey.SPAWNED_LINKED_NPC);
-        World.getWorld().unregisterNpc(npc);
+    /**
+     * Handles the @KeyNpc death
+     * @param player
+     * @param npc
+     */
+    public void onDeath(Player player, NPC npc) {
         player.getPacketSender().sendEntityHintRemoval(true);
-        targetList.clear();
-    }
-
-    public static void rollWildernessKey(Player player, NPC npc) {
-        if (WildernessArea.inWilderness(npc.tile())) {
-            if (Utils.rollDie(85, 1)) {
-                Item item = new Item(KEY_298, 1);
-                GroundItem groundItem = new GroundItem(item, npc.tile(), player);
-                GroundItemHandler.createGroundItem(groundItem);
-                player.message(Color.PURPLE.wrap("<img=2010>You've received a Wilderness Key drop!"));
-            }
-        }
-    }
-
-    public boolean hasSpawnedNpc() {
-        return player.hasAttrib(AttributeKey.SPAWNED_LINKED_NPC);
+        npc.clearAttrib(AttributeKey.OWNING_PLAYER);
+        World.getWorld().unregisterNpc(npc);
     }
 }
 

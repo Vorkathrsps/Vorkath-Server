@@ -9,6 +9,7 @@
     "attackspeed": 4,
     "slayerxp": 29,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 17,
       "strength": 17,
@@ -25,7 +26,36 @@
       "magicdefence": 0
     },
     "animations": {
-      "attack": 422,
+      "attack": 386,
+      "block": 424,
+      "death": 836
+    }
+  },
+  {
+    // Bandit
+    "ids": [
+      303, 301, 302
+    ],
+    "maxhit": 4,
+    "attackspeed": 4,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 32,
+      "strength": 26,
+      "defence": 27,
+      "hitpoints": 37
+    },
+    "bonuses": {
+      "attack": 9,
+      "strength": 9,
+      "stabdefence": 9,
+      "slashdefence": 8,
+      "crushdefence": 10,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
       "block": 424,
       "death": 836
     }
@@ -39,6 +69,7 @@
     "attackspeed": 4,
     "slayerxp": 159,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 57,
       "strength": 57,
@@ -55,7 +86,7 @@
       "magicdefence": 0
     },
     "animations": {
-      "attack": 422,
+      "attack": 386,
       "block": 424,
       "death": 836
     }

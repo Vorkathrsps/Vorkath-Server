@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.cryptic.model.entity.masks.Projectile;
@@ -65,15 +66,16 @@ public class GraardorCombat extends CommonCombatMethod {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 8, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void meleeAttack() {
         if (!withinDistance(1)) return;
         entity.animate(7018);
         if (target == null) return;
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         if (GwdLogic.isBoss(entity.getAsNpc().id())) {
             Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
             last_attacked_map.put(target, System.currentTimeMillis());

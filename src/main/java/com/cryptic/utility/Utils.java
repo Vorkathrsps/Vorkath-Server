@@ -14,6 +14,7 @@ import com.cryptic.network.Session;
 import com.cryptic.utility.flood.Buffer;
 import com.google.gson.Gson;
 import lombok.val;
+import org.apache.commons.lang.math.Fraction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -58,6 +59,13 @@ public class Utils {
         lastTimeUpdate = l;
         return l + timeCorrection;
     }
+
+    public static String formatpercent(double decimal) {
+        double percentage = (decimal - 1.0) * 100;
+        percentage -= 100;
+        return String.format("%.2f%%", percentage);
+    }
+
 
     /**
      * Gets the coord offsets near.
@@ -1579,6 +1587,7 @@ public class Utils {
             // silent
         }
     }
+
     /**
      * Formats the name by checking if it starts with a vowel.
      *

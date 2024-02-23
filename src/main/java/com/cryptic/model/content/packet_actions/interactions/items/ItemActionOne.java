@@ -60,12 +60,6 @@ public class ItemActionOne {
             return;
         }
 
-        if (item.getId() == SPADE) {
-            if (player.getWildernessKeys().digToSpawnNpc(item)) {
-                return;
-            }
-        }
-
         if (Potions.onItemOption1(player, item)) {
             return;
         }

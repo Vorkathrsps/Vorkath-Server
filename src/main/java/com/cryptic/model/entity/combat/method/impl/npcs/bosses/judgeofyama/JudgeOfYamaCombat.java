@@ -21,11 +21,6 @@ public class JudgeOfYamaCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        var player = (Player) target;
-        var npc = (NPC) entity;
-        if (player.getWildernessKeys().getNpc() != npc) {
-            return false;
-        }
         entity.animate(entity.attackAnimation());
         target.getAsPlayer().getPacketSender().sendEntityHint(entity);
 

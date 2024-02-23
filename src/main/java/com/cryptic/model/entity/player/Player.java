@@ -217,7 +217,7 @@ public class Player extends Entity {
         return wildernessSlayerCasket;
     }
 
-    private final WildernessKeys wildernessKeys = new WildernessKeys(this, null);
+    @Getter private final WildernessKeys wildernessKeys = new WildernessKeys();
 
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
@@ -412,9 +412,14 @@ public class Player extends Entity {
             case ZENYTE_MEMBER -> 1.15;
         };
 
-        percent += player().getGameMode().dropRate;
+        switch (getIronManStatus()) {
+            case REGULAR -> percent += 1.05;
+            case HARDCORE -> percent += 1.065;
+        }
 
-        if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
+        percent += this.getGameMode().dropRate;
+
+        if (Skulling.skulled(this) && this.tile.insideRevCave()) {
             percent += 1.05;
         }
 
@@ -516,7 +521,7 @@ public class Player extends Entity {
         player.getPacketSender().sendString(80061, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
         player.getPacketSender().sendString(80062, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
         player.getPacketSender().sendString(80063, "Total Risk: " + "@whi@" + formatted);
-        player.getPacketSender().sendString(80064, "Drop Rate: " + "@whi@" + player.getDropRateBonus() + "%");
+        player.getPacketSender().sendString(80064, "Drop Rate: " + "@whi@" + Utils.formatpercent(player.getDropRateBonus()));
         player.getPacketSender().sendString(80065, "Tournament: " + "@whi@" + QuestTabUtils.getFormattedTournamentTime());
         player.getPacketSender().sendString(80066, "Wild Activity: " + "@whi@" + WildernessActivityManager.getSingleton().getActivityDescription());
         player.getPacketSender().sendString(80067, "Wilderness Boss: " + "@whi@" + minutesTillWildyBoss + " Minutes");
@@ -1446,12 +1451,6 @@ public class Player extends Entity {
             }
         }
 
-        if (this.getWildernessKeys() != null) {
-            if (this.getWildernessKeys().hasSpawnedNpc()) {
-                this.getWildernessKeys().onDeath();
-            }
-        }
-
         this.getCombat().setAutoCastSpell(null);
 
         // Update session state
@@ -1530,9 +1529,7 @@ public class Player extends Entity {
         });
 
         //Technically this is the last logout, but we'll use it as the last login so the last login doesn't get "overwritten" for the welcome screen when the player logs in.
-        setLastLogin(new Timestamp(new Date().
-
-            getTime()));
+        setLastLogin(new Timestamp(new Date().getTime()));
 
         if (GameServer.properties().enableSql) {
             GameServer.getDatabaseService().submit(new UpdateKillsDatabaseTransaction(getAttribOr(AttributeKey.PLAYER_KILLS, 0), username));
@@ -1882,7 +1879,6 @@ public class Player extends Entity {
     public void ecoResetAccount() {
 
         if (getIronManStatus() != IronMode.NONE) {
-            //De rank all irons
             setPlayerRights(PlayerRights.PLAYER);
         }
         //Deiron

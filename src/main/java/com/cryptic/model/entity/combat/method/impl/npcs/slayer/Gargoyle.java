@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.slayer;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -46,8 +47,8 @@ public class Gargoyle extends CommonCombatMethod {
     }
 
     private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     @Override

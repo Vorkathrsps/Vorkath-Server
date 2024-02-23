@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.cryptic.model.entity.masks.Projectile;
@@ -64,7 +65,7 @@ public class KrilCombat extends CommonCombatMethod {
             target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
             target.getSkills().alterSkill(Skills.PRAYER, -20);
         } else {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
+            new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         }
     }
 
@@ -74,9 +75,10 @@ public class KrilCombat extends CommonCombatMethod {
         var tileDist = entity.tile().distance(target.tile());
         int durationMagic = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 60, 30, 6, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
-    }
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
+     }
 
     @Override
     public int getAttackSpeed(Entity entity) {

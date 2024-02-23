@@ -9,6 +9,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.ItemWeight;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
@@ -26,9 +27,6 @@ import java.util.HashSet;
  * @author Gabriel Hannason
  */
 public class ButtonClickPacketListener implements PacketListener {
-
-    private static final Logger logger = LogManager.getLogger(ButtonClickPacketListener.class);
-
     public static final int FIRST_DIALOGUE_OPTION_OF_FIVE = 2494;
     public static final int SECOND_DIALOGUE_OPTION_OF_FIVE = 2495;
     public static final int THIRD_DIALOGUE_OPTION_OF_FIVE = 2496;
@@ -80,6 +78,12 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (button == 53729) {
             BountyHunter.skip(player);
+            return;
+        }
+
+        if (button == 27653) {
+            ItemWeight.calculateWeight(player);
+            player.getBonusInterface().showEquipmentInfo();
             return;
         }
 

@@ -8,8 +8,8 @@ package com.cryptic.model.entity.player;
 public enum GameMode {
 
     TRAINED_ACCOUNT("Normal account",1, 25, 40, 1.0),
-    REALISM("realism", 2, 10, 5, 1.08),
-    HARDCORE_REALISM("hardcore realism", 3, 10, 5, 1.10);
+    REALISM("realism", 2, 10, 5, 1.10),
+    HARDCORE_REALISM("hardcore realism", 3, 10, 5, 1.115);
 
     private final String name;
     private final int uid;

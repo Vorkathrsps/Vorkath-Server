@@ -78,8 +78,7 @@ public class TztokJadCombat extends CommonCombatMethod {
             entity.executeProjectile(projectileOrder[i]);
         }
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(157, GraphicHeight.MIDDLE, projectileOrder[2].getSpeed());
     }
 
@@ -89,8 +88,7 @@ public class TztokJadCombat extends CommonCombatMethod {
         }
         entity.animate(2652);
         World.getWorld().tileGraphic(451, target.tile(), 0, 60);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 4, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(157, GraphicHeight.LOW, 120);
     }
 

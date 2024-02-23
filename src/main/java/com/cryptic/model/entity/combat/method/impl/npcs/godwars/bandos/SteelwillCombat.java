@@ -17,9 +17,9 @@ public class SteelwillCombat extends CommonCombatMethod {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1217, 51, duration, 43, 31, 0, entity.getSize(), 10);
-        final int delay = entity.executeProjectile(p);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(hit.getDamage() > 0 ? 166 : 85, GraphicHeight.MIDDLE, p.getSpeed());
         return true;
     }

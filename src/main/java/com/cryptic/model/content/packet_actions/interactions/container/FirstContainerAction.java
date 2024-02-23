@@ -1,6 +1,8 @@
 package com.cryptic.model.content.packet_actions.interactions.container;
 
 import com.cryptic.model.content.duel.Dueling;
+import com.cryptic.model.entity.player.EquipSlot;
+import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.content.skill.impl.crafting.impl.Jewellery;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
@@ -55,6 +57,44 @@ public class FirstContainerAction {
         /* Place holder */
         if (interfaceId == PLACEHOLDER) {
             player.getBank().placeHolder(id, slot);
+        }
+
+        if (interfaceId == InterfaceConstants.EQUIPMENT_DISPLAY_ID) { //do sounds here for equipping
+            if (slot == 0) {
+                player.getEquipment().unequip(EquipSlot.HEAD);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 1) {
+                player.getEquipment().unequip(EquipSlot.CAPE);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 2) {
+                player.getEquipment().unequip(EquipSlot.AMULET);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 3) {
+                player.getEquipment().unequip(EquipSlot.WEAPON);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 4) {
+                player.getEquipment().unequip(EquipSlot.BODY);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 5) {
+                player.getEquipment().unequip(EquipSlot.SHIELD);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 7) {
+                player.getEquipment().unequip(EquipSlot.LEGS);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 9) {
+                player.getEquipment().unequip(EquipSlot.HANDS);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 10) {
+                player.getEquipment().unequip(EquipSlot.FEET);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 12) {
+                player.getEquipment().unequip(EquipSlot.RING);
+                player.getBonusInterface().sendBonuses();
+            } else if (slot == 13) {
+                player.getEquipment().unequip(EquipSlot.AMMO);
+                player.getBonusInterface().sendBonuses();
+            }
+            return;
         }
 
         if (interfaceId == LOOTING_BAG_BANK_CONTAINER_ID) {

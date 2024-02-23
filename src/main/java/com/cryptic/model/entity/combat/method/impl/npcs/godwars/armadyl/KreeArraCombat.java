@@ -4,6 +4,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.map.position.Area;
@@ -44,24 +45,26 @@ public class KreeArraCombat extends CommonCombatMethod {
 
     public void melee() {
         entity.animate(6981);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     public void ranged(int durationRanged) {
         if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
         entity.animate(6980);
         Projectile p = new Projectile(entity, target, 1199, 43, durationRanged, 0, 0, 0, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     public void magic(int durationMagic) {
         if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
         entity.animate(6980);
         Projectile p = new Projectile(entity, target, 1200, 51, durationMagic, 0, 0, 0, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
-    }
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
+     }
 
     @Override
     public int getAttackSpeed(Entity entity) {

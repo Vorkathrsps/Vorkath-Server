@@ -81,12 +81,6 @@ public class NPC extends Entity {
         this.lockMovementCompletely = lockMovementCompletely;
     }
 
-    public WildernessKeys wildernessKeys = new WildernessKeys(null, this);
-
-    public WildernessKeys getWildernessKeys() {
-        return wildernessKeys;
-    }
-
     private int capDamage = -1;
 
     public int capDamage() {

@@ -13,7 +13,6 @@ import com.cryptic.utility.Utils;
 
 public class AncientWyvernCombat extends CommonCombatMethod {
 
-    Projectile p = null;
     @Override
     public boolean prepareAttack(Entity wyvern, Entity target) {
         int roll = Utils.random(2);

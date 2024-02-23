@@ -570,12 +570,6 @@ public class NPCDeath {
 
             Zulrah.death(killer, npc);
 
-            if (killer != null) {
-                if (killer.getWildernessKeys().hasSpawnedNpc()) {
-                    killer.getWildernessKeys().onDeath();
-                }
-            }
-
             if (npc.id() == CORPOREAL_BEAST) {
                 NPC corp = npc.getAttribOr(AttributeKey.BOSS_OWNER, null);
                 if (corp != null) {

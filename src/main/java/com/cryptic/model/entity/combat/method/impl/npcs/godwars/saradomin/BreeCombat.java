@@ -4,6 +4,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 
@@ -15,8 +16,9 @@ public class BreeCombat extends CommonCombatMethod {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (45 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1190, 41, duration, 55, 35, 0, entity.getSize(), 5);
-        final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+        final int delay = (int) (p.getSpeed() / 30D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;
     }
 

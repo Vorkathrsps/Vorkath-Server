@@ -72,7 +72,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
+    public static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
     /**
      * username: data
      */
@@ -255,7 +255,6 @@ public class TradingPost {
     }
 
     public static void open(Player player) {
-        player.getPacketSender().sendParallelInterfaceVisibility(BUY_CONFIRM_UI_ID, false);
         if (!TRADING_POST_LISTING_ENABLED) {
             player.message(Color.RED.wrap("The trading post is currently disabled."));
             return;
@@ -491,7 +490,7 @@ public class TradingPost {
         }
         if (buttonId == 81378) { // X button - buy specific item confirm overlay close
             p.getInterfaceManager().close(true, true);
-            open(p);
+            openBuyUI(p);
             return true;
         }
 
@@ -568,7 +567,7 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81840) { // sell tab- guide price
-            p.tpListingPrice = new Item(p.tradingPostListedItemId).getBloodMoneyPrice().value();
+            p.tpListingPrice = new Item(p.tradingPostListedItemId).unnote().getBloodMoneyPrice().value();
             p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price per item green text
             return true;
         }
@@ -872,7 +871,7 @@ public class TradingPost {
             return false;
         }
 
-        if (!offerItem.rawtradable()) {
+        if (!offerItem.rawtradable() || !offerItem.unnote().rawtradable()) {
             player.message("<col=ff0000>You can't offer this item.");
             return false;
         }
@@ -905,7 +904,7 @@ public class TradingPost {
         }
 
         // Dont allow illegal items to inserted into a trading post.
-        if (Arrays.stream(ILLEGAL_ITEMS).anyMatch(id -> id == offerItem.getId())) {
+        if (Arrays.stream(ILLEGAL_ITEMS).anyMatch(id -> id == offerItem.getId() || id == offerItem.unnote().getId())) {
             player.message("You can't sell illegal items.");
             return false;
         }
@@ -931,14 +930,14 @@ public class TradingPost {
 
         player.tradingPostListedItemId = itemId;
         player.tradingPostListedAmount = (int) amount;//no longer needs to be a long due to it being item Amount
-        player.tpListingPrice = offerItem.getBloodMoneyPrice().value();
+        player.tpListingPrice = offerItem.unnote().getBloodMoneyPrice().value();
 
-        setSellUIText(player, offerItem,
-            offerItem.name(),
+        setSellUIText(player, offerItem.unnote(),
+            offerItem.unnote().name(),
             "",
             "",
             "",
-            offerItem.getBloodMoneyPrice().value() + "",
+            offerItem.unnote().getBloodMoneyPrice().value() + "",
             amount + "");
         return true;
     }

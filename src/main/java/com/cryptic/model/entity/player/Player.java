@@ -577,6 +577,7 @@ public class Player extends Entity {
     public TradingPostListing tradingPostSelectedListing;
 
     public String lastTradingPostUserSearch, lastTradingPostItemSearch;
+    public int tpClickedFeaturedSpotIdx = -1;
 
     public boolean jailed() {
         return (int) getAttribOr(AttributeKey.JAILED, 0) == 1;

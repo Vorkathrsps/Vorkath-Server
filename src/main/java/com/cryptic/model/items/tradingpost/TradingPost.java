@@ -2,14 +2,11 @@ package com.cryptic.model.items.tradingpost;
 
 import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
-import com.cryptic.cache.definitions.identifiers.NumberUtils;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.IronMode;
@@ -23,11 +20,11 @@ import com.google.common.primitives.Ints;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -39,14 +36,15 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.EMERALD_BENEDICT;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Ynneh
+ * 95% rewrite for new UI
+ * @author Jak Shadowrs tardisfan121@gmail.com
  */
+@Slf4j
 public class TradingPost {
 
     private static final Logger logger = LogManager.getLogger(TradingPost.class);
@@ -72,7 +70,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600;
+    public static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
     /**
      * username: data
      */
@@ -84,6 +82,8 @@ public class TradingPost {
      */
     public static List<TradingPostListing> recentTransactions;
 
+    public static List<TradingPostListing> featuredSpots;
+
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static Map<Integer, Integer> protection_prices;
@@ -92,6 +92,7 @@ public class TradingPost {
         try {
             sales = new Object2ObjectOpenHashMap<>();
             recentTransactions = Lists.newArrayList();
+            featuredSpots = Lists.newArrayList();
             protection_prices = Maps.newHashMap();
             File folder = new File("./data/saves/tradingpost/listings/");
             if (!folder.exists()) folder.mkdirs();
@@ -248,6 +249,12 @@ public class TradingPost {
                     recentTransactions.addAll(sales);
                     //System.out.println("recent sales info = " + recentTransactions.size());
                 }
+
+                List<TradingPostListing> featured = new Gson().fromJson(new FileReader("./data/saves/tradingpost/featured.json"), type);
+                if (featured != null) {
+                    featuredSpots.addAll(featured);
+                    //System.out.println("featured = " + featured.size());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -255,7 +262,6 @@ public class TradingPost {
     }
 
     public static void open(Player player) {
-        player.getPacketSender().sendParallelInterfaceVisibility(81375, false);
         if (!TRADING_POST_LISTING_ENABLED) {
             player.message(Color.RED.wrap("The trading post is currently disabled."));
             return;
@@ -280,6 +286,7 @@ public class TradingPost {
             sales.put(player.getUsername().toLowerCase(), listings);
             save(listings);
         }
+        player.tpClickedFeaturedSpotIdx = -1;
         sendOverviewTab(player);
     }
 
@@ -318,6 +325,13 @@ public class TradingPost {
                 player);
         }
         player.getPacketSender().sendMultipleStrings(strings);
+        for (int i = 0; i < 5; i++) {
+            var e = i >= featuredSpots.size() ? null : featuredSpots.get(i);
+            featureSpotText(player,
+                    e == null ? "Click to purchase" : "Featured spot:",
+                    e == null ? "a featured spot" : e.getSaleItem().unnote().name(),
+                    i);
+        }
     }
 
     public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
@@ -465,32 +479,33 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
-            p.message("This feature is coming soon.");
+            new FeatureSpot(0).begin(p);
             // feature spot 1
             return true;
         }
         if (buttonId == 81086 || buttonId == 81087) {
-            p.message("This feature is coming soon.");
+            new FeatureSpot(1).begin(p);
             // feature spot 2
             return true;
         }
         if (buttonId == 810807 || buttonId == 81081) {
-            p.message("This feature is coming soon.");
+            new FeatureSpot(2).begin(p);
             // feature spot 3
             return true;
         }
         if (buttonId == 81089 || buttonId == 81090) {
-            p.message("This feature is coming soon.");
+            new FeatureSpot(3).begin(p);
             // feature spot 4
             return true;
         }
         if (buttonId == 81083 || buttonId == 81084) {
-            p.message("This feature is coming soon.");
+            new FeatureSpot(4).begin(p);
             // feature spot 5
             return true;
         }
-        if (buttonId == 81378) { // X button - buy specific item confirm overlay
-            open(p);
+        if (buttonId == 81378) { // X button - buy specific item confirm overlay close
+            p.getInterfaceManager().close(true, true);
+            openBuyUI(p);
             return true;
         }
 
@@ -567,7 +582,7 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81840) { // sell tab- guide price
-            p.tpListingPrice = new Item(p.tradingPostListedItemId).getBloodMoneyPrice().value();
+            p.tpListingPrice = new Item(p.tradingPostListedItemId).unnote().getBloodMoneyPrice().value();
             p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price per item green text
             return true;
         }
@@ -611,6 +626,77 @@ public class TradingPost {
             return true;
         }
         return false;
+    }
+
+
+
+    public static class FeatureSpot extends Dialogue {
+
+        private final int idx;
+
+        public FeatureSpot(int idx) {
+            this.idx = idx;
+        }
+
+        @Override
+        protected void start(Object... parameters) {
+            player.tpClickedFeaturedSpotIdx = idx;
+            if (idx < featuredSpots.size()) {
+
+                var ft = featuredSpots.get(idx);
+                List<TradingPostListing> list2 = getSalesByUsername(Utils.capitalizeFirst(ft.getSellerName()).toLowerCase());
+                if (list2 == null) {
+                    player.message("<col=ff0000>What are you searching for?");
+                }
+
+                List<TradingPostListing> listDisplay = new ArrayList<>(list2);
+                listDisplay.removeIf(o -> o.getRemaining() == 0);
+
+                /* To sort from highest to lowest. **/
+                listDisplay.sort(Comparator.comparingLong(TradingPostListing::getPrice));
+
+                var item = listDisplay.stream().filter(e -> e.getPrice() == ft.getPrice() && ft.getSaleItem().matchesId(e.getSaleItem().getId())).findFirst().orElse(null);
+
+                if (item == null) {
+                    player.message("Cannot find item");
+                    return;
+                }
+                showBuyConfirmUI(player, item);
+            } else {
+                openSellUI(player);
+            }
+            setPhase(0);
+        }
+
+        @Override
+        protected void select(int option) {
+            if (isPhase(0)) {
+                if (option == 1) {
+                    stop();
+                    player.<Integer>setAmountScript("Withdraw how many coins?", i -> {
+                        if (!player.inventory().hasCapacity(new Item(995))) {
+                            player.message("Your inventory is full.");
+                            stop();
+                            return true;
+                        }
+                        long current = player.<Long>getAttribOr(TRADING_POST_COFFER, 0L);
+                        if (current == 0L)
+                            return true;
+                        long toAdd = Long.min(current, 1L * Integer.MAX_VALUE - player.inventory().count(995));
+                        if (player.inventory().add(995, (int) toAdd)) {
+                            player.putAttrib(TRADING_POST_COFFER, Math.max(0, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) - toAdd));
+                            player.message(Utils.formatNumber(toAdd)+" was removed from your coffer, it now holds "+Utils.formatNumber(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L))+" gp.");
+                            sendOverviewTab(player);
+                        }
+                        stop();
+                        return true;
+                    });
+                } else if (option == 2) {
+                    stop();
+                    openCofferAddChat(player);
+                }
+            }
+        }
     }
 
     public static class CofferChat extends Dialogue {
@@ -871,7 +957,7 @@ public class TradingPost {
             return false;
         }
 
-        if (!offerItem.rawtradable()) {
+        if (!offerItem.rawtradable() || !offerItem.unnote().rawtradable()) {
             player.message("<col=ff0000>You can't offer this item.");
             return false;
         }
@@ -904,7 +990,7 @@ public class TradingPost {
         }
 
         // Dont allow illegal items to inserted into a trading post.
-        if (Arrays.stream(ILLEGAL_ITEMS).anyMatch(id -> id == offerItem.getId())) {
+        if (Arrays.stream(ILLEGAL_ITEMS).anyMatch(id -> id == offerItem.getId() || id == offerItem.unnote().getId())) {
             player.message("You can't sell illegal items.");
             return false;
         }
@@ -930,14 +1016,14 @@ public class TradingPost {
 
         player.tradingPostListedItemId = itemId;
         player.tradingPostListedAmount = (int) amount;//no longer needs to be a long due to it being item Amount
-        player.tpListingPrice = offerItem.getBloodMoneyPrice().value();
+        player.tpListingPrice = offerItem.unnote().getBloodMoneyPrice().value();
 
-        setSellUIText(player, offerItem,
-            offerItem.name(),
+        setSellUIText(player, offerItem.unnote(),
+            offerItem.unnote().name(),
             "",
             "",
             "",
-            offerItem.getBloodMoneyPrice().value() + "",
+            offerItem.unnote().getBloodMoneyPrice().value() + "",
             amount + "");
         return true;
     }
@@ -1000,10 +1086,55 @@ public class TradingPost {
                     save(listing);
                     player.message("You've successfully listed your offer to the " + GameConstants.SERVER_NAME + " marketplace!");
                     refreshOverview(player);
+                    player.tradingPostListedItemId = -1;
+                    player.tradingPostListedAmount = -1;
                 }
             }
         }
-        openSellUI(player);
+        if (player.tpClickedFeaturedSpotIdx != -1) {
+            new ConfirmFeaturedSpotPurchase(tpl).begin(player);
+        }
+    }
+
+
+    public static class ConfirmFeaturedSpotPurchase extends Dialogue {
+
+        private final TradingPostListing tpl;
+
+        public ConfirmFeaturedSpotPurchase(TradingPostListing tpl) {
+
+            this.tpl = tpl;
+        }
+
+        @Override
+        protected void start(Object... parameters) {
+            send(DialogueType.OPTION, "Confirm Featured Spot Purchase", "Confirm for 10k BM", "Nevermind (item still listed)");
+            setPhase(0);
+        }
+
+        @Override
+        protected void select(int option) {
+            if (isPhase(0)) {
+                if (option == 1) {
+                    stop();
+                    if (player.tpClickedFeaturedSpotIdx != -1 && featuredSpots.size() < 5) {
+                        if (player.inventory().remove(13307, 10000)) {
+                            featuredSpots.add(tpl);
+                            player.tpClickedFeaturedSpotIdx = -1;
+                            player.message("Feature spot confirmed.");
+                            TradingPost.open(player);
+                        } else {
+                            player.message("Not enough BM.");
+                        }
+                    } else {
+                        player.message("Featured spot taken.");
+                    }
+                } else if (option == 2) {
+                    stop();
+                    TradingPost.open(player);
+                }
+            }
+        }
     }
 
     public static void searchByItemName(Player player, String itemName, boolean refresh) {
@@ -1149,6 +1280,11 @@ public class TradingPost {
 
         TradingPostListing selected = offer.get(index);
 
+        return showBuyConfirmUI(player, selected);
+    }
+
+    public static boolean showBuyConfirmUI(Player player, TradingPostListing selected) {
+
         if (selected.getRemaining() == 0) {
             player.message("<col=ff0000>This offer has already been purchased by another player.");
             return true;
@@ -1159,15 +1295,15 @@ public class TradingPost {
         player.tradingPostListedAmount = selected.getRemaining();
         player.tradingPostSelectedListing = selected;
 
-        player.getInterfaceManager().open(81375);
+        player.getInterfaceManager().open(BUY_CONFIRM_UI_ID);
         player.getPacketSender().resetParallelInterfaces();
         player.getPacketSender().sendParallelInterfaceVisibility(BUY_ID, true);
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
         ObjectList<Player.TextData> list = ObjectList.of(
-            new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
-            new Player.TextData("Price: " + selected.getPrice(), 81385),
-            new Player.TextData("Total Cost: " + ((long) selected.getPrice() * selected.getRemaining()), 81386),
-            new Player.TextData("" + selected.getRemaining(), 81382)
+                new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
+                new Player.TextData("Price: " + selected.getPrice(), 81385),
+                new Player.TextData("Total Cost: " + ((long) selected.getPrice() * selected.getRemaining()), 81386),
+                new Player.TextData("" + selected.getRemaining(), 81382)
         );
         player.getPacketSender().sendMultipleStrings(list);
 
@@ -1296,6 +1432,15 @@ public class TradingPost {
         }
 
         sellerListing.updateListing(selected, amount);
+
+        var ft = featuredSpots.stream().filter(e -> e.getSaleItem().matchesId(selected.getSaleItem().getId()) && selected.getSellerName().equalsIgnoreCase(e.getSellerName()))
+                .findFirst().orElse(null);
+        if (ft != null) {
+            if (ft.getRemaining() == 0) {
+                featuredSpots.remove(ft);
+                log.info("feature sale completed, removing {}", ft);
+            }
+        }
 
         Optional<Player> sel = World.getWorld().getPlayerByName(seller);
 
@@ -1427,7 +1572,7 @@ public class TradingPost {
 
         if (optionId == 2) {
             if (offer.getRemaining() == 0) {
-                player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
+                player.message("Your sale of " + offerItem.unnote().name() + " was complete.");
                 handleClaimOffer(player, listIndex);
                 return;
             }

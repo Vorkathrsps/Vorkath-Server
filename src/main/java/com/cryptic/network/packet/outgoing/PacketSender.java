@@ -43,6 +43,9 @@ public final class PacketSender {
     private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();
 
     public void resetParallelInterfaces() {
+        new ArrayList<>(walkableInterfaceList).forEach(i -> {
+            sendParallelInterfaceVisibility(i, false); // cant remove when iterating over (CCMex)
+        });
         walkableInterfaceList.clear();
     }
 
@@ -55,15 +58,14 @@ public final class PacketSender {
             if (visible) {
                 if (walkableInterfaceList.contains(interfaceId)) {
                     player.debug("skip sending walkable, already open "+interfaceId);
-                    return;
                 } else {
                     walkableInterfaceList.add(interfaceId);
                 }
             } else {
                 if (!walkableInterfaceList.contains(interfaceId)) {
                     player.debug("skip sending walkable, not open "+interfaceId);
-                    return;
                 }
+                walkableInterfaceList.remove((Object)interfaceId); // MUSt BE OBJECT casted otherwise it'll try removing as index
             }
             out.putInt(interfaceId);
             out.put(visible ? 1 : 0);

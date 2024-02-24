@@ -72,7 +72,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600;
+    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
     /**
      * username: data
      */
@@ -255,7 +255,7 @@ public class TradingPost {
     }
 
     public static void open(Player player) {
-        player.getPacketSender().sendParallelInterfaceVisibility(81375, false);
+        player.getPacketSender().sendParallelInterfaceVisibility(BUY_CONFIRM_UI_ID, false);
         if (!TRADING_POST_LISTING_ENABLED) {
             player.message(Color.RED.wrap("The trading post is currently disabled."));
             return;
@@ -489,7 +489,8 @@ public class TradingPost {
             // feature spot 5
             return true;
         }
-        if (buttonId == 81378) { // X button - buy specific item confirm overlay
+        if (buttonId == 81378) { // X button - buy specific item confirm overlay close
+            p.getInterfaceManager().close(true, true);
             open(p);
             return true;
         }
@@ -1159,7 +1160,7 @@ public class TradingPost {
         player.tradingPostListedAmount = selected.getRemaining();
         player.tradingPostSelectedListing = selected;
 
-        player.getInterfaceManager().open(81375);
+        player.getInterfaceManager().open(BUY_CONFIRM_UI_ID);
         player.getPacketSender().resetParallelInterfaces();
         player.getPacketSender().sendParallelInterfaceVisibility(BUY_ID, true);
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);

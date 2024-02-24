@@ -304,6 +304,9 @@ public class CommandManager {
         commands.put("oa", new ObjectAnimationCommand());
         commands.put("anim", new AnimationCommand());
         commands.put("int", new InterfaceCommand());
+        commands.put("face", new InterfaceCommand());
+        commands.put("interface", new InterfaceCommand());
+        commands.put("inter", new InterfaceCommand());
         commands.put("walkint", new WalkableInterfaceCommand());
         commands.put("shop", new ShopCommand());
         commands.put("cint", new ChatboxInterfaceCommand());
@@ -1121,6 +1124,9 @@ public class CommandManager {
             for (int i = 0; i < amt; i++) {
                 World.getWorld().getSlayerTasks().handleSlayerDeath(player, new NPC(assignment.getNpcs()[0], player.tile()));
             }
+        });
+        dev("pint", (player, c, s) -> {
+            player.getPacketSender().sendParallelInterfaceVisibility(Integer.parseInt(s[1]), Boolean.parseBoolean(s[2]));
         });
     }
 

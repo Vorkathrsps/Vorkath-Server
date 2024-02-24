@@ -3,6 +3,7 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 
@@ -10,6 +11,10 @@ public class CloseInterfacePacketListener implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) {
+        if (player.getInterfaceManager().isInterfaceOpen(TradingPost.BUY_CONFIRM_UI_ID)) {
+            // proper cleanup of paralell
+            player.getInterfaceManager().close();
+        }
         if (player.dead()) {
             return;
         }

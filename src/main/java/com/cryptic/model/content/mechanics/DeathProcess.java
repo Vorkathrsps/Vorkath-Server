@@ -130,35 +130,40 @@ public class DeathProcess implements TheatreDeath {
 
         Chain.noCtx().delay(4, () -> {
 
-            if (player.getTheatreInstance() != null) {
-                this.handleRaidDeath(player);
-                return;
-            }
-
-            player.stopActions(true);
-
-            Entity lastAttacker = player.getAttrib(AttributeKey.LAST_DAMAGER);
-
-            //Handle player dying to a bot.
-            if (lastAttacker != null && lastAttacker.isNpc() && lastAttacker.getAsNpc().getBotHandler() != null) {
-                NPC bot = (NPC) lastAttacker;
-                bot.stopActions(true);
-                int botDeaths = player.getAttribOr(AttributeKey.BOT_DEATHS, 0);
-                botDeaths++;
-                player.putAttrib(AttributeKey.BOT_DEATHS, botDeaths);
-                player.message("You now have " + botDeaths + " bot " + Utils.pluralOrNot("death", botDeaths) + ".");
-                DailyTaskManager.increase(DailyTasks.BOTS, player);
-            }
-
-            NPC barrowsBro = player.getAttribOr(barrowsBroSpawned, null);
-            if (barrowsBro != null) {
-                World.getWorld().unregisterNpc(barrowsBro);
-            }
-
-            if (!player.getControllers().isEmpty()) {
-                for (Controller controller : player.getControllers()) {
-                    controller.defeated(killer, player);
+            try {
+                if (player.getTheatreInstance() != null) {
+                    this.handleRaidDeath(player);
+                    return;
                 }
+
+                player.stopActions(true);
+
+                Entity lastAttacker = player.getAttrib(AttributeKey.LAST_DAMAGER);
+
+                //Handle player dying to a bot.
+                if (lastAttacker != null && lastAttacker.isNpc() && lastAttacker.getAsNpc().getBotHandler() != null) {
+                    NPC bot = (NPC) lastAttacker;
+                    bot.stopActions(true);
+                    int botDeaths = player.getAttribOr(AttributeKey.BOT_DEATHS, 0);
+                    botDeaths++;
+                    player.putAttrib(AttributeKey.BOT_DEATHS, botDeaths);
+                    player.message("You now have " + botDeaths + " bot " + Utils.pluralOrNot("death", botDeaths) + ".");
+                    DailyTaskManager.increase(DailyTasks.BOTS, player);
+                }
+
+                NPC barrowsBro = player.getAttribOr(barrowsBroSpawned, null);
+                if (barrowsBro != null) {
+                    World.getWorld().unregisterNpc(barrowsBro);
+                }
+
+                if (!player.getControllers().isEmpty()) {
+                    for (Controller controller : player.getControllers()) {
+                        controller.defeated(killer, player);
+                    }
+                }
+            } catch (Exception e) {
+                logger.error(e);
+                // dont blow up death if exceptions throw
             }
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);

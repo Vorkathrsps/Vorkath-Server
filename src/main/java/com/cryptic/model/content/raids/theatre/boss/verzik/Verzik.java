@@ -607,9 +607,7 @@ public class Verzik extends NPC {
                 Direction direction = Direction.diagonal(this.getCentrePosition().getDeltaX(target.getCentrePosition()), this.getCentrePosition().getDeltaY(target.getCentrePosition()));
                 if (direction == null) return;
                 this.setPositionToFace(target.tile().transform(direction.x, direction.y));
-                if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
-                    targeting.stop();
-                }
+                if (count.get() <= 0 || this.dead() || !this.isRegistered()) targeting.stop();
             });
             Chain.noCtx().repeatingTask(2, projectiles -> {
                 if (count.get() <= 0 || this.dead() || !this.isRegistered()) {

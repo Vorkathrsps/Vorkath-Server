@@ -424,7 +424,7 @@ public class Player extends Entity {
         }
 
         if (getEquipment().contains(RING_OF_WEALTH_I)) {
-            percent += 1.05;
+            percent += 1.075;
         }
 
         return percent;

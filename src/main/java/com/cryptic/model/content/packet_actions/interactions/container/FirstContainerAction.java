@@ -28,71 +28,85 @@ import static com.cryptic.model.inter.InterfaceConstants.*;
 public class FirstContainerAction {
 
     public static void firstAction(Player player, int interfaceId, int slot, int id) {
-        if(PacketInteractionManager.checkItemContainerActionInteraction(player, new Item(id), slot, interfaceId, 1)) {
+        if (PacketInteractionManager.checkItemContainerActionInteraction(player, new Item(id), slot, interfaceId, 1)) {
             return;
         }
 
         if (TradingPost.handleSellingItem(player, interfaceId, id, 1))
             return;
-        
-        if(player.getRunePouch().removeFromPouch(interfaceId, id, slot,1)) {
+
+        if (player.getRunePouch().removeFromPouch(interfaceId, id, slot, 1)) {
             return;
         }
 
-        if(player.getRunePouch().moveToRunePouch(interfaceId, id, slot,1)) {
+        if (player.getRunePouch().moveToRunePouch(interfaceId, id, slot, 1)) {
             return;
         }
 
         if (interfaceId == EQUIPMENT_CREATION_COLUMN_1 || interfaceId == EQUIPMENT_CREATION_COLUMN_2 || interfaceId == EQUIPMENT_CREATION_COLUMN_3 || interfaceId == EQUIPMENT_CREATION_COLUMN_4 || interfaceId == EQUIPMENT_CREATION_COLUMN_5) {
             if (player.getInterfaceManager().isInterfaceOpen(EquipmentMaking.EQUIPMENT_CREATION_INTERFACE_ID)) {
                 EquipmentMaking.initialize(player, id, interfaceId, slot, 1);
+                return;
             }
         }
 
         /* Jewellery */
         if (interfaceId == JEWELLERY_INTERFACE_CONTAINER_ONE || interfaceId == JEWELLERY_INTERFACE_CONTAINER_TWO || interfaceId == JEWELLERY_INTERFACE_CONTAINER_THREE) {
             Jewellery.click(player, id, 1);
+            return;
         }
 
         /* Place holder */
         if (interfaceId == PLACEHOLDER) {
             player.getBank().placeHolder(id, slot);
+            return;
         }
 
         if (interfaceId == InterfaceConstants.EQUIPMENT_DISPLAY_ID) { //do sounds here for equipping
             if (slot == 0) {
                 player.getEquipment().unequip(EquipSlot.HEAD);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 1) {
                 player.getEquipment().unequip(EquipSlot.CAPE);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 2) {
                 player.getEquipment().unequip(EquipSlot.AMULET);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 3) {
                 player.getEquipment().unequip(EquipSlot.WEAPON);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 4) {
                 player.getEquipment().unequip(EquipSlot.BODY);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 5) {
                 player.getEquipment().unequip(EquipSlot.SHIELD);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 7) {
                 player.getEquipment().unequip(EquipSlot.LEGS);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 9) {
                 player.getEquipment().unequip(EquipSlot.HANDS);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 10) {
                 player.getEquipment().unequip(EquipSlot.FEET);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 12) {
                 player.getEquipment().unequip(EquipSlot.RING);
                 player.getBonusInterface().sendBonuses();
+                return;
             } else if (slot == 13) {
                 player.getEquipment().unequip(EquipSlot.AMMO);
                 player.getBonusInterface().sendBonuses();
+                return;
             }
             return;
         }
@@ -107,6 +121,7 @@ public class FirstContainerAction {
 
             if (banking) {
                 player.getLootingBag().withdrawBank(item.createWithAmount(1), slot);
+                return;
             }
         }
 
@@ -117,24 +132,25 @@ public class FirstContainerAction {
             }
 
             player.getLootingBag().deposit(item, 1, null);
+            return;
         }
 
         if (interfaceId == WITHDRAW_BANK) {
             if (player.getBank().quantityFive) {
-                // System.out.println("withdraw 5");
                 player.getBank().withdraw(id, slot, 5);
+                return;
             } else if (player.getBank().quantityTen) {
-                // System.out.println("withdraw 10");
                 player.getBank().withdraw(id, slot, 10);
+                return;
             } else if (player.getBank().quantityAll) {
-                // System.out.println("withdraw all");
                 player.getBank().withdraw(id, slot, Integer.MAX_VALUE);
+                return;
             } else if (player.getBank().quantityX) {
-                // System.out.println("withdraw x: "+player.getBank().currentQuantityX);
                 player.getBank().withdraw(id, slot, player.getBank().currentQuantityX);
+                return;
             } else {
-                // System.out.println("withdraw 1");
                 player.getBank().withdraw(id, slot, 1);
+                return;
             }
         }
 
@@ -153,20 +169,20 @@ public class FirstContainerAction {
             }
 
             if (player.getBank().quantityFive) {
-                // System.out.println("deposit 5");
                 player.getBank().deposit(slot, 5);
+                return;
             } else if (player.getBank().quantityTen) {
-                // System.out.println("deposit 10");
                 player.getBank().deposit(slot, 10);
+                return;
             } else if (player.getBank().quantityAll) {
-                // System.out.println("deposit all");
                 player.getBank().deposit(slot, Integer.MAX_VALUE);
+                return;
             } else if (player.getBank().quantityX) {
-                // System.out.println("deposit x: "+player.getBank().currentQuantityX);
                 player.getBank().deposit(slot, player.getBank().currentQuantityX);
+                return;
             } else {
-                // System.out.println("deposit 1");
                 player.getBank().deposit(slot, 1);
+                return;
             }
         }
 
@@ -180,38 +196,45 @@ public class FirstContainerAction {
 
         if (interfaceId == ShopUtility.ITEM_CHILD_ID || interfaceId == ShopUtility.SLAYER_BUY_ITEM_CHILD_ID) {
             Shop.exchange(player, id, slot, 1, true);
+            return;
         }
 
         if (interfaceId == SHOP_INVENTORY) {
-            int shop = player.getAttribOr(AttributeKey.SHOP,-1);
+            int shop = player.getAttribOr(AttributeKey.SHOP, -1);
             Shop store = World.getWorld().shops.get(shop);
             if (store != null) {
                 Shop.exchange(player, id, slot, 1, false);
+                return;
             }
         }
 
         if (interfaceId == Dueling.MAIN_INTERFACE_CONTAINER) {
             if (player.getStatus() == PlayerStatus.DUELING) {
                 player.getDueling().handleItem(id, 1, slot, player.getDueling().getContainer(), player.inventory());
+                return;
             }
         }
 
         if (interfaceId == REMOVE_INVENTORY_ITEM) {
             if (player.getStatus() == PlayerStatus.TRADING) {
                 player.getTrading().handleItem(id, 1, slot, player.inventory(), player.getTrading().getContainer());
+                return;
             } else if (player.getStatus() == PlayerStatus.DUELING) {
                 player.getDueling().handleItem(id, 1, slot, player.inventory(), player.getDueling().getContainer());
+                return;
             }
         }
 
         if (interfaceId == Trading.CONTAINER_INTERFACE_ID) {
             if (player.getStatus() == PlayerStatus.TRADING) {
                 player.getTrading().handleItem(id, 1, slot, player.getTrading().getContainer(), player.inventory());
+                return;
             }
         }
 
         if (interfaceId == PRICE_CHECKER_CONTAINER) {
             player.getPriceChecker().withdraw(id, 1);
+            return;
         }
 
         if (interfaceId == INVENTORY_INTERFACE) {

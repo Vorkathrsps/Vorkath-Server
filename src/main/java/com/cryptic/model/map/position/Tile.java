@@ -69,8 +69,7 @@ public class Tile implements Cloneable {
 
     @Nonnull
     public Region getRegion() {
-        if (region != null)
-            return region;
+        if (region != null) return region;
         return region = Region.get(x, y);
     }
 

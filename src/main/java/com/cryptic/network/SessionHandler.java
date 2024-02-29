@@ -3,6 +3,7 @@ package com.cryptic.network;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.codec.login.LoginDetailsMessage;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.ReadTimeoutException;
@@ -34,6 +35,17 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
+    public void channelWritabilityChanged(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        if (channel.isWritable()) {
+            Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
+            if (session != null) {
+                session.flushQueuedPackets();
+            }
+        }
+    }
+
+    @Override
     public void channelUnregistered(ChannelHandlerContext ctx) {
         Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
 
@@ -43,6 +55,8 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     }
 
     private void onUnregisteredIngame(Session session) {
+        session.clearQueues();
+
         Player player = session.getPlayer();
 
         if (player == null) {

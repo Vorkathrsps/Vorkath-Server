@@ -49,6 +49,8 @@ public class Session {
      */
     private final MessagePassingQueue<Packet> packetsQueue = new MpscArrayQueue<>(GameServer.properties().packetProcessLimit);
 
+    private final MessagePassingQueue<PacketBuilder> outboundPacketsQueue = new MpscArrayQueue<>(GameServer.properties().packetProcessLimit * 10);
+
     /**
      * The channel that will manage the connection for this player.
      */
@@ -174,6 +176,20 @@ public class Session {
         }
     }
 
+    public void clearQueues() {
+        outboundPacketsQueue.clear();
+    }
+
+    public void flushQueuedPackets() {
+        final Channel channel = this.channel;
+        final MessagePassingQueue<PacketBuilder> outboundPacketsQueue = this.outboundPacketsQueue;
+        while (!outboundPacketsQueue.isEmpty()) {
+            PacketBuilder builder = outboundPacketsQueue.poll();
+            if (builder == null) break;
+            writeRaw(channel, builder);
+        }
+    }
+
     /**
      * Queues the {@code msg} for this session to be encoded and sent to the
      * client.
@@ -184,6 +200,26 @@ public class Session {
         final Channel channel = this.channel;
         if (channel == null || !channel.isOpen() || !channel.isActive())
             return;
+
+        //System.out.println(channel.isWritable() + ", " + builder.getOpcode() + " size " + builder.getSize() + " (queued="+outboundPacketsQueue.size()+")");
+
+        if (channel.isWritable()) {
+            writeRaw(channel, builder);
+        } else {
+            outboundPacketsQueue.offer(builder);
+        }
+    }
+
+    /**
+     * Queues the {@code msg} for this session to be encoded and sent to the
+     * client.
+     *
+     * @param builder the packet to queue.
+     */
+    private void writeRaw(final Channel channel, final PacketBuilder builder) {
+        if (channel == null || !channel.isOpen() || !channel.isActive())
+            return;
+
         try {
             final Packet packet = builder.toPacket();
             channel.write(packet, channel.voidPromise());
@@ -197,8 +233,9 @@ public class Session {
      */
     public void flush() {
         final Channel channel = this.channel;
-        if (channel == null || !channel.isOpen())
+        if (channel == null || !channel.isOpen() || !channel.isActive())
             return;
+
         channel.flush();
     }
 

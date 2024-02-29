@@ -1312,8 +1312,8 @@ public class TradingPost {
 
             @Override
             public boolean handle(Object value) {
-                handlePurchasing(player, selected, (Integer) value);
-                return true;
+            handlePurchasing(player, selected, (Integer) value);
+            return true;
             }
         });
         return true;

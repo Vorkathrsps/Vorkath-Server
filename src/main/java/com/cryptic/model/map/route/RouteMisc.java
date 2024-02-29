@@ -19,6 +19,10 @@ public class RouteMisc {
         return Math.max(diffX, diffY);
     }
 
+    public static int getDistanceSqrt(Tile start, Tile other) {
+        return (int) Math.sqrt(Math.pow(start.x - other.x, 2) + Math.pow(start.y - other.y, 2) + Math.pow(start.level - other.level, 2));
+    }
+
     public static int getClosestX(Entity src, Entity target) {
         return getClosestX(src, target.tile());
     }

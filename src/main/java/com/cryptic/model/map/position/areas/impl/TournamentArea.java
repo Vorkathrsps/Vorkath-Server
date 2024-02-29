@@ -25,7 +25,6 @@ public class TournamentArea extends Controller {
 
     @Override
     public void enter(Player mob) {
-
     }
 
     @Override

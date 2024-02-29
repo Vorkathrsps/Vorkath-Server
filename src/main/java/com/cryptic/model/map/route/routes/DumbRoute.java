@@ -12,6 +12,8 @@ import com.cryptic.model.map.route.RouteMisc;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.IntStream;
+
 @Slf4j
 public class DumbRoute {
 
@@ -67,30 +69,14 @@ public class DumbRoute {
 
     public static boolean withinDistance(Entity entity, Entity target, int distance) {
         if (entity.getRouteFinder() == null || entity.getRouteFinder().routeEntity == null) {
-            // fallback when no PF set
             DumbRoute.step(entity, target, distance);
         }
         Tile source = entity.tile();
         if (entity.getSize() > 1) {
-            source =
-                    RouteMisc.getClosestPosition(
-                            entity,
-                            target); // if this is a "big" entity, we need to check from the closest
-            // position and use size 1, otherwise the getDirection check
-            // will fail in tight spaces as the npc won't be able to
-            // actually take the step, but might still be able to reach the
-            // target with an attack
+            source = RouteMisc.getClosestPosition(entity, target);
         }
         if (distance == 1) {
-            return entity.getRouteFinder().routeEntity.finished(entity.tile())
-                    && getDirection(
-                                    source.getX(),
-                                    source.getY(),
-                                    entity.getZ(),
-                                    1,
-                                    target.getAbsX(),
-                                    target.getAbsY())
-                            != null;
+            return entity.getRouteFinder().routeEntity.finished(entity.tile()) && getDirection(source.getX(), source.getY(), entity.getZ(), 1, target.getAbsX(), target.getAbsY()) != null;
         } else {
             int absX = entity.getAbsX();
             int absY = entity.getAbsY();
@@ -100,8 +86,7 @@ public class DumbRoute {
             int targetSize = target.getSize();
             return !TargetRoute.inTarget(absX, absY, size, targetX, targetY, targetSize)
                     && RouteMisc.getDistance(source, target.tile().getX(), target.tile().getY()) <= distance
-                    // && TargetRoute.inRange(absX, absY, size, targetX, targetY, targetSize,
-                    // distance)
+                    // && TargetRoute.inRange(absX, absY, size, targetX, targetY, targetSize,// distance)
                     && ProjectileRoute.hasLineOfSight(
                             source.getX(),
                             source.getY(),
@@ -113,13 +98,11 @@ public class DumbRoute {
         }
     }
 
-    /** Clipping stuff.. */
     public static Direction getDirection(int x, int y, int z, int size, int destX, int destY) {
         return getDirection(ClipUtils.REGULAR, x, y, z, size, destX, destY);
     }
 
-    public static Direction getDirection(
-            ClipUtils clipping, int x, int y, int z, int size, int destX, int destY) {
+    public static Direction getDirection(ClipUtils clipping, int x, int y, int z, int size, int destX, int destY) {
 
         boolean west = false, east = false;
         if (x < destX) east = true;
@@ -130,36 +113,21 @@ public class DumbRoute {
         else if (y > destY) south = true;
 
         if (west) {
-            if (south)
-                return allowEntrance(clipping, x, y, z, size, Direction.SOUTH_WEST)
-                        ? Direction.SOUTH_WEST
-                        : null;
-            if (north)
-                return allowEntrance(clipping, x, y, z, size, Direction.NORTH_WEST)
-                        ? Direction.NORTH_WEST
-                        : null;
+            if (south) return allowEntrance(clipping, x, y, z, size, Direction.SOUTH_WEST) ? Direction.SOUTH_WEST : null;
+            if (north) return allowEntrance(clipping, x, y, z, size, Direction.NORTH_WEST) ? Direction.NORTH_WEST : null;
             return allowEntrance(clipping, x, y, z, size, Direction.WEST) ? Direction.WEST : null;
         }
         if (east) {
-            if (south)
-                return allowEntrance(clipping, x, y, z, size, Direction.SOUTH_EAST)
-                        ? Direction.SOUTH_EAST
-                        : null;
-            if (north)
-                return allowEntrance(clipping, x, y, z, size, Direction.NORTH_EAST)
-                        ? Direction.NORTH_EAST
-                        : null;
+            if (south) return allowEntrance(clipping, x, y, z, size, Direction.SOUTH_EAST) ? Direction.SOUTH_EAST : null;
+            if (north) return allowEntrance(clipping, x, y, z, size, Direction.NORTH_EAST) ? Direction.NORTH_EAST : null;
             return allowEntrance(clipping, x, y, z, size, Direction.EAST) ? Direction.EAST : null;
         }
-        if (south)
-            return allowEntrance(clipping, x, y, z, size, Direction.SOUTH) ? Direction.SOUTH : null;
-        if (north)
-            return allowEntrance(clipping, x, y, z, size, Direction.NORTH) ? Direction.NORTH : null;
+        if (south) return allowEntrance(clipping, x, y, z, size, Direction.SOUTH) ? Direction.SOUTH : null;
+        if (north) return allowEntrance(clipping, x, y, z, size, Direction.NORTH) ? Direction.NORTH : null;
         return null;
     }
 
-    public static Direction getStepDirection(
-            ClipUtils clipping, int x, int y, int z, int size, int destX, int destY) {
+    public static Direction getStepDirection(ClipUtils clipping, int x, int y, int z, int size, int destX, int destY) {
 
         boolean west = false, east = false;
         if (x < destX) east = true;

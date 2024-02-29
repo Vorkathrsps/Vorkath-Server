@@ -42,18 +42,13 @@ public class GameBuilder {
      *             if any issues occur while starting the network.
      */
     public void initialize() throws Exception {
-        try {
-            Class.forName("com.dev.Dev").getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            // stay silent
-        }
-
+        try { Class.forName("com.dev.Dev").getDeclaredConstructor().newInstance();
+        } catch (Exception ignored) {}
         RegionManager.init();
         backgroundLoader.init(createBackgroundTasks());
         System.gc();
         GameEngine.getInstance().start();
-        if (!backgroundLoader.awaitCompletion())
-            throw new IllegalStateException("Background load did not complete normally!");
+        if (!backgroundLoader.awaitCompletion()) throw new IllegalStateException("Background load did not complete normally!");
     }
 
     /**

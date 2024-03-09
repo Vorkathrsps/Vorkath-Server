@@ -28,6 +28,7 @@ import com.cryptic.model.entity.player.InfectionType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.container.equipment.Equipment;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
@@ -1916,6 +1917,9 @@ public abstract class Entity {
     }
 
     private boolean[] prayerActive = new boolean[30];
+
+    @Getter
+    EquipmentBonuses bonuses = new EquipmentBonuses();
 
     /**
      * Teleports the mob to a target location

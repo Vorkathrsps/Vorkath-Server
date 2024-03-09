@@ -43,20 +43,5 @@ public class AmuletOfBloodFury implements DamageEffectListener {
         if (!World.getWorld().rollDie(20, 1)) return true;
         return damage == 0;
     }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
-    }
 }
 

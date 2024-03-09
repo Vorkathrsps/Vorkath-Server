@@ -9,6 +9,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.equipment.Equipment;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
@@ -54,7 +55,7 @@ public class BonusesInterface extends PacketInteraction {
     }
 
     public void sendBonuses() {
-        EquipmentInfo.Bonuses b = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        EquipmentBonuses b = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
         var dropRateBonus = player.getDropRateBonus();
         player.getPacketSender().sendString(1675, "Stab: " + plusify(b.getStab()));
         player.getPacketSender().sendString(1676, "Slash: " + plusify(b.getSlash()));

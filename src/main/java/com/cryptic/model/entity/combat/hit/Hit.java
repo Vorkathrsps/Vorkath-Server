@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -212,6 +213,7 @@ public class Hit {
 
     @Getter @Setter public static boolean debugAccuracy = true;
 
+    AbstractAccuracy accuracy;
     public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
@@ -238,10 +240,11 @@ public class Hit {
         }
         if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
-                case MAGIC -> accurate = magicAccuracy.successful(chance);
-                case RANGED -> accurate = rangeAccuracy.successful(chance);
-                case MELEE -> accurate = meleeAccuracy.successful(chance);
+                case MAGIC -> accuracy = magicAccuracy;
+                case RANGED -> accuracy = rangeAccuracy;
+                case MELEE -> accuracy = meleeAccuracy;
             }
+            accurate = accuracy.success(chance);
         }
         final int alwaysHitDamage = getTarget() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;
         final boolean alwaysHitActive = alwaysHitDamage > 0;

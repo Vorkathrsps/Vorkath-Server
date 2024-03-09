@@ -12,7 +12,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import lombok.NonNull;
@@ -24,7 +24,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @Author: Origin
  * @Date: 6/30/2023
  */
-public class RangedMaxHitFormula {
+public class RangeMaxHitFormula {
 
     public int calculateMaximumHit(@NonNull final Player player, boolean isSpecialActivated) {
         double specialMultiplier = player.getCombatSpecial() == null ? 0 : player.getCombatSpecial().getSpecialMultiplier();
@@ -37,7 +37,7 @@ public class RangedMaxHitFormula {
     private int getEquipmentRangedStrength(@NonNull final Player player) {
         RangedData.RangedWeapon rangeWeapon = player.getCombat().getRangedWeapon();
         boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
-        EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo(), !ignoreArrows);
+        EquipmentBonuses bonuses = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo(), !ignoreArrows);
         return bonuses.rangestr;
     }
 

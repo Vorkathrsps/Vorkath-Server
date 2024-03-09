@@ -10,6 +10,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 
 public class Fortification extends AbstractSigil {
@@ -46,7 +47,7 @@ public class Fortification extends AbstractSigil {
     @Override
     protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
         attackerBonus.stab += 30;
         attackerBonus.slash += 30;
         attackerBonus.crush += 30;

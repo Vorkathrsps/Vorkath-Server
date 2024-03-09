@@ -14,7 +14,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -23,7 +23,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Origin
  * @Since January 16 2022
  */
-public class MeleeMaxHit {
+public class MeleeMaxHitFormula {
 
     /**
      * The max hit
@@ -47,7 +47,7 @@ public class MeleeMaxHit {
     }
 
     public static int getStrengthBonus(Player player) {
-        EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        EquipmentBonuses bonuses = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
         return bonuses.str;
     }
 

@@ -613,7 +613,7 @@ public class NexCombat extends CommonCombatMethod {
 
     private int getFurthestDistanceToPoint(ArrayList<Entity> possibleTargets) {
         int furthestDistance = possibleTargets.stream().mapToInt(p -> nex.tile().distance(p.tile())).max().orElse(0);
-        possibleTargets.sort(Comparator.comparingInt(p -> EquipmentInfo.totalBonuses(p, World.getWorld().equipmentInfo()).magedef));
+        possibleTargets.sort(Comparator.comparingInt(p -> p.getBonuses().totalBonuses(p, World.getWorld().equipmentInfo()).magedef));
         return furthestDistance;
     }
 

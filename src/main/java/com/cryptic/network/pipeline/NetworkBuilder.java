@@ -46,23 +46,11 @@ public final class NetworkBuilder {
      * @throws Exception if any issues occur while starting the network.
      */
     public void initialize(final int port) throws Exception {
-        // Set up uncaught exception handler
-        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            logger.error("Uncaught server exception in thread {}!", t, e);
-        });
-
-        // Verify data/code integrity
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> logger.error("Uncaught server exception in thread {}!", t, e));
         TimerKey.verifyIntegrity();
-
-        // Determine event loop groups based on system support
         final boolean epoll = Epoll.isAvailable();
-        final EventLoopGroup parentGroup = epoll
-            ? new EpollEventLoopGroup(1)
-            : new NioEventLoopGroup(1);
-        final EventLoopGroup childGroup = epoll
-            ? new EpollEventLoopGroup()
-            : new NioEventLoopGroup();
-
+        final EventLoopGroup parentGroup = epoll ? new EpollEventLoopGroup(1) : new NioEventLoopGroup(1);
+        final EventLoopGroup childGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
         bootstrap.group(parentGroup, childGroup);
         bootstrap.channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class);
         bootstrap.childHandler(connectionInitializer);
@@ -73,16 +61,9 @@ public final class NetworkBuilder {
         bootstrap.childOption(ChannelOption.SO_RCVBUF, 65536);
         bootstrap.childOption(ChannelOption.SO_SNDBUF, 65536);
         bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(65535, 65535 * 10));
-
-        // Configure buffer allocator
         final ByteBufAllocator allocator = new UnpooledByteBufAllocator(false);
         bootstrap.option(ChannelOption.ALLOCATOR, allocator);
         bootstrap.childOption(ChannelOption.ALLOCATOR, allocator);
-
-        // Uncomment this line for debugging network traffic
-        // bootstrap.handler(new LoggingHandler(LogLevel.DEBUG));
-
-        // Bind to the specified port
         try {
             bootstrap.bind(port).sync().await();
             logger.info("Server bound to port {}", port);

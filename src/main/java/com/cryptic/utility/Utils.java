@@ -66,6 +66,9 @@ public class Utils {
         return String.format("%.2f%%", percentage);
     }
 
+    public static int calculateIntMath(double percent) {
+        return (int) ((100 * percent) / 100.0D);
+    }
 
     /**
      * Gets the coord offsets near.

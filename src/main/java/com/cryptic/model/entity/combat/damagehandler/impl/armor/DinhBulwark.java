@@ -27,19 +27,4 @@ public class DinhBulwark implements DamageEffectListener {
         }
         return false;
     }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
-    }
 }

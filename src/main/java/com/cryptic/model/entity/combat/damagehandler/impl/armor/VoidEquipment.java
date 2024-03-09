@@ -3,66 +3,33 @@ package com.cryptic.model.entity.combat.damagehandler.impl.armor;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.cryptic.model.entity.player.Player;
 
 public class VoidEquipment implements DamageEffectListener {
-
     @Override
-    public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {
+            var modifier = accuracy.modifier();
             if (combatType == CombatType.MAGIC) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic(player)) {
-                    magicAccuracy.modifier += 1.45F;
-                    return true;
+                    modifier += 1.45F;
+                    return modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentBaseMagic(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic(player)) {
-                    magicAccuracy.modifier += 1.70F;
-                    return true;
+                    modifier += 1.70F;
+                    return modifier;
                 }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        if (entity instanceof Player player) {
-            if (combatType == CombatType.MELEE) {
-                if (FormulaUtils.regularVoidEquipmentBaseMelee(player)) {
-                    meleeAccuracy.modifier += 1.10F;
-                    return true;
-                } else if (FormulaUtils.eliteVoidEquipmentMelee(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee(player)) {
-                    meleeAccuracy.modifier += 1.125F;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        if (entity instanceof Player player) {
-            if (combatType == CombatType.RANGED) {
+            } else {
                 if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
-                    rangeAccuracy.modifier += 1.10F;
-                    return true;
+                    modifier += 1.10F;
+                    return modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
-                    rangeAccuracy.modifier += 1.125F;
-                    return true;
+                    modifier += 1.125F;
+                    return modifier;
                 }
             }
         }
-        return false;
+        return 0;
     }
-
 }

@@ -113,8 +113,7 @@ public class LoginWorker implements Runnable {
 
     private void complete(
         LoginRequest request, Player player, Channel channel, LoginDetailsMessage message) {
-        GameEngine.getInstance()
-            .addSyncTask(
+        GameEngine.getInstance().addSyncTask(
                 () -> {
                     int response = LoginResponses.evaluateOnGamethread(player);
                     ChannelFuture future = player.getSession().sendOkLogin(response);

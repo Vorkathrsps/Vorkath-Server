@@ -101,7 +101,7 @@ public class Nex extends NPC {
 
     private int getFurthestDistanceToPoint(ArrayList<Entity> possibleTargets) {
         int furthestDistance = possibleTargets.stream().mapToInt(p -> this.tile.distance(p.tile())).max().orElse(0);
-        possibleTargets.sort(Comparator.comparingInt(p -> EquipmentInfo.totalBonuses(p, World.getWorld().equipmentInfo()).magedef));
+        possibleTargets.sort(Comparator.comparingInt(p -> p.getBonuses().totalBonuses(p, World.getWorld().equipmentInfo()).magedef));
         return furthestDistance;
     }
 
@@ -313,9 +313,6 @@ public class Nex extends NPC {
             var tileDist = this.tile().distance(t.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, t, 2002, 51, duration, 43, 0, 0, t.getSize(), 10);
-           //// p.sendProjectile();
-
-
             final int delay = (int) (p.getSpeed() / 30D);
             this.animate(9189);
             this.graphic(2001, GraphicHeight.HIGH, 0);

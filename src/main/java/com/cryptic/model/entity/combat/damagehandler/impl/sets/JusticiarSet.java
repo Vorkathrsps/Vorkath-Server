@@ -10,7 +10,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.Equipment;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 
 public class JusticiarSet implements DamageEffectListener {
@@ -20,7 +20,7 @@ public class JusticiarSet implements DamageEffectListener {
         if (entity instanceof Player player) {
             if (!WildernessArea.inWilderness(player.tile())) {
                 if (damage > 0 && Equipment.justiciarSet(player)) {
-                    EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+                    EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
                     int bonus = attackerBonus.crushdef;
                     int formula = bonus / 3000;
                     damage = damage - formula;
@@ -30,21 +30,6 @@ public class JusticiarSet implements DamageEffectListener {
                 }
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         return false;
     }
 }

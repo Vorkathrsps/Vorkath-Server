@@ -109,6 +109,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.bank.Bank;
 import com.cryptic.model.items.container.equipment.Equipment;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.inventory.Inventory;
 import com.cryptic.model.items.container.looting_bag.LootingBag;
@@ -208,6 +209,7 @@ public class Player extends Entity {
     @Getter
     @Setter
     private int[] savedTornamentLevels;
+
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);

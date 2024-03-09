@@ -13,6 +13,8 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.JGson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,10 +40,12 @@ public class EquipmentInfo {
     // Stand, turn, walk, turn, sidestep, sidestep, run
     public static final int[] DEFAULT_RENDERPAIR = {808, 823, 819, 820, 821, 822, 824};
     private static final int[] DEFAULT_WEAPON_RENDERPAIR = {809, 823, 819, 820, 821, 822, 824};
-    private final Map<Integer, int[]> renderMap = new LinkedHashMap<>();
-    private final Map<Integer, WeaponType> weaponTypes = new LinkedHashMap<>();
-    private final Map<Integer, Map<Integer, Integer>> itemRequirements = new LinkedHashMap<>();
-    private Map<Integer, EquipmentDefinition> equipmentDefinitions = new LinkedHashMap<>();
+    private final Int2ObjectMap<int[]> renderMap = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<WeaponType> weaponTypes = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<Map<Integer, Integer>> itemRequirements = new Int2ObjectOpenHashMap<>();
+    private Int2ObjectMap<EquipmentDefinition> equipmentDefinitions = new Int2ObjectOpenHashMap<>();
+    private static Int2ObjectMap<EquipmentBonuses> bonuses = new Int2ObjectOpenHashMap<>();
+    private final EquipmentBonuses DEFAULT_BONUSES = new EquipmentBonuses();
 
     private static final Gson gson = JGson.get();
 
@@ -53,63 +57,8 @@ public class EquipmentInfo {
         loadEquipmentRequirements(new File("data/combat/weapons/requirements.txt"));
     }
 
-    public static Bonuses totalBonuses(Entity mob, EquipmentInfo infoo) {
-        return totalBonuses(mob, infoo, false);
-    }
-
-    public static Bonuses totalBonuses(Entity entity, EquipmentInfo info, boolean ignoreAmmo) {
-        Bonuses bonuses = new Bonuses();
-
-        if (entity instanceof Player player) {
-            Item wep = player.getEquipment().get(EquipSlot.WEAPON);
-            int wepid = wep != null ? wep.getId() : -1;
-
-            for (int i = 0; i < 14; i++) {
-                if (i == EquipSlot.AMMO && ignoreAmmo) continue;
-                Item equipped = player.getEquipment().get(i);
-                if (equipped != null) {
-                    if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE || wepid == 28688)) {
-                        continue;
-                    }
-
-                    var equipmentBonuses = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
-                    bonuses.stab += equipmentBonuses.getAstab();
-                    bonuses.slash += equipmentBonuses.getAslash();
-                    bonuses.crush += equipmentBonuses.getAcrush();
-                    bonuses.range += equipmentBonuses.getArange();
-                    bonuses.mage += equipmentBonuses.getAmagic();
-                    bonuses.stabdef += equipmentBonuses.getDstab();
-                    bonuses.slashdef += equipmentBonuses.getDslash();
-                    bonuses.crushdef += equipmentBonuses.getDcrush();
-                    bonuses.rangedef += equipmentBonuses.getDrange();
-                    bonuses.magedef += equipmentBonuses.getDmagic();
-                    bonuses.str += equipmentBonuses.getStr();
-                    bonuses.rangestr += equipmentBonuses.getRstr();
-                    bonuses.magestr += equipmentBonuses.getMdmg();
-                    bonuses.pray += equipmentBonuses.getPrayer();
-
-                }
-            }
-        } else {
-            if (entity instanceof NPC npc && npc.getCombatInfo() != null) {
-                NPCCombatInfo.Bonuses i = npc.getCombatInfo().originalBonuses;
-                bonuses.stabdef = i.stabdefence;
-                bonuses.slashdef = i.slashdefence;
-                bonuses.crushdef = i.crushdefence;
-                bonuses.rangedef = i.rangeddefence;
-                bonuses.magedef = i.magicdefence;
-                bonuses.range = i.ranged;
-                bonuses.mage = i.magic;
-                bonuses.str = i.strength;
-                bonuses.crush = i.attack;
-                bonuses.stab = i.attack;
-                bonuses.slash = i.attack;
-                bonuses.rangestr = i.rangestrength;
-                bonuses.magestr = i.magicstrength;
-            }
-        }
-
-        return bonuses;
+    public EquipmentBonuses bonuses(int id) {
+        return bonuses.getOrDefault(id, DEFAULT_BONUSES);
     }
 
     public static int prayerBonuses(Player player) {
@@ -123,7 +72,6 @@ public class EquipmentInfo {
             Item equipped = player.getEquipment().get(i);
             if (equipped != null) {
                 var attackerBonus = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
-
                 pray += attackerBonus.getPrayer();
             }
         }
@@ -133,7 +81,7 @@ public class EquipmentInfo {
 
     private void loadEquipmentDefinitions(File file) {
         try {
-            equipmentDefinitions = gson.fromJson(new FileReader(file), new TypeToken<HashMap<Integer, EquipmentDefinition>>() {
+            equipmentDefinitions = gson.fromJson(new FileReader(file), new TypeToken<Int2ObjectOpenHashMap<EquipmentDefinition>>() {
             }.getType());
 
             logger.info("Loaded {} equipment information definitions.", equipmentDefinitions.size());
@@ -237,50 +185,6 @@ public class EquipmentInfo {
 
     public Map<Integer, Integer> requirementsFor(int id) {
         return itemRequirements.get(id);
-    }
-
-    @Data
-    public static class Bonuses {
-
-        public int stab;
-        public int slash;
-        public int crush;
-        public int range;
-        public int mage;
-        public int stabdef;
-        public int slashdef;
-        public int crushdef;
-        public int rangedef;
-        public int magedef;
-        public int str;
-        public int rangestr;
-        public int magestr;
-        public int pray;
-
-        public int[] bonuses() {
-            return new int[]{stab, slash, crush, range, mage};
-        }
-
-        @Override
-        public String toString() {
-            return "Bonuses{" +
-                "stab=" + stab +
-                ", slash=" + slash +
-                ", crush=" + crush +
-                ", range=" + range +
-                ", mage=" + mage +
-                ", stabdef=" + stabdef +
-                ", slashdef=" + slashdef +
-                ", crushdef=" + crushdef +
-                ", rangedef=" + rangedef +
-                ", magedef=" + magedef +
-                ", str=" + str +
-                ", rangestr=" + rangestr +
-                ", magestr=" + magestr +
-                ", pray=" + pray +
-                '}';
-        }
-
     }
 
     public static class EquipmentDefinition {

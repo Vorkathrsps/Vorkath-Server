@@ -2,65 +2,72 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 
 import com.cryptic.model.World;
 
-import com.cryptic.model.content.sigils.Sigil;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
-import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.management.Attribute;
-import java.security.SecureRandom;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 
-public class RangeAccuracy {
+public class RangeAccuracy implements AbstractAccuracy {
 
-    @Getter
-    @Setter
-    public float modifier;
+    @Getter @Setter public int modifier;
     @Getter @Setter Entity attacker, defender;
     CombatType combatType;
-    public double attackRoll = 0;
-    public double defenceRoll = 0;
-    @Getter public double chance = 0;
-    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
-
     public RangeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
         this.defender = defender;
         this.combatType = combatType;
     }
 
-    public boolean successful(double selectedChance) {
-        this.attackRoll = getAttackRoll();
-        this.defenceRoll = getDefenceRoll();
-        if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
-        else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
-        if (Hit.isDebugAccuracy()) this.attacker.message("[Range] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
-        return this.chance > selectedChance;
+    @Override
+    public Entity attacker() {
+        return this.attacker;
     }
 
-    private double getPrayerAttackBonus() {
+    @Override
+    public Entity defender() {
+        return this.defender;
+    }
+
+    @Override
+    public CombatType getCombatType() {
+        return this.combatType;
+    }
+
+    @Override
+    public int modifier() {
+        return this.modifier;
+    }
+
+    @Override
+    public int getEquipmentBonusForAttacker() {
+        return this.attacker instanceof Player ? this.attacker.getBonuses().totalBonuses(this.attacker, World.getWorld().equipmentInfo()).getRange() : this.attacker.getAsNpc().getCombatInfo().getBonuses().getRanged();
+    }
+
+    @Override
+    public int getEquipmentBonusForDefender() {
+        return this.defender instanceof Player ? this.defender.getBonuses().totalBonuses(this.defender, World.getWorld().equipmentInfo()).getRangedef() : this.defender.getAsNpc().getCombatInfo().getBonuses().getRangeddefence();
+    }
+
+    @Override
+    public int getOffensiveSkillLevelAttacker() {
+        return this.attacker instanceof NPC npc && npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().ranged : this.attacker.getSkills().level(Skills.RANGED);
+    }
+
+    @Override
+    public int getDefensiveSKillLevelDefender() {
+        return this.defender instanceof NPC npc && npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().defence : this.defender.getSkills().level(Skills.DEFENCE);
+    }
+
+    @Override
+    public double getPrayerBonusAttacker() {
         double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
             if (Prayers.usingPrayer(this.attacker, SHARP_EYE)) prayerBonus *= 1.05D; // 5% range level boost
@@ -71,64 +78,23 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    private double getPrayerDefenseBonus(Entity defender) {
+    @Override
+    public double getPrayerBonusDefender() {
         double prayerBonus = 1D;
         if (defender instanceof Player) if (Prayers.usingPrayer(attacker, RIGOUR)) prayerBonus *= 1.25D;
         return prayerBonus;
     }
 
-    private int getEffectiveDefence() {
-        FightStyle fightStyle = this.defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) (getRangeLevel() * getPrayerDefenseBonus(this.defender));
-        switch (fightStyle) {
-            case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
-            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
-        }
-        effectiveLevel = this.defender instanceof NPC ? effectiveLevel + 9 : effectiveLevel + 8;
-        return effectiveLevel;
+    @Override
+    public int getOffensiveStyleBonus() {
+        var style = this.attacker().getCombat().getFightType().getStyle();
+        return style.equals(FightStyle.ACCURATE) ? 3 : 0;
     }
 
-    private int getEffectiveRanged() {
-        FightStyle fightStyle = this.attacker.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) (getRangeLevel() * getPrayerAttackBonus());
-        double specialMultiplier;
-        if (this.attacker instanceof Player player) {
-            this.handler.triggerRangeAccuracyModificationAttacker(player, this.combatType, this);
-            if (fightStyle == FightStyle.ACCURATE) effectiveLevel += 3;
-
-            if (player.getCombatSpecial() != null && player.isSpecialActivated()) {
-                specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
-                effectiveLevel *= specialMultiplier;
-            }
-        }
-        effectiveLevel = effectiveLevel + 8;
-        return effectiveLevel;
+    @Override
+    public int getDefensiveStyleBonus() {
+        var style = this.defender().getCombat().getFightType().getStyle();
+        return style.equals(FightStyle.DEFENSIVE) ? 3 : style.equals(FightStyle.CONTROLLED) ? 1 : 0;
     }
 
-    private int getRangeLevel() {
-        return this.attacker instanceof NPC npc && npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().ranged : this.attacker.getSkills().level(Skills.RANGED);
-    }
-
-    private int getGearAttackBonus() {
-        return this.attacker instanceof Player ? EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo()).getRange() : this.attacker.getAsNpc().getCombatInfo().getBonuses().getRanged();
-    }
-
-    private int getGearDefenceBonus() {
-        return this.defender instanceof Player ? EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo()).getRangedef() : this.defender.getAsNpc().getCombatInfo().getBonuses().getRangeddefence();
-    }
-
-    private int getAttackRoll() {
-        int effectiveRangeLevel = getEffectiveRanged();
-        int equipmentRangeBonus = getGearAttackBonus();
-        float modification = this.modifier;
-        int roll = effectiveRangeLevel * (equipmentRangeBonus + 64);
-        if (modification > 0) roll *= modification;
-        return roll;
-    }
-
-    private int getDefenceRoll() {
-        int effectiveDefenceLevel = getEffectiveDefence();
-        int equipmentRangeBonus = getGearDefenceBonus();
-        return effectiveDefenceLevel * (equipmentRangeBonus + 64);
-    }
 }

@@ -4,9 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -39,30 +37,21 @@ public class DragonHunterLance implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
                 if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
                     if (combatType == CombatType.MELEE) {
                         if (FormulaUtils.isDragon(npc)) {
-                            meleeAccuracy.modifier += 1.20F;
-                            return true;
+                            var modifier = accuracy.modifier();
+                            modifier += 1.20F;
+                            return modifier;
                         }
                     }
                 }
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
+        return 0;
     }
 }

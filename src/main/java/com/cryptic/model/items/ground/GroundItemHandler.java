@@ -154,6 +154,8 @@ public final class GroundItemHandler {
         while (iterator.hasNext()) {
             GroundItem item = iterator.next();
 
+            if (item == null) continue;
+
             if (item.isRemoved()) {
                 iterator.remove();
                 continue;

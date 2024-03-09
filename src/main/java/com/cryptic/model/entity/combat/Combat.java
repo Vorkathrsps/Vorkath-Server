@@ -4,7 +4,6 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.formula.accuracy.test.HitListener;
 import com.cryptic.model.entity.combat.formula.maxhit.*;
 import com.cryptic.model.entity.combat.hit.HitDamageCache;
 import com.cryptic.model.entity.combat.hit.HitQueue;
@@ -147,10 +146,10 @@ public class Combat {
         }
 
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return MeleeMaxHit.maxHit(mob.getAsPlayer());
+            return MeleeMaxHitFormula.maxHit(mob.getAsPlayer());
         }
 
-        return MeleeMaxHit.maxHit(mob.getAsPlayer());
+        return MeleeMaxHitFormula.maxHit(mob.getAsPlayer());
     }
 
     /**
@@ -159,7 +158,7 @@ public class Combat {
      * @return The max hit
      */
 
-    RangedMaxHitFormula maxHitFormula = new RangedMaxHitFormula();
+    RangeMaxHitFormula maxHitFormula = new RangeMaxHitFormula();
 
     public int getMaximumRangedDamage() {
 
@@ -800,7 +799,4 @@ public class Combat {
         return CombatFactory.inCombat(mob);
     }
 
-    public void addHitListener(HitListener hitListener) {
-        hitListener.onHit(this.mob.hits);
-    }
 }

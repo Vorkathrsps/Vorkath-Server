@@ -9,10 +9,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Origin | March, 04, 2021, 17:06
- * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
- */
+
 public class WallasalkiCombat extends CommonCombatMethod {
 
     @Override
@@ -25,7 +22,7 @@ public class WallasalkiCombat extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         if (hit.getDamage() > 0) target.graphic(137, GraphicHeight.HIGH, p.getSpeed());
-        else target.graphic(85, GraphicHeight.HIGH, 2);
+        else target.graphic(85, GraphicHeight.HIGH, p.getSpeed());
         return true;
     }
 

@@ -7,9 +7,7 @@ import com.cryptic.model.entity.combat.damagehandler.impl.sets.*;
 import com.cryptic.model.entity.combat.damagehandler.impl.typeless.PoisonDamageEffect;
 import com.cryptic.model.entity.combat.damagehandler.impl.typeless.PrayerDamage;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,17 +17,13 @@ import java.util.List;
 
 public class EquipmentDamageEffect implements DamageEffectListener {
     private static final Logger logger = LogManager.getLogger(EquipmentDamageEffect.class);
+    private static final Logger logger2 = LogManager.getLogger(EquipmentDamageEffect.class);
     private static final List<DamageEffectListener> damageEffectListenersAttacker;
-    private static final List<DamageEffectListener> magicAccuracyModificationListenerAttacker;
-
-    private static final List<DamageEffectListener> rangeAccuracyModificationListenerAttacker;
-    private static final List<DamageEffectListener> meleeAccuracyModificationListenerAttacker;
+    private static final List<DamageEffectListener> accuracyModificationListeners;
 
     static {
         damageEffectListenersAttacker = initializeDamageEffects();
-        magicAccuracyModificationListenerAttacker = initializeMagicAccuracyModifications();
-        rangeAccuracyModificationListenerAttacker = initializeRangeAccuracyModifications();
-        meleeAccuracyModificationListenerAttacker = initializeMeleeAccuracyModifications();
+        accuracyModificationListeners = accuracyModifications();
     }
 
     private static List<DamageEffectListener> initializeDamageEffects() {
@@ -51,7 +45,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         return listeners;
     }
 
-    private static List<DamageEffectListener> initializeMagicAccuracyModifications() {
+    private static List<DamageEffectListener> accuracyModifications() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new BrimstoneRing());
         listeners.add(new TumekensShadow());
@@ -61,11 +55,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new ZurielStaff());
         listeners.add(new SlayerHelmets());
         listeners.add(new VirtusSet());
-        return listeners;
-    }
-
-    private static List<DamageEffectListener> initializeRangeAccuracyModifications() {
-        List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new CrystalSet());
         listeners.add(new TwistedBow());
         listeners.add(new SalveAmulet());
@@ -73,11 +62,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VoidEquipment());
         listeners.add(new WildernessWeapon());
         listeners.add(new SlayerHelmets());
-        return listeners;
-    }
-
-    private static List<DamageEffectListener> initializeMeleeAccuracyModifications() {
-        List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new VoidEquipment());
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
@@ -102,36 +86,14 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        var affectsApplied = false;
-        for (DamageEffectListener listener : magicAccuracyModificationListenerAttacker) {
-            if (listener.prepareMagicAccuracyModification(entity, combatType, magicAccuracy)) {
-                affectsApplied = true;
-            }
+    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        int modification = 0;
+        for (DamageEffectListener listener : accuracyModificationListeners) {
+            if (listener.prepareAccuracyModification(entity, combatType, accuracy) <= 0.0D) continue;
+            modification += listener.prepareAccuracyModification(entity, combatType, accuracy);
+            logger2.debug("Accuracy Effect {} Modification Effect {}", listener.getClass().getSimpleName(), modification);
         }
-        return affectsApplied;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        var affectsApplied = false;
-        for (DamageEffectListener listener : meleeAccuracyModificationListenerAttacker) {
-            if (listener.prepareMeleeAccuracyModification(entity, combatType, meleeAccuracy)) {
-                affectsApplied = true;
-            }
-        }
-        return affectsApplied;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        var affectsApplied = false;
-        for (DamageEffectListener listener : rangeAccuracyModificationListenerAttacker) {
-            if (listener.prepareRangeAccuracyModification(entity, combatType, rangeAccuracy)) {
-                affectsApplied = true;
-            }
-        }
-        return affectsApplied;
+        return modification;
     }
 
 }

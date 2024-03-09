@@ -3,39 +3,22 @@ package com.cryptic.model.entity.combat.damagehandler.impl.sets;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.cryptic.model.entity.player.Player;
 
 public class ObsidianArmor implements DamageEffectListener {
     @Override
-    public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {
             if (combatType == CombatType.MELEE) {
+                var modifier = accuracy.modifier();
                 if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
-                    meleeAccuracy.modifier += 1.10F;
-                    return true;
+                    modifier += 1.10F;
+                    return modifier;
                 }
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
+        return 0;
     }
 }

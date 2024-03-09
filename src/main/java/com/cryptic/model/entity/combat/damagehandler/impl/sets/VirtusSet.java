@@ -4,9 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 import lombok.Getter;
@@ -49,49 +47,40 @@ public class VirtusSet implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (combatType != null) {
             if (!(entity instanceof Player player) || !combatType.isMagic()) {
-                return false;
+                return 0;
             }
 
             if (!FormulaUtils.wearingFullVirtus(player)) {
-                return false;
+                return 0;
             }
 
             if (player.getCombat().getCastSpell() == null) {
-                return false;
+                return 0;
             }
 
-            final Entity target = magicAccuracy.getDefender();
+            final Entity target = accuracy.defender();
 
             if (target == null) {
-                return false;
+                return 0;
             }
 
             boolean isFrozen = target.frozen();
 
             if (FormulaUtils.wearingFullVirtus(player)) {
                 if (isFrozen) {
+                    var modifier = accuracy.modifier();
                     for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
-                            magicAccuracy.modifier += 0.010F;
-                            return true;
+                            modifier += 0.010F;
+                            return modifier;
                         }
                     }
                 }
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
+        return 0;
     }
 }

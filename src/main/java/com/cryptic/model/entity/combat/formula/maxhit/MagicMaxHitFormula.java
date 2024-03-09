@@ -10,6 +10,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
+import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
@@ -47,7 +48,7 @@ public class MagicMaxHitFormula {
     }
 
     public double calculateMagicDamageBonus(@NonNull final Player player) {
-        EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        EquipmentBonuses bonuses = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
         double mageStrength = bonuses.getMagestr();
         CombatSpell castSpell = player.getCombat().getCastSpell();
         CombatSpell autoCastSpell = player.getCombat().getAutoCastSpell();

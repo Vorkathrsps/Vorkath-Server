@@ -158,6 +158,17 @@ public class GameObject {
         this.z = tile.level;
     }
 
+    public GameObject(int id, int type, int rotation, Tile tile) {
+        this.id = id;
+        this.originalId = id;
+        this.type = type;
+        this.rotation = rotation;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
+    }
+
+
     /**
      * GameObject constructor to call upon a new game object.
      *

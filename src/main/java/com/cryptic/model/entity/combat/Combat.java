@@ -280,13 +280,11 @@ public class Combat {
             reset();
             return false;
         }
+
         if (!CombatFactory.canAttack(mob, method, target)) {
             reset();
             return false;
         }
-        /**
-         * Can WE attack with our current?
-         */
 
         if (mob.isPlayer()) {
             if (method instanceof CommonCombatMethod commonCombatMethod) {
@@ -295,6 +293,7 @@ public class Combat {
                 }
             }
         }
+
         if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) mob.setEntityInteraction(target);
         return true;
     }
@@ -423,8 +422,7 @@ public class Combat {
         target = null;
         lastTarget = null;
         mob.clearAttrib(AttributeKey.TARGET);
-        if (mob.isPlayer())
-            mob.getAsPlayer().getMovementQueue().resetFollowing();
+        if (mob.isPlayer()) mob.getAsPlayer().getMovementQueue().resetFollowing();
         mob.setEntityInteraction(null);
         TargetRoute.reset(mob);
     }

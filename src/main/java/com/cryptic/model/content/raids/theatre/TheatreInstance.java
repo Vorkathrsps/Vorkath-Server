@@ -1,6 +1,5 @@
 package com.cryptic.model.content.raids.theatre;
 
-import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;

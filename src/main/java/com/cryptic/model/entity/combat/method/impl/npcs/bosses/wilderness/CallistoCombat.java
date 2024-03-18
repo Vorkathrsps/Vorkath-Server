@@ -55,7 +55,7 @@ public class CallistoCombat extends CommonCombatMethod {
     @Override
     public void init(NPC npc) {
         if (npc.tile().region() == 7092 || npc.tile().regionX() == 13473)
-            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region, region specific
+            npc.getCombatInfo().aggroradius = 50;
         npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
         npc.ignoreOccupiedTiles = true;
         npc.useSmartPath = true;

@@ -27,6 +27,9 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.masks.impl.graphics.Graphic;
+import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -56,11 +59,8 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -635,16 +635,32 @@ public class CommandManager {
             Chain.noCtx().runFn(15, npc::remove);
         });
 
-        dev("c1", (p, c, s) -> {
-            p.getSlayerRewards().block();
+        dev("c3", (p,c,s) -> {
+            
         });
 
-        dev("cleartask", (p, c, s) -> {
+        dev("c2", (p, c, s) -> {
+            NPC npc = new NPC(11762, new Tile(3934, 5152, 1));
+            npc.spawnDirection(NORTH.toInteger());
+            npc.spawn(false);
+            //floorAttack(npc, p, FloorSection.LEFT);
+            // Chain.noCtx().runFn(25, npc::remove);
+        });
+
+        dev("c1", (p, c, s) -> {
+
+        });
+
+        dev("cleartask", (p, c, s) ->
+
+        {
             var task = World.getWorld().getSlayerTasks();
             task.cancelSlayerTask(p, false);
         });
 
-        dev("cl", (p, c, s) -> {
+        dev("cl", (p, c, s) ->
+
+        {
             var theatre = new TheatreInstance(p, new ArrayList<>());
             p.teleport(new Tile(3162, 4307, theatre.getzLevel()));
             p.setInstancedArea(theatre);
@@ -655,56 +671,89 @@ public class CommandManager {
             verzik.spawn(false);
         });
 
-        dev("b", (p, c, s) -> {
+        dev("b", (p, c, s) ->
+
+        {
             World.getWorld().sendBroadcast("test broadcast");
         });
 
-        dev("listings", (p, c, s) -> {
+        dev("listings", (p, c, s) ->
+
+        {
             TradingPost.showRecents(p, TradingPost.recentTransactions);
         });
-        dev("tpost1", (p, c, s) -> {
+
+        dev("tpost1", (p, c, s) ->
+
+        {
 
         });
-        dev("tpost2", (p, c, s) -> {
+
+        dev("tpost2", (p, c, s) ->
+
+        {
 
         });
-        dev("tpost3", (p, c, s) -> {
+
+        dev("tpost3", (p, c, s) ->
+
+        {
             TradingPost.showTradeHistory(p);
         });
-        dev("tpost4", (p, c, s) -> {
+
+        dev("tpost4", (p, c, s) ->
+
+        {
             var a = new ArrayList<TradingPostListing>();
             for (int i = 0; i < 20; i++) {
                 a.add(new TradingPostListing("Test", Utils.randomElement(GameConstants.STARTER_ITEMS).createWithAmount(1).unnote(), 1000L));
             }
             TradingPost.showTradeHistory(p, a);
         });
-        dev("tpost5", (p, c, s) -> {
+
+        dev("tpost5", (p, c, s) ->
+
+        {
             for (int i = 0; i < 20; i++) {
                 TradingPost.sendTradeHistoryIndex(new Item(4151, 1), "whip", "test", "test1", "1k", i, p);
             }
         });
-        dev("tpost6", (p, c, s) -> {
+
+        dev("tpost6", (p, c, s) ->
+
+        {
             for (int i = 0; i < 20; i++) {
                 TradingPost.sendRecentListingIndex(new Item(4151, 1), "test", "10M | 10k (ea)", i, p);
             }
         });
-        dev("ss1", (p, c, s) -> { // t history
+
+        dev("ss1", (p, c, s) ->
+
+        { // t history
             for (int i = 81407; i < (81407 + 1000); i++) {
                 p.getPacketSender().sendString(i, "" + i);
             }
         });
-        dev("ss2", (p, c, s) -> { // recent listing
+
+        dev("ss2", (p, c, s) ->
+
+        { // recent listing
             for (int i = 81641; i < (81641 + 1000); i++) {
                 p.getPacketSender().sendString(i, "" + i);
             }
         });
-        dev("tpost7", (p, c, s) -> {
+
+        dev("tpost7", (p, c, s) ->
+
+        {
             for (int i = 0; i < 10; i++) {
                 TradingPost.sendOverviewIndex(new Item(4151, 1), "test", "10M | 10k (ea)", Utils.rand(100), i, p);
             }
         });
 
-        dev("ioi", (p, c, s) -> {
+        dev("ioi", (p, c, s) ->
+
+        {
             // Opening interface
             // interface item container id
             // item id1,  item id2, item id3, etc.
@@ -721,7 +770,9 @@ public class CommandManager {
             }
         });
 
-        dev("m", (p, c, s) -> {
+        dev("m", (p, c, s) ->
+
+        {
             int bigWave = 134;
             int littleWave = 2034;
 
@@ -788,7 +839,11 @@ public class CommandManager {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
 
-        dev("varbit", (p, c, s) -> p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+        dev("varbit", (p, c, s) -> p.varps().
+
+            varbit(Integer.parseInt(s[1]), Integer.
+
+                parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
 
@@ -813,6 +868,7 @@ public class CommandManager {
         });
 
         dev("sim", (p, c, s) ->
+
         {
             var kills = Integer.parseInt(s[1]);
             NpcDropTable table = NpcDropRepository.forNPC(319);
@@ -828,7 +884,9 @@ public class CommandManager {
             p.getPacketSender().sendBanktabs();
         });
 
-        dev("test12", (p, c, s) -> {
+        dev("test12", (p, c, s) ->
+
+        {
 
         });
 
@@ -935,13 +993,21 @@ public class CommandManager {
             }
         });
 
-        dev("t20", (player, c, parts) -> {
+        dev("t20", (player, c, parts) ->
+
+        {
             player.getMovementQueue().interpolate(player.tile().transform(1, 1));
         });
-        dev("t21", (player, c, parts) -> {
+
+        dev("t21", (player, c, parts) ->
+
+        {
             player.getMovementQueue().step(1, 1, MovementQueue.StepType.REGULAR);
         });
-        dev("t22", (player, c, parts) -> {
+
+        dev("t22", (player, c, parts) ->
+
+        {
             var n = new NPC(2007, player.tile());
             var t = player.tile().transform(5, 5);
             n.smartPathTo(t);
@@ -949,19 +1015,31 @@ public class CommandManager {
                 n.forceChat("reached");
             });
         });
-        dev("t23", (player, c, parts) -> {
+
+        dev("t23", (player, c, parts) ->
+
+        {
             var n = player.closeNpcs(5)[0];
             //  n.queueTeleportJump(n.tile().transform(1, 1));
         });
-        dev("t24", (player, c, parts) -> {
+
+        dev("t24", (player, c, parts) ->
+
+        {
             var n = player.closeNpcs(5)[0];
             n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         });
-        dev("t25", (p, c, s) -> {
+
+        dev("t25", (p, c, s) ->
+
+        {
             Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, 1), null);
             xarpus.spawn(false);
         });
-        dev("t26", (p, c, s) -> {
+
+        dev("t26", (p, c, s) ->
+
+        {
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
             p.setInstancedArea(instance);
             p.teleport(new Tile(3166, 4384, instance.getzLevel()));
@@ -969,7 +1047,10 @@ public class CommandManager {
             xarpus.setInstancedArea(instance);
             xarpus.spawn(false);
         });
-        dev("t27", (p, c, s) -> {
+
+        dev("t27", (p, c, s) ->
+
+        {
             //TheatreInstance theatreInstance = new TheatreInstance(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, TheatreInstance.rooms()));
             // theatreInstance.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
@@ -979,19 +1060,27 @@ public class CommandManager {
             xarpus.setInstancedArea(instance);
             xarpus.spawn(false);
         });
-        dev("t28", (p, c, s) -> {
+
+        dev("t28", (p, c, s) ->
+
+        {
             p.hit(null, 5);
             Chain.noCtx().delay(2, () -> {
                 p.healHit(null, 5);
             });
         });
 
-        dev("region", (p, c, s) -> {
+        dev("region", (p, c, s) ->
+
+        {
             var t = Tile.regionToTile(Integer.parseInt(s[1]));
             p.teleport(t);
             p.message("region %s is %s", s[1], t);
         });
-        dev("test13", (player, c, s) -> {
+
+        dev("test13", (player, c, s) ->
+
+        {
             player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
             if (player.getTheatreParty() == null) {
                 player.setTheatreParty(player.getTheatreInterface());
@@ -1002,15 +1091,24 @@ public class CommandManager {
             player.setTheatreInstance(theatreInstance);
             player.getTheatreInstance().buildParty().startRaid();
         });
-        dev("test14", (player, c, s) -> {
+
+        dev("test14", (player, c, s) ->
+
+        {
 
         });
-        dev("teles", (player, c, s) -> {
+
+        dev("teles", (player, c, s) ->
+
+        {
             player.setCurrentTabIndex(3);
             player.getInterfaceManager().open(88000);
             player.getnewteleInterface().drawInterface(88005);
         });
-        dev("test15", (player, c, s) -> {
+
+        dev("test15", (player, c, s) ->
+
+        {
             player.tile().area(20).forEachPos(t -> {
                 var t2 = Tile.get(t, false);
                 if (t2 == null) return;
@@ -1018,7 +1116,10 @@ public class CommandManager {
                     t2.showTempItem(995);
             });
         });
-        dev("raid1", (player, c, s) -> {
+
+        dev("raid1", (player, c, s) ->
+
+        {
             player.teleport(3678, 3216);
             player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
             if (player.getTheatreParty() == null) {
@@ -1069,13 +1170,21 @@ public class CommandManager {
 
         });
 
-        dev("raid2", (player, c, s) -> {
+        dev("raid2", (player, c, s) ->
+
+        {
             log.info("{}", player.getTheatreParty().getPlayers().size());
         });
-        dev("unlock", (player, c, s) -> {
+
+        dev("unlock", (player, c, s) ->
+
+        {
             player.unlock();
         });
-        dev("dailys", (player, c, s) -> {
+
+        dev("dailys", (player, c, s) ->
+
+        {
             player.getInterfaceManager().open(80750);
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             var challengeListText = 80778;
@@ -1085,7 +1194,10 @@ public class CommandManager {
             DailyTaskManager.displayTaskInfo(player, tasks.get(0));
             player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
         });
-        dev("newdailys", (player, c, s) -> {
+
+        dev("newdailys", (player, c, s) ->
+
+        {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             player.putAttrib(DAILY_TASKS_LIST, tasks);
             tasks.clear();
@@ -1096,36 +1208,54 @@ public class CommandManager {
                 player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
             }
         });
-        dev("dailys1", (player, c, s) -> {
+
+        dev("dailys1", (player, c, s) ->
+
+        {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             int inc = s.length > 1 ? Integer.parseInt(s[1]) : 1;
             for (int i = 0; i < inc; i++) {
                 DailyTaskManager.increase(tasks.get(0), player);
             }
         });
-        dev("claimdailys", (player, c, s) -> {
+
+        dev("claimdailys", (player, c, s) ->
+
+        {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             tasks.forEach(t -> {
                 if (t.completed.get(player))
                     DailyTaskManager.claimReward(t, player);
             });
         });
-        dev("unclaim", (player, c, s) -> {
+
+        dev("unclaim", (player, c, s) ->
+
+        {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             player.putAttrib(tasks.get(0).rewardClaimed, false);
         });
-        dev("rp1", (player, c, s) -> {
+
+        dev("rp1", (player, c, s) ->
+
+        {
             player.getPacketSender().resetParallelInterfaces();
             player.getInterfaceManager().close(true);
         });
-        dev("slay1", (player, c, s) -> {
+
+        dev("slay1", (player, c, s) ->
+
+        {
             SlayerTask assignment = World.getWorld().getSlayerTasks().getCurrentAssignment(player);
             int amt = assignment.getRemainingTaskAmount(player) + 1;
             for (int i = 0; i < amt; i++) {
                 World.getWorld().getSlayerTasks().handleSlayerDeath(player, new NPC(assignment.getNpcs()[0], player.tile()));
             }
         });
-        dev("pint", (player, c, s) -> {
+
+        dev("pint", (player, c, s) ->
+
+        {
             player.getPacketSender().sendParallelInterfaceVisibility(Integer.parseInt(s[1]), Boolean.parseBoolean(s[2]));
         });
     }

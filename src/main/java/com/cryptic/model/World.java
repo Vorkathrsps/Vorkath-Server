@@ -14,6 +14,7 @@ import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.EntityList;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.NodeType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
@@ -937,6 +938,8 @@ public class World {
     public void tileGraphic(int id, Tile tile, int height, int delay) {
         players.forEach(p -> {
             if (p.getZ() != tile.getZ()) return;
+            if (!p.tile().isViewableFrom(tile)) return;
+            if (World.getWorld().clipAt(tile) != 0) return;
             p.getPacketSender().sendTileGraphic(id, tile, height, delay);
         });
     }

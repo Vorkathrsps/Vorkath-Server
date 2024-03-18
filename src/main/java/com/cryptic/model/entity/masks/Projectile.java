@@ -3,6 +3,7 @@ package com.cryptic.model.entity.masks;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.map.position.Tile;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 
 /**
@@ -16,7 +17,7 @@ public final class Projectile {
     /**
      * The starting position of the projectile.
      */
-    private Tile start, target;
+    @Setter private Tile start, target;
 
     /**
      * The offset position of the projectile.
@@ -134,20 +135,12 @@ public final class Projectile {
 
     public Projectile(Entity source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
-        this(source.getCentrePosition(),
-            victim.getCentrePosition(),
-            victim.getProjectileLockonIndex(),
-            projectileId, speed, delay,
-            startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
+        this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
     }
 
     public Projectile(Tile source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
-        this(source,
-            victim.getCentrePosition(),
-            victim.getProjectileLockonIndex(),
-            projectileId, speed, delay,
-            startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
+        this(source, victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
     }
 
     public Projectile(Tile source, Tile victim, int projectileId,

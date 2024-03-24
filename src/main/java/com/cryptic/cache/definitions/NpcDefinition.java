@@ -15,6 +15,7 @@ import java.util.*;
  */
 public class NpcDefinition implements Definition {
     public boolean occupyTiles = true;
+
     public int getOption(String... searchOptions) {
         if (actions != null) {
             for (String s : searchOptions) {
@@ -30,7 +31,8 @@ public class NpcDefinition implements Definition {
 
     public int[] models;
     public String name = null;
-    @Getter public int size = 1;
+    @Getter
+    public int size = 1;
     public int standingAnimation = -1;
     public int walkingAnimation = -1;
     public boolean isFollower;
@@ -149,201 +151,189 @@ public class NpcDefinition implements Definition {
             int op = buffer.readUByte();
             if (op == 0)
                 break;
-            decode(buffer, op);
+            decodeNext(buffer, op);
         }
     }
 
-    void custom() {
-
-        Arrays.stream(PetDefinitions.values()).filter(p -> p.npc == id).forEach(p -> {
-            isPet = true;
-            size = 1;
-        });
-    }
-
-    private void decode(RSBuffer stream, int opcode) {
-        int length;
+    void decodeNext(RSBuffer buffer, int var2) {
         int index;
-        if (opcode == 1) {
-            length = stream.readUByte();
-            models = new int[length];
+        int var4;
+        if (var2 == 1) {
+            index = buffer.readUByte();
+            models = new int[index];
 
-            for (index = 0; index < length; ++index) {
-                models[index] = stream.readUShort();
+            for (var4 = 0; var4 < index; ++var4) {
+                models[var4] = buffer.readUShort();
             }
-        } else if (opcode == 2) {
-            name = stream.readJagexString();
-        } else if (opcode == 12) {
-            size = stream.readUByte();
-        } else if (opcode == 13) {
-            standingAnimation = stream.readUShort();
-        } else if (opcode == 14) {
-            walkingAnimation = stream.readUShort();
-        } else if (opcode == 15) {
-            turnLeftSequence = stream.readUShort();
-        } else if (opcode == 16) {
-            turnRightSequence = stream.readUShort();
-        } else if (opcode == 17) {
-            walkingAnimation = stream.readUShort();
-            rotate180Animation = stream.readUShort();
-            rotate90LeftAnimation = stream.readUShort();
-            rotate90RightAnimation = stream.readUShort();
-        } else if (opcode == 18) {
-            category = stream.readUShort();
-        } else if (opcode >= 30 && opcode < 35) {
-            actions[opcode - 30] = stream.readString();
-            if (actions[opcode - 30].equalsIgnoreCase("Hidden")) {
-                actions[opcode - 30] = null;
+        } else if (var2 == 2) {
+            name = buffer.readJagexString();
+        } else if (var2 == 12) {
+            size = buffer.readUByte();
+        } else if (var2 == 13) {
+            standingAnimation = buffer.readUShort();
+        } else if (var2 == 14) {
+            walkingAnimation = buffer.readUShort();
+        } else if (var2 == 15) {
+            turnLeftSequence = buffer.readUShort();
+        } else if (var2 == 16) {
+            turnRightSequence = buffer.readUShort();
+        } else if (var2 == 17) {
+            walkingAnimation = buffer.readUShort();
+            rotate180Animation = buffer.readUShort();
+            rotate90LeftAnimation = buffer.readUShort();
+            rotate90RightAnimation = buffer.readUShort();
+        } else if (var2 == 18) {
+            category = buffer.readUShort();
+        } else if (var2 >= 30 && var2 < 35) {
+            actions[var2 - 30] = buffer.readJagexString();
+            if (actions[var2 - 30].equalsIgnoreCase("Hidden")) {
+                actions[var2 - 30] = null;
             }
-        } else if (opcode == 40) {
-            length = stream.readUByte();
-            recolorFrom = new short[length];
-            recolorTo = new short[length];
+        } else if (var2 == 40) {
+            index = buffer.readUByte();
+            recolorFrom = new short[index];
+            recolorTo = new short[index];
 
-            for (index = 0; index < length; ++index) {
-                recolorFrom[index] = (short) stream.readUShort();
-                recolorTo[index] = (short) stream.readUShort();
+            for (var4 = 0; var4 < index; ++var4) {
+                recolorFrom[var4] = (short) buffer.readUShort();
+                recolorTo[var4] = (short) buffer.readUShort();
             }
+        } else if (var2 == 41) {
+            index = buffer.readUByte();
+            retexture_from = new short[index];
+            retexture_to = new short[index];
 
-        } else if (opcode == 41) {
-            length = stream.readUByte();
-            retexture_from = new short[length];
-            retexture_to = new short[length];
-
-            for (index = 0; index < length; ++index) {
-                retexture_from[index] = (short) stream.readUShort();
-                retexture_to[index] = (short) stream.readUShort();
+            for (var4 = 0; var4 < index; ++var4) {
+                retexture_from[var4] = (short) buffer.readUShort();
+                retexture_to[var4] = (short) buffer.readUShort();
             }
+        } else if (var2 == 60) {
+            index = buffer.readUByte();
+            additionalModels = new int[index];
 
-        } else if (opcode == 60) {
-            length = stream.readUByte();
-            additionalModels = new int[length];
-
-            for (index = 0; index < length; ++index) {
-                additionalModels[index] = stream.readUShort();
+            for (var4 = 0; var4 < index; ++var4) {
+                additionalModels[var4] = buffer.readUShort();
             }
-
-        } else if (opcode == 93) {
+        } else if (var2 == 93) {
             mapdot = false;
-        } else if (opcode == 95) {
-            combatlevel = stream.readUShort();
-        } else if (opcode == 97) {
-            width = stream.readUShort();
-        } else if (opcode == 98) {
-            height = stream.readUShort();
-        } else if (opcode == 99) {
+        } else if (var2 == 95) {
+            combatlevel = buffer.readUShort();
+        } else if (var2 == 97) {
+            width = buffer.readUShort();
+        } else if (var2 == 98) {
+            height = buffer.readUShort();
+        } else if (var2 == 99) {
             renderPriority = true;
-        } else if (opcode == 100) {
-            ambient = stream.readByte();
-        } else if (opcode == 101) {
-            contrast = stream.readByte();
-        } else if (opcode == 102) {
-            int bitfield = stream.readUByte();
-            int len = 0;
-            for (int var5 = bitfield; var5 != 0; var5 >>= 1) {
-                ++len;
-            }
-
-            headIconArchiveIds = new int[len];
-            headIconSpriteIndex = new short[len];
-
-            for (int i = 0; i < len; i++) {
-                if ((bitfield & 1 << i) == 0) {
-                    headIconArchiveIds[i] = -1;
-                    headIconSpriteIndex[i] = -1;
-                } else {
-                    headIconArchiveIds[i] = stream.readBigSmart2();
-                    headIconSpriteIndex[i] = (short) stream.readUnsignedShortSmartMinusOne();
-                }
-            }
-        } else if (opcode == 103) {
-            turnValue = stream.readUShort();
-        } else if (opcode == 106) {
-            varbit = stream.readUShort();
-            if (varbit == 65535) {
-                varbit = -1;
-            }
-            varp = stream.readUShort();
-            if (varp == 65535) {
-                varp = -1;
-            }
-            length = stream.readUByte();
-            altForms = new int[length + 2];
-            for (index = 0; index <= length; ++index) {
-                altForms[index] = stream.readUShort();
-                if (altForms[index] == '\uffff') {
-                    altForms[index] = -1;
-                }
-            }
-            altForms[length + 1] = -1;
-        } else if (opcode == 107) {
-            isInteractable = false;
-        } else if (opcode == 109) {
-            rotationFlag = false;
-        } else if (opcode == 111) {
-            isPet = true;
-        } else if (opcode == 114) {
-            runAnimation = stream.readUShort();
-        } else if (opcode == 115) {
-            runAnimation = stream.readUShort();
-            runrender5 = stream.readUShort();
-            runrender6 = stream.readUShort();
-            runrender7 = stream.readUShort();
-        } else if (opcode == 116) {
-            crawlAnimation = stream.readUShort();
-        } else if (opcode == 117) {
-            crawlAnimation = stream.readUShort();
-            crawlrender5 = stream.readUShort();
-            crawlrender6 = stream.readUShort();
-            crawlrender7 = stream.readUShort();
-        } else if (opcode == 118) {
-            varbit = stream.readUShort();
-            if (varbit == 65535) {
-                varbit = -1;
-            }
-
-            varp = stream.readUShort();
-            if (varp == 65535) {
-                varp = -1;
-            }
-
-            int var = stream.readUShort();
-            if (var == 0xFFFF) {
-                var = -1;
-            }
-
-            length = stream.readUByte();
-            altForms = new int[length + 2];
-
-            for (index = 0; index <= length; ++index) {
-                altForms[index] = stream.readUShort();
-                if (altForms[index] == '\uffff') {
-                    altForms[index] = -1;
-                }
-            }
-
-            altForms[length + 1] = var;
-        } else if (opcode == 249) {
-            length = stream.readUByte();
-
-            params = new HashMap<>(length);
-
-            for (int i = 0; i < length; i++) {
-                boolean isString = stream.readUByte() == 1;
-                int key = stream.read24BitInt();
-                Object value;
-
-                if (isString) {
-                    value = stream.readString();
-                } else {
-                    value = stream.readInt();
-                }
-
-                params.put(key, value);
-            }
+        } else if (var2 == 100) {
+            ambient = buffer.readByte();
+        } else if (var2 == 101) {
+            contrast = buffer.readByte();
         } else {
-            System.err.println("npc def invalid opcoode:  %d%n" + opcode);
+            int var5;
+            if (var2 == 102) {
+                boolean clientRev = false;
+                if (clientRev) {
+                    headIconArchiveIds = new int[1];
+                    headIconSpriteIndex = new short[1];
+                    int defaultHeadIconArchive = -1;
+                    headIconArchiveIds[0] = defaultHeadIconArchive;
+                    headIconSpriteIndex[0] = (short) buffer.readUShort();
+                } else {
+                    index = buffer.readUByte();
+                    var4 = 0;
+
+                    for (var5 = index; var5 != 0; var5 >>= 1) {
+                        ++var4;
+                    }
+
+                    headIconArchiveIds = new int[var4];
+                    headIconSpriteIndex = new short[var4];
+
+                    for (int var6 = 0; var6 < var4; ++var6) {
+                        if ((index & 1 << var6) == 0) {
+                            headIconArchiveIds[var6] = -1;
+                            headIconSpriteIndex[var6] = -1;
+                        } else {
+                            headIconArchiveIds[var6] = buffer.readNullableLargeSmart();
+                            headIconSpriteIndex[var6] = (short) buffer.readShortSmartSub();
+                        }
+                    }
+                }
+            } else if (var2 == 103) {
+                turnValue = buffer.readUShort();
+            } else if (var2 != 106 && var2 != 118) {
+                if (var2 == 107) {
+                    isInteractable = false;
+                } else if (var2 == 109) {
+                    boolean smoothWalk = false;
+                } else if (var2 == 111) {
+                    isPet = true;
+                } else if (var2 == 114) {
+                    runAnimation = buffer.readUShort();
+                } else if (var2 == 115) {
+                    runAnimation = buffer.readUShort();
+                    runrender5 = buffer.readUShort();
+                    runrender6 = buffer.readUShort();
+                    runrender7 = buffer.readUShort();
+                } else if (var2 == 116) {
+                    crawlAnimation = buffer.readUShort();
+                } else if (var2 == 117) {
+                    crawlAnimation = buffer.readUShort();
+                    crawlrender5 = buffer.readUShort();
+                    crawlrender6 = buffer.readUShort();
+                    crawlrender7 = buffer.readUShort();
+                } else if (var2 == 249) {
+                    int length = buffer.readUByte();
+
+                    params = new HashMap<>(length);
+
+                    for (int i = 0; i < length; i++) {
+                        boolean isString = buffer.readUByte() == 1;
+                        int key = buffer.read24BitInt();
+                        Object value;
+
+                        if (isString) {
+                            value = buffer.readString();
+                        } else {
+                            value = buffer.readInt();
+                        }
+
+                        params.put(key, value);
+                    }
+                }
+            } else {
+                varbit = buffer.readUShort();
+                if (varbit == 65535) {
+                    varbit = -1;
+                }
+
+                varp = buffer.readUShort();
+                if (varp == 65535) {
+                    varp = -1;
+                }
+
+                index = -1;
+                if (var2 == 118) {
+                    index = buffer.readUShort();
+                    if (index == 65535) {
+                        index = -1;
+                    }
+                }
+
+                var4 = buffer.readUByte();
+                altForms = new int[var4 + 2];
+
+                for (var5 = 0; var5 <= var4; ++var5) {
+                    altForms[var5] = buffer.readUShort();
+                    if (altForms[var5] == 65535) {
+                        altForms[var5] = -1;
+                    }
+                }
+
+                altForms[var4 + 1] = index;
+            }
         }
+
     }
 
     public int getSize() {
@@ -384,63 +374,63 @@ public class NpcDefinition implements Definition {
 
     public String toStringBig() {
         return "NpcDefinition{" +
-                "occupyTiles=" + occupyTiles +
-                ", models=" + Arrays.toString(models) +
-                ", name='" + name + '\'' +
-                ", size=" + size +
-                ", standingAnimation=" + standingAnimation +
-                ", walkingAnimation=" + walkingAnimation +
-                ", isFollower=" + isFollower +
-                ", turnLeftSequence=" + turnLeftSequence +
-                ", turnRightSequence=" + turnRightSequence +
-                ", rotate180Animation=" + rotate180Animation +
-                ", rotate90LeftAnimation=" + rotate90LeftAnimation +
-                ", rotate90RightAnimation=" + rotate90RightAnimation +
-                ", category=" + category +
-                ", isClickable=" + isClickable +
-                ", params=" + params +
-                ", recolorFrom=" + Arrays.toString(recolorFrom) +
-                ", recolorTo=" + Arrays.toString(recolorTo) +
-                ", retexture_from=" + Arrays.toString(retexture_from) +
-                ", retexture_to=" + Arrays.toString(retexture_to) +
-                ", additionalModels=" + Arrays.toString(additionalModels) +
-                ", mapdot=" + mapdot +
-                ", combatlevel=" + combatlevel +
-                ", width=" + width +
-                ", height=" + height +
-                ", renderPriority=" + renderPriority +
-                ", ambient=" + ambient +
-                ", contrast=" + contrast +
-                ", headIcon=" + headIcon +
-                ", turnValue=" + turnValue +
-                ", varbit=" + varbit +
-                ", rightclick=" + rightclick +
-                ", varp=" + varp +
-                ", aBool2227=" + aBool2227 +
-                ", altForms=" + Arrays.toString(altForms) +
-                ", isPet=" + isPet +
-                ", anInt2252=" + anInt2252 +
-                ", actions=" + Arrays.toString(actions) +
-                ", clientScriptData=" + clientScriptData +
-                ", id=" + id +
-                ", gwdRoomNpc=" + gwdRoomNpc +
-                ", inferno=" + inferno +
-                ", roomBoss=" + roomBoss +
-                ", headIconArchiveIds=" + Arrays.toString(headIconArchiveIds) +
-                ", headIconSpriteIndex=" + Arrays.toString(headIconSpriteIndex) +
-                ", runrender5=" + runrender5 +
-                ", runrender6=" + runrender6 +
-                ", runrender7=" + runrender7 +
-                ", crawlAnimation=" + crawlAnimation +
-                ", crawlrender5=" + crawlrender5 +
-                ", runAnimation=" + runAnimation +
-                ", crawlrender6=" + crawlrender6 +
-                ", crawlrender7=" + crawlrender7 +
-                ", isInteractable=" + isInteractable +
-                ", ignoreOccupiedTiles=" + ignoreOccupiedTiles +
-                ", flightClipping=" + flightClipping +
-                ", swimClipping=" + swimClipping +
-                ", rotationFlag=" + rotationFlag +
-                '}';
+            "occupyTiles=" + occupyTiles +
+            ", models=" + Arrays.toString(models) +
+            ", name='" + name + '\'' +
+            ", size=" + size +
+            ", standingAnimation=" + standingAnimation +
+            ", walkingAnimation=" + walkingAnimation +
+            ", isFollower=" + isFollower +
+            ", turnLeftSequence=" + turnLeftSequence +
+            ", turnRightSequence=" + turnRightSequence +
+            ", rotate180Animation=" + rotate180Animation +
+            ", rotate90LeftAnimation=" + rotate90LeftAnimation +
+            ", rotate90RightAnimation=" + rotate90RightAnimation +
+            ", category=" + category +
+            ", isClickable=" + isClickable +
+            ", params=" + params +
+            ", recolorFrom=" + Arrays.toString(recolorFrom) +
+            ", recolorTo=" + Arrays.toString(recolorTo) +
+            ", retexture_from=" + Arrays.toString(retexture_from) +
+            ", retexture_to=" + Arrays.toString(retexture_to) +
+            ", additionalModels=" + Arrays.toString(additionalModels) +
+            ", mapdot=" + mapdot +
+            ", combatlevel=" + combatlevel +
+            ", width=" + width +
+            ", height=" + height +
+            ", renderPriority=" + renderPriority +
+            ", ambient=" + ambient +
+            ", contrast=" + contrast +
+            ", headIcon=" + headIcon +
+            ", turnValue=" + turnValue +
+            ", varbit=" + varbit +
+            ", rightclick=" + rightclick +
+            ", varp=" + varp +
+            ", aBool2227=" + aBool2227 +
+            ", altForms=" + Arrays.toString(altForms) +
+            ", isPet=" + isPet +
+            ", anInt2252=" + anInt2252 +
+            ", actions=" + Arrays.toString(actions) +
+            ", clientScriptData=" + clientScriptData +
+            ", id=" + id +
+            ", gwdRoomNpc=" + gwdRoomNpc +
+            ", inferno=" + inferno +
+            ", roomBoss=" + roomBoss +
+            ", headIconArchiveIds=" + Arrays.toString(headIconArchiveIds) +
+            ", headIconSpriteIndex=" + Arrays.toString(headIconSpriteIndex) +
+            ", runrender5=" + runrender5 +
+            ", runrender6=" + runrender6 +
+            ", runrender7=" + runrender7 +
+            ", crawlAnimation=" + crawlAnimation +
+            ", crawlrender5=" + crawlrender5 +
+            ", runAnimation=" + runAnimation +
+            ", crawlrender6=" + crawlrender6 +
+            ", crawlrender7=" + crawlrender7 +
+            ", isInteractable=" + isInteractable +
+            ", ignoreOccupiedTiles=" + ignoreOccupiedTiles +
+            ", flightClipping=" + flightClipping +
+            ", swimClipping=" + swimClipping +
+            ", rotationFlag=" + rotationFlag +
+            '}';
     }
 }

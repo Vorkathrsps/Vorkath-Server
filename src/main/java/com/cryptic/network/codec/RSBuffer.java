@@ -115,6 +115,20 @@ public class RSBuffer {
         return this;
     }
 
+    public int readNullableLargeSmart() {
+        if (backing.array()[backing.readerIndex()] < 0) {
+            return this.readInt() & Integer.MAX_VALUE;
+        } else {
+            int var1 = this.readUShort();
+            return var1 == 32767 ? -1 : var1;
+        }
+    }
+
+    public int readShortSmartSub() {
+        int var1 = backing.array()[backing.readerIndex()] & 255;
+        return var1 < 128 ? this.readUByte() - 1 : this.readUShort() - '老';
+    }
+
     public RSBuffer writeTriByte(int v) {
         backing.writeByte(v >> 16);
         backing.writeByte(v >> 8);

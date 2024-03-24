@@ -208,6 +208,7 @@ public class TheatreInstance extends InstancedArea {
             player.putAttrib(TOB_LOOT_CHEST, treasure.getId());
         }
     }
+
     private void generateReward(Player player) {
         ItemContainer container = new ItemContainer(3, ItemContainer.StackPolicy.ALWAYS);
         for (int index = 0; index < 3; index++) {

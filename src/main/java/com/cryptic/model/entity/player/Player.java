@@ -43,9 +43,10 @@ import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.content.raids.party.RaidsParty;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
-import com.cryptic.model.content.raids.theatre.party.TheatreParty;
+import com.cryptic.model.content.raids.theatre.party.RaidParty;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
+import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.security.AccountPin;
 import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.Skillable;
@@ -109,7 +110,6 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.bank.Bank;
 import com.cryptic.model.items.container.equipment.Equipment;
-import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.inventory.Inventory;
 import com.cryptic.model.items.container.looting_bag.LootingBag;
@@ -193,7 +193,6 @@ public class Player extends Entity {
     @Getter
     @Setter
     private TheatreInstance theatreInstance;
-
     @Getter
     @Setter
     private double[] savedTornamentXp;
@@ -275,7 +274,7 @@ public class Player extends Entity {
 
     @Getter
     @Setter
-    TheatreParty theatreParty;
+    RaidParty raidParty;
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -1443,7 +1442,7 @@ public class Player extends Entity {
 
         removeFromRegions();
 
-        var party = this.getTheatreParty();
+        var party = this.getRaidParty();
 
         if (party != null) {
             for (var p : party.getPlayers()) {

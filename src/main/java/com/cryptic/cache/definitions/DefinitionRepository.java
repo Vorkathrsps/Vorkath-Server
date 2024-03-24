@@ -1,6 +1,8 @@
 package com.cryptic.cache.definitions;
 
 import com.cryptic.GameServer;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import com.cryptic.cache.DataStore;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +17,7 @@ public class DefinitionRepository {
     private static final Logger logger = LogManager.getLogger(DefinitionRepository.class);
 
     private Object2ObjectArrayMap<Class<? extends Definition>, Definition[]> definitionMaps = new Object2ObjectArrayMap<>();
+    public static final Int2ObjectMap<AnimationDefinition> animationDefinitions = new Int2ObjectOpenHashMap<>();
     private DataStore store;
 
     public DefinitionRepository() {
@@ -47,14 +50,21 @@ public class DefinitionRepository {
         NpcDefinition[] npcs = new NpcDefinition[numNpcs + 20_000];
         definitionMaps.put(NpcDefinition.class, npcs);
 
-       // if (!lazy) {
         /**
          * Required force read full cache..
          */
-            for (int id = 0; id < numNpcs; id++) { // load osrs only
-                npcs[id] = loadDefinition(NpcDefinition.class, id);
-            }
-       // }
+        for (int id = 0; id < numNpcs; id++) { // load osrs only
+            npcs[id] = loadDefinition(NpcDefinition.class, id);
+        }
+
+        int numAnims = store.getIndex(2).getDescriptor().getLastFileId(12);
+        AnimationDefinition[] anims = new AnimationDefinition[numAnims + 10_000];
+        definitionMaps.put(AnimationDefinition.class, anims);
+
+        for (int id = 0; id < numAnims; id++) { // load osrs only
+            anims[id] = loadDefinition(AnimationDefinition.class, id);
+            animationDefinitions.put(id, anims[id]);
+        }
 
         // Load objects - disabled, 177 maps are dumped to raw data and loaded by 317 objdef codec. cache/osrs/maps/.dat + .idx
         int numObjects = store.getIndex(2).getDescriptor().getLastFileId(6);
@@ -170,8 +180,7 @@ public class DefinitionRepository {
             return (T) new AnimationDefinition(id, store.getIndex(2).getContainer(12).getFileData(id, true, true));
         } else if (type == NpcDefinition.class) {
             return (T) new NpcDefinition(id, store.getIndex(2).getContainer(9).getFileData(id, true, true));
-        }
-        else if (type == ObjectDefinition.class) {
+        } else if (type == ObjectDefinition.class) {
             return (T) new ObjectDefinition(id, store.getIndex(2).getContainer(6).getFileData(id, true, true));
         } else if (type == MapDefinition.class) {
             //We don't load this the equivalent is loading the .dat maps

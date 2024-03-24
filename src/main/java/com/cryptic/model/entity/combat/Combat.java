@@ -34,6 +34,7 @@ import com.cryptic.utility.timers.TimerKey;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -227,7 +228,6 @@ public class Combat {
             if (!player.getInterfaceManager().isMainClear()) {
                 boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
                 if (!ignore) {
-                    //player.debugMessage("walkable interface is: " + player.getInterfaceManager().getWalkable());
                     player.getInterfaceManager().close(false);
                 }
             }
@@ -244,6 +244,7 @@ public class Combat {
         if (mob.isPlayer()) {
             mob.getMovementQueue().clear();
         }
+
         Debugs.CMB.debug(mob, "Attack", target, true);
     }
 
@@ -265,17 +266,15 @@ public class Combat {
         }
     }
 
+    public static final int[] ignored_interaction = new int[]{11774, 11762, 6611};
+
     public boolean beforePerformAttack() {
-        /**
-         * Are we within distance?
-         */
+
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
             return false;
         }
         if (mob instanceof NPC npc && npc.beforeAttack()) return false;
-        /**
-         * Pre-Combat Checks
-         */
+
         if (!CombatFactory.validTarget(mob, target)) {
             reset();
             return false;
@@ -294,7 +293,7 @@ public class Combat {
             }
         }
 
-        if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) mob.setEntityInteraction(target);
+        if (mob.getInteractingEntity() != target && !mob.isNpc(ignored_interaction)) mob.setEntityInteraction(target);
         return true;
     }
 
@@ -698,8 +697,6 @@ public class Combat {
 
         mob.npc().findAgroTargetTimed();
 
-        if (mob.isNpc(6609) && mob.tile().region() == 7092)
-            System.out.print("");
         if (target != null && method instanceof CommonCombatMethod ccm) {
             ccm.set(mob, target);
             ccm.doFollowLogic();

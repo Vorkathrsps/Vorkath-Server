@@ -495,11 +495,12 @@ public class Door {
                 13347, 13353, // steel dungeon door
                 13349, 13355, // marble dungeon door
         };
+
         /**
          * Registering
          */
-        for (int i = 0; i < World.getWorld().definitions().total(ObjectDefinition.class); i++) {
-            ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, i);
+        for (int i = 0; i < ObjectDefinition.cached.size(); i++) {
+            var def = ObjectDefinition.cached.get(i);
             var ignore = IGNORE.stream().anyMatch(id -> def.id == id);
             if(ignore) {
                 continue;

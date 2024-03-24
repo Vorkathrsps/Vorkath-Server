@@ -12,6 +12,8 @@ import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.verzik.Verzik;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
+import com.cryptic.model.content.raids.theatre.party.RaidParty;
+import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
@@ -19,7 +21,6 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
@@ -27,9 +28,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.Projectile;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
-import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -635,20 +634,27 @@ public class CommandManager {
             Chain.noCtx().runFn(15, npc::remove);
         });
 
-        dev("c3", (p,c,s) -> {
-            
+        dev("c3", (p, c, s) -> {
+
         });
 
         dev("c2", (p, c, s) -> {
-            NPC npc = new NPC(11762, new Tile(3934, 5152, 1));
-            npc.spawnDirection(NORTH.toInteger());
-            npc.spawn(false);
-            //floorAttack(npc, p, FloorSection.LEFT);
-            // Chain.noCtx().runFn(25, npc::remove);
+            TombsInstance tombsInstance = new TombsInstance(new RaidParty(p, new ArrayList<>()));
+            tombsInstance.buildParty().start();
         });
 
         dev("c1", (p, c, s) -> {
-
+            final GameObject CRYSTAL_OBJECT = new GameObject(45138, 10, 0, new Tile(3936, 5154, 1));
+            NPC warden = new NPC(11762, new Tile(3934, 5152, 1));
+            warden.spawn(false);
+            warden.spawnDirection(NORTH.toInteger());
+            Chain.noCtx().runFn(2, () -> {
+                warden.transmog(11765, false);
+                warden.animate(9691);
+            }).then(21, () -> {
+                CRYSTAL_OBJECT.spawn();
+                warden.remove();
+            });
         });
 
         dev("cleartask", (p, c, s) ->
@@ -1082,12 +1088,12 @@ public class CommandManager {
 
         {
             player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
-            if (player.getTheatreParty() == null) {
-                player.setTheatreParty(player.getTheatreInterface());
-                player.getTheatreParty().addOwner();
+            if (player.getRaidParty() == null) {
+                player.setRaidParty(player.getTheatreInterface());
+                player.getRaidParty().addOwner();
             }
 
-            TheatreInstance theatreInstance = new TheatreInstance(player, player.getTheatreParty().getPlayers());
+            TheatreInstance theatreInstance = new TheatreInstance(player, player.getRaidParty().getPlayers());
             player.setTheatreInstance(theatreInstance);
             player.getTheatreInstance().buildParty().startRaid();
         });
@@ -1122,15 +1128,15 @@ public class CommandManager {
         {
             player.teleport(3678, 3216);
             player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
-            if (player.getTheatreParty() == null) {
-                player.setTheatreParty(player.getTheatreInterface());
-                player.getTheatreParty().addOwner();
+            if (player.getRaidParty() == null) {
+                player.setRaidParty(player.getTheatreInterface());
+                player.getRaidParty().addOwner();
             }
 
-            player.getTheatreParty().addOwner();
+            player.getRaidParty().addOwner();
             player.getPacketSender().sendString(76004, "Invite");
             player.getPacketSender().sendString(76024, Color.ORANGE.wrap(player.getDisplayName()));
-            player.getTheatreInterface().refreshPartyUi(player.getTheatreParty());
+            player.getTheatreInterface().refreshPartyUi(player.getRaidParty());
             player.getPacketSender().sendString(76033, "--");
             player.getPacketSender().sendString(76042, "--");
             player.getPacketSender().sendString(76051, "--");
@@ -1139,16 +1145,16 @@ public class CommandManager {
                 if (p2 != player) {
                     var member = p2;
                     p2.teleport(player.tile());
-                    if (player.getTheatreInterface().getOwner().getTheatreParty() != null) {
+                    if (player.getTheatreInterface().getOwner().getRaidParty() != null) {
                         player.getTheatreInterface().getPlayers().add(member);
-                        member.setTheatreParty(player.getTheatreInterface().getOwner().getTheatreParty());
+                        member.setRaidParty(player.getTheatreInterface().getOwner().getRaidParty());
                         member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
                         DialogueManager.sendStatement(player.getTheatreInterface().getOwner(), member.getUsername() + " has joined your raid party.");
                         member.getPacketSender().sendString(73055, "Leave");
                     }
                 }
             });
-            var theatreParty = player.getTheatreParty();
+            var theatreParty = player.getRaidParty();
             var players = theatreParty.getPlayers();
 
             if (players == null) {
@@ -1157,7 +1163,7 @@ public class CommandManager {
 
             for (var p : players) {
                 if (p.tile().region() != 14642) {
-                    p.getTheatreParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
+                    p.getRaidParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
                     return;
                 }
             }
@@ -1173,7 +1179,7 @@ public class CommandManager {
         dev("raid2", (player, c, s) ->
 
         {
-            log.info("{}", player.getTheatreParty().getPlayers().size());
+            log.info("{}", player.getRaidParty().getPlayers().size());
         });
 
         dev("unlock", (player, c, s) ->

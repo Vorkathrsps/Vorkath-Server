@@ -1078,25 +1078,18 @@ public final class PacketSender {
         out.put(delay, ValueType.A);
         out.put(distance << 4 | loop, ValueType.A);
         out.put(0, ValueType.A);
+        out.put(distance, ValueType.S);
         player.getSession().write(out);
         return this;
     }
 
     public PacketSender sendObject(GameObject object) {
         sendMapPacket(object.getX(), object.getY(), object.getZ());
-        //sendPosition(new Tile(x, y, z));
         PacketBuilder out = new PacketBuilder(151);
         out.put(0, ValueType.A);
         out.putShort(object.getId(), ByteOrder.LITTLE);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.S);
         player.getSession().write(out);
-        if (object.isCustom()) {
-           /* System.out.println("create %s %s %s %s og=%s".formatted(
-                    object.getId() == -1 ? "removed" : ObjectDefinition.get(object.getId()).name,
-                    object.getX(), object.getY(), object.getZ(),
-                    object.originalId)
-            );*/
-        }
         return this;
     }
 
@@ -1104,10 +1097,8 @@ public final class PacketSender {
         sendMapPacket(object.getX(), object.getY(), object.getZ());
         PacketBuilder out = new PacketBuilder(101);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.C);
-        //System.out.println("Sending value" + (((object.getX() & 0x7) << 4) | (object.getY() & 0x7)));
-        out.put(0); //Don't send offset, we don't actually use it client-side cause we sendPosition first.
+        out.put(0);
         player.getSession().write(out);
-        //System.out.println("Sending object removal packet. For object: "+object.toString());
         return this;
     }
 

@@ -27,7 +27,6 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.inter.clan.ClanButtons;
 import com.cryptic.model.inter.dialogue.ItemActionDialogue;
-import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.shop.Shop;
@@ -43,7 +42,6 @@ import static com.cryptic.model.content.collection_logs.LogType.BOSSES;
 import static com.cryptic.model.entity.combat.magic.autocasting.Autocasting.ANCIENT_SPELL_AUTOCAST_STAFFS;
 import static com.cryptic.model.items.container.shop.ShopUtility.*;
 import static com.cryptic.network.packet.incoming.impl.ButtonClickPacketListener.LOGOUT;
-import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  * Handles button actions.
@@ -364,7 +362,7 @@ public class Buttons {
                     if (player.getTheatreInterface().abandon(player, button)) {
                         return;
                     }
-                    if (player.getTheatreParty() != null && player.getTheatreInterface() != null) {
+                    if (player.getRaidParty() != null && player.getTheatreInterface() != null) {
                         if (player.getTheatreInterface().kick(player, button)) {
                             return;
                         }

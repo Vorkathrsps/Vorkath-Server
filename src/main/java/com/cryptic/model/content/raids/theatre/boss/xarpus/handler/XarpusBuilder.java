@@ -1,19 +1,22 @@
 package com.cryptic.model.content.raids.theatre.boss.xarpus.handler;
 
+import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
-import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
+import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 
-public class XarpusHandler implements TheatreHandler {
+public class XarpusBuilder implements RaidBuilder {
     @Override
-    public void build(Player player, TheatreInstance theatreInstance) {
-        Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, theatreInstance.getzLevel() + 1), theatreInstance);
-        xarpus.setHitpoints(this.scale(xarpus, player, false));
-        xarpus.setInstancedArea(theatreInstance);
-        xarpus.spawn(false);
+    public void build(Player player, InstancedArea instance) {
+        if (instance instanceof TheatreInstance theatreInstance) {
+            Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, theatreInstance.getzLevel() + 1), theatreInstance);
+            xarpus.setHitpoints(this.scale(xarpus, player, false));
+            xarpus.setInstancedArea(theatreInstance);
+            xarpus.spawn(false);
+        }
     }
 
     @Override

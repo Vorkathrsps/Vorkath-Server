@@ -5,11 +5,11 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class TheatreParty {
+public class RaidParty {
     @Getter Player owner;
     @Getter public List<Player> players;
 
-    public TheatreParty(Player owner, List<Player> players) {
+    public RaidParty(Player owner, List<Player> players) {
         this.owner = owner;
         this.players = players;
     }

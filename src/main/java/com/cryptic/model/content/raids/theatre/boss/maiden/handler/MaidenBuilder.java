@@ -1,19 +1,22 @@
 package com.cryptic.model.content.raids.theatre.boss.maiden.handler;
 
+import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
-import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
+import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 
-public class MaidenHandler implements TheatreHandler {
+public class MaidenBuilder implements RaidBuilder {
     @Override
-    public void build(Player player, TheatreInstance theatreInstance) {
-        Maiden maiden = new Maiden(10814, new Tile(3162, 4444, theatreInstance.getzLevel()), theatreInstance);
-        maiden.setHitpoints(this.scale(maiden, player, false));
-        maiden.setInstancedArea(theatreInstance);
-        maiden.spawn(false);
+    public void build(Player player, InstancedArea instance) {
+        if (instance instanceof TheatreInstance theatreInstance) {
+            Maiden maiden = new Maiden(10814, new Tile(3162, 4444, theatreInstance.getzLevel()), theatreInstance);
+            maiden.setHitpoints(this.scale(maiden, player, false));
+            maiden.setInstancedArea(theatreInstance);
+            maiden.spawn(false);
+        }
     }
 
     @Override

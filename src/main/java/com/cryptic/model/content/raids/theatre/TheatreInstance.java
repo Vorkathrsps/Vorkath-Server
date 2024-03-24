@@ -2,15 +2,15 @@ package com.cryptic.model.content.raids.theatre;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
-import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
+import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatBuilder;
 import com.cryptic.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
-import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
-import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
-import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
-import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
-import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
-import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
-import com.cryptic.model.content.raids.theatre.controller.TheatreController;
+import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenBuilder;
+import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasBuilder;
+import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegBuilder;
+import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikBuilder;
+import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusBuilder;
+import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
+import com.cryptic.model.content.raids.theatre.controller.RaidController;
 import com.cryptic.model.content.raids.theatre.loot.ChestType;
 import com.cryptic.model.content.raids.theatre.loot.TheatreLoot;
 import com.cryptic.model.content.raids.theatre.stage.*;
@@ -55,9 +55,9 @@ public class TheatreInstance extends InstancedArea {
     public List<GameObject> bloodObjectList;
     public List<BloodSpawn> orbList;
     @Getter
-    List<TheatreHandler> bosses;
+    List<RaidBuilder> bosses;
     @Getter
-    TheatreController theatreController;
+    RaidController raidController;
     @Getter
     TheatrePhase theatrePhase;
     @Getter
@@ -85,7 +85,7 @@ public class TheatreInstance extends InstancedArea {
         this.owner = owner;
         this.players = players;
         this.bosses = new ArrayList<>();
-        this.theatreController = new TheatreController(bosses);
+        this.raidController = new RaidController(bosses);
         this.theatrePhase = new TheatrePhase(TheatreStage.ONE);
         this.verzikNylocasList = new ArrayList<>();
         this.verzikPillarNpcs = new ArrayList<>();
@@ -119,13 +119,13 @@ public class TheatreInstance extends InstancedArea {
     }
 
     public void startRaid() {
-        bosses.add(new MaidenHandler());
-        bosses.add(new XarpusHandler());
-        bosses.add(new BloatHandler());
-        bosses.add(new VasiliasHandler());
-        bosses.add(new SotetsegHandler());
-        bosses.add(new VerzikHandler());
-        theatreController.build(this.owner, this);
+        bosses.add(new MaidenBuilder());
+        bosses.add(new XarpusBuilder());
+        bosses.add(new BloatBuilder());
+        bosses.add(new VasiliasBuilder());
+        bosses.add(new SotetsegBuilder());
+        bosses.add(new VerzikBuilder());
+        raidController.build(this.owner, this);
     }
 
     public void onRoomStateChanged(RoomState roomState) {
@@ -158,7 +158,7 @@ public class TheatreInstance extends InstancedArea {
             member.teleport(new Tile(3670, 3219, 0));
             member.clearAttrib(TOB_LOOT_CHEST);
             member.clearAttrib(RARE_TOB_REWARD);
-            member.setTheatreParty(null);
+            member.setRaidParty(null);
             member.setTheatreInstance(null);
             member.unlock();
         }

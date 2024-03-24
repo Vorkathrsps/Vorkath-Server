@@ -1,20 +1,23 @@
 package com.cryptic.model.content.raids.theatre.boss.sotetseg.handler;
 
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.sotetseg.Sotetseg;
-import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
+import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 
-public class SotetsegHandler implements TheatreHandler {
+public class SotetsegBuilder implements RaidBuilder {
     @Override
-    public void build(Player player, TheatreInstance theatreInstance) {
-        Sotetseg sotetseg = new Sotetseg(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreInstance.getzLevel()), theatreInstance);
-        sotetseg.setHitpoints(this.scale(sotetseg, player, false));
-        sotetseg.setInstancedArea(theatreInstance);
-        sotetseg.spawn(false);
+    public void build(Player player, InstancedArea instance) {
+        if (instance instanceof TheatreInstance theatreInstance) {
+            Sotetseg sotetseg = new Sotetseg(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreInstance.getzLevel()), theatreInstance);
+            sotetseg.setHitpoints(this.scale(sotetseg, player, false));
+            sotetseg.setInstancedArea(theatreInstance);
+            sotetseg.spawn(false);
+        }
     }
 
     @Override

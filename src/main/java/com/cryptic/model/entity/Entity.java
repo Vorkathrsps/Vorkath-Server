@@ -1,6 +1,8 @@
 package com.cryptic.model.entity;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.AnimationDefinition;
+import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.task.Task;
@@ -11,6 +13,7 @@ import com.cryptic.model.action.ActionManager;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
+import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -1227,6 +1230,10 @@ public abstract class Entity {
         return previousTile;
     }
 
+    @Getter
+    @Setter
+    private TombsInstance tombsInstance;
+
     public void setPreviousTile(Tile previousTile) {
         this.previousTile = previousTile;
     }
@@ -2052,8 +2059,14 @@ public abstract class Entity {
 
     public void animate(Animation animation) {
         if (this.animation != null && animation != null) {
-            if (this.animation.getPriority().ordinal() > animation.getPriority().ordinal()) {
-                return;
+            AnimationDefinition currentAnimation = DefinitionRepository.animationDefinitions.get(this.animation.getId());
+            AnimationDefinition nextAnimation = DefinitionRepository.animationDefinitions.get(animation.getId());
+            if (currentAnimation != null) {
+                if (nextAnimation != null) {
+                    if (currentAnimation.idleStyle > nextAnimation.idleStyle || currentAnimation.moveStyle > nextAnimation.moveStyle) {
+                        return;
+                    }
+                }
             }
         }
 
@@ -2179,30 +2192,14 @@ public abstract class Entity {
     }
 
     public boolean isNpc(int i) {
-        return isNpc() && getAsNpc().id() == i;
+        return isNpc() && Objects.nonNull(getAsNpc()) && getAsNpc().id() == i;
+    }
+
+    public boolean isNpc(int... i) {
+        return isNpc() && Objects.nonNull(getAsNpc()) && ArrayUtils.contains(i, getAsNpc().id());
     }
 
     public Region[] surrounding;
-
-    @Getter
-    public Map<Integer, Integer> chunks = new HashMap<>();
-
-    public void addSurroundingChunks() {
-        int currentChunkX = this.tile.chunkX();
-        int currentChunkY = this.tile.chunkY();
-        int radius = 8;
-        chunks.clear();
-        chunks.put(currentChunkX, currentChunkY);
-        for (int xOffset = -radius; xOffset <= radius; xOffset++) {
-            for (int yOffset = -radius; yOffset <= radius; yOffset++) {
-                int neighborChunkX = currentChunkX + xOffset;
-                int neighborChunkY = currentChunkY + yOffset;
-                if (!chunks.containsKey(neighborChunkX) || !chunks.containsValue(neighborChunkY)) {
-                    chunks.put(neighborChunkX, neighborChunkY);
-                }
-            }
-        }
-    }
 
     /**
      * @author Shadowrs

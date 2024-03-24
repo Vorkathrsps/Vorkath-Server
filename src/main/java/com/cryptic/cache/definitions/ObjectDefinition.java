@@ -3,7 +3,10 @@ package com.cryptic.cache.definitions;
 import com.cryptic.GameConstants;
 import com.cryptic.model.World;
 import com.cryptic.network.codec.RSBuffer;
+import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +16,8 @@ import java.util.Map;
  * Created by Bart Pelle on 10/4/2014.
  */
 public class ObjectDefinition implements Definition {
+
+    public static Int2ObjectMap<ObjectDefinition> cached = new Int2ObjectLinkedOpenHashMap<>();
 
     public static ObjectDefinition get(int id) {
         return World.getWorld().definitions().get(ObjectDefinition.class, id);
@@ -58,6 +63,8 @@ public class ObjectDefinition implements Definition {
     public int varbit = -1;
     public int anInt2302 = -1;
     public int anInt2303 = 0;
+    public boolean rev220SoundData = true;
+    public int ambientSoundRetain;
     public int varp = -1;
     public int anInt2304 = 0;
     public int anInt2290 = 0;
@@ -90,6 +97,8 @@ public class ObjectDefinition implements Definition {
 
         if (data != null && data.length > 0)
             decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
+
+        cached.put(id, this);
     }
 
     void decode(RSBuffer buffer) {
@@ -431,6 +440,10 @@ public class ObjectDefinition implements Definition {
             anInt2304 = (is.readUShort());
             anInt2290 = (is.readUShort());
             anInt2303 = (is.readUByte());
+            if (rev220SoundData)
+            {
+                this.ambientSoundRetain = is.readUByte();
+            }
             int length = is.readUByte();
             int[] anIntArray2084 = new int[length];
 

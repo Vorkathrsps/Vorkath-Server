@@ -14,4 +14,5 @@ public interface CombatMethod {
         return false;
     }
     default boolean canMultiAttackInSingleZones() { return false; }
+    default boolean ignoreEntityInteraction() { return false; }
 }

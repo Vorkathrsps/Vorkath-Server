@@ -1,7 +1,6 @@
 package com.cryptic.model.content.raids.theatre.interactions.dialogue;
 
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
-import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.utility.Color;
@@ -10,8 +9,8 @@ public class TheatreDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        if (player.getTheatreParty() != null) {
-            if (player.getTheatreParty().getOwner() != player) {
+        if (player.getRaidParty() != null) {
+            if (player.getRaidParty().getOwner() != player) {
                 player.message(Color.RED.wrap("Only the Owner of the raiding party can start this raid."));
                 return;
             }
@@ -24,13 +23,13 @@ public class TheatreDialogue extends Dialogue {
     protected void select(int option) {
         if (isPhase(0)) {
             if (option == 1) {
-                if (player.getTheatreParty() == null) {
+                if (player.getRaidParty() == null) {
                     player.message(Color.RED.wrap("You need to make a party before you can start this raid."));
                     stop();
                     return;
                 }
 
-                var theatreParty = player.getTheatreParty();
+                var theatreParty = player.getRaidParty();
                 var players = theatreParty.getPlayers();
 
                 if (players == null) {
@@ -39,7 +38,7 @@ public class TheatreDialogue extends Dialogue {
 
                 for (var p : players) {
                     if (p.tile().region() != 14642) {
-                        p.getTheatreParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
+                        p.getRaidParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
                         stop();
                         return;
                     }

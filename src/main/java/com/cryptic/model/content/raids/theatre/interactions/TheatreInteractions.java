@@ -4,13 +4,10 @@ import com.cryptic.model.content.raids.theatre.interactions.dialogue.TheatreDial
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.Item;
-import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class TheatreInteractions extends PacketInteraction {
             return true;
         }
         if (id == 32653) {
-            if (player.getTheatreParty() != null) {
+            if (player.getRaidParty() != null) {
                 player.getDialogueManager().start(new TheatreDialogue());
             }
             return true;

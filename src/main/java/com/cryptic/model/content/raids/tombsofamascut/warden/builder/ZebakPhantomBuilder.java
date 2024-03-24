@@ -13,7 +13,7 @@ public class ZebakPhantomBuilder implements RaidBuilder {
     @Override
     public void build(Player player, InstancedArea instance) {
         if (instance instanceof TombsInstance tombsInstance) {
-            ZebakNPC zebak = new ZebakNPC(11774, new Tile(3942, 5153, tombsInstance.getzLevel() + 1), Direction.NORTH_WEST.toInteger(), tombsInstance);
+            ZebakNPC zebak = new ZebakNPC(11774, new Tile(3943, 5153, tombsInstance.getzLevel() + 1), Direction.NORTH_WEST.toInteger(), tombsInstance);
             zebak.setHitpoints(2500);
             zebak.setInstancedArea(tombsInstance);
             zebak.spawn(false);

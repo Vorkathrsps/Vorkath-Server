@@ -50,15 +50,15 @@ public class ZebakPhantomCombat extends CommonCombatMethod {
         Tile tile = new Tile(3941, 5155, npc.getInstancedArea().getzLevel() + 1).center(npc.getSize() / 2);
         Tile hiddenTile = LOCATION_ONE.transform(0, 0, npc.getInstancedArea().getzLevel() + 1);
         double distance = tile.distanceTo(hiddenTile);
-        int duration = (int) (41 + (82 + distance));
-        Projectile projectileOne = new Projectile(tile, hiddenTile, 2176, 41, duration, 50, 125, 15, npc.getSize(), 90, 0);
+        int duration = (int) (30 + (90 + distance));
+        Projectile projectileOne = new Projectile(tile, hiddenTile, 2176, 30, duration, 50, 125, 20, npc.getSize(), 90, 0);
         projectileOne.send(tile, hiddenTile);
         final int delay = getDelay(projectileOne);
         npc.getTombsInstance().getHiddenZebak().setGraphic(new Graphic(2186, GraphicHeight.HIGH_9, delay));
         Chain.noCtx().cancelWhen(cancel).runFn((int) (delay / 30D) + 1, () -> {
             for (var player : this.instance.getPlayers()) {
                 if (player == null || !player.isRegistered() || player.dead()) continue;
-                Projectile projectileTwo = new Projectile(hiddenTile, player, 2181, 8, duration, projectileOne.getEndHeight(), 30, 15, 4, 90, 0);
+                Projectile projectileTwo = new Projectile(hiddenTile, player, 2181, 0, duration, projectileOne.getEndHeight(), 22, 127, npc.getSize(), 90, 0);
                 projectileTwo.sendProjectile();
                 new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.MAGIC).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
                 player.graphic(131, GraphicHeight.HIGH, projectileTwo.getSpeed());
@@ -71,15 +71,15 @@ public class ZebakPhantomCombat extends CommonCombatMethod {
         Tile tile = new Tile(3941, 5155, npc.getInstancedArea().getzLevel() + 1).center(npc.getSize() / 2);
         Tile hiddenTile = LOCATION_ONE.transform(0, 0, npc.getInstancedArea().getzLevel() + 1);
         double distance = tile.distanceTo(hiddenTile);
-        int duration = (int) (41 + (82 + distance));
-        Projectile projectileOne = new Projectile(tile, hiddenTile, 2178, 41, duration, 50, 125, 15, npc.getSize(), 90, 0);
+        int duration = (int) (30 + (90 + distance));
+        Projectile projectileOne = new Projectile(tile, hiddenTile, 2178, 30, duration, 50, 125, 20, npc.getSize(), 90, 0);
         projectileOne.send(tile, hiddenTile);
         final int delay = getDelay(projectileOne);
         npc.getTombsInstance().getHiddenZebak().setGraphic(new Graphic(2185, GraphicHeight.HIGH_9, delay));
         Chain.noCtx().cancelWhen(cancel).runFn((int) (delay / 30D) + 1, () -> {
             for (var player : this.instance.getPlayers()) {
                 if (player == null || !player.isRegistered() || player.dead()) continue;
-                Projectile projectileTwo = new Projectile(hiddenTile, player, 2187, 8, duration, projectileOne.getEndHeight(), 30, 15, 4, 90, 0);
+                Projectile projectileTwo = new Projectile(hiddenTile, player, 2187, 0, duration, projectileOne.getEndHeight(), 22, 127, npc.getSize(), 90, 0);
                 projectileTwo.sendProjectile();
                 new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.RANGED).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
                 player.graphic(1103, GraphicHeight.HIGH, projectileTwo.getSpeed());
@@ -98,7 +98,7 @@ public class ZebakPhantomCombat extends CommonCombatMethod {
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return 6;
+        return 7;
     }
 
     @Override

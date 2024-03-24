@@ -29,6 +29,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Direction;
+import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -635,7 +636,11 @@ public class CommandManager {
         });
 
         dev("c3", (p, c, s) -> {
-
+            boolean aerialAssault = false;
+            NPC npc = new NPC(11776, p.tile());
+            npc.spawn(false);
+            Chain.noCtx().runFn(1, () -> {
+            });
         });
 
         dev("c2", (p, c, s) -> {

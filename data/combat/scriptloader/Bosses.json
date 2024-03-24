@@ -112,6 +112,40 @@
     }
   },
   {
+    //WARDEN
+    "ids": [
+      11776
+    ],
+    "maxhit": 31,
+    "attackspeed": 6,
+    "aggroradius": 32,
+    "aggressive": true,
+    "stats": {
+      "attack": 330,
+      "strength": 330,
+      "magic": 180,
+      "ranged": 1,
+      "defence": 300,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "ranged": 100,
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 20,
+      "rangeddefence": 25,
+      "magicdefence": 25
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+      "combat": "KephriPhantomCombat"
+    }
+  },
+  {
     //ZEBAK PHANTOM
     "ids": [
       11774

@@ -266,7 +266,7 @@ public class Combat {
         }
     }
 
-    public static final int[] ignored_interaction = new int[]{11774, 11762, 6611};
+    public static final int[] ignored_interaction = new int[]{11774, 11762, 6611, 11776};
 
     public boolean beforePerformAttack() {
 

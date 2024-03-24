@@ -116,7 +116,7 @@ public class WardenCombat extends CommonCombatMethod {
                 });
             }
         });
-        Chain.noCtxRepeat().cancelWhen(cancel).repeatingTask(18, floorTask -> Chain.noCtx().runFn(6, () -> {
+        Chain.noCtxRepeat().cancelWhen(cancel).repeatingTask(18, floorTask -> Chain.noCtx().cancelWhen(cancel).runFn(6, () -> {
             npc.animate(9674);
             if (npc.getInstancedArea() != null) {
                 type.buildEast(npc, new Tile(3936, 5156), false).forEach(tile -> {

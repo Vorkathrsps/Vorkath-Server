@@ -13,7 +13,7 @@ public class KephriPhantomBuilder implements RaidBuilder {
     @Override
     public void build(Player player, InstancedArea instance) {
         if (instance instanceof TombsInstance tombsInstance) {
-            KephriNPC kephri = new KephriNPC(11776, new Tile(3926, 5153, tombsInstance.getzLevel() + 1), Direction.NORTH_EAST.toInteger(), tombsInstance);
+            KephriNPC kephri = new KephriNPC(11776, new Tile(3925, 5153, tombsInstance.getzLevel() + 1), Direction.NORTH_EAST.toInteger(), tombsInstance);
             kephri.setHitpoints(2500);
             kephri.setInstancedArea(tombsInstance);
             kephri.spawn(false);

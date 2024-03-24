@@ -12,7 +12,6 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
-
 import java.util.ArrayList;
 import java.util.List;
 

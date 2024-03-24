@@ -103,6 +103,7 @@ public class NPCInteractionHandler implements PacketListener {
             return;
 
         player.stopActions(false);
+
         player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());
 
         if (opcode == ATTACK_OPTION) {
@@ -154,6 +155,9 @@ public class NPCInteractionHandler implements PacketListener {
     }
 
     private void handleInteraction(Player player, NPC npc, int option) {
+
+        player.setEntityInteraction(npc);
+
         if (option == 3) {
             if (player.getPetEntity().getPet() != null) {
                 if (npc.id() == player.getPetEntity().getPet().getId()) {
@@ -162,6 +166,7 @@ public class NPCInteractionHandler implements PacketListener {
                 }
             }
         }
+
         /** Controller overrides **/
         if (PacketInteractionManager.checkNpcInteraction(player, npc, option))
             return;

@@ -636,11 +636,10 @@ public class CommandManager {
         });
 
         dev("c3", (p, c, s) -> {
-            boolean aerialAssault = false;
-            NPC npc = new NPC(11776, p.tile());
-            npc.spawn(false);
-            Chain.noCtx().runFn(1, () -> {
-            });
+            //if chest is empty varbit value is 4
+            for (int index = 14356; index < 14380; index++) {
+                p.varps().varbit(index, 2);
+            }
         });
 
         dev("c2", (p, c, s) -> {
@@ -850,11 +849,7 @@ public class CommandManager {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
 
-        dev("varbit", (p, c, s) -> p.varps().
-
-            varbit(Integer.parseInt(s[1]), Integer.
-
-                parseInt(s[2])));
+        dev("varbit", (p, c, s) -> p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
 

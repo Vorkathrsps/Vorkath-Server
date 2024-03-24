@@ -66,6 +66,8 @@ public class Pickpocketing extends PacketInteraction {
             return;
         }
 
+        player.setEntityInteraction(npc);
+
         player.runFn(1, () -> {
             player.lockDamageOk();
             player.message("You attempt to pick the " + pickpocket.identifier + " pocket.");

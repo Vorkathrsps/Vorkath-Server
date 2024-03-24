@@ -130,11 +130,11 @@ public class NpcDefinition implements Definition {
 
         if (data != null && data.length > 0)
             decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
-        //custom();
 
         if (name != null && name.toLowerCase().contains("wise old man")) {
             name = "Vote Shop";
         }
+
         gwdRoomNpc = ArrayUtils.contains(GWD_ROOM_NPCIDS, id);
         inferno = id >= 7677 && id <= 7710;
         roomBoss = name != null && ((id >= 2042 && id <= 2044 || inferno) || gwdRoomNpc);

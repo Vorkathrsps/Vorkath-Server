@@ -3,10 +3,14 @@ package com.cryptic.model.content.raids.tombsofamascut.warden.combat;
 import com.cryptic.model.World;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
@@ -58,6 +62,7 @@ public class KephriPhantomCombat extends CommonCombatMethod {
             World.getWorld().tileGraphic(1447, tile, 0, 38);
         }
 
+        int delay = -1;
         for (var tile : projectileTiles) {
             if (tile == null) continue;
             double distance = tile.distanceTo(tile);
@@ -65,10 +70,20 @@ public class KephriPhantomCombat extends CommonCombatMethod {
             Projectile projectile = new Projectile(baseTile, tile, 1481, 31, duration, 39, 50, 51, 0, 0);
             projectile.send(baseTile, tile);
             World.getWorld().tileGraphic(2157, tile, 0, projectile.getSpeed());
+            delay = projectile.getSpeed();
+            delay /= 30D;
         }
 
-        Chain.noCtx().runFn(3, () -> {
-        });
+        if (delay != -1) {
+            Chain.noCtx().runFn(delay + 1, () -> {
+                for (var player : this.instance.getPlayers()) {
+                    if (player == null) continue;
+                    if (projectileTiles.contains(player.tile())) {
+                        new Hit(npc, target, Utils.random(10, 15), 0, CombatType.MAGIC).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
+                    }
+                }
+            });
+        }
     }
 
     @Override

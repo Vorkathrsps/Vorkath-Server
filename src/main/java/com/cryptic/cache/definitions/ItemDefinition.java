@@ -171,6 +171,8 @@ public class ItemDefinition implements Definition {
             inventoryModel = stream.readUShort();
         } else if (opcode == 2) {
             name = stream.readJagexString();
+        } else if (opcode == 3) {
+            stream.readJagexString();
         } else if (opcode == 4) {
             zoom2d = stream.readUShort();
         } else if (opcode == 5) {

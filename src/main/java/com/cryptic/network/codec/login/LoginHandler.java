@@ -25,7 +25,6 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         super.channelUnregistered(ctx);
-        //logger.info("channel closed on login screen");
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.cryptic.model.entity.npc.droptables;
 
 import com.cryptic.cache.definitions.ItemDefinition;
+import com.cryptic.core.TimesCycle;
 import com.cryptic.model.entity.npc.droptables.util.DropsConverter;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -16,6 +19,7 @@ import java.util.List;
 public class ItemRepository {
     public static HashMap<String, Integer> itemIds = new HashMap<>();
     public static HashMap<Integer, String> itemNames = new HashMap<>();
+    private static final Logger logger = LogManager.getLogger(ItemRepository.class);
 
     public static String getItemName(int id) {
         if (id <= 0) return "null";
@@ -58,7 +62,7 @@ public class ItemRepository {
                 throw new RuntimeException(e);
             }
         });
-        System.out.println("Loaded " + itemIds.size() + " item names");
+        logger.info("Loaded " + itemIds.size() + " item names");
     }
 }
 

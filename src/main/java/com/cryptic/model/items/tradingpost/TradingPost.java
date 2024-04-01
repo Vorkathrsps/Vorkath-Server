@@ -107,7 +107,7 @@ public class TradingPost {
                     e.printStackTrace();
                 }
             }
-            System.out.println("TradingPost " + sales.size() + " Sale Listings loaded");
+            logger.info("TradingPost " + sales.size() + " Sale Listings loaded");
             loadRecentSales();
         } catch (Exception e) {
             e.printStackTrace();

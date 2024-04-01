@@ -56,23 +56,16 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
 
     private void onUnregisteredIngame(Session session) {
         session.clearQueues();
-
         Player player = session.getPlayer();
-
         if (player == null) {
-            //logger.error("channelInactive not possible: "+player);
             return;
         }
         if (player.getUsername() == null || player.getUsername().length() == 0) {
-            //logger.error("channelInactive wtf: "+player);
             return;
         }
-        //logger.trace("channelInactive for Player {} state:{}", player, player.getSession().getState());
         if (session.getState() != SessionState.LOGGED_IN) {
-            // during login the connection is dropped and sent again a couple times (handshake > update > rsa > login)
             return;
         }
-        // trigger logout only when your state is CONNECTED, aka you're ingame
         player.getForcedLogoutTimer().start(60);
         player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
     }

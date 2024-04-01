@@ -26,6 +26,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import javax.annotation.Nonnull;
@@ -162,21 +163,21 @@ public class TheatreInstance extends InstancedArea {
             member.setTheatreInstance(null);
             member.unlock();
         }
-        for (var o : treasureSpawns) {
+        for (var o : Lists.newArrayList(treasureSpawns.iterator())) {
             if (o != null) {
                 o.remove();
             }
         }
-        for (var n : verzikNylocasList) {
+        for (var n : Lists.newArrayList(verzikNylocasList.iterator())) {
             if (n != null) {
                 n.remove();
             }
         }
-        for (var o : bloodObjectList) {
+        for (var o :  Lists.newArrayList(bloodObjectList.iterator())) {
             if (o == null) continue;
             o.remove();
         }
-        for (var n : orbList) {
+        for (var n : Lists.newArrayList(orbList.iterator())) {
             if (n == null) continue;
             n.die();
         }

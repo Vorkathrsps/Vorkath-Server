@@ -151,13 +151,13 @@ public class BoneBurying extends PacketInteraction {
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {
             player.message("The gods are very pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
         } else if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
         } else {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
         }
     }
 

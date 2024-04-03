@@ -1,5 +1,6 @@
 package com.cryptic.model.content.bank_pin;
 
+import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.content.bank_pin.dialogue.BankTellerDialogue;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -22,24 +23,14 @@ public final class BankTeller {
     }
 
     private static boolean isNearBank(NPC npc) {
-
-        Predicate<GameObject> isBankBooth = obj -> "Bank booth".equals(obj.definition().name);
+        Predicate<GameObject> isBankBooth = obj -> ObjectDefinition.cached.get(obj.getId()).name.contains("bank booth");
         Tile north = npc.tile().transform(0, 1);
-        if (MapObjects.get(isBankBooth, north).isPresent()) {
-            return true;
-        }
+        if (MapObjects.get(isBankBooth, north).isPresent()) return true;
         Tile west = npc.tile().transform(-1, 0);
-        if (MapObjects.get(isBankBooth, west).isPresent()) {
-            return true;
-        }
+        if (MapObjects.get(isBankBooth, west).isPresent()) return true;
         Tile east = npc.tile().transform(1, 0);
-        if (MapObjects.get(isBankBooth, east).isPresent()) {
-            return true;
-        }
+        if (MapObjects.get(isBankBooth, east).isPresent()) return true;
         Tile south = npc.tile().transform(0, -1);
-        if (MapObjects.get(isBankBooth, south).isPresent()) {
-            return true;
-        }
-        return false;
+        return MapObjects.get(isBankBooth, south).isPresent();
     }
 }

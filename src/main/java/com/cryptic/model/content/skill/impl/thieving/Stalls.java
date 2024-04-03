@@ -111,7 +111,7 @@ public class Stalls extends PacketInteraction {
             return;
         }
 
-        if (player.inventory().contains(22521, 28) || player.inventory().contains(22522, 28) || player.inventory().contains(22523, 28) || player.inventory().contains(22524, 28) || player.inventory().contains(22525, 28) || player.inventory().contains(22526, 28) || player.inventory().contains(22527, 28) || player.inventory().contains(22528, 28) || player.inventory().contains(22529, 28) || player.inventory().contains(22530, 28)) {
+        if (bankContainsPouch(player) || inventoryContainsPouch(player)) {
             player.message(Color.RED.wrap("You must claim all your coin pouches before performing this action."));
             return;
         }
@@ -173,6 +173,14 @@ public class Stalls extends PacketInteraction {
             player.getSkills().addXp(Skills.THIEVING, stall.experience);
             player.unlock();
         });
+    }
+
+    private boolean inventoryContainsPouch(Player player) {
+        return player.inventory().contains(22521, 28) || player.inventory().contains(22522, 28) || player.inventory().contains(22523, 28) || player.inventory().contains(22524, 28) || player.inventory().contains(22525, 28) || player.inventory().contains(22526, 28) || player.inventory().contains(22527, 28) || player.inventory().contains(22528, 28) || player.inventory().contains(22529, 28) || player.inventory().contains(22530, 28);
+    }
+
+    private boolean bankContainsPouch(Player player) {
+        return player.getBank().contains(22521, 28) || player.getBank().contains(22522, 28) || player.getBank().contains(22523, 28) || player.getBank().contains(22524, 28) || player.getBank().contains(22525, 28) || player.getBank().contains(22526, 28) || player.getBank().contains(22527, 28) || player.getBank().contains(22528, 28) || player.getBank().contains(22529, 28) || player.getBank().contains(22530, 28);
     }
 
     private void replaceStall(Stall stall, GameObject object, int replacementID, Player player) {

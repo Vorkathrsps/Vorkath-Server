@@ -24,31 +24,32 @@ public class AncientGodsword extends CommonCombatMethod {
         player.animate(9171);
         player.graphic(1996);
 
-        entity.submitHit(target, 0, this)
-            .postDamage(hit -> {
-                if (entity.dead() || target.dead() || target.isNullifyDamageLock()) {
-                    hit.invalidate();
-                    return;
-                }
-                if (!hit.isAccurate()) {
-                    hit.block();
-                    return;
-                }
-                if (hit.isAccurate() && hit.getDamage() <= 0) {
-                    hit.block();
-                    return;
-                }
-                BooleanSupplier distance = () -> !entity.tile().isWithinDistance(target.tile(), 5);
-                target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
-                Chain.bound(null).cancelWhen(distance).runFn(8, () -> {
-                    System.out.println("test");
-                    entity.submitAccurateHit(target, 0, 25, this)
-                        .postDamage(h2 -> {
-                            entity.heal(25);
-                            target.graphic(2001, GraphicHeight.HIGH, 0);
-                        });
-                });
+        System.out.println("calling here");
+
+        entity.submitHit(target, 0, this).postDamage(hit -> {
+            hit.setAccurate(true);
+            if (entity.dead() || target.dead() || target.isNullifyDamageLock()) {
+                hit.invalidate();
+                return;
+            }
+            if (!hit.isAccurate()) {
+                hit.block();
+                return;
+            }
+            if (hit.isAccurate() && hit.getDamage() <= 0) {
+                hit.block();
+                return;
+            }
+            BooleanSupplier distance = () -> !entity.tile().isWithinDistance(target.tile(), 5);
+            target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
+            Chain.bound(null).cancelWhen(distance).runFn(8, () -> {
+                entity.submitAccurateHit(target, 0, 25, this)
+                    .postDamage(h2 -> {
+                        entity.heal(25);
+                        target.graphic(2001, GraphicHeight.HIGH, 0);
+                    });
             });
+        });
         CombatSpecial.drain(entity, CombatSpecial.ANCIENT_GODSWORD.getDrainAmount());
         return true;
     }

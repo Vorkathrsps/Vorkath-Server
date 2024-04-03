@@ -70,7 +70,7 @@ public enum CombatSpecial {
     ABYSSAL_DAGGER(new int[]{ItemIdentifiers.ABYSSAL_DAGGER, ItemIdentifiers.ABYSSAL_DAGGER_P, ItemIdentifiers.ABYSSAL_DAGGER_P_13269, ItemIdentifiers.ABYSSAL_DAGGER_P_13271}, 50, 0.85, 1.25, new AbyssalDagger(), WeaponType.DAGGER),
     ABYSSAL_DAGGER_BH(new int[]{ItemIdentifiers.ABYSSAL_DAGGER_BH, ItemIdentifiers.ABYSSAL_DAGGER_BHP_27867, ItemIdentifiers.ABYSSAL_DAGGER_BHP, ItemIdentifiers.ABYSSAL_DAGGER_BHP_27865}, 25, 0.95, 1.25, new AbyssalDaggerBH(), WeaponType.DAGGER),
     ARMADYL_GODSWORD(new int[]{ItemIdentifiers.ARMADYL_GODSWORD, 20593}, 50, 1.25D * 1.10F, 1.50F, new ArmadylGodsword(), WeaponType.TWOHANDED),
-    ANCIENT_GODSWORD(new int[]{ItemIdentifiers.ANCIENT_GODSWORD}, 50, 1.10D, 1.50F, new AncientGodsword(), WeaponType.TWOHANDED),
+    ANCIENT_GODSWORD(new int[]{ItemIdentifiers.ANCIENT_GODSWORD, 27184}, 50, 1.10D, 1.50F, new AncientGodsword(), WeaponType.TWOHANDED),
     BANDOS_GODSWORD(new int[]{ItemIdentifiers.BANDOS_GODSWORD, ItemIdentifiers.BANDOS_GODSWORD_OR}, 50, 1.20D, 1.0, new BandosGodsword(), WeaponType.TWOHANDED),
     SARADOMIN_GODSWORD(new int[]{ItemIdentifiers.SARADOMIN_GODSWORD, ItemIdentifiers.SARADOMIN_GODSWORD_OR}, 50, 1.10D, 1.1, new SaradominGodsword(), WeaponType.TWOHANDED),
     ZAMORAK_GODSWORD(new int[]{ItemIdentifiers.ZAMORAK_GODSWORD, ItemIdentifiers.ZAMORAK_GODSWORD_OR}, 50, 1.10D, 1.1, new ZamorakGodsword(), WeaponType.TWOHANDED),

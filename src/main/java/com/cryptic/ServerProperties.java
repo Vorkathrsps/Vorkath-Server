@@ -130,7 +130,7 @@ public final class ServerProperties {
         displayCycleTime = true;
         useInformationCycle = true;
         informationCycleCount = 10;
-        gamePort = 43596;
+        gamePort = 43597;
         overrideGamePort = false;
         enableTraceLogging = false;
         production = false;

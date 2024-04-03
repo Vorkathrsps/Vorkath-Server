@@ -15,6 +15,7 @@ import com.cryptic.utility.timers.TimerKey;
 
 import static com.cryptic.GameConstants.BANK_ITEMS;
 import static com.cryptic.GameConstants.TAB_AMOUNT;
+import static com.cryptic.model.entity.attributes.AttributeKey.STARTER_GIVEN;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class AccountSelection extends PacketInteraction {
@@ -161,24 +162,21 @@ public class AccountSelection extends PacketInteraction {
             }
         }
 
-        //Set default spellbook
         player.setSpellbook(MagicSpellbook.NORMAL);
-        //Remove tutorial flag.
         player.clearAttrib(AttributeKey.TUTORIAL);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
-
-        //Setup bank
-        /*if (!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
-            player.getBank().addAll(BANK_ITEMS);
-            System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
-            player.getBank().shift();
-        }*/
     }
 
     public boolean confirm(Player player) {
         if (player.getTimers().has(TimerKey.CLICK_DELAY)) {
             return false;
         }
+
+        if (player.getAttribOr(STARTER_GIVEN, false)) {
+            return true;
+        }
+
+        player.putAttrib(STARTER_GIVEN, true);
 
         int validButtons = 42812;
         for (AccountType type : AccountType.values()) {

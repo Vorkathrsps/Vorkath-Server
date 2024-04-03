@@ -12,6 +12,7 @@ public enum AttributeKey {
     RETREATING,
 
     MENACING_CURSE,
+    STARTER_GIVEN("starter_given", AttribType.BOOLEAN),
 
     SIGIL_OF_THE_FERAL_FIGHTER,
     STUCK_ON_WEB,

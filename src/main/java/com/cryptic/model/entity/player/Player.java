@@ -218,7 +218,8 @@ public class Player extends Entity {
         return wildernessSlayerCasket;
     }
 
-    @Getter private final WildernessKeys wildernessKeys = new WildernessKeys();
+    @Getter
+    private final WildernessKeys wildernessKeys = new WildernessKeys();
 
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
@@ -256,7 +257,8 @@ public class Player extends Entity {
 
     private Raids raids;
 
-    @Getter public BonusesInterface bonusInterface = new BonusesInterface(this);
+    @Getter
+    public BonusesInterface bonusInterface = new BonusesInterface(this);
 
     private ZarosGodwars zarosGodwars;
 
@@ -516,7 +518,7 @@ public class Player extends Entity {
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
         long risked = ItemsKeptOnDeath.getLostItemsValue();
         String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
-        player.getPacketSender().sendString(80055, "Cryptic Information");
+        player.getPacketSender().sendString(80055, "Valor Information");
         player.getPacketSender().sendString(80059, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
         player.getPacketSender().sendString(80060, "Players In Wild: " + "@whi@" + World.getWorld().getPlayersInWild());
         player.getPacketSender().sendString(80061, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
@@ -1545,7 +1547,8 @@ public class Player extends Entity {
 
     }
 
-    @Getter public Sigil sigil = new Sigil();
+    @Getter
+    public Sigil sigil = new Sigil();
 
     /**
      * Called by the world's login queue!
@@ -1553,13 +1556,6 @@ public class Player extends Entity {
     public void onLogin() {
         logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
         if (dead()) die();
-        handleForcedTeleports();
-        applyAttributes();
-        updatePlayer();
-        handleOnLogin(this);
-        //this.getPetEntity().spawnOnLogin();
-        this.getSigil().HandleLogin(this);
-        applyPoweredStaffSpells();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
         if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin)
             getBankPin().enterPin();
@@ -1572,13 +1568,28 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
-        updatePlayerPanel(this);
         message("Welcome " + (newAccount ? "" : "back ") + "to " + GameConstants.SERVER_NAME + "!");
+        switch (this.rights) {
+            case SUPPORT ->
+                World.getWorld().sendWorldMessage("<img=" + PlayerRights.SUPPORT.getSpriteId() + ">" + "<shad=1" + Color.BLUE.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+            case MODERATOR ->
+                World.getWorld().sendWorldMessage("<img=" + PlayerRights.MODERATOR.getSpriteId() + ">" + "<shad=1" + Color.WHITE.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+            case ADMINISTRATOR ->
+                World.getWorld().sendWorldMessage("<img=" + PlayerRights.ADMINISTRATOR.getSpriteId() + ">" + "<shad=1" + Color.GOLD.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+            case OWNER ->
+                World.getWorld().sendWorldMessage("<img=" + PlayerRights.OWNER.getSpriteId() + ">" + "<shad=1" + Color.RED.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+        }
+        handleForcedTeleports();
+        applyAttributes();
+        updatePlayer();
+        handleOnLogin(this);
+        this.getSigil().HandleLogin(this);
+        applyPoweredStaffSpells();
+        updatePlayerPanel(this);
         TaskManager.submit(new SaveTask(this));
         this.getEquipment().login();
-        if (clanChat != null && !clanChat.isEmpty()) ClanManager.join(this, clanChat);
+        if (clanChat != null) ClanManager.join(this, "help");
         if (memberRights.isSponsorOrGreater(this)) MemberFeatures.checkForMonthlySponsorRewards(this);
-        TopPkers.SINGLETON.checkForReward(this);
         restartTasks();
         auditTabs();
         getUpdateFlag().flag(Flag.ANIMATION);
@@ -2714,7 +2725,6 @@ public class Player extends Entity {
 
     public void debugMessage(String message) {
         boolean debugMessagesEnabled = getAttribOr(AttributeKey.DEBUG_MESSAGES, true);
-        //Removed debug mode check, let's check it per player so we can use it any time on live.
         if (getPlayerRights().isOwner(this) && debugMessagesEnabled) {
             getPacketSender().sendMessage("[Debug] " + message);
         }

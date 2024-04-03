@@ -16,7 +16,6 @@ import java.util.Objects;
  */
 public class PlayerDeathDropResult {
     private static final Logger logger = LogManager.getLogger(PlayerDeathDropResult.class);
-
     public static boolean DEBUG = false;
 
     public final Player killer;
@@ -35,7 +34,6 @@ public class PlayerDeathDropResult {
         this.outDel = outDel;
         this.outCon = outCon;
         if (DEBUG) {
-            System.out.println(toString());
             logger.trace(toString());
         }
     }

@@ -34,7 +34,7 @@ public class ItemRepository {
     }
 
     public static int getItemId(String name) {
-        if (name.equals("null")) return -1;
+        if (name == null) return -1;
         if (name.contains("NOTED_")) {
             Integer cached = itemIds.get(name);
             if (cached != null) return cached;

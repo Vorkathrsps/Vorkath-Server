@@ -176,24 +176,22 @@ public class DeathProcess implements TheatreDeath {
                 var inventory = player.getInventory().getItems().clone();
                 var equipment = player.getEquipment().getItems().clone();
 
-                if (!Dueling.in_duel(player)) {
-                    result
-                        .addBones()
-                        .processItems(inventory)
-                        .processItems(equipment)
-                        .withLootingBag(lootingBag)
-                        .processLootingBag()
-                        .withRunePouch(runePouch)
-                        .processRunePouch()
-                        .clearItems()
-                        .sortValue()
-                        .calculateItemsKept()
-                        .sortValue()
-                        .checkIronManStatus()
-                        .process();
+                result
+                    .addBones()
+                    .processItems(inventory)
+                    .processItems(equipment)
+                    .withLootingBag(lootingBag)
+                    .processLootingBag()
+                    .withRunePouch(runePouch)
+                    .processRunePouch()
+                    .clearItems()
+                    .sortValue()
+                    .calculateItemsKept()
+                    .sortValue()
+                    .checkIronManStatus()
+                    .process();
 
-                    mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
-                }
+                mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
             } catch (Exception e) {
                 logger.error("Error dropping items and loot!", e);
             }
@@ -397,7 +395,7 @@ public class DeathProcess implements TheatreDeath {
             Tile targetTile = null;
             for (var t : VERZIK_DEATH_TILES) {
                 if (!player.tile().equals(t)) {
-                    targetTile = t.transform(0,0,player.getTheatreInstance().getzLevel());
+                    targetTile = t.transform(0, 0, player.getTheatreInstance().getzLevel());
                     break;
                 }
             }

@@ -8,6 +8,7 @@ import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.*;
+import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
@@ -100,7 +101,6 @@ public class DropsDisplay {
             List<String> npc = new ArrayList<>();
             List<Integer> id = new ArrayList<>();
             String finalContext = context;
-            //System.out.printf("%s drops%n", ScalarLootTable.registered.size());
             NpcDropRepository.tables.forEach((k, v) -> {
                 NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, k);
                 if (v != null && npcDefinition != null) {
@@ -108,12 +108,12 @@ public class DropsDisplay {
                         ArrayList<Integer> ids = new ArrayList<>();
                         deepAdd(v, ids);
                         ids.forEach(i -> {
-                            ItemDefinition idef = World.getWorld().definitions().get(ItemDefinition.class, i);
-                            if (idef.name.toLowerCase().contains(finalContext)) {
+                            ItemDefinition itemDefinition = ItemDefinition.cached.get(i.intValue());
+                            if (itemDefinition == null) return;
+                            if (itemDefinition.name.toLowerCase().contains(finalContext)) {
                                 if (!npc.contains(npcDefinition.name)) {
                                     npc.add(npcDefinition.name);
                                     id.add(k);
-                                    //System.out.printf("%s vs %s%n", npcDefinition.name, finalContext);
                                 }
                             }
                         });
@@ -125,14 +125,12 @@ public class DropsDisplay {
                                 if (Arrays.stream(NPCS_DROPS_EXCLUDED).noneMatch(n -> n == k)) {
                                     npc.add(name);
                                     id.add(k);
-                                    //System.out.printf("%s vs %d %s %n", npcDefinition.name, k, finalContext);
                                 }
                             }
                         }
                     }
                 }
             });
-            //Clear any previous entries.
             for (int index = 0; index < 430; index++) {
                 player.getPacketSender().sendString(55510 + index, "");
             }
@@ -140,8 +138,7 @@ public class DropsDisplay {
             id.sort(Comparator.comparing(a -> World.getWorld().definitions().get(NpcDefinition.class, a).name));
             for (int index = 0; index < npc.size(); index++) {
                 player.getPacketSender().sendString(55510 + index, npc.get(index));
-                if (index >= 55940)//Max 430 npcs
-                    break;
+                if (index >= 55940) break;
             }
             player.debugMessage("There are " + npc.size() + " npcs with drops");
             if (id.isEmpty()) {
@@ -151,7 +148,7 @@ public class DropsDisplay {
             player.putAttrib(AttributeKey.DROP_DISPLAY_KEY, id);
             display(player, id.get(0));
         } catch (Exception e) {
-            logger.error("sadge", e);
+            logger.catching(e);
         }
     }
 
@@ -200,7 +197,7 @@ public class DropsDisplay {
             drops.add(drop);
         }
 
-        for(int index = 0; index < drops.size(); index++) {
+        for (int index = 0; index < drops.size(); index++) {
             Integer[] drop = drops.get(index);
 
             int itemId = drop[0];
@@ -229,7 +226,7 @@ public class DropsDisplay {
             Item item = new Item(drop[0]);
             String name = item.unnote().name().length() > 17 ? item.unnote().name().substring(0, 16) + "<br>" + item.unnote().name().substring(16) : item.unnote().name();
             player.getPacketSender().sendString(56700 + index, name);
-            String amount = maxAmount == minAmount ? ""+Utils.formatRunescapeStyle(maxAmount) : ""+ Utils.formatRunescapeStyle(minAmount) + "/" + Utils.formatRunescapeStyle(maxAmount);
+            String amount = maxAmount == minAmount ? "" + Utils.formatRunescapeStyle(maxAmount) : "" + Utils.formatRunescapeStyle(minAmount) + "/" + Utils.formatRunescapeStyle(maxAmount);
             player.getPacketSender().sendString(56850 + index, "<col=ffb83f>" + amount);
             var val = item.stackable() && item.getAmount() > 0 ? maxAmount * item.getValue() : item.getValue();
             player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(val));
@@ -271,23 +268,17 @@ public class DropsDisplay {
                     if (isPhase(0)) {
                         if (option == 1) {
                             stop();
-                            String input = "";
-                            DropsDisplay.search(player, input, DropsDisplay.Type.NPC);
-                            for (int i = 0; i < World.getWorld().definitions().total(NpcDefinition.class); i++) {
-                                NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, i);
-                                if (npcDefinition.name != null && npcDefinition.name.equalsIgnoreCase(input)) {
-                                    if (DropsDisplay.display(player, i)) {
-                                        DropsDisplay.open(player, i);
-                                        return;
-                                    }
-                                    break;
-                                }
-                            }
-                            player.getPacketSender().sendMessage("DISABLED - Ynneh");
+                            player.getPacketSender().sendEnterInputPrompt("Search Npc");
+                            player.setNameScript("From which monster would you like to see the drops?", value -> {
+                                String npc = (String) value;
+                                DropsDisplay.search(player, npc, Type.NPC);
+                                return false;
+                            });
                         } else if (option == 2) {
                             stop();
                             player.setNameScript("Which item would you like to find?", value -> {
-                                DropsDisplay.search(player, (String) value, Type.ITEM);
+                                String item = (String) value;
+                                DropsDisplay.search(player, item, Type.ITEM);
                                 return false;
                             });
                         } else if (option == 3) {

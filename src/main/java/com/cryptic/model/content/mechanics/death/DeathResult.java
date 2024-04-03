@@ -3,17 +3,23 @@ package com.cryptic.model.content.mechanics.death;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.duel.Dueling;
+import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.death.ornaments.OrnamentKits;
 import com.cryptic.model.content.mechanics.death.repair.Breakable;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
+import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.masks.Flag;
+import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,6 +73,7 @@ public class DeathResult {
     }
 
     public DeathResult addBones() {
+        if (isSafeDeath()) return this;
         alwaysDropped.add(new Item(BONES));
         return this;
     }
@@ -79,6 +86,7 @@ public class DeathResult {
     }
 
     public DeathResult processItems(Item[] items) {
+        if (isSafeDeath()) return this;
         for (var item : items) {
             if (item != null) {
 
@@ -128,6 +136,7 @@ public class DeathResult {
     }
 
     public DeathResult sortValue() {
+        if (isSafeDeath()) return this;
         itemList.sort((o1, o2) -> {
             o1 = o1.unnote();
             o2 = o2.unnote();
@@ -153,11 +162,13 @@ public class DeathResult {
     }
 
     public DeathResult calculateItemsKept() {
-        int itemsToRemove = 0;
         if (player == null || itemList == null) throw new NullPointerException("Player or Item List is null.");
+        if (isSafeDeath()) return this;
         if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL)) return this;
+        int itemsToRemove = 0;
         if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 1);
-        else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 4);
+        else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM))
+            itemsToRemove = Math.min(itemList.size(), 4);
         else if (!skulled) itemsToRemove = Math.min(itemList.size(), 3);
         List<Item> subList = new ArrayList<>();
         List<Item> tempList = new ArrayList<>();
@@ -178,22 +189,35 @@ public class DeathResult {
     }
 
     public DeathResult clearItems() {
+        if (isSafeDeath()) return this;
         player.getEquipment().clear();
         player.getInventory().clear();
         return this;
     }
 
+    public boolean isSafeDeath(InstancedArea instance) {
+        return instance != null || Dueling.in_duel(player);
+    }
+
     public DeathResult checkIronManStatus() {
+        var instance = player.getInstancedArea();
+        if (isSafeDeath(instance)) return this;
+        if (player.getGameMode().equals(GameMode.HARDCORE_REALISM)) {
+            player.setGameMode(GameMode.REALISM);
+            player.getPacketSender().sendRights();
+            World.getWorld().sendWorldMessage(player.getDisplayName() + " has lost their hardcore Realism status! Total Level: " + player.getSkills().totalLevel());
+        }
         if (player.getIronManStatus().isHardcoreIronman()) {
             player.setIronmanStatus(IronMode.REGULAR);
             player.getPacketSender().sendRights();
-            World.getWorld().sendBroadcast("<img=504>" + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
+            World.getWorld().sendWorldMessage("<img=504>" + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
         }
         return this;
     }
 
     public void process() {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
+        if (isSafeDeath()) return;
         untradeables.forEach(i -> player.getInventory().add(i));
         itemsKeptOnDeath.forEach(i -> player.getInventory().add(i));
         if (killer instanceof Player attacker) {
@@ -202,5 +226,9 @@ public class DeathResult {
             return;
         }
         itemList.forEach(i -> GroundItemHandler.createGroundItem(new GroundItem(i, player.tile(), player)));
+    }
+
+    private boolean isSafeDeath() {
+        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile());
     }
 }

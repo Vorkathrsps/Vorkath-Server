@@ -138,9 +138,10 @@ public class ObjectInteractionHandler implements PacketListener {
             return;
         }
 
-        logger.debug("[DEBUG] {} - {}", object, option);
-
-        player.message("[DEBUG] - Object [" + object + "] - Option[" + option + "]");
+        if (player.getPlayerRights().isOwner(player)) {
+            logger.debug("[DEBUG] {} - {}", object, option);
+            player.message("[DEBUG] - Object [" + object + "] - Option[" + option + "]");
+        }
 
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
             return;
@@ -210,7 +211,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                   if (object.getId() == 31923) {
+                if (object.getId() == 31923) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENTS, true);
                     return;

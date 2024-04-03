@@ -591,7 +591,8 @@ public abstract class Entity {
     public void sendPublicSound(int id, int loops, int delay) {
         int x = getAbsX();
         int y = getAbsY();
-        int distance = 15;
+        //int distance = 15;
+        int distance = (int) this.tile.distanceToPoint(x, y);
         for (var region : this.getAsPlayer().getRegions()) {
             for (var p : region.getPlayers()) {
                 if (p != null) {

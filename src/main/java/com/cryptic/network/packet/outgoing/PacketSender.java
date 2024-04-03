@@ -197,8 +197,6 @@ public final class PacketSender {
     public PacketSender updateWidgetTooltipText(int id, String text) {
         PacketBuilder out = new PacketBuilder(207, PacketType.VARIABLE);
         out.putShort(id);
-        // so -1 here variable means its not fixed/exact, because strings can be "a" 1
-        // or aksldjfalkjsdfkljasdfjasjfkalsjdfajsd which is a lot more than 1
         out.putString(text);
         player.getSession().write(out);
         return this;

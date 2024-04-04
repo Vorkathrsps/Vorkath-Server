@@ -9,11 +9,6 @@
     "scroll": 0,
     "items": [
       {
-        "id": 12863,
-        "amount": 10000,
-        "value": 25000000
-      },
-      {
         "id": 7936,
         "amount": 10000
       }
@@ -3695,7 +3690,7 @@
     "shopId": 14,
     "name": "Slayer Equipment",
     "noiron": false,
-    "currency": "COINS_995",
+    "currency": "COINS",
     "restock": true,
     "sellType": "NONE",
     "scroll": 0,
@@ -3773,20 +3768,14 @@
         "amount": 50
       },
       {
-        "id": 11874,
-        "amount": 3000
+        "id": 4150,
+        "amount": 3000,
+        "value": 150
       },
       {
-        "id": 11885,
-        "amount": 800
-      },
-      {
-        "id": 11876,
-        "amount": 5000
-      },
-      {
-        "id": 11887,
-        "amount": 1000000
+        "id": 11875,
+        "amount": 5000,
+        "value": 150
       }
     ]
   },
@@ -5088,6 +5077,14 @@
         "amount": 10000
       },
       {
+        "id": 560,
+        "amount": 10000
+      },
+      {
+        "id": 21880,
+        "amount": 10000
+      },
+      {
         "id": 1727,
         "amount": 10000
       }
@@ -5987,8 +5984,9 @@
         "amount": 1000
       },
       {
-        "id": 9977,
-        "amount": 1000
+        "id": 10034,
+        "amount": 1000,
+        "value": 10000
       },
       {
         "id": 22804,

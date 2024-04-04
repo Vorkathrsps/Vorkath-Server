@@ -245,7 +245,8 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.LEGENDARY_MEMBER_UNLOCKED, details.legendaryMemberUnlocked);
             player.putAttrib(AttributeKey.VIP_UNLOCKED, details.vipUnlocked);
             player.putAttrib(AttributeKey.SPONSOR_UNLOCKED, details.sponsorMemberUnlocked);
-            if (details.saved_tornament_levels != null && details.saved_tornament_xp != null) player.skills().restoreLevels(details.saved_tornament_xp, details.saved_tornament_levels);
+            if (details.saved_tornament_levels != null && details.saved_tornament_xp != null)
+                player.skills().restoreLevels(details.saved_tornament_xp, details.saved_tornament_levels);
             player.getSkills().setAllLevels(details.dynamicLevels);
             player.getSkills().setAllXps(details.skillXP);
             if (details.unlockedPets != null) {
@@ -266,6 +267,9 @@ public class PlayerSave {
             if (details.slayerExtensionsList != null) {
                 player.getSlayerRewards().setExtendable(details.slayerExtensionsList);
             }
+
+            player.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, details.slayerPoints);
+
 
             if (details.inventory != null) {
                 for (int i = 0; i < details.inventory.length; i++) {
@@ -514,7 +518,8 @@ public class PlayerSave {
         @Expose
         private final HashMap<Integer, Item[]> lootKeys;
         private int lootKeysCarried;
-        @Expose private final List<AttributeKey> sigils;
+        @Expose
+        private final List<AttributeKey> sigils;
         private int totalSigilsActivated;
         private int lootKeysLooted;
         private long totalLootKeysValue;
@@ -556,6 +561,7 @@ public class PlayerSave {
         private final List<Integer> blockedSlayerTasks;
         private final HashMap<Integer, String> slayerUnlocks;
         private final HashMap<Integer, String> slayerExtensionsList;
+        private final int slayerPoints;
 
         //Containers
         private final Item[] inventory;
@@ -796,6 +802,7 @@ public class PlayerSave {
             blockedSlayerTasks = player.getSlayerRewards().getBlockedSlayerTask();
             slayerUnlocks = player.getSlayerRewards().getUnlocks();
             slayerExtensionsList = player.getSlayerRewards().getExtendable();
+            slayerPoints = Player.getAttribIntOr(player, AttributeKey.SLAYER_REWARD_POINTS, 0);
             inventory = player.inventory().toArray();
             equipment = player.getEquipment().toArray();
             bank = player.getBank().toNonNullArray();
@@ -979,17 +986,17 @@ public class PlayerSave {
         }
     }
 
-        public static boolean playerExists(String name) {
-            return Files.exists(SAVE_DIR.resolve(name + ".json"));
-        }
+    public static boolean playerExists(String name) {
+        return Files.exists(SAVE_DIR.resolve(name + ".json"));
+    }
 
-        public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
+    public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
 
-    public static BiConsumer<Player, Map<String,String>> ARGS_DESERIALIZER = (p, m) -> {
+    public static BiConsumer<Player, Map<String, String>> ARGS_DESERIALIZER = (p, m) -> {
 
     };
-    public static Function<Player, Map<String,String>> ARGS_SERIALIZER = m -> {
+    public static Function<Player, Map<String, String>> ARGS_SERIALIZER = m -> {
         return null;
     };
 
-    }
+}

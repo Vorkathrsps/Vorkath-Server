@@ -428,7 +428,7 @@ public abstract class Shop {
             return;
         }
 
-        if ( item.getId() == COINS_995 || item.getId() == PLATINUM_TOKEN || item.getId() == BLOOD_MONEY) {
+        if (item.getId() == COINS_995 || item.getId() == PLATINUM_TOKEN || item.getId() == BLOOD_MONEY) {
             player.message("This item can't be sold to shops.");
             return;
         }
@@ -514,7 +514,7 @@ public abstract class Shop {
     public abstract SellType sellType();
 
     public boolean decrementStock() {
-        return true;
+        return shopId == 1;
     }
 
     @Override

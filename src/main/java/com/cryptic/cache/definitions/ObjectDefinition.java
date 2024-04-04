@@ -99,6 +99,7 @@ public class ObjectDefinition implements Definition {
             decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
 
         cached.put(id, this);
+
     }
 
     void decode(RSBuffer buffer) {
@@ -205,6 +206,9 @@ public class ObjectDefinition implements Definition {
             //curtain
             clipType = 0;
         }
+
+
+        cached.put(id, this);
     }
 
     private void processOp(RSBuffer is, int opcode)
@@ -229,7 +233,7 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 2)
         {
-            name = (is.readJagexString());
+            name = (is.readString());
         }
         else if (opcode == 5)
         {

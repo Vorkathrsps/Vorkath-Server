@@ -451,37 +451,37 @@ public class Door {
          * Example: Sometimes an open door will use a different model id from it's closed version, causing it not to pair.
          */
         int[][] oppositeOverrideIds = {
-                {24060, 24061}, //Double doors on the top of the Falador castle.
-                {24062, 24063}, //Double doors on the top of the Falador castle.
-                {13314, 13315}, // oak cage door
-                {13317, 13318}, // oak and steel cage door
-                {13320, 13321}, // steel cage door
-                {13323, 13324}, // spiked cage door
-                {13326, 13327}, // bone cage door
-                {13344, 13350}, {13345, 13351}, // oak dungeon door
-                {13346, 13352}, {13347, 13353}, // steel dungeon door
-                {13348, 13354}, {13349, 13355}, // marble dungeon door
-                {9038, 9039}, //Karamja teak tree entrance
-                {1511, 1511}, {1513, 1513}
+            {24060, 24061}, //Double doors on the top of the Falador castle.
+            {24062, 24063}, //Double doors on the top of the Falador castle.
+            {13314, 13315}, // oak cage door
+            {13317, 13318}, // oak and steel cage door
+            {13320, 13321}, // steel cage door
+            {13323, 13324}, // spiked cage door
+            {13326, 13327}, // bone cage door
+            {13344, 13350}, {13345, 13351}, // oak dungeon door
+            {13346, 13352}, {13347, 13353}, // steel dungeon door
+            {13348, 13354}, {13349, 13355}, // marble dungeon door
+            {9038, 9039}, //Karamja teak tree entrance
+            {1511, 1511}, {1513, 1513}
         };
         /**
          * These objects face 180 degrees different than others.
          * Example: An object in this list with a direction of 0 (East) will look as if it's facing direction 2 (West)
          */
         int[] reversedIds = {
-                24060, 24062,   //Double doors on the top of the Falador castle.
-                22435, 22437,   //Double (closed) doors (Not sure what island these are on..)
-                22436, 22438,   //Double (opened) doors (Not sure what island these are on..)
-                14233, 14235,   //Double (closed) gates in Pest Control.
-                14234, 14236,   //Double (opened) gates in Pest Control.
-                13314, 13315, // oak cage door
-                13317, 13318, // oak and steel cage door
-                13320, 13321, // steel cage door
-                13323, 13324, // spiked cage door
-                13006, 13007, 13008, 13009, // whitewashed stone style doors
+            24060, 24062,   //Double doors on the top of the Falador castle.
+            22435, 22437,   //Double (closed) doors (Not sure what island these are on..)
+            22436, 22438,   //Double (opened) doors (Not sure what island these are on..)
+            14233, 14235,   //Double (closed) gates in Pest Control.
+            14234, 14236,   //Double (opened) gates in Pest Control.
+            13314, 13315, // oak cage door
+            13317, 13318, // oak and steel cage door
+            13320, 13321, // steel cage door
+            13323, 13324, // spiked cage door
+            13006, 13007, 13008, 13009, // whitewashed stone style doors
 //                13344, 13350, 13345, 13351, // oak dungeon door
 
-                /* construction doors (deathly mansion doors not reversed!) */
+            /* construction doors (deathly mansion doors not reversed!) */
 //                HouseStyle.BASIC_WOOD.doorId1, HouseStyle.BASIC_WOOD.doorId2,
 //                HouseStyle.BASIC_STONE.doorId1, HouseStyle.BASIC_STONE.doorId2,
 //                HouseStyle.WHITEWASHED_STONE.doorId1, HouseStyle.WHITEWASHED_STONE.doorId2,
@@ -491,16 +491,15 @@ public class Door {
         };
 
         int[] reversedConstructionDoors = {
-                13345, 13351, // oak dungeon door
-                13347, 13353, // steel dungeon door
-                13349, 13355, // marble dungeon door
+            13345, 13351, // oak dungeon door
+            13347, 13353, // steel dungeon door
+            13349, 13355, // marble dungeon door
         };
-
         /**
          * Registering
          */
-        for (int i = 0; i < ObjectDefinition.cached.size(); i++) {
-            var def = ObjectDefinition.cached.get(i);
+        for (int i = 0; i < World.getWorld().definitions().total(ObjectDefinition.class); i++) {
+            ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, i);
             var ignore = IGNORE.stream().anyMatch(id -> def.id == id);
             if(ignore) {
                 continue;

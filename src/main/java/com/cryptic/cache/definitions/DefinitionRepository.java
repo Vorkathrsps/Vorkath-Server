@@ -34,7 +34,7 @@ public class DefinitionRepository {
     }
 
     public void load(DataStore store, boolean lazy) {
-        // Load items
+
         int numItems = store.getIndex(2).getDescriptor().getLastFileId(10);
         ItemDefinition[] items = new ItemDefinition[numItems + 30_000];
         definitionMaps.put(ItemDefinition.class, items);
@@ -71,11 +71,11 @@ public class DefinitionRepository {
         ObjectDefinition[] objects = new ObjectDefinition[numObjects];
         definitionMaps.put(ObjectDefinition.class, objects);
 
-        /*if (!lazy) {
+        if (!lazy) {
             for (int id = 0; id < numObjects; id++) {
                 objects[id] = loadDefinition(ObjectDefinition.class, id);
             }
-        }*/
+        }
 
         // Load maps - disabled, 177 maps are dumped to raw data and loaded by 317 objdef codec. cache/osrs/maps/.dat + .idx
         int maxMaps = 256 * 256;

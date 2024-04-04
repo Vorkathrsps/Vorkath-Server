@@ -6,6 +6,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatConstants;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -72,7 +73,7 @@ public class BasicDragonCombat extends CommonCombatMethod {
                 max = 0.0;
             }
             int hit = Utils.random((int) max);
-            player.hit(entity, hit, CombatType.MAGIC).submit();
+            new Hit(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy(true).submit();
             if (max == 50 && hit > 0) {
                 player.message("You are badly burned by the dragon fire!");
             }

@@ -41,3 +41,12 @@ functions/*.jar
 dependency-reduced-pom.xml
 1 serv.bat
 .profileconfig.json
+.idea
+.run
+resources
+Cryptic-GameServer.iml
+votes.ini
+mvnw
+mvnw.cmd
+pom.xml
+.mvn/

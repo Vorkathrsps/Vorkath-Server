@@ -2962,47 +2962,6 @@
     }
   },
   {
-    // Poison Spider
-    "ids": [
-      3023
-    ],
-    "maxhit": 7,
-    "aggressive": true,
-    "slayerxp": 64,
-    "slayerlvl": 1,
-    "stats": {
-      "attack": 50,
-      "strength": 58,
-      "defence": 52,
-      "magic": 1,
-      "ranged": 1,
-      "hitpoints": 64
-    },
-    "bonuses": {
-      "stabdefence": 20,
-      "slashdefence": 17,
-      "crushdefence": 10,
-      "rangeddefence": 14,
-      "magicdefence": 14
-    },
-    "animations": {
-      "attack": 5327,
-      "block": 5328,
-      "death": 5329
-    },
-    "sounds": {
-      "attack": [
-        3611
-      ],
-      "block": [
-        3612
-      ],
-      "death": [
-        3610
-      ]
-    }
-  },
-  {
     // Giant Spider (cb 2)
     "ids": [
       3017

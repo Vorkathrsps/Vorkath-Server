@@ -1,0 +1,34 @@
+{
+  //poison spider
+  "ids": [3023, 3025, 5373, 11990, 11999],
+  "maxhit": 7,
+  "aggressive": true,
+  "attackspeed": 4,
+  "combattype": "MELEE",
+  "stats": {
+    "hitpoints": 64,
+    "attack": 50,
+    "strength": 58,
+    "defence": 52,
+    "magic": 1,
+    "ranged": 1
+  },
+  "bonuses": {
+    "attack": 0,
+    "strength": 0,
+    "magic": 0,
+    "magicstrength": 0,
+    "ranged": 0,
+    "rangestrength": 0,
+    "stabdefence": 20,
+    "slashdefence": 17,
+    "crushdefence": 10,
+    "magicdefence": 14,
+    "rangeddefence": 14
+  },
+  "animations": {
+    "attack": 5327,
+    "block": 5328,
+    "death": 5329
+  }
+}

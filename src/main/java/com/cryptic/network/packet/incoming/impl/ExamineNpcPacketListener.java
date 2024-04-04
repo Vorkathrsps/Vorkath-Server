@@ -36,7 +36,7 @@ public class ExamineNpcPacketListener implements PacketListener {
         }
 
         NPCCombatInfo combatInfo = World.getWorld().combatInfo(npcId);
-        NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, npcId);
+        NpcDefinition def = NpcDefinition.cached.get(npcId);
 
         if(!player.locked() && def != null && combatInfo != null && !combatInfo.unattackable) {
             DropsDisplay.start(player, def.name, npcId);

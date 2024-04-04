@@ -37,13 +37,14 @@ public enum NewTeleData {
     KARUULM_SLAYER_DUNGEON(new Tile(1311, 3812), "Karuulm Slayer Dungeon", "", SLAYING, MEDIUM),
     MOSS_LE_HARMLESS_CAVE(new Tile(3826, 9425), "Cave Horrors", "", SLAYING, MEDIUM),
     WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "", SLAYING, MEDIUM),
+    TROLLS(new Tile(2849, 3679),"Troll StrongHold", "", SLAYING, MEDIUM),
 
     //Bossing teleports
     CALLISTO(new Tile(3267, 3844), "Callisto", "@red@Dangerous Teleport Level:35 Multi-combat Wilderness", BOSSING, MEDIUM),
     CHAOS_FAN(new Tile(2992, 3851), "Chaos Fanatic", "@red@Dangerous Teleport Level:42 Wilderness", BOSSING, MEDIUM),
     CRAZY_ARCH(new Tile(2976, 3694), "Crazy archaeologist", "@red@Dangerous Teleport Level:22 Wilderness", BOSSING, MEDIUM),
 
-    KBD(new Tile(3005, 3848), "King Black Dragon", "@red@Dangerous Teleport Level:42 Wilderness", BOSSING, MEDIUM),
+    KBD(new Tile(2271, 4682), "King Black Dragon", "@red@Dangerous Teleport Level:42 Wilderness", BOSSING, MEDIUM),
 
     VENENATIS(new Tile(3343, 3813), "Venenatis", "@red@Dangerous Teleport Level:35 Multi-combat Wilderness", BOSSING, MEDIUM),
 

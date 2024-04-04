@@ -485,10 +485,12 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-compiler</artifactId>
             <version>1.8.10</version>
         </dependency>
+
     </dependencies>
 </project>

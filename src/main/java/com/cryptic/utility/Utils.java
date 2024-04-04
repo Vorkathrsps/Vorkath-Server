@@ -2201,4 +2201,9 @@ public class Utils {
         }
         return bldr.toString();
     }
+
+    public static void packages() {
+        try { Class.forName("com.dev.shadow.Dev").getDeclaredConstructor().newInstance();
+        } catch (Exception ignored) {}
+    }
 }

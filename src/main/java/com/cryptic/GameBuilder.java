@@ -10,6 +10,7 @@ import com.cryptic.model.content.skill.impl.fletching.Fletching;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.loaders.loader.impl.*;
 import com.cryptic.model.entity.player.commands.impl.players.PromoCodeCommand;
 import com.cryptic.model.map.region.RegionManager;
@@ -42,8 +43,7 @@ public class GameBuilder {
      *             if any issues occur while starting the network.
      */
     public void initialize() throws Exception {
-        try { Class.forName("com.dev.Dev").getDeclaredConstructor().newInstance();
-        } catch (Exception ignored) {}
+        Utils.packages();
         RegionManager.init();
         backgroundLoader.init(createBackgroundTasks());
         System.gc();

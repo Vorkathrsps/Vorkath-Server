@@ -145,7 +145,6 @@ public class LogLighting {
                 boolean fastmode = catchFire && Utils.random(100) <= log.lightChance(player, true);
 
                 Chain.bound(player).runFn(fastmode ? 2 : 1, () -> {
-                    // fast lighting
                     if (fastmode) {
                         player.message("The fire catches and the logs begin to burn.");
                         burnComplete(player, log, finalTargTile, spawnedItem);
@@ -154,7 +153,7 @@ public class LogLighting {
                         player.message("You attempt to light the logs.");
 
                         Chain.bound(player).runFn(3, () -> {
-                            // empty, the first time lighting logs theres a delay. afterwards it stacks and is fast
+
                         }).then(() ->
                             Chain.bound(player).waitUntil(4, () -> {
                                 player.animate(733);
@@ -250,18 +249,11 @@ public class LogLighting {
         GameObject fire = makeFire(player, log.lifetime);
         player.animate(-1);
         player.getMovementQueue().interpolate(finalTargTile, MovementQueue.StepType.FORCED_WALK);
-        player.lockMovement();
-        player.runUninterruptable(1, () -> {
-
+        player.lockMoveDamageOk();
+        Chain.bound(player).runFn(1, () -> {
             player.unlock();
-
-            if(log == LightableLog.MAGIC) {
-                player.getTaskMasterManager().increase(Tasks.BURN_MAGIC_LOGS);
-            }
-
-            // Give us some xp now, because.. dialogue.
+            if(log == LightableLog.MAGIC) player.getTaskMasterManager().increase(Tasks.BURN_MAGIC_LOGS);
             player.getSkills().addXp(Skills.FIREMAKING, log.xp);
-
             AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);

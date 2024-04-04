@@ -1,6 +1,8 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.barrows;
 
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatFactory;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
@@ -15,12 +17,12 @@ public class DharokCombat extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) return false;
         entity.animate(entity.attackAnimation());
-        Hit hit = entity.submitHit(target, 0, this);
         int maxHp = entity.getAsNpc().maxHp();
         int currentHp = entity.getAsNpc().hp();
         double multiplier = (double) 1 + (double) (maxHp - currentHp) / 100 * ((double) maxHp / 100);
-        hit.damageModifier(multiplier);
-        hit.submit();
+        new Hit(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit().postDamage(hit -> {
+            if (hit.isAccurate()) hit.damageModifier(multiplier);
+        });
         return true;
     }
 

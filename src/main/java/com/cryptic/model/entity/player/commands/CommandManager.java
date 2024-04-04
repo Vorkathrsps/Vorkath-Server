@@ -648,17 +648,13 @@ public class CommandManager {
         });
 
         dev("c1", (p, c, s) -> {
-            final GameObject CRYSTAL_OBJECT = new GameObject(45138, 10, 0, new Tile(3936, 5154, 1));
-            NPC warden = new NPC(11762, new Tile(3934, 5152, 1));
-            warden.spawn(false);
-            warden.spawnDirection(NORTH.toInteger());
-            Chain.noCtx().runFn(2, () -> {
-                warden.transmog(11765, false);
-                warden.animate(9691);
-            }).then(21, () -> {
-                CRYSTAL_OBJECT.spawn();
-                warden.remove();
-            });
+            NPC npc = new NPC(8610, p.tile());
+            npc.spawn(false);
+            npc.lock();
+            Chain.noCtx().runFn(1, () -> {
+                npc.transmog(8611, true);
+                npc.animate(8268);
+            }).then(3, npc::unlock).then(4, npc::remove);
         });
 
         dev("cleartask", (p, c, s) ->

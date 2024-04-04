@@ -39,6 +39,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Flags;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.route.Direction;
 import com.cryptic.network.codec.login.LoginService;
 import com.cryptic.utility.*;
 import com.google.common.collect.Maps;
@@ -677,7 +678,7 @@ public class World {
         long start = System.currentTimeMillis();
         Gson gson = new Gson();
 
-        for (File spawn : dir.listFiles()) {
+        for (File spawn : Objects.requireNonNull(dir.listFiles())) {
             if (spawn.getName().endsWith(".json")) {
                 try {
                     NpcSpawn[] s = gson.fromJson(new FileReader(spawn), NpcSpawn[].class);
@@ -686,7 +687,7 @@ public class World {
                         if (sp == null) continue;
                         Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
                         NPC npc = NPC.of(sp.id, spawnTile);
-                        npc.spawnDirection(sp.dir());
+                        npc.spawnDirection(Direction.values()[sp.dir()].clientValue);
                         npc.walkRadius(sp.walkRange);
                         npc.ancientSpawn(sp.ancientSpawn);
 

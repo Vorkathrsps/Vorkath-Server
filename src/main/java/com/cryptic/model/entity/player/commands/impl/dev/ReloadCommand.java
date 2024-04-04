@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
+import static com.cryptic.model.World.loadNpcSpawns;
 import static java.lang.String.format;
 
 public class ReloadCommand implements Command {
@@ -53,7 +54,7 @@ public class ReloadCommand implements Command {
                     World.getWorld().unregisterNpc(worldNpcs);
                 }
                 // Halloween.loadNpcs();
-                World.loadNpcSpawns(new File("data/map/npcs"));
+                loadNpcSpawns(new File("data/def/npcs/worldspawns"));
                 try {
                     Fishing.respawnAllSpots(World.getWorld());
                 } catch (FileNotFoundException e) {

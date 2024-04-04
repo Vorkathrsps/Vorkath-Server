@@ -4,7 +4,6 @@ import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
-import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.Debugs;
 import com.cryptic.cache.definitions.NpcDefinition;
@@ -346,7 +345,6 @@ public class NPC extends Entity {
         return switch (id) {
             case NpcIdentifiers.COMBAT_DUMMY -> new MaxHitDummyNpc(id, tile);
             case NpcIdentifiers.UNDEAD_COMBAT_DUMMY -> new UndeadMaxHitDummy(id, tile);
-            case Wyrm.IDLE, Wyrm.ACTIVE -> new Wyrm(id, tile);
             case 8609 -> new Hydra(id, tile);
             case 8612, 8613 -> new Drake(id, tile);
             case NpcIdentifiers.TZTOKJAD -> new TzTokJad(id, tile);

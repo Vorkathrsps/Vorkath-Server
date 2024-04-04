@@ -25,11 +25,6 @@
       "rangeddefence": 20,
       "magicdefence": 50
     },
-    "animations": {
-      "attack": 8270,
-      "block": -1,
-      "death": 8272
-    },
     "scripts": {
       "combat": "WyrmCombat"
     }

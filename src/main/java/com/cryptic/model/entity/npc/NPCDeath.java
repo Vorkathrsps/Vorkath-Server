@@ -25,7 +25,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TzTokJad;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Drake;
-import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Nechryael;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
@@ -455,7 +454,7 @@ public class NPCDeath {
         } else if (npc instanceof TzTokJad) {
             npc.graphic(453);
         } else {
-            npc.animate(npc.getCombatInfo() != null ? npc.getCombatInfo().animations.death : -1);
+            npc.animate(npc.getCombatInfo() != null && npc.getCombatInfo().animations != null ? npc.getCombatInfo().animations.death : -1);
         }
 
         if (npc.id() == 6612) {
@@ -660,10 +659,6 @@ public class NPCDeath {
             npc.unlock();
             if (npc instanceof Drake) {
                 npc.transmog(DRAKE_8612, false);
-            }
-
-            if (npc instanceof Wyrm) {
-                npc.transmog(Wyrm.IDLE, false);
             }
         }
     }

@@ -30,6 +30,16 @@ public class Bonfire extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (object.getId() == 49927) {
+            if (option == 1) {
+                for (var log : Logs.values()) {
+                    if (log == null) return false;
+                    if (player.getInventory().contains(log.id)) {
+                        if (skillRequirement(player, log)) return false;
+                        sequence(player, log, object);
+                        return true;
+                    }
+                }
+            }
             if (option == 3) {
                 player.animate(10083);
                 return true;

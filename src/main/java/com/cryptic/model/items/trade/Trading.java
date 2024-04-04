@@ -425,28 +425,11 @@ public class Trading {
             return;
         }
 
-        for (Item bankItem : GameConstants.BANK_ITEMS) {
-            if (bankItem.note().getId() == tradeItem.getId()) {
-                player.message("You can't trade this item.");
-                return;
-            }
-            if (bankItem.getId() == tradeItem.getId()) {
-                player.message("You can't trade this item.");
-                return;
-            }
+        if (tradeItem.getValue() <= 0) {
+            player.message("You cannot trade free items.");
+            return;
         }
 
-/*        if (tradeItem.unnote().definition(World.getWorld()).pvpAllowed) {
-            player.message("You can't trade spawnable items.");
-            return;
-        }*/
-
-/*        if (tradeItem.getValue() <= 0) {
-            player.message("You can't trade spawnable items.");
-            return;
-        }*/
-
-        //Check if the trade was previously accepted (and now modified)...
         boolean modified = false;
         if (state == TradeState.ACCEPTED_TRADE_SCREEN) {
             state = TradeState.TRADE_SCREEN;
@@ -461,16 +444,10 @@ public class Trading {
             interact.getPacketSender().sendString(STATUS_FRAME_1, "<col=ca0d0d>TRADE MODIFIED!");
         }
 
-        //Handle the item switch..
         if (state == TradeState.TRADE_SCREEN && interact.getTrading().getState() == TradeState.TRADE_SCREEN) {
             if (from.getItems()[slot] == null)
                 return;
-            //Check if the item is in the right place
             if (from.getItems()[slot].getId() == id) {
-                //Let's not modify the amount.
-                //amount = from.getAmount(id);
-
-                //Make sure we can fit that amount in the trade
                 if (from instanceof Inventory) {
                     if (!tradeItem.stackable()) {
                         if (amount > container.getFreeSlots()) {

@@ -1,6 +1,8 @@
+[
 {
-  //poison spider
-  "ids": [3023, 3025, 5373, 11990, 11999],
+  "ids": [
+    3023, 3025, 5373, 11990, 11999
+  ],
   "maxhit": 7,
   "aggressive": true,
   "attackspeed": 4,
@@ -14,11 +16,7 @@
     "ranged": 1
   },
   "bonuses": {
-    "attack": 0,
-    "strength": 0,
-    "magic": 0,
     "magicstrength": 0,
-    "ranged": 0,
     "rangestrength": 0,
     "stabdefence": 20,
     "slashdefence": 17,
@@ -32,3 +30,4 @@
     "death": 5329
   }
 }
+]

@@ -9,6 +9,7 @@ import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.object.doors.Door;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.network.packet.Packet;
@@ -164,6 +165,7 @@ public class ObjectInteractionHandler implements PacketListener {
 
         switch (option) {
             case 1 -> {
+
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 1);
 
                 if (name.equalsIgnoreCase("anvil")) {

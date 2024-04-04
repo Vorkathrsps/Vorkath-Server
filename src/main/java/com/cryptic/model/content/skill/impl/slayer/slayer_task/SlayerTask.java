@@ -248,7 +248,7 @@ public class SlayerTask {
                 increment += incrementMemberBonusSlayerPoints(player, increment);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
-                player.putAttrib(SLAYER_REWARD_POINTS, +increment);
+                player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints + increment);
                 this.incrementTaskCompletionSpree(player);
                 this.cancelSlayerTask(player, false);
                 return;

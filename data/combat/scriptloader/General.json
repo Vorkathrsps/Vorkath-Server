@@ -1874,6 +1874,7 @@
     ],
     "maxhit": 8,
     "deathlen": 2,
+    "combattype": "RANGE",
     "stats": {
       "attack": 68,
       "strength": 70,
@@ -1906,6 +1907,7 @@
     "maxhit": 1,
     "slayerxp": 2,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -1943,6 +1945,7 @@
     ],
     "maxhit": 16,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 140,
       "strength": 150,
@@ -1965,6 +1968,7 @@
     ],
     "maxhit": 2,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 5,
       "strength": 4,
@@ -1984,6 +1988,7 @@
     ],
     "maxhit": 2,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 6,
       "strength": 6,
@@ -2002,6 +2007,7 @@
       2143
     ],
     "maxhit": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 10,
       "strength": 8,
@@ -2021,6 +2027,7 @@
     ],
     "maxhit": 2,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 19,
       "attack": 11,
@@ -2151,6 +2158,7 @@
     "attackspeed": 5,
     "aggroradius": 0,
     "aggressive": false,
+    "combattype": "MAGIC",
     "deathlen": 3,
     "stats": {
       "hitpoints": 75,
@@ -2179,6 +2187,7 @@
     "aggroradius": 0,
     "aggressive": false,
     "deathlen": 3,
+    "combattype": "MAGIC",
     "stats": {
       "hitpoints": 75,
       "defence": 61,
@@ -2203,6 +2212,7 @@
     "maxhit": 8,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 65,
       "strength": 65,
@@ -2228,6 +2238,7 @@
     "maxhit": 8,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 65,
       "strength": 65,

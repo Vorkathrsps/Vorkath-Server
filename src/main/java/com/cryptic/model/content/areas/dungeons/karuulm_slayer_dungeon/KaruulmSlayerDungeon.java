@@ -56,27 +56,25 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
         return false;
     }
 
-    private void climbWall(Player player, GameObject wall) {
-        Direction dir;
-        switch (wall.getRotation()) {
-            case 0:
-            case 2:
-                dir = player.getAbsY() < wall.tile().y ? Direction.NORTH : Direction.SOUTH;
-                break;
-            case 1:
-            case 3:
-                dir = player.getAbsX() < wall.tile().x ? Direction.EAST : Direction.WEST;
-                break;
-            default:
-                return;
-        }
-        int tile = player.tile().equals(1352, 10252) ? -2 : player.tile().equals(1352, 10250) ? 2 : player.tile().equals(1351, 10252) ? -2 : player.tile().equals(1351, 10250) ? 2 : 0;
-        int face = player.tile().equals(1352, 10252) ? 2 : player.tile().equals(1352, 10250) ? 0 : player.tile().equals(1351, 10252) ? 2 : player.tile().equals(1351, 10250) ? 0 : 0;
-        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, tile), 30, 60, 839, face);
+    private void climbWall(Player player) {
+        if (player.isPerformingAction()) return;
+        player.setPerformingAction(true);
+        var x = player.tile().getX();
+        var y = player.tile().getY();
+        int transformX = x == 1303 ? -2 : x == 1301 ? 2 : 0;
+        int transformY = y == 10214 ? 2 : y == 10216 ? -2 : 0;
+        int face = transformX == -2 ? 3 : transformX == 2 ? 1 : transformY == 2 ? 0 : 4;
+        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(transformX, transformY), 30, 45, 839, face);
+        player.lock();
+        player.agilityWalk(false);
         Chain.bound(player).runFn(1, () -> {
             player.lockDelayDamage();
             player.setForceMovement(forceMovement);
-        }).then(2, player::unlock);
+        }).then(2, () -> {
+            player.unlock();
+            player.agilityWalk(true);
+            player.clearPerformingAction();
+        });
     }
 
     private void jumpGap(Player player, GameObject gap) {
@@ -190,7 +188,7 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
             return true;
         }
         if (obj.getId() == ROCKS_34544 || obj.getId() == ROCKS_34548) {
-            climbWall(player, obj);
+            climbWall(player);
             return true;
         }
         return false;

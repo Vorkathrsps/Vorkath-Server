@@ -153,14 +153,28 @@ public class SlayerTask {
         return this.getCurrentAssignment(player) != null;
     }
 
-    public void cancelSlayerTask(Player player, boolean isBlocking) {
+    public void cancelSlayerTask(Player player, boolean isBlocking, boolean isCoins) {
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
+        if (!isCoins && slayerPoints < 30) {
+            player.message(Color.RED.wrap("You do not have enough coins to do this."));
+            return;
+        }
         int decrement = isBlocking ? 100 : 30;
         player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
         player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
         player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
         player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
-        player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints - decrement);
+        if (!isCoins) {
+            player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints - decrement);
+        }
+    }
+
+    public void clearSlayerTask(Player player) {
+        int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
+        player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
+        player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
+        player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
+        player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
     }
 
     public void sendCancelTaskDialouge(@Nonnull Player player) {
@@ -198,7 +212,7 @@ public class SlayerTask {
                             stop();
                             return;
                         }
-                        slayer.cancelSlayerTask(player, false);
+                        slayer.cancelSlayerTask(player, false, true);
                         slayer.displayCurrentAssignment(player);
                         player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
                         player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
@@ -211,7 +225,8 @@ public class SlayerTask {
                             player.message("You need " + required + " points to cancel your task.");
                             return;
                         }
-                        slayer.cancelSlayerTask(player, false);
+
+                        slayer.cancelSlayerTask(player, false, false);
                         slayer.displayCurrentAssignment(player);
                         player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
                         player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
@@ -229,7 +244,6 @@ public class SlayerTask {
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         if (assignment != null && this.isLinkedById(player, npc.id())) {
             double experience = this.getSlayerExperience(npc);
-            int increment = this.getSlayerTaskCompletionPoints(player);
             int amount = this.getRemainingTaskAmount(player);
             Map<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
             boolean inWilderness = WildernessArea.inWilderness(player.tile());
@@ -244,13 +258,17 @@ public class SlayerTask {
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
             player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
             if (this.isRemoveSlayerTask(player)) {
+                int increment = 0;
+                increment += this.getSlayerTaskCompletionPoints(player);
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
                 increment += incrementMemberBonusSlayerPoints(player, increment);
+                System.out.println("increment 3: " + increment);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
-                player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints + increment);
+                slayerPoints += increment;
+                player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints);
                 this.incrementTaskCompletionSpree(player);
-                this.cancelSlayerTask(player, false);
+                this.clearSlayerTask(player);
                 return;
             }
         }
@@ -331,7 +349,10 @@ public class SlayerTask {
     }
 
     int generateRandomTaskAmount(SlayerTask task) {
-        return Utils.random(task.min, task.max);
+        int adjustedMax = task.max;
+        if (adjustedMax > 100) adjustedMax /= 2;
+        if (adjustedMax <= task.min) adjustedMax = task.min + 1;
+        return World.getWorld().random().nextInt(task.min, adjustedMax);
     }
 
     int getExtendedTaskAmount(Player player) {

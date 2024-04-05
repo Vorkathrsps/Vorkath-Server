@@ -624,7 +624,6 @@ public class NPC extends Entity {
     }
 
     public void findAgroTarget() {
-        //Stopwatch stopwatch1 = Stopwatch.createStarted();
         boolean wilderness = (WildernessArea.getWildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
         if (combatMethod instanceof CommonCombatMethod ccm) {
             if (!ccm.isAggressive()) return;

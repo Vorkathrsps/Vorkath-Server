@@ -105,6 +105,7 @@ public class CommandManager {
         locsTeles.put("zammy", new Tile(2901, 5266));
         locsTeles.put("arma", new Tile(2901, 5266));
         locsTeles.put("bando", new Tile(2901, 5266));
+        locsTeles.put("gdz", new Tile(3288, 3886));
     }
 
     public static void loadCmds() {
@@ -657,11 +658,19 @@ public class CommandManager {
             }).then(3, npc::unlock).then(4, npc::remove);
         });
 
-        dev("cleartask", (p, c, s) ->
 
+        dev("cp", (p, c, s) ->
+            p.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, 0));
+
+        dev("cleartask", (p, c, s) ->
         {
-            var task = World.getWorld().getSlayerTasks();
-            task.cancelSlayerTask(p, false);
+            SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+            var assignment = slayerTask.getCurrentAssignment(p);
+            System.out.println("cached npc size: " + assignment.getNpcs().length);
+            NPC npc = new NPC(assignment.getNpcs()[0], p.tile());
+            for (int index = 0; index < 200; index++) {
+                slayerTask.handleSlayerDeath(p, npc);
+            }
         });
 
         dev("cl", (p, c, s) ->

@@ -29,7 +29,7 @@ public abstract class Task {
     private static final String[] IGNORED_TASKS = {
         "shanomi_shout_task", "SaveTask", "WildernessActivityManagerTask", "WildernessBossEventTask",
         "AddShopStockTask", "VenomTask", "AntifireTask", "TopPkersAnnouncementTask",
-        "PoisonTask", "ImplingTask", "repeatingChain"
+        "PoisonTask", "ImplingTask", "repeatingChain", "StarEventTask"
     };
 
     /** The default key for every task. */

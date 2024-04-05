@@ -420,13 +420,8 @@ public class Trading {
             return;
         }
         Item tradeItem = new Item(id, amount);
-        if (!tradeItem.rawtradable()) {
+        if ((!tradeItem.rawtradable() || tradeItem.getValue() <= 0)) {
             player.message("You cannot trade that item.");
-            return;
-        }
-
-        if (tradeItem.getValue() <= 0) {
-            player.message("You cannot trade free items.");
             return;
         }
 

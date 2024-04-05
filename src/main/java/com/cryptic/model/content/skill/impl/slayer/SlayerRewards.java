@@ -469,7 +469,7 @@ public class SlayerRewards {
         }
         if (assignment != null) {
             slayer.blockTask(player, assignment);
-            slayer.cancelSlayerTask(player, true);
+            slayer.cancelSlayerTask(player, true, false);
             slayer.sendTaskInformation(player);
             player.getInterfaceManager().open(getPreviousInterface());
             player.putAttrib(SLAYER_UI_ACTION, 0);

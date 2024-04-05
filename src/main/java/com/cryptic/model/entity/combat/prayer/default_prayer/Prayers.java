@@ -476,41 +476,29 @@ public class Prayers {
     }
 
     public static void drainPrayer(Player player) {
-        // Drain this tick, and reset the timer to 1 to drain next tick. Forever and ever and evvvvvvvver
         player.getTimers().extendOrRegister(TimerKey.PRAYER_TICK, 1);
-
         if (player.getTimers().has(TimerKey.PRAYER_TICK)) {
-
-            // Dont drain if dead, or no prayers on.
             if (player.dead() || hasNoPrayerOn(player) ||
                 World.getWorld().cycleCount() <= player.<Integer>getAttribOr(AttributeKey.PRAYER_ON_TICK, 0)) {
                 player.putAttrib(AttributeKey.PRAYERINCREMENT, 0D); // reset
                 return;
             }
-            //player.message(String.format("on:%s now:%s drain:%s", player.<Integer>getAttrib(AttributeKey.PRAYER_ON_TICK), World.getWorld().getElapsedTicks(), player.<Integer>getAttrib(AttributeKey.PRAYERINCREMENT)));
-            int pray = EquipmentInfo.prayerBonuses(player);
             double drain = compute(player);
             if (drain > 0) {
-                //player.debugMessage(String.format("drain: %f  bonus:%d  saved:%f", drain, pray, pray < 1 ? 0.0 : (drain / (1 + (0.0333 * pray)))));
-                drain = (0.6 * (pray / drain));
-                if (pray > 0) {
-                    drain = (2 + (pray * 0.6)) / drain;
-                }
-                //player.debugMessage(String.format("drain: %f  bonus:%d  saved:%f", drain, pray, pray < 1 ? 0.0 : (drain / (1 + (0.0333 * pray)))));
-
-                if (player.getSkills().level(Skills.PRAYER) > 0) {
+                int pray = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo()).getPray();
+                if (pray > 0) drain /= 1 + (0.0333 * pray);
+                if (player.skills().level(Skills.PRAYER) > 0) {
                     boolean inf_pray = player.getAttribOr(AttributeKey.INF_PRAY, false);
                     if (!inf_pray) {
                         double totalDrains = player.getAttribOr(AttributeKey.PRAYERINCREMENT, 0.0D);
                         player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains + drain);
                         if (totalDrains > 1.0) {
                             player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains - 1);
-                            player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 1));
+                            player.skills().setLevel(Skills.PRAYER, Math.max(0, player.skills().level(Skills.PRAYER) - 1));
 
                         }
                     }
                 }
-
                 if (player.getSkills().level(Skills.PRAYER) < 1) {
                     closeAllPrayers(player);
                     player.sendPrivateSound(2672, 0);

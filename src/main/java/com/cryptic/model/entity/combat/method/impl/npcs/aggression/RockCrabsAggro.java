@@ -13,7 +13,7 @@ public class RockCrabsAggro implements AggressionCheck {
         NPC npc = (NPC) entity;
         if (victim instanceof Player player) {
             if (ArrayUtils.contains(ids, npc.id())) {
-                if (entity.tile().distance(player.tile()) == 1) {
+                if ((entity.tile().distance(player.tile()) == 1 || player.tile().equals(entity.tile()) || player.tile().nextTo(entity.tile()))) {
                     int offset = npc.id() - 1;
                     npc.transmog(offset, true);
                     return true;

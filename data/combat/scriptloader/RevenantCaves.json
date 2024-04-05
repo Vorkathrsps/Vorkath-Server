@@ -365,7 +365,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -402,7 +402,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -442,7 +442,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -482,7 +482,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -522,7 +522,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -562,7 +562,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -602,7 +602,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -642,7 +642,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -682,7 +682,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -722,7 +722,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   },
   {
@@ -762,7 +762,7 @@
     },
     "scripts": {
       "combat": "RevenantCombat",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro"
     }
   }
 ]

@@ -551,6 +551,17 @@ public class Player extends Entity {
         return pinAsString.length() == 5;
     }
 
+    public boolean isPerformingAction() {
+        return this.hasAttrib(PERFORMING_ACTION);
+    }
+    public void setPerformingAction(boolean value) {
+        this.putAttrib(PERFORMING_ACTION, value);
+    }
+
+    public void clearPerformingAction() {
+        this.clearAttrib(PERFORMING_ACTION);
+    }
+
     public boolean askForAccountPin() {
         return this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false);
     }

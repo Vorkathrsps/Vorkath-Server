@@ -88,7 +88,9 @@ public class ObjectInteractionHandler implements PacketListener {
         var tile = Tile.get(x, y, height);
         var object = tile == null ? null : tile.getObject(id, -1, -1);
 
-        player.debug("click obj %s at %s option %d", tile, object, option);
+        if (player.getPlayerRights().isOwner(player)) {
+            player.debug("click obj %s at %s option %d", tile, object, option);
+        }
 
         if (tile == null || player.dead() || player.busy() || player.locked() || object == null)
             return;

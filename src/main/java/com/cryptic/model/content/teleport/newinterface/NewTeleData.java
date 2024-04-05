@@ -18,7 +18,7 @@ public enum NewTeleData {
     LITHKREN(new Tile(3550, 10450), "Lithkren Vault", "", TRAINING, MEDIUM),
     LUMBRIDGE_SWAMP_CAVE(new Tile(3169, 9570), "Lumbridge Swamps Cave", "", TRAINING, MEDIUM),
     BRINE_RAT_CAVE(new Tile(2692, 10124), "Brine Rat Cavern", "", TRAINING, MEDIUM),
-
+    SUQAH(new Tile(2112, 3862), "Suqah", "", SLAYING, MEDIUM),
 
 
     //Slayer teleports
@@ -30,7 +30,7 @@ public enum NewTeleData {
     RELLEKKA_SLAYER(new Tile(2803, 9998), "Fremennik Slayer Dungeon", "", SLAYING, MEDIUM),
     SLAYER_STRONGHOLD(new Tile(2431, 3421), "Stronghold Slayer Cave", "", SLAYING, MEDIUM),
     KALPHITE_LAIR(new Tile(3485, 9509), "Kalphite Lair", "", SLAYING, MEDIUM),
-    ANCIENT_CAVERN(new Tile(1768, 5366), "Ancient Cavern", "", SLAYING, MEDIUM),
+    ANCIENT_CAVERN(new Tile(1772, 5366), "Ancient Cavern", "", SLAYING, MEDIUM),
     BRIMHAVEN_DUNGEON(new Tile(2709, 9564), "Brimhaven Dungeon", "", TRAINING, MEDIUM),
     TAVERLY_DUNGEON(new Tile(2884, 9799), "Taverly Dungeon", "", TRAINING, MEDIUM),
     ANCIENT_WYVERNS(new Tile(3609, 10278), "Wyvern Cave", "", SLAYING, MEDIUM),
@@ -132,7 +132,6 @@ public enum NewTeleData {
     CANIFIS(new Tile(3495, 3486),"Canifis", "", CITIES, MEDIUM),
     KELDAGRIM(new Tile(2843, 10204),"Keldagrim", "", CITIES, MEDIUM),
     YANILLE(new Tile(2544, 3092),"Yanille", "", CITIES, MEDIUM),
-
 
 
     //Misc Teleports

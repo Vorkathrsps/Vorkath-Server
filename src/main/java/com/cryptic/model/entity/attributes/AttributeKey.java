@@ -9,6 +9,7 @@ public enum AttributeKey {
 
     RAKING,
 
+    PERFORMING_ACTION,
     RETREATING,
 
     MENACING_CURSE,

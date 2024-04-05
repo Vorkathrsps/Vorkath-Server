@@ -29,5 +29,37 @@
     "block": 5328,
     "death": 5329
   }
-}
+},
+  {
+    "ids": [
+      787, 788, 789, 790, 791, 792, 793
+    ],
+    "maxhit": 10,
+    "aggressive": true,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "combattype": "MELEE",
+    "stats": {
+      "hitpoints": 105,
+      "attack": 95,
+      "strength": 95,
+      "defence": 95,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "magicstrength": 0,
+      "rangestrength": 0,
+      "stabdefence": 50,
+      "slashdefence": 70,
+      "crushdefence": 70,
+      "magicdefence": 90,
+      "rangeddefence": 50
+    },
+    "animations": {
+      "attack": 4387,
+      "block": 4385,
+      "death": 4389
+    }
+  }
 ]

@@ -34,7 +34,9 @@
   {
     // Bandit
     "ids": [
-      303, 301, 302
+      303,
+      301,
+      302
     ],
     "maxhit": 4,
     "attackspeed": 4,
@@ -173,6 +175,7 @@
     "attackspeed": 4,
     "slayerxp": 19,
     "slayerlvl": 5,
+    "combattype": "MELEE",
     "stats": {
       "attack": 11,
       "strength": 7,
@@ -201,6 +204,7 @@
     "attackspeed": 4,
     "slayerxp": 16,
     "slayerlvl": 5,
+    "comabttype": "MELEE",
     "stats": {
       "attack": 8,
       "strength": 4,
@@ -268,6 +272,7 @@
     "slayerxp": 25,
     "slayerlvl": 17,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 13,
       "strength": 13,
@@ -299,6 +304,7 @@
     "slayerxp": 5,
     "slayerlvl": 7,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 6,
       "strength": 5,
@@ -330,6 +336,7 @@
     "slayerxp": 93,
     "slayerlvl": 7,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 82,
       "strength": 80,
@@ -364,6 +371,7 @@
     "deathlen": 3,
     "poison": 8,
     "poisonchance": 100,
+    "combattype": "MELEE",
     "stats": {
       "attack": 22,
       "strength": 18,
@@ -392,6 +400,7 @@
     "attackspeed": 4,
     "slayerxp": 27,
     "slayerlvl": 20,
+    "combattype": "MELEE",
     "stats": {
       "attack": 27,
       "strength": 27,
@@ -419,6 +428,7 @@
     "attackspeed": 6,
     "slayerxp": 37,
     "slayerlvl": 25,
+    "combattype": "MELEE",
     "stats": {
       "attack": 22,
       "strength": 37,
@@ -450,6 +460,7 @@
     "attackspeed": 4,
     "slayerxp": 45,
     "slayerlvl": 30,
+    "combattype": "MELEE",
     "stats": {
       "attack": 52,
       "strength": 30,
@@ -478,6 +489,7 @@
     "attackspeed": 4,
     "slayerxp": 75,
     "slayerlvl": 40,
+    "combattype": "MELEE",
     "stats": {
       "attack": 30,
       "strength": 45,
@@ -511,6 +523,7 @@
     "attackspeed": 4,
     "slayerxp": 75,
     "slayerlvl": 52,
+    "combattype": "MELEE",
     "stats": {
       "attack": 45,
       "strength": 45,
@@ -542,6 +555,7 @@
     "attackspeed": 4,
     "slayerxp": 76,
     "slayerlvl": 55,
+    "combattype": "MELEE",
     "stats": {
       "attack": 56,
       "strength": 86,
@@ -571,6 +585,7 @@
     "attackspeed": 4,
     "slayerxp": 97,
     "slayerlvl": 70,
+    "combattype": "MELEE",
     "stats": {
       "attack": 67,
       "strength": 105,
@@ -599,6 +614,7 @@
     "maxhit": 4,
     "slayerxp": 29,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 24,
       "strength": 24,
@@ -644,6 +660,7 @@
     "maxhit": 1,
     "slayerxp": 5,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -687,6 +704,7 @@
     "maxhit": 1,
     "slayerxp": 5,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -727,6 +745,7 @@
     "maxhit": 1,
     "slayerxp": 5,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -770,6 +789,7 @@
     "maxhit": 1,
     "slayerxp": 5,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -811,6 +831,7 @@
     "maxhit": 1,
     "slayerxp": 5,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -853,6 +874,7 @@
     "slayerxp": 59,
     "slayerlvl": 1,
     "aggroradius": 5,
+    "combattype": "MELEE",
     "stats": {
       "attack": 24,
       "strength": 24,
@@ -882,6 +904,7 @@
     "slayerxp": 59,
     "slayerlvl": 1,
     "aggroradius": 5,
+    "combattype": "MELEE",
     "stats": {
       "attack": 24,
       "strength": 24,
@@ -913,6 +936,7 @@
     "maxhit": 4,
     "slayerxp": 70,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 41,
       "strength": 41,
@@ -952,6 +976,7 @@
     "slayerxp": 55,
     "slayerlvl": 58,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 80,
       "strength": 77,
@@ -1102,6 +1127,7 @@
     "slayerlvl": 1,
     "attackspeed": 6,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 15,
       "strength": 15,
@@ -1132,6 +1158,7 @@
     "maxhit": 2,
     "slayerxp": 25,
     "slayerlvl": 1,
+    "comabttype": "MELEE",
     "stats": {
       "attack": 13,
       "strength": 13,
@@ -1172,6 +1199,7 @@
     "maxhit": 2,
     "slayerxp": 25,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 13,
       "strength": 13,
@@ -1212,6 +1240,7 @@
     "maxhit": 3,
     "slayerxp": 32,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 22,
       "strength": 22,
@@ -1241,6 +1270,7 @@
     "maxhit": 3,
     "slayerxp": 23,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 16,
       "strength": 17,
@@ -1281,6 +1311,7 @@
     "maxhit": 6,
     "slayerxp": 30,
     "aggressive": true,
+    "combattype": "MELEE",
     "slayerlvl": 1,
     "stats": {
       "attack": 38,
@@ -1311,6 +1342,7 @@
     "maxhit": 2,
     "slayerxp": 16,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 8,
       "strength": 8,
@@ -1393,6 +1425,7 @@
     "maxhit": 5,
     "slayerxp": 42,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 40,
       "strength": 40,
@@ -1473,6 +1506,9 @@
       "death": [
         409
       ]
+    },
+    "scripts": {
+      "combat": "BasicDragonCombat"
     }
   },
   {
@@ -1536,6 +1572,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "attack": 22,
       "defence": 22,
@@ -1566,6 +1603,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "aggressive": true,
     "stats": {
       "attack": 17,
@@ -1605,6 +1643,7 @@
     "slayerlvl": 1,
     "attackspeed": 6,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "attack": 12,
       "defence": 10,
@@ -1635,6 +1674,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 15,
       "attack": 12,
@@ -1675,6 +1715,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 35,
       "attack": 30,
@@ -1715,6 +1756,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 44,
       "attack": 30,
@@ -1755,6 +1797,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 70,
       "attack": 30,
@@ -1795,6 +1838,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 74,
       "attack": 60,
@@ -1834,6 +1878,7 @@
     "slayerxp": 25,
     "slayerlvl": 1,
     "attackspeed": 3,
+    "combattype": "MELEE",
     "aggressive": true,
     "deathlen": 3,
     "stats": {
@@ -1859,90 +1904,22 @@
   {
     // Ankous
     "ids": [
-      2515,
-      2517,
-      2519
-    ],
-    "maxhit": 8,
-    "slayerxp": 65,
-    "slayerlvl": 1,
-    "attackspeed": 4,
-    "aggressive": true,
-    "deathlen": 2,
-    "stats": {
-      "hitpoints": 65,
-      "attack": 80,
-      "defence": 70,
-      "strength": 70
-    },
-    "bonuses": {
-    },
-    "animations": {
-      "attack": 422,
-      "block": 424,
-      "death": 2304
-    }
-  },
-  {
-    // Ankous
-    "ids": [
-      2518
-    ],
-    "maxhit": 8,
-    "slayerxp": 65,
-    "slayerlvl": 1,
-    "attackspeed": 4,
-    "aggressive": true,
-    "deathlen": 2,
-    "stats": {
-      "hitpoints": 65,
-      "attack": 75,
-      "defence": 80,
-      "strength": 75
-    },
-    "bonuses": {
-    },
-    "animations": {
-      "attack": 422,
-      "block": 424,
-      "death": 2304
-    }
-  },
-  {
-    // Ankous
-    "ids": [
-      2516
-    ],
-    "maxhit": 8,
-    "slayerxp": 70,
-    "slayerlvl": 1,
-    "attackspeed": 4,
-    "aggressive": true,
-    "deathlen": 2,
-    "stats": {
-      "hitpoints": 70,
-      "attack": 75,
-      "defence": 80,
-      "strength": 75
-    },
-    "bonuses": {
-    },
-    "animations": {
-      "attack": 422,
-      "block": 424,
-      "death": 2304
-    }
-  },
-  {
-    // Ankous
-    "ids": [
       2514,
-      6608
+      6608,
+      2515,
+      2516,
+      2517,
+      2518,
+      2519,
+      7257,
+      7296,
+      7864
     ],
     "maxhit": 8,
     "slayerxp": 60,
     "slayerlvl": 1,
     "attackspeed": 4,
+    "combattype": "MELEE",
     "aggressive": true,
     "deathlen": 2,
     "stats": {
@@ -2050,6 +2027,7 @@
     "slayerlvl": 80,
     "attackspeed": 4,
     "deathlen": 2,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 105,
       "attack": 97,
@@ -2077,6 +2055,7 @@
     "maxhit": 21,
     "slayerxp": 210,
     "slayerlvl": 80,
+    "combattype": "MELEE",
     "attackspeed": 4,
     "deathlen": 2,
     "stats": {
@@ -2180,6 +2159,7 @@
     "slayerxp": 128,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "attackspeed": 4,
     "deathlen": 2,
     "stats": {
@@ -2264,6 +2244,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "deathlen": 2,
     "stats": {
       "hitpoints": 130,
@@ -2406,10 +2387,12 @@
       "death": [
         409
       ]
+    },
+    "scripts": {
+      "combat": "BasicDragonCombat"
     }
   },
   {
-    // Iron Dragon
     "ids": [
       272,
       273,
@@ -2450,6 +2433,9 @@
       "death": [
         409
       ]
+    },
+    "scripts": {
+      "combat": "MetalDragonCombat"
     }
   },
   {
@@ -3920,6 +3906,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "aggressive": false,
+    "combattype": "MELEE",
     "deathlen": 3,
     "stats": {
       "hitpoints": 140,
@@ -3980,6 +3967,7 @@
     "slayerlvl": 15,
     "attackspeed": 4,
     "aggressive": false,
+    "combattype": "MELEE",
     "stats": {
       "attack": 130,
       "strength": 136,

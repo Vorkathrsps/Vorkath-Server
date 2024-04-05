@@ -2,7 +2,10 @@
   {
     // Nex
     "ids": [
-      11278, 11280, 11281, 11282
+      11278,
+      11280,
+      11281,
+      11282
     ],
     "maxhit": 32,
     "attackspeed": 4,
@@ -182,7 +185,8 @@
   {
     // Blood reaver
     "ids": [
-      11293, 11294
+      11293,
+      11294
     ],
     "maxhit": 20,
     "attackspeed": 5,
@@ -222,6 +226,7 @@
     "maxhit": 11,
     "attackspeed": 5,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 100,
       "strength": 100,
@@ -257,6 +262,7 @@
     "slayerlvl": 83,
     "attackspeed": 5,
     "aggressive": true,
+    "combattype": "MAGIC",
     "deathlen": 3,
     "stats": {
       "hitpoints": 106,
@@ -292,6 +298,7 @@
     "maxhit": 16,
     "attackspeed": 5,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 116,
       "strength": 120,
@@ -325,6 +332,7 @@
     ],
     "maxhit": 12,
     "attackspeed": 6,
+    "combattype": "MELEE",
     "aggressive": true,
     "stats": {
       "attack": 60,
@@ -361,6 +369,7 @@
     ],
     "maxhit": 12,
     "attackspeed": 5,
+    "combattype": "MELEE",
     "aggressive": true,
     "stats": {
       "attack": 100,
@@ -395,6 +404,7 @@
     "maxhit": 7,
     "attackspeed": 6,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 43,
       "strength": 43,
@@ -430,6 +440,7 @@
     "attackspeed": 4,
     "slayerxp": 116,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "aggressive": true,
     "stats": {
       "attack": 105,
@@ -465,6 +476,7 @@
     "maxhit": 14,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 130,
       "strength": 130,
@@ -505,6 +517,7 @@
     "aggressive": false,
     "slayerlvl": 50,
     "slayerxp": 120,
+    "combattype": "MELEE",
     "stats": {
       "attack": 80,
       "strength": 46,
@@ -519,7 +532,6 @@
       "crushdefence": 0,
       "magicdefence": 0,
       "rangeddefence": 0
-
     },
     "animations": {
       "attack": 1552,
@@ -541,6 +553,7 @@
     "attackspeed": 4,
     "aggressive": false,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 5,
       "defence": 1,
@@ -555,7 +568,6 @@
       "crushdefence": 0,
       "magicdefence": 0,
       "rangeddefence": 0
-
     },
     "animations": {
       "attack": 169,
@@ -590,6 +602,7 @@
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 184,
       "defence": 70,
@@ -626,6 +639,7 @@
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 3,
+    "combattype": "MELEE",
     "stats": {
       "hitpoints": 40,
       "defence": 55,
@@ -633,7 +647,6 @@
       "attack": 55,
       "ranged": 1,
       "magic": 40
-
     },
     "bonuses": {
       "stabdefence": 0,
@@ -655,13 +668,15 @@
   {
     // Icefiend
     "ids": [
-      3140, 4813
+      3140,
+      4813
     ],
     "maxhit": 2,
     "slayerxp": 15,
     "slayerlvl": 1,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "deathlen": 2,
     "stats": {
       "hitpoints": 15,
@@ -698,6 +713,7 @@
     "slayerlvl": 45,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "deathlen": 2,
     "stats": {
       "hitpoints": 45,
@@ -732,6 +748,7 @@
     "maxhit": 1,
     "slayerxp": 17,
     "slayerlvl": 1,
+    "combattype": "MELEE",
     "stats": {
       "attack": 12,
       "strength": 6,
@@ -767,6 +784,7 @@
     "slayerxp": 17,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 11,
       "strength": 6,
@@ -801,6 +819,7 @@
     "slayerxp": 17,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 19,
       "strength": 6,
@@ -835,6 +854,7 @@
     "slayerxp": 60,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 43,
       "strength": 43,
@@ -869,6 +889,7 @@
     "slayerxp": 49,
     "slayerlvl": 1,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 22,
       "strength": 24,
@@ -901,6 +922,7 @@
     ],
     "maxhit": 7,
     "aggressive": true,
+    "combattype": "MELEE",
     "stats": {
       "attack": 43,
       "strength": 43,
@@ -932,6 +954,7 @@
     "maxhit": 15,
     "aggressive": true,
     "retaliates": false,
+    "combattype": "MELEE",
     "aggroradius": 50,
     "stats": {
       "attack": 120,
@@ -1073,6 +1096,7 @@
     "maxhit": 12,
     "aggressive": true,
     "attackspeed": 6,
+    "combattype": "MELEE",
     "stats": {
       "attack": 70,
       "strength": 90,
@@ -1106,6 +1130,7 @@
     "maxhit": 12,
     "aggressive": true,
     "attackspeed": 6,
+    "combattype": "MELEE",
     "stats": {
       "attack": 75,
       "strength": 90,
@@ -1139,6 +1164,7 @@
     "maxhit": 13,
     "aggressive": true,
     "attackspeed": 5,
+    "combattype": "MELEE",
     "stats": {
       "attack": 110,
       "strength": 106,

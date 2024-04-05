@@ -74,9 +74,7 @@ public final class Projectile {
     @Getter
     public final int stepMultiplier;
 
-    public Projectile(Tile start, Tile end, int lockon,
-                      int projectileId, int speed, int delay, int startHeight, int endHeight,
-                      int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
+    public Projectile(Tile start, Tile end, int lockon, int projectileId, int speed, int delay, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
         this.start = start;
         this.target = end;
         int offX = (start.getY() - end.getY()) * -1; // yes inverted

@@ -244,12 +244,6 @@ drops:
   chance: 3
   rareDrop: false
   sendToBank: false
-- item: LARRANS_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 455
-  rareDrop: false
-  sendToBank: false
 - item: SLAYERS_ENCHANTMENT
   minimumAmount: 1
   maximumAmount: 1

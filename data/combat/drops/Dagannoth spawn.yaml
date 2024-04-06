@@ -112,12 +112,6 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 257
-  rareDrop: false
-  sendToBank: false
 - item: RAW_TUNA
   minimumAmount: 1
   maximumAmount: 1

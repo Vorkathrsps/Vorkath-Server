@@ -226,12 +226,6 @@ drops:
   chance: 2
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
 - item: BASILISK_HEAD
   minimumAmount: 1
   maximumAmount: 1

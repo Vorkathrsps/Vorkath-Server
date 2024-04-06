@@ -172,12 +172,6 @@ drops:
   chance: 4
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 13
-  rareDrop: false
-  sendToBank: false
 - item: BRITTLE_KEY
   minimumAmount: 1
   maximumAmount: 1

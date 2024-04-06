@@ -292,12 +292,6 @@ drops:
   chance: 1666
   rareDrop: false
   sendToBank: false
-- item: LARRANS_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 417
-  rareDrop: false
-  sendToBank: false
 - item: SLAYERS_ENCHANTMENT
   minimumAmount: 1
   maximumAmount: 1
@@ -578,12 +572,6 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: LARRANS_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 417
   rareDrop: false
   sendToBank: false
 - item: BRONZE_KITESHIELD

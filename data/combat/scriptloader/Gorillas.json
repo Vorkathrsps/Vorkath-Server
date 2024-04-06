@@ -9,6 +9,7 @@
 	"maxhit": 13,
 	"attackspeed": 5,
 	"aggressive": true,
+    "combattype": "MELEE",
 	"stats": {
 	  "attack": 180,
 	  "strength": 90,

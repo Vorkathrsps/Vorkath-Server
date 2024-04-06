@@ -660,9 +660,33 @@ public class CommandManager {
         dev("cp", (p, c, s) ->
             p.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, 0));
 
-        dev("cleartask", (p, c, s) ->
+        dev("cc", (p, c, s) ->
         {
+            List<Integer> linkedAnimations = Arrays.asList(5565, 5566, 5567, 5568, 5569, 5570, 5571, 5572, 5573, 5574, 5575, 5576, 5577, 5578, 5579, 5580, 5581, 5582, 5583, 5584, 5587, 5788, 5789, 5790, 5791, 5792, 5793, 9007, 9046, 10111, 10112, 10113, 10114, 10115, 10116, 10117, 10118, 10726);
+            List<String> linkedNPCs = Arrays.asList("Zombie (26)", "Zombie (27)", "Zombie (28)", "Zombie (29)", "Zombie (30)", "Zombie (31)", "Zombie (32)", "Zombie (33)", "Zombie (34)", "Zombie (35)", "Zombie (36)", "Zombie (37)", "Zombie (38)", "Zombie (39)", "Zombie (40)", "Zombie (41)", "Zombie (42)", "Zombie (43)", "Zombie (44)", "Zombie (45)", "Zombie (46)", "Zombie (47)", "Zombie (48)", "Zombie (49)", "Zombie (50)", "Zombie (51)", "Zombie (52)", "Zombie (53)", "Zombie (54)", "Zombie (55)", "Zombie (56)", "Zombie (57)", "Zombie (58)", "Zombie (59)", "Zombie (60)", "Zombie (61)", "Zombie (62)", "Zombie (63)", "Zombie (64)", "Zombie (65)", "Zombie (66)", "Zombie (67)", "Zombie (68)", "Summoned Zombie (69)", "Zombie protester (607)", "Zombie protester (608)", "Zombie protester (609)", "Zombie protester (610)", "Zombie protester (611)", "Zombie protester (612)", "Zombie (1784)", "Undead Druid (2145)", "Zombie (2501)", "Zombie (2502)", "Zombie (2503)", "Zombie (2504)", "Zombie (2505)", "Zombie (2506)", "Zombie (2507)", "Zombie (2508)", "Zombie (2509)", "Zombies Champion (3359)", "Zombie (3980)", "Zombie (3981)", "Undead one (5346)", "Undead one (5347)", "Undead one (5348)", "Undead one (5349)", "Undead one (5350)", "Undead one (5351)", "Nazastarool (5353)", "Zombie (5647)", "Nazastarool (hard) (6337)", "Nazastarool (6398)", "Zombie (6449)", "Zombie (6450)", "Zombie (6451)", "Zombie (6452)", "Zombie (6453)", "Zombie (6454)", "Zombie (6455)", "Zombie (6456)", "Zombie (6457)", "Zombie (6458)", "Zombie (6459)", "Zombie (6460)", "Zombie (6461)", "Zombie (6462)", "Zombie (6463)", "Zombie (6464)", "Zombie (6465)", "Zombie (6466)", "Zombie (6596)", "Zombie (6597)", "Zombie (6598)", "Zombie (6741)", "Zombie (7485)", "Zombie (7486)", "Zombie (7487)", "Zombie (7488)", "Zombie (8067)", "Zombie (8068)", "Zombie (8069)", "Skeleton (8139)", "Skeleton (8140)", "Trapped Soul (8514)", "Trapped Soul (8528)", "Trapped Soul (hard) (8529)", "Undead Zealot (10591)", "Undead Zealot (10592)", "null (10884)", "null (10885)", "null (10886)", "Strangled (12268)", "Strangled (12269)", "Strangled (12270)", "Strangled (12271)", "Strangled (12272)", "Strangled (12273)", "Strangled (12274)", "Strangled (12275)", "Strangled (12276)", "Strangled (12277)", "Strangled (12278)", "Strangled (12279)", "Strangled (12280)", "Strangled (12281)", "Strangled (12282)", "Strangled (12283)", "Strangled (12284)", "Strangled (12285)", "Strangled (12286)", "Strangled (12287)", "Strangled (12429)", "Strangled (12430)", "Strangled (12431)", "Strangled (12432)", "Strangled (12433)", "Strangled (12434)", "Strangled (12435)", "Armoured zombie (12720)", "Armoured zombie (12721)", "Armoured zombie (12722)", "Armoured zombie (12723)", "Armoured zombie (12724)", "Armoured zombie (12725)", "Armoured zombie (12726)", "Armoured zombie (12727)", "Armoured zombie (12728)", "Armoured zombie (12729)", "Armoured zombie (12730)", "Armoured zombie (12731)", "Armoured zombie (12732)", "Armoured zombie (12733)", "Armoured zombie (12734)", "Armoured zombie (12735)", "Armoured zombie (12736)", "Armoured zombie (12737)", "Armoured zombie (12738)", "Armoured zombie (12739)", "Armoured zombie (12740)", "Armoured zombie (12741)", "Armoured zombie (12742)", "Armoured zombie (12743)", "Armoured zombie (12744)", "Armoured zombie (12745)", "Armoured zombie (12746)", "Armoured zombie (12747)", "Armoured zombie (12748)", "Armoured zombie");
+                Map<String, List<Integer>> npcAnimationsMap = new HashMap<>();
+            for (int i = 0; i < linkedNPCs.size() - 1; i++) {
+                String npc = linkedNPCs.get(i);
+                Integer animation = linkedAnimations.get(i);
 
+                if (!npcAnimationsMap.containsKey(npc)) {
+                    npcAnimationsMap.put(npc, new ArrayList<>());
+                }
+                npcAnimationsMap.get(npc).add(animation);
+            }
+            List<List<Integer>> animationSets = new ArrayList<>();
+            for (Map.Entry<String, List<Integer>> entry : npcAnimationsMap.entrySet()) {
+                List<Integer> animations = entry.getValue();
+                for (int i = 0; i < animations.size(); i += 3) {
+                    List<Integer> animationSet = new ArrayList<>();
+                    for (int j = i; j < Math.min(i + 3, animations.size()); j++) {
+                        animationSet.add(animations.get(j));
+                    }
+                    animationSets.add(animationSet);
+                }
+            }
+
+            System.out.println(animationSets);
         });
 
         dev("cleartask", (p, c, s) ->

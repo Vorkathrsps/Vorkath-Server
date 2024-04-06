@@ -382,12 +382,6 @@ drops:
   chance: 429
   rareDrop: true
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
 - item: RUNE_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1

@@ -406,12 +406,6 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 97
-  rareDrop: false
-  sendToBank: false
 - item: LONG_BONE
   minimumAmount: 1
   maximumAmount: 1

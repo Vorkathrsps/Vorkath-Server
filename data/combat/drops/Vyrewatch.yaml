@@ -28,12 +28,6 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
-  rareDrop: false
-  sendToBank: false
 - item: RUNE_JAVELIN
   minimumAmount: 5
   maximumAmount: 15

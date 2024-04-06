@@ -148,12 +148,6 @@ drops:
   chance: 15
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 180
-  rareDrop: false
-  sendToBank: false
 - item: LIMPWURT_SEED
   minimumAmount: 1
   maximumAmount: 1
@@ -338,12 +332,6 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 23
-  rareDrop: false
-  sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 129
   rareDrop: false
   sendToBank: false
 - item: WILDBLOOD_SEED

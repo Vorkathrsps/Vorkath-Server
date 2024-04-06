@@ -232,12 +232,6 @@ drops:
   chance: 83
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 378
-  rareDrop: false
-  sendToBank: false
 - item: HARDLEATHER_BODY
   minimumAmount: 1
   maximumAmount: 1

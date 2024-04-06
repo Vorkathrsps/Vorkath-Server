@@ -34,10 +34,4 @@ drops:
   chance: 26
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 213
-  rareDrop: false
-  sendToBank: false
 rolls: 1

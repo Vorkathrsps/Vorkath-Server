@@ -142,12 +142,6 @@ drops:
   chance: 11
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 81
-  rareDrop: false
-  sendToBank: false
 - item: MARRENTILL_SEED
   minimumAmount: 1
   maximumAmount: 1

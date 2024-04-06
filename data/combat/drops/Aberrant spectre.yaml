@@ -244,12 +244,6 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
 - item: CLUE_SCROLL_HARD
   minimumAmount: 1
   maximumAmount: 1

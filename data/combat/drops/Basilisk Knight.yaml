@@ -166,12 +166,6 @@ drops:
   chance: 2
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 21
-  rareDrop: false
-  sendToBank: false
 - item: MYSTIC_HAT_LIGHT
   minimumAmount: 1
   maximumAmount: 1

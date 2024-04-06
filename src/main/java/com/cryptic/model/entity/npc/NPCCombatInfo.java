@@ -112,6 +112,7 @@ public class NPCCombatInfo {
         }
     }
 
+    @Data
     public static class Animations {
         public int attack;
         public int block;

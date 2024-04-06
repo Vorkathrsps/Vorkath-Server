@@ -119,7 +119,9 @@ public class KrakenBoss {
     public static void onNpcSpawn(NPC kraken) {
         if (kraken.id() == KRAKEN_WHIRLPOOL) {
 
-            kraken.getCombatInfo().respawntime = 9;
+            if (kraken.getCombatInfo() != null) {
+                kraken.getCombatInfo().respawntime = 9;
+            }
 
             // Is it spawned in an Instance?
             //TODO?

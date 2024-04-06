@@ -88,22 +88,22 @@ public class DropsConverter {
         } else min = max = Integer.parseInt(quantity);
         var weight = 1 / drop.getRarity();
         var rare = Item.getValue(dropId) > 5_000_000;
-        String itemName = ItemRepository.getItemName(drop.getId());
-        if (alwaysDrop) {
-            ItemDrop itemDrop = new ItemDrop(itemName, min, max, 1);
-            always.add(itemDrop);
-        } else {
-            if (weight >= 20_000) weight = (int) (weight / 8D);
-            else if (weight >= 6) weight = (int) (weight / 3D);
-            else if (weight >= 2) weight = (int) (weight / 2D);
-            if (drop.isNoted()) itemName = "NOTED_" + itemName;
-            if (!(itemName.equalsIgnoreCase("larran's_key") || itemName.contains("brimstone_key") || itemName.contains("slayer's_enchantment"))) {
+        if (drop.getId() != 23490 && drop.getId() != 23083) {
+            String itemName = ItemRepository.getItemName(drop.getId());
+            if (alwaysDrop) {
+                ItemDrop itemDrop = new ItemDrop(itemName, min, max, 1);
+                always.add(itemDrop);
+            } else {
+                if (weight >= 20_000) weight = (int) (weight / 8D);
+                else if (weight >= 6) weight = (int) (weight / 3D);
+                else if (weight >= 2) weight = (int) (weight / 2D);
+                if (drop.isNoted()) itemName = "NOTED_" + itemName;
                 ItemDrop itemDrop = new ItemDrop(itemName, min, max, (int) weight, rare);
                 rareDrops.add(itemDrop);
             }
-        }
 
-        if (itemName == null) nulledIndices++;
+            if (itemName == null) nulledIndices++;
+        }
     }
 
     private static List<String> npcsWritten = new ArrayList<>();

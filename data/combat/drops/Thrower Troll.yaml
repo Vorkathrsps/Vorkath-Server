@@ -400,12 +400,6 @@ drops:
   chance: 15
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 105
-  rareDrop: false
-  sendToBank: false
 - item: MITHRIL_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1

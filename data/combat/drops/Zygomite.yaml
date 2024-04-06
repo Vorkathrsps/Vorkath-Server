@@ -232,12 +232,6 @@ drops:
   chance: 15
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 62
-  rareDrop: false
-  sendToBank: false
 - item: STEEL_AXE
   minimumAmount: 1
   maximumAmount: 1
@@ -362,12 +356,6 @@ drops:
   minimumAmount: 15
   maximumAmount: 15
   chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN

@@ -148,12 +148,6 @@ drops:
   chance: 14
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
 - item: ANCIENT_SHARD
   minimumAmount: 1
   maximumAmount: 1

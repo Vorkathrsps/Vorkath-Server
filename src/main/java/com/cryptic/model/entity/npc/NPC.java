@@ -220,11 +220,8 @@ public class NPC extends Entity {
                 return current.isDiagonal || t.distance(tile()) == 1;
             };
         }
-        if (tile().equals(3109, 3517))
-            walkTo = tile.transform(1, 0);
-        if (ArrayUtils.contains(ignored_tiles, this.getMobName())) {
-            ignoreOccupiedTiles = true;
-        }
+        if (tile().equals(3109, 3517)) walkTo = tile.transform(1, 0);
+        ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile) {
@@ -274,9 +271,7 @@ public class NPC extends Entity {
         }
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
-        if (ArrayUtils.contains(ignored_tiles, this.getMobName())) {
-            ignoreOccupiedTiles = true;
-        }
+        ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile, boolean spawn) {
@@ -329,6 +324,7 @@ public class NPC extends Entity {
         if (spawn) {
             World.getWorld().registerNpc(this);
         }
+        ignoreOccupiedTiles = true;
     }
 
     /**

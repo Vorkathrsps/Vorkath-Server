@@ -142,12 +142,6 @@ drops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
-  rareDrop: false
-  sendToBank: false
 - item: CLUE_SCROLL_HARD
   minimumAmount: 1
   maximumAmount: 1
@@ -158,12 +152,6 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 333
-  rareDrop: false
-  sendToBank: false
-- item: LARRANS_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
   rareDrop: false
   sendToBank: false
 - item: SLAYERS_ENCHANTMENT

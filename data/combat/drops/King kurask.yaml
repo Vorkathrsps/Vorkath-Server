@@ -328,12 +328,6 @@ drops:
   chance: 4
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
 - item: KURASK_HEAD
   minimumAmount: 1
   maximumAmount: 1

@@ -160,12 +160,6 @@ drops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: BRIMSTONE_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
 - item: CLUE_SCROLL_ELITE
   minimumAmount: 1
   maximumAmount: 1
@@ -194,12 +188,6 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 1670
-  rareDrop: false
-  sendToBank: false
-- item: LARRANS_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
   rareDrop: false
   sendToBank: false
 - item: RUNE_2H_SWORD

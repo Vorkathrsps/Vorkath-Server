@@ -478,6 +478,7 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's graphics.
+     *
      * @param builder The packet builder to write information on.
      * @param target  The player to update graphics for.
      * @return The PlayerUpdating instance.
@@ -493,11 +494,12 @@ public class PlayerUpdating {
     }
 
     private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
-        int count = Math.min(player.nextHits.size(), 4); // count
+        int count = Math.min(player.nextHitIndex, 4);
         builder.put(count);
         int playerHp = player.hp();
         int playerMaxHp = player.maxHp();
-        for (Hit hit : player.nextHits.subList(0, count)) {
+        for (int index = 0; index < count; index++) {
+            Hit hit = player.nextHits[index];
             builder.putShort(hit.getDamage());
             builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
             builder.putShort(playerHp);

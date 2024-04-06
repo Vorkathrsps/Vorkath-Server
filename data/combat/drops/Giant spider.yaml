@@ -1,8 +1,31 @@
 npcId:
 - 3017
-- 3018
-- 2477
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
-drops: []
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 641
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 105
+  rareDrop: false
+  sendToBank: false
+rolls: 1

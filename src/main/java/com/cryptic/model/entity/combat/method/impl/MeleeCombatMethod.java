@@ -127,7 +127,10 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         if (isImmune(target, hit)) return true;
-        else hit.checkAccuracy(true).submit();
+        else {
+            hit.applyBeforeRemove();
+            hit.checkAccuracy(true).submit();
+        }
         return true;
     }
 

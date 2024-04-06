@@ -268,13 +268,20 @@ public class World {
     public void sequence() {
         resetSection();
         shufflePlayerRenderOrder();
+
         readPlayerPackets();
+
         processTasks();
+
         processObjects();
+
         readNpcs();
         readPlayers();
+
         processEntityUpdating();
+
         flushEntities();
+
         incrementElapsedTicks();
     }
 
@@ -391,6 +398,16 @@ public class World {
             if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {
                     PlayerUpdating.update(player);
+                } catch (Exception e) {
+                    logger.error("Error occurred while processing GPI: " + e.getMessage());
+                    e.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+        for (Player player : players) {
+            if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
+                try {
                     NPCUpdating.update(player);
                 } catch (Exception e) {
                     logger.error("Error occurred while processing GPI: " + e.getMessage());
@@ -769,6 +786,13 @@ public class World {
 
         try {
             DynamicClassLoader.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            MonsterLoader.load();
+            Monster.loadStats();
         } catch (Exception e) {
             e.printStackTrace();
         }

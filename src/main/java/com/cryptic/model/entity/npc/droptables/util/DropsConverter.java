@@ -4,109 +4,107 @@ import com.cryptic.GameServer;
 import com.cryptic.cache.DataStore;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.model.World;
 import com.cryptic.model.entity.npc.droptables.ItemDrop;
 import com.cryptic.model.entity.npc.droptables.ItemRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
+import com.cryptic.model.items.Item;
+import com.cryptic.utility.Monster;
+import com.cryptic.utility.MonsterLoader;
+import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DropsConverter {
     public static Int2ObjectMap<NpcDropTable> tables = new Int2ObjectArrayMap<>();
 
     public static List<Integer> array = new ArrayList<>();
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws Exception {
         ItemRepository.load();
+        MonsterLoader.load();
         GameServer.fileStore = new DataStore(GameServer.properties().fileStore);
         GameServer.definitions = new DefinitionRepository();
-        ScalarLootTable.loadAll(new File("data/combat/drops/"));
-        System.out.println(ScalarLootTable.registered.size() + " loaded drops");
-        ScalarLootTable.registered.forEach((npcId, lootTable) -> {
-            int petItem;
-            int petRarity;
-            petRarity = lootTable.petRarity;
-            petItem = lootTable.petItem;
+        new BloodMoneyPriceLoader().load();
+        MonsterLoader.monsters.int2ObjectEntrySet().fastForEach(monster -> {
+            var id = monster.getIntKey();
+            var m = monster.getValue();
             List<ItemDrop> always = new ArrayList<>();
             List<ItemDrop> rareDrops = new ArrayList<>();
-            if(lootTable.guaranteed != null) {
-                for (ScalarLootTable.TableItem lootItem : lootTable.getGuaranteedDrops()) {
-                    String itemName = ItemRepository.getItemName(lootItem.id);
-                    ItemDrop itemDrop = new ItemDrop(itemName, lootItem.min, lootItem.max, lootItem.weight);
-                    always.add(itemDrop);
-                }
-            }
-            if (lootTable.tables != null) {
-                ScalarLootTable dropTable = ScalarLootTable.forNPC(npcId);
-                List<Integer[]> drops = new ArrayList<>();
-                double totalTablesWeight = dropTable.ptsTotal();
-                int petId, petAverage;
-                petId = dropTable.petItem == 0 ? -1 : dropTable.petItem;
-                petAverage = dropTable.petRarity;
-                if(petId != -1) drops.add(0, new Integer[]{petId, 1, 1,  petAverage}); //"pet" specifically identified by minAmount == -1
-                if (dropTable.tables != null) {
-                    for (ScalarLootTable table : dropTable.tables) {
-                        if (table != null) {
-                            double tableChance = table.tableWeight / totalTablesWeight;
-                            if (table.items.length == 0) {
-
-                            } else {
-                                for (ScalarLootTable.TableItem item : table.items) {
-                                    Integer[] drop = new Integer[5];
-                                    drop[0] = item.id;
-                                    drop[1] = item.min == 0 ? item.amount : item.min;
-                                    drop[2] = item.max == 0 ? item.amount : item.max;
-                                    if (item.weight == 0)
-                                        drop[3] = (int) (1D / tableChance);
-                                    else
-                                        drop[3] = (int) (1D / (item.computedFraction.doubleValue()));
-                                    drop[4] = item.amount;
-                                    drops.add(drop);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                for (Integer[] drop : drops) {
-                    int itemId = drop[0];
-                    int minAmount = drop[1] == 0 ? 1 : drop[1];
-                    int maxAmount = drop[2] == 0 ? 1 : drop[2];
-                    int average = drop[3];
-                    String name = ItemRepository.getItemName(itemId);
-                    ItemDrop itemDrop = new ItemDrop(name, minAmount, maxAmount, average, false, false);
-                    rareDrops.add(itemDrop);
-                }
-            }
-            NpcDropTable table = new NpcDropTable(lootTable.npcs, ItemRepository.getItemName(petItem), petRarity, always, rareDrops);
-            for (var id : lootTable.npcs) {
+            AtomicInteger rolls = new AtomicInteger(1);
+            var dropTable = m.getDrops();
+            dropTable.forEach(drop -> {
+                var quantity = drop.getQuantity();
+                if (quantity == null) return;
+                addDrop(always, rareDrops, drop, quantity);
+                rolls.set(drop.getRolls());
+            });
+            NpcDropTable table = new NpcDropTable(new int[]{id}, null, 2000, always, rareDrops, rolls.get());
+            if (!table.getDrops().isEmpty()) {
                 tables.put(id, table);
             }
         });
-        ScalarLootTable.registered.clear();
         var mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER).enable(YAMLGenerator.Feature.MINIMIZE_QUOTES));
         tables.forEach((npc, table) -> {
             if (npc == null || table == null) return;
-            String name = World.getWorld().definitions().get(NpcDefinition.class, npc).name;
-            Path file = Path.of("data/combat/drops/" + name + ".yaml");
-            if(npcsWritten.contains(name)) return;
+            String name = NpcDefinition.cached.get(npc).name;
+            Path file = Path.of("data/combat/droptest/" + name + ".yaml");
+            if (npcsWritten.contains(name)) return;
             try {
                 mapper.writeValue(file.toFile(), table);
-                System.out.println("Written: " + file.getFileName());
                 npcsWritten.add(name);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
     }
+
+    static int nulledIndices = 0;
+
+    private static void addDrop(List<ItemDrop> always, List<ItemDrop> rareDrops, Monster.Drop drop, String quantity) {
+        if (quantity.contains(",")) {
+            var split = quantity.split(",");
+            for (String s : split) {
+                addDrop(always, rareDrops, drop, s);
+            }
+            return;
+        }
+        int dropId = drop.getId();
+        var alwaysDrop = drop.getRarity() == 1;
+        var min = 1;
+        var max = 1;
+        if (quantity.contains("-")) {
+            var split = quantity.split("-");
+            min = Integer.parseInt(split[0]);
+            max = Integer.parseInt(split[1]);
+        } else min = max = Integer.parseInt(quantity);
+        var weight = 1 / drop.getRarity();
+        var rare = Item.getValue(dropId) > 5_000_000;
+        String itemName = ItemRepository.getItemName(drop.getId());
+        if (alwaysDrop) {
+            ItemDrop itemDrop = new ItemDrop(itemName, min, max, 1);
+            always.add(itemDrop);
+        } else {
+            if (weight >= 20_000) weight = (int) (weight / 8D);
+            else if (weight >= 6) weight = (int) (weight / 3D);
+            else if (weight >= 2) weight = (int) (weight / 2D);
+            if (drop.isNoted()) itemName = "NOTED_" + itemName;
+            if (!(itemName.equalsIgnoreCase("larran's_key") || itemName.contains("brimstone_key") || itemName.contains("slayer's_enchantment"))) {
+                ItemDrop itemDrop = new ItemDrop(itemName, min, max, (int) weight, rare);
+                rareDrops.add(itemDrop);
+            }
+        }
+
+        if (itemName == null) nulledIndices++;
+    }
+
     private static List<String> npcsWritten = new ArrayList<>();
 }

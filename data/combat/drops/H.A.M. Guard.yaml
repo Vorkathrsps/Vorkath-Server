@@ -1,9 +1,7 @@
 npcId:
-- 2536
 - 2537
-- 2538
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -12,279 +10,286 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: LEATHER_BODY
+- item: STEEL_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: LEATHER_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: LEATHER_GLOVES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_SHIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_HOOD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_ROBE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_LOGO
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_CLOAK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: HAM_GLOVES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
-  rareDrop: false
-  sendToBank: false
-- item: UNCUT_OPAL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: UNCUT_JADE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: SWEETCORN_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: STRAWBERRY_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: ONION_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 150
-  rareDrop: false
-  sendToBank: false
-- item: IRON_ORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: COAL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_ARROW
-  minimumAmount: 1
-  maximumAmount: 15
-  chance: 33
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 33
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: IRON_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: IRON_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: IRON_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_ARROW
-  minimumAmount: 1
-  maximumAmount: 13
-  chance: 100
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: STEEL_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 300
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: STEEL_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: BUTTONS
+- item: HAM_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: RUSTY_SWORD
+- item: HAM_SHIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 27
+  rareDrop: false
+  sendToBank: false
+- item: HAM_ROBE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 27
+  rareDrop: false
+  sendToBank: false
+- item: HAM_LOGO
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 27
+  rareDrop: false
+  sendToBank: false
+- item: HAM_HOOD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: HAM_CLOAK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 1
+  maximumAmount: 12
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 73
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 111
+  rareDrop: false
+  sendToBank: false
+- item: POTATO_SEED
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ONION_SEED
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: CABBAGE_SEED
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: TOMATO_SEED
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: SWEETCORN_SEED
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 84
+  rareDrop: false
+  sendToBank: false
+- item: STRAWBERRY_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 169
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 353
+  rareDrop: false
+  sendToBank: false
+- item: SNAPE_GRASS_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 486
   rareDrop: false
   sendToBank: false
 - item: COWHIDE
   minimumAmount: 1
-  maximumAmount: 2
-  chance: 72
+  maximumAmount: 3
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: LOGS
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_OPAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_JADE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: COAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: RAW_ANCHOVIES
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: RAW_CHICKEN
   minimumAmount: 1
   maximumAmount: 3
-  chance: 72
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: RAW_ANCHOVIES
+- item: BRONZE_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: LOGS
+- item: COINS_995
+  minimumAmount: 1
+  maximumAmount: 20
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: DAMAGED_ARMOUR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: RUSTY_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 1
+  maximumAmount: 6
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: THREAD
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: KNIFE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
-  rareDrop: false
-  sendToBank: false
-- item: FEATHER
-  minimumAmount: 1
-  maximumAmount: 5
-  chance: 72
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: NEEDLE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 18
   rareDrop: false
   sendToBank: false
 - item: TINDERBOX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 72
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: THREAD
-  minimumAmount: 1
-  maximumAmount: 4
-  chance: 96
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_KEY_8867
+- item: CLUE_SCROLL_EASY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 145
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: IRON_KEY_8869
+- item: IRON_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 145
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: SILVER_KEY
+- item: IRON_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 290
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: STEEL_KEY
+- item: IRON_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 870
+  chance: 12
   rareDrop: false
   sendToBank: false
+- item: LEATHER_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: HAM_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+rolls: 1

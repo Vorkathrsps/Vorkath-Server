@@ -1,8 +1,7 @@
 npcId:
 - 5335
-- 5334
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -11,45 +10,52 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: BONE_SPEAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 6
-  rareDrop: false
-  sendToBank: false
 - item: BONE_CLUB
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: IRON_FULL_HELM
+- item: BONE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: MINING_HELMET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 18
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: IRON_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: OIL_LANTERN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: TINDERBOX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 2
   rareDrop: false
   sendToBank: false
+- item: CAVE_GOBLIN_SKULL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: GOBLIN_CHAMPION_SCROLL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1666
+  rareDrop: false
+  sendToBank: false
+rolls: 1

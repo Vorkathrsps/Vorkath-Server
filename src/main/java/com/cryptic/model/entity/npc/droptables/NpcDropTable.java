@@ -24,25 +24,27 @@ public class NpcDropTable {
     private List<ItemDrop> alwaysDrops;
     @JsonProperty("drops")
     private List<ItemDrop> drops;
+    @JsonProperty("rolls")
+    private int rolls;
 
     public void postLoad() {
         drops.sort(Comparator.comparingInt(ItemDrop::getChance));
     }
 
-    public List<Item> getDrops(Player player, int rolls) {
+    public List<Item> getDrops(Player player) {
         List<Item> list = new ArrayList<>();
         if (!alwaysDrops.isEmpty()) {
             for (var drops : alwaysDrops) {
                 list.add(new Item(ItemRepository.getItemId(drops.getItem()), World.getWorld().random(Math.max(drops.getMinimumAmount(), 1), Math.max(drops.getMaximumAmount(), 1))));
             }
         }
-        for (int i = 0; i < rolls; i++) {
-            if (!drops.isEmpty()) {
-                for (var drop : drops) {
-                    int rate = drop.getChance();
-                    var reduction = rate * player.getDropRateBonus() / 100;
-                    rate -= reduction;
-                    if (World.getWorld().rollDie(rate, 1)) {
+        double rateBonus = 1D - (player.getDropRateBonus() / 100D);
+        List<ItemDrop> temp = new ArrayList<>(drops);
+        Collections.shuffle(temp);
+        for (int i = 0; i < this.rolls; i++) {
+            if (!temp.isEmpty()) {
+                for (var drop : temp) {
+                    if (World.getWorld().random().nextInt((int) Math.ceil(drop.getChance() * rateBonus)) == 1) {
                         int minimum = Math.max(drop.getMinimumAmount(), 1);
                         int maximum = Math.max(drop.getMaximumAmount(), 1);
                         list.add(new Item(ItemRepository.getItemId(drop.getItem()), World.getWorld().random(minimum, maximum)));
@@ -51,7 +53,6 @@ public class NpcDropTable {
                 }
             }
         }
-        System.out.println(list.size());
         return list;
     }
 }

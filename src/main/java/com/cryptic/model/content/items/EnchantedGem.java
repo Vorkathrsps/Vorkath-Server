@@ -1,12 +1,15 @@
 package com.cryptic.model.content.items;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 
 import static com.cryptic.utility.ItemIdentifiers.ENCHANTED_GEM;
 
@@ -36,7 +39,10 @@ public class EnchantedGem extends PacketInteraction {
 
         if (option == 2) {
             if (item.getId() == ENCHANTED_GEM) {
-                player.getBossKillLog().openLog();
+                SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+                var assignment = slayerTask.getCurrentAssignment(player);
+                var amount = assignment.getRemainingTaskAmount(player);
+                player.message(Color.BLUE.wrap(""));
                 return true;
             }
         }

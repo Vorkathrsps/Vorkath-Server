@@ -1,7 +1,7 @@
 npcId:
 - 2993
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -9,4 +9,23 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+- item: RAW_CHICKEN_4289
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: FEATHER
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

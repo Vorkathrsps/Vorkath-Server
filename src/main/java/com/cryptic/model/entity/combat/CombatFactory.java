@@ -960,21 +960,6 @@ public class CombatFactory {
 
         target.action.reset();
 
-        // Do block animation
-        if (!hit.reflected || hit.getCombatType() != null) {
-            if (target instanceof Player player) {
-                if (hit.getDelay() <= 0 && hit.getCombatType() != CombatType.MAGIC) {
-                    target.animate(target.getBlockAnim());
-                }
-            }
-        }
-
-        if (attacker != null && attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
-            if (target.getBlockAnim() != -1) {
-                target.animate(new Animation(target.getBlockAnim()));
-            }
-        }
-
         // no need to process anything more
         if (hit.getHitMark() == HitMark.HEALED) {
             hit.getTarget().heal(damage, 0);

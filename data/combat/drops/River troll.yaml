@@ -1,118 +1,103 @@
 npcId:
-- 6732
-- 6734
-- 6735
-- 6736
-- 6737
-petItem: "null"
-petRarity: 0
+- 6733
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: RAW_TUNA
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SALMON
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_TROUT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_HERRING
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_PIKE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SARDINE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SHRIMPS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_ANCHOVIES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SWORDFISH
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SHARK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: FISHING_BAIT
-  minimumAmount: 1
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 50
   maximumAmount: 50
-  chance: 8
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: FEATHER
-  minimumAmount: 5
+  minimumAmount: 20
   maximumAmount: 20
-  chance: 8
+  chance: 10
   rareDrop: false
   sendToBank: false
-- item: BIG_BONES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: BONES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
+- item: FEATHER
+  minimumAmount: 40
+  maximumAmount: 40
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: OYSTER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 3
   rareDrop: false
   sendToBank: false
 - item: FISHING_POTION3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: CASKET
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: SPINACH_ROLL
+- item: RAW_SALMON
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 10
   rareDrop: false
   sendToBank: false
+- item: RAW_HERRING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RAW_PIKE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: RAW_SARDINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RAW_SWORDFISH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: RAW_SHARK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+rolls: 1

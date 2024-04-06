@@ -1,7 +1,7 @@
 npcId:
 - 2586
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: ASHES
   minimumAmount: 1
@@ -10,117 +10,136 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: AIR_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: WATER_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: EARTH_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: MIND_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: COSMIC_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: BODY_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
 - item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 249
-  rareDrop: false
-  sendToBank: false
-- item: LAW_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 249
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ELEMENTAL_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 249
+  chance: 85
   rareDrop: false
   sendToBank: false
-- item: PURE_ESSENCE
+- item: SMALL_POUCH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: PURE_ESSENCE
+- item: MEDIUM_POUCH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: PURE_ESSENCE
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 15
+- item: LARGE_POUCH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: PURE_ESSENCE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 15
+- item: GIANT_POUCH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: NOTED_PURE_ESSENCE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 15
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: PURE_ESSENCE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: AIR_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: BINDING_NECKLACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 303
+  chance: 28
   rareDrop: false
   sendToBank: false
-- item: PLAIN_PIZZA
+- item: ENSOULED_ABYSSAL_HEAD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 3
+  chance: 13
   rareDrop: false
   sendToBank: false
-- item: ENSOULED_ABYSSAL_HEAD_13508
+- item: CLUE_SCROLL_MEDIUM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 153
+  chance: 85
   rareDrop: false
   sendToBank: false
+- item: WATER_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: MIND_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: BODY_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

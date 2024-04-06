@@ -1,8 +1,7 @@
 npcId:
 - 4820
-- 4821
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: MUDSKIPPER_HIDE
   minimumAmount: 1
@@ -14,6 +13,7 @@ drops:
 - item: OYSTER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1
+  chance: 2
   rareDrop: false
   sendToBank: false
+rolls: 1

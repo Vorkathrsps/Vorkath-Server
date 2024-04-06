@@ -1,8 +1,7 @@
 npcId:
 - 291
-- 2423
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -11,136 +10,160 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_FULL_HELM
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 34
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_LONGSWORD
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 68
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_SQ_SHIELD
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 136
   rareDrop: false
   sendToBank: false
-- item: BLACK_FULL_HELM
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 364
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 364
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 546
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1092
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1092
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1092
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6553
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13107
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17477
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: WATER_RUNE
   minimumAmount: 10
   maximumAmount: 10
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 12
-  maximumAmount: 12
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 24
-  maximumAmount: 24
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: MIND_RUNE
-  minimumAmount: 37
-  maximumAmount: 37
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 42
+- item: COINS_995
+  minimumAmount: 92
+  maximumAmount: 92
+  chance: 1
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 42
+- item: COINS_995
+  minimumAmount: 47
+  maximumAmount: 47
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 37
-  maximumAmount: 37
-  chance: 42
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 3
   rareDrop: false
   sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 9
-  maximumAmount: 9
-  chance: 126
+- item: COINS_995
+  minimumAmount: 150
+  maximumAmount: 150
+  chance: 4
   rareDrop: false
   sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 18
-  maximumAmount: 18
-  chance: 126
+- item: COINS_995
+  minimumAmount: 350
+  maximumAmount: 350
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 126
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: COAL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: MUDDY_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: CHEESE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: TOMATO
@@ -149,9 +172,52 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: GRIMY_RANARR_WEED
+- item: MITHRIL_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
   chance: 42
   rareDrop: false
   sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_SQ_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 24
+  maximumAmount: 24
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 37
+  maximumAmount: 37
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+rolls: 1

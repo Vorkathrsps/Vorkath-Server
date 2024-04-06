@@ -1,23 +1,7 @@
 npcId:
-- 3072
-- 3056
-- 3059
-- 3060
-- 3061
-- 3064
-- 3065
-- 3066
-- 3067
-- 3070
-- 3071
-- 3068
-- 3055
 - 3057
-- 3058
-- 3062
-- 3069
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -26,76 +10,58 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: BRONZE_ARROW
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_AXE
+- item: IRON_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: BRONZE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: IRON_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: IRON_MACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: STAFF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
+- item: BRONZE_ARROW
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: IRON_ARROW
   minimumAmount: 8
   maximumAmount: 8
-  chance: 60
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: FIRE_RUNE
+- item: EARTH_RUNE
   minimumAmount: 5
   maximumAmount: 5
   chance: 14
   rareDrop: false
   sendToBank: false
 - item: MIND_RUNE
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 14
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: EARTH_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 42
+- item: FIRE_RUNE
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
@@ -104,75 +70,70 @@ drops:
   chance: 42
   rareDrop: false
   sendToBank: false
-- item: TIN_ORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
+- item: COINS_995
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 1
   rareDrop: false
   sendToBank: false
-- item: IRON_ORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
+- item: COINS_995
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 4
   rareDrop: false
   sendToBank: false
-- item: BEAR_FUR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: BEER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
+- item: COINS_995
+  minimumAmount: 32
+  maximumAmount: 32
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: COOKED_MEAT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
-  rareDrop: false
-  sendToBank: false
-- item: RING_MOULD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 26
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: AMULET_MOULD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BEER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BEAR_FUR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: FLYER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 53
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: UNCUT_SAPPHIRE
+- item: CLUE_SCROLL_BEGINNER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 53
+  chance: 18
   rareDrop: false
   sendToBank: false
-- item: UNCUT_EMERALD
+- item: CLUE_SCROLL_EASY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 53
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: UNCUT_DIAMOND
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 159
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 159
-  rareDrop: false
-  sendToBank: false
+rolls: 1

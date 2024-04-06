@@ -1,7 +1,7 @@
 npcId:
 - 2919
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: DRAGON_BONES
   minimumAmount: 1
@@ -16,141 +16,178 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
+- item: DRAGON_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4096
+  rareDrop: true
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 27
+  maximumAmount: 27
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 10
+  maximumAmount: 21
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: SOUL_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_ARROW
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPERATTACK_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_DEF_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_STR_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 600
+  maximumAmount: 600
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 876
+  maximumAmount: 876
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_JAVELIN_HEADS
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHEWED_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BAR
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_PAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
 - item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
   chance: 5
   rareDrop: false
   sendToBank: false
-- item: RUNE_DART
+- item: RUNE_DARTP
   minimumAmount: 14
   maximumAmount: 14
-  chance: 55
+  chance: 6
   rareDrop: false
   sendToBank: false
-- item: RUNE_MACE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 55
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 110
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_KNIFE
-  minimumAmount: 8
-  maximumAmount: 18
-  chance: 110
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_SPEAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 110
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 332
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 27
-  maximumAmount: 27
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_JAVELIN
-  minimumAmount: 8
-  maximumAmount: 8
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_JAVELIN_HEADS
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 26
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_ARROW
-  minimumAmount: 8
-  maximumAmount: 8
-  chance: 26
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BOLTS
-  minimumAmount: 10
-  maximumAmount: 21
-  chance: 80
-  rareDrop: false
-  sendToBank: false
-- item: SOUL_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 80
-  rareDrop: false
-  sendToBank: false
-- item: PRAYER_MIX2
+- item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
   chance: 10
   rareDrop: false
   sendToBank: false
-- item: SUPERATTACK_MIX2
+- item: BRIMSTONE_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 19
   rareDrop: false
   sendToBank: false
-- item: SUPER_DEF_MIX2
+- item: CLUE_SCROLL_ELITE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_STR_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_LIMBS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BAR
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: SHARK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: SHARK
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: CHEWED_BONES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 288
+  chance: 116
   rareDrop: false
   sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 3333
   rareDrop: false
   sendToBank: false
+- item: RUNE_KNIFE
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

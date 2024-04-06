@@ -47,9 +47,11 @@ public class Session {
     /**
      * The queue of packets that will be handled on the next sequence.
      */
-    private final MessagePassingQueue<Packet> packetsQueue = new MpscArrayQueue<>(GameServer.properties().packetProcessLimit);
+    private final MessagePassingQueue<Packet> packetsQueue =
+        new MpscArrayQueue<>(GameServer.properties().packetProcessLimit);
 
-    private final MessagePassingQueue<PacketBuilder> outboundPacketsQueue = new MpscArrayQueue<>(GameServer.properties().packetProcessLimit * 10);
+    private final MessagePassingQueue<PacketBuilder> outboundPacketsQueue =
+        new MpscArrayQueue<>(GameServer.properties().packetProcessLimit * 10);
 
     /**
      * The channel that will manage the connection for this player.

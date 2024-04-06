@@ -1,17 +1,7 @@
 npcId:
-- 252
-- 253
-- 254
-- 255
-- 256
-- 257
 - 258
-- 259
-- 7861
-- 7862
-- 7863
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: DRAGON_BONES
   minimumAmount: 1
@@ -25,118 +15,173 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: DRAGON_TOKEN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
-- item: MITHRIL_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_2H_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_PLATEBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
 - item: RUNE_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_DART
-  minimumAmount: 30
-  maximumAmount: 50
-  chance: 15
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_JAVELIN
   minimumAmount: 30
   maximumAmount: 30
-  chance: 15
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_DART
-  minimumAmount: 60
-  maximumAmount: 100
-  chance: 20
+- item: ADAMANT_DARTP
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 50
-  maximumAmount: 500
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_KNIFE
-  minimumAmount: 2
-  maximumAmount: 20
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 75
-  maximumAmount: 750
-  chance: 38
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 10
-  maximumAmount: 100
-  chance: 38
+  maximumAmount: 50
+  chance: 5
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 15
-  maximumAmount: 150
-  chance: 40
+  maximumAmount: 15
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 75
+  maximumAmount: 75
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 196
+  maximumAmount: 196
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 330
+  maximumAmount: 330
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 690
+  maximumAmount: 690
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: DRAGON_JAVELIN_HEADS
   minimumAmount: 10
-  maximumAmount: 100
-  chance: 50
+  maximumAmount: 10
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: NOTED_ADAMANTITE_BAR
-  minimumAmount: 2
-  maximumAmount: 4
-  chance: 6
-  rareDrop: false
-  sendToBank: false
-- item: DRAGONFRUIT_TREE_SEED
+- item: ADAMANTITE_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 54
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: ENSOULED_DRAGON_HEAD_13511
+- item: CHOCOLATE_CAKE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_DRAGON_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
   rareDrop: false
   sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 3333
   rareDrop: false
   sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_KNIFE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

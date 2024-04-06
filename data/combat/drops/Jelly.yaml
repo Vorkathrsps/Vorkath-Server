@@ -1,89 +1,181 @@
 npcId:
 - 437
-- 438
-- 439
-- 440
-- 441
-- 442
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: STEEL_AXE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 11
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: STEEL_2H_SWORD
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 11
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 455
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 455
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8192
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16384
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21847
   rareDrop: false
   sendToBank: false
 - item: STEEL_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 23
+  chance: 3
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 23
+- item: COINS_995
+  minimumAmount: 11
+  maximumAmount: 11
+  chance: 6
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 23
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_PLATEBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 69
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 69
+- item: COINS_995
+  minimumAmount: 460
+  maximumAmount: 460
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 15
   maximumAmount: 15
-  chance: 6
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
   minimumAmount: 5
   maximumAmount: 5
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 5
-  maximumAmount: 21
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 7
-  maximumAmount: 7
-  chance: 39
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: GOLD_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: THREAD
   minimumAmount: 10
   maximumAmount: 10
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 6
   rareDrop: false
   sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 52
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 102
+  maximumAmount: 102
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 44
+  maximumAmount: 44
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 220
+  maximumAmount: 220
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+rolls: 1

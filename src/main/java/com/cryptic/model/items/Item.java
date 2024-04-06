@@ -377,10 +377,15 @@ public class Item implements Cloneable {
 
     public Item unnote(DefinitionRepository repo) {
         ItemDefinition def = definition(repo);
+        int unnoted = unnoted(def);
+        return unnoted >= 0 ? new Item(unnoted, amount) : this;
+    }
+
+    public static int unnoted(ItemDefinition def) {
         if (def != null && def.noteModel > 0) {
-            return new Item(def.notelink, amount); // Properties check not required: properties do not stick to notes.
+            return def.notelink; // Properties check not required: properties do not stick to notes.
         }
-        return this;
+        return -1;
     }
 
     public Item note() {
@@ -784,6 +789,18 @@ public class Item implements Cloneable {
             if (rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
             if (!rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
             return getBloodMoneyPrice() == null ? 0 : def.bm.value();
+        }
+        return 0;
+    }
+
+    public static int getValue(int id) {
+        final ItemDefinition def = ItemDefinition.cached.get(id);
+        if (def == null) return 0;
+        if (def.noted()) return ItemDefinition.cached.get(unnoted(def)).bm.value();
+        if (def.bm != null) {
+            if ((id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0) && def.bm.value() <= 0) return def.findLinkedValue(def.name);
+            if (!(id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0) && def.bm.value() <= 0) return def.findLinkedValue(def.name);
+            return def.bm == null ? 0 : def.bm.value();
         }
         return 0;
     }

@@ -1,20 +1,49 @@
 npcId:
 - 7426
-- 7427
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: AIR_RUNE
   minimumAmount: 5
   maximumAmount: 5
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
   chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: PURE_ESSENCE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: PURE_ESSENCE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: BODY_RUNE
   minimumAmount: 3
   maximumAmount: 3
-  chance: 11
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
@@ -26,7 +55,7 @@ drops:
 - item: CHAOS_RUNE
   minimumAmount: 4
   maximumAmount: 4
-  chance: 11
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
@@ -38,13 +67,13 @@ drops:
 - item: EARTH_RUNE
   minimumAmount: 6
   maximumAmount: 6
-  chance: 11
+  chance: 4
   rareDrop: false
   sendToBank: false
-- item: PURE_ESSENCE
-  minimumAmount: 3
-  maximumAmount: 10
-  chance: 11
+- item: WATER_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: SOUL_RUNE
@@ -53,39 +82,10 @@ drops:
   chance: 11
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 11
-  rareDrop: false
-  sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 2
-  maximumAmount: 3
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 2
   maximumAmount: 2
-  chance: 17
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: NOTED_LOBSTER
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 34
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_RAW_CHICKEN
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 103
-  rareDrop: false
-  sendToBank: false
+rolls: 1

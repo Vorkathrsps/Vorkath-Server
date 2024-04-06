@@ -39,6 +39,8 @@ public class NPCCombatInfo {
     public boolean unstacked = false;
     public int respawntime = 50;
     public boolean unattackable = false;
+    public boolean immunePoison = false;
+    public boolean immuneVenom = false;
     public int droprolls = 1;
     public boolean boss = false;
     public CombatType combattype;
@@ -52,6 +54,7 @@ public class NPCCombatInfo {
         return poison > 0 && poisonchance > 0;
     }
 
+    @Data
     public static class Stats {
         public int attack = 1;
         public int strength = 1;

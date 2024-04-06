@@ -1,12 +1,19 @@
 npcId:
 - 626
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
-- item: GRIMY_KWUARM
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: FEVER_SPIDER_BODY
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
+drops:
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+rolls: 1

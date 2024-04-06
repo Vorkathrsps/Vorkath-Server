@@ -1,0 +1,55 @@
+npcId:
+- 7423
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: FIRE_RUNE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+rolls: 1

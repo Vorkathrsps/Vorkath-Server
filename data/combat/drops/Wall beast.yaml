@@ -1,126 +1,127 @@
 npcId:
 - 476
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: AIR_RUNE
   minimumAmount: 3
   maximumAmount: 3
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 88
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 7
-  maximumAmount: 7
-  chance: 88
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_MED_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: IRON_MED_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_MED_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: BLACK_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_MED_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 60
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 60
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 60
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MYSTIC_HAT_LIGHT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 364
+  chance: 170
   rareDrop: false
   sendToBank: false
 - item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: TINDERBOX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: LANTERN_LENS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: UNLIT_TORCH
+- item: TORCH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: EYE_OF_NEWT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: BULLSEYE_LANTERN_UNF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: COSMIC_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 3
+  maximumAmount: 7
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: IRON_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+rolls: 1

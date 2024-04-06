@@ -1,7 +1,7 @@
 npcId:
 - 2207
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -10,22 +10,28 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_DART
-  minimumAmount: 95
-  maximumAmount: 100
+- item: LAW_RUNE
+  minimumAmount: 5
+  maximumAmount: 10
   chance: 5
   rareDrop: false
   sendToBank: false
-- item: SARADOMIN_SWORD
+- item: MONKFISH
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SUMMER_PIE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 5
   rareDrop: false
   sendToBank: false
-- item: STEEL_ARROW
-  minimumAmount: 95
-  maximumAmount: 100
-  chance: 5
+- item: COINS_995
+  minimumAmount: 1300
+  maximumAmount: 1400
+  chance: 1
   rareDrop: false
   sendToBank: false
 - item: NOTED_GRIMY_RANARR_WEED
@@ -34,45 +40,70 @@ drops:
   chance: 5
   rareDrop: false
   sendToBank: false
-- item: GODSWORD_SHARD_1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 150
-  rareDrop: false
-  sendToBank: false
-- item: GODSWORD_SHARD_2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 150
-  rareDrop: false
-  sendToBank: false
-- item: GODSWORD_SHARD_3
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 150
-  rareDrop: false
-  sendToBank: false
 - item: NOTED_SNAPE_GRASS
   minimumAmount: 5
   maximumAmount: 5
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: SUMMER_PIE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 20
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: NOTED_UNICORN_HORN
   minimumAmount: 6
   maximumAmount: 6
-  chance: 20
+  chance: 5
   rareDrop: false
   sendToBank: false
-- item: MONKFISH
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 41
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: SARADOMIN_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1792
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1400
+  maximumAmount: 1500
+  chance: 43
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 508
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 508
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_3
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 508
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1300
+  maximumAmount: 1400
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 95
+  maximumAmount: 100
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_DART
+  minimumAmount: 95
+  maximumAmount: 100
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+rolls: 1

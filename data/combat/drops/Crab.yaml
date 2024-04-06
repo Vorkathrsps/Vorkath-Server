@@ -1,8 +1,7 @@
 npcId:
-- 4822
 - 4819
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: CRAB_MEAT
   minimumAmount: 1
@@ -24,8 +23,9 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: OYSTER
-  minimumAmount: 1
+  minimumAmount: 2
   maximumAmount: 2
-  chance: 25
+  chance: 3
   rareDrop: false
   sendToBank: false
+rolls: 1

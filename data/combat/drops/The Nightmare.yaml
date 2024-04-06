@@ -1,94 +1,226 @@
 npcId:
-- 9430
-petItem: LITTLE_NIGHTMARE
+- 9425
+petItem: null
 petRarity: 2000
 alwaysDrops:
 - item: BIG_BONES
-  minimumAmount: 500
-  maximumAmount: 5500
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: NIGHTMARE_STAFF
+- item: VOLATILE_ORB
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 600
+  rareDrop: true
+  sendToBank: false
+- item: ADAMANT_ARROW
+  minimumAmount: 32
+  maximumAmount: 533
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_ARROW
+  minimumAmount: 12
+  maximumAmount: 539
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_RUNE
+  minimumAmount: 15
+  maximumAmount: 218
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 6
+  maximumAmount: 165
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 24
+  maximumAmount: 176
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 13
+  maximumAmount: 129
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SOUL_RUNE
+  minimumAmount: 12
+  maximumAmount: 126
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: CANNONBALL
-  minimumAmount: 100
-  maximumAmount: 100
-  chance: 25
+  minimumAmount: 72
+  maximumAmount: 192
+  chance: 170
   rareDrop: false
   sendToBank: false
-- item: ABYSSAL_BLUDGEON
+- item: NOTED_UNCUT_EMERALD
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 500
+  maximumAmount: 41
+  chance: 11
   rareDrop: false
   sendToBank: false
-- item: COINS_995
-  minimumAmount: 1010
-  maximumAmount: 101010
-  chance: 25
+- item: NOTED_UNCUT_RUBY
+  minimumAmount: 2
+  maximumAmount: 35
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_YEW_LOGS
+  minimumAmount: 14
+  maximumAmount: 121
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 3
+  maximumAmount: 55
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 14
+  maximumAmount: 174
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: NOTED_COAL
-  minimumAmount: 100
-  maximumAmount: 300
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_ADAMANTITE_ORE
-  minimumAmount: 25
-  maximumAmount: 100
-  chance: 25
+  minimumAmount: 16
+  maximumAmount: 253
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_ORE
   minimumAmount: 15
-  maximumAmount: 190
-  chance: 25
+  maximumAmount: 168
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: INQUISITORS_MACE
+- item: NOTED_ADAMANTITE_ORE
+  minimumAmount: 8
+  maximumAmount: 50
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 14
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_TORSTOL
+  minimumAmount: 1
+  maximumAmount: 16
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 1
+  maximumAmount: 6
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NIGHTMARE_STAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 400
+  chance: 133
   rareDrop: true
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 1
+  maximumAmount: 15
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: BASS
+  minimumAmount: 1
+  maximumAmount: 18
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_POTION3
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: SARADOMIN_BREW3
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_BREW3
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: SANFEW_SERUM3
+  minimumAmount: 1
+  maximumAmount: 11
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 2717
+  maximumAmount: 43854
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 63
+  rareDrop: false
+  sendToBank: false
+- item: LITTLE_NIGHTMARE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 266
+  rareDrop: false
+  sendToBank: false
+- item: JAR_OF_DREAMS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 633
+  rareDrop: false
   sendToBank: false
 - item: INQUISITORS_GREAT_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
-  rareDrop: false
+  chance: 200
+  rareDrop: true
   sendToBank: false
 - item: INQUISITORS_HAUBERK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
-  rareDrop: false
+  chance: 200
+  rareDrop: true
   sendToBank: false
 - item: INQUISITORS_PLATESKIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MAGIC_LOGS
-  minimumAmount: 10
-  maximumAmount: 100
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: HARMONISED_ORB
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 400
+  chance: 200
   rareDrop: true
   sendToBank: false
-- item: VOLATILE_ORB
+- item: INQUISITORS_MACE
   minimumAmount: 1
   maximumAmount: 1
   chance: 400
@@ -97,18 +229,13 @@ drops:
 - item: ELDRITCH_ORB
   minimumAmount: 1
   maximumAmount: 1
-  chance: 400
+  chance: 600
   rareDrop: true
   sendToBank: false
-- item: NOTED_RUNITE_ORE
+- item: HARMONISED_ORB
   minimumAmount: 1
-  maximumAmount: 16
-  chance: 25
-  rareDrop: false
+  maximumAmount: 1
+  chance: 600
+  rareDrop: true
   sendToBank: false
-- item: NOTED_SARADOMIN_BREW(3)
-  minimumAmount: 1
-  maximumAmount: 10
-  chance: 25
-  rareDrop: false
-  sendToBank: false
+rolls: 1

@@ -1,8 +1,7 @@
 npcId:
 - 2992
-- 4421
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: COWHIDE
   minimumAmount: 1
@@ -22,4 +21,11 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: UNDEAD_COW_RIBS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

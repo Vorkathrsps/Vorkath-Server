@@ -1,0 +1,43 @@
+npcId:
+- 7606
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: GOLPAR_SEED
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BUCHU_SEED
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NOXIFER_SEED
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+rolls: 1

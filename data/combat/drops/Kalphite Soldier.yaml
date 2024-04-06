@@ -1,48 +1,226 @@
 npcId:
-- 138
 - 957
-- 958
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 455
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 455
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8192
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16384
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21847
+  rareDrop: false
+  sendToBank: false
 - item: STEEL_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 227
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 303
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 390
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 496
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1092
   rareDrop: false
   sendToBank: false
 - item: STEEL_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 40
+  maximumAmount: 40
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 120
+  maximumAmount: 120
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 200
+  maximumAmount: 200
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 450
+  maximumAmount: 450
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: WATERSKIN4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: STEEL_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 48
-  rareDrop: false
-  sendToBank: false
-- item: HARDLEATHER_BODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 48
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_KALPHITE_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
   minimumAmount: 1
   maximumAmount: 1
   chance: 48
@@ -51,210 +229,31 @@ drops:
 - item: MITHRIL_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 96
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_SCIMITAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 96
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 96
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 288
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 288
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_DAGGER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 288
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 29
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 27
-  maximumAmount: 29
-  chance: 29
-  rareDrop: false
-  sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 29
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 39
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 7
-  maximumAmount: 7
-  chance: 39
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 30
   maximumAmount: 30
-  chance: 59
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 60
   maximumAmount: 60
-  chance: 59
-  rareDrop: false
-  sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 59
-  rareDrop: false
-  sendToBank: false
-- item: BODY_RUNE
-  minimumAmount: 5
-  maximumAmount: 6
-  chance: 59
+  chance: 5
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 12
   maximumAmount: 12
-  chance: 118
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 118
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 3
-  maximumAmount: 12
-  chance: 118
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 356
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 1
-  maximumAmount: 6
-  chance: 356
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_HARRALANDER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_RANARR_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_KWUARM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_AVANTOE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_LANTADYME
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_IRIT_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 164
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_CADANTINE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 164
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_POTATO_CACTUS
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: LOBSTER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: WATERSKIN4
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: ENSOULED_KALPHITE_HEAD_13490
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
+rolls: 1

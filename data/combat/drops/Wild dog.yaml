@@ -1,20 +1,19 @@
 npcId:
 - 112
-- 113
-- 7322
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
+petItem: null
+petRarity: 2000
+alwaysDrops:
 - item: BONES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: ENSOULED_DOG_HEAD_13469
+drops:
+- item: ENSOULED_DOG_HEAD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 21
+  chance: 8
   rareDrop: false
   sendToBank: false
+rolls: 1

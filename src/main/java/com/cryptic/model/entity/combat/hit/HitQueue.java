@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat.hit;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
@@ -78,7 +79,10 @@ public class HitQueue {
                         continue;
                     }
 
-                    if (hit.decrementAndGetDelay() <= 0) {
+                    int delay = hit.decrementAndGetDelay();
+                    int targetDelay = Math.max(-1, hit.getInitialDelay() - 1);
+                    if (targetDelay > 0 && delay == targetDelay) hit.applyBeforeRemove();
+                    if (delay <= 0) {
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))

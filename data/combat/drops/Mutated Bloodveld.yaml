@@ -1,198 +1,217 @@
 npcId:
-- 7276
-petItem: "null"
-petRarity: 0
+- 9611
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: BONES
+- item: VILE_ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: REWARD_CASKET_ELITE
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: BLACK_MED_HELM
+- item: RUNE_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_PLATEBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_KNIFE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_CHAINBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_LONGSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_SCIMITAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: BLACK_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: RUNE_MED_HELM
+- item: ADAMANT_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: RUNE_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 56
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
   minimumAmount: 105
   maximumAmount: 105
-  chance: 8
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 75
   maximumAmount: 75
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 7
-  maximumAmount: 7
-  chance: 16
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 30
   maximumAmount: 30
-  chance: 16
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: SOUL_RUNE
   minimumAmount: 4
   maximumAmount: 4
-  chance: 48
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 350
+  maximumAmount: 350
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 11
+  maximumAmount: 11
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: BOW_STRING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: GOLD_ORE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: MEAT_PIE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: RUBY_AMULET
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: ENSOULED_BLOODVELD_HEAD_13496
+- item: MITHRIL_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 36
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: BIG_BONES
-  minimumAmount: 5
-  maximumAmount: 5
+- item: BLACK_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_BLOODVELD_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CRYSTAL_SHARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 25
   rareDrop: false
   sendToBank: false
-- item: NOTED_GOLD_ORE
-  minimumAmount: 10
-  maximumAmount: 15
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: BLOODBARK_HELM
+- item: CLUE_SCROLL_HARD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: BLOODBARK_BODY
+- item: ANCIENT_SHARD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 73
   rareDrop: false
   sendToBank: false
-- item: BLOODBARK_LEGS
+- item: ADAMANT_KNIFE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_BASE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 110
   rareDrop: false
   sendToBank: false
-- item: BLOODBARK_GAUNTLETS
+- item: DARK_TOTEM_MIDDLE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 110
   rareDrop: false
   sendToBank: false
-- item: BLOODBARK_BOOTS
+- item: DARK_TOTEM_TOP
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 110
   rareDrop: false
   sendToBank: false
+- item: ADAMANT_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

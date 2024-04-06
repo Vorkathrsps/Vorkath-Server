@@ -1,216 +1,337 @@
 npcId:
 - 5944
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: RAW_LOBSTER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
-- item: EARTH_RUNE
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 341
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
   minimumAmount: 5
   maximumAmount: 5
-  chance: 18
+  chance: 5461
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 9
-  maximumAmount: 9
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: PURE_ESSENCE
-  minimumAmount: 4
-  maximumAmount: 8
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_TALISMAN
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 5461
   rareDrop: false
   sendToBank: false
-- item: AIR_TALISMAN
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 5461
   rareDrop: false
   sendToBank: false
-- item: COSMIC_TALISMAN
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 32768
   rareDrop: false
   sendToBank: false
-- item: BODY_TALISMAN
+- item: SHIELD_LEFT_HALF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 65536
   rareDrop: false
   sendToBank: false
-- item: WATER_TALISMAN
+- item: DRAGON_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
+  chance: 87388
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 101
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 130
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 165
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 227
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 303
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 364
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 455
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 606
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 606
   rareDrop: false
   sendToBank: false
-- item: STEEL_ARROW
-  minimumAmount: 4
-  maximumAmount: 7
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: IRON_ARROW
-  minimumAmount: 2
-  maximumAmount: 17
-  chance: 14
+- item: POTATO_SEED
+  minimumAmount: 1
+  maximumAmount: 4
+  chance: 85
   rareDrop: false
   sendToBank: false
 - item: FREMENNIK_BROWN_SHIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 84
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ONION_SEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: CABBAGE_SEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 341
+  rareDrop: false
+  sendToBank: false
+- item: TOMATO_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: SWEETCORN_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: STRAWBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: SNAPE_GRASS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: AIR_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 74
+  rareDrop: false
+  sendToBank: false
+- item: BODY_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 74
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 74
   rareDrop: false
   sendToBank: false
 - item: FREMENNIK_BLADE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 84
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: ONION_SEED
+- item: FIRE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 74
   rareDrop: false
   sendToBank: false
-- item: POTATO_SEED
+- item: MIND_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 74
   rareDrop: false
   sendToBank: false
-- item: CABBAGE_SEED
+- item: WATER_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 74
   rareDrop: false
   sendToBank: false
-- item: TOMATO_SEED
+- item: COSMIC_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 186
   rareDrop: false
   sendToBank: false
-- item: WATERMELON_SEED
+- item: CHAOS_TALISMAN
   minimumAmount: 1
-  maximumAmount: 3
-  chance: 78
+  maximumAmount: 1
+  chance: 248
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 248
+  rareDrop: false
+  sendToBank: false
+- item: PURE_ESSENCE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: SEAWEED
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: EDIBLE_SEAWEED
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: RAW_LOBSTER
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: LOBSTER_POT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 48
-  rareDrop: false
-  sendToBank: false
-- item: TINDERBOX
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 48
+  maximumAmount: 3
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: SODA_ASH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: SNAPE_GRASS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 96
+  chance: 4
   rareDrop: false
   sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 1
+  maximumAmount: 20
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: EDIBLE_SEAWEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: LOBSTER_POT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: TINDERBOX
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 1
+  maximumAmount: 20
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ARROW
+  minimumAmount: 1
+  maximumAmount: 20
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 75
+  rareDrop: false
+  sendToBank: false
+rolls: 1

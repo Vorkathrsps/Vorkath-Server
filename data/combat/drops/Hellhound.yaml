@@ -1,14 +1,9 @@
 npcId:
-- 104
-- 105
-- 135
-- 7256
-- 3133
 - 7877
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: ASHES
+- item: VILE_ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
@@ -18,66 +13,31 @@ drops:
 - item: SMOULDERING_STONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 5461
   rareDrop: false
   sendToBank: false
-- item: NOTED_SNAPE_GRASS
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
   rareDrop: false
   sendToBank: false
-- item: NOTED_LIMPWURT_ROOT
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: NOTED_WHITE_BERRIES
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
   rareDrop: false
   sendToBank: false
-- item: NOTED_POTATO_CACTUS
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
   rareDrop: false
   sendToBank: false
-- item: NOTED_RED_SPIDER'S_EGGS
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MORT_MYRE_FUNGUS
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DRAGON_SCALE_DUST
-  minimumAmount: 3
-  maximumAmount: 5
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_CRUSHED_NEST
-  minimumAmount: 2
-  maximumAmount: 3
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_WINE_OF_ZAMORAK
-  minimumAmount: 2
-  maximumAmount: 3
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_JANGERBERRIES
-  minimumAmount: 2
-  maximumAmount: 3
-  chance: 10
-  rareDrop: false
-  sendToBank: false
+rolls: 1

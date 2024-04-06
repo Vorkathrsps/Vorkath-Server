@@ -1,7 +1,7 @@
 npcId:
 - 2209
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -9,4 +9,23 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ECUMENICAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

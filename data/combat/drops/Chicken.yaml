@@ -1,13 +1,7 @@
 npcId:
-- 2692
-- 2693
-- 2819
-- 2820
-- 2821
-- 3661
-- 3662
-petItem: "null"
-petRarity: 0
+- 10497
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -24,7 +18,20 @@ alwaysDrops:
 drops:
 - item: FEATHER
   minimumAmount: 5
-  maximumAmount: 15
+  maximumAmount: 5
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: FEATHER
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+rolls: 1

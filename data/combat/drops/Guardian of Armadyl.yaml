@@ -1,18 +1,19 @@
 npcId:
-- 3445
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
+- 3446
+petItem: null
+petRarity: 2000
+alwaysDrops:
 - item: BONES
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2
+  chance: 1
   rareDrop: false
   sendToBank: false
+drops:
 - item: ARMADYL_PENDANT
   minimumAmount: 1
   maximumAmount: 1
   chance: 2
   rareDrop: false
   sendToBank: false
+rolls: 1

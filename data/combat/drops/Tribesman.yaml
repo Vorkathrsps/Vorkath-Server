@@ -1,9 +1,7 @@
 npcId:
-- 2888
-- 6406
 - 6407
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -12,183 +10,268 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: BRONZE_BOLTS
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 31
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 92
   rareDrop: false
   sendToBank: false
-- item: STEEL_ARROW
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 184
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 368
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 981
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 981
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1472
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
   minimumAmount: 5
   maximumAmount: 5
-  chance: 31
+  chance: 2944
   rareDrop: false
   sendToBank: false
-- item: BRONZE_SPEAR
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 31
+  chance: 2944
   rareDrop: false
   sendToBank: false
-- item: IRON_SPEAR
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 31
+  chance: 2944
   rareDrop: false
   sendToBank: false
-- item: STEEL_JAVELIN
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 62
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_SPEAR
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 62
+  chance: 17664
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_JAVELIN
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 185
-  rareDrop: false
-  sendToBank: false
-- item: GOLD_ORE
+- item: SHIELD_LEFT_HALF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 35328
   rareDrop: false
   sendToBank: false
-- item: ANTIPOISON3
+- item: DRAGON_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: SUPERANTIPOISON2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: SUPERANTIPOISON3
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 6
-  rareDrop: false
-  sendToBank: false
-- item: SNAPE_GRASS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 51
-  rareDrop: false
-  sendToBank: false
-- item: LIMPWURT_ROOT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 51
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 51
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 51
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 51
+  chance: 47107
   rareDrop: false
   sendToBank: false
 - item: GRIMY_SNAKE_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 103
+  chance: 9
   rareDrop: false
   sendToBank: false
-- item: GRIMY_ROGUES_PURSE
+- item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 103
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 22
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 103
+  chance: 38
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 103
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 103
+  chance: 66
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 206
+  chance: 89
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 206
+  chance: 107
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 206
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 206
+  chance: 178
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 618
+  chance: 178
   rareDrop: false
   sendToBank: false
 - item: TRADING_STICKS
   minimumAmount: 15
   maximumAmount: 15
-  chance: 18
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: TRADING_STICKS
-  minimumAmount: 62
-  maximumAmount: 62
-  chance: 18
+- item: SNAPE_GRASS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LIMPWURT_ROOT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
   rareDrop: false
   sendToBank: false
 - item: CLEANING_CLOTH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 3
   rareDrop: false
   sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: TRADING_STICKS
+  minimumAmount: 62
+  maximumAmount: 62
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: SUPERANTIPOISON2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_JAVELIN
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: SUPERANTIPOISON3
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: BREAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: TIN_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: POT_OF_FLOUR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: IRON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROWP
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_JAVELIN
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_ROGUES_PURSE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+rolls: 1

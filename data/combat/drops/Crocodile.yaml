@@ -1,7 +1,7 @@
 npcId:
 - 4184
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -9,4 +9,17 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+rolls: 1

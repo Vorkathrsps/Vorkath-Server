@@ -1,12 +1,25 @@
 npcId:
 - 2827
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
+petItem: null
+petRarity: 2000
+alwaysDrops:
 - item: BAT_BONES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
+drops:
+- item: BAT_WING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+rolls: 1

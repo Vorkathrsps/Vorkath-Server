@@ -1,116 +1,223 @@
 npcId:
-- 412
-- 413
 - 1543
-petItem: "null"
-petRarity: 0
-alwaysDrops:
-  - item: COINS_995
-    minimumAmount: 1000
-    maximumAmount: 1500
-    chance: 1
-    rareDrop: false
-    sendToBank: false
+petItem: null
+petRarity: 2000
+alwaysDrops: []
 drops:
-- item: ADAMANT_PLATELEGS
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 34
   rareDrop: false
   sendToBank: false
-- item: RUNE_FULL_HELM
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 68
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_BOOTS
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 60
+  chance: 136
   rareDrop: false
   sendToBank: false
-- item: RUNE_2H_SWORD
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 60
+  chance: 364
   rareDrop: false
   sendToBank: false
-- item: RUNE_BATTLEAXE
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 364
   rareDrop: false
   sendToBank: false
-- item: RUNE_PLATELEGS
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 546
   rareDrop: false
   sendToBank: false
-- item: GRANITE_MAUL_24225
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1092
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 1092
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_ROBE_TOP_DARK
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 1092
   rareDrop: false
   sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 75
-  maximumAmount: 150
-  chance: 12
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6553
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13107
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17477
+  rareDrop: false
+  sendToBank: false
+- item: GRANITE_MAUL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 30
   maximumAmount: 30
-  chance: 12
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 150
+  maximumAmount: 150
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
   minimumAmount: 15
   maximumAmount: 15
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_PURE_ESSENCE
-  minimumAmount: 150
-  maximumAmount: 150
-  chance: 10
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: NOTED_GOLD_ORE
   minimumAmount: 10
   maximumAmount: 20
-  chance: 10
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 150
+  maximumAmount: 150
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: NOTED_STEEL_BAR
   minimumAmount: 15
   maximumAmount: 15
-  chance: 10
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: NOTED_GOLD_BAR
   minimumAmount: 10
   maximumAmount: 15
-  chance: 25
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_BAR
   minimumAmount: 15
   maximumAmount: 15
-  chance: 50
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: RUNITE_ORE
   minimumAmount: 1
   maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 400
+  maximumAmount: 800
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_ROBE_TOP_DARK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 500
+  maximumAmount: 1000
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10000
+  maximumAmount: 10000
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRITTLE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 50
   rareDrop: false
   sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 75
+  maximumAmount: 75
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+rolls: 1

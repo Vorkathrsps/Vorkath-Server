@@ -1,257 +1,79 @@
 npcId:
-- 3429
-- 5293
-- 5294
-- 3428
-- 5295
-- 5296
-petItem: "null"
-petRarity: 0
+- 8956
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: BONES
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 34
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 70
-  maximumAmount: 70
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 37
-  maximumAmount: 37
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 12
-  maximumAmount: 12
-  chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: GREEN_DHIDE_CHAPS
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 68
   rareDrop: false
   sendToBank: false
-- item: GREEN_DHIDE_BODY
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 136
   rareDrop: false
   sendToBank: false
-- item: GREEN_DHIDE_VAMBRACES
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 364
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_KITESHIELD
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 364
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_SPEAR
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 546
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_FULL_HELM
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1092
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 1092
   rareDrop: false
   sendToBank: false
-- item: RUNE_DAGGER
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 192
+  chance: 1092
   rareDrop: false
   sendToBank: false
-- item: RUNE_MED_HELM
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 192
+  chance: 6553
   rareDrop: false
   sendToBank: false
-- item: CACTUS_SEED
+- item: SHIELD_LEFT_HALF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 13107
   rareDrop: false
   sendToBank: false
-- item: POISON_IVY_SEED
+- item: DRAGON_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 17477
   rareDrop: false
   sendToBank: false
-- item: BELLADONNA_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: KWUARM_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: IRIT_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: AVANTOE_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 90
-  rareDrop: false
-  sendToBank: false
-- item: TOADFLAX_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 90
-  rareDrop: false
-  sendToBank: false
-- item: CADANTINE_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 90
-  rareDrop: false
-  sendToBank: false
-- item: LANTADYME_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 90
-  rareDrop: false
-  sendToBank: false
-- item: DWARF_WEED_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 270
-  rareDrop: false
-  sendToBank: false
-- item: SNAPDRAGON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 270
-  rareDrop: false
-  sendToBank: false
-- item: TORSTOL_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 270
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_HARRALANDER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_RANARR_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_IRIT_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_AVANTOE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_KWUARM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 54
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_CADANTINE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 162
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_LANTADYME
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 162
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_DWARF_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 162
-  rareDrop: false
-  sendToBank: false
-- item: BASS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: LOBSTER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: SHARK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 38
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANTITE_ORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 38
-  rareDrop: false
-  sendToBank: false
-- item: ENSOULED_ELF_HEAD_13481
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 114
-  rareDrop: false
-  sendToBank: false
+rolls: 1

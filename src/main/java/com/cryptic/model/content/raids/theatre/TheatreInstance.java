@@ -64,12 +64,29 @@ public class TheatreInstance extends InstancedArea {
     @Getter
     List<GameObject> treasureSpawns = new ArrayList<>();
     Tile entrance = new Tile(3206, 4446);
-    @Getter TheatreLoot theatreLoot = new TheatreLoot();
     @Getter
-    Tile[] verzikPillarTiles = new Tile[]{new Tile(3161, 4318, 0), new Tile(3161, 4312, 0), new Tile(3161, 4306, 0), new Tile(3173, 4318, 0), new Tile(3173, 4312, 0), new Tile(3173, 4306, 0)};
-    Tile[] treasure_spawns = new Tile[]{new Tile(3226, 4323), new Tile(3226, 4327), new Tile(3233, 4330), new Tile(3241, 4323), new Tile(3241, 4327)};
-    @Getter @Setter boolean hasInitiatedNylocasVasilias = false;
-    @Getter Map<Player, Item[]> lootMap = new HashMap<>();
+    TheatreLoot theatreLoot = new TheatreLoot();
+    @Getter
+    Tile[] verzikPillarTiles = new Tile[]{
+        new Tile(3161, 4318, 0),
+        new Tile(3161, 4312, 0),
+        new Tile(3161, 4306, 0),
+        new Tile(3173, 4318, 0),
+        new Tile(3173, 4312, 0),
+        new Tile(3173, 4306, 0),
+    };
+    Tile[] treasure_spawns = new Tile[]{
+        new Tile(3226, 4323),
+        new Tile(3226, 4327),
+        new Tile(3233, 4330),
+        new Tile(3241, 4323),
+        new Tile(3241, 4327),
+    };
+    @Getter
+    @Setter
+    boolean hasInitiatedNylocasVasilias = false;
+    @Getter
+    Map<Player, Item[]> lootMap = new HashMap<>();
     public MutableObject<GameObject> throne;
 
     public static Area[] rooms() {
@@ -107,14 +124,11 @@ public class TheatreInstance extends InstancedArea {
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
         owner.setRoomState(RoomState.INCOMPLETE);
         for (var p : players) {
-            if (p != owner) {
-                if (p != null) {
-                    p.setInstancedArea(owner.getTheatreInstance());
-                    p.setTheatreInstance(owner.getTheatreInstance());
-                    p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
-                    p.setRoomState(RoomState.INCOMPLETE);
-                }
-            }
+            if (owner.equals(p)) continue;
+            p.setInstancedArea(owner.getTheatreInstance());
+            p.setTheatreInstance(owner.getTheatreInstance());
+            p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
+            p.setRoomState(RoomState.INCOMPLETE);
         }
         return this;
     }
@@ -132,18 +146,20 @@ public class TheatreInstance extends InstancedArea {
     public void onRoomStateChanged(RoomState roomState) {
         if (roomState == RoomState.COMPLETE) {
             players.forEach(p -> {
-                if (p.tile().inArea(VERZIK_AREA)) {
-                    p.teleport(3168, 4315, this.getzLevel());
-                } else if (p.tile().inArea(BLOAT_AREA)) {
-                    p.teleport(3282, 4447, this.getzLevel());
-                } else if (p.tile().inArea(MAIDEN_AREA)) {
-                    p.teleport(3180, 4447, this.getzLevel());
-                } else if (p.tile().inArea(XARPUS_AREA)) {
-                    p.teleport(3170, 4389, this.getzLevel() + 1);
-                } else if (p.tile().inArea(VASILIAS_AREA)) {
-                    p.teleport(3295, 4248, this.getzLevel());
-                } else if (p.tile().inArea(SOTETSEG_AREA)) {
-                    p.teleport(3279, 4316, this.getzLevel());
+                Tile tile = p.tile();
+                int z = this.getzLevel();
+                if (tile.inArea(VERZIK_AREA)) {
+                    p.teleport(3168, 4315, z);
+                } else if (tile.inArea(BLOAT_AREA)) {
+                    p.teleport(3282, 4447, z);
+                } else if (tile.inArea(MAIDEN_AREA)) {
+                    p.teleport(3180, 4447, z);
+                } else if (tile.inArea(XARPUS_AREA)) {
+                    p.teleport(3170, 4389, z + 1);
+                } else if (tile.inArea(VASILIAS_AREA)) {
+                    p.teleport(3295, 4248, z);
+                } else if (tile.inArea(SOTETSEG_AREA)) {
+                    p.teleport(3279, 4316, z);
                 }
             });
         }
@@ -173,7 +189,7 @@ public class TheatreInstance extends InstancedArea {
                 n.remove();
             }
         }
-        for (var o :  Lists.newArrayList(bloodObjectList.iterator())) {
+        for (var o : Lists.newArrayList(bloodObjectList.iterator())) {
             if (o == null) continue;
             o.remove();
         }

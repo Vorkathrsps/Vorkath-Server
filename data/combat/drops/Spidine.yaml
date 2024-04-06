@@ -1,7 +1,7 @@
 npcId:
 - 3602
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -10,8 +10,8 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 - item: RED_SPIDERS_EGGS
-  minimumAmount: 2
-  maximumAmount: 7
+  minimumAmount: 3
+  maximumAmount: 6
   chance: 1
   rareDrop: false
   sendToBank: false
@@ -19,12 +19,13 @@ drops:
 - item: RED_SATCHEL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: TEA_FLASK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 7
+  chance: 3
   rareDrop: false
   sendToBank: false
+rolls: 1

@@ -1,15 +1,7 @@
 npcId:
-- 645
-- 646
-- 647
-- 710
 - 711
-- 712
-- 713
-- 714
-- 715
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: WOLF_BONES
   minimumAmount: 1
@@ -17,4 +9,11 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: WOLF_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,9 +1,7 @@
 npcId:
-- 6740
 - 5633
-- 7258
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: SHADE_ROBE_TOP
@@ -18,3 +16,4 @@ drops:
   chance: 2
   rareDrop: false
   sendToBank: false
+rolls: 1

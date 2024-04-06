@@ -1,222 +1,373 @@
 npcId:
-- 5886
-- 5887
-- 5888
-- 5889
-- 5890
 - 5891
-- 5908
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: ASHES
+- item: ABYSSAL_ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: COINS_995
-  minimumAmount: 5000
-  maximumAmount: 50000
-  chance: 1
-  rareDrop: false
-  sendToBank: false
 drops:
-- item: ONYX_BOLT_TIPS
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 27
+- item: BLOOD_RUNE
+  minimumAmount: 190
+  maximumAmount: 210
+  chance: 9
   rareDrop: false
   sendToBank: false
-- item: NOTED_UNCUT_DIAMOND
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_BINDING_NECKLACE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_JUG_OF_WATER
-  minimumAmount: 254
-  maximumAmount: 350
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: CANNONBALL
-  minimumAmount: 300
-  maximumAmount: 300
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_PURE_ESSENCE
-  minimumAmount: 600
-  maximumAmount: 600
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_COAL
-  minimumAmount: 380
-  maximumAmount: 420
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MAGIC_LOGS
-  minimumAmount: 51
-  maximumAmount: 70
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_EARTH_ORB
-  minimumAmount: 47
-  maximumAmount: 53
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_RUNITE_BAR
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_RUNITE_ORE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_KWUARM
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_LANTADYME
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_CADANTINE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_DWARF_WEED
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: CHILLI_POTATO
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: SARADOMIN_BREW3
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_RESTORE4
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 350
-  maximumAmount: 350
-  chance: 27
+- item: DEATH_RUNE
+  minimumAmount: 330
+  maximumAmount: 370
+  chance: 9
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
   minimumAmount: 250
   maximumAmount: 250
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 300
-  maximumAmount: 370
-  chance: 27
+  chance: 9
   rareDrop: false
   sendToBank: false
 - item: SOUL_RUNE
   minimumAmount: 225
   maximumAmount: 275
-  chance: 27
+  chance: 9
   rareDrop: false
   sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 160
-  maximumAmount: 210
-  chance: 27
+- item: COSMIC_RUNE
+  minimumAmount: 350
+  maximumAmount: 350
+  chance: 11
   rareDrop: false
   sendToBank: false
-- item: NOTED_RUNE_PLATEBODY
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 46
+- item: CANNONBALL
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 11
   rareDrop: false
   sendToBank: false
-- item: NOTED_RUNE_SWORD
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 46
+- item: NOTED_GRIMY_KWUARM
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 32
   rareDrop: false
   sendToBank: false
-- item: NOTED_RUNE_FULL_HELM
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 46
+- item: NOTED_GRIMY_DWARF_WEED
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 36
   rareDrop: false
   sendToBank: false
-- item: NOTED_RUNE_KITESHIELD
-  minimumAmount: 2
-  maximumAmount: 2
+- item: NOTED_GRIMY_CADANTINE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_LANTADYME
+  minimumAmount: 25
+  maximumAmount: 25
   chance: 46
   rareDrop: false
   sendToBank: false
 - item: NOTED_BATTLESTAFF
   minimumAmount: 10
   maximumAmount: 10
-  chance: 46
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: NOTED_AIR_BATTLESTAFF
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 46
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MYSTIC_AIR_STAFF
+- item: RANARR_SEED
   minimumAmount: 2
   maximumAmount: 2
-  chance: 46
+  chance: 77
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 82
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 105
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 115
+  rareDrop: false
+  sendToBank: false
+- item: WILLOW_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 115
+  rareDrop: false
+  sendToBank: false
+- item: MAHOGANY_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: MAPLE_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: TEAK_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: YEW_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: PAPAYA_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 165
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNE_FULL_HELM
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 193
+  rareDrop: false
+  sendToBank: false
+- item: PALM_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 231
+  rareDrop: false
+  sendToBank: false
+- item: SPIRIT_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 289
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONFRUIT_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 386
+  rareDrop: false
+  sendToBank: false
+- item: CELASTRUS_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 579
+  rareDrop: false
+  sendToBank: false
+- item: REDWOOD_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 579
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_COAL
+  minimumAmount: 380
+  maximumAmount: 420
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_EARTH_ORB
+  minimumAmount: 47
+  maximumAmount: 53
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 600
+  maximumAmount: 600
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 50
+  maximumAmount: 70
+  chance: 9
   rareDrop: false
   sendToBank: false
 - item: NOTED_MYSTIC_LAVA_STAFF
   minimumAmount: 2
   maximumAmount: 2
-  chance: 46
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_UNCUT_DIAMOND
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNITE_ORE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNITE_BAR
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: AIR_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: BODY_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: MIND_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: WATER_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 108
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNE_SWORD
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 270
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 360
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 360
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 48000
+  maximumAmount: 52000
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: CHILLI_POTATO
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_RESTORE4
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_BINDING_NECKLACE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: SARADOMIN_BREW3
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_JUG_OF_WATER
+  minimumAmount: 250
+  maximumAmount: 350
+  chance: 23
   rareDrop: false
   sendToBank: false
 - item: UNSIRED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 697
+  chance: 33
   rareDrop: false
   sendToBank: false
-- item: ABYSSAL_DAGGER
+- item: NOTED_RUNE_PLATEBODY
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNE_KITESHIELD
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MYSTIC_AIR_STAFF
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 697
+  chance: 13
   rareDrop: false
   sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 60
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_AIR_BATTLESTAFF
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+rolls: 1

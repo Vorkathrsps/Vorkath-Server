@@ -1,12 +1,31 @@
 npcId:
 - 6617
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: ENSOULED_SCORPION_HEAD_13460
+- item: LOOTING_BAG
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: ENSOULED_SCORPION_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 142
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 88
+  rareDrop: false
+  sendToBank: false
+rolls: 1

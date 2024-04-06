@@ -1,6 +1,31 @@
 npcId:
 - 882
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops: []
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: ZOGRE_BONES
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: OURG_BONES
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: OGRE_ARTEFACT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ZOMBIE_CHAMPION_SCROLL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1666
+  rareDrop: false
+  sendToBank: false
+rolls: 1

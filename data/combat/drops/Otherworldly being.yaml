@@ -1,156 +1,205 @@
 npcId:
 - 2843
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: MITHRIL_MACE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 56
   rareDrop: false
   sendToBank: false
-- item: BATTLESTAFF
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 113
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_ARROW
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_MACE
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 227
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 15
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 606
   rareDrop: false
   sendToBank: false
-- item: COSMIC_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 15
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 606
   rareDrop: false
   sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 30
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
   rareDrop: false
   sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 30
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10922
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21845
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29129
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
   minimumAmount: 5
   maximumAmount: 5
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 92
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 92
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_IRIT_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_AVANTOE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 64
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_KWUARM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 64
+  chance: 38
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 49
   rareDrop: false
   sendToBank: false
-- item: GRIMY_LANTADYME
+- item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 192
+  chance: 68
   rareDrop: false
   sendToBank: false
-- item: GRIMY_DWARF_WEED
+- item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 192
+  chance: 91
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 109
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 192
+  chance: 136
   rareDrop: false
   sendToBank: false
-- item: GOLD_BAR
+- item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 182
   rareDrop: false
   sendToBank: false
-- item: MACKEREL
+- item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 182
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 1
   rareDrop: false
   sendToBank: false
 - item: RUBY_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 21
   rareDrop: false
   sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: MACKEREL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 22
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+rolls: 1

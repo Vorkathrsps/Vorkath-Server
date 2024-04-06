@@ -1,165 +1,241 @@
 npcId:
-- 2244
-- 3161
-- 2212
 - 3168
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: AIR_RUNE
-  minimumAmount: 30
-  maximumAmount: 30
-  chance: 29
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
   rareDrop: false
   sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 29
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 29
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 341
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 30
-  maximumAmount: 30
-  chance: 87
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 87
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
   rareDrop: false
   sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 18
-  maximumAmount: 18
-  chance: 87
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
   rareDrop: false
   sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 87
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2730
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 87
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 87
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 87
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16384
   rareDrop: false
   sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 87
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32768
   rareDrop: false
   sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: ASTRAL_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: MIST_RUNE
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: DUST_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: MUD_RUNE
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: BODY_RUNE
-  minimumAmount: 25
-  maximumAmount: 25
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: BODY_RUNE
-  minimumAmount: 35
-  maximumAmount: 35
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: MIND_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 65
-  maximumAmount: 65
-  chance: 87
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 87
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 43694
   rareDrop: false
   sendToBank: false
 - item: DRAGON_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 3
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ASTRAL_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BODY_RUNE
+  minimumAmount: 35
+  maximumAmount: 35
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BODY_RUNE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: NOTED_PURE_ESSENCE
   minimumAmount: 90
   maximumAmount: 90
-  chance: 9
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTIPOISON(3)
+- item: NOTED_ANTIPOISON3
   minimumAmount: 5
   maximumAmount: 5
-  chance: 4
+  chance: 8
   rareDrop: false
   sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ECUMENICAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 86
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 65
+  maximumAmount: 65
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: DUST_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: MUD_RUNE
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: MIST_RUNE
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+rolls: 1

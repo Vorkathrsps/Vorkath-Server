@@ -1,8 +1,7 @@
 npcId:
 - 6503
-- 6609
-petItem: CALLISTO_CUB
-petRarity: 1500
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BIG_BONES
   minimumAmount: 1
@@ -10,226 +9,233 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: COINS_995
-  minimumAmount: 1400
-  maximumAmount: 2500
-  chance: 1
-  rareDrop: false
-  sendToBank: false
 drops:
-- item: NOTED_RUNE_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_DART
-  minimumAmount: 22
-  maximumAmount: 150
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_KNIFE
-  minimumAmount: 22
-  maximumAmount: 150
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 135
-  maximumAmount: 900
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 105
-  maximumAmount: 700
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 75
-  maximumAmount: 500
-  chance: 18
+- item: SOUL_RUNE
+  minimumAmount: 250
+  maximumAmount: 250
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: CANNONBALL
-  minimumAmount: 82
-  maximumAmount: 550
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: BLIGHTED_ANGLERFISH
-  minimumAmount: 5
-  maximumAmount: 6
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: BLIGHTED_KARAMBWAN
-  minimumAmount: 5
-  maximumAmount: 6
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: BLIGHTED_SUPER_RESTORE4
-  minimumAmount: 3
-  maximumAmount: 4
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: BLIGHTED_SUPER_RESTORE3
-  minimumAmount: 3
-  maximumAmount: 4
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: RANGING_POTION2_23555
-  minimumAmount: 2
-  maximumAmount: 3
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_COMBAT_POTION2_23547
-  minimumAmount: 2
-  maximumAmount: 3
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_SUPER_RESTORE(4)
-  minimumAmount: 1
-  maximumAmount: 10
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_SANFEW_SERUM(4)
-  minimumAmount: 3
-  maximumAmount: 20
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_SUPERCOMPOST
-  minimumAmount: 33
-  maximumAmount: 225
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_BLIGHTED_ANGLERFISH
-  minimumAmount: 6
-  maximumAmount: 45
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GOLD_ORE
-  minimumAmount: 101
-  maximumAmount: 675
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_LIMPWURT_ROOT
-  minimumAmount: 9
-  maximumAmount: 60
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_WINE_OF_ZAMORAK
-  minimumAmount: 15
-  maximumAmount: 100
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MAGIC_LOGS
-  minimumAmount: 33
-  maximumAmount: 225
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_OAK_PLANK
-  minimumAmount: 60
-  maximumAmount: 400
-  chance: 45
+  minimumAmount: 250
+  maximumAmount: 250
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: NOTED_UNCUT_RUBY
-  minimumAmount: 11
-  maximumAmount: 75
-  chance: 45
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: NOTED_UNCUT_DIAMOND
-  minimumAmount: 5
-  maximumAmount: 35
-  chance: 45
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
   rareDrop: false
   sendToBank: false
-- item: NOTED_DRAGON_BONES
-  minimumAmount: 22
-  maximumAmount: 150
-  chance: 45
+- item: NOTED_MAHOGANY_LOGS
+  minimumAmount: 400
+  maximumAmount: 400
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: NOTED_UNCUT_DRAGONSTONE
-  minimumAmount: 1
-  maximumAmount: 5
-  chance: 45
+- item: NOTED_LIMPWURT_ROOT
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: NOTED_MORT_MYRE_FUNGUS
-  minimumAmount: 67
-  maximumAmount: 450
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_RANARR_WEED
-  minimumAmount: 15
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 100
   maximumAmount: 100
-  chance: 45
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: NOTED_GRIMY_DWARF_WEED
-  minimumAmount: 5
-  maximumAmount: 45
-  chance: 45
+- item: NOTED_RED_DRAGONHIDE
+  minimumAmount: 75
+  maximumAmount: 75
+  chance: 14
   rareDrop: false
   sendToBank: false
-- item: NOTED_GRIMY_SNAPDRAGON
-  minimumAmount: 6
-  maximumAmount: 45
-  chance: 45
+- item: NOTED_COCONUT
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: NOTED_GRIMY_TOADFLAX
-  minimumAmount: 6
-  maximumAmount: 45
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_2H_SWORD
+- item: UNCUT_DRAGONSTONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: TYRANNICAL_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 170
   rareDrop: false
   sendToBank: false
-- item: CLAWS_OF_CALLISTO
+- item: NOTED_GRIMY_TOADFLAX
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RANARR_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: VOIDWAKER_HILT
+- item: PALM_TREE_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 125
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: YEW_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 15000
+  maximumAmount: 19999
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: DARK_CRAB
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_RESTORE4
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SUPERCOMPOST
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DRAGON_BONES
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: DARK_FISHING_BAIT
+  minimumAmount: 375
+  maximumAmount: 375
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CALLISTO_CUB
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 200
+  maximumAmount: 200
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 400
+  maximumAmount: 400
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+rolls: 1

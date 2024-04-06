@@ -663,7 +663,9 @@ public abstract class Entity {
         return new Area(tile.x, tile.y, tile.x + getSize() - 1, tile.y + getSize() - 1, tile.getZ());
     }
 
-    public List<Hit> nextHits = new ArrayList<>(4);
+
+    public int nextHitIndex;
+    public final Hit[] nextHits = new Hit[4];
 
     public void setWalkingDirection(Direction walkDirection) {
         this.walkingDirection = walkDirection;
@@ -2023,7 +2025,9 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphics.clear();
-        nextHits.clear();
+
+        Arrays.fill(nextHits, null);
+        nextHitIndex = 0;
     }
 
     public Entity forceChat(String message) {
@@ -2112,7 +2116,9 @@ public abstract class Entity {
     private int specialAttackPercentage = 100;
     private boolean specialActivated;
     private boolean recoveringSpecialAttack;
-    @Getter @Setter protected List<Controller> controllers;
+    @Getter
+    @Setter
+    protected List<Controller> controllers;
 
     /**
      * Listeners

@@ -1,8 +1,7 @@
 npcId:
 - 7418
-- 7419
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -20,7 +19,7 @@ drops:
 - item: ADAMANT_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: STEEL_SCIMITAR
@@ -38,12 +37,19 @@ drops:
 - item: RUNE_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 1
   rareDrop: false
   sendToBank: false
 - item: LOBSTER
   minimumAmount: 3
   maximumAmount: 3
-  chance: 2
+  chance: 8
   rareDrop: false
   sendToBank: false
+rolls: 1

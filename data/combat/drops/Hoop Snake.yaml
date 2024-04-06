@@ -1,0 +1,49 @@
+npcId:
+- 7802
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: SNAKE_HIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NUMULITE
+  minimumAmount: 1
+  maximumAmount: 14
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_SMALL_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 38
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_MEDIUM_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 77
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_LARGE_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 97
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_RARE_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 388
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,98 +1,25 @@
 npcId:
-- 4067
 - 6360
-- 6299
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: BONES
+- item: BIG_BONES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_LONGSWORD
+- item: LONG_BONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
+  chance: 133
   rareDrop: false
   sendToBank: false
-- item: IRON_KITESHIELD
+- item: CURVED_BONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
+  chance: 1670
   rareDrop: false
   sendToBank: false
-- item: IRON_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: IRON_ARROW
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: CABBAGE_SEED
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: ONION_SEED
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: ENSOULED_GIANT_HEAD_13475
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: LIMPWURT_ROOT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: BEER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: GIANT_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
+rolls: 1

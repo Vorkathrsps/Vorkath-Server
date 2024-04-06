@@ -14,6 +14,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -27,7 +28,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_
 
 public class Mining extends PacketInteraction {
     private static final int geode_multiplier = 50;
-    private static final Set<Integer> GEMS = new HashSet<>(Arrays.asList(
+    public static final Set<Integer> GEMS = new HashSet<>(Arrays.asList(
         ItemIdentifiers.UNCUT_SAPPHIRE,
         ItemIdentifiers.UNCUT_EMERALD,
         ItemIdentifiers.UNCUT_RUBY,
@@ -43,6 +44,7 @@ public class Mining extends PacketInteraction {
     private static final Set<Integer> GLORYS = new HashSet<>(Arrays.asList(
         1706, 1708, 1710, 1712, 11976, 11978
     ));
+    private static final int[] gems = new int[]{1623, 1617, 1619, 1621, 1625, 1627, 1629};
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
@@ -117,63 +119,57 @@ public class Mining extends PacketInteraction {
             var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
 
             if (success) {
-               /* if (Utils.rollDie(20, 1)) {
-                    player.inventory().addOrDrop(new Item(7956, 1));
-                    player.message("The rock broke, inside you find a casket!");
-                }*/
-
                 if (Utils.rollDie(rockType.geode_chance / geode_multiplier, 1)) {
                     player.getInventory().addOrDrop(new Item(Utils.randomElement(GEODES), 1));
-                    player.message("The rock broke, inside you find a geode!");
+                    player.message(Color.BLUE.wrap("The rock broke, inside you find a geode!"));
                 }
 
-                if (rockType != Ore.COAL_ROCK && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
+                if ((rockType != Ore.COAL_ROCK && rockType != Ore.GEM_ROCK) && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
                     player.graphic(580, GraphicHeight.HIGH, 0);
                     addBar(player, rockType);
                     return;
                 }
 
-                if (Utils.rollDie(calculateGemOdds(player), 1)) {
-                    Utils.randomElement(GEMS);
-                    player.message("You manage to find gems in the rock you were mining.");
+                if ((Utils.rollDie(calculateGemOdds(player), 1) && rockType != Ore.GEM_ROCK)) {
+                    int gem = Utils.randomElement(GEMS);
+                    player.getInventory().add(new Item(gem));
+                    player.message(Color.BLUE.wrap("You manage to find gems in the rock you were mining."));
                 } else {
                     if (player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
                         switch (rockType) {
                             case COPPER_ROCK, TIN_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.BRONZE_BAR));
-                                player.skills().addXp(Skills.SMITHING, 12.5);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case IRON_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.IRON_BAR));
-                                player.skills().addXp(Skills.SMITHING, 25);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case SILVER_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.SILVER_BAR));
-                                player.skills().addXp(Skills.SMITHING, 30);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case COAL_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.STEEL_BAR));
-                                player.skills().addXp(Skills.SMITHING, 37.5);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case GOLD_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.GOLD_BAR));
-                                player.skills().addXp(Skills.SMITHING, 39.5);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case MITHRIL -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.MITHRIL_BAR));
-                                player.skills().addXp(Skills.SMITHING, 100);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case ADAMANT_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.ADAMANTITE_BAR));
-                                player.skills().addXp(Skills.SMITHING, 150);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
                             case RUNE_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.RUNITE_BAR));
-                                player.skills().addXp(Skills.SMITHING, 200);
+                                player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            default -> {
-                                player.getInventory().add(new Item(rockType.item));
-                            }
+                            default -> player.getInventory().add(new Item(rockType.item));
                         }
                     } else if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
                         player.getBank().add(new Item(rockType.item));
@@ -198,7 +194,11 @@ public class Mining extends PacketInteraction {
                     player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
                 }
 
-                if (rockType != Ore.CRASHED_STAR) {
+                if (rockType == Ore.GEM_ROCK) {
+                    rockType.setItem(new Item(Utils.randomElement(GEMS)).getId());
+                }
+
+                if (rockType != Ore.CRASHED_STAR && rockType != Ore.GEM_ROCK) {
                     if (Utils.rollDie(33, 1) && !ArrayUtils.contains(star, obj.getId())) {
                         player.animate(Animation.DEFAULT_RESET_ANIMATION);
                         GameObject original = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());

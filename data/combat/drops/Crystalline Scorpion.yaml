@@ -1,0 +1,31 @@
+npcId:
+- 9030
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: CRYSTAL_SHARDS
+  minimumAmount: 50
+  maximumAmount: 105
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: RAW_PADDLEFISH
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: WEAPON_FRAME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: TELEPORT_CRYSTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+rolls: 1

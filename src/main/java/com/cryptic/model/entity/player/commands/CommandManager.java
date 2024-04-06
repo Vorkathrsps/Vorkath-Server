@@ -28,8 +28,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.Direction;
-import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -664,6 +662,11 @@ public class CommandManager {
 
         dev("cleartask", (p, c, s) ->
         {
+
+        });
+
+        dev("cleartask", (p, c, s) ->
+        {
             SlayerTask slayerTask = World.getWorld().getSlayerTasks();
             var assignment = slayerTask.getCurrentAssignment(p);
             System.out.println("cached npc size: " + assignment.getNpcs().length);
@@ -883,7 +886,7 @@ public class CommandManager {
         {
             var kills = Integer.parseInt(s[1]);
             NpcDropTable table = NpcDropRepository.forNPC(319);
-            List<Item> simulate = table.getDrops(p, kills);
+            List<Item> simulate = table.getDrops(p);
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());
                 int oo2 = kills / Math.max(1, o2.getAmount());

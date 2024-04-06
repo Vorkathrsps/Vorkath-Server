@@ -1,175 +1,223 @@
 npcId:
 - 8
-- 11
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: ASHES
+- item: MALICIOUS_ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: RUNE_2H_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_PLATELEGS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 65
-  rareDrop: false
-  sendToBank: false
 - item: LAW_RUNE
   minimumAmount: 25
   maximumAmount: 35
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 35
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 37
-  maximumAmount: 37
-  chance: 35
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 50
-  maximumAmount: 50
-  chance: 104
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
-  minimumAmount: 17
-  maximumAmount: 17
-  chance: 104
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 5
+  minimumAmount: 15
   maximumAmount: 20
-  chance: 104
+  chance: 9
   rareDrop: false
   sendToBank: false
-- item: BELLADONNA_SEED
+- item: LIMPWURT_SEED
   minimumAmount: 1
-  maximumAmount: 2
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: AVANTOE_SEED
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: KWUARM_SEED
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 37
+  maximumAmount: 1
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: TOADFLAX_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 37
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: IRIT_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 37
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: CACTUS_SEED
+- item: BELLADONNA_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 75
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: POISON_IVY_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 75
+  chance: 23
   rareDrop: false
   sendToBank: false
-- item: DWARF_WEED_SEED
+- item: AVANTOE_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 75
+  chance: 23
   rareDrop: false
   sendToBank: false
-- item: LANTADYME_SEED
+- item: CACTUS_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 75
+  chance: 24
   rareDrop: false
   sendToBank: false
-- item: CADANTINE_SEED
+- item: POTATO_CACTUS_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 225
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: KWUARM_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: SNAPDRAGON_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 225
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: CADANTINE_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 72
+  rareDrop: false
+  sendToBank: false
+- item: LANTADYME_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 101
+  rareDrop: false
+  sendToBank: false
+- item: SNAPE_GRASS_SEED
+  minimumAmount: 3
+  maximumAmount: 6
+  chance: 126
+  rareDrop: false
+  sendToBank: false
+- item: DWARF_WEED_SEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 169
   rareDrop: false
   sendToBank: false
 - item: TORSTOL_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 225
+  chance: 253
   rareDrop: false
   sendToBank: false
-- item: TUNA
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 1499
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1500
+  maximumAmount: 2000
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 2500
+  maximumAmount: 2999
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 9
   rareDrop: false
   sendToBank: false
-- item: NOTED_LIMPWURT_ROOT
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 16
+- item: COINS_995
+  minimumAmount: 3000
+  maximumAmount: 3500
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 500
+  maximumAmount: 999
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5000
+  maximumAmount: 5000
+  chance: 38
   rareDrop: false
   sendToBank: false
 - item: NOTED_SOFT_CLAY
   minimumAmount: 25
   maximumAmount: 25
-  chance: 50
+  chance: 9
   rareDrop: false
   sendToBank: false
+- item: TUNA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 38
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 37
+  maximumAmount: 37
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+rolls: 1

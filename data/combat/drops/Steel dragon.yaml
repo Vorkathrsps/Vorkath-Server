@@ -1,10 +1,7 @@
 npcId:
 - 139
-- 274
-- 275
-- 7255
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: DRAGON_BONES
   minimumAmount: 1
@@ -19,6 +16,132 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 2
+  maximumAmount: 12
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: SOUL_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 470
+  maximumAmount: 470
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 650
+  maximumAmount: 650
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_ATTACK3
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_LIMBS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_JAVELIN_HEADS
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_DEFENCE2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: CURRY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CURRY
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PLATESKIRT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_DARTP
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: DRACONIC_VISAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3333
+  rareDrop: false
+  sendToBank: false
 - item: RUNE_MACE
   minimumAmount: 1
   maximumAmount: 1
@@ -28,120 +151,19 @@ drops:
 - item: ADAMANT_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: RUNE_KNIFE
-  minimumAmount: 5
+  minimumAmount: 7
   maximumAmount: 7
-  chance: 17
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: RUNE_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: RUNE_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_PLATESKIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 516
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_PLATELEGS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 516
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_JAVELIN
-  minimumAmount: 2
-  maximumAmount: 7
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_JAVELIN_HEADS
-  minimumAmount: 12
-  maximumAmount: 12
-  chance: 34
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BOLTS
-  minimumAmount: 2
-  maximumAmount: 12
-  chance: 34
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_DARTP
-  minimumAmount: 9
-  maximumAmount: 12
-  chance: 34
-  rareDrop: false
-  sendToBank: false
-- item: SOUL_RUNE
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 102
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_LIMBS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_ATTACK3
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: CURRY
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_DEFENCE2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 76
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_STRENGTH1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 76
-  rareDrop: false
-  sendToBank: false
-- item: DRACONIC_VISAGE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 458
-  rareDrop: false
-  sendToBank: false
+rolls: 1

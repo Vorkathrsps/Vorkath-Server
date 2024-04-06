@@ -1,8 +1,7 @@
 npcId:
 - 239
-- 6502
-petItem: PRINCE_BLACK_DRAGON
-petRarity: 1500
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: DRAGON_BONES
   minimumAmount: 1
@@ -17,16 +16,136 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
+- item: IRON_ARROW
+  minimumAmount: 690
+  maximumAmount: 690
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 10
+  maximumAmount: 20
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_YEW_LOGS
+  minimumAmount: 150
+  maximumAmount: 150
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANTITE_BAR
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_POWER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_ARROWTIPS
+  minimumAmount: 5
+  maximumAmount: 14
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_DART_TIP
+  minimumAmount: 5
+  maximumAmount: 14
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_JAVELIN_HEADS
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_LIMBS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 500
+  rareDrop: false
+  sendToBank: false
 - item: RUNE_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_PLATEBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: KBD_HEADS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 150
+  rareDrop: false
+  sendToBank: false
+- item: PRINCE_BLACK_DRAGON
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: DRACONIC_VISAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1666
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_KITESHIELD
@@ -35,153 +154,22 @@ drops:
   chance: 14
   rareDrop: false
   sendToBank: false
-- item: AIR_RUNE
-  minimumAmount: 300
-  maximumAmount: 300
-  chance: 12
-  rareDrop: false
-  sendToBank: false
 - item: DRAGON_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: DRAGON_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 500
-  rareDrop: true
-  sendToBank: false
-- item: RUNITE_BOLTS
-  minimumAmount: 10
-  maximumAmount: 20
-  chance: 12
+- item: FIRE_RUNE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: IRON_ARROW
-  minimumAmount: 690
-  maximumAmount: 690
-  chance: 12
+- item: AIR_RUNE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 4
   rareDrop: false
   sendToBank: false
-- item: DRACONIC_VISAGE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: true
-  sendToBank: false
-- item: KBD_HEADS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 500
-  rareDrop: true
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 30
-  maximumAmount: 30
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GOLD_ORE
-  minimumAmount: 80
-  maximumAmount: 150
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_YEW_LOGS
-  minimumAmount: 150
-  maximumAmount: 150
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANTITE_BAR
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 35
-  rareDrop: false
-  sendToBank: false
-- item: AMULET_OF_POWER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DRAGON_BONES
-  minimumAmount: 3
-  maximumAmount: 10
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_LIMBS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: SHARK
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_SPEAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DIAMOND
-  minimumAmount: 12
-  maximumAmount: 19
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DRAGONSTONE
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_UNCUT_DIAMOND
-  minimumAmount: 4
-  maximumAmount: 8
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_UNCUT_DRAGONSTONE
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 200
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_LIMBS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 250
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_2H_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_CHAINBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
+rolls: 1

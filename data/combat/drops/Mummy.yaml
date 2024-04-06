@@ -1,25 +1,7 @@
 npcId:
-- 949
-- 950
-- 951
-- 952
-- 953
-- 7658
-- 7659
-- 7660
-- 7661
-- 7662
-- 717
-- 720
-- 721
-- 722
 - 723
-- 725
-- 726
-- 727
-- 728
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: ASHES
   minimumAmount: 1
@@ -28,189 +10,292 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: RUNE_SQ_SHIELD
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 342
   rareDrop: false
   sendToBank: false
-- item: RUNE_SCIMITAR
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
+  chance: 684
   rareDrop: false
   sendToBank: false
-- item: ANCIENT_STAFF
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 64
+  chance: 1368
   rareDrop: false
   sendToBank: false
-- item: GOLD_AMULET
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 22
+  chance: 3648
   rareDrop: false
   sendToBank: false
-- item: GOLD_NECKLACE
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 22
+  chance: 3648
   rareDrop: false
   sendToBank: false
-- item: GOLD_RING
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 22
+  chance: 5472
   rareDrop: false
   sendToBank: false
-- item: null
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 4104
   rareDrop: false
   sendToBank: false
-- item: EMERALD_RING
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 4104
   rareDrop: false
   sendToBank: false
-- item: RING_OF_DUELING8
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 4104
   rareDrop: false
   sendToBank: false
-- item: AMULET_OF_MAGIC
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 65664
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 131328
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 175117
   rareDrop: false
   sendToBank: false
 - item: SAPPHIRE_NECKLACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 66
+  chance: 17
   rareDrop: false
   sendToBank: false
 - item: SAPPHIRE_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 17
   rareDrop: false
   sendToBank: false
-- item: SAPPHIRE_BRACELET_11072
+- item: EMERALD_AMULET_U
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: EMERALD_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: RING_OF_DUELING1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
   rareDrop: false
   sendToBank: false
 - item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 228
   rareDrop: false
   sendToBank: false
 - item: GRIMY_MARRENTILL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 304
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 405
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 521
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 52
+  chance: 663
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 52
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_KWUARM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 52
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_CADANTINE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 52
+  chance: 912
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 1216
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1459
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1824
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 2432
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 2432
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 36
+  maximumAmount: 36
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 95
+  maximumAmount: 95
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 106
+  maximumAmount: 106
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 183
+  maximumAmount: 183
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 222
+  maximumAmount: 222
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 46
+  maximumAmount: 46
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 472
+  maximumAmount: 472
+  chance: 17
   rareDrop: false
   sendToBank: false
 - item: SWAMP_TAR
   minimumAmount: 1
-  maximumAmount: 17
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: SILK
-  minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 5
   rareDrop: false
   sendToBank: false
 - item: GOLD_ORE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: SILK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: PAPYRUS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 3
   rareDrop: false
   sendToBank: false
 - item: CASKET
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 57
   rareDrop: false
   sendToBank: false
 - item: GOLD_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: NOTED_SPICE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 148
+- item: RUNE_SQ_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 57
   rareDrop: false
   sendToBank: false
+- item: RUNE_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 57
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 171
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 171
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_AMULET_U
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_NECKLACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+rolls: 1

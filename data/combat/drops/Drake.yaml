@@ -1,8 +1,7 @@
 npcId:
 - 8612
-- 8613
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: DRAKE_BONES
   minimumAmount: 1
@@ -11,195 +10,394 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: BLACK_DHIDE_VAMBRACES
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 113
   rareDrop: false
   sendToBank: false
-- item: RED_DHIDE_BODY
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 226
   rareDrop: false
   sendToBank: false
-- item: RUNE_FULL_HELM
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 453
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_EARTH_STAFF
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 1208
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1208
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1813
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 3626
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3626
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3626
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21760
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 43520
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 58031
   rareDrop: false
   sendToBank: false
 - item: DRAGON_MACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 30
-  maximumAmount: 60
-  chance: 27
+  chance: 28
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 100
   maximumAmount: 200
-  chance: 27
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 30
+  maximumAmount: 60
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
   minimumAmount: 25
   maximumAmount: 50
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_ARROW
-  minimumAmount: 35
-  maximumAmount: 65
-  chance: 27
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
   minimumAmount: 20
   maximumAmount: 40
-  chance: 46
+  chance: 2
   rareDrop: false
   sendToBank: false
-- item: GRIMY_SNAPDRAGON
+- item: RUNE_ARROW
+  minimumAmount: 35
+  maximumAmount: 65
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 3
-  chance: 28
+  chance: 22
   rareDrop: false
   sendToBank: false
-- item: NOTED_GRIMY_CADANTINE
+- item: GRIMY_MARRENTILL
   minimumAmount: 1
   maximumAmount: 3
-  chance: 28
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: NOTED_GRIMY_LANTADYME
+- item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 3
-  chance: 28
+  chance: 40
   rareDrop: false
   sendToBank: false
-- item: NOTED_DWARF_WEED
+- item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 3
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_GRIMY_TORSTOL
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: IRIT_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: LANTADYME_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: TOADFLAX_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: SNAPDRAGON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: KWUARM_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: AVANTOE_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: DWARF_WEED_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: CACTUS_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: POISON_IVY_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: BELLADONNA_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: SNAPE_GRASS_SEED
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 66
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DIAMOND
-  minimumAmount: 3
-  maximumAmount: 6
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: SWORDFISH
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 10
+  chance: 51
   rareDrop: false
   sendToBank: false
 - item: DRAKES_TOOTH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 853
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 65
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 90
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 120
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 145
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 181
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 241
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 241
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 37
   rareDrop: false
   sendToBank: false
 - item: DRAKES_CLAW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 200
+  chance: 853
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_SNAPDRAGON
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_TORSTOL
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: TOADFLAX_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 142
+  rareDrop: false
+  sendToBank: false
+- item: IRIT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 208
+  rareDrop: false
+  sendToBank: false
+- item: BELLADONNA_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 215
+  rareDrop: false
+  sendToBank: false
+- item: POISON_IVY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 303
+  rareDrop: false
+  sendToBank: false
+- item: AVANTOE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 303
   rareDrop: false
   sendToBank: false
 - item: DRAGON_THROWNAXE
   minimumAmount: 100
   maximumAmount: 200
-  chance: 18
+  chance: 3333
+  rareDrop: false
+  sendToBank: false
+- item: CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 318
+  rareDrop: false
+  sendToBank: false
+- item: POTATO_CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 445
+  rareDrop: false
+  sendToBank: false
+- item: KWUARM_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 445
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 668
+  rareDrop: false
+  sendToBank: false
+- item: CADANTINE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 955
+  rareDrop: false
+  sendToBank: false
+- item: LANTADYME_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1337
+  rareDrop: false
+  sendToBank: false
+- item: SNAPE_GRASS_SEED
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 1671
+  rareDrop: false
+  sendToBank: false
+- item: DWARF_WEED_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2228
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3343
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 2000
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: DRAGON_KNIFE
   minimumAmount: 100
   maximumAmount: 200
-  chance: 18
+  chance: 3333
   rareDrop: false
   sendToBank: false
+- item: COINS_995
+  minimumAmount: 5000
+  maximumAmount: 7000
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIAMOND
+  minimumAmount: 3
+  maximumAmount: 6
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: SWORDFISH
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RED_DHIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_DHIDE_VAMBRACES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_EARTH_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+rolls: 1

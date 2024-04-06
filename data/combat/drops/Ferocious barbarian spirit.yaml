@@ -1,342 +1,331 @@
 npcId:
 - 5566
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
-- item: BRONZE_HASTA
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: REWARD_CASKET_ELITE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 227
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 227
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 341
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4096
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8192
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10923
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_MACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 65
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: STEEL_LONGSWORD
+- item: GRIMY_GUAM_LEAF
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 65
+  maximumAmount: 2
+  chance: 17
   rareDrop: false
   sendToBank: false
-- item: IRON_HASTA
+- item: GRIMY_MARRENTILL
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 65
+  maximumAmount: 2
+  chance: 22
   rareDrop: false
   sendToBank: false
-- item: STEEL_HASTA
+- item: GRIMY_TARROMIN
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 65
+  maximumAmount: 2
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: STEEL_SCIMITAR
+- item: GRIMY_HARRALANDER
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 65
+  maximumAmount: 2
+  chance: 38
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 49
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 68
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 91
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 109
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 136
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 182
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_MACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 130
+  chance: 10
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_BATTLEAXE
+- item: GRIMY_DWARF_WEED
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 130
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 130
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_MACE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 130
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_SCIMITAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 130
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_HASTA
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 392
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_HASTA
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 392
-  rareDrop: false
-  sendToBank: false
-- item: BATTLESTAFF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 392
-  rareDrop: false
-  sendToBank: false
-- item: IRON_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: IRON_PLATESKIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_SQ_SHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_MED_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: SILVER_BOLTS
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: MITH_GRAPPLE_9419
-  minimumAmount: 2
   maximumAmount: 2
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_KNIFE
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_DARTP
-  minimumAmount: 20
-  maximumAmount: 20
-  chance: 42
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_ARROW
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: RUNITE_BOLTS
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 6
-  maximumAmount: 9
-  chance: 126
-  rareDrop: false
-  sendToBank: false
-- item: PRAYER_MIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: PRAYER_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_STR_MIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_STR_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPERATTACK_MIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPERATTACK_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_DEF_MIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 61
-  rareDrop: false
-  sendToBank: false
-- item: SUPER_DEF_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 123
-  rareDrop: false
-  sendToBank: false
-- item: ANTIFIRE_MIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 123
-  rareDrop: false
-  sendToBank: false
-- item: ANTIFIRE_MIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 123
-  rareDrop: false
-  sendToBank: false
-- item: ANTIPOISON_SUPERMIX1
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 371
-  rareDrop: false
-  sendToBank: false
-- item: ANTIPOISON_SUPERMIX2
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 371
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_IRIT_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_RANARR_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 77
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_CADANTINE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 77
+  chance: 182
   rareDrop: false
   sendToBank: false
 - item: RANARR_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 7
+  chance: 8
   rareDrop: false
   sendToBank: false
-- item: NOTED_BIG_BONES
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: YEW_LOGS
+- item: PRAYER_MIX1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_STR_MIX1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_STR_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPERATTACK_MIX1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPERATTACK_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_DEF_MIX1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_DEF_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ANTIFIRE_MIX1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ANTIFIRE_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ANTIPOISON_SUPERMIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_MIX2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: YEW_LOGS
   minimumAmount: 3
   maximumAmount: 3
-  chance: 45
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: ANCIENT_PAGE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: SHARK
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 68
-  rareDrop: false
-  sendToBank: false
-- item: SILVER_BAR
+- item: NOTED_STEEL_BAR
   minimumAmount: 2
   maximumAmount: 2
-  chance: 68
-  rareDrop: false
-  sendToBank: false
-- item: RAW_SHARK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 137
-  rareDrop: false
-  sendToBank: false
-- item: YEW_SHORTBOW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 137
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_BAR
   minimumAmount: 2
   maximumAmount: 2
-  chance: 137
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: NOTED_ADAMANTITE_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 413
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: NOTED_RUNITE_BAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 413
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: NOTED_BIG_BONES
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_HASTA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_PAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_KNIFE
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_DARTP
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_ARROW
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 9
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+rolls: 1

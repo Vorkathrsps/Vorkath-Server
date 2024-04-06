@@ -1,93 +1,205 @@
 npcId:
 - 433
-- 434
-- 435
-- 436
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
-- item: ASHES
+- item: FIENDISH_ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_AXE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 56
   rareDrop: false
   sendToBank: false
-- item: STEEL_FULL_HELM
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 113
   rareDrop: false
   sendToBank: false
-- item: MITHRIL_CHAINBODY
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 227
   rareDrop: false
   sendToBank: false
-- item: STAFF_OF_FIRE
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 26
+  chance: 606
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_MED_HELM
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 80
+  chance: 606
   rareDrop: false
   sendToBank: false
-- item: STEEL_BOOTS
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 80
+  chance: 910
   rareDrop: false
   sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 30
-  maximumAmount: 30
-  chance: 9
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1820
   rareDrop: false
   sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 60
-  maximumAmount: 60
-  chance: 18
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
   rareDrop: false
   sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 90
-  maximumAmount: 90
-  chance: 18
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10922
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21845
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29129
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 12
   maximumAmount: 12
-  chance: 56
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
   minimumAmount: 3
   maximumAmount: 3
-  chance: 56
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 40
+  maximumAmount: 40
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 120
+  maximumAmount: 120
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 200
+  maximumAmount: 200
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 450
+  maximumAmount: 450
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: GOLD_ORE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 5
   rareDrop: false
   sendToBank: false
 - item: JUG_OF_WINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 21
   rareDrop: false
   sendToBank: false
+- item: STEEL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ECUMENICAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: STAFF_OF_FIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+rolls: 1

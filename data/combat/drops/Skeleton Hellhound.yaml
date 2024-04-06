@@ -1,8 +1,37 @@
 npcId:
 - 5054
-- 6387
-- 6326
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops: []
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -31,9 +31,8 @@ public class ItemDrops {
         NpcDropTable table = NpcDropRepository.forNPC(npcId);
         var dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061;
         Tile tile = dropUnderPlayer ? player.tile() : npc.tile();
-        int dropRolls = npc.getCombatInfo().droprolls;
         if (table != null) {
-            List<Item> rewards = table.getDrops(player, dropRolls);
+            List<Item> rewards = table.getDrops(player);
             for (var item : rewards) {
                 LogType.BOSSES.log(player, npc.id(), item);
                 LogType.OTHER.log(player, npc.id(), item);

@@ -1,48 +1,163 @@
 npcId:
 - 3184
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
-drops:
+petItem: null
+petRarity: 2000
+alwaysDrops:
 - item: BONES
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2
+  chance: 1
   rareDrop: false
   sendToBank: false
-- item: FEATHER
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 7
-  rareDrop: false
-  sendToBank: false
-- item: RAW_TUNA
+drops:
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 7
+  chance: 170
   rareDrop: false
   sendToBank: false
-- item: RAW_SARDINE
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 341
   rareDrop: false
   sendToBank: false
-- item: WATER_RUNE
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32768
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 65536
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 87388
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
   minimumAmount: 3
   maximumAmount: 3
-  chance: 14
-  rareDrop: false
-  sendToBank: false
-- item: OYSTER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 14
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: OYSTER_PEARL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 10
   rareDrop: false
   sendToBank: false
+- item: WATER_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_EASY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 257
+  rareDrop: false
+  sendToBank: false
+- item: RAW_TUNA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: RAW_HERRING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: RAW_SARDINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: SEAWEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+rolls: 1

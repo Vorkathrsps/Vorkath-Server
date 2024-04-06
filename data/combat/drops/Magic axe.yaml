@@ -1,8 +1,7 @@
 npcId:
-- 2844
 - 7269
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: IRON_BATTLEAXE
   minimumAmount: 1
@@ -10,4 +9,89 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: RUNE_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_SHARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 101
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_BASE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 151
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_MIDDLE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 151
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 151
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 177
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 94
+  rareDrop: false
+  sendToBank: false
+- item: IRON_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 41
+  rareDrop: false
+  sendToBank: false
+rolls: 1

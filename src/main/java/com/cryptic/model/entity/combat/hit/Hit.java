@@ -15,6 +15,7 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.VorkathCombat;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.masks.Flag;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -42,13 +43,18 @@ public class Hit {
     @Setter
     public boolean isImmune = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
+    @Getter
     private Entity attacker;
+    @Getter
     private Entity target;
     private int damage;
     @Getter
     private int delay;
     @Getter
+    private int initialDelay;
+    @Getter
     public boolean checkAccuracy;
+    @Getter
     private boolean accurate;
     @Getter
     public CombatType combatType;
@@ -82,7 +88,7 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
-        this.delay = delay;
+        this.delay = this.initialDelay = delay;
         this.hitMark = hitMark;
     }
 
@@ -90,7 +96,7 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.attacker = attacker;
         this.target = target;
-        this.delay = delay;
+        this.delay = this.initialDelay = delay;
         this.damage = damage;
         this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
     }
@@ -106,7 +112,7 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatMethod method) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = delay;
+        this.delay = this.initialDelay = delay;
         if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
@@ -114,7 +120,7 @@ public class Hit {
         this.attacker = attacker;
         this.target = target;
         this.damage = damage;
-        this.delay = delay;
+        this.delay = this.initialDelay = delay;
         this.combatType = type;
     }
 
@@ -129,13 +135,13 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatType combatType) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = delay;
+        this.delay = this.initialDelay = delay;
         this.combatType = combatType;
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
         Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.DEFAULT : HitMark.MISSED);
-        hit.delay = delay;
+        hit.delay = hit.initialDelay = delay;
         hit.combatType = type;
         return hit;
     }
@@ -145,18 +151,15 @@ public class Hit {
         return this;
     }
 
-    public Entity getAttacker() {
-        return this.attacker;
-    }
-
-    public Entity getTarget() {
-        return this.target;
+    public void applyBeforeRemove() {
+        if (!CombatType.MAGIC.equals(getCombatType())) {
+            if (target.getBlockAnim() != -1) {
+                target.animate(new Animation(target.getBlockAnim()));
+            }
+        }
     }
 
     public int decrementAndGetDelay() {
-        if (attacker != null && attacker instanceof NPC) {
-            return delay--;
-        }
         return --delay;
     }
 
@@ -167,10 +170,6 @@ public class Hit {
     public Hit setAccurate(boolean accurate) {
         this.accurate = accurate;
         return this;
-    }
-
-    public boolean isAccurate() {
-        return accurate;
     }
 
     public Hit setDamage(int damage) {
@@ -403,8 +402,8 @@ public class Hit {
 
     public void update() {
         if (target == null) return;
-        if (target.nextHits.size() >= 4) return;
-        target.nextHits.add(this);
+        if (target.nextHitIndex >= 3) return;
+        target.nextHits[target.nextHitIndex++] = this;
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
     }
 

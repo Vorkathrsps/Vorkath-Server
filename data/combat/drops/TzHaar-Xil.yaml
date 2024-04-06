@@ -1,85 +1,61 @@
 npcId:
 - 2167
-- 2168
-- 2169
-- 2170
-- 2171
-- 2172
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: TOKTZXILUL
   minimumAmount: 9
   maximumAmount: 29
-  chance: 25
+  chance: 170
   rareDrop: false
   sendToBank: false
 - item: TOKTZXILAK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 170
   rareDrop: false
   sendToBank: false
-  rareDrop: false
-  sendToBank: false
-- item: TZHAARKETOM
+- item: TOKTZXILEK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: TOKTZKETXIL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
+  chance: 170
   rareDrop: false
   sendToBank: false
 - item: OBSIDIAN_CAPE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 170
   rareDrop: false
   sendToBank: false
 - item: TOKKUL
   minimumAmount: 1
-  maximumAmount: 83
-  chance: 7
-  rareDrop: false
-  sendToBank: false
-- item: ENSOULED_TZHAAR_HEAD_13499
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 7
+  maximumAmount: 59
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: ONYX_BOLT_TIPS
-  minimumAmount: 1
-  maximumAmount: 4
-  chance: 46
-  rareDrop: false
-  sendToBank: false
+rolls: 1

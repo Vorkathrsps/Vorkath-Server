@@ -1,15 +1,7 @@
 npcId:
-- 2514
-- 2517
-- 2515
-- 2518
-- 2516
-- 2519
-- 6608
 - 7257
-- 7864
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -17,280 +9,455 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: REWARD_CASKET_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
-- item: ADAMANT_ARROW
-  minimumAmount: 4
-  maximumAmount: 14
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: BLACK_KNIFE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 66
   rareDrop: false
   sendToBank: false
-- item: BLACK_ROBE
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 50
+  chance: 133
   rareDrop: false
   sendToBank: false
-- item: DEATH_RUNE
-  minimumAmount: 10
-  maximumAmount: 25
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 10
-  maximumAmount: 25
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: BLOOD_RUNE
-  minimumAmount: 50
-  maximumAmount: 75
-  chance: 55
-  rareDrop: false
-  sendToBank: false
-- item: LAW_RUNE
-  minimumAmount: 40
-  maximumAmount: 110
-  chance: 55
-  rareDrop: false
-  sendToBank: false
-- item: BELLADONNA_SEED
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 266
   rareDrop: false
   sendToBank: false
-- item: CACTUS_SEED
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 711
   rareDrop: false
   sendToBank: false
-- item: IRIT_SEED
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 711
   rareDrop: false
   sendToBank: false
-- item: KWUARM_SEED
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 1066
   rareDrop: false
   sendToBank: false
-- item: LIMPWURT_SEED
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2133
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 2133
   rareDrop: false
   sendToBank: false
-- item: MARRENTILL_SEED
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 2133
   rareDrop: false
   sendToBank: false
-- item: POISON_IVY_SEED
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 12800
   rareDrop: false
   sendToBank: false
-- item: STRAWBERRY_SEED
+- item: SHIELD_LEFT_HALF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
+  chance: 25600
   rareDrop: false
   sendToBank: false
-- item: TARROMIN_SEED
+- item: DRAGON_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 71
-  rareDrop: false
-  sendToBank: false
-- item: TOADFLAX_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 71
-  rareDrop: false
-  sendToBank: false
-- item: WHITEBERRY_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 71
-  rareDrop: false
-  sendToBank: false
-- item: HARRALANDER_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 143
-  rareDrop: false
-  sendToBank: false
-- item: NASTURTIUM_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 143
-  rareDrop: false
-  sendToBank: false
-- item: AVANTOE_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 143
-  rareDrop: false
-  sendToBank: false
-- item: DWARF_WEED_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 143
-  rareDrop: false
-  sendToBank: false
-- item: JANGERBERRY_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: MUSHROOM_SPORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: WATERMELON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: WILDBLOOD_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: RANARR_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: LANTADYME_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: SNAPDRAGON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: TORSTOL_SEED
-  minimumAmount: 1
-  maximumAmount: 1 
-  chance: 430
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
+  chance: 34136
   rareDrop: false
   sendToBank: false
 - item: GRIMY_MARRENTILL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 59
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 79
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 101
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_KWUARM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
+  chance: 129
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 177
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 237
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 284
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 135
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_DWARF_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 135
+  chance: 355
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 135
+  chance: 474
   rareDrop: false
   sendToBank: false
-- item: FEATHER
-  minimumAmount: 150
-  maximumAmount: 300
-  chance: 16
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 474
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_KNIFE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: LIMPWURT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 255
+  rareDrop: false
+  sendToBank: false
+- item: STRAWBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 266
+  rareDrop: false
+  sendToBank: false
+- item: MARRENTILL_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 279
+  rareDrop: false
+  sendToBank: false
+- item: JANGERBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 379
+  rareDrop: false
+  sendToBank: false
+- item: TARROMIN_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 410
+  rareDrop: false
+  sendToBank: false
+- item: WILDBLOOD_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 420
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 554
+  rareDrop: false
+  sendToBank: false
+- item: HARRALANDER_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 623
+  rareDrop: false
+  sendToBank: false
+- item: SNAPE_GRASS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 873
+  rareDrop: false
+  sendToBank: false
+- item: RANARR_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 895
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_ROBE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: WHITEBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1027
+  rareDrop: false
+  sendToBank: false
+- item: MUSHROOM_SPORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1204
+  rareDrop: false
+  sendToBank: false
+- item: TOADFLAX_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1293
+  rareDrop: false
+  sendToBank: false
+- item: BELLADONNA_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1940
+  rareDrop: false
+  sendToBank: false
+- item: IRIT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1940
+  rareDrop: false
+  sendToBank: false
+- item: POISON_IVY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2687
+  rareDrop: false
+  sendToBank: false
+- item: AVANTOE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2911
+  rareDrop: false
+  sendToBank: false
+- item: CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2911
+  rareDrop: false
+  sendToBank: false
+- item: KWUARM_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3881
+  rareDrop: false
+  sendToBank: false
+- item: POTATO_CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4366
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_ARROW
+  minimumAmount: 5
+  maximumAmount: 14
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2620
+  rareDrop: false
+  sendToBank: false
+- item: CADANTINE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3275
+  rareDrop: false
+  sendToBank: false
+- item: LANTADYME_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4366
+  rareDrop: false
+  sendToBank: false
+- item: DWARF_WEED_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6550
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13100
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: NOTED_RUNE_ESSENCE
-  minimumAmount: 150
-  maximumAmount: 150
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: TUNA
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 33
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 6
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_ORE
-  minimumAmount: 5
+  minimumAmount: 3
+  maximumAmount: 7
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 8
   maximumAmount: 8
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5
+  maximumAmount: 204
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5
+  maximumAmount: 5
   chance: 33
   rareDrop: false
   sendToBank: false
-- item: PRAYER_POTION3
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 60
+- item: DARK_FISHING_BAIT
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 1
   rareDrop: false
   sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: LEFT_SKULL_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: BASS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: WEAPON_POISON
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: FRIED_MUSHROOMS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 11
+  maximumAmount: 11
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 75
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_SHARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 97
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_BASE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 146
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_MIDDLE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 146
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 146
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 44
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,60 +1,127 @@
 npcId:
 - 3165
-petItem: "null"
-petRarity: 0
-alwaysDrops: []
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 1
+  maximumAmount: 11
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
-- item: ARMADYL_HELMET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1500
-  rareDrop: true
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 1100
+  chance: 56
+  rareDrop: false
   sendToBank: false
-- item: ARMADYL_CHESTPLATE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1500
-  rareDrop: true
+- item: STEEL_ARROW
+  minimumAmount: 91
+  maximumAmount: 101
+  chance: 6
+  rareDrop: false
   sendToBank: false
-- item: ARMADYL_CHAINSKIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1500
-  rareDrop: true
+- item: STEEL_DART
+  minimumAmount: 91
+  maximumAmount: 101
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SMOKE_RUNE
+  minimumAmount: 10
+  maximumAmount: 15
+  chance: 5
+  rareDrop: false
   sendToBank: false
 - item: MANTA_RAY
   minimumAmount: 2
   maximumAmount: 2
-  chance: 8
+  chance: 5
   rareDrop: false
   sendToBank: false
 - item: MUSHROOM_POTATO
   minimumAmount: 3
   maximumAmount: 3
-  chance: 8
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 1100
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_CRUSHED_NEST
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ARMADYL_HELMET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5376
+  rareDrop: true
+  sendToBank: false
+- item: ARMADYL_CHESTPLATE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5376
+  rareDrop: true
+  sendToBank: false
+- item: ARMADYL_CHAINSKIRT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5376
+  rareDrop: true
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 1100
+  chance: 43
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 150
+  chance: 508
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 150
+  chance: 508
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 150
+  chance: 508
   rareDrop: false
   sendToBank: false
-- item: CRUSHED_NEST
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 4
-  rareDrop: false
-  sendToBank: false
+rolls: 1

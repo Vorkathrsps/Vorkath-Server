@@ -1,171 +1,199 @@
 npcId:
-- 4443
 - 4486
-- 3694
-- 3695
-- 4427
-- 4428
-- 4429
-- 4430
-- 4487
-- 4442
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
 - item: BLACK_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_SCIMITAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_LONGSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_AXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
-  rareDrop: false
-  sendToBank: false
-- item: STAFF_OF_AIR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 138
-  rareDrop: false
-  sendToBank: false
-- item: STAFF_OF_FIRE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 138
-  rareDrop: false
-  sendToBank: false
-- item: BLACK_SPEAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 138
-  rareDrop: false
-  sendToBank: false
-- item: BLACK_2H_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 138
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 138
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_WARHAMMER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 138
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 138
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_MACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 138
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 138
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: STEEL_PLATESKIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: STEEL_PLATEBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: BLACK_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: BLACK_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: BLACK_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: BLACK_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 118
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: BLACK_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 118
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 118
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 118
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 118
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: WILLOW_LOGS
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: YEW_LOGS
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUBY_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_MEDIUM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: STAFF_OF_AIR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: STAFF_OF_FIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

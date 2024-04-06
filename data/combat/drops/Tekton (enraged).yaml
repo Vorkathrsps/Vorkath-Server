@@ -1,0 +1,43 @@
+npcId:
+- 7543
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: TEKTONS_JOURNAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: STINKHORN_MUSHROOM
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: OVERLOAD_4_20996
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_ENHANCE_4_20972
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: REVITALISATION_4_20960
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ONYX
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 150
+  rareDrop: false
+  sendToBank: false
+rolls: 1

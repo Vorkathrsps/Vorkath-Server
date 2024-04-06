@@ -1,8 +1,7 @@
 npcId:
 - 4362
-- 4363
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BIG_BONES
   minimumAmount: 1
@@ -11,57 +10,172 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: MARRENTILL_SEED
+- item: SNAPE_GRASS_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 58
   rareDrop: false
   sendToBank: false
-- item: HARRALANDER_SEED
+- item: RANARR_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 60
   rareDrop: false
   sendToBank: false
-- item: WILDBLOOD_SEED
+- item: WHITEBERRY_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 69
   rareDrop: false
   sendToBank: false
-- item: POISON_IVY_SEED
+- item: MUSHROOM_SPORE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: LIMPWURT_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: WATERMELON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 9
-  rareDrop: false
-  sendToBank: false
-- item: LANTADYME_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: TORSTOL_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
+  chance: 81
   rareDrop: false
   sendToBank: false
 - item: TOADFLAX_SEED
   minimumAmount: 1
   maximumAmount: 1
+  chance: 87
+  rareDrop: false
+  sendToBank: false
+- item: BELLADONNA_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 130
+  rareDrop: false
+  sendToBank: false
+- item: IRIT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 130
+  rareDrop: false
+  sendToBank: false
+- item: POISON_IVY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 181
+  rareDrop: false
+  sendToBank: false
+- item: AVANTOE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 196
+  rareDrop: false
+  sendToBank: false
+- item: CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 196
+  rareDrop: false
+  sendToBank: false
+- item: LIMPWURT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: KWUARM_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 261
+  rareDrop: false
+  sendToBank: false
+- item: POTATO_CACTUS_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 294
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 470
+  rareDrop: false
+  sendToBank: false
+- item: CADANTINE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 588
+  rareDrop: false
+  sendToBank: false
+- item: LANTADYME_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 784
+  rareDrop: false
+  sendToBank: false
+- item: DWARF_WEED_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1176
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2353
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_OGRE_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+- item: STRAWBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: MARRENTILL_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: JANGERBERRY_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: TARROMIN_SEED
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 27
   rareDrop: false
   sendToBank: false
+- item: WILDBLOOD_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: HARRALANDER_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,15 +1,7 @@
 npcId:
 - 241
-- 242
-- 243
-- 244
-- 245
-- 246
-- 5194
-- 5872
-- 5873
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BABYDRAGON_BONES
   minimumAmount: 1
@@ -17,4 +9,17 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: BABY_DRAGON_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 213
+  rareDrop: false
+  sendToBank: false
+rolls: 1

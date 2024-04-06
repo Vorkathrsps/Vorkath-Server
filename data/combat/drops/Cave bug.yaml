@@ -1,157 +1,163 @@
 npcId:
 - 481
-- 483
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: WATER_BATTLESTAFF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 4
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_TARROMIN
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_HARRALANDER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 44
+- item: EARTH_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 29
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 39
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 47
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 59
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
+  chance: 79
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 44
-  rareDrop: false
-  sendToBank: false
-- item: EARTH_RUNE
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: WATER_RUNE
-  minimumAmount: 8
-  maximumAmount: 8
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: NATURE_RUNE
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: TINDERBOX
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 40
+  chance: 79
   rareDrop: false
   sendToBank: false
 - item: UNICORN_HORN_DUST
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
-  rareDrop: false
-  sendToBank: false
-- item: SWAMP_WEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 40
-  rareDrop: false
-  sendToBank: false
-- item: SWAMP_WEED
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 40
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: EYE_OF_NEWT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: LIMPWURT_ROOT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: SNAPE_GRASS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: RED_SPIDERS_EGGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: CANDLE_LANTERN
+- item: COINS_995
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: TINDERBOX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: EMPTY_CANDLE_LANTERN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: CANDLE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 40
+  chance: 8
   rareDrop: false
   sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,7 +1,7 @@
 npcId:
 - 3605
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -11,25 +11,7 @@ alwaysDrops:
   sendToBank: false
 - item: EYE_OF_NEWT
   minimumAmount: 4
-  maximumAmount: 4
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: EYE_OF_NEWT
-  minimumAmount: 6
-  maximumAmount: 6
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: EYE_OF_NEWT
-  minimumAmount: 8
-  maximumAmount: 8
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: EYE_OF_NEWT
-  minimumAmount: 12
-  maximumAmount: 12
+  maximumAmount: 10
   chance: 1
   rareDrop: false
   sendToBank: false
@@ -37,7 +19,7 @@ drops:
 - item: TEA_FLASK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2
+  chance: 3
   rareDrop: false
   sendToBank: false
 - item: RUNE_SATCHEL
@@ -46,3 +28,4 @@ drops:
   chance: 2
   rareDrop: false
   sendToBank: false
+rolls: 1

@@ -1,129 +1,157 @@
 npcId:
 - 3160
-- 2211
-- 2242
-- 3167
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: MITHRIL_ARROWP_5619
+- item: OAK_SHORTBOW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_ARROW
-  minimumAmount: 1
-  maximumAmount: 12
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: IRON_ARROW
-  minimumAmount: 1
-  maximumAmount: 24
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_ARROW
-  minimumAmount: 1
-  maximumAmount: 58
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_ARROWP_5616
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 24
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: BODY_RUNE
-  minimumAmount: 1
+  minimumAmount: 12
   maximumAmount: 12
-  chance: 24
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: RUNE_ARROW
-  minimumAmount: 1
+  minimumAmount: 5
   maximumAmount: 5
-  chance: 24
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_ARROW
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 72
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_ARROWP_5626
-  minimumAmount: 1
-  maximumAmount: 15
-  chance: 72
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_FIRE_ARROW
-  minimumAmount: 3
+  minimumAmount: 4
   maximumAmount: 4
-  chance: 72
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: HEADLESS_ARROW
   minimumAmount: 12
   maximumAmount: 12
-  chance: 14
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: IRON_ARROWTIPS
   minimumAmount: 5
   maximumAmount: 5
-  chance: 14
+  chance: 3
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_ARROWTIPS
-  minimumAmount: 1
+  minimumAmount: 13
   maximumAmount: 13
-  chance: 14
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: BOW_STRING
   minimumAmount: 7
   maximumAmount: 7
-  chance: 14
+  chance: 2
   rareDrop: false
   sendToBank: false
 - item: BROKEN_ARROW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: OAK_LONGBOW_U
-  minimumAmount: 1
-  maximumAmount: 12
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: OAK_SHORTBOW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: STEEL_CROSSBOW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: OAK_LONGBOW_U
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ECUMENICAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 83
   rareDrop: false
   sendToBank: false
 - item: MAPLE_LONGBOW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MAGIC_SHORTBOW
   minimumAmount: 1
   maximumAmount: 2
-  chance: 28
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: MITHRIL_ARROWP_5619
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ARROW
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROWP_5616
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

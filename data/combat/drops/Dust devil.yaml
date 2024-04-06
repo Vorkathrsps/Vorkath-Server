@@ -1,8 +1,7 @@
 npcId:
-- 423
 - 7249
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -11,201 +10,286 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: RUNE_ARROW
-  minimumAmount: 15
-  maximumAmount: 45
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANT_AXE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: RUNE_DAGGER
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 31
   rareDrop: false
   sendToBank: false
-- item: RED_DHIDE_VAMBRACES
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 62
   rareDrop: false
   sendToBank: false
-- item: BLACK_DHIDE_VAMBRACES
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 165
   rareDrop: false
   sendToBank: false
-- item: AIR_BATTLESTAFF
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 165
   rareDrop: false
   sendToBank: false
-- item: EARTH_BATTLESTAFF
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 248
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_AIR_STAFF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 45
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 496
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_EARTH_STAFF
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 45
+  chance: 496
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 496
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2978
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5957
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7944
   rareDrop: false
   sendToBank: false
 - item: DRAGON_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 244
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: DUST_BATTLESTAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 1333
   rareDrop: false
   sendToBank: false
 - item: DRAGON_CHAINBODY_3140
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 4096
   rareDrop: false
   sendToBank: false
 - item: DUST_RUNE
   minimumAmount: 200
-  maximumAmount: 2000
-  chance: 28
+  maximumAmount: 200
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: EARTH_RUNE
   minimumAmount: 300
-  maximumAmount: 3000
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 50
-  maximumAmount: 500
-  chance: 28
+  maximumAmount: 300
+  chance: 4
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 300
-  maximumAmount: 500
-  chance: 28
+  maximumAmount: 300
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 80
-  maximumAmount: 800
-  chance: 28
+  maximumAmount: 80
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_ARROW
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: SOUL_RUNE
   minimumAmount: 20
   maximumAmount: 20
-  chance: 28
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: SOUL_RUNE
   minimumAmount: 50
   maximumAmount: 50
-  chance: 28
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 8
   rareDrop: false
   sendToBank: false
 - item: GRIMY_MARRENTILL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 11
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 15
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 20
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 26
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 47
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 57
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 71
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 95
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 95
   rareDrop: false
   sendToBank: false
-- item: UGTHANKI_KEBAB
+- item: COINS_995
+  minimumAmount: 2000
+  maximumAmount: 4000
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: UGTHANKI_KEBAB_1885
   minimumAmount: 4
   maximumAmount: 4
-  chance: 8
+  chance: 21
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_BAR
   minimumAmount: 10
   maximumAmount: 10
-  chance: 8
+  chance: 14
   rareDrop: false
   sendToBank: false
 - item: NOTED_ADAMANTITE_BAR
   minimumAmount: 4
   maximumAmount: 4
-  chance: 25
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: RED_DHIDE_VAMBRACES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_DHIDE_VAMBRACES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: AIR_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_AIR_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_EARTH_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

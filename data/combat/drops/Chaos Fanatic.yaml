@@ -1,7 +1,7 @@
 npcId:
 - 6619
-petItem: PET_CHAOS_ELEMENTAL
-petRarity: 1000
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -9,34 +9,191 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: COINS_995
+drops:
+- item: FIRE_RUNE
   minimumAmount: 250
-  maximumAmount: 30000
-  chance: 1
+  maximumAmount: 250
+  chance: 10
   rareDrop: false
   sendToBank: false
-drops:
-- item: PET_CHAOS_ELEMENTAL
+- item: SMOKE_RUNE
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 175
+  maximumAmount: 175
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: MONKFISH
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 5
   rareDrop: false
   sendToBank: false
-- item: BLESSED_SPIRIT_SHIELD
+- item: PRAYER_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ANCHOVY_PIZZA
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 499
+  maximumAmount: 3998
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_LANTADYME
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: ODIUM_SHARD_1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: RING_OF_LIFE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
   chance: 7
   rareDrop: false
   sendToBank: false
-- item: ODIUM_WARD_12807
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 5
+- item: NOTED_WINE_OF_ZAMORAK
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: MALEDICTION_WARD_12806
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 5
+- item: NOTED_UNCUT_EMERALD
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 8
   rareDrop: false
   sendToBank: false
+- item: NOTED_UNCUT_SAPPHIRE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SINISTER_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 250
+  maximumAmount: 250
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: MALEDICTION_SHARD_1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_BATTLESTAFF
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SPLITBARK_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 26
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: PET_CHAOS_ELEMENTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 333
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SPLITBARK_LEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_MONK_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_MONK_BOTTOM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

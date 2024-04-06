@@ -519,15 +519,15 @@ public class Player extends Entity {
         long risked = ItemsKeptOnDeath.getLostItemsValue();
         String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
         player.getPacketSender().sendString(80055, "Valor Information");
-        player.getPacketSender().sendString(80059, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
-        player.getPacketSender().sendString(80060, "Players In Wild: " + "@whi@" + World.getWorld().getPlayersInWild());
-        player.getPacketSender().sendString(80061, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
-        player.getPacketSender().sendString(80062, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
-        player.getPacketSender().sendString(80063, "Total Risk: " + "@whi@" + formatted);
-        player.getPacketSender().sendString(80064, "Drop Rate: " + "@whi@" + Utils.formatpercent(player.getDropRateBonus()));
-        player.getPacketSender().sendString(80065, "Tournament: " + "@whi@" + QuestTabUtils.getFormattedTournamentTime());
-        player.getPacketSender().sendString(80066, "Wild Activity: " + "@whi@" + WildernessActivityManager.getSingleton().getActivityDescription());
-        player.getPacketSender().sendString(80067, "Wilderness Boss: " + "@whi@" + minutesTillWildyBoss + " Minutes");
+        player.getPacketSender().sendString(80059, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
+        player.getPacketSender().sendString(80060, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
+        player.getPacketSender().sendString(80061, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
+        player.getPacketSender().sendString(80062, "Players In Wild: " + "@whi@" + World.getWorld().getPlayersInWild());
+        //player.getPacketSender().sendString(80064, "Total Risk: " + "@whi@" + formatted);
+        player.getPacketSender().sendString(80063, "Drop Rate: " + "@whi@" + Utils.formatpercent(player.getDropRateBonus()));
+        player.getPacketSender().sendString(80064, "Tournament: " + "@whi@" + QuestTabUtils.getFormattedTournamentTime());
+        player.getPacketSender().sendString(80065, "Wild Activity: " + "@whi@" + WildernessActivityManager.getSingleton().getActivityDescription());
+        player.getPacketSender().sendString(80066, "Wilderness Boss: " + "@whi@" + minutesTillWildyBoss + " Minutes");
     }
 
     public void healPlayer() {
@@ -554,6 +554,7 @@ public class Player extends Entity {
     public boolean isPerformingAction() {
         return this.hasAttrib(PERFORMING_ACTION);
     }
+
     public void setPerformingAction(boolean value) {
         this.putAttrib(PERFORMING_ACTION, value);
     }

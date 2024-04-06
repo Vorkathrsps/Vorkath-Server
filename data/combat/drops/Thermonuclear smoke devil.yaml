@@ -1,156 +1,355 @@
 npcId:
 - 499
-petItem: PET_SMOKE_DEVIL
+petItem: null
 petRarity: 2000
 alwaysDrops:
 - item: ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 drops:
-- item: OCCULT_NECKLACE
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
-  rareDrop: true
+  chance: 71
+  rareDrop: false
   sendToBank: false
-- item: SMOKE_BATTLESTAFF
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 400
-  rareDrop: true
+  chance: 142
+  rareDrop: false
   sendToBank: false
-- item: DRAGON_CHAINBODY
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
+  chance: 285
   rareDrop: false
   sendToBank: false
-- item: NOTED_ASHES
-  minimumAmount: 200
-  maximumAmount: 1000
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_PURE_ESSENCE
-  minimumAmount: 100
-  maximumAmount: 1000
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MOLTEN_GLASS
-  minimumAmount: 100
-  maximumAmount: 200
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_MITHRIL_BAR
-  minimumAmount: 10
-  maximumAmount: 30
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_COAL
-  minimumAmount: 100
-  maximumAmount: 199
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: TOME_OF_FIRE
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 250
+  chance: 760
   rareDrop: false
   sendToBank: false
-- item: RUNE_CHAINBODY
+- item: NATURE_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 760
   rareDrop: false
   sendToBank: false
-- item: RUNE_BATTLEAXE
+- item: UNCUT_DIAMOND
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 1141
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_AIR_STAFF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2282
   rareDrop: false
   sendToBank: false
-- item: MYSTIC_FIRE_STAFF
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 2282
   rareDrop: false
   sendToBank: false
-- item: ANCIENT_STAFF
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 2282
   rareDrop: false
   sendToBank: false
-- item: RUNE_SCIMITAR
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 32
+  chance: 13696
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 27392
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 36525
   rareDrop: false
   sendToBank: false
 - item: DRAGON_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: OCCULT_NECKLACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 116
+  rareDrop: false
+  sendToBank: false
+- item: SMOKE_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_CHAINBODY_3140
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
   rareDrop: false
   sendToBank: false
 - item: SMOKE_RUNE
   minimumAmount: 100
-  maximumAmount: 150
-  chance: 15
+  maximumAmount: 100
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: SOUL_RUNE
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_ARROW
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: UGTHANKI_KEBAB_1885
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: RUNE_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 7
   rareDrop: false
   sendToBank: false
-- item: NOTED_MAGIC_LOGS
-  minimumAmount: 10
-  maximumAmount: 30
-  chance: 32
+- item: TUNA_POTATO
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 11
   rareDrop: false
   sendToBank: false
-- item: COINS_995
-  minimumAmount: 15000
-  maximumAmount: 25000
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: RUNE_ARROW
-  minimumAmount: 45
-  maximumAmount: 100
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DIAMOND
-  minimumAmount: 1
-  maximumAmount: 10
-  chance: 32
+- item: SANFEW_SERUM4
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 11
   rareDrop: false
   sendToBank: false
 - item: PRAYER_POTION4
-  minimumAmount: 1
+  minimumAmount: 2
   maximumAmount: 2
-  chance: 32
+  chance: 35
   rareDrop: false
   sendToBank: false
-- item: SUMMER_PIE
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MOLTEN_GLASS
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MITHRIL_BAR
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_COAL
+  minimumAmount: 150
+  maximumAmount: 150
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 200
+  maximumAmount: 200
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIAMOND
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_CHAINBODY
   minimumAmount: 1
-  maximumAmount: 3
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10000
+  maximumAmount: 20000
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: TINDERBOX
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: BULLSEYE_LANTERN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DESERT_GOAT_HORN
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_TOADFLAX
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRAPES
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: RED_DHIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONSTONE_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: CRYSTAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 32
   rareDrop: false
   sendToBank: false
+- item: CLUE_SCROLL_ELITE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: JAR_OF_SMOKE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
+  rareDrop: false
+  sendToBank: false
+- item: PET_SMOKE_DEVIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_AIR_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_FIRE_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_KNIFEP_5667
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+rolls: 1

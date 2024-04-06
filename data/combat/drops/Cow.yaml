@@ -1,12 +1,7 @@
 npcId:
-- 2790
-- 2791
-- 2793
-- 2795
 - 5842
-- 6401
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: COWHIDE
   minimumAmount: 1
@@ -26,4 +21,11 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-drops: []
+drops:
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

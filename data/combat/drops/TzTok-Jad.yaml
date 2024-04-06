@@ -1,73 +1,13 @@
 npcId:
-- 3127
 - 6506
-petItem: TZREKJAD
-petRarity: 1000
-alwaysDrops:
-- item: COINS_995
-  minimumAmount: 25
-  maximumAmount: 100
-  chance: 1
-  rareDrop: false
-  sendToBank: false
+petItem: null
+petRarity: 2000
+alwaysDrops: []
 drops:
 - item: TZREKJAD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 66
   rareDrop: false
   sendToBank: false
-- item: DARK_BOW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 6
-  rareDrop: false
-  sendToBank: false
-- item: GRANITE_MAUL_24225
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 7
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: BANDOS_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: SARADOMIN_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: ZAMORAK_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: ARMADYL_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 95
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_CLAWS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 95
-  rareDrop: false
-  sendToBank: false
-- item: INFERNAL_CAPE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 143
-  rareDrop: false
-  sendToBank: false
+rolls: 1

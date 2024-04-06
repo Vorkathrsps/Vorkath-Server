@@ -230,7 +230,7 @@ public class DropsDisplay {
             player.getPacketSender().sendString(56850 + index, "<col=ffb83f>" + amount);
             var val = item.stackable() && item.getAmount() > 0 ? maxAmount * item.getValue() : item.getValue();
             player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(val));
-            player.getPacketSender().sendString(57150 + index, "<col=ffb83f>" + (average == 1 ? "Always" : ("~ 1 / " + average)));
+            player.getPacketSender().sendString(57150 + index, "<col=ffb83f>" + (average == 1 ? "Always" : ("~ 1 / " + Utils.formatRunescapeStyle(average))));
         }
         return true;
     }

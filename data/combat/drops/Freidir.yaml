@@ -1,7 +1,7 @@
 npcId:
 - 3938
-petItem: "null"
-petRarity: 0
+petItem: null
+petRarity: 2000
 alwaysDrops:
 - item: BONES
   minimumAmount: 1
@@ -9,106 +9,305 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: COINS_995
+  minimumAmount: 40
+  maximumAmount: 40
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
-- item: BRONZE_WARHAMMER
+- item: UNCUT_SAPPHIRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 682
   rareDrop: false
   sendToBank: false
-- item: IRON_WARHAMMER
+- item: UNCUT_EMERALD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 1365
   rareDrop: false
   sendToBank: false
-- item: COAL
+- item: UNCUT_RUBY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 2730
   rareDrop: false
   sendToBank: false
-- item: STEEL_BAR
+- item: CHAOS_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 2730
   rareDrop: false
   sendToBank: false
-- item: IRON_ORE
+- item: NATURE_TALISMAN
   minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4096
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
   maximumAmount: 5
-  chance: 20
+  chance: 8192
   rareDrop: false
   sendToBank: false
-- item: TIN_ORE
-  minimumAmount: 1
-  maximumAmount: 5
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: COPPER_ORE
-  minimumAmount: 1
-  maximumAmount: 5
-  chance: 20
-  rareDrop: false
-  sendToBank: false
-- item: GRIMY_GUAM_LEAF
+- item: LOOP_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 8192
   rareDrop: false
   sendToBank: false
-- item: GRIMY_MARRENTILL
+- item: TOOTH_HALF_OF_KEY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 8192
   rareDrop: false
   sendToBank: false
-- item: GRIMY_TARROMIN
+- item: RUNE_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 131072
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 262144
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 349552
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
+  chance: 156
   rareDrop: false
   sendToBank: false
-- item: VIAL_OF_WATER
+- item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 198
   rareDrop: false
   sendToBank: false
-- item: BUCKET
+- item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 273
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 364
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 436
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 546
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 728
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 728
+  rareDrop: false
+  sendToBank: false
+- item: COPPER_ORE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: TIN_ORE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_WARHAMMER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: COAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 38
+  maximumAmount: 38
+  chance: 34
   rareDrop: false
   sendToBank: false
 - item: TINDERBOX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: VIAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: IRON_WARHAMMER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: VIAL_OF_WATER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: BUCKET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: LYRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 5
   rareDrop: false
   sendToBank: false
-- item: JANGERBERRIES
+- item: BEER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 37
+  chance: 85
   rareDrop: false
   sendToBank: false
 - item: EYE_OF_NEWT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 112
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: SNAPE_GRASS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: JANGERBERRIES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: BLAMISH_OIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: FREMENNIK_BLADE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_EASY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FREMENNIK_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: FREMENNIK_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 68
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 91
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 121
+  rareDrop: false
+  sendToBank: false
+rolls: 1

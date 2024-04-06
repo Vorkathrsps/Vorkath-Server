@@ -1,84 +1,145 @@
 npcId:
-- 4800
-petItem: "null"
-petRarity: 0
+- 2994
+petItem: null
+petRarity: 2000
 alwaysDrops: []
 drops:
-- item: EDIBLE_SEAWEED
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: OYSTER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: OYSTER
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: FISHING_BAIT
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: SEAWEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: DEAD_SEA_SLUG
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
 - item: BRONZE_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: IRON_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
+  chance: 7
   rareDrop: false
   sendToBank: false
 - item: COPPER_ORE
   minimumAmount: 3
   maximumAmount: 3
-  chance: 16
+  chance: 21
   rareDrop: false
   sendToBank: false
-- item: TIN_ORE
+- item: OYSTER
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: OYSTER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: EMPTY_OYSTER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: EMPTY_OYSTER
   minimumAmount: 3
   maximumAmount: 3
-  chance: 49
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: IRON_ORE
+- item: OYSTER_PEARL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 42
   rareDrop: false
   sendToBank: false
-- item: ENSOULED_SCORPION_HEAD_13460
+- item: COINS_995
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 36
+  maximumAmount: 36
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: IRON_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: OPAL_BOLT_TIPS
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: DEAD_SEA_SLUG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: SPINACH_ROLL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
   rareDrop: false
   sendToBank: false
 - item: CASKET
   minimumAmount: 1
   maximumAmount: 1
-  chance: 49
+  chance: 42
   rareDrop: false
   sendToBank: false
+- item: SEAWEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SEAWEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SEAWEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EDIBLE_SEAWEED
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: TIN_ORE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: COAL
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

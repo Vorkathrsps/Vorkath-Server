@@ -88,3 +88,4 @@ drops:
     chance: 10
     rareDrop: false
     sendToBank: false
+rolls: 1

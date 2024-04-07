@@ -3008,6 +3008,47 @@ CombatSpells {
             return MagicSpellbook.NORMAL;
         }
     }),
+    THAMMARON_SCEPTRE(new CombatNormalSpell() {
+        @Override
+        public String name() {
+            return "Thammaron Spell";
+        }
+
+        @Override
+        public int baseMaxHit() {
+            return 25;
+        }
+
+        @Override
+        public int baseExperience() {
+            return 11;
+        }
+
+        @Override
+        public List<Item> equipmentRequired(Player player) {
+            return List.of(new Item(THAMMARONS_SCEPTRE));
+        }
+
+        @Override
+        public List<Item> itemsRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public int levelRequired() {
+            return 70;
+        }
+
+        @Override
+        public int spellId() {
+            return 9354;
+        }
+
+        @Override
+        public MagicSpellbook spellbook() {
+            return MagicSpellbook.NORMAL;
+        }
+    }),
     DAWNBRINGER(new CombatNormalSpell() {
         @Override
         public String name() {

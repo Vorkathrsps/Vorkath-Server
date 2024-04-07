@@ -61,7 +61,7 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
         player.setPerformingAction(true);
         var x = player.tile().getX();
         var y = player.tile().getY();
-        int transformX = x == 1303 ? -2 : x == 1301 ? 2 : 0;
+        int transformX = x == 1303 ? -2 : x == 1301 ? 2 : x == 1320 ? 2 : x == 1322 ? -2 : 0;
         int transformY = y == 10214 ? 2 : y == 10216 ? -2 : 0;
         int face = transformX == -2 ? 3 : transformX == 2 ? 1 : transformY == 2 ? 0 : 4;
         ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(transformX, transformY), 30, 45, 839, face);

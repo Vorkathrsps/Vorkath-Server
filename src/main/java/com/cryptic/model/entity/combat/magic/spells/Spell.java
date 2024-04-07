@@ -136,6 +136,7 @@ public abstract class Spell {
                     combatSpell == CombatSpells.TUMEKENS_SHADOW.getSpell() ||
                     combatSpell == CombatSpells.DAWNBRINGER.getSpell() ||
                     combatSpell == CombatSpells.STARTER_STAFF.getSpell() ||
+                    combatSpell == CombatSpells.THAMMARON_SCEPTRE.getSpell() ||
                     combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
 
             final CombatSpell finalCombatSpell = combatSpell;

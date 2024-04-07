@@ -1550,16 +1550,13 @@ public class CombatFactory {
         Entity target = player.getCombat().getTarget();
 
         boolean targ_is_dummy = false;
-        if (target instanceof NPC) {
-            NPC npc = (NPC) target;
-
-            if (npc.isCombatDummy()) {
-                targ_is_dummy = true;
-            }
+        if (target instanceof NPC npc) {
+            if (npc.isCombatDummy()) targ_is_dummy = true;
         }
         boolean blowpipe = rangedWeapon == RangedWeapon.TOXIC_BLOWPIPE;
         boolean cryBow = rangedWeapon == RangedWeapon.CRYSTAL_BOW;
         boolean bowOfFaerdhinen = rangedWeapon == RangedWeapon.BOW_OF_FAERDHINEN;
+        boolean starterbow = rangedWeapon == RangedWeapon.STARTER_BOW;
         boolean crawsBow = rangedWeapon == RangedWeapon.CRAWS_BOW;
         boolean webWeaverBow = rangedWeapon == RangedWeapon.WEBWEAVER_BOW;
         boolean chins = rangedWeapon == RangedWeapon.CHINCHOMPA;
@@ -1568,7 +1565,7 @@ public class CombatFactory {
         boolean knifes = rangedWeapon.getType() == RangedWeaponType.KNIVES;
         boolean ballista = rangedWeapon.getType() == RangedWeaponType.BALLISTA;
 
-        if (!blowpipe && !cryBow && !bowOfFaerdhinen && !crawsBow && !webWeaverBow && !targ_is_dummy) {
+        if (!blowpipe && !cryBow && !bowOfFaerdhinen && !starterbow && !crawsBow && !webWeaverBow && !targ_is_dummy) {
 
             // Determine which slot we are decrementing ammo from.
             int equipSlot = (chins || darts || knifes || axes) ? EquipSlot.WEAPON : EquipSlot.AMMO;

@@ -1664,6 +1664,8 @@ public class Player extends Entity {
             this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else if (getEquipment().hasAt(EquipSlot.WEAPON, STARTER_STAFF)) {
             this.getCombat().setPoweredStaffSpell(CombatSpells.STARTER_STAFF.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, THAMMARONS_SCEPTRE)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.THAMMARON_SCEPTRE.getSpell());
         }
     }
 

@@ -9,9 +9,7 @@ public class DagannothRexCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(8)) {
-            return false;
-        }
+        if (!withinDistance(1)) return false;
         entity.animate(2853);
         new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         return true;

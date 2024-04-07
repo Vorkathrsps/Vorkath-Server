@@ -7,7 +7,7 @@ public enum CbowReqs {
     //CROSSBOWS
     CROSSBOW(9174, "Bronze bolts"),
     BLURITE_CROSSBOW(9174, "Bronze bolts", "Blurite bolts", "Iron bolts"), //877,    9139, 9140
-    DORGESHUUN_CBOW(9174, "Bone bolts"),
+    DORGESHUUN_CBOW(8880, "Bone bolts"),
     BRONZE_CROSSBOW(9174, "Bronze bolts", "Opal bolts"),
     IRON_CROSSBOW(9177, Arrays.deepToString(BRONZE_CROSSBOW.getAmmo()), "Iron bolts"),
     STEEL_CROSSBOW(9179, Arrays.deepToString(IRON_CROSSBOW.getAmmo()), "Steel bolts", "Topaz bolts"),

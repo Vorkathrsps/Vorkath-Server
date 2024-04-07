@@ -587,6 +587,8 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, STARTER_STAFF)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.STARTER_STAFF.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, THAMMARONS_SCEPTRE)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.THAMMARON_SCEPTRE.getSpell());
         } else {
             player.getCombat().setPoweredStaffSpell(null);
         }

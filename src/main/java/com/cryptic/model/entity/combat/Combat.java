@@ -63,6 +63,7 @@ public class Combat {
         CombatSpells.TUMEKENS_SHADOW.getSpell(),
         CombatSpells.DAWNBRINGER.getSpell(),
         CombatSpells.ACCURSED_SCEPTRE.getSpell(),
+        CombatSpells.THAMMARON_SCEPTRE.getSpell(),
         CombatSpells.STARTER_STAFF.getSpell()
     };
 

@@ -16996,6 +16996,26 @@
     },
     "ge_limit": 70
   },
+  "20431": {
+    "name": "Ancient staff",
+    "weight": 2.267,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "astab": 10,
+      "aslash": -1,
+      "acrush": 40,
+      "amagic": 15,
+      "dstab": 2,
+      "dslash": 3,
+      "dcrush": 1,
+      "dmagic": 15,
+      "str": 50,
+      "prayer": -1,
+      "aspeed": 4
+    },
+    "ge_limit": 70
+  },
   "4677": {
     "name": "Catspeak amulet",
     "weight": 1.36,

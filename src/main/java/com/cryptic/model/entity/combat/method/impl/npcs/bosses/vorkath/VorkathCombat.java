@@ -72,8 +72,7 @@ public class VorkathCombat extends CommonCombatMethod {
             return false;
         }
 
-        if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0)
-            return false;
+        if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0) return false;
 
         int count = entity.getAttribOr(VORKATH_NORMAL_ATTACK_COUNT, 6);
         int attackType;
@@ -342,7 +341,7 @@ public class VorkathCombat extends CommonCombatMethod {
         entity.animate(FIREBALL_SPIT_ATTACK_ANIMATION);
         setPoison();
         entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 27);
-        entity.runUninterruptable(3, this::startSpitBall);
+        Chain.noCtx().runFn(3, this::startSpitBall);
     }
 
     private void startSpitBall() {

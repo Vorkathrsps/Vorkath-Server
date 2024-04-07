@@ -2950,7 +2950,8 @@
   {
     // Giant Spider (cb 2)
     "ids": [
-      3017
+      3017,
+      3018
     ],
     "maxhit": 1,
     "slayerxp": 2,

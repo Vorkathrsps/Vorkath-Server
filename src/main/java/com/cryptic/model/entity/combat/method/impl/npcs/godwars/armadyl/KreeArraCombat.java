@@ -10,13 +10,12 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
+import lombok.Getter;
 
 public class KreeArraCombat extends CommonCombatMethod {
+    @Getter
     private static final Area ENCAMPMENT = new Area(2823, 5295, 2843, 5309);
 
-    public static Area getENCAMPMENT() {
-        return ENCAMPMENT;
-    }
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(8)) return false;
@@ -28,8 +27,10 @@ public class KreeArraCombat extends CommonCombatMethod {
 
         switch (roll) {
             case 0 -> {
-                if (!withinDistance(1)) return false;
-                melee();
+                if (target.getCombat().getTarget() == this.entity) return false;
+                if (withinDistance(1)) {
+                    melee();
+                }
             }
             case 1 -> {
                 if (!withinDistance(8)) return false;

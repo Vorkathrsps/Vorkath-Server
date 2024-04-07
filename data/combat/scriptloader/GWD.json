@@ -1270,6 +1270,7 @@
     "attackspeed": 5,
     "aggressive": true,
     "retaliates": false,
+    "combattype": "MELEE",
     "aggroradius": 50,
     "stats": {
       "attack": 124,

@@ -29,11 +29,11 @@ public class PrayerDamage implements DamageEffectListener {
                 if (hit.prayerIgnored) return false;
                 var damage = hit.getDamage();
                 if (damage <= 0) return false;
-                if (meleePrayer || rangedPrayer || magicPrayer) {
+                if ((meleePrayer || rangedPrayer || magicPrayer)) {
                     if (entity instanceof NPC npc) {
                         for (String name : ignoredNegatedDamage) {
                             if (name.contains(npc.getMobName().toLowerCase())) {
-                                damage = (int) (1 + (damage * 0.66D));
+                                damage = (int) (damage * 0.66D);
                                 hit.setDamage(damage);
                                 if (damage <= 0) hit.block();
                                 return true;

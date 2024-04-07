@@ -12,7 +12,7 @@ public class DagannothRexCombat extends CommonCombatMethod {
         if (!withinDistance(8)) {
             return false;
         }
-        entity.animate(2851);
+        entity.animate(2853);
         new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         return true;
     }

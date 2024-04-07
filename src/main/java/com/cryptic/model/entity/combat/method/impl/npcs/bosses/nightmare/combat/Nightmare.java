@@ -682,6 +682,8 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
                 BooleanSupplier isDead = totem::dead;
                 totem.waitUntil(isDead, () -> totems.remove(totem));
             }));
+        } else {
+            nightmare.die();
         }
         return true;
     }

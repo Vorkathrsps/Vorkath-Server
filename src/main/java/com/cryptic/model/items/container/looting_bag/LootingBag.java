@@ -10,6 +10,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.ItemContainerAdapter;
+import com.cryptic.model.items.container.inventory.Inventory;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.CustomItemIdentifiers;
@@ -402,7 +403,7 @@ public class LootingBag extends ItemContainer {
         }
 
         // Is the player inside the wilderness?
-        if (!WildernessArea.isInWilderness(player)&& !player.getMemberRights().isEliteMemberOrGreater(player)) {
+        if (!WildernessArea.isInWilderness(player) && !player.getMemberRights().isEliteMemberOrGreater(player)) {
             player.message("You can't put items in the looting bag unless you're in the Wilderness.");
             return false;
         }
@@ -417,25 +418,37 @@ public class LootingBag extends ItemContainer {
     }
 
     public boolean depositItemsIntoBag(int itemID, int amtToStore, GroundItem groundItem) {
-        if (player.getLootingBag().isFull() || player.getLootingBag().size() >= SIZE) {
-            player.message("You do not have enough space in your looting bag.");
-            return false;
-        }
-
         int requestedAmount = amtToStore;
         int maxAmount = groundItem != null ? groundItem.getItem().getAmount() : player.inventory().count(itemID);
-
-        //Does our player have enough of the item to store that they requested?
-        if (maxAmount < amtToStore)
-            requestedAmount = maxAmount;
-
+        if (requestedAmount <= 0) return false;
+        if (maxAmount < amtToStore) requestedAmount = maxAmount;
         Item item = new Item(itemID, requestedAmount);
-
-        if (groundItem == null) {
-            player.inventory().remove(new Item(itemID, requestedAmount), true);
+        var inventory = player.getInventory();
+        var bag = player.getLootingBag();
+        if (bag.count(itemID) < requestedAmount) {
+            requestedAmount = bag.count(itemID);
         }
-
-        player.getLootingBag().add(item, true);
+        if (item.noted() || item.stackable()) {
+            if (bag.isFull() && !bag.contains(itemID)) {
+                player.message("You do not have enough space in your looting bag.");
+                return false;
+            }
+            for (int index = 0; index < requestedAmount; index++) {
+                if (groundItem == null) inventory.remove(item);
+                bag.add(item);
+            }
+        } else {
+            if (bag.count(itemID) > 1 && bag.isFull()) {
+                player.message("You do not have enough space in your looting bag.");
+                return false;
+            }
+            for (int index = 0; index < requestedAmount; index++) {
+                if (groundItem == null) inventory.remove(item);
+                bag.add(item);
+            }
+        }
+        inventory.refresh();
+        bag.refresh();
         lootingBagLogs.log(LOOTING_BAG_LOGS, "Player " + player.getUsername() + " added: " + item.unnote().name());
         return true;
     }
@@ -447,7 +460,6 @@ public class LootingBag extends ItemContainer {
      * @param slot The slot to remove the item from
      */
     public void withdrawBank(Item item, int slot) {
-        //Make sure said item is in the looting bag
         if (!player.getLootingBag().contains(item)) {
             return;
         }

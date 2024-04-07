@@ -772,7 +772,7 @@
     "ids": [
       2215
     ],
-    "maxhit": 60,
+    "maxhit": 35,
     "attackspeed": 6,
     "aggroradius": 50,
     "aggressive": true,
@@ -802,7 +802,6 @@
       "death": 7020
     },
     "scripts": {
-      //"droptable": "droptables.GWDBandosMinion",
       "combat": "GraardorCombat"
     }
   },
@@ -816,6 +815,7 @@
     "aggroradius": 50,
     "aggressive": true,
     "retaliates": false,
+    "combattype": "MELEE",
     "stats": {
       "attack": 124,
       "strength": 118,

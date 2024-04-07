@@ -18,6 +18,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
 import java.util.HashMap;
@@ -32,10 +33,14 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.POTTER
  */
 public class Crafting extends PacketInteraction {
 
-    /**  The craftable map. */
+    /**
+     * The craftable map.
+     */
     private final static HashMap<Integer, Craftable> CRAFTABLES = new HashMap<>();
 
-    /** The leather armour data. */
+    /**
+     * The leather armour data.
+     */
     private static final Object[][] LEATHER_ARMOR_IDS = {
         {8635, 1, Leather.LEATHER_BODY}, {8634, 5, Leather.LEATHER_BODY}, {8633, 10, Leather.LEATHER_BODY},
         {8638, 1, Leather.LEATHER_GLOVES}, {8637, 5, Leather.LEATHER_GLOVES}, {8636, 10, Leather.LEATHER_GLOVES},
@@ -67,12 +72,12 @@ public class Crafting extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if(option == 1) {
+        if (option == 1) {
             if (obj.getId() == POTTERY_OVEN_11601) {
                 Jewellery.open(player);
                 return true;
             }
-        } else if(option == 2) {
+        } else if (option == 2) {
             if (obj != null && obj.definition() != null && obj.definition().name != null && obj.definition().name.toLowerCase().contains("spinning wheel")) {
                 Spinning.open(player);
                 return true;
@@ -97,59 +102,63 @@ public class Crafting extends PacketInteraction {
             Glass.craft(player, Glass.GlassData.MOLTEN_GLASS, 28);
             return true;
         }
-        if(obj.definition() != null && obj.definition().name != null && obj.definition().name.equalsIgnoreCase("Furnace") && (item.getId() == ZENYTE || item.getId() == ONYX || item.getId() == DRAGONSTONE_6903 || item.getId() == DIAMOND || item.getId() == RUBY || item.getId() == EMERALD || item.getId() == SAPPHIRE)) {
+        if (obj.definition() != null && obj.definition().name != null && obj.definition().name.equalsIgnoreCase("Furnace") && (item.getId() == ZENYTE || item.getId() == ONYX || item.getId() == DRAGONSTONE_6903 || item.getId() == DIAMOND || item.getId() == RUBY || item.getId() == EMERALD || item.getId() == SAPPHIRE)) {
             Jewellery.open(player);
             return true;
         }
-        if(obj.definition() != null && obj.definition().name != null && obj.definition().name.equalsIgnoreCase("Furnace") && item.getId() == ZENYTE_SHARD) {
+        if (obj.definition() != null && obj.definition().name != null && obj.definition().name.equalsIgnoreCase("Furnace") && item.getId() == ZENYTE_SHARD) {
             if (player.inventory().containsAll(ZENYTE_SHARD, ONYX)) {
-            player.getDialogueManager().start(new Dialogue() {
-                @Override
-                protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, "Fuse your onyx and zenyte shard?", "Yes - fuse them.", "Don't fuse any of my gems!");
-                    setPhase(0);
-                }
+                player.getDialogueManager().start(new Dialogue() {
+                    @Override
+                    protected void start(Object... parameters) {
+                        send(DialogueType.OPTION, "Fuse your onyx and zenyte shard?", "Yes - fuse them.", "Don't fuse any of my gems!");
+                        setPhase(0);
+                    }
 
-                @Override
-                public void select(int option) {
-                    if (getPhase() == 0) {
-                        if (option == 1) {
-                            if (player.inventory().contains(ZENYTE_SHARD) && player.inventory().contains(ONYX)) {
-                                player.inventory().remove(new Item(ZENYTE_SHARD));
-                                player.inventory().remove(new Item(ONYX));
-                                player.inventory().add(new Item(UNCUT_ZENYTE));
-                                player.message("You reach into the extremely hot flames and fuse the zenyte and onyx together, forming an uncut zenyte.");
+                    @Override
+                    public void select(int option) {
+                        if (getPhase() == 0) {
+                            if (option == 1) {
+                                if (player.inventory().contains(ZENYTE_SHARD) && player.inventory().contains(ONYX)) {
+                                    player.inventory().remove(new Item(ZENYTE_SHARD));
+                                    player.inventory().remove(new Item(ONYX));
+                                    player.inventory().add(new Item(UNCUT_ZENYTE));
+                                    player.message("You reach into the extremely hot flames and fuse the zenyte and onyx together, forming an uncut zenyte.");
+                                }
+                                stop();
+                            } else if (option == 2) {
+                                stop();
                             }
-                            stop();
-                        } else if (option == 2) {
+                        }
+                    }
+                });
+            } else {
+                player.getDialogueManager().start(new Dialogue() {
+                    @Override
+                    protected void start(Object... parameters) {
+                        send(DialogueType.ITEM_STATEMENT, new Item(ZENYTE_SHARD), "", "You need a <col=000080>cut onyx<col=000000> to fuse with a <col=000080>zenyte shard<col=000000> to<br><col=000000>create an uncut zenyte.");
+                        setPhase(0);
+                    }
+
+                    @Override
+                    public void next() {
+                        if (isPhase(0)) {
                             stop();
                         }
                     }
-                }
-            });
-        } else {
-            player.getDialogueManager().start(new Dialogue() {
-                @Override
-                protected void start(Object... parameters) {
-                    send(DialogueType.ITEM_STATEMENT, new Item(ZENYTE_SHARD), "", "You need a <col=000080>cut onyx<col=000000> to fuse with a <col=000080>zenyte shard<col=000000> to<br><col=000000>create an uncut zenyte.");
-                    setPhase(0);
-                }
-
-                @Override
-                public void next() {
-                    if (isPhase(0)) {
-                        stop();
-                    }
-                }
-            });
+                });
+            }
+            return true;
         }
-        return true;
-    }
         return false;
     }
 
     @Override
     public boolean handleItemOnItemInteraction(Player player, Item first, Item second) {
+
+        if (second.getId() == ItemIdentifiers.LOOTING_BAG_22586 || second.getId() == ItemIdentifiers.LOOTING_BAG) {
+            return false;
+        }
 
         if (Stringing.useItem(player, first, second)) {
             return true;
@@ -463,7 +472,7 @@ public class Crafting extends PacketInteraction {
         player.getInterfaceManager().close();
 
         if (player.getSkills().level(Skills.CRAFTING) < item.getLevel()) {
-            DialogueManager.sendStatement(player,"<col=369>You need a Crafting level of " + item.getLevel() + " to do that.");
+            DialogueManager.sendStatement(player, "<col=369>You need a Crafting level of " + item.getLevel() + " to do that.");
             return true;
         }
 

@@ -12,6 +12,7 @@ import com.cryptic.model.items.container.ItemContainer.StackPolicy;
 import com.cryptic.model.items.container.inventory.Inventory;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.SecondsTimer;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
@@ -420,9 +421,11 @@ public class Trading {
             return;
         }
         Item tradeItem = new Item(id, amount);
-        if ((!tradeItem.rawtradable() || tradeItem.getValue() <= 0)) {
-            player.message("You cannot trade that item.");
-            return;
+        if (tradeItem.getValue() <= 0) {
+            if (!tradeItem.rawtradable()) {
+                player.message("You cannot trade that item.");
+                return;
+            }
         }
 
         boolean modified = false;

@@ -436,11 +436,20 @@ public class ItemDefinition implements Definition {
 
     public int findLinkedValue(String name) {
         for (ItemDefinition item : cached.values()) {
-            if (item.name.contains(name) && !item.name.equals(name)) {
+            if (item.name.contains("Looting bag")) continue;
+            if (isSimilarName(item.name, name)) {
+                if (item.name.contains(name)) {
                 return item.bm.value();
+                }
             }
         }
         return 0;
+    }
+
+    private boolean isSimilarName(String name1, String name2) {
+        String lowerName1 = name1.toLowerCase();
+        String lowerName2 = name2.toLowerCase();
+        return lowerName1.contains(lowerName2) && !lowerName2.contains(lowerName1);
     }
 
     public boolean stackable() {

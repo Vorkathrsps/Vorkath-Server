@@ -11,6 +11,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class Fletching extends PacketInteraction {
     public boolean handleItemOnItemInteraction(Player player, Item use, Item usedWith) {
         Fletchable fletchable = getFletchable(use.getId(), usedWith.getId());
 
-        if (fletchable == null || use.getId() == 590 || usedWith.getId() == 590) {
+        if (fletchable == null || use.getId() == 590 || usedWith.getId() == 590 || usedWith.getId() == ItemIdentifiers.LOOTING_BAG_22586 || usedWith.getId() == ItemIdentifiers.LOOTING_BAG) {
             return false;
         }
 
@@ -92,7 +93,7 @@ public class Fletching extends PacketInteraction {
                 player.getPacketSender().sendInterfaceModel(8903, 170, fletchable.getFletchableItems()[1].getProduct().getId());
                 player.getPacketSender().sendInterfaceModel(8904, 170, fletchable.getFletchableItems()[2].getProduct().getId());
                 player.getPacketSender().sendInterfaceModel(8905, 170, fletchable.getFletchableItems()[3].getProduct().getId());
-                player.getPacketSender().sendString(8909, "<br> <br> <br> <br>".concat(fletchable.getFletchableItems()[0].getProduct().getAmount()+" Arrow Shafts"));
+                player.getPacketSender().sendString(8909, "<br> <br> <br> <br>".concat(fletchable.getFletchableItems()[0].getProduct().getAmount() + " Arrow Shafts"));
                 player.getPacketSender().sendString(8913, "<br> <br> <br> <br>".concat("Short Bow"));
                 player.getPacketSender().sendString(8917, "<br> <br> <br> <br>".concat("Long Bow"));
                 player.getPacketSender().sendString(8921, "<br> <br> <br> <br>".concat("Crossbow Stock"));
@@ -226,12 +227,12 @@ public class Fletching extends PacketInteraction {
 
                     player.setAmountScript("How many would you like to make?", new InputScript() {
 
-                            @Override
-                            public boolean handle(Object value) {
-                                start(player, fletchable, 2, (Integer) value);
-                                return true;
-                            }
-                        });
+                        @Override
+                        public boolean handle(Object value) {
+                            start(player, fletchable, 2, (Integer) value);
+                            return true;
+                        }
+                    });
                 } catch (Exception ex) {
                     logger.error(String.format("player=%s error fletching option2: make-x", player.getUsername()), ex);
                 }
@@ -258,12 +259,12 @@ public class Fletching extends PacketInteraction {
 
                     player.setAmountScript("How many would you like to make?", new InputScript() {
 
-                            @Override
-                            public boolean handle(Object value) {
-                                start(player, fletchable, 3, (Integer) value);
-                                return true;
-                            }
-                        });
+                        @Override
+                        public boolean handle(Object value) {
+                            start(player, fletchable, 3, (Integer) value);
+                            return true;
+                        }
+                    });
                 } catch (Exception ex) {
                     logger.error(String.format("player=%s error fletching option3: make-x", player.getUsername()), ex);
                 }
@@ -284,7 +285,7 @@ public class Fletching extends PacketInteraction {
         player.getInterfaceManager().close();
 
         if (player.getSkills().level(Skills.FLETCHING) < item.getLevel()) {
-            DialogueManager.sendStatement(player,"<col=369>You need a Fletching level of " + item.getLevel() + " to do that.");
+            DialogueManager.sendStatement(player, "<col=369>You need a Fletching level of " + item.getLevel() + " to do that.");
             return;
         }
 
@@ -349,8 +350,8 @@ public class Fletching extends PacketInteraction {
                     player.message(fletchable.getProductionMessage());
                 }
 
-                if(fletchable.getName().equalsIgnoreCase("Stringable")) {
-                    if(item.getProduct().name().equalsIgnoreCase("Magic shortbow")) {
+                if (fletchable.getName().equalsIgnoreCase("Stringable")) {
+                    if (item.getProduct().name().equalsIgnoreCase("Magic shortbow")) {
                         player.getTaskMasterManager().increase(Tasks.MAGIC_SHORTBOW);
                     }
                 }

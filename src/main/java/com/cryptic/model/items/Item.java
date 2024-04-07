@@ -5,6 +5,10 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.World;
+import com.cryptic.model.items.container.ItemContainer;
+import com.cryptic.model.items.container.inventory.Inventory;
+import com.cryptic.model.items.container.looting_bag.LootingBag;
+import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -415,6 +419,24 @@ public class Item implements Cloneable {
         return def.stackable();
     }
 
+    private static void storeNotedItem(Inventory inventory, ItemContainer container, int itemID, int requestedAmount) {
+        for (int index = 0; index < requestedAmount; index++) {
+            if (container.isFull() && !container.contains(itemID)) break;
+            inventory.remove(itemID);
+            container.add(itemID);
+        }
+    }
+
+    private void storeNonNotedItem(Inventory inventory, ItemContainer container, Player player, int itemID, int amount) {
+        for (int index = 0; index < amount; index++) {
+            if (container.count(itemID) > 1 && container.isFull()) {
+                player.message("You do not have enough space.");
+                break;
+            }
+            inventory.remove(itemID);
+            container.add(itemID);
+        }
+    }
     public boolean rawtradable() {
         ItemDefinition def = definition(World.getWorld());
         return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0);
@@ -613,7 +635,7 @@ public class Item implements Cloneable {
     };
 
     public boolean untradable() {
-        return !rawtradable();
+        return !this.rawtradable() && this.getValue() <= 0;
     }
 
     public boolean isSpawnable() {

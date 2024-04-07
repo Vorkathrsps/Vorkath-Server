@@ -129,7 +129,6 @@ public class DeathResult {
                         break;
                     }
                 }
-
             }
         }
         return this;
@@ -164,7 +163,8 @@ public class DeathResult {
     public DeathResult calculateItemsKept() {
         if (player == null || itemList == null) throw new NullPointerException("Player or Item List is null.");
         if (isSafeDeath()) return this;
-        if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL)) return this;
+        if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL))
+            return this;
         int itemsToRemove = 0;
         if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 1);
         else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM))
@@ -173,7 +173,9 @@ public class DeathResult {
         List<Item> subList = new ArrayList<>();
         List<Item> tempList = new ArrayList<>();
         for (Item item : itemList.subList(0, itemsToRemove)) {
-            if (item == null) continue;
+            if (item == null) {
+                continue;
+            }
             if (item.stackable() && item.getAmount() > 1) {
                 item.setAmount(item.getAmount() - 1);
                 tempList.add(item);

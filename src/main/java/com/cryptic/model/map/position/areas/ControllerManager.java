@@ -32,6 +32,7 @@ public class ControllerManager {
         CONTROLLERS.add(new VetionArea());
         CONTROLLERS.add(new CorporealArea());
         CONTROLLERS.add(new ScurriusArea());
+        CONTROLLERS.add(new NightmareArea());
     }
 
     /**

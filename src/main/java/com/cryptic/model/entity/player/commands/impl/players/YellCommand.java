@@ -58,7 +58,8 @@ public class YellCommand implements Command {
         }
 
         //#Text colour
-        String yellColour = player.getAttribOr(AttributeKey.YELL_COLOUR, "006601");
+        String color = "006601";
+        String yellColour = player.getAttribOr(AttributeKey.YELL_COLOUR, color);
 
         //System.out.println("[Global] <img=" + (player.getPlayerRights().getRight())
         //    + "</img> " + player.getUsername() + ":<col=" + colour + "> " + Misc.ucFirst(yellMessage));
@@ -69,12 +70,11 @@ public class YellCommand implements Command {
         boolean ignoreStaffColour = true;
 
         //#Staff colours can be different
-        if(ignoreStaffColour) {
-            switch (player.getPlayerRights()) {
-                case MODERATOR -> nameColour = Color.WHITE.tag();
-                case ADMINISTRATOR, OWNER -> nameColour = Color.RED.tag();
-                case SUPPORT -> nameColour = Color.CYAN.tag();
-            }
+        switch (player.getPlayerRights()) {
+            case MODERATOR -> nameColour = Color.WHITE.tag();
+            case ADMINISTRATOR -> nameColour = Color.YELLOW.tag();
+            case OWNER -> nameColour = Color.RED.tag();
+            case SUPPORT -> nameColour = Color.CYAN.tag();
         }
 
         //# This was made by Ken to ensure the client size it needs [Global]

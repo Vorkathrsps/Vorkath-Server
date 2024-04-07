@@ -1,5 +1,5 @@
 npcId:
-  - 1677
+  - 1672
 petItem: "null"
 petRarity: 0
 alwaysDrops:
@@ -16,25 +16,25 @@ alwaysDrops:
     rareDrop: false
     sendToBank: false
 drops:
-  - item: VERACS_HELM
+  - item: AHRIMS_HOOD
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERACS_BRASSARD
+  - item: AHRIMS_ROBETOP
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERACS_PLATESKIRT
+  - item: AHRIMS_ROBESKIRT
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERACS_FLAIL
+  - item: AHRIMS_STAFF
     minimumAmount: 1
     maximumAmount: 1
     chance: 50

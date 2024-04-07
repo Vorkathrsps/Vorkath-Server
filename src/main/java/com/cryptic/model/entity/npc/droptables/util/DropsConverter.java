@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DropsConverter {
@@ -47,7 +48,20 @@ public class DropsConverter {
                 addDrop(always, rareDrops, drop, quantity);
                 rolls.set(drop.getRolls());
             });
-            NpcDropTable table = new NpcDropTable(new int[]{id}, null, 2000, always, rareDrops, rolls.get());
+            int count = 0;
+            for (var npc : NpcDefinition.cached.entrySet()) {
+                if (Objects.equals(npc.getValue().name, monster.getValue().getName())) {
+                    count++;
+                }
+            }
+            int[] idsArray = new int[count];
+            int index = 0;
+            for (var npc : NpcDefinition.cached.entrySet()) {
+                if (Objects.equals(npc.getValue().name, monster.getValue().getName())) {
+                    idsArray[index++] = npc.getKey();
+                }
+            }
+            NpcDropTable table = new NpcDropTable(idsArray, null, 2000, always, rareDrops, rolls.get());
             if (!table.getDrops().isEmpty()) {
                 tables.put(id, table);
             }

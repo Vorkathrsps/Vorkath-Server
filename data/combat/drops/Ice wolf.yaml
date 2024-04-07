@@ -1,5 +1,13 @@
 npcId:
+- 645
+- 646
+- 647
+- 710
 - 711
+- 712
+- 713
+- 714
+- 715
 petItem: null
 petRarity: 2000
 alwaysDrops:

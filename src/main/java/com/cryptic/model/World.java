@@ -790,13 +790,6 @@ public class World {
         }
 
         try {
-            MonsterLoader.load();
-            Monster.loadStats();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             loadNpcCombatInfo();
         } catch (Exception e) {
             e.printStackTrace();

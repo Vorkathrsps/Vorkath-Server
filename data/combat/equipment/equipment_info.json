@@ -19140,5 +19140,25 @@
     "slot": 4,
     "type": 6,
     "showBeard": false
+  },
+  "29013": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "29037": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "29041": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "29019": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
   }
 }

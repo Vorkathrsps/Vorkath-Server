@@ -26,6 +26,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.function.Consumer;
 
+import static com.cryptic.model.entity.combat.weapon.FightType.POWERED_STAFF_LONGRANGE;
+
 /**
  * Represents a pending hit.
  *
@@ -335,7 +337,7 @@ public class Hit {
                     double magicXP = mXP + spellBaseXP;
                     double defenceXP = dXP;
                     if (isAccurate && damage > 0) {
-                        if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
+                        if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false) || POWERED_STAFF_LONGRANGE.equals(player.getCombat().getFightType())) {
                             player.getSkills().addXp(Skills.HITPOINTS, hXP);
                             player.getSkills().addXp(Skills.MAGIC, magicXP);
                             player.getSkills().addXp(Skills.DEFENCE, defenceXP);

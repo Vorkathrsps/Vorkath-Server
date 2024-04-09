@@ -262,7 +262,6 @@ public class SlayerTask {
                 increment += this.getSlayerTaskCompletionPoints(player);
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
                 increment += incrementMemberBonusSlayerPoints(player, increment);
-                System.out.println("increment 3: " + increment);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
                 slayerPoints += increment;

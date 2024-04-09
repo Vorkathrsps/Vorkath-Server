@@ -1,6 +1,7 @@
 package com.cryptic.model.content.packet_actions.interactions.container;
 
 import com.cryptic.model.content.duel.Dueling;
+import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.impl.BonusesInterface;
@@ -77,6 +78,9 @@ public class FirstContainerAction {
                 player.getBonusInterface().sendBonuses();
                 return;
             } else if (slot == 3) {
+                if (player.getCombat().getAutoCastSpell() != null) {
+                    Autocasting.setAutocast(player, null);
+                }
                 player.getEquipment().unequip(EquipSlot.WEAPON);
                 player.getBonusInterface().sendBonuses();
                 return;

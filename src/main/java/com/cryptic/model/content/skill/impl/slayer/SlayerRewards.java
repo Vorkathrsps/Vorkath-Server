@@ -166,11 +166,8 @@ public class SlayerRewards {
     /**
      * Stores all unlocked HashMaps
      */
+    @Getter
     private HashMap<Integer, String> unlocks = new HashMap<>();
-
-    public HashMap<Integer, String> getUnlocks() {
-        return unlocks;
-    }
 
     /**
      * Stores previous interface being viewed
@@ -361,11 +358,9 @@ public class SlayerRewards {
             case UNLOCK_BUTTON:
                 player.debugMessage("Button: " + button + " trying to open interface " + slayerRewardButtons.getInterface());
                 if (player.getSlayerRewards().getUnlocks().containsKey(button)) {
-                    if (slayerRewardButtons.getAction() == SlayerRewardActions.UNLOCK_BUTTON) {
-                        player.getPacketSender().sendConfig(750 + (slayerRewardButtons.ordinal() - 10), 1);
-                        player.message("You cannot undo this purchase!");
-                        return false;
-                    }
+                    player.getPacketSender().sendConfig(750 + (slayerRewardButtons.ordinal() - 10), 1);
+                    player.message("You cannot undo this purchase!");
+                    return false;
                 }
 
                 openUnlockWidget(button);
@@ -382,6 +377,7 @@ public class SlayerRewards {
                 return true;
 
             case CONFIRM:
+
                 if (slayerWidgetAction == 0) {
                     //Unlock feature
                     if (type == 0) {

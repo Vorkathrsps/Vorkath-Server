@@ -40,7 +40,8 @@ public class SplatterCombat extends CommonCombatMethod {
     public void onDeath(Player killer, NPC npc) {
         if (killer != null) {
             var current = killer.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
-            killer.putAttrib(AttributeKey.VOID_ISLAND_POINTS, current + 1);
+            current += 1;
+            killer.putAttrib(AttributeKey.VOID_ISLAND_POINTS, current);
             killer.message("<img=2009>" + Color.COOL_BLUE.wrap("<shad=0>You have received 1 Void Island point.</shad>"));
             killer.message("<img=2009>" + Color.PURPLE.wrap("<shad=0>You now have a Total of " + current + " Void Island points.</shad>"));
         }

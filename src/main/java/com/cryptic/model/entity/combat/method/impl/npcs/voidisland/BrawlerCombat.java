@@ -42,7 +42,8 @@ public class BrawlerCombat extends CommonCombatMethod {
                 case 1736 -> increment += 1;
             }
             var current = killer.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
-            killer.putAttrib(AttributeKey.VOID_ISLAND_POINTS, current + increment);
+            current += increment;
+            killer.putAttrib(AttributeKey.VOID_ISLAND_POINTS, current);
             killer.message("<img=2009>" + Color.COOL_BLUE.wrap("<shad=0>You have received " + increment + " Void Island point.</shad>"));
             killer.message("<img=2009>" + Color.PURPLE.wrap("<shad=0>You now have a Total of " + current + " Void Island points.</shad>"));
         }

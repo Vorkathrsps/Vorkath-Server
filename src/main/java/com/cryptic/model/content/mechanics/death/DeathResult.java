@@ -129,6 +129,10 @@ public class DeathResult {
                         break;
                     }
                 }
+
+                if (item.untradable() && !untradeables.contains(item)) {
+                    untradeables.add(new Item(item.getId(), item.getAmount()));
+                }
             }
         }
         return this;

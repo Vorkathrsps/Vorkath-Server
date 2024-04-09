@@ -38,9 +38,14 @@ public class VenenatisCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) {
-            if (Utils.rollDie(3, 1)) rangeAttack(entity, target);
-            else magicAttack(entity, target);
-        } else meleeAttack(entity, target);
+            if (Utils.rollDie(3, 1)) {
+                rangeAttack(entity, target);
+            } else {
+                magicAttack(entity, target);
+            }
+        } else {
+            meleeAttack(entity, target);
+        }
         return true;
     }
 
@@ -209,7 +214,7 @@ public class VenenatisCombat extends CommonCombatMethod {
         for (var t : weblist) {
             if (MovementQueue.dumbReachable(t.getX(), t.getY(), entity.tile())) {
                 gameObject.spawn();
-        GameObject finalGameObject = gameObject;
+                GameObject finalGameObject = gameObject;
                 Chain.noCtx().delay(20, () -> {
                     finalGameObject.remove();
                     weblist.clear();

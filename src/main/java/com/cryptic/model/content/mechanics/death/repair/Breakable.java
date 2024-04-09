@@ -64,7 +64,8 @@ public enum Breakable {
     AMLODD_BOWFA(ItemIdentifiers.BOW_OF_FAERDHINEN_C_25896, ItemIdentifiers.CRYSTAL_OF_AMLODD, -1, ItemIdentifiers.BOW_OF_FAERDHINEN_INACTIVE),
     IMBUED_ZAMORAK_CAPE(ItemIdentifiers.IMBUED_ZAMORAK_CAPE, ItemIdentifiers.IMBUED_ZAMORAK_CAPE_BROKEN, 500_000, -1),
     IMBUED_SARADOMIN_CAPE(ItemIdentifiers.IMBUED_SARADOMIN_CAPE, ItemIdentifiers.IMBUED_SARADOMIN_CAPE_BROKEN, 500_000, -1),
-    IMBUED_GUTHIX_CAPE(ItemIdentifiers.IMBUED_GUTHIX_CAPE, ItemIdentifiers.IMBUED_GUTHIX_CAPE_BROKEN, 500_000, -1);
+    IMBUED_GUTHIX_CAPE(ItemIdentifiers.IMBUED_GUTHIX_CAPE, ItemIdentifiers.IMBUED_GUTHIX_CAPE_BROKEN, 500_000, -1),
+    AVAS_ASSEMBLER(ItemIdentifiers.AVAS_ASSEMBLER, ItemIdentifiers.AVAS_ASSEMBLER_BROKEN, 500_000, -1);
 
     public final int id;
     public final int brokenId;

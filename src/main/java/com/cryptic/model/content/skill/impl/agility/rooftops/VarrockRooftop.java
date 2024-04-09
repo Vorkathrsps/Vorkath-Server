@@ -161,26 +161,38 @@ public class VarrockRooftop extends PacketInteraction {
 
         if (obj.getId() == GAP_14834) {
             player.setPositionToFace(null);
-            player.lock();
-            Chain.bound(player).name("VarrockJumpgap2Task").waitForTile(new Tile(3208, 3397, 3), () -> {
-                player.animate(1995);
+            player.lockDamageOk();
+            Chain.noCtx().runFn(1, () -> {
+                player.agilityWalk(false);
+                player.getMovementQueue().clear();
+                player.stepAbs(new Tile(3208, 3397, 3).transform(0, 2), MovementQueue.StepType.FORCED_WALK);
             }).then(1, () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(6, 2), 5, 25, 4789, 1);
-                player.setForceMovement(forceMovement);
+                player.setPositionToFace(player.tile().faceObject(obj));
             }).then(1, () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 0, 15, 2584, 1);
-                player.setForceMovement(forceMovement);
-            }).waitForTile(new Tile(3215, 3399, 3), () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 0), 0, 15, 2586, 1);
-                player.setForceMovement(forceMovement);
-                player.teleport(3216, 3399, 3);
-            }).waitForTile(new Tile(3216, 3399, 3), () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 10, 25, 2585, 1);
-                player.setForceMovement(forceMovement);
-            }).then(1, () -> {
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
-                player.getSkills().addXp(Skills.AGILITY, 22.0);
-                player.unlock();
+                Chain.bound(player).waitForTile(new Tile(3208, 3397, 3).transform(0, 2), () -> {
+                    player.animate(1995);
+                }).then(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(6, 2).transform(0, -2), 5, 25, 4789, 1);
+                    player.setForceMovement(forceMovement);
+                }).then(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 0, 15, 2584, 1);
+                    player.setForceMovement(forceMovement);
+                }).waitForTile(new Tile(3215, 3399, 3), () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 0), 0, 15, 2586, 1);
+                    player.setForceMovement(forceMovement);
+                    player.teleport(3216, 3399, 3);
+                }).waitForTile(new Tile(3216, 3399, 3), () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 10, 25, 2585, 1);
+                    player.setForceMovement(forceMovement);
+                }).then(2, () -> {
+                    player.getMovementQueue().clear();
+                    player.stepAbs(new Tile(3217, 3399, 3).transform(1, 0), MovementQueue.StepType.FORCED_WALK);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
+                }).then(1, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 22.0);
+                    player.unlock();
+                    player.agilityWalk(true);
+                });
             });
             return true;
         }
@@ -228,19 +240,19 @@ public class VarrockRooftop extends PacketInteraction {
             Tile startPos = obj.tile().transform(new Tile(0, -1, 0));
             player.smartPathTo(startPos);
             player.waitForTile(startPos, () -> {
-                }).then(player::lock).name("VarrockEdgeTask").then(1, () -> {
-                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 0, 30, 741, 0);
-                    player.setForceMovement(forceMovement);
-                }).then(1, () -> player.teleport(3236, 3416, 3)).then(1, () -> {
-                    player.animate(2586, 15);
-                }).then(1, () -> {
-                    player.teleport(3236, 3417, 0);
-                    player.animate(2588);
-                    player.getSkills().addXp(Skills.AGILITY, 125.0);
-                    player.unlock();
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
+            }).then(player::lock).name("VarrockEdgeTask").then(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 0, 30, 741, 0);
+                player.setForceMovement(forceMovement);
+            }).then(1, () -> player.teleport(3236, 3416, 3)).then(1, () -> {
+                player.animate(2586, 15);
+            }).then(1, () -> {
+                player.teleport(3236, 3417, 0);
+                player.animate(2588);
+                player.getSkills().addXp(Skills.AGILITY, 125.0);
+                player.unlock();
+                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
 
-                });
+            });
             return true;
         }
         return false;

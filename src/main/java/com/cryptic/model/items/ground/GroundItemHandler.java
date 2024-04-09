@@ -320,111 +320,99 @@ public final class GroundItemHandler {
                 return;
             }
 
-            TaskManager.submit(new Task("GroundItemPickupTask", 1, true) {
-                @Override
-                public void execute() {//such a mess
-                    if (groundItem.getState() != State.SEEN_BY_EVERYONE && groundItem.getOwnerHash() != player.getLongUsername()) {
-                        stop();
-                        return;
-                    }
+            Chain.noCtx().runFn(1, () -> {
+                if (groundItem.getState() != State.SEEN_BY_EVERYONE && groundItem.getOwnerHash() != player.getLongUsername()) {
+                    return;
+                }
 
-                    if (groundItem.isRemoved()) {
-                        stop();
-                        return;
-                    }
+                if (groundItem.isRemoved()) {
+                    return;
+                }
 
-                    Item item = groundItem.getItem();
+                Item item = groundItem.getItem();
 
-                    boolean lootingBagOpened = player.getLootingBag().lootbagOpen();
-                    if (player.tile().isWithinDistance(groundItem.getTile(), 1)) {
-                        // Add to looting bag if open.
-                        if (lootingBagOpened && player.getLootingBag().deposit(item, item.getAmount(), groundItem)) {
-                            sendRemoveGroundItem(groundItem);
-                            stop();
-                            return;
-                        }
-
-                        // If we've made it here then it added to the inventory.
-                        if (player.inventory().getFreeSlots() == 0 && !(player.inventory().contains(item.getId()) && item.stackable())) {
-                            player.message("You don't have enough inventory space to hold that item.");
-                            stop();
-                            return;
-                        } else {
-                            if (item.getId() == ESCAPE_KEY) {
-                                if (WildernessArea.isInWilderness(player)) {
-                                    player.confirmDialogue(new String[]{Color.RED.wrap("Are you sure you wish to pick up this key? You will be red"), Color.RED.wrap("skulled and all your items will be lost on death!")}, "", "Proceed.", "Cancel.", () -> {
-                                        Optional<GroundItem> gItem = GroundItemHandler.getGroundItem(ESCAPE_KEY, tile, player);
-                                        if (gItem.isEmpty()) {
-                                            return;
-                                        }
-                                        Skulling.assignSkullState(player, SkullType.RED_SKULL);
-                                        player.inventory().add(item);
-                                        sendRemoveGroundItem(groundItem);
-                                        player.getRisk().update();
-                                        pickupLogs.log(PICKUPS, "[Player: " + player.getUsername() + "] [Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]");
-                                        Utils.sendDiscordInfoLog("[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]", "pickups");
-                                        player.inventory().refresh();
-                                    });
-                                }
-                                stop();
-                                return;
-                            }
-                        }
-                        {
-
-                            boolean added = player.inventory().add(item);
-                            if (!added) {
-                                player.message("There is not enough space in your inventory to hold any more items.");
-                                stop();
-                                return;
-                            }
-                        }
-
-                        if (LootKey.KEYS.stream().anyMatch(key -> item.getId() == key)) {
-                            LootKey.pickupKey(player, groundItem);
-                        }
-
-                        // If we've made it here then it added to the inventory.
+                boolean lootingBagOpened = player.getLootingBag().lootbagOpen();
+                if (player.tile().isWithinDistance(groundItem.getTile(), 1)) {
+                    if (lootingBagOpened && player.getLootingBag().deposit(item, item.getAmount(), groundItem)) {
                         sendRemoveGroundItem(groundItem);
-                        player.getRisk().update();
-                        //pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y);
-                        Utils.sendDiscordInfoLog("[Player: " + player.getUsername() + "] - ```[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ") - [Tile (X: " + groundItem.getTile().x + ", Y: " + groundItem.getTile().y + ")]```", "pickups");
+                        return;
+                    }
 
-                        var val = item.getValue() * item.getAmount();
-                        String severity = val >= 1_000_000_000 || val <= -1 ? "High" : "Low";
-
-                        if (item.getAmount() >= 10) {
-                            for (String flaggedItem : flagged_items) {
-                                if (!item.unnote().name().toLowerCase().contains(flaggedItem)) continue;
-                                Utils.sendDiscordInfoLog(
-                                    "``` [Severity: "+ severity +"] " +
-                                        " - [Player: " + player.getUsername() + "]" +
-                                        " - [Item Name: " + item.unnote().name() + "]" +
-                                        " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
-                                        " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
-                                        " - [Item Id: " + item.getId() + "]```", "dupe");
+                    // If we've made it here then it added to the inventory.
+                    if (player.inventory().getFreeSlots() == 0 && !(player.inventory().contains(item.getId()) && item.stackable())) {
+                        player.message("You don't have enough inventory space to hold that item.");
+                        return;
+                    } else {
+                        if (item.getId() == ESCAPE_KEY) {
+                            if (WildernessArea.isInWilderness(player)) {
+                                player.confirmDialogue(new String[]{Color.RED.wrap("Are you sure you wish to pick up this key? You will be red"), Color.RED.wrap("skulled and all your items will be lost on death!")}, "", "Proceed.", "Cancel.", () -> {
+                                    Optional<GroundItem> gItem = GroundItemHandler.getGroundItem(ESCAPE_KEY, tile, player);
+                                    if (gItem.isEmpty()) {
+                                        return;
+                                    }
+                                    Skulling.assignSkullState(player, SkullType.RED_SKULL);
+                                    player.inventory().add(item);
+                                    sendRemoveGroundItem(groundItem);
+                                    player.getRisk().update();
+                                    pickupLogs.log(PICKUPS, "[Player: " + player.getUsername() + "] [Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]");
+                                    Utils.sendDiscordInfoLog("[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]", "pickups");
+                                    player.inventory().refresh();
+                                });
                             }
+                            return;
                         }
+                    }
+                    {
 
-                        Utils.sendDiscordInfoLog(
-                            "``` [Severity: "+ severity +"] " +
-                                " - [Player: " + player.getUsername() + "]" +
-                                " - [Item Name: " + item.unnote().name() + "]" +
-                                " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
-                                " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
-                                " - [Item Id: " + item.getId() + "]```", "dupe");
-
-                        player.getInventory().refresh();
-                        stop();
-
-                        // Does this ground item respawn?
-                        if (groundItem.respawns()) {
-                            Chain.runGlobal(groundItem.respawnTimer(), () -> {
-                                GroundItem itemToSpawn = new GroundItem(item, groundItem.getTile().copy(), null);
-                                itemToSpawn.respawns(true);
-                                GroundItemHandler.createGroundItem(itemToSpawn);
-                            });
+                        boolean added = player.inventory().add(item);
+                        if (!added) {
+                            player.message("There is not enough space in your inventory to hold any more items.");
+                            return;
                         }
+                    }
+
+                    if (LootKey.KEYS.stream().anyMatch(key -> item.getId() == key)) {
+                        LootKey.pickupKey(player, groundItem);
+                    }
+
+                    // If we've made it here then it added to the inventory.
+                    sendRemoveGroundItem(groundItem);
+                    player.getRisk().update();
+                    //pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y);
+                    Utils.sendDiscordInfoLog("[Player: " + player.getUsername() + "] - ```[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ") - [Tile (X: " + groundItem.getTile().x + ", Y: " + groundItem.getTile().y + ")]```", "pickups");
+
+                    var val = item.getValue() * item.getAmount();
+                    String severity = val >= 1_000_000_000 || val <= -1 ? "High" : "Low";
+
+                    if (item.getAmount() >= 10) {
+                        for (String flaggedItem : flagged_items) {
+                            if (!item.unnote().name().toLowerCase().contains(flaggedItem)) continue;
+                            Utils.sendDiscordInfoLog(
+                                "``` [Severity: " + severity + "] " +
+                                    " - [Player: " + player.getUsername() + "]" +
+                                    " - [Item Name: " + item.unnote().name() + "]" +
+                                    " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
+                                    " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
+                                    " - [Item Id: " + item.getId() + "]```", "dupe");
+                        }
+                    }
+
+                    Utils.sendDiscordInfoLog(
+                        "``` [Severity: " + severity + "] " +
+                            " - [Player: " + player.getUsername() + "]" +
+                            " - [Item Name: " + item.unnote().name() + "]" +
+                            " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
+                            " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
+                            " - [Item Id: " + item.getId() + "]```", "dupe");
+
+                    player.getInventory().refresh();
+
+                    if (groundItem.respawns()) {
+                        Chain.runGlobal(groundItem.respawnTimer(), () -> {
+                            GroundItem itemToSpawn = new GroundItem(item, groundItem.getTile().copy(), null);
+                            itemToSpawn.respawns(true);
+                            GroundItemHandler.createGroundItem(itemToSpawn);
+                        });
                     }
                 }
             });

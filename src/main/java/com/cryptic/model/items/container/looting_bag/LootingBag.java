@@ -433,19 +433,19 @@ public class LootingBag extends ItemContainer {
                 player.message("You do not have enough space in your looting bag.");
                 return false;
             }
-            for (int index = 0; index < requestedAmount; index++) {
-                if (groundItem == null) inventory.remove(item);
-                bag.add(item);
-            }
+            if (groundItem == null) inventory.remove(item);
+            bag.add(item);
         } else {
             if (bag.count(itemID) > 1 && bag.isFull()) {
                 player.message("You do not have enough space in your looting bag.");
                 return false;
             }
-            for (int index = 0; index < requestedAmount; index++) {
-                if (groundItem == null) inventory.remove(item);
-                bag.add(item);
-            }
+            if (groundItem == null) inventory.remove(item);
+            bag.add(item);
+        }
+        System.out.println("inventory count?: " + player.inventory().count(itemID));
+        if (groundItem != null) {
+            System.out.println("amount to store: " + amtToStore + " requested: " + requestedAmount + " maxamount: " + maxAmount + " grounditemamount: " + groundItem.getItem().getAmount());
         }
         inventory.refresh();
         bag.refresh();
@@ -530,7 +530,7 @@ public class LootingBag extends ItemContainer {
     public static int OPEN_LOOTING_BAG = LOOTING_BAG_22586;
 
     public boolean lootbagOpen() {
-        return (player.inventory().contains(OPEN_LOOTING_BAG));
+        return player.inventory().contains(OPEN_LOOTING_BAG);
     }
 
     /**

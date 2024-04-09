@@ -34,6 +34,7 @@ public class ItemDrops {
         if (table != null) {
             List<Item> rewards = table.getDrops(player);
             for (var item : rewards) {
+                if (skipLootingBag(player, item)) continue;
                 LogType.BOSSES.log(player, npc.id(), item);
                 LogType.OTHER.log(player, npc.id(), item);
                 var drop = item.noted() ? item.unnote().note() : item;
@@ -58,6 +59,10 @@ public class ItemDrops {
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
+    }
+
+    private static boolean skipLootingBag(Player player, Item item) {
+        return (player.getInventory().containsAny(ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586) || player.getBank().containsAny(ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586)) && item.getId() == ItemIdentifiers.LOOTING_BAG;
     }
 
 }

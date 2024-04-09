@@ -1,6 +1,7 @@
 package com.cryptic.model.content.packet_actions.interactions.buttons;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.DropsDisplay;
 import com.cryptic.model.content.achievements.AchievementButtons;
@@ -34,12 +35,14 @@ import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.impl.ButtonClickPacketListener;
+import com.cryptic.utility.Color;
 
 import java.util.Arrays;
 
 import static com.cryptic.model.content.areas.lumbridge.dialogue.Hans.getTimeDHS;
 import static com.cryptic.model.content.collection_logs.LogType.BOSSES;
 import static com.cryptic.model.entity.combat.magic.autocasting.Autocasting.ANCIENT_SPELL_AUTOCAST_STAFFS;
+import static com.cryptic.model.entity.combat.magic.autocasting.Autocasting.MODERN_SPELL_AUTOCAST_STAFFS;
 import static com.cryptic.model.items.container.shop.ShopUtility.*;
 import static com.cryptic.network.packet.incoming.impl.ButtonClickPacketListener.LOGOUT;
 
@@ -228,63 +231,47 @@ public class Buttons {
             case AUTOCAST_BUTTON_1 -> {
                 player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, false);
                 if (!GameServer.properties().rightClickAutocast) {
-                    if (player.getSpellbook() == MagicSpellbook.LUNAR) {
-                        player.message("You can't autocast lunar magic.");
+                    if (MagicSpellbook.LUNAR.equals(player.getSpellbook())) {
+                        player.message(Color.RED.wrap("You cannot use Autocast on lunar spells."));
                         return;
                     }
 
-                    if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
-                        if (player.getSpellbook() == MagicSpellbook.ANCIENTS) {
-                            //It can autocast offensive standard spells, but cannot autocast Ancient Magicks unlike its other variants.
-                            if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
-                                player.getInterfaceManager().setSidebar(0, 1689);
-                            } else {
-                                player.message("You can only autocast regular offensive spells with this staff.");
+                    if (staff != null) {
+                        if (MagicSpellbook.ANCIENTS.equals(player.getSpellbook()) && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                            if (player.getEquipment().contains(HARMONISED_NIGHTMARE_STAFF)) {
+                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
                                 return;
                             }
-                        } else {
-                            if (player.getEquipment().getWeapon().getId() != ANCIENT_STAFF) {
-                                player.getInterfaceManager().setSidebar(0, 1829);
-                            } else {
-                                player.message("You can only autocast ancient magicks with that.");
-                                return;
-                            }
-                        }
-                    } else {
-                        if (player.getSpellbook() == MagicSpellbook.NORMAL) {
+                            player.getInterfaceManager().setSidebar(0, 1689);
+                        } else if (MagicSpellbook.NORMAL.equals(player.getSpellbook()) && MODERN_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
                             player.getInterfaceManager().setSidebar(0, 1829);
                         } else {
-                            player.message("You can only autocast normal magic with that.");
-                            return;
+                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
                         }
                     }
-                } else {
-                    player.getPacketSender().sendMessage("A spell can be autocast by simply right-clicking on it in your Magic spellbook and ").sendMessage("selecting the \"Autocast\" option.");
                 }
             }
             case AUTOCAST_BUTTON_2 -> {
                 player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, true);
                 if (!GameServer.properties().rightClickAutocast) {
-                    if (player.getSpellbook() == MagicSpellbook.LUNAR) {
-                        player.message("You can't autocast lunar spells.");
+                    if (MagicSpellbook.LUNAR.equals(player.getSpellbook())) {
+                        player.message(Color.RED.wrap("You cannot use Autocast on lunar spells."));
                         player.getPacketSender().setDefensiveAutocastState(0);
                         return;
                     }
-                    if (player.getEquipment().get(3) != null && player.getEquipment().containsAny(ANCIENT_STAFF, MASTER_WAND, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, KODAI_WAND)) {
-                        player.getInterfaceManager().setSidebar(0, 1689);
-                    } else {
-                        if (player.getSpellbook() != MagicSpellbook.NORMAL) {
-                            player.message("You can't autocast ancient magicks with this staff.");
-                            player.getPacketSender().setDefensiveAutocastState(0);
-                            return;
+                    if (staff != null) {
+                        if (MagicSpellbook.ANCIENTS.equals(player.getSpellbook()) && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                            if (player.getEquipment().contains(HARMONISED_NIGHTMARE_STAFF)) {
+                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
+                                return;
+                            }
+                            player.getInterfaceManager().setSidebar(0, 1689);
+                        } else if (MagicSpellbook.NORMAL.equals(player.getSpellbook()) && MODERN_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                            player.getInterfaceManager().setSidebar(0, 1829);
+                        } else {
+                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
                         }
-                        player.getInterfaceManager().setSidebar(0, 1829);
                     }
-                } else {
-                    player.getPacketSender()
-                        .sendMessage(
-                            "A spell can be autocast by simply right-clicking on it in your Magic spellbook and ")
-                        .sendMessage("selecting the \"Autocast\" option.");
                 }
             }
             case DUEL_ACCEPT_BUTTON_1, DUEL_ACCEPT_BUTTON_2 -> player.getDueling().acceptDuel();
@@ -299,7 +286,6 @@ public class Buttons {
                 }
                 player.inventory().remove(itemToDestroy, true);
                 player.getInterfaceManager().close();
-                return;
             }
             case TOGGLE_EXP_LOCK -> {
                 boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
@@ -317,8 +303,6 @@ public class Buttons {
                     return;
                 }
                 if (button == LOGOUT) {
-                    // Handle this here and not in canLogout() so that x-logging doesn't "break" the
-                    // attack timer.
                     if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_FORFEIT.ordinal()]) {
                         player.message("You cannot log out at the moment.");
                         return;

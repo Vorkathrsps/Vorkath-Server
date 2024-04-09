@@ -61,8 +61,37 @@ public class Autocasting {
         LEGACY_AUTOCAST_SPELLS.put(13136, CombatSpells.ICE_BARRAGE);
     }
 
-    public static final Set<Integer> ANCIENT_SPELL_AUTOCAST_STAFFS = Set.of(KODAI_WAND, MASTER_WAND,
-        ANCIENT_STAFF, NIGHTMARE_STAFF, VOLATILE_NIGHTMARE_STAFF, ELDRITCH_NIGHTMARE_STAFF, TOXIC_STAFF_OF_THE_DEAD, STAFF_OF_THE_DEAD, STAFF_OF_LIGHT);
+    public static final Set<Integer> ANCIENT_SPELL_AUTOCAST_STAFFS = Set.of
+        (
+            KODAI_WAND,
+            MASTER_WAND,
+            ANCIENT_STAFF,
+            NIGHTMARE_STAFF,
+            BLUE_MOON_SPEAR,
+            AHRIMS_STAFF,
+            ANCIENT_SCEPTRE,
+            BLOOD_ANCIENT_SCEPTRE,
+            ICE_ANCIENT_SCEPTRE,
+            SHADOW_ANCIENT_SCEPTRE,
+            SMOKE_ANCIENT_SCEPTRE,
+            VOLATILE_NIGHTMARE_STAFF,
+            ELDRITCH_NIGHTMARE_STAFF,
+            TOXIC_STAFF_OF_THE_DEAD,
+            STAFF_OF_THE_DEAD
+        );
+    public static final Set<Integer> MODERN_SPELL_AUTOCAST_STAFFS = Set.of
+        (
+            SKULL_SCEPTRE,
+            IBANS_STAFF,
+            SLAYERS_STAFF,
+            SLAYERS_STAFF_E,
+            STAFF_OF_THE_DEAD,
+            STAFF_OF_THE_DEAD_23613,
+            TOXIC_STAFF_OF_THE_DEAD,
+            STAFF_OF_LIGHT,
+            STAFF_OF_BALANCE,
+            VOID_KNIGHT_MACE
+        );
 
     public static final Set<Integer> SPECIAL_AUTOCAST_STAFFS = Set.of(TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, THAMMARONS_SCEPTRE,
         SANGUINESTI_STAFF, HOLY_SANGUINESTI_STAFF, TUMEKENS_SHADOW, ACCURSED_SCEPTRE_A, CORRUPTED_TUMEKENS_SHADOW);

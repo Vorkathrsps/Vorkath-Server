@@ -32,7 +32,8 @@ public class Mining extends PacketInteraction {
         ItemIdentifiers.UNCUT_SAPPHIRE,
         ItemIdentifiers.UNCUT_EMERALD,
         ItemIdentifiers.UNCUT_RUBY,
-        ItemIdentifiers.UNCUT_DIAMOND
+        ItemIdentifiers.UNCUT_DIAMOND,
+        ItemIdentifiers.UNCUT_OPAL
     ));
     private static final Set<Integer> GEODES = new HashSet<>(Arrays.asList(
         ItemIdentifiers.CLUE_GEODE_BEGINNER,

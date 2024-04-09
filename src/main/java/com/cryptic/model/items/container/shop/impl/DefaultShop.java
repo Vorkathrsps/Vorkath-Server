@@ -46,7 +46,6 @@ public final class DefaultShop extends Shop {
     public final SellType sellType;
 
     public final int scroll;
-
     /**
      * Creates a new {@link Shop}.
      *
@@ -150,12 +149,13 @@ public final class DefaultShop extends Shop {
         player.inventory().refresh();
         refresh(player, true);
 
-        int specialShop = shopId == 7 ? 64000 : shopId == 48 ? ShopUtility.SPRITE_SHOP_INTERFACE : ShopUtility.INTERFACE_ID;
+        boolean isSpriteShop = shopId == 48 || shopId == 350;
+        int specialShop = shopId == 7 ? 64000 : isSpriteShop ? ShopUtility.SPRITE_SHOP_INTERFACE : ShopUtility.INTERFACE_ID;
         int rewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
         player.getPacketSender().sendString(64014, "Reward Points: " + Utils.formatNumber(rewardPoints));
         int nameId = ShopUtility.NAME_INTERFACE_CHILD_ID;
         switch (shopId) {
-            case 48 -> nameId = 82005;
+            case 48, 350 -> nameId = 82005;
             case 7 -> nameId = 64005;
         }
         player.getPacketSender().sendString(nameId, name);
@@ -176,16 +176,17 @@ public final class DefaultShop extends Shop {
     public void refresh(Player player, boolean redrawStrings) {
         int startSprite = 82006;
         if (redrawStrings) {
-            for (int index = 0; index < 28; index++) {
+            for (int index = 0; index < 50; index++) {
                 player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, -2);
             }
-            for (int index = 0; index < 28; index++) {
+            for (int index = 0; index < 50; index++) {
                 player.getPacketSender().sendString(SPRITE_SHOP_STRING_ID + index, "");
             }
             for (int index = 0; index < MAX_SHOP_ITEMS; index++) {
                 player.getPacketSender().sendString(AMOUNT_STRING_ID + index, "");
             }
         }
+        boolean isSpriteShop = shopId == 48 || shopId == 350;
         final Item[] items = container.toArray();
         for (int index = 0; index < items.length; index++) {
             Item item = items[index];
@@ -193,9 +194,9 @@ public final class DefaultShop extends Shop {
             if (item == null) {
                 continue;
             }
-
-            if (shopId == 48) {
-                player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, 2192);
+            if (isSpriteShop) {
+                final int sprite = shopId == 48 ? 2192 : 2191; //TODO implement into shop build
+                player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, sprite);
             }
 
             if (item instanceof StoreItem) {
@@ -205,7 +206,7 @@ public final class DefaultShop extends Shop {
 
                     if (storeItem != null) {
                         int value = storeItem.getShopValue();
-                        if (shopId == 48) {
+                        if (isSpriteShop) {
                             player.getPacketSender().sendString(SPRITE_SHOP_STRING_ID + index, value == 0 ? "" : Utils.formatRunescapeStyle(value));
                         } else {
                             player.getPacketSender().sendString(shopId == 7 ? SLAYER_BUY_AMOUNT_STRING_ID + index : ShopUtility.AMOUNT_STRING_ID + index, value == 0 ? "FREE" : "" + Utils.formatRunescapeStyle(value));
@@ -215,11 +216,13 @@ public final class DefaultShop extends Shop {
             }
         }
         int shopInventoryId = 73190;
-        switch (shopId) {
-            case 48 -> shopInventoryId = 82004;
-            case 7 -> shopInventoryId = 64016;
+        if (isSpriteShop) {
+            shopInventoryId = 82004;
         }
-        if (shopId != 48) {
+        if (shopId == 7) {
+            shopInventoryId = 64016;
+        }
+        if (!isSpriteShop) {
             player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);
         }
         int finalShop = shopInventoryId;

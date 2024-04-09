@@ -1059,7 +1059,7 @@
   {
     "shopId": 350,
     "name": "Donator Store",
-    "currency": "COINS_995",
+    "currency": "DONATOR_TICKETS",
     "noiron": true,
     "restock": true,
     "sellType": "NONE",

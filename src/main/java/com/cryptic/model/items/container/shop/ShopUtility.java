@@ -47,7 +47,7 @@ public class ShopUtility extends ItemIdentifiers {
     
     public static final int AMOUNT_STRING_ID = 22996;
 
-    public static final int SPRITE_SHOP_STRING_ID = 82034;
+    public static final int SPRITE_SHOP_STRING_ID = 82056;
 
     public static final int SLAYER_BUY_AMOUNT_STRING_ID = 64017;
 

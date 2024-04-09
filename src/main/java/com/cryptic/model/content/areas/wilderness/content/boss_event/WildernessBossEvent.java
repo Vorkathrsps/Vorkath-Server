@@ -16,6 +16,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,25 +40,14 @@ public class WildernessBossEvent {
 
     private static final Logger logger = LogManager.getLogger(WildernessBossEvent.class);
 
+    @Getter
     private static final WildernessBossEvent INSTANCE = new WildernessBossEvent();
-
-    public static WildernessBossEvent getINSTANCE() {
-        return INSTANCE;
-    }
-
-    public Optional<NPC> getActiveNpc() {
-        return activeNpc;
-    }
-
-    public BossEvent getActiveEvent() {
-        return activeEvent;
-    }
 
     /**
      * An array of possible boss spawns. Chosen at random when a boss spawns.
      */
     private static final Tile[] POSSIBLE_SPAWNS = {
-        new Tile(3166, 4788),//east of chins
+        new Tile(3182, 3790),//east of chins
         new Tile(3304, 3898),//gdz
         new Tile(3307, 3934),//52s
         new Tile(3219, 3661),//east of graves
@@ -86,6 +76,7 @@ public class WildernessBossEvent {
     /**
      * The NPC reference for the active event.
      */
+    @Getter
     private Optional<NPC> activeNpc = Optional.empty();
 
     public void bossDeath(Entity entity) {

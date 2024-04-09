@@ -14,7 +14,7 @@ public enum NewTeleData {
     SAND_CRABS(new Tile(1728, 3463), "Sand Crabs", "", TRAINING, MEDIUM),
     YAKS(new Tile(2323, 3800), "Yaks", "", TRAINING, MEDIUM),
     FIRE_GIANTS(new Tile(2568, 9892), "Fire Giants", "", TRAINING, MEDIUM),
-    DARK_BEASTS(new Tile(2568, 9892), "Mourner Tunnels", "", TRAINING, MEDIUM),
+    DARK_BEASTS(new Tile(1991, 4648), "Mourner Tunnels", "", TRAINING, MEDIUM),
     LITHKREN(new Tile(3550, 10450), "Lithkren Vault", "", TRAINING, MEDIUM),
     LUMBRIDGE_SWAMP_CAVE(new Tile(3169, 9570), "Lumbridge Swamps Cave", "", TRAINING, MEDIUM),
     BRINE_RAT_CAVE(new Tile(2692, 10124), "Brine Rat Cavern", "", TRAINING, MEDIUM),

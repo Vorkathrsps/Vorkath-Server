@@ -23944,4 +23944,5 @@
   {"x":2664,"y":2605,"z":0,"id":1705,"walkRange":1,"direction":"s"},
   {"x":2657,"y":2605,"z":0,"id":1704,"walkRange":1,"direction":"s"}, //end of ravager
   {"x":3082,"y":3515,"z":0,"id":1755,"walkRange":0,"direction":"s"}, //void knight
+  {"x":3096,"y":3503,"z":0,"id":1306,"walkRange":0,"direction":"n"}, //void knight
 ]

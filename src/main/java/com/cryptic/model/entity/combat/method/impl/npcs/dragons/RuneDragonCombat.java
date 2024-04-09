@@ -17,6 +17,8 @@ import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * @author Origin
  * april 29, 2020
@@ -58,23 +60,29 @@ public class RuneDragonCombat extends CommonCombatMethod {
         npc.animate(81);
         for (int i = 0; i < 2; i++) {
             Tile pos = target.tile().relative(Utils.get(-1, 1), Utils.get(-1, 1));
-            NPC spark = new NPC(8032, pos);
-
-            Chain.bound(null).runFn(5, () -> {
-                for (int j = 0; j < 5; j++) {
-                    World.getWorld().registerNpc(spark);
-                    spark.step(World.getWorld().random(-1, 1), World.getWorld().random(-1, 1), MovementQueue.StepType.FORCED_WALK);
-
-                    if (target.tile().isWithinDistance(spark.tile(), 1)) {
-                        int maxDamage = 8;
-                        if (target.getAsPlayer().getEquipment().contains(ItemIdentifiers.INSULATED_BOOTS))
-                            maxDamage = 2;
-                        target.hit(entity, maxDamage);
-                    }
+            final NPC spark = new NPC(8032, pos);
+            int[] ticks = new int[]{0};
+            spark.spawn(false);
+            Chain.noCtxRepeat().repeatingTask(1, step -> {
+                System.out.println(ticks[0]);
+                if (ticks[0] == 8) {
+                    this.sparkAttack = false;
+                    spark.remove();
+                    step.stop();
+                    return;
                 }
-            }).then(5, () -> {
-                World.getWorld().unregisterNpc(spark);
+                spark.stepAbs(spark.tile().transform(World.getWorld().random(-1, 1), World.getWorld().random(-1, 1)), MovementQueue.StepType.REGULAR);
+                if (spark.tile().equals(target.tile())) {
+                    int maxDamage = 8;
+                    if (target.getAsPlayer().getEquipment().contains(ItemIdentifiers.INSULATED_BOOTS))
+                        maxDamage = 2;
+                    target.hit(entity, maxDamage);
+                }
+                ticks[0]++;
+            }).then(1, () -> {
                 this.sparkAttack = false;
+                spark.remove();
+                System.out.println("removing on cancel");
             });
         }
     }

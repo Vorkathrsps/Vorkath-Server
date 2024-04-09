@@ -41,7 +41,10 @@
   {
 	// Cyclopses
 	"ids": [
-	  7271
+	  7271,
+      2466,
+      2463,
+      2468
 	],
 	"maxhit": 2,
 	"attackspeed": 6,
@@ -69,7 +72,7 @@
 	// Cyclopses
 	"ids": [
 	  7270
-	],
+    ],
 	"maxhit": 7,
 	"attackspeed": 4,
 	"aggressive": false,

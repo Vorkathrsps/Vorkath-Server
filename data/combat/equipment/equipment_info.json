@@ -19154,11 +19154,11 @@
   "29041": {
     "slot": 0,
     "type": 8,
-    "showBeard": true
+    "showBeard": false
   },
   "29019": {
     "slot": 0,
     "type": 8,
-    "showBeard": true
+    "showBeard": false
   }
 }

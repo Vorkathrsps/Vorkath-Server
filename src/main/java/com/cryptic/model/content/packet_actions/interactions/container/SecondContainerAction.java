@@ -113,7 +113,7 @@ public class SecondContainerAction {
             }
         }
 
-        if (interfaceId == ShopUtility.ITEM_CHILD_ID || interfaceId == ShopUtility.SLAYER_BUY_ITEM_CHILD_ID) {
+        if (interfaceId == ShopUtility.ITEM_CHILD_ID || interfaceId == ShopUtility.SLAYER_BUY_ITEM_CHILD_ID || interfaceId == ShopUtility.SPIRTE_SHOP_ITEM_CHILD_ID) {
             Shop.exchange(player, id, slot, 2, true);
         }
 

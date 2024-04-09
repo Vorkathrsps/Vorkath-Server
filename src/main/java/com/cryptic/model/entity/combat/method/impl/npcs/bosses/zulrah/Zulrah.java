@@ -31,23 +31,6 @@ import java.util.stream.Stream;
 @SuppressWarnings("ALL")
 public class Zulrah {
 
-    /**
-     * runs a function
-     */
-    public static void runFn(Object mob, int startAfterTicks, Runnable r) {
-        TaskManager.submit(new Task("zulrahCbTask", startAfterTicks, false) {
-            @Override
-            protected void execute() {
-                if (instanceFinished(mob)) {
-                    stop();
-                    return;
-                }
-                r.run();
-                stop();
-            }
-        }.bind(mob));
-    }
-
     private static boolean instanceFinished(Object mob) {
         if (mob instanceof NPC) {
             NPC npc = (NPC) mob;
@@ -144,19 +127,17 @@ public class Zulrah {
             Tile targetTile = npc.spawnTile().transform(phase.getZulrahPosition().getTile().x,
                 phase.getZulrahPosition().getTile().y, phase.getZulrahPosition().getTile().level);
             npc.teleport(targetTile);
-            runFn(npc, 1, () -> {
-                //npc.forceChat("emerge from pool");
+            Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
                 npc.transmog(phase.getForm().getId(), false);
                 npc.setPositionToFace(targetTile.transform(2, 2, 0).transform(phase.getZulrahPosition().getDirection().x,
                     phase.getZulrahPosition().getDirection().y, phase.getZulrahPosition().getDirection().level));
                 npc.animate(5073);
                 npc.lockDelayDamage();
+            }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+                _doPatternPhasePart2(npc, phase, target);
             });
-            runFn(npc, 3, () -> _doPatternPhasePart2(npc, phase, target));
-            // System.out.println("phase start "+phase+" with emerge anim");
             return;
         }
-        //System.out.println("phase start "+phase);
         _doPatternPhasePart2(npc, phase, target);
     }
 
@@ -177,7 +158,7 @@ public class Zulrah {
                     cooldown += 5 * 3;
                     for (int i = 0; i < 5; i++) {
                         recurringCumlativeTimer[0]++;
-                        runFn(npc, recurringCumlativeTimer[0] * 3, () -> {
+                        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(recurringCumlativeTimer[0] * 3, () -> {
                             if (Utils.getRandom(6) == 1) {
                                 doRangedAttack(npc, target);
                             } else {
@@ -189,9 +170,10 @@ public class Zulrah {
                 case RANGE:
                     cooldown += 5 * 3;
                     for (int i = 0; i < 5; i++) {
-                        recurringCumlativeTimer[0]++; // start at 1
-                        // runs code with tick values: 3, 6, 9, 12, 15
-                        runFn(npc, recurringCumlativeTimer[0] * 3, () -> doRangedAttack(npc, target));
+                        recurringCumlativeTimer[0]++;
+                        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(recurringCumlativeTimer[0] * 3, () -> {
+                            doRangedAttack(npc, target);
+                        });
                     }
                     break;
                 case JAD_RM:
@@ -199,9 +181,8 @@ public class Zulrah {
                     cooldown += 10 * 3;
                     final boolean[] range = {phase.getForm() == ZulrahForm.JAD_RM};
                     for (int i = 0; i < 10; i++) {
-                        recurringCumlativeTimer[0]++; // start at 1
-                        // runs code with tick values: 3, 6, 9, 12, 15
-                        runFn(npc, recurringCumlativeTimer[0] * 3, () -> {
+                        recurringCumlativeTimer[0]++;
+                        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(recurringCumlativeTimer[0] * 3, () -> {
                             if (range[0]) {
                                 doRangedAttack(npc, target);
                             } else {
@@ -214,8 +195,6 @@ public class Zulrah {
             }
         }
 
-
-        // run after top section goes
         Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(cooldown < 1 ? 1 : cooldown, () -> {
             npc.setEntityInteraction(null);
             if (phase.hasConfig(ZulrahConfig.FULL_TOXIC_FUMES)) {
@@ -238,15 +217,13 @@ public class Zulrah {
             cooldown += 16;
         }
 
-        runFn(npc, cooldown, () -> {
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(cooldown, () -> {
             target.stopActions(false);
             npc.getCombat().reset();
             npc.animate(5072);
-            //npc.setPositionToFace(null);
             npc.lockDelayDamage();
-            runFn(npc, 2, () -> {
-                npc.unlock();
-            });
+        }).cancelWhen(() -> instanceFinished(npc)).then(2, () -> {
+            npc.unlock();
         });
     }
 
@@ -275,27 +252,28 @@ public class Zulrah {
     }
 
     private static void doMeleePhase(NPC npc, Entity target) {
-        //npc.setPositionToFace(null);
-        runFn(npc, 1, () -> _doMeleePhaseInner(npc, target));
-        runFn(npc, 10, () -> _doMeleePhaseInner(npc, target));
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
+            _doMeleePhaseInner(npc, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(10, () -> {
+            _doMeleePhaseInner(npc, target);
+        });
     }
 
     private static void _doMeleePhaseInner(NPC npc, Entity target) {
         npc.setEntityInteraction(null);
-        //npc.forceChat("melee attack");
         npc.animate(5806);
         Tile p1 = target.tile().copy();
         npc.setPositionToFace(p1);
         Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.setPositionToFace(p1);
-        }).then(4, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(4, () -> {
             if (p1.area(1).contains(target) && !isMeleeSafespot(npc, target.tile())) {
                 target.stun(4);
                 target.hit(npc, Utils.random(41), 0, CombatType.MELEE).checkAccuracy(true).submit();
             }
-        }).then(2, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(2, () -> {
             npc.setEntityInteraction(target);
-        }).then(2, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(2, () -> {
             npc.setEntityInteraction(null);
         });
     }
@@ -367,19 +345,19 @@ public class Zulrah {
             npc.setPositionToFace(spawnTile.transform(4, -4));
             spitFume(npc, spawnTile.transform(2, -4), target, 3);
             spitFume(npc, spawnTile.transform(5, -4), target, 3);
-        }).then(3, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
             // South-west
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(-2, -4));
             spitFume(npc, spawnTile.transform(-1, -4), target, 3);
             spitFume(npc, spawnTile.transform(-4, -3), target, 3);
-        }).then(3, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
             // East
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(6, 2));
             spitFume(npc, spawnTile.transform(6, -1), target, 3);
             spitFume(npc, spawnTile.transform(6, 2), target, 3);
-        }).then(3, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
             // West
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(-4, 2));
@@ -393,144 +371,97 @@ public class Zulrah {
         Tile spawnTile = npc.spawnTile();
 
         // Fix facing first
-       // npc.setPositionToFace(null);
-        runFn(npc, 1, () -> {
-            // Snakelings
+        // npc.setPositionToFace(null);
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(-3, 4));
             createSnakeling(npc, spawnTile.transform(-3, 4), 4, target);
-
-            runFn(npc, 3, () -> {
-                npc.setPositionToFace(spawnTile.transform(-3, 1));
-                createSnakeling(npc, spawnTile.transform(-3, 1), 4, target);
-
-                runFn(npc, 3, () -> {
-                    // Fumes
-                    npc.animate(5069);
-                    npc.setPositionToFace(spawnTile.transform(-4, -3));
-                    spitFume(npc, spawnTile.transform(-4, -3), target, 3);
-                    spitFume(npc, spawnTile.transform(-1, -4), target, 3);
-
-                    runFn(npc, 3, () -> {
-                        npc.animate(5069);
-                        npc.setPositionToFace(spawnTile.transform(5, -2));
-                        spitFume(npc, spawnTile.transform(5, -4), target, 3);
-                        spitFume(npc, spawnTile.transform(6, -1), target, 3);
-
-                        runFn(npc, 3, () -> {
-                            // Snakelings
-                            npc.animate(5069);
-                            npc.setPositionToFace(spawnTile.transform(7, 3));
-                            createSnakeling(npc, spawnTile.transform(7, 3), 4, target);
-
-                            runFn(npc, 3, () -> {
-                                npc.animate(5069);
-                                npc.setPositionToFace(spawnTile.transform(7, 6));
-                                createSnakeling(npc, spawnTile.transform(7, 6), 4, target);
-                            });
-                        });
-                    });
-                });
-            });
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.setPositionToFace(spawnTile.transform(-3, 1));
+            createSnakeling(npc, spawnTile.transform(-3, 1), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-4, -3));
+            spitFume(npc, spawnTile.transform(-4, -3), target, 3);
+            spitFume(npc, spawnTile.transform(-1, -4), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(5, -2));
+            spitFume(npc, spawnTile.transform(5, -4), target, 3);
+            spitFume(npc, spawnTile.transform(6, -1), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            // Snakelings
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(7, 3));
+            createSnakeling(npc, spawnTile.transform(7, 3), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(7, 6));
+            createSnakeling(npc, spawnTile.transform(7, 6), 4, target);
         });
     }
 
     private static void eastSnakelingsRestFumes(NPC npc, Entity target) {
         Tile spawnTile = npc.spawnTile();
-
-        // Fix facing first
-        //npc.setPositionToFace(null);
-        runFn(npc, 1, () -> {
-            // Fumes
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(3, -4));
             spitFume(npc, spawnTile.transform(2, -4), target, 3);
             spitFume(npc, spawnTile.transform(5, -4), target, 3);
-
-            runFn(npc, 3, () -> {
-                // Fumes
-                npc.animate(5069);
-                npc.setPositionToFace(spawnTile.transform(-2, -3));
-                spitFume(npc, spawnTile.transform(-4, -3), target, 3);
-                spitFume(npc, spawnTile.transform(-1, -4), target, 3);
-
-                runFn(npc, 3, () -> {
-                    // Fumes
-                    npc.animate(5069);
-                    npc.setPositionToFace(spawnTile.transform(-4, 2));
-                    spitFume(npc, spawnTile.transform(-4, 0), target, 3);
-                    spitFume(npc, spawnTile.transform(-4, 3), target, 3);
-
-                    runFn(npc, 3, () -> {
-                        // Snakelings
-                        npc.animate(5069);
-                        npc.setPositionToFace(spawnTile.transform(6, -3));
-                        createSnakeling(npc, spawnTile.transform(6, -3), 4, target);
-
-                        runFn(npc, 3, () -> {
-                            npc.animate(5069);
-                            npc.setPositionToFace(spawnTile.transform(7, 3));
-                            createSnakeling(npc, spawnTile.transform(7, 3), 4, target);
-
-                            runFn(npc, 3, () -> {
-                                npc.animate(5069);
-                                npc.setPositionToFace(spawnTile.transform(7, 6));
-                                createSnakeling(npc, spawnTile.transform(7, 6), 4, target);
-
-                                runFn(npc, 3, () -> {
-                                    npc.animate(5069);
-                                    npc.setPositionToFace(spawnTile.transform(7, 0));
-                                    createSnakeling(npc, spawnTile.transform(7, 0), 4, target);
-                                });
-                            });
-                        });
-                    });
-                });
-            });
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-2, -3));
+            spitFume(npc, spawnTile.transform(-4, -3), target, 3);
+            spitFume(npc, spawnTile.transform(-1, -4), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-4, 2));
+            spitFume(npc, spawnTile.transform(-4, 0), target, 3);
+            spitFume(npc, spawnTile.transform(-4, 3), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(6, -3));
+            createSnakeling(npc, spawnTile.transform(6, -3), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(7, 3));
+            createSnakeling(npc, spawnTile.transform(7, 3), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(7, 6));
+            createSnakeling(npc, spawnTile.transform(7, 6), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(7, 0));
+            createSnakeling(npc, spawnTile.transform(7, 0), 4, target);
         });
 
     }
 
     private static void snakelingFumeMix(NPC npc, Entity target) {
         Tile spawnTile = npc.spawnTile();
-
-        // Fix facing first
-        //npc.setPositionToFace(null);
-        runFn(npc, 1, () -> {
-            // Snakelings
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(-3, -2));
             createSnakeling(npc, spawnTile.transform(-3, -2), 4, target);
-
-            runFn(npc, 3, () -> {
-                // Fumes
-                npc.animate(5069);
-                npc.setPositionToFace(spawnTile.transform(1, -4));
-                spitFume(npc, spawnTile.transform(-1, -4), target, 3);
-                spitFume(npc, spawnTile.transform(2, -4), target, 3);
-
-                runFn(npc, 3, () -> {
-                    // Snakelings
-                    npc.animate(5069);
-                    npc.setPositionToFace(spawnTile.transform(-3, 4));
-                    createSnakeling(npc, spawnTile.transform(-3, 4), 4, target);
-
-                    runFn(npc, 3, () -> {
-                        // Fumes
-                        npc.animate(5069);
-                        npc.setPositionToFace(spawnTile.transform(5, -4));
-                        spitFume(npc, spawnTile.transform(5, -4), target, 3);
-                        spitFume(npc, spawnTile.transform(6, -1), target, 3);
-
-                        runFn(npc, 3, () -> {
-                            // Snakelings
-                            npc.animate(5069);
-                            npc.setPositionToFace(spawnTile.transform(-3, 1));
-                            createSnakeling(npc, spawnTile.transform(-3, 1), 4, target);
-                        });
-                    });
-                });
-            });
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(1, -4));
+            spitFume(npc, spawnTile.transform(-1, -4), target, 3);
+            spitFume(npc, spawnTile.transform(2, -4), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-3, 4));
+            createSnakeling(npc, spawnTile.transform(-3, 4), 4, target);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(5, -4));
+            spitFume(npc, spawnTile.transform(5, -4), target, 3);
+            spitFume(npc, spawnTile.transform(6, -1), target, 3);
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-3, 1));
+            createSnakeling(npc, spawnTile.transform(-3, 1), 4, target);
         });
     }
 
@@ -576,7 +507,7 @@ public class Zulrah {
         new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 40, 92, 5, 0).sendProjectile();
         MutableObject<NPC> snakeling = new MutableObject<>();
         snakeling.setValue(new NPC(NpcIdentifiers.SNAKELING, tile.copy()));
-        Chain.noCtx().runFn(delay, () -> {
+        Chain.noCtx().cancelWhen(() -> instanceFinished(npc)).runFn(delay, () -> {
             Player player = (Player) target;
             player.getInstancedArea().addNpc(snakeling.getValue());
             World.getWorld().registerNpc(snakeling.getValue());
@@ -586,10 +517,10 @@ public class Zulrah {
             snakeling.getValue().animate(2413);
             snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             snakeling.getValue().lockNoDamage();
-        }).then(3, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
             snakeling.getValue().unlock();
             snakeling.getValue().getCombat().attack(target);
-        }).then(1, () -> {
+        }).cancelWhen(() -> instanceFinished(npc)).then(1, () -> {
             snakeling.getValue().runUninterruptable(60, () -> {
                 snakeling.getValue().hit(snakeling.getValue(), snakeling.getValue().hp());
             });

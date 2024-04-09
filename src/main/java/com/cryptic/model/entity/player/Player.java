@@ -13,7 +13,6 @@ import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.areas.wilderness.content.RiskManagement;
 import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
-import com.cryptic.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.cryptic.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
 import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.content.bank_pin.BankPin;
@@ -46,7 +45,6 @@ import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.RaidParty;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
-import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.security.AccountPin;
 import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.Skillable;
@@ -140,6 +138,8 @@ import com.cryptic.utility.*;
 import com.cryptic.utility.timers.TimerKey;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.compress.utils.Lists;
@@ -211,25 +211,17 @@ public class Player extends Entity {
 
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
+    @Getter
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+    @Setter
+    @Getter
     private PresetData[] presetData = new PresetData[8];
-
-    public WildernessSlayerCasket getWildernessSlayerCasket() {
-        return wildernessSlayerCasket;
-    }
 
     @Getter
     private final WildernessKeys wildernessKeys = new WildernessKeys();
 
-    public WildernessKeys getWildernessKeys() {
-        return wildernessKeys;
-    }
-
+    @Getter
     private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
-
-    public MysteryBoxManager getMysteryBox() {
-        return mysteryBox;
-    }
 
     @Getter
     @Setter
@@ -255,24 +247,15 @@ public class Player extends Entity {
      */
     public ArrayList<String> newPlayerChat = new ArrayList<String>();
 
+    @Setter
+    @Getter
     private Raids raids;
 
     @Getter
     public BonusesInterface bonusInterface = new BonusesInterface(this);
 
+    @Getter
     private ZarosGodwars zarosGodwars;
-
-    public Raids getRaids() {
-        return raids;
-    }
-
-    public ZarosGodwars getZarosGodwars() {
-        return zarosGodwars;
-    }
-
-    public void setRaids(Raids raids) {
-        this.raids = raids;
-    }
 
     @Getter
     @Setter
@@ -357,13 +340,10 @@ public class Player extends Entity {
         }
     }
 
+    @Getter
     private final UnnecessaryPacketDropper packetDropper = new UnnecessaryPacketDropper();
 
-    public UnnecessaryPacketDropper getPacketDropper() {
-        return packetDropper;
-    }
-
-    public int extraItemRollChance() {
+     public int extraItemRollChance() {
         return switch (getMemberRights()) {
             case NONE, RUBY_MEMBER, SAPPHIRE_MEMBER -> 0;
             case EMERALD_MEMBER -> 1;
@@ -1347,7 +1327,18 @@ public class Player extends Entity {
         stopActions(true);
         getSession().setState(SessionState.REQUESTED_LOG_OUT);
         logoutLock();
-
+        ObjectList<Item> temp = new ObjectArrayList<>();
+        for (var o : World.getWorld().getOwnedObjects().values()) {
+            if (o == null) continue;
+            if (o instanceof DwarfCannon cannon) {
+                if (cannon.isOwner(this)) {
+                    IntStream.of(cannon.getStage().getParts()).mapToObj(Item::new).forEach(temp::add);
+                    temp.add(new Item(ItemIdentifiers.CANNONBALL, cannon.getAmmo()));
+                    this.getInventory().addOrBank(temp);
+                    cannon.destroy();
+                }
+            }
+        }
         try {
             // If we're logged in and the channel is active, begin with sending a logout message and closing the channel.
             // We use writeAndFlush here because otherwise the message won't be flushed cos of the next unregister() call.
@@ -2049,7 +2040,7 @@ public class Player extends Entity {
         setMemberRights(MemberRights.NONE);
 
         //Make sure these points have been reset
-        putAttrib(AttributeKey.VOTE_POINS, 0);
+        putAttrib(AttributeKey.VOTE_POINTS, 0);
         putAttrib(SLAYER_REWARD_POINTS, 0);
         putAttrib(REFERRER_USERNAME, "");
 
@@ -2136,33 +2127,55 @@ public class Player extends Entity {
     private String hostAddress;
     private Long longUsername;
     private final PacketSender packetSender = new PacketSender(this);
+    @Getter
     private final PlayerRelations relations = new PlayerRelations(this);
+    @Getter
     private final QuickPrayers quickPrayers = new QuickPrayers(this);
     private Session session;
+    @Getter
     private PlayerInteractingOption playerInteractingOption = PlayerInteractingOption.NONE;
     private PlayerRights rights = PlayerRights.PLAYER;
     private MemberRights memberRights = MemberRights.NONE;
+    @Getter
     private PlayerStatus status = PlayerStatus.NONE;
     private String clanChatName = GameServer.properties().defaultClanChat;
     public final Stopwatch last_trap_layed = new Stopwatch();
+    @Getter
+    @Setter
     private boolean allowRegionChangePacket;
     private boolean usingQuestTab = false;
     private int presetIndex = 0;
     private int interactingNpcId = 0;
+    @Getter
     private final RunePouch runePouch = new RunePouch(this);
+    @Setter
+    @Getter
     private Inventory inventory = new Inventory(this);
+    @Getter
     private final Equipment equipment = new Equipment(this);
+    @Getter
     private final PriceChecker priceChecker = new PriceChecker(this);
+    @Getter
     private final Stopwatch clickDelay = new Stopwatch();
+    @Setter
+    @Getter
     private MagicSpellbook spellbook = MagicSpellbook.NORMAL;
+    @Setter
+    @Getter
     private MagicSpellbook previousSpellbook = MagicSpellbook.NORMAL;
+    @Getter
     private final SecondsTimer yellDelay = new SecondsTimer();
     public final SecondsTimer increaseStats = new SecondsTimer();
     public final SecondsTimer decreaseStats = new SecondsTimer();
     public boolean[] section = new boolean[16];
 
+    @Getter
+    @Setter
     private int destroyItem = -1;
+    @Setter
     private boolean queuedAppearanceUpdate; // Updates appearance on next tick
+    @Setter
+    @Getter
     private int regionHeight;
 
     private int duelWins = 0;
@@ -2222,6 +2235,8 @@ public class Player extends Entity {
     }
 
     private final SecondsTimer aggressionTolerance = new SecondsTimer();
+    @Setter
+    @Getter
     private CombatSpecial combatSpecial;
 
     public double getEnergyDeprecation() {
@@ -2257,15 +2272,22 @@ public class Player extends Entity {
     }
 
     // Delay for restoring special attack
+    @Getter
     private final SecondsTimer specialAttackRestore = new SecondsTimer();
 
     // Bounty hunter
+    @Getter
     private final SecondsTimer targetSearchTimer = new SecondsTimer();
+    @Getter
     private final List<String> recentKills = new ArrayList<>(); // Contains ip addresses of recent kills
+    @Getter
     private final Queue<ChatMessage> chatMessageQueue = new ConcurrentLinkedQueue<>();
+    @Setter
+    @Getter
     private ChatMessage currentChatMessage;
 
     // Logout
+    @Getter
     private final SecondsTimer forcedLogoutTimer = new SecondsTimer();
     private final BankPin bankPin = new BankPin(this);
     private final BankPinSettings bankPinSettings = new BankPinSettings(this);
@@ -2274,16 +2296,24 @@ public class Player extends Entity {
     private String searchSyntax = "";
 
     // Trading
+    @Getter
     private final Trading trading = new Trading(this);
+    @Getter
     private final Dueling dueling = new Dueling(this);
 
     // Presets
+    @Setter
+    @Getter
     private Presetable currentPreset;
+    // old i guess?
+    @Setter
+    @Getter
     private Presetable[] presets = new Presetable[20];
 
     /**
      * The cached player update block for updating.
      */
+    @Setter
     private volatile ByteBuf cachedUpdateBlock;
 
     private int playerQuestTabCycleCount;
@@ -2408,119 +2438,34 @@ public class Player extends Entity {
         return packetSender;
     }
 
-    public SecondsTimer getForcedLogoutTimer() {
-        return forcedLogoutTimer;
-    }
-
-    public PlayerRelations getRelations() {
-        return relations;
-    }
-
     public int tabSlot = 0;
 
     /**
      * The dialogue manager instance
-     */
-    private final DialogueManager dialogueManager = new DialogueManager(this);
-
-    /**
-     * Gets the dialogue manager
+     * -- GETTER --
+     *  Gets the dialogue manager
      *
      * @return
+
      */
-    public DialogueManager getDialogueManager() {
-        return dialogueManager;
-    }
-
-    public void setAllowRegionChangePacket(boolean allowRegionChangePacket) {
-        this.allowRegionChangePacket = allowRegionChangePacket;
-    }
-
-    public boolean isAllowRegionChangePacket() {
-        return allowRegionChangePacket;
-    }
-
-    public PlayerInteractingOption getPlayerInteractingOption() {
-        return playerInteractingOption;
-    }
+    @Getter
+    private final DialogueManager dialogueManager = new DialogueManager(this);
 
     public Player setPlayerInteractingOption(PlayerInteractingOption playerInteractingOption) {
         this.playerInteractingOption = playerInteractingOption;
         return this;
     }
 
-    public RunePouch getRunePouch() {
-        return runePouch;
-    }
-
     public Inventory inventory() {
         return inventory;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public Equipment getEquipment() {
-        return equipment;
     }
 
     /**
      * Weight of the player
      */
+    @Setter
+    @Getter
     private double weight;
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public CombatSpecial getCombatSpecial() {
-        return combatSpecial;
-    }
-
-    public void setCombatSpecial(CombatSpecial combatSpecial) {
-        this.combatSpecial = combatSpecial;
-    }
-
-    public MagicSpellbook getSpellbook() {
-        return spellbook;
-    }
-
-    public MagicSpellbook getPreviousSpellbook() {
-        return previousSpellbook;
-    }
-
-    public void setSpellbook(MagicSpellbook spellbook) {
-        this.spellbook = spellbook;
-    }
-
-    public void setPreviousSpellbook(MagicSpellbook previousSpellbook) {
-        this.previousSpellbook = previousSpellbook;
-    }
-
-    public void setDestroyItem(int destroyItem) {
-        this.destroyItem = destroyItem;
-    }
-
-    public int getDestroyItem() {
-        return destroyItem;
-    }
-
-    public Stopwatch getClickDelay() {
-        return clickDelay;
-    }
-
-    public PlayerStatus getStatus() {
-        return status;
-    }
 
     public Player setStatus(PlayerStatus status) {
         this.status = status;
@@ -2551,67 +2496,10 @@ public class Player extends Entity {
         return bank;
     }
 
-    public PriceChecker getPriceChecker() {
-        return priceChecker;
-    }
-
-    public Trading getTrading() {
-        return trading;
-    }
-
-    public Presetable[] getPresets() { // old i guess?
-        return presets;
-    }
-
-    public void setPresets(Presetable[] sets) {
-        this.presets = sets;
-    }
-
-    public PresetData[] getPresetData() {
-        return presetData;
-    }
-
-    public void setPresetData(PresetData[] presetData) {
-        this.presetData = presetData;
-    }
-
-    public Presetable getCurrentPreset() {
-        return currentPreset;
-    }
-
-    public void setCurrentPreset(Presetable currentPreset) {
-        this.currentPreset = currentPreset;
-    }
-
+    //old yeye
+    @Setter
+    @Getter
     private Object[] lastPreset;
-
-    public Object[] getLastPreset() {
-        return lastPreset;
-    }
-
-    public void setLastPreset(final Object[] lastPresetData) {
-        this.lastPreset = lastPresetData;
-    } //old yeye
-
-    public Queue<ChatMessage> getChatMessageQueue() {
-        return chatMessageQueue;
-    }
-
-    public ChatMessage getCurrentChatMessage() {
-        return currentChatMessage;
-    }
-
-    public void setCurrentChatMessage(ChatMessage currentChatMessage) {
-        this.currentChatMessage = currentChatMessage;
-    }
-
-    public QuickPrayers getQuickPrayers() {
-        return quickPrayers;
-    }
-
-    public SecondsTimer getYellDelay() {
-        return yellDelay;
-    }
 
     public String getKillDeathRatio() {
         double kc = 0;
@@ -2647,40 +2535,8 @@ public class Player extends Entity {
         return mapRegions;
     }
 
-    public List<String> getRecentKills() {
-        return recentKills;
-    }
-
-    public SecondsTimer getTargetSearchTimer() {
-        return targetSearchTimer;
-    }
-
-    public SecondsTimer getSpecialAttackRestore() {
-        return specialAttackRestore;
-    }
-
     public boolean queuedAppearanceUpdate() {
         return queuedAppearanceUpdate;
-    }
-
-    public void setQueuedAppearanceUpdate(boolean updateAppearance) {
-        this.queuedAppearanceUpdate = updateAppearance;
-    }
-
-    public Dueling getDueling() {
-        return dueling;
-    }
-
-    public void setCachedUpdateBlock(ByteBuf cachedUpdateBlock) {
-        this.cachedUpdateBlock = cachedUpdateBlock;
-    }
-
-    public int getRegionHeight() {
-        return regionHeight;
-    }
-
-    public void setRegionHeight(int regionHeight) {
-        this.regionHeight = regionHeight;
     }
 
     private GameMode mode = GameMode.TRAINED_ACCOUNT;
@@ -2880,27 +2736,25 @@ public class Player extends Entity {
         return achievementsCompleted() >= Achievements.getTotal() - 1;
     }
 
+    /**
+     * -- GETTER --
+     *  Returns the single instance of the
+     *  class for this player.
+     *
+     * @return the tracker class
+     */
+    @Getter
     private final BossKillLog bossKillLog = new BossKillLog(this);
 
     /**
-     * Returns the single instance of the {@link BossKillLog} class for this player.
+     * -- GETTER --
+     *  Returns the single instance of the
+     *  class for this player.
      *
      * @return the tracker class
      */
-    public BossKillLog getBossKillLog() {
-        return bossKillLog;
-    }
-
+    @Getter
     private final SlayerKillLog slayerKillLog = new SlayerKillLog(this);
-
-    /**
-     * Returns the single instance of the {@link SlayerKillLog} class for this player.
-     *
-     * @return the tracker class
-     */
-    public SlayerKillLog getSlayerKillLog() {
-        return slayerKillLog;
-    }
 
     @Override
     public void autoRetaliate(Entity attacker) {
@@ -3362,46 +3216,20 @@ public class Player extends Entity {
         }
     }
 
+    @Getter
+    @Setter
     boolean inTournamentLobby, tournamentSpectating;
 
+    @Getter
+    @Setter
     Tournament participatingTournament;
 
     public boolean inActiveTournament() {
         return participatingTournament != null;
     }
 
+    @Getter
+    @Setter
     Player tournamentOpponent;
-
-    public boolean isInTournamentLobby() {
-        return this.inTournamentLobby;
-    }
-
-    public boolean isTournamentSpectating() {
-        return this.tournamentSpectating;
-    }
-
-    public Tournament getParticipatingTournament() {
-        return this.participatingTournament;
-    }
-
-    public Player getTournamentOpponent() {
-        return this.tournamentOpponent;
-    }
-
-    public void setInTournamentLobby(boolean inTournamentLobby) {
-        this.inTournamentLobby = inTournamentLobby;
-    }
-
-    public void setTournamentSpectating(boolean tournamentSpectating) {
-        this.tournamentSpectating = tournamentSpectating;
-    }
-
-    public void setParticipatingTournament(Tournament participatingTournament) {
-        this.participatingTournament = participatingTournament;
-    }
-
-    public void setTournamentOpponent(Player tournamentOpponent) {
-        this.tournamentOpponent = tournamentOpponent;
-    }
 
 }

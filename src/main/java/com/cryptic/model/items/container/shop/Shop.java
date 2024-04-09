@@ -1,13 +1,11 @@
 package com.cryptic.model.items.container.shop;
 
-import com.cryptic.GameServer;
 import com.cryptic.GameConstants;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
-import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
@@ -90,15 +88,17 @@ public abstract class Shop {
     }
 
     public static void closeShop(Player player) {
-        if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE)) {
+        if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SPRITE_SHOP_INTERFACE)) {
+            System.out.println("ayo g?");
             return;
         }
 
-        int id = player.getAttribOr(AttributeKey.SHOP, -1);
+        int id = player.<Integer>getAttribOr(AttributeKey.SHOP, -1);
 
         Shop store = World.getWorld().shop(id);
 
         if (store == null) {
+            System.out.println("null sto?");
             return;
         }
 
@@ -112,7 +112,7 @@ public abstract class Shop {
             return;
         }
 
-        if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE)) {
+        if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SPRITE_SHOP_INTERFACE)) {
             return;
         }
 
@@ -127,15 +127,10 @@ public abstract class Shop {
         store.itemContainerAction(player, id, slot, action, purchase);
 
         if (action == 5 && shop != 7) {
-
-            player.setAmountScript("How many would you like to " + (purchase ? "buy" : "sell") + "?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    player.putAttrib(AttributeKey.STORE_X, (Integer) value);
-                    store.itemContainerAction(player, id, slot, action, purchase);
-                    return true;
-                }
+            player.<Integer>setAmountScript("How many would you like to " + (purchase ? "buy" : "sell") + "?", value -> {
+                player.putAttrib(AttributeKey.STORE_X, value);
+                store.itemContainerAction(player, id, slot, action, purchase);
+                return true;
             });
         }
     }
@@ -196,7 +191,21 @@ public abstract class Shop {
             int safeAmtToBuy = Math.max(0, (Integer.MAX_VALUE / value) - 1);
             item.setAmount(safeAmtToBuy);
         }
+
         int cost = (value * item.getAmount());
+
+        if (storeItem.secondaryValue.isPresent()) {
+            if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && (currencyType.currency.currencyAmount(player, cost) >= cost)) {
+                System.out.println(storeItem.secondaryValue);
+                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
+                return;
+            } else if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && !(currencyType.currency.currencyAmount(player, cost) >= cost)) {
+                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
+                player.message(Color.RED.wrap("<shad=0>You don't have enough " + currencyType.toString() + " to buy this item.</shad>"));
+                return;
+            }
+        }
+
         if (!(currencyType.currency.currencyAmount(player, cost) >= cost)) {
             player.message("You don't have enough " + currencyType.toString() + " to buy this item.");
             return;
@@ -231,7 +240,14 @@ public abstract class Shop {
             player.message("You don't have enough space in your inventory.");
             return;
         }
+
         onPurchase(player, item);
+
+        if (storeItem.secondaryValue.isPresent()) {
+            if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt())) return;
+            else player.inventory().remove(storeItem.secondaryValue.getAsInt());
+        }
+
         player.inventory().addOrBank(item);
         if (player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE)) {
             int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
@@ -266,13 +282,11 @@ public abstract class Shop {
         }
 
         if (item.getId() == ItemIdentifiers.HERB_BOX) {
-            player.putAttrib(AttributeKey.HERB_BOX_CHARGES,20);
+            player.putAttrib(AttributeKey.HERB_BOX_CHARGES, 20);
         }
 
         for (SkillcapeHoods skillcapeHoods : SkillcapeHoods.values()) {
-            //Check if the item being purchased is a cape with hood.
             if (Arrays.stream(skillcapeHoods.getCapes()).anyMatch(id -> id == item.getId())) {
-                //Add the hood in the players inventory if there is space, otherwise bank.
                 player.inventory().addOrBank(new Item(skillcapeHoods.getHood()));
             }
         }
@@ -297,11 +311,6 @@ public abstract class Shop {
             return;
         }
 
-        /*if (!item.rawtradable()) {
-            player.message("This item can't be sold to shops.");
-            return;
-        }*/
-
         if (sellType() == SellType.NONE) {
             player.message("You can't sell items to this shop.");
             return;
@@ -311,19 +320,6 @@ public abstract class Shop {
             player.message("You can't sell this item.");
             return;
         }
-
-        /*
-        for (Item bankItem : GameConstants.BANK_ITEMS) {
-            if (bankItem.note().getId() == item.getId()) {
-                player.message("You can't sell this item.");
-                return;
-            }
-            if (bankItem.getId() == item.getId()) {
-                player.message("You can't sell this item.");
-                return;
-            }
-        }
-        */
 
         if (Arrays.stream(GameConstants.DONATOR_ITEMS).anyMatch(id -> id == item.getId())) {
             player.message("You can't sell this item.");

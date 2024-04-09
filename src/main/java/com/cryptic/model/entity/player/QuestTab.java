@@ -4,12 +4,9 @@ import com.cryptic.GameServer;
 import com.cryptic.model.World;
 import com.cryptic.model.content.DropsDisplay;
 import com.cryptic.model.content.achievements.AchievementWidget;
-import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.areas.wilderness.content.EloRating;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
-import com.cryptic.model.content.collection_logs.Collection;
 import com.cryptic.model.content.collection_logs.LogType;
-import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -99,7 +96,7 @@ public final class QuestTab {
         VOTE_POINTS(12671) {
             @Override
             public String fetchLineData(Player player) {
-                int votePoints = player.getAttribOr(AttributeKey.VOTE_POINS, 0);
+                int votePoints = player.getAttribOr(AttributeKey.VOTE_POINTS, 0);
                 return "<col=FDC401>Vote Points: <col=ffffff>" + votePoints;
             }
         },

@@ -23918,5 +23918,30 @@
   {"x":3578,"y":3300,"z":0,"id":1673,"walkRange":0,"direction":"s"},
   {"x":3573,"y":3295,"z":0,"id":1673,"walkRange":0,"direction":"s"},
   {"x":3578,"y":3295,"z":0,"id":1673,"walkRange":0,"direction":"s"},
-  {"x":3297,"y":9866,"z":0,"id":7221,"walkRange":0,"direction":"s"}
+  {"x":3297,"y":9866,"z":0,"id":7221,"walkRange":0,"direction":"s"},
+  {"x":2664,"y":2588,"z":0,"id":1738,"walkRange":1,"direction":"s"},
+  {"x":2649,"y":2588,"z":0,"id":1736,"walkRange":1,"direction":"s"},
+  {"x":2666,"y":2593,"z":0,"id":1735,"walkRange":1,"direction":"s"},
+  {"x":2646,"y":2593,"z":0,"id":1735,"walkRange":1,"direction":"s"}, //end of brawler
+  {"x":2659,"y":2590,"z":0,"id":1691,"walkRange":1,"direction":"s"},
+  {"x":2654,"y":2590,"z":0,"id":1690,"walkRange":1,"direction":"s"},
+  {"x":2659,"y":2595,"z":0,"id":1689,"walkRange":1,"direction":"s"},
+  {"x":2654,"y":2595,"z":0,"id":1691,"walkRange":1,"direction":"s"}, //end of spatter
+  {"x":2662,"y":2589,"z":0,"id":1713,"walkRange":1,"direction":"s"},
+  {"x":2651,"y":2589,"z":0,"id":1712,"walkRange":1,"direction":"s"},
+  {"x":2662,"y":2596,"z":0,"id":1711,"walkRange":1,"direction":"s"},
+  {"x":2651,"y":2596,"z":0,"id":1710,"walkRange":1,"direction":"s"}, //end of spinner
+  {"x":2660,"y":2599,"z":0,"id":1702,"walkRange":1,"direction":"s"},
+  {"x":2653,"y":2599,"z":0,"id":1703,"walkRange":1,"direction":"s"},
+  {"x":2669,"y":2588,"z":0,"id":1700,"walkRange":1,"direction":"s"},
+  {"x":2644,"y":2588,"z":0,"id":1701,"walkRange":1,"direction":"s"},
+  {"x":2657,"y":2586,"z":0,"id":1702,"walkRange":1,"direction":"s"},
+  {"x":2669,"y":2598,"z":0,"id":1703,"walkRange":1,"direction":"s"},
+  {"x":2645,"y":2598,"z":0,"id":1700,"walkRange":1,"direction":"s"}, //end of shifter
+  {"x":2649,"y":2605,"z":0,"id":1708,"walkRange":1,"direction":"s"},
+  {"x":2656,"y":2600,"z":0,"id":1707,"walkRange":1,"direction":"s"},
+  {"x":2666,"y":2600,"z":0,"id":1706,"walkRange":1,"direction":"s"},
+  {"x":2664,"y":2605,"z":0,"id":1705,"walkRange":1,"direction":"s"},
+  {"x":2657,"y":2605,"z":0,"id":1704,"walkRange":1,"direction":"s"}, //end of ravager
+  {"x":3082,"y":3515,"z":0,"id":1755,"walkRange":0,"direction":"s"}, //void knight
 ]

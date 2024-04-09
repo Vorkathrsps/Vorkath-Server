@@ -27,6 +27,7 @@ public enum AttributeKey {
 
     LOOT_KEYS_CARRIED("loot_keys_carried", AttribType.INTEGER),
     TOTAL_SIGILS_ACTIVATED("sigils_activated", AttribType.INTEGER),
+    VOID_ISLAND_POINTS("void_island_points", AttribType.INTEGER),
 
     // Withdraws the loot key items in noted form
     LOOT_KEY_WITHDRAW_LOOT_TYPE,
@@ -1023,7 +1024,7 @@ public enum AttributeKey {
      */
     GIVE_EMPTY_POTION_VIALS("remove_potions", AttribType.BOOLEAN),
 
-    VOTE_POINS("vote_points", AttribType.INTEGER),
+    VOTE_POINTS("vote_points", AttribType.INTEGER),
 
     /**
      * Key used in callisto combat which keeps track of when to use the healing when he gets hit.

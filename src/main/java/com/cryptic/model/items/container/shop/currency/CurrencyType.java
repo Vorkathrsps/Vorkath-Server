@@ -22,7 +22,8 @@ public enum CurrencyType {
     VOTE_POINTS(new VotePointsCurrency()),
     BOSS_POINTS(new BossPointsCurrency()),
     TOURNAMENT_POINTS(new TournamentPointsCurrency()),
-    RISKZONE_POINTS(new RiskzonePointsCurrency());
+    RISKZONE_POINTS(new RiskzonePointsCurrency()),
+    VOID_ISLAND_POINTS(new VoidIslandPointCurrency());
 
     private static final ImmutableSet<CurrencyType> VALUES = ImmutableSet.copyOf(values());
 
@@ -50,16 +51,20 @@ public enum CurrencyType {
                 value = Utils.formatNumber(targetPoints);
                 break;
             case SLAYER_REWARD_POINTS:
-                int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
+                int slayerRewardPoints = player.<Integer>getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
                 value = Utils.formatNumber(slayerRewardPoints);
                 break;
             case VOTE_POINTS:
-                int votePoints = player.getAttribOr(AttributeKey.VOTE_POINS, 0);
+                int votePoints = player.<Integer>getAttribOr(AttributeKey.VOTE_POINTS, 0);
                 value = Utils.formatNumber(votePoints);
                 break;
             case BOSS_POINTS:
                 int bossPoints = player.getAttribOr(AttributeKey.BOSS_POINTS, 0);
                 value = Utils.formatNumber(bossPoints);
+                break;
+            case VOID_ISLAND_POINTS:
+                int voidIslandPoints = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
+                value = Utils.formatNumber(voidIslandPoints);
                 break;
             default:
                 break;

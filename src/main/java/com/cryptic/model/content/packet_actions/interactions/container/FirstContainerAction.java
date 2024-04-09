@@ -20,6 +20,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 
 import static com.cryptic.model.content.skill.impl.smithing.EquipmentMaking.*;
 import static com.cryptic.model.inter.InterfaceConstants.*;
+import static com.cryptic.model.items.container.shop.ShopUtility.SPIRTE_SHOP_ITEM_CHILD_ID;
 
 /**
  * @author PVE
@@ -194,7 +195,7 @@ public class FirstContainerAction {
             }
         }
 
-        if (interfaceId == ShopUtility.ITEM_CHILD_ID || interfaceId == ShopUtility.SLAYER_BUY_ITEM_CHILD_ID) {
+        if (interfaceId == ShopUtility.ITEM_CHILD_ID || interfaceId == ShopUtility.SLAYER_BUY_ITEM_CHILD_ID || interfaceId == SPIRTE_SHOP_ITEM_CHILD_ID) {
             Shop.exchange(player, id, slot, 1, true);
             return;
         }

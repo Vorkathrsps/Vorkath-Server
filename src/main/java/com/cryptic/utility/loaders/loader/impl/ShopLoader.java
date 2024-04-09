@@ -38,7 +38,8 @@ public class ShopLoader extends DefinitionLoader {
 
                 for (LoadedItem loadedItem : loadedItems) {
                     OptionalInt value = loadedItem.value == 0 ? OptionalInt.empty() : OptionalInt.of(loadedItem.value);
-                    storeItems.add(new StoreItem(loadedItem.id, loadedItem.amount, value, Optional.ofNullable(loadedItem.type)));
+                    OptionalInt secondary = loadedItem.secondaryValue == 0 ? OptionalInt.empty() : OptionalInt.of(loadedItem.secondaryValue);
+                    storeItems.add(new StoreItem(loadedItem.id, loadedItem.amount, value, secondary, Optional.ofNullable(loadedItem.type)));
                 }
 
                 StoreItem[] items = storeItems.toArray(new StoreItem[0]);
@@ -46,12 +47,12 @@ public class ShopLoader extends DefinitionLoader {
             }
         }
     }
-    
+
     @Override
     public String file() {
         return GameServer.properties().definitionsDirectory + "shops.json";
     }
-    
+
     private static final class LoadedItem {
 
         private final int id;
@@ -59,6 +60,7 @@ public class ShopLoader extends DefinitionLoader {
         private final int amount;
 
         private final int value;
+        private final int secondaryValue;
 
         private final CurrencyType type;
 
@@ -66,6 +68,15 @@ public class ShopLoader extends DefinitionLoader {
             this.id = id;
             this.amount = amount;
             this.value = value;
+            this.type = type;
+            this.secondaryValue = -1;
+        }
+
+        public LoadedItem(int id, int amount, int value, int secondaryValue, CurrencyType type) {
+            this.id = id;
+            this.amount = amount;
+            this.value = value;
+            this.secondaryValue = secondaryValue;
             this.type = type;
         }
     }

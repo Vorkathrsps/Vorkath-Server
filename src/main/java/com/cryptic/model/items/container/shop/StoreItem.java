@@ -28,6 +28,7 @@ public final class StoreItem extends Item {
      * Gets the optional currency for this shop item.
      */
     public Optional<CurrencyType> currency;
+    public OptionalInt secondaryValue;
 
     /**
      * The time in minutes it takes to restock this store item.
@@ -43,8 +44,20 @@ public final class StoreItem extends Item {
         this.currency = currency;
     }
 
+    public StoreItem(int id, int amount, OptionalInt value, OptionalInt secondaryValue, Optional<CurrencyType> currency) {
+        super(id, amount);
+        this.value = value;
+        this.secondaryValue = secondaryValue;
+        this.currency = currency;
+    }
+
     public StoreItem(int id, int amount) {
-        this(id, amount, OptionalInt.empty(), Optional.empty());
+        this(id, amount, OptionalInt.empty(),Optional.empty());
+    }
+
+
+    public StoreItem(int id, int amount, OptionalInt secondaryValue) {
+        this(id, amount, OptionalInt.empty(),  secondaryValue,Optional.empty());
     }
 
     public int getShopValue() {

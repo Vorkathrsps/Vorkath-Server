@@ -54,6 +54,43 @@ public abstract class CommonCombatMethod implements CombatMethod {
 
     }
 
+    protected boolean isInsideCombatBoundary() {
+        var center = calculateDistanceBetweenCenters();
+        return center > calculateCombatBoundary();
+    }
+    protected double calculateCombatBoundary() {
+        double maxAllowedDistance = Math.ceil(calculateMaxAllowedDistance());
+        double maximumReach = maxAllowedDistance * maxAllowedDistance;
+        return maximumReach * maximumReach;
+    }
+
+    protected boolean withinDistance() {
+        double maxAllowedDistance = Math.ceil(calculateMaxAllowedDistance());
+        double maximumReach = maxAllowedDistance * maxAllowedDistance;
+        double distanceBetweenCenters = Math.floor(calculateDistanceBetweenCenters());
+        return distanceBetweenCenters <= maximumReach;
+    }
+
+    protected boolean isReachable() {
+        double distanceBetweenCenters = calculateDistanceBetweenCenters();
+        double maxAllowedDistance = calculateMaxAllowedDistance();
+        return Math.round(distanceBetweenCenters) <= Math.round(maxAllowedDistance);
+    }
+
+    private double calculateDistanceBetweenCenters() {
+        double entityCenterX = entity.tile().getX() + entity.getSize() / 2.0;
+        double entityCenterY = entity.tile().getY() + entity.getSize() / 2.0;
+        double targetCenterX = target.tile().getX() + target.getSize() / 2.0;
+        double targetCenterY = target.tile().getY() + target.getSize() / 2.0;
+        double dx = entityCenterX - targetCenterX;
+        double dy = entityCenterY - targetCenterY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    protected double calculateMaxAllowedDistance() {
+        return (double) entity.getSize() / 2 + (double) target.getSize() / 2;
+    }
+
     public void onRetreat(Entity entity, BooleanSupplier waitUntil, BooleanSupplier cancel, AttributeKey key) {
         var npc = (NPC) entity;
         final int[] ticks = {4};

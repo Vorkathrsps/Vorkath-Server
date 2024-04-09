@@ -703,7 +703,7 @@ public class World {
                         if (sp == null) continue;
                         Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
                         NPC npc = NPC.of(sp.id, spawnTile);
-                        npc.spawnDirection(Direction.values()[sp.dir()].clientValue);
+                        npc.spawnDirection(sp.dir());
                         npc.walkRadius(sp.walkRange);
                         npc.ancientSpawn(sp.ancientSpawn);
 

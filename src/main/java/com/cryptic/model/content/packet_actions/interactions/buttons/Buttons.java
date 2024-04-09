@@ -416,6 +416,7 @@ public class Buttons {
                     Shop.closeShop(player);
                     return;
                 }
+
                 if (button == 73164) {
                     World.getWorld().shop(350).open(player);
                     return;

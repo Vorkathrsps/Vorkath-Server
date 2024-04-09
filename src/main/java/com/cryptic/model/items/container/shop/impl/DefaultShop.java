@@ -129,7 +129,7 @@ public final class DefaultShop extends Shop {
             return;
         }
 
-        if(player.askForAccountPin()) {
+        if (player.askForAccountPin()) {
             player.sendAccountPinMessage();
             return;
         }
@@ -150,10 +150,16 @@ public final class DefaultShop extends Shop {
         player.inventory().refresh();
         refresh(player, true);
 
+        int specialShop = shopId == 7 ? 64000 : shopId == 48 ? ShopUtility.SPRITE_SHOP_INTERFACE : ShopUtility.INTERFACE_ID;
         int rewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
         player.getPacketSender().sendString(64014, "Reward Points: " + Utils.formatNumber(rewardPoints));
-        player.getPacketSender().sendString(shopId == 7 ? 64005 : ShopUtility.NAME_INTERFACE_CHILD_ID, name);
-        player.getInterfaceManager().openInventory(shopId == 7 ? 64000 : ShopUtility.INTERFACE_ID, InterfaceConstants.SHOP_INVENTORY - 1);
+        int nameId = ShopUtility.NAME_INTERFACE_CHILD_ID;
+        switch (shopId) {
+            case 48 -> nameId = 82005;
+            case 7 -> nameId = 64005;
+        }
+        player.getPacketSender().sendString(nameId, name);
+        player.getInterfaceManager().openInventory(specialShop, InterfaceConstants.SHOP_INVENTORY - 1);
 
     }
 
@@ -168,7 +174,14 @@ public final class DefaultShop extends Shop {
 
     @Override
     public void refresh(Player player, boolean redrawStrings) {
+        int startSprite = 82006;
         if (redrawStrings) {
+            for (int index = 0; index < 28; index++) {
+                player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, -2);
+            }
+            for (int index = 0; index < 28; index++) {
+                player.getPacketSender().sendString(SPRITE_SHOP_STRING_ID + index, "");
+            }
             for (int index = 0; index < MAX_SHOP_ITEMS; index++) {
                 player.getPacketSender().sendString(AMOUNT_STRING_ID + index, "");
             }
@@ -181,6 +194,10 @@ public final class DefaultShop extends Shop {
                 continue;
             }
 
+            if (shopId == 48) {
+                player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, 2192);
+            }
+
             if (item instanceof StoreItem) {
                 if (redrawStrings) {
 
@@ -188,20 +205,28 @@ public final class DefaultShop extends Shop {
 
                     if (storeItem != null) {
                         int value = storeItem.getShopValue();
-                        player.getPacketSender().sendString(shopId == 7 ? SLAYER_BUY_AMOUNT_STRING_ID + index : ShopUtility.AMOUNT_STRING_ID + index, value == 0 ? "FREE" : "" + Utils.formatRunescapeStyle(value));
+                        if (shopId == 48) {
+                            player.getPacketSender().sendString(SPRITE_SHOP_STRING_ID + index, value == 0 ? "" : Utils.formatRunescapeStyle(value));
+                        } else {
+                            player.getPacketSender().sendString(shopId == 7 ? SLAYER_BUY_AMOUNT_STRING_ID + index : ShopUtility.AMOUNT_STRING_ID + index, value == 0 ? "FREE" : "" + Utils.formatRunescapeStyle(value));
+                        }
                     }
                 }
             }
         }
-
-        player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);//73190
+        int shopInventoryId = 73190;
+        switch (shopId) {
+            case 48 -> shopInventoryId = 82004;
+            case 7 -> shopInventoryId = 64016;
+        }
+        if (shopId != 48) {
+            player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);
+        }
+        int finalShop = shopInventoryId;
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());
-        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(shopId == 7 ? 64016 : 73190, items));
+        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(finalShop, items));
         if (restock) {
-            if (!needsRestock()) {
-                return;
-            }
-            //System.out.println("Oh we restocking");
+            if (!needsRestock()) return;
             startAddStock();
             startRemoveStock();
         }

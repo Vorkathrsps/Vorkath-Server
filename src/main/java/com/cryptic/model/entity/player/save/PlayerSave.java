@@ -488,6 +488,7 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
+            player.putAttrib(AttributeKey.VOID_ISLAND_POINTS, details.voidIslandPoints);
         }
 
         //Account
@@ -689,6 +690,7 @@ public class PlayerSave {
         private final boolean eventReward10Claimed;
         private final boolean eventReward11Claimed;
         private final boolean eventReward12Claimed;
+        private final int voidIslandPoints;
         private final boolean eventReward13Claimed;
         private final boolean eventReward14Claimed;
         private final boolean eventReward15Claimed;
@@ -958,6 +960,7 @@ public class PlayerSave {
             starterStaffCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
+            voidIslandPoints = Player.getAttribIntOr(player, AttributeKey.VOID_ISLAND_POINTS, 0);
         }
 
         public void parseDetails() {

@@ -10,6 +10,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
+import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
@@ -78,6 +79,11 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (button == 53729) {
             BountyHunter.skip(player);
+            return;
+        }
+
+        if (button == 82002) {
+            Shop.closeShop(player);
             return;
         }
 

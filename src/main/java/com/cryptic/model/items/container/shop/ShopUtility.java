@@ -27,6 +27,8 @@ public class ShopUtility extends ItemIdentifiers {
      * The starting interface child id of items.
      */
     public static final int ITEM_CHILD_ID = 73190;
+    public static final int SPIRTE_SHOP_ITEM_CHILD_ID = 82004;
+    public static final int SPRITE_SHOP_INTERFACE = 82000;
 
     /**
      * The starting slayer buy interface child id of items.
@@ -44,6 +46,8 @@ public class ShopUtility extends ItemIdentifiers {
     public static final int SCROLL_BAR_INTERFACE_ID = 73190;
     
     public static final int AMOUNT_STRING_ID = 22996;
+
+    public static final int SPRITE_SHOP_STRING_ID = 82034;
 
     public static final int SLAYER_BUY_AMOUNT_STRING_ID = 64017;
 

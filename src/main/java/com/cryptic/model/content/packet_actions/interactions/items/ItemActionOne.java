@@ -8,7 +8,6 @@ import com.cryptic.model.content.consumables.potions.Potions;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.items.RockCake;
 import com.cryptic.model.content.items.tools.ItemPacks;
-import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.impl.herblore.Cleaning;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.hunter.HunterItemPacks;
@@ -129,9 +128,9 @@ public class ItemActionOne {
             }
 
             int amount = player.inventory().count(VOTE_TICKET);
-            int current = player.getAttribOr(AttributeKey.VOTE_POINS, 0);
+            int current = player.getAttribOr(AttributeKey.VOTE_POINTS, 0);
 
-            player.putAttrib(AttributeKey.VOTE_POINS, current + amount);
+            player.putAttrib(AttributeKey.VOTE_POINTS, current + amount);
             player.getPacketSender().sendString(QuestTab.InfoTab.VOTE_POINTS.childId, QuestTab.InfoTab.INFO_TAB.get(QuestTab.InfoTab.VOTE_POINTS.childId).fetchLineData(player));
             player.inventory().remove(new Item(VOTE_TICKET, amount), true);
             player.message("You exchange " + Color.BLUE.tag() + "" + Utils.formatNumber(amount) + " vote points</col>.");

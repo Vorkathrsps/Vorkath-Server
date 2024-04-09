@@ -7,8 +7,8 @@ public class VoteCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        player.getPacketSender().sendURL("https://aelous.net/vote/");
-        player.message("Opening https://aelous.net/vote/ in your web browser...");
+        player.getPacketSender().sendURL("https://valorps.everythingrs.com/vote/");
+        player.message("Opening https://valorps.everythingrs.com/vote/ in your web browser...");
     }
 
     @Override

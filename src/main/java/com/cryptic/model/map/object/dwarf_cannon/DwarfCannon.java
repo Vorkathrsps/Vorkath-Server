@@ -22,6 +22,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.google.common.base.Stopwatch;
+import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -52,14 +53,11 @@ public class DwarfCannon extends OwnedObject {
         return decayTimer;
     }
 
+    @Setter
     private int ammo;
 
     public int getAmmo() {
         return ammo;
-    }
-
-    public void setAmmo(int ammo) {
-        this.ammo = ammo;
     }
 
     private CannonStage stage;
@@ -73,14 +71,11 @@ public class DwarfCannon extends OwnedObject {
         if (changeId) setId(stage.getObjectId());
     }
 
+    @Setter
     private CannonDirection cannonDirection = CannonDirection.NORTH;
 
     public CannonDirection getCannonDirection() {
         return cannonDirection;
-    }
-
-    public void setCannonDirection(CannonDirection cannonDirection) {
-        this.cannonDirection = cannonDirection;
     }
 
     public static final Area[] AREA_RESTRICTIONS = {
@@ -331,8 +326,11 @@ public class DwarfCannon extends OwnedObject {
             player.message("You can't place a cannon in Fight Caves.");
             return false;
         }
-        // TODO can't place a cannon in the inferno
-        // TODO can't place a cannon in your house
+
+        if (player.tile().region() == 10536) {
+            player.message("You cannot place your cannon at Void Island.");
+            return false;
+        }
 
         if (player.tile().inArea(new Area(2944, 4736, 3135, 4927, 0))) {
             player.message(

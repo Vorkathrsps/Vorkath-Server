@@ -664,8 +664,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            World.getWorld().sendWorldMessage("News: <img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + p.getUsername() + " has received a " + "test" + " from a " + "testnpc" + (!false ? "." : " Level: " + "test" + " wilderness.") + "</shad>"));
-
+           GroundItemHandler.createGroundItem(new GroundItem(new Item(995, 5000), p.tile(), p));
         });
 
         dev("cleartask", (p, c, s) ->

@@ -17,6 +17,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
+import lombok.Getter;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -45,11 +46,8 @@ public final class GroundItemHandler {
     /**
      * A list containing all of the ground items
      */
+    @Getter
     private static final List<GroundItem> groundItems = new ArrayList<>();
-
-    public static List<GroundItem> getGroundItems() {
-        return groundItems;
-    }
 
     /**
      * Checks if the ground item is actually on the clicked location.
@@ -207,7 +205,6 @@ public final class GroundItemHandler {
     public static boolean createGroundItem(GroundItem item) {
         Player player = item.getPlayer();
         if (item.getItem().getId() < 0) {
-            System.out.println("huh");
             return false;
         }
 

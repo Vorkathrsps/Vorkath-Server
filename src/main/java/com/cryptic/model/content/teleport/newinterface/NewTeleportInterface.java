@@ -42,15 +42,15 @@ NewTeleportInterface {
 
         player.getDialogueManager().start(new Dialogue() {
             @Override
-            protected void start (Object...parameters){
-                send(DialogueType.OPTION, "Confirm teleport to "+thespecificteleport.text+" ?", "Yes", "Cancel");
+            protected void start(Object... parameters) {
+                send(DialogueType.OPTION, "Confirm teleport to " + thespecificteleport.text + " ?", "Yes", "Cancel");
                 setPhase(0);
             }
 
             @Override
-            protected void select ( int option){
+            protected void select(int option) {
                 if (option == 1) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         return;
                     }
                     Teleports.basicTeleport(player, thespecificteleport.tile);
@@ -83,12 +83,12 @@ NewTeleportInterface {
             protected void select(int option) {
                 if (isPhase(1)) {
                     if (option == 1) {
-                        if(thespecificteleport != null && !Teleports.pkTeleportOk(player, teleportLocation)) {
+                        if (thespecificteleport != null && !Teleports.pkTeleportOk(player, teleportLocation)) {
                             stop();
                             return;
                         }
 
-                        if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                             stop();
                             return;
                         }
@@ -112,25 +112,25 @@ NewTeleportInterface {
             @Override
             protected void select(int option) {
                 if (option == 1) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2841, 5291, 2));
                 } else if (option == 2) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2860, 5354, 2));
                 } else if (option == 3) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2911, 5267, 0));
                 } else if (option == 4) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
@@ -151,19 +151,91 @@ NewTeleportInterface {
             @Override
             protected void select(int option) {
                 if (option == 1) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
-                    Teleports.basicTeleport(player, new Tile(2835,3433));
+                    Teleports.basicTeleport(player, new Tile(2835, 3433));
                 } else if (option == 2) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2594, 3415));
                 } else if (option == 3) {
                     stop();
+                }
+            }
+        });
+    }
+
+    public void roofTopAreas() {
+        player.getDialogueManager().start(new Dialogue() {
+            @Override
+            protected void start(Object... parameters) {
+                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Draynor Rooftop Area", "Al-Kharid Rooftop Area", "Varrock Rooftop Area", "Canifis Rooftop Area", "Next Page");
+                setPhase(0);
+            }
+
+            @Override
+            protected void select(int option) {
+                if (phase == 0) {
+                    if (option == 1) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3104, 3279));
+                    } else if (option == 2) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3273, 3197));
+                    } else if (option == 3) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3222, 3414));
+                    } else if (option == 4) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3505, 3487));
+                    } else if (option == 5) {
+                        setPhase(1);
+                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Falador Rooftop Area", "Seers' Rooftop Area", "Relleka Rooftop Area", "Ardougne Rooftop Area", "Nevermind");
+                    }
+                } else if (phase == 1) {
+                    if (option == 1) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3036, 3340));
+                    } else if (option == 2) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2729, 3488));
+                    } else if (option == 3) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2625, 3678));
+                    } else if (option == 4) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2673, 3297));
+                    } else if (option == 5) {
+                        stop();
+                    }
                 }
             }
         });
@@ -180,25 +252,25 @@ NewTeleportInterface {
             @Override
             protected void select(int option) {
                 if (option == 1) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2911, 4830));
                 } else if (option == 2) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
-                    Teleports.basicTeleport(player, new Tile(3284,3365));
+                    Teleports.basicTeleport(player, new Tile(3284, 3365));
                 } else if (option == 3) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
-                    Teleports.basicTeleport(player, new Tile(3300,3300));
+                    Teleports.basicTeleport(player, new Tile(3300, 3300));
                 } else if (option == 4) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
@@ -221,13 +293,13 @@ NewTeleportInterface {
             @Override
             protected void select(int option) {
                 if (option == 1) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
                     Teleports.basicTeleport(player, new Tile(2726, 3473));
                 } else if (option == 2) {
-                    if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+                    if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         stop();
                         return;
                     }
@@ -242,10 +314,10 @@ NewTeleportInterface {
     public void wildernessEvent() {
         if (WildernessBossEvent.getINSTANCE().getActiveNpc().isPresent() && WildernessBossEvent.currentSpawnPos != null) {
             Tile tile = WildernessBossEvent.currentSpawnPos;
-            if(!Teleports.pkTeleportOk(player, tile)) {
+            if (!Teleports.pkTeleportOk(player, tile)) {
                 return;
             }
-            if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
+            if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                 return;
             }
             Teleports.basicTeleport(player, tile);
@@ -255,41 +327,44 @@ NewTeleportInterface {
     }
 
     int teleportbutton = 88101;
-    int textbutton = 88101 + 30 ;
+    int textbutton = 88101 + 30;
     int descriptionbutton = 88101 + 30 + 30;
     int favoritebutton = 88101 + 30 + 30 + 30;
+
     public void hidetheindividualteleports() {
         thespecificteleport.clear();
-        for(int i = 0 ; i < 30; i ++){
+        for (int i = 0; i < 30; i++) {
             player.getPacketSender().sendInterfaceComponentMoval(-900, 0, teleportbutton + i);
-            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, textbutton+i);
-            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, descriptionbutton+i);
-            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, favoritebutton+i);
+            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, textbutton + i);
+            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, descriptionbutton + i);
+            player.getPacketSender().sendInterfaceComponentMoval(-900, 0, favoritebutton + i);
 
         }
     }
 
     int category = 0;
-    public void displaythecategories(List<NewTeleData> listofthespecificteleports){
+
+    public void displaythecategories(List<NewTeleData> listofthespecificteleports) {
         category = listofthespecificteleports.get(0).category;
-        for(int i = 0 ; i < listofthespecificteleports.size(); i++){
+        for (int i = 0; i < listofthespecificteleports.size(); i++) {
             NewTeleData thespecificteleportdata = listofthespecificteleports.get(i);
             boolean favorited = false;
-            for(SpecificTeleport tele : player.getnewfavs()){
-                if(thespecificteleportdata.text.equalsIgnoreCase(tele.text))
-                    favorited =true;
+            for (SpecificTeleport tele : player.getnewfavs()) {
+                if (thespecificteleportdata.text.equalsIgnoreCase(tele.text))
+                    favorited = true;
             }
-            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, thespecificteleportdata.tile,thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton+i));
+            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, thespecificteleportdata.tile, thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton + i));
         }
 
     }
+
     public List<NewTeleData> getalltasksbasedoncategory(int category) {
         List<NewTeleData> tasks = Arrays.stream(VALUES).filter(task -> task.category == category).collect(Collectors.toList());
 
         return tasks;
     }
 
-    public void open(){
+    public void open() {
 
         player.message("sendfavorites##");
         drawInterface(88005);
@@ -297,7 +372,7 @@ NewTeleportInterface {
         player.getInterfaceManager().open(88000);
     }
 
-    public void drawInterface(int button){
+    public void drawInterface(int button) {
         hidetheindividualteleports();
 
         List<NewTeleData> specificcategory;
@@ -309,22 +384,22 @@ NewTeleportInterface {
             displaythefavorites(allthefavoriteteleportsyouhavesaved);
             //    player.getnewteleInterface().displayFavorites(allthefavoriteteleportsyouhavesaved);
         } else {
-            specificcategory = player.getnewteleInterface().getalltasksbasedoncategory(button-88005);
+            specificcategory = player.getnewteleInterface().getalltasksbasedoncategory(button - 88005);
             displaythecategories(specificcategory);
         }
-        for(int i = 0 ; i < thespecificteleport.size(); i ++){
+        for (int i = 0; i < thespecificteleport.size(); i++) {
             player.getPacketSender().sendInterfaceComponentMoval(0, 0, teleportbutton + i);
-            player.getPacketSender().sendInterfaceComponentMoval(0, 0, textbutton+i);
-            player.getPacketSender().sendInterfaceComponentMoval(0, 0, descriptionbutton+i);
-            player.getPacketSender().sendInterfaceComponentMoval(0, 0, favoritebutton+i);
+            player.getPacketSender().sendInterfaceComponentMoval(0, 0, textbutton + i);
+            player.getPacketSender().sendInterfaceComponentMoval(0, 0, descriptionbutton + i);
+            player.getPacketSender().sendInterfaceComponentMoval(0, 0, favoritebutton + i);
 
         }
-        for(int i = 0 ; i < thespecificteleport.size(); i ++){
+        for (int i = 0; i < thespecificteleport.size(); i++) {
             SpecificTeleport data = thespecificteleport.get(i);
-            player.getPacketSender().sendString(textbutton+i, data.text);
-            player.getPacketSender().sendString(descriptionbutton+i, data.description);
+            player.getPacketSender().sendString(textbutton + i, data.text);
+            player.getPacketSender().sendString(descriptionbutton + i, data.description);
             boolean favorited = data.favorited ? true : false;
-            player.getPacketSender().sendChangeSprite(data.favoritebutton, favorited ? (byte) 1 : (byte) 0 );
+            player.getPacketSender().sendChangeSprite(data.favoritebutton, favorited ? (byte) 1 : (byte) 0);
         }
 
         player.getPacketSender().sendScrollbarHeight(88050, thespecificteleport.size() * 37);
@@ -332,14 +407,13 @@ NewTeleportInterface {
 
 
     //all it has to do is populate the array
-    public void displaythefavorites(List<SpecificTeleport> listoffavorites){
+    public void displaythefavorites(List<SpecificTeleport> listoffavorites) {
         category = FAVORITES_TAB;
-        for(int i = 0 ; i < listoffavorites.size(); i++){
+        for (int i = 0; i < listoffavorites.size(); i++) {
             SpecificTeleport thespecificteleportdata = listoffavorites.get(i);
             boolean favorited = thespecificteleportdata.favorited ? true : false;
-            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, thespecificteleportdata.tile,thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton+i));
+            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, thespecificteleportdata.tile, thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton + i));
         }
-
 
 
     }

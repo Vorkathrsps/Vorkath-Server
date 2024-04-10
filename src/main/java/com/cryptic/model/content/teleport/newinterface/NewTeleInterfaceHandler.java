@@ -16,7 +16,6 @@ public class NewTeleInterfaceHandler extends PacketInteraction {
 
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
-
         if (TELEPORT_BUTTONS.contains(button)) {
             List<SpecificTeleport> thespecificteleport = player.getnewteleInterface().thespecificteleport.stream().filter(t -> t.button == button).collect(Collectors.toList());
             if (thespecificteleport.get(0).description.toLowerCase().contains("dangerous")) {
@@ -27,6 +26,8 @@ public class NewTeleInterfaceHandler extends PacketInteraction {
                 player.getnewteleInterface().fishingAreas();
             } else if (thespecificteleport.get(0).text.equals("Mining Areas")) {
                 player.getnewteleInterface().miningAreas();
+            } else if (thespecificteleport.get(0).text.equals("Rooftop Agility Areas")) {
+                player.getnewteleInterface().roofTopAreas();
             } else if (thespecificteleport.get(0).text.equals("Woodcutting Areas")) {
                 player.getnewteleInterface().woodcuttingAreas();
             } else if (thespecificteleport.get(0).text.equals("Hunter Areas")) {

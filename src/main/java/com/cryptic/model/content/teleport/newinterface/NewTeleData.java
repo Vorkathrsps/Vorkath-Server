@@ -85,6 +85,7 @@ public enum NewTeleData {
     FISHING_AREAS(new Tile(1,1),"Fishing Areas", "", SKILLING, MEDIUM),
     MINING_AREAS(new Tile(1,1),"Mining Areas", "", SKILLING, MEDIUM),
     WOODCUTTING_AREAS(new Tile(1,1),"Woodcutting Areas", "", SKILLING, MEDIUM),
+    ROOFTOP_AGILITY_AREAS(new Tile(1,1),"Rooftop Agility Areas", "", SKILLING, MEDIUM),
     GEM_ROCKS(new Tile(2825, 2998),"Gem Rocks Area", "", SKILLING, MEDIUM),
     HUNTER_AREAS(new Tile(1,1),"Hunter Areas", "", SKILLING, MEDIUM),
     SMITHING_ANVIL(new Tile(3189, 3425),"Varrock Smithing Anvil", "", SKILLING, MEDIUM),

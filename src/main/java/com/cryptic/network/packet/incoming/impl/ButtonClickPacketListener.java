@@ -16,6 +16,7 @@ import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import com.cryptic.utility.ItemIdentifiers;
 import io.netty.buffer.Unpooled;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +45,7 @@ public class ButtonClickPacketListener implements PacketListener {
     public static final int SECOND_DIALOGUE_OPTION_OF_TWO = 2462;
     public static final int LOGOUT = 2458;
     public static final int DUEL_LOAD_PREVIOUS_SETTINGS = 24492;
+    public static final int[] DIALOGUE_BUTTONS = new int[]{SECOND_DIALOGUE_OPTION_OF_TWO, FIRST_DIALOGUE_OPTION_OF_TWO, THIRD_DIALOGUE_OPTION_OF_THREE, SECOND_DIALOGUE_OPTION_OF_THREE, FIRST_DIALOGUE_OPTION_OF_THREE, FOURTH_DIALOGUE_OPTION_OF_FOUR, THIRD_DIALOGUE_OPTION_OF_FOUR, SECOND_DIALOGUE_OPTION_OF_FOUR, FIRST_DIALOGUE_OPTION_OF_FOUR, FIFTH_DIALOGUE_OPTION_OF_FIVE, FOURTH_DIALOGUE_OPTION_OF_FIVE, THIRD_DIALOGUE_OPTION_OF_FIVE, SECOND_DIALOGUE_OPTION_OF_FIVE, FIRST_DIALOGUE_OPTION_OF_FIVE};
 
     public static final int[] ALL = new int[]{2494, 2495, 2496, 2497, 2498, 2482, 2483, 2484, 2485, 2471, 2472, 2473, 2461, 2462, 2458, 24492};
 
@@ -70,6 +72,10 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         player.afkTimer.reset();
+
+        if (player.getDialogueManager().isActive() && !ArrayUtils.contains(DIALOGUE_BUTTONS, button)) {
+            player.getInterfaceManager().closeDialogue();
+        }
 
         player.debugMessage("button=" + button);
 

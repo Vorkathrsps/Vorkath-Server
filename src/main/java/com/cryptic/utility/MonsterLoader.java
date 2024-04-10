@@ -13,8 +13,7 @@ public final class MonsterLoader {
     public static Int2ObjectOpenHashMap<Monster> monsters;
 
     public MonsterLoader() {
-        this.objectMapper = new ObjectMapper()
-            .registerModule(new AfterburnerModule());
+        this.objectMapper = new ObjectMapper().registerModule(new AfterburnerModule());
     }
 
     public Int2ObjectOpenHashMap<Monster> loadFromFile(String filePath) throws IOException {

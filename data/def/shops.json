@@ -1057,14 +1057,19 @@
     ]
   },
   {
-    "shopId": 350,
-    "name": "Donator Store",
-    "currency": "DONATOR_TICKETS",
-    "noiron": true,
+    "shopId": 351,
+    "name": "Marks Of Grace Store",
+    "currency": "MARKS_OF_GRACE",
+    "noiron": false,
     "restock": true,
     "sellType": "NONE",
     "scroll": 0,
     "items": [
+      {
+        "id": 1267,
+        "amount": 100,
+        "value": 35
+      }
     ]
   },
   {
@@ -6357,9 +6362,9 @@
         "value": 25
       },
       {
-        "id": 11862,
+        "id": 28767,
         "amount": 100,
-        "value": 100
+        "value": 150
       },
       {
         "id": 11863,

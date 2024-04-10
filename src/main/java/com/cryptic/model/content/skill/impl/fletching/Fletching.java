@@ -13,6 +13,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,10 +54,18 @@ public class Fletching extends PacketInteraction {
         if (fletchable == null || use.getId() == 590 || usedWith.getId() == 590 || usedWith.getId() == ItemIdentifiers.LOOTING_BAG_22586 || usedWith.getId() == ItemIdentifiers.LOOTING_BAG) {
             return false;
         }
-
+/*
         if (!fletchable.getUse().equalIds(use) && !fletchable.getUse().equalIds(usedWith)) {
             player.message("You need to use this with " + Utils.getAOrAn(fletchable.getUse().name()) + " " + fletchable.getUse().name().toLowerCase() + " to fletch this item.");
             return true;
+        }*/
+
+        if (ArrayUtils.contains(fletchable.getIngediants(), use.getId())) {
+            if (ArrayUtils.contains(fletchable.getIngediants(), usedWith.getId())) {
+                for (var i : fletchable.getIngediants()) player.getInventory().remove(i);
+                player.message("You need to use this with " + Utils.getAOrAn(fletchable.getUse().name()) + " " + fletchable.getUse().name().toLowerCase() + " to fletch this item.");
+                return true;
+            }
         }
 
         String prefix = fletchable.getWith().name().split(" ")[0];

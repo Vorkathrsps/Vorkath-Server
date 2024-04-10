@@ -23946,5 +23946,6 @@
   {"x":3082,"y":3515,"z":0,"id":1755,"walkRange":0,"direction":"s"}, //void knight
   {"x":3096,"y":3503,"z":0,"id":1306,"walkRange":0,"direction":"n"}, //makeover mage
   {"x":3081,"y":3515,"z":0,"id":10962,"walkRange":0,"direction":"s"}, //Lord Trobin (donor store)
-  {"x":3085,"y":3514,"z":0,"id":10631,"walkRange":0,"direction":"w"}
+  {"x":3085,"y":3514,"z":0,"id":10631,"walkRange":0,"direction":"w"},
+  {"x":3085,"y":3513,"z":0,"id":5919,"walkRange":0,"direction":"w"}
 ]

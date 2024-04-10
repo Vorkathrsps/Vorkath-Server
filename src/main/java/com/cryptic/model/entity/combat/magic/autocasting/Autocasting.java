@@ -82,6 +82,17 @@ public class Autocasting {
         );
     public static final Set<Integer> MODERN_SPELL_AUTOCAST_STAFFS = Set.of
         (
+            MYSTIC_AIR_STAFF,
+            MYSTIC_FIRE_STAFF,
+            STAFF_OF_FIRE,
+            STAFF_OF_AIR,
+            STAFF_OF_EARTH,
+            STAFF_OF_WATER,
+            MYSTIC_DUST_STAFF,
+            MYSTIC_LAVA_STAFF,
+            MYSTIC_MIST_STAFF,
+            MYSTIC_STEAM_STAFF,
+            MYSTIC_LAVA_STAFF_21200,
             SKULL_SCEPTRE,
             IBANS_STAFF,
             SLAYERS_STAFF,

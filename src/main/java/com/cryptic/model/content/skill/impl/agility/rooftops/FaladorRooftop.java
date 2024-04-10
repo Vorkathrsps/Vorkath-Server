@@ -190,8 +190,8 @@ public class FaladorRooftop extends PacketInteraction {
         // Gap jump
         if (obj.getId() == GAP_14919) {
             player.lock();
-            player.stepAbs(3017, 3353, MovementQueue.StepType.FORCED_WALK);
-            player.waitForTile(new Tile(3017, 3353, 3), () -> {
+            player.stepAbs(new Tile(3017, 3353).transform(0, 0), MovementQueue.StepType.FORCED_WALK);
+            player.waitForTile(new Tile(3017, 3353).transform(0, 0), () -> {
                 Chain.noCtx().runFn(1, () -> {
                     ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -4), 15, 30, 1603, 2);
                     player.setForceMovement(forceMovement);

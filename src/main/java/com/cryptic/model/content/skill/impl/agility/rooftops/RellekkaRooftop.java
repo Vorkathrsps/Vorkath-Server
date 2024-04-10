@@ -29,7 +29,7 @@ public class RellekkaRooftop extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
-        if(obj.getId() == ROUGH_WALL_14946) {
+        if (obj.getId() == ROUGH_WALL_14946) {
             if (player.getSkills().level(Skills.AGILITY) >= 80) {
                 player.lock();
                 player.setPositionToFace(player.tile().transform(0, -1));
@@ -50,15 +50,15 @@ public class RellekkaRooftop extends PacketInteraction {
         }
 
         // Gap leap
-        if(obj.getId() == GAP_14947) {
+        if (obj.getId() == GAP_14947) {
             player.smartPathTo(new Tile(2622, 3672, 3));
             player.waitForTile(new Tile(2622, 3672, 3), () -> {
                 player.lock();
                 player.setPositionToFace(player.tile().transform(0, -1));
                 Chain.bound(player).name("RellekkaRooftopGapLeapTask").runFn(1, () -> player.animate(1995, 15)).then(1, () -> {
-                    player.animate(1603);
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -4), 8, 50, Direction.SOUTH.toInteger(), 1603)));
-                }).then(2, () -> player.teleport(2622, 3668, 3)).then(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile().clone(), new Tile(-1, -4), 10, 35, 1603, Direction.SOUTH.toInteger());
+                    player.setForceMovement(forceMovement);
+                }).then(2, () -> {
                     player.getSkills().addXp(Skills.AGILITY, 30.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                     player.unlock();
@@ -68,100 +68,147 @@ public class RellekkaRooftop extends PacketInteraction {
         }
 
         // Tightrope
-        if(obj.getId() == TIGHTROPE_14987) {
+        if (obj.getId() == TIGHTROPE_14987) {
             Chain.bound(player).name("RellekkaRooftopTightropeTask").runFn(1, () -> {
                 player.lock();
                 player.agilityWalk(false);
                 player.getMovementQueue().clear();
+            }).waitForTile(new Tile(2622, 3658), () -> {
+                player.stepAbs(new Tile(2622, 3658).transform(0, 0), MovementQueue.StepType.FORCED_WALK);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                player.getMovementQueue().interpolate(2626, 3654, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().step(2627, 3654, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(2626, 3654), () -> {
-                player.agilityWalk(true);
-                player.looks().resetRender();
-                player.getSkills().addXp(Skills.AGILITY, 40.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
-                player.unlock();
+                Chain.bound(player).name("rellekarooftoptightropetask2").runFn(1, () -> {
+                    player.getMovementQueue().step(2627, 3654, MovementQueue.StepType.FORCED_WALK);
+                }).waitForTile(new Tile(2626, 3654), () -> {
+                    player.agilityWalk(true);
+                    player.looks().resetRender();
+                    player.getSkills().addXp(Skills.AGILITY, 40.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
+                    player.unlock();
+                });
             });
             return true;
         }
 
         // Gap jump + tightrope
-        if(obj.getId() == GAP_14990) {
+        if (obj.getId() == GAP_14990) {
             Tile startPos = obj.tile().transform(0, -1);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
-                .name("RellekkaRooftopGapJumpTightropeTask").then(1, () -> {
-                player.lock();
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 3), 25, 30, Direction.NORTH.toInteger(), 752)));
-            }).then(1, () -> {
-                player.teleport(2629, 3658, 3);
-                player.animate(752);
-                player.agilityWalk(false);
-                player.looks().render(755, 755, 754, 754, 754, 754, -1);
-                player.setPositionToFace(player.tile().transform(1, 0));
-            }).then(1, () -> player.getMovementQueue().interpolate(2635, 3658, MovementQueue.StepType.FORCED_WALK)).then(6, () -> {
-                player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                player.getMovementQueue().interpolate(2639, 3654, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().step(2639, 3653, MovementQueue.StepType.FORCED_WALK);
-            }).then(6, () -> {
-                player.getSkills().addXp(Skills.AGILITY, 85.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
-                player.agilityWalk(true);
-                player.looks().resetRender();
-                player.unlock();
-            });
+            player.waitForTile(startPos,
+                () -> {
+                    player.lockDamageOk();
+                    player.setPositionToFace(new Tile(0, -1));
+                    Chain.bound(player)
+                        .name("rellekarooftoptasktightrope")
+                        .runFn(1, () -> {
+                            ForceMovement forceMovement = new ForceMovement(player.tile().clone(), new Tile(0, 3), 5, 30, 1603, Direction.SOUTH.toInteger());
+                            player.setForceMovement(forceMovement);
+                        })
+                        .then(2, () -> {
+                            player.looks().render(754, 754, 754, 754, 754, 754, -1);
+                            player.stepAbs(new Tile(2629, 3658).transform(3, 0), MovementQueue.StepType.FORCED_WALK);
+                        })
+                        .waitForTile(new Tile(2629, 3658)
+                            .transform(3, 0), () ->
+                            Chain.bound(player)
+                                .name("rellekarooftoptasktightrope2")
+                                .runFn(2,
+                                    () ->
+                                        player.stepAbs(
+                                            new Tile(2629, 3658)
+                                                .transform(3, 0)
+                                                .transform(2, 0), MovementQueue.StepType.FORCED_WALK))
+                                .waitForTile(
+                                    new Tile(2629, 3658)
+                                        .transform(3, 0)
+                                        .transform(2, 0),
+                                    () ->
+                                        Chain.bound(player)
+                                            .name("rellekarooftoptasktightrope3")
+                                            .runFn(1,
+                                                () -> {
+                                                    player.looks().resetRender();
+                                                    player.stepAbs(
+                                                        new Tile(2629, 3658)
+                                                            .transform(3, 0)
+                                                            .transform(2, 0)
+                                                            .transform(1, 0), MovementQueue.StepType.FORCED_WALK);
+                                                })
+                                            .waitForTile(
+                                                new Tile(2629, 3658)
+                                                    .transform(3, 0)
+                                                    .transform(2, 0)
+                                                    .transform(1, 0),
+                                                () ->
+                                                    Chain.bound(player)
+                                                        .name("rellekarooftoptasktightrope4")
+                                                        .runFn(1,
+                                                            () -> {
+                                                                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                                                                player.stepAbs(new Tile(2640, 3653).transform(0, 0), MovementQueue.StepType.FORCED_WALK);
+                                                            })
+                                                        .waitForTile(
+                                                            new Tile(2640, 3653)
+                                                                .transform(0, 0),
+                                                            () -> {
+                                                                player.looks().resetRender();
+                                                                player.unlock();
+                                                            }))));
+                });
             return true;
         }
 
         // Gap jump
-        if(obj.getId() == GAP_14991) {
+        if (obj.getId() == GAP_14991) {
             Tile startPos = obj.tile().transform(0, -1);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
-                .name("RellekkaRooftopGapjumpTask").then(1, () -> {
+            player.waitForTile(startPos, () -> {
                 player.lock();
-                player.animate(1995, 15);
-            }).then(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 4), 8, 50, Direction.NORTH.toInteger(), 1603)));
-            }).then(2, () -> {
-                player.teleport(2643, 3657, 3);
-                player.getSkills().addXp(Skills.AGILITY, 25.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
-                player.unlock();
+                player.setPositionToFace(new Tile(0, -1));
+                Chain.bound(player).name("RellekkaRooftopGapLeapTask").runFn(1, () -> player.animate(1995, 15)).then(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile().clone(), new Tile(1, 4), 10, 35, 1603, Direction.SOUTH.toInteger());
+                    player.setForceMovement(forceMovement);
+                }).then(2, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 30.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
+                    player.unlock();
+                });
             });
             return true;
         }
 
         // Tightrope
-        if(obj.getId() == TIGHTROPE_14992) {
+        if (obj.getId() == TIGHTROPE_14992) {
             Tile startPos = obj.tile().transform(0, -1);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
-                .name("RellekkaRooftopTightropeTask").then(1, () -> {
+            player.waitForTile(startPos, () -> {
                 player.lock();
-                player.getMovementQueue().clear();
-                player.agilityWalk(false);
-                player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                player.getMovementQueue().step(2647, 3663, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().interpolate(2654, 3670, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().step(2655, 3670, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(2654, 3670), () -> {
-                player.agilityWalk(true);
-                player.looks().resetRender();
-                player.getSkills().addXp(Skills.AGILITY, 105.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
-                player.unlock();
+                player.stepAbs(startPos.transform(0, 1), MovementQueue.StepType.FORCED_WALK);
+                Chain.bound(player).name("RellekkaRooftopTightropeTask").runFn(1, () -> {
+                    player.agilityWalk(false);
+                    player.getMovementQueue().clear();
+                }).waitForTile(startPos.transform(0, 1), () -> {
+                    player.stepAbs(new Tile(2654, 3670).transform(0, 0), MovementQueue.StepType.FORCED_WALK);
+                    player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                    Chain.bound(player).name("rellekarooftoptightropetask2").runFn(1, () -> {
+                        player.getMovementQueue().step(2655, 3670, MovementQueue.StepType.FORCED_WALK);
+                    }).waitForTile(new Tile(2655, 3670), () -> {
+                        player.agilityWalk(true);
+                        player.looks().resetRender();
+                        player.getSkills().addXp(Skills.AGILITY, 40.0);
+                        MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
+                        player.unlock();
+                    });
+                });
             });
             return true;
         }
 
         // Jump fish pile
-        if(obj.getId() == PILE_OF_FISH) {
+        if (obj.getId() == PILE_OF_FISH) {
             Tile startPos = obj.tile().transform(1, 0);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {}).then(1, () -> {
+            player.waitForTile(startPos, () -> {
+            }).then(1, () -> {
                 player.lock();
                 player.animate(2586, 15);
             }).then(1, () -> {

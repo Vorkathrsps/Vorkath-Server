@@ -18,14 +18,16 @@ public class KarilSet implements DamageEffectListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
             if (player.getCombat().getTarget() != null) {
-                if (combatType == CombatType.RANGED) {
+                if (CombatType.RANGED.equals(combatType)) {
                     if (FormulaUtils.wearingFullKarils(player)) {
                         if (hit.isAccurate()) {
                             if (Utils.rollDie(25, 1)) {
-                                if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {
-                                    player.getCombat().getTarget().graphic(401, GraphicHeight.HIGH, 0);
-                                    player.getCombat().getTarget().getSkills().alterSkill(Skills.AGILITY, player.getCombat().getTarget().getSkills().level(Skills.AGILITY) - 20);
-                                    return true;
+                                if (player.getCombat().getTarget().getSkills() != null) {
+                                    if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {
+                                        player.getCombat().getTarget().graphic(401, GraphicHeight.HIGH, 0);
+                                        player.getCombat().getTarget().getSkills().alterSkill(Skills.AGILITY, player.getCombat().getTarget().getSkills().level(Skills.AGILITY) - 20);
+                                        return true;
+                                    }
                                 }
                             }
                         }

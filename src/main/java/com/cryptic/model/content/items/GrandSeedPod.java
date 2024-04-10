@@ -12,17 +12,18 @@ public class GrandSeedPod extends PacketInteraction {
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (item.getId() == 9469) {
             if (option == 1) {
-                player.lock();
-                /*player.animate(4544);
-                player.graphic(767);*/
-                Chain.noCtx().runFn(3, () -> {
-                    player.looks().hide(true);
-                }).then(1, () -> {
+                player.stopActions(true);
+                player.lockMovement();
+                player.animate(4544);
+                player.graphic(767);
+                Chain.noCtx().runFn(4, () -> {
+                    player.looks().hideLooks(true);
+                }).then(3, () -> {
                     player.teleport(new Tile(3099, 3506));
                     player.animate(4546);
                     player.graphic(769);
                 }).then(2, () -> {
-                    player.looks().hide(false);
+                    player.looks().hideLooks(false);
                     player.unlock();
                 });
                 return true;

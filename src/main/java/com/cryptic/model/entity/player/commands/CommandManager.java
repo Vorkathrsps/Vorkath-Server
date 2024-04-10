@@ -28,6 +28,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -47,7 +48,6 @@ import com.cryptic.model.entity.player.commands.impl.super_member.YellColourComm
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.items.tradingpost.TradingPost;
@@ -665,7 +665,8 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            World.getWorld().shop(21).open(p);
+            p.looks().setHideLooks(false);
+            p.getUpdateFlag().flag(Flag.APPEARANCE);
         });
 
         dev("cleartask", (p, c, s) ->

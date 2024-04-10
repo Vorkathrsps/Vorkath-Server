@@ -8,6 +8,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.ValueType;
+import lombok.Setter;
 
 import java.util.Arrays;
 
@@ -28,6 +29,8 @@ public class Appearance {
     private boolean female;
     private int transmog = -1;
     private boolean hide;
+    @Setter
+    public boolean hideLooks;
     private int[] looks = {0, 10, 18, 26, 33, 36, 42};
     private short[] colors = new short[5];
 
@@ -100,6 +103,11 @@ public class Appearance {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
+    public void hideLooks(boolean state) {
+        player.looks().setHideLooks(state);
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
     public void update() {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
@@ -140,90 +148,96 @@ public class Appearance {
                 packetBuilder.putShort(-1);
                 packetBuilder.putShort(transmog);
             } else {
-                Item helm = target.getEquipment().get(EquipSlot.HEAD);
-                if (helm != null && helm.getId() > 1) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HEAD).getId());
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                if (target.getEquipment().get(EquipSlot.CAPE) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.CAPE).getId());
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                if (target.getEquipment().get(EquipSlot.AMULET) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.AMULET).getId());
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                if (target.getEquipment().get(EquipSlot.WEAPON) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.WEAPON).getId());
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                Item torso = target.getEquipment().get(EquipSlot.BODY);
-                if (torso != null && torso.getId() > 1) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.BODY).getId());
-                } else {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[2]);
-                }
-
-                if (target.getEquipment().get(EquipSlot.SHIELD) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.SHIELD).getId());
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                if (torso != null && torso.getId() > 1 && World.getWorld().equipmentInfo().typeFor(torso.getId()) == 6) {
-                    packetBuilder.put(0);
-                } else {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[3]);
-                }
-
-                if (target.getEquipment().get(EquipSlot.LEGS) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.LEGS).getId());
-                } else {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[5]);
-                }
-
-                boolean head = true;
-                boolean beard = true;
-
-                if (helm != null && helm.getId() > 1) {
-                    head = World.getWorld().equipmentInfo().typeFor(helm.getId()) == 0;
-                    beard = World.getWorld().equipmentInfo().showBeard(helm.getId());
-                }
-
-                if (head) {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[0]);
-                } else {
-                    packetBuilder.put(0);
-                }
-
-                if (target.getEquipment().get(EquipSlot.HANDS) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HANDS).getId());
-                } else {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[4]);
-                }
-
-                if (target.getEquipment().get(EquipSlot.FEET) != null) {
-                    packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.FEET).getId());
-                } else {
-                    packetBuilder.putShort(0x100 + target.looks().looks()[6]);
-                }
-
-                if (!target.looks().female()) {
-                    if (beard) {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[1]);
-                    } else {
+                if (hideLooks) {
+                    for (int index = 0; index < 12; index++) {
                         packetBuilder.put(0);
                     }
                 } else {
-                    packetBuilder.put(0);
+                    Item helm = target.getEquipment().get(EquipSlot.HEAD);
+                    if (helm != null && helm.getId() > 1) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HEAD).getId());
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.CAPE) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.CAPE).getId());
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.AMULET) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.AMULET).getId());
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.WEAPON) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.WEAPON).getId());
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    Item torso = target.getEquipment().get(EquipSlot.BODY);
+                    if (torso != null && torso.getId() > 1) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.BODY).getId());
+                    } else {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[2]);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.SHIELD) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.SHIELD).getId());
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    if (torso != null && torso.getId() > 1 && World.getWorld().equipmentInfo().typeFor(torso.getId()) == 6) {
+                        packetBuilder.put(0);
+                    } else {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[3]);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.LEGS) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.LEGS).getId());
+                    } else {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[5]);
+                    }
+
+                    boolean head = true;
+                    boolean beard = true;
+
+                    if (helm != null && helm.getId() > 1) {
+                        head = World.getWorld().equipmentInfo().typeFor(helm.getId()) == 0;
+                        beard = World.getWorld().equipmentInfo().showBeard(helm.getId());
+                    }
+
+                    if (head) {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[0]);
+                    } else {
+                        packetBuilder.put(0);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.HANDS) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HANDS).getId());
+                    } else {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[4]);
+                    }
+
+                    if (target.getEquipment().get(EquipSlot.FEET) != null) {
+                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.FEET).getId());
+                    } else {
+                        packetBuilder.putShort(0x100 + target.looks().looks()[6]);
+                    }
+
+                    if (!target.looks().female()) {
+                        if (beard) {
+                            packetBuilder.putShort(0x100 + target.looks().looks()[1]);
+                        } else {
+                            packetBuilder.put(0);
+                        }
+                    } else {
+                        packetBuilder.put(0);
+                    }
                 }
             }
 

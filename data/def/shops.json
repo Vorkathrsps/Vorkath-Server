@@ -6232,44 +6232,39 @@
     "scroll": 0,
     "items": [
       {
-        "id": 28531,
-        "amount": 100,
-        "value": 150
-      },
-      {
         "id": 28540,
         "amount": 100,
-        "value": 125
+        "value": 200
       },
       {
         "id": 28547,
         "amount": 100,
-        "value": 125
+        "value": 200
       },
       {
         "id": 28543,
         "amount": 100,
-        "value": 80
+        "value": 200
       },
       {
         "id": 12825,
         "amount": 100,
-        "value": 35
+        "value": 75
       },
       {
         "id": 24271,
         "amount": 100,
-        "value": 30
+        "value": 25
       },
       {
         "id": 22616,
         "amount": 100,
-        "value": 25
+        "value": 35
       },
       {
         "id": 22619,
         "amount": 100,
-        "value": 25
+        "value": 35
       },
       {
         "id": 21034,
@@ -6284,27 +6279,32 @@
       {
         "id": 25518,
         "amount": 100,
-        "value": 30
+        "value": 25
       },
       {
         "id": 27193,
         "amount": 100,
-        "value": 35
+        "value": 45
       },
       {
         "id": 27194,
         "amount": 100,
-        "value": 35
+        "value": 45
       },
       {
         "id": 24511,
         "amount": 100,
-        "value": 25
+        "value": 50
       },
       {
         "id": 24514,
         "amount": 100,
-        "value": 25
+        "value": 50
+      },
+      {
+        "id": 28531,
+        "amount": 100,
+        "value": 75
       },
       {
         "id": 28537,
@@ -6319,32 +6319,32 @@
       {
         "id": 21015,
         "amount": 100,
-        "value": 10
+        "value": 25
       },
       {
         "id": 13576,
         "amount": 100,
-        "value": 10
+        "value": 50
       },
       {
         "id": 24422,
         "amount": 100,
-        "value": 15
+        "value": 30
       },
       {
         "id": 25742,
         "amount": 100,
-        "value": 25
+        "value": 50
       },
       {
         "id": 25744,
         "amount": 100,
-        "value": 25
+        "value": 50
       },
       {
         "id": 21295,
         "amount": 100,
-        "value": 30
+        "value": 50
       },
       {
         "id": 22322,
@@ -7310,7 +7310,7 @@
     "shopId": 48,
     "name": "Void Island Shop",
     "currency": "VOID_ISLAND_POINTS",
-    "noiron": true,
+    "noiron": false,
     "restock": true,
     "sellType": "NONE",
     "scroll": 0,

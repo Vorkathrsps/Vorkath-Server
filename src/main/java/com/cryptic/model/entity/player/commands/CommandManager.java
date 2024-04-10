@@ -140,6 +140,7 @@ public class CommandManager {
         commands.put("reward", new VoteRewardCommand());
         StoreCommand storeCommand = new StoreCommand();
         commands.put("donate", storeCommand);
+        commands.put("claim", new ClaimDonationCommand());
         commands.put("store", storeCommand);
         commands.put("discord", new DiscordCommand());
         commands.put("rules", new RulesCommand());

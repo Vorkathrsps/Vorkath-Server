@@ -63,6 +63,7 @@ public class Autocasting {
 
     public static final Set<Integer> ANCIENT_SPELL_AUTOCAST_STAFFS = Set.of
         (
+            ANCIENT_STAFF_20431,
             KODAI_WAND,
             MASTER_WAND,
             ANCIENT_STAFF,

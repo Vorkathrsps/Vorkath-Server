@@ -17,12 +17,6 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: REWARD_CASKET_ELITE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1
-  rareDrop: false
-  sendToBank: false
 drops:
 - item: UNCUT_SAPPHIRE
   minimumAmount: 1

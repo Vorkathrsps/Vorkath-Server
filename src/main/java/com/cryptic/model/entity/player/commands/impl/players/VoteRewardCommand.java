@@ -26,16 +26,13 @@ public class VoteRewardCommand implements Command {
                     player.message(Color.RED.wrap("You do not have any votes to claim."));
                     return;
                 }
-                int points = player.<Integer>getAttribOr(AttributeKey.VOTE_POINTS, 0);
                 for (var request : reward) {
                     final int itemId = request.reward_id;
                     final int itemAmount = request.give_amount;
                     final Item item = new Item(itemId, itemAmount);
-                    points += request.vote_points;
                     player.getInventory().addOrBank(item);
                 }
-                player.putAttrib(AttributeKey.VOTE_POINTS, points);
-                player.message(Color.BLUE.wrap("<img=2018><shad=0>Thank you for supporting Valor! You now have a total of " + reward[0].vote_points + " Vote points.</shad></img>"));
+                player.getInventory().addOrBank(new Item(995, 500_000));
             } catch (Throwable e) {
                 logger.error("Error During Vote Thread Processing: ", e);
             }

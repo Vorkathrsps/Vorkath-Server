@@ -11,12 +11,6 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
-- item: REWARD_CASKET_ELITE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1
-  rareDrop: false
-  sendToBank: false
 drops:
 - item: RUNE_MED_HELM
   minimumAmount: 1

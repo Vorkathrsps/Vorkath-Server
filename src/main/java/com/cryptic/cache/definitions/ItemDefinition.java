@@ -139,6 +139,11 @@ public class ItemDefinition implements Definition {
             ioptions = new String[]{null, null, null, null, "Destroy"};
         }
 
+        switch (id) {
+            case SHIP_TICKET -> stackable = 1;
+            case AGILITY_ARENA_TICKET -> stackable = 1;
+        }
+
         int[] untradeables_with_destroy = new int[]{
             VOLATILE_NIGHTMARE_STAFF,
             HARMONISED_NIGHTMARE_STAFF,

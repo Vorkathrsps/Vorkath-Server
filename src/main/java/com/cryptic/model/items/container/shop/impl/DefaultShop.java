@@ -188,6 +188,7 @@ public final class DefaultShop extends Shop {
         }
         boolean isSpriteShop = shopId == 48 || shopId == 350;
         final Item[] items = container.toArray();
+        player.getPacketSender().sendInterfaceScrollReset(SHOP_INTERFACE);
         for (int index = 0; index < items.length; index++) {
             Item item = items[index];
 
@@ -223,7 +224,7 @@ public final class DefaultShop extends Shop {
             shopInventoryId = 64016;
         }
         if (!isSpriteShop) {
-            player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);
+            player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, items.length * 11);
         }
         int finalShop = shopInventoryId;
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());

@@ -1058,28 +1058,12 @@
   },
   {
     "shopId": 351,
-    "name": "Marks Of Grace Store",
-    "currency": "MARKS_OF_GRACE",
-    "noiron": false,
-    "restock": true,
-    "sellType": "NONE",
-    "scroll": 0,
-    "items": [
-      {
-        "id": 1267,
-        "amount": 100,
-        "value": 35
-      }
-    ]
-  },
-  {
-    "shopId": 351,
     "name": "Skilling Shop",
     "currency": "COINS",
     "noiron": true,
     "restock": true,
     "sellType": "NONE",
-    "scroll": 0,
+    "scroll": 1000,
     "items": [
       {
         "id": 1267,

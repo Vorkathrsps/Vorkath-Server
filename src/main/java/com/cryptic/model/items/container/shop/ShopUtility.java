@@ -43,7 +43,7 @@ public class ShopUtility extends ItemIdentifiers {
     /**
      * The scrollbar interface id
      */
-    public static final int SCROLL_BAR_INTERFACE_ID = 73190;
+    public static final int SCROLL_BAR_INTERFACE_ID = 73189;
     
     public static final int AMOUNT_STRING_ID = 22996;
 

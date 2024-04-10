@@ -28,6 +28,8 @@ public class NewTeleInterfaceHandler extends PacketInteraction {
                 player.getnewteleInterface().miningAreas();
             } else if (thespecificteleport.get(0).text.equals("Rooftop Agility Areas")) {
                 player.getnewteleInterface().roofTopAreas();
+            } else if (thespecificteleport.get(0).text.equals("Runecrafting Areas")) {
+                player.getnewteleInterface().runecraftingAreas();
             } else if (thespecificteleport.get(0).text.equals("Woodcutting Areas")) {
                 player.getnewteleInterface().woodcuttingAreas();
             } else if (thespecificteleport.get(0).text.equals("Hunter Areas")) {

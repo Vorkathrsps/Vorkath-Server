@@ -169,6 +169,107 @@ NewTeleportInterface {
         });
     }
 
+    public void runecraftingAreas() {
+        player.getDialogueManager().start(new Dialogue() {
+            @Override
+            protected void start(Object... parameters) {
+                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Air Altar", "Mind Altar", "Water Altar", "Earth Altar", "Next Page");
+                setPhase(0);
+            }
+
+            @Override
+            protected void select(int option) {
+                if (phase == 0) {
+                    if (option == 1) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2841, 4829));
+                    } else if (option == 2) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2793, 4828));
+                    } else if (option == 3) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2725, 4832));
+                    } else if (option == 4) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2655, 4830));
+                    } else if (option == 5) {
+                        setPhase(1);
+                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Fire Altar", "Body Altar", "Cosmic Altar", "Chaos Altar", "Next Page");
+                    }
+                } else if (phase == 1) {
+                    if (option == 1) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2574, 4848));
+                    } else if (option == 2) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2523, 4832));
+                    } else if (option == 3) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2162, 4833));
+                    } else if (option == 4) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2281, 4837));
+                    } else if (option == 5) {
+                        setPhase(2);
+                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Nature Altar", "Law Altar", "Death Altar", "Blood Altar", "Nevermind");
+                    }
+                } else if (phase == 2) {
+                    if (option == 1) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2400, 4835));
+                    } else if (option == 2) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2464, 4818));
+                    } else if (option == 3) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(2208, 4830));
+                    } else if (option == 4) {
+                        if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                            stop();
+                            return;
+                        }
+                        Teleports.basicTeleport(player, new Tile(3232, 4840));
+                    } else if (option == 5) {
+                        stop();
+                    }
+                }
+            }
+        });
+    }
+
     public void roofTopAreas() {
         player.getDialogueManager().start(new Dialogue() {
             @Override

@@ -37,7 +37,7 @@ public class RuneConversion extends PacketInteraction {
         CHAOS(35, 8.5, CHAOS_TALISMAN, CHAOS_RUNE, 34769, 34822, new Tile(2281, 4837), 34757, new Tile(3062, 3590), true, 74, 1900, PetDefinitions.RIFT_GUARDIAN_CHAOS),
         DEATH(65, 10.0, DEATH_TALISMAN, DEATH_RUNE, 34770, 34823, new Tile(2208, 4830), 34758, new Tile(1862, 4639), true, 200, 1800, PetDefinitions.RIFT_GUARDIAN_DEATH),
         ASTRAL(40, 8.7, -1, ASTRAL_RUNE, 34771, -1, new Tile(2156, 3863), -1, new Tile(2156, 3863), true, 42, 1700, PetDefinitions.RIFT_GUARDIAN_ASTRAL),
-        BLOOD(77, 23.8, -1, BLOOD_RUNE, 27978, -1, null, -1, null, true, 42, 7990, PetDefinitions.RIFT_GUARDIAN_BLOOD);
+        BLOOD(77, 23.8, -1, BLOOD_RUNE, 43479, -1, null, -1, null, true, 42, 7990, PetDefinitions.RIFT_GUARDIAN_BLOOD);
 
         private final int levelReq;
         private final double xp;

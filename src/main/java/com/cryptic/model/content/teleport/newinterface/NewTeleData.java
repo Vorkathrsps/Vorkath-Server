@@ -22,6 +22,7 @@ public enum NewTeleData {
 
 
     //Slayer teleports
+    IOWERTH_DUNGEON(new Tile(3208, 12433), "Iowerth Dungeon", "", SLAYING, MEDIUM),
     SKELE_WYVERNS(new Tile(3056, 9562), "Skeletal Wyverns", "", SLAYING, MEDIUM),
     SMOKE_DEVILS(new Tile(2404, 9417), "Smoke Devils", "", SLAYING, MEDIUM),
     LIZARDMEN(new Tile(1453, 3694), "Lizardmen", "", SLAYING, MEDIUM),

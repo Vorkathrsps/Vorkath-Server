@@ -32,17 +32,14 @@ public class EnchantedGem extends PacketInteraction {
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
             if (item.getId() == ENCHANTED_GEM) {
-                player.message("The activate feature is currently not available.");
-                return true;
-            }
-        }
-
-        if (option == 2) {
-            if (item.getId() == ENCHANTED_GEM) {
                 SlayerTask slayerTask = World.getWorld().getSlayerTasks();
                 var assignment = slayerTask.getCurrentAssignment(player);
+                if (assignment == null) {
+                    player.message(Color.BLUE.wrap("You currently do not have an active Slayer Task."));
+                    return true;
+                }
                 var amount = assignment.getRemainingTaskAmount(player);
-                player.message(Color.BLUE.wrap(""));
+                player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + amount));
                 return true;
             }
         }

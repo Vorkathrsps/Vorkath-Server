@@ -140,7 +140,10 @@ public class ItemDefinition implements Definition {
         }
 
         switch (id) {
-            case SHIP_TICKET -> stackable = 1;
+            case SHIP_TICKET -> {
+                stackable = 1;
+                notelink = 0;
+            }
             case AGILITY_ARENA_TICKET -> stackable = 1;
         }
 

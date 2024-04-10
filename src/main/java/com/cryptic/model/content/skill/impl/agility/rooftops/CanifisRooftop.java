@@ -31,16 +31,15 @@ public class CanifisRooftop extends PacketInteraction {
         if (obj.getId() == TALL_TREE_14843) {
             if (player.getSkills().level(Skills.AGILITY) >= 40) {
                 player.lockNoDamage();
-                player.getMovementQueue().interpolate(3507, 3488, MovementQueue.StepType.FORCED_WALK);
-                Chain.bound(player).name("CanifisRooftopTallTreeTask").waitForTile(new Tile(3507, 3488), () -> {
-                    player.animate(1765, 60);
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 1), 30, 60, Direction.EAST.toInteger())));
-                }).then(1, () -> TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-3, 0), 60, 115, Direction.WEST.toInteger())))).then(5, () -> {
+                player.stepAbs(new Tile(3507, 3489).transform(0,0), MovementQueue.StepType.FORCED_WALK);
+                Chain.bound(player).name("CanifisRooftopTallTreeTask").waitForTile(new Tile(3507, 3489).transform(0,0), () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile().clone(), new Tile(-2, 0), 30, 80, 1765, 1);
+                    player.setForceMovement(forceMovement);
+                }).then(3, () -> {
                     player.teleport(3506, 3492, 2);
                     player.animate(-1);
                     player.unlock();
                     player.getSkills().addXp(Skills.AGILITY, 10.0);
-
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
             } else {
@@ -51,13 +50,13 @@ public class CanifisRooftop extends PacketInteraction {
 
         if (obj.getId() == GAP_14844) { // gap 1
             player.lockNoDamage();
-            player.getMovementQueue().interpolate(3505, 3497, MovementQueue.StepType.FORCED_WALK);
+            player.stepAbs(new Tile(3505, 3497).transform(0,0), MovementQueue.StepType.FORCED_WALK);
+            player.setPositionToFace(null);
+            player.animate(1995, 15);
             Chain.bound(player).name("CanifisRooftopGap1Task").waitForTile(new Tile(3505, 3497, 2), () -> {
-                player.animate(1995, 15);
-                TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(0, +1), 15, 45, Direction.NORTH.toInteger())));
-            }).then(1, () -> {
-                player.animate(2586, 15);
-                TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(-2, +6), 25, 30, Direction.NORTH.toInteger())));
+                ForceMovement forceMovement = new ForceMovement(player.tile().clone(), new Tile(-2, 7), 30, 60, 1603, 4);
+                player.setForceMovement(forceMovement);
+            }).waitForTile(new Tile(3503, 3504, 2), () -> {
                 player.animate(2588);
             }).then(2, () -> {
                 player.teleport(3503, 3504, 2);

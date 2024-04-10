@@ -62,10 +62,15 @@ public class WildernessCourse extends PacketInteraction {
                     player.lockDelayDamage();
                     ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 6), 30, 60, 749, 0);
                     player.setForceMovement(forceMovement);
+                }).then(1, () -> {
+                    player.looks().hideLooks(true);
                 }).then(3, () -> player.getMovementQueue().interpolate(player.tile().x, player.tile().y + 1)).then(1, () -> {
                     ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 7), 30, 60, 748, 0);
                     player.setForceMovement(forceMovement);
-                }).then(3, () -> {
+                }).then(2, () -> {
+                    player.looks().hideLooks(false);
+                    player.animate(748);
+                }).then(2, () -> {
                     var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                     player.putAttrib(WILDY_COURSE_STATE, stage);
                     player.getSkills().addXp(Skills.AGILITY, 12.5);

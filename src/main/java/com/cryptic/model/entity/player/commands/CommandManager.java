@@ -665,8 +665,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            p.looks().setHideLooks(false);
-            p.getUpdateFlag().flag(Flag.APPEARANCE);
+            p.setPositionToFace(new Tile(-1, 0));
         });
 
         dev("cleartask", (p, c, s) ->

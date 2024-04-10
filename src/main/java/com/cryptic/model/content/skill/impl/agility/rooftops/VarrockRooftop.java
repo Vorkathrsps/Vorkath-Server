@@ -121,25 +121,23 @@ public class VarrockRooftop extends PacketInteraction {
                     ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -1), 30, 60, 1124, 4);
                     player.setForceMovement(forceMovement);
                 }).waitForTile(new Tile(3190, 3409, 1), () -> {
-                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -1), 30, 60, 754, 1);
-                    player.setForceMovement(forceMovement);
-                }).waitForTile(new Tile(3190, 3408, 1), () -> {
-                    player.animate(753);
+                    player.setPositionToFace(new Tile(1, 0));
                     player.agilityWalk(false);
-                    player.getMovementQueue().clear();
-                    player.getMovementQueue().step(3190, 3407, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(756, 756, 756, 756, 756, 756, -1);
-                }).waitForTile(new Tile(3190, 3407, 1), () -> {
-                    player.animate(741, 0);
-                    player.looks().resetRender();
-                    player.agilityWalk(true);
-                }).then(1, () -> {
-                    player.teleport(3192, 3406, 3);
-                    player.getSkills().addXp(Skills.AGILITY, 25.0);
-                    player.unlock();
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
+                    player.stepAbs(new Tile(3190, 3407).transform(0, -2), MovementQueue.StepType.FORCED_WALK);
+                    Chain.bound(player).name("innerLedgeTask1").runFn(2, () -> {
+                    }).waitForTile(new Tile(3190, 3407).transform(0, -2), () -> {
+                        player.setPositionToFace(new Tile(-1, 0));
+                        player.animate(741, 0);
+                        player.looks().resetRender();
+                        player.agilityWalk(true);
+                    }).then(1, () -> {
+                        player.teleport(3192, 3406, 3);
+                        player.getSkills().addXp(Skills.AGILITY, 25.0);
+                        player.unlock();
+                        MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
+                    });
                 });
-
         }
 
         if (obj.getId() == GAP_14833) {

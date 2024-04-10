@@ -665,7 +665,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-           GroundItemHandler.createGroundItem(new GroundItem(new Item(995, 5000), p.tile(), p));
+            World.getWorld().shop(21).open(p);
         });
 
         dev("cleartask", (p, c, s) ->

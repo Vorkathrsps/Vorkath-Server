@@ -17,6 +17,7 @@ public enum CurrencyType {
     COINS(new ItemCurrency(ItemIdentifiers.COINS_995)),
     MARK_OF_GRACE(new ItemCurrency(ItemIdentifiers.MARK_OF_GRACE)),
     BLOOD_MONEY(new ItemCurrency(ItemIdentifiers.BLOOD_MONEY)),
+    VOTE_TICKETS(new ItemCurrency(ItemIdentifiers.SHIP_TICKET)),
     TARGET_POINTS(new TargetPointsCurrency()),
     SLAYER_REWARD_POINTS(new SlayerPointsCurrency()),
     VOTE_POINTS(new VotePointsCurrency()),

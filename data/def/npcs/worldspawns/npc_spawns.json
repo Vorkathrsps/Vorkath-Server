@@ -9416,18 +9416,9 @@
   {"x":1886,"y":11545,"z":1,"id":6611,"direction":"w"}, //vetion
   {"x":3081,"y":3502,"z":0,"id":7663,"direction":"e"},
   {"x":3097,"y":3525,"z":0,"id":2200,"walkRange":2,"direction":"w"},
-  {"x":3078,"y":3501,"z":0,"id":7663,"direction":"e"},
-  {"x":3116,"y":3473,"z":0,"id":4175,"walkRange":2,"direction":"s"},
-  {"x":3117,"y":3477,"z":0,"id":4174,"walkRange":3,"direction":"n"},
-  {"x":3118,"y":3470,"z":0,"id":4176,"walkRange":4,"direction":"s"},
-  {"x":3118,"y":3474,"z":0,"id":4167,"walkRange":5,"direction":"w"},
-  {"x":3119,"y":3472,"z":0,"id":4168,"walkRange":3,"direction":"e"},
-  {"x":3119,"y":3477,"z":0,"id":4173,"walkRange":3,"direction":"w"},
   {"x":3119,"y":3485,"z":0,"id":2854,"walkRange":5,"direction":"e"},
-  {"x":3121,"y":3471,"z":0,"id":4169,"walkRange":5,"direction":"n"},
   {"x":3121,"y":3517,"z":0,"id":5514,"walkRange":4,"direction":"s"},
   {"x":3121,"y":3518,"z":0,"id":5515,"walkRange":5,"direction":"n"},
-  {"x":3122,"y":3483,"z":0,"id":3443,"walkRange":3,"direction":"e"},
   {"x":3122,"y":3487,"z":0,"id":2854,"walkRange":2,"direction":"s"},
   {"x":3123,"y":3473,"z":0,"id":4170,"walkRange":3,"direction":"s"},
   {"x":3123,"y":3477,"z":0,"id":4172,"walkRange":3,"direction":"n"},
@@ -23947,5 +23938,6 @@
   {"x":3096,"y":3503,"z":0,"id":1306,"walkRange":0,"direction":"n"}, //makeover mage
   {"x":3081,"y":3515,"z":0,"id":10962,"walkRange":0,"direction":"s"}, //Lord Trobin (donor store)
   {"x":3085,"y":3514,"z":0,"id":10631,"walkRange":0,"direction":"w"},
-  {"x":3085,"y":3513,"z":0,"id":5919,"walkRange":0,"direction":"w"}
+  {"x":3085,"y":3513,"z":0,"id":5919,"walkRange":0,"direction":"w"},
+  {"x":3080,"y":3515,"z":0,"id":2980,"walkRange":0,"direction":"s"}
 ]

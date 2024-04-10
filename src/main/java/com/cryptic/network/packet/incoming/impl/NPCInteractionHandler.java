@@ -342,6 +342,7 @@ public class NPCInteractionHandler implements PacketListener {
                 npc.setPositionToFace(player.tile());
                 player.inventory().addOrDrop(new Item(ItemIdentifiers.COLLECTION_LOG, 1));
             }
+            case 2980 -> World.getWorld().shop(6).open(player);
             case TWIGGY_OKORN -> {
                 npc.setPositionToFace(player.tile());
                 player.getDialogueManager().start(new TwiggyOKorn());

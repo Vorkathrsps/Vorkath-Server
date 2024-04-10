@@ -27,7 +27,6 @@ public class DonatorMysteryBox extends MysteryBox {
     private static final int UNCOMMON_ROLL = 25;
 
     private static final MboxItem[] EXTREMELY_RARE = new MboxItem[]{
-        new MboxItem(CustomItemIdentifiers.TOKHAAR_KAL).broadcastWorldMessage(true),
         new MboxItem(INFERNAL_CAPE).broadcastWorldMessage(true),
         new MboxItem(ELYSIAN_SPIRIT_SHIELD).broadcastWorldMessage(true),
         new MboxItem(ARCANE_SPIRIT_SHIELD).broadcastWorldMessage(true),

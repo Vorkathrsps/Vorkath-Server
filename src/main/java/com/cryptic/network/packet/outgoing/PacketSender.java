@@ -1076,7 +1076,6 @@ public final class PacketSender {
         out.put(delay, ValueType.A);
         out.put(distance << 4 | loop, ValueType.A);
         out.put(0, ValueType.A);
-        out.put(distance, ValueType.S);
         player.getSession().write(out);
         return this;
     }

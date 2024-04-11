@@ -465,7 +465,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
     public static boolean finished(Entity entity) {
         if (entity != null) {
-            Tuple<Integer, Player> player = entity.getAsNpc().getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1, null));
+            Tuple<Long, Player> player = entity.getAsNpc().getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1L, null));
             return entity.isNpc() && (entity.dead() || !entity.isRegistered()) || (player.second() != null && (player.second().dead()
                 || !player.second().isRegistered() || player.second().tile().getChevDistance(entity.tile()) > 30));
         }

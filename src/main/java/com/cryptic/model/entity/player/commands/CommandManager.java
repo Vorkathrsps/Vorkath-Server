@@ -665,7 +665,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            p.setPositionToFace(new Tile(-1, 0));
+            p.message("test command");
         });
 
         dev("cleartask", (p, c, s) ->

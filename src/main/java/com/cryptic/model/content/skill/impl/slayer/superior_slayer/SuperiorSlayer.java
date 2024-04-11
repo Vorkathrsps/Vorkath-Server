@@ -13,6 +13,8 @@ import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
+
 public class SuperiorSlayer {
 
     public static void trySpawn(Player player, SlayerCreature taskDef, NPC npc) {
@@ -40,7 +42,8 @@ public class SuperiorSlayer {
             NPC boss = new NPC(superior, npc.tile());
             World.getWorld().registerNpc(boss);
             boss.respawns(false);
-            boss.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+            boss.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
             boss.getCombatInfo().aggressive = true;
             TaskManager.submit(new RemoveSuperiorTask(player, boss));
             player.getTimers().register(TimerKey.SUPERIOR_BOSS_DESPAWN, 200);

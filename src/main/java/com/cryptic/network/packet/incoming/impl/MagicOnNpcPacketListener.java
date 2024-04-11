@@ -68,7 +68,7 @@ public class MagicOnNpcPacketListener implements PacketListener {
                     }
 
                     // See if it's exclusively owned
-                    Tuple<Integer, Player> ownerLink = other.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1, null));
+                    Tuple<Long, Player> ownerLink = other.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1L, null));
                     if (ownerLink.first() != null && ownerLink.first() >= 0 && ownerLink.first() != player.getIndex()) {
                         player.message("They don't seem interested in fighting you.");
                         player.getCombat().reset();

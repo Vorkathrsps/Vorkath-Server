@@ -22,6 +22,7 @@ import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.SACRIFICIAL_BOAT;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ZULANDRA_TELEPORT;
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 
 /**
  * no need to use custom region packet, the instance system simply changes the heightlevel and uses the real world-map coords for
@@ -87,7 +88,8 @@ public class ZulAndra extends PacketInteraction {
                                     instance.addPlayer(player);
                                     zulrah.setInstancedArea(instance);
                                     zulrah.respawns(false);
-                                    zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                                    Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+                                    zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
                                     zulrah.setPositionToFace(null);
                                     zulrah.noRetaliation(true);
                                     zulrah.getCombatInfo().aggressive = false;
@@ -126,7 +128,8 @@ public class ZulAndra extends PacketInteraction {
 
             zulrah.setInstancedArea(instance);
             zulrah.respawns(false);
-            zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+            zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
             zulrah.setPositionToFace(null);
             zulrah.noRetaliation(true);
             zulrah.getCombatInfo().aggressive = false;

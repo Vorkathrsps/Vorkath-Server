@@ -41,8 +41,10 @@ import com.cryptic.utility.Tuple;
 import com.cryptic.utility.timers.TimerKey;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 
 /**
  * @author Ynneh | 14/04/2022 - 00:39
@@ -112,9 +114,9 @@ public class NPCInteractionHandler implements PacketListener {
                 player.message("Missing combat definition forId=" + npc.getId() + ". Report this to a developer!");
                 return;
             }
-
-            Tuple<Integer, Player> ownerLink = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1, null));
-            if (ownerLink.first() != null && ownerLink.first() >= 0 && ownerLink.first() != player.getIndex()) {
+            Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+            Tuple<Long, Player> ownerLink = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1L, null));
+            if (ownerLink.first() != null && ownerLink.first() >= 0 && !Objects.equals(ownerLink.first(), uid)) {
                 player.message("They don't seem interested in fighting you.");
                 player.getCombat().reset();
                 return;

@@ -179,7 +179,6 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    @Getter @Setter public long UID = -1L;
     @Getter private final Pet petEntity = new Pet(this);
     @Getter @Setter public TheatreInterface theatreInterface;
     @Getter @Setter public RoomState roomState;
@@ -1045,10 +1044,11 @@ public class Player extends Entity {
      */
     @Override
     public void onAdd() {
-        if (this.UID == -1L) {
-            this.UID = Utils.generateUUID();
-            this.putAttrib(AttributeKey.PLAYER_UID, this.UID);
-            System.out.println("setting player unique ID: " + PLAYER_UID.toString());
+        Long uid = this.<Long>getAttribOr(PLAYER_UID, 0L);
+        if (uid == 0L) {
+            uid = Utils.generateUUID();
+            this.putAttrib(AttributeKey.PLAYER_UID, uid);
+            System.out.println("setting player unique ID: " + PLAYER_UID);
         }
         World.getWorld().ls.ONLINE.add(getMobName().toUpperCase());
         session.setState(SessionState.LOGGED_IN);

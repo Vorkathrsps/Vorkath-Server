@@ -25,6 +25,8 @@ import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.util.stream.Stream;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
+
 /**
  * Created by Bart on 3/6/2016.
  */
@@ -37,7 +39,7 @@ public class Zulrah {
             if (npc.dead() || !npc.isRegistered()) {
                 return true;
             }
-            Tuple<Integer, Player> player = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1, null));
+            Tuple<Long, Player> player = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1L, null));
             if (player.second() != null && (player.second().tile().getChevDistance(npc.tile()) > 20 || !player.second().isRegistered())) {
                 return true;
             }
@@ -515,7 +517,8 @@ public class Zulrah {
             snakeling.getValue().setIgnoreOccupiedTiles(true);
             snakeling.getValue().respawns(false);
             snakeling.getValue().animate(2413);
-            snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+            snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
             snakeling.getValue().lockNoDamage();
         }).cancelWhen(() -> instanceFinished(npc)).then(3, () -> {
             snakeling.getValue().unlock();

@@ -491,7 +491,6 @@ public class PlayerSave {
             if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
             player.putAttrib(AttributeKey.VOID_ISLAND_POINTS, details.voidIslandPoints);
             player.putAttrib(PLAYER_UID, details.playerUID);
-            player.setUID(details.playerUID);
         }
 
         private final long playerUID;

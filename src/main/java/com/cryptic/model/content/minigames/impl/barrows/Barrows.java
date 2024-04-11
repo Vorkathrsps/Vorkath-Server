@@ -112,7 +112,8 @@ public class Barrows extends PacketInteraction {
                     var npc = new NPC(broId, tile);
 
                     World.getWorld().registerNpc(npc);
-                    npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                    Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+                    npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
                     player.putAttrib(AttributeKey.barrowsBroSpawned, npc);
                     player.getPacketSender().sendEntityHint(npc);
                     npc.respawns(false);
@@ -254,7 +255,8 @@ public class Barrows extends PacketInteraction {
                         }
                         var npc = new NPC(broId, tile);
                         World.getWorld().registerNpc(npc);
-                        npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                        Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+                        npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
                         player.putAttrib(AttributeKey.barrowsBroSpawned, npc);
                         player.getPacketSender().sendEntityHint(npc);
                         npc.respawns(false);

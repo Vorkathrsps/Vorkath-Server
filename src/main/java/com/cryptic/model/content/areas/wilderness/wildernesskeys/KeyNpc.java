@@ -7,6 +7,8 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Tuple;
 import lombok.Getter;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
+
 public class KeyNpc extends NPC {
     @Getter
     public final Player player;
@@ -20,7 +22,8 @@ public class KeyNpc extends NPC {
     public KeyNpc(int id, Tile tile, Player player) {
         super(id, tile);
         this.player = player;
-        this.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+        Long uid = this.<Long>getAttribOr(PLAYER_UID, 0L);
+        this.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
         this.getCombatInfo().setAggressive(true);
         this.respawns(false);
         this.getCombat().setTarget(player);

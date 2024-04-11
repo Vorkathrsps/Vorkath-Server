@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.MAGICAL_ANIMATOR;
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 
 /**
  * @author Origin | March, 26, 2021, 09:51
@@ -71,7 +72,8 @@ public class MagicalAnimator extends PacketInteraction {
                     player.inventory().remove(new Item(sets.get(0).body));
                 }).then(2, () -> DialogueManager.sendStatement(player, "You place your armour on the platform where it disappears....", "The animator hums; something appears to be working...")).then(2, () -> TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, +2), 45, 126, FaceDirection.SOUTH.direction)))).then(1, () -> player.animate(820, 5)).then(1, () -> {
                     NPC npc = new NPC(sets.get(0).npc, spawnTile);
-                    npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                    Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+                    npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
 
                     World.getWorld().getNpcs().add(npc);
                     npc.setPositionToFace(npc.tile().transform(1, 0, 0));

@@ -15,6 +15,7 @@ import com.cryptic.utility.Tuple;
 import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 
 public class VorkathArea extends PacketInteraction {
 
@@ -68,7 +69,8 @@ public class VorkathArea extends PacketInteraction {
                 npc.setPositionToFace(player.tile());
                 npc.setCombatInfo(World.getWorld().combatInfo(npc.id()));
                 npc.setHitpoints(npc.getCombatInfo().stats.hitpoints);
-                npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
+                npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
                 npc.getMovementQueue().setBlockMovement(true);
                 npc.setCombatMethod(new VorkathCombat());
                 npc.getCombat().attack(player);

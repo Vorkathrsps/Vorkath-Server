@@ -179,53 +179,22 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    @Getter
-    private final Pet petEntity = new Pet(this);
-    @Getter
-    @Setter
-    public TheatreInterface theatreInterface;
-    @Getter
-    @Setter
-    public RoomState roomState;
-    @Getter
-    @Setter
-    private NightmareInstance nightmareInstance;
-    @Getter
-    @Setter
-    private TheatreInstance theatreInstance;
-    @Getter
-    @Setter
-    private double[] savedTornamentXp;
-
-    @Getter
-    @Setter
-    private Tile lastSavedTile;
-
-    @Getter
-    @Setter
-    private boolean usingLastRecall = false;
-
-    @Getter
-    @Setter
-    private int[] savedTornamentLevels;
-
+    @Getter @Setter public long UID = -1L;
+    @Getter private final Pet petEntity = new Pet(this);
+    @Getter @Setter public TheatreInterface theatreInterface;
+    @Getter @Setter public RoomState roomState;
+    @Getter @Setter private NightmareInstance nightmareInstance;
+    @Getter @Setter private TheatreInstance theatreInstance;
+    @Getter @Setter private double[] savedTornamentXp;
+    @Getter @Setter private Tile lastSavedTile;
+    @Getter @Setter private boolean usingLastRecall = false;
+    @Getter @Setter private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
-
-    @Getter
-    private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
-    @Setter
-    @Getter
-    private PresetData[] presetData = new PresetData[8];
-
-    @Getter
-    private final WildernessKeys wildernessKeys = new WildernessKeys();
-
-    @Getter
-    private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
-
-    @Getter
-    @Setter
-    public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
+    @Getter private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+    @Setter @Getter private PresetData[] presetData = new PresetData[8];
+    @Getter private final WildernessKeys wildernessKeys = new WildernessKeys();
+    @Getter private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
+    @Getter @Setter public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -242,24 +211,10 @@ public class Player extends Entity {
         }
     }
 
-    /**
-     * Save a new player's chat sent to ip-mute for advertising.
-     */
-    public ArrayList<String> newPlayerChat = new ArrayList<String>();
-
-    @Setter
-    @Getter
-    private Raids raids;
-
-    @Getter
-    public BonusesInterface bonusInterface = new BonusesInterface(this);
-
-    @Getter
-    private ZarosGodwars zarosGodwars;
-
-    @Getter
-    @Setter
-    RaidParty raidParty;
+    @Getter public ArrayList<String> newPlayerChat = new ArrayList<>();
+    @Setter @Getter private Raids raids;
+    @Getter public BonusesInterface bonusInterface = new BonusesInterface(this);
+    @Getter @Setter RaidParty raidParty;
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -1090,6 +1045,11 @@ public class Player extends Entity {
      */
     @Override
     public void onAdd() {
+        if (this.UID == -1L) {
+            this.UID = Utils.generateUUID();
+            this.putAttrib(AttributeKey.PLAYER_UID, this.UID);
+            System.out.println("setting player unique ID: " + PLAYER_UID.toString());
+        }
         World.getWorld().ls.ONLINE.add(getMobName().toUpperCase());
         session.setState(SessionState.LOGGED_IN);
         setNeedsPlacement(true);

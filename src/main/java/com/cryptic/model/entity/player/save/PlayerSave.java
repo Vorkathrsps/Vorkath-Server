@@ -55,6 +55,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
 
 /**
@@ -489,8 +490,11 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
             player.putAttrib(AttributeKey.VOID_ISLAND_POINTS, details.voidIslandPoints);
+            player.putAttrib(PLAYER_UID, details.playerUID);
+            player.setUID(details.playerUID);
         }
 
+        private final long playerUID;
         //Account
         private final String username;
         private final String password;
@@ -961,6 +965,7 @@ public class PlayerSave {
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
             voidIslandPoints = Player.getAttribIntOr(player, AttributeKey.VOID_ISLAND_POINTS, 0);
+            playerUID = Player.getAttribLongOr(player, PLAYER_UID, -1L);
         }
 
         public void parseDetails() {

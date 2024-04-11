@@ -9,13 +9,11 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.Session;
 import com.cryptic.utility.flood.Buffer;
 import com.google.gson.Gson;
 import lombok.val;
-import org.apache.commons.lang.math.Fraction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -33,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -104,6 +103,17 @@ public class Utils {
     public static boolean sequenceRandomInterval(int count, int min, int max) {
         int intervals = Utils.random(min, max);
         return count >= intervals;
+    }
+
+    public static final long VALOR_EPOCH = 1699574400000L;
+    private static final AtomicLong increment = new AtomicLong(0L);
+    public static long generateUUID() {
+        long timestamp = System.currentTimeMillis();
+        long generation = (timestamp - VALOR_EPOCH) << 22;
+        long processID = ProcessHandle.current().pid() << 12;
+        long inc = increment.getAndIncrement();
+        inc &= 0xFFF;
+        return (generation | processID) | inc;
     }
 
     public static String gameModeToString(Player player) {

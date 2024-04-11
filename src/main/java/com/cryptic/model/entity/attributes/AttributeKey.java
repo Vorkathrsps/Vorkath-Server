@@ -13,6 +13,7 @@ public enum AttributeKey {
     RETREATING,
 
     MENACING_CURSE,
+    PLAYER_UID("player_uid", AttribType.LONG),
     STARTER_GIVEN("starter_given", AttribType.BOOLEAN),
 
     SIGIL_OF_THE_FERAL_FIGHTER,

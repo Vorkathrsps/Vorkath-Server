@@ -492,11 +492,11 @@ public class GameObject {
         if (custom && newId == -1) {
             if (t != null) t.removeObject(this);
             Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
-                if (p == null) return;
-                if (p.getZ() != t.getZ()) return;
-                if (p.tile().distanceTo(t) >= 64) return;
-                sendRemove(p);
-            });
+                    if (p == null) return;
+                    if (p.getZ() != t.getZ()) return;
+                    if (p.tile().distanceTo(t) >= 64) return;
+                    sendRemove(p);
+                });
         } else {
             clip(true);
             this.id = newId;
@@ -525,13 +525,16 @@ public class GameObject {
             return this;
         // when osrs data is rdy
         ObjectDefinition def = definition();
-        if (def == null) return this;
+        if (def == null)
+            return this;
         if (type == 22) {
             if (def.isClippedDecoration()) {
-                if (remove) {
-                    tile.unflagDecoration();
-                } else {
-                    tile.flagDecoration();
+                if (def.clipType == 1) {
+                    if (remove) {
+                        tile.unflagDecoration();
+                    } else {
+                        tile.flagDecoration();
+                    }
                 }
             }
         } else if (type >= 9) {

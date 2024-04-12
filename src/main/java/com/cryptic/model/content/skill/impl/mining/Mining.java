@@ -45,7 +45,6 @@ public class Mining extends PacketInteraction {
     private static final Set<Integer> GLORYS = new HashSet<>(Arrays.asList(
         1706, 1708, 1710, 1712, 11976, 11978
     ));
-    private static final int[] gems = new int[]{1623, 1617, 1619, 1621, 1625, 1627, 1629};
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
@@ -76,10 +75,8 @@ public class Mining extends PacketInteraction {
         Optional<Pickaxe> pick = Mining.findPickaxe(player);
 
         if ((int) player.getAttribOr(AttributeKey.JAILED, 0) == 1) {
-            // if (player.getBank().count(Mining.Rock.JAIL_BLURITE.ore) + player.inventory().count(Ore.BLU.ore) >= (int) player.getAttribOr(AttributeKey.JAIL_ORES_TO_ESCAPE, 0)) {
             player.message("You don't need any more ores to escape.");
             return;
-            //  }
         }
 
         if (player.inventory().isFull()) {
@@ -199,17 +196,6 @@ public class Mining extends PacketInteraction {
                     rockType.setItem(new Item(Utils.randomElement(GEMS)).getId());
                 }
 
-                if (rockType != Ore.CRASHED_STAR && rockType != Ore.GEM_ROCK) {
-                    if (Utils.rollDie(33, 1) && !ArrayUtils.contains(star, obj.getId())) {
-                        player.animate(Animation.DEFAULT_RESET_ANIMATION);
-                        GameObject original = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                        GameObject spawned = new GameObject(replId, obj.tile(), obj.getType(), obj.getRotation());
-                        ObjectManager.replace(original, spawned, Math.max(1, rockType.respawn_time - 1));
-                        mine.stop();
-                    }
-                    player.animate(-1);
-                    mine.stop();
-                }
             }
         }).then(1, () -> player.animate(Animation.DEFAULT_RESET_ANIMATION));
 

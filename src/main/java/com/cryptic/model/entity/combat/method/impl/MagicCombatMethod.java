@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat.method.impl;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.data.AncientSpells;
@@ -118,7 +119,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         }
         Projectile p = new Projectile(source, target, projectile, startSpeed, duration, startHeight, endHeight, curve, entity.getSize(), stepMultiplier);
         final int delay = player.executeProjectile(p);
-        Hit hit = new Hit(entity, target, delay, this);
+        Hit hit = new Hit(entity, target, delay, CombatType.MAGIC);
         if (isImmune(target, hit)) {
             if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target, spellId);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());

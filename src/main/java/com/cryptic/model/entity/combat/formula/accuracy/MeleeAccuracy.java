@@ -103,7 +103,7 @@ public class MeleeAccuracy implements AbstractAccuracy {
     }
     @Override
     public double getPrayerBonusAttacker() {
-        int prayerBonus = 1;
+        double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
             if (Prayers.usingPrayer(this.attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05D;
             else if (Prayers.usingPrayer(this.attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10D;

@@ -21,11 +21,11 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 public final class MagicAccuracy implements AbstractAccuracy {
 
     @Getter @Setter public int modifier;
-    @Getter Entity attacker;
-    @Getter Entity defender;
+    @Getter final Entity attacker;
+    @Getter final Entity defender;
     CombatType combatType;
 
-    public MagicAccuracy(Entity attacker, Entity defender, CombatType combatType) {
+    public MagicAccuracy(final Entity attacker, final Entity defender, CombatType combatType) {
         this.attacker = attacker;
         this.defender = defender;
         this.combatType = combatType;
@@ -75,13 +75,15 @@ public final class MagicAccuracy implements AbstractAccuracy {
 
     @Override
     public double getPrayerBonusAttacker() {
-        int prayerBonus = 1;
-        if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.attacker, MYSTIC_WILL)) prayerBonus *= 1.05D; // 5% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, MYSTIC_LORE)) prayerBonus *= 1.10D; // 10% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
+        double prayerBonus = 1D;
+        if (this.attacker instanceof Player player) {
+            if (Prayers.usingPrayer(player, MYSTIC_WILL)) prayerBonus *= 1.05D; // 5% magic level boost
+            else if (Prayers.usingPrayer(player, MYSTIC_LORE)) prayerBonus *= 1.10D; // 10% magic level boost
+            else if (Prayers.usingPrayer(player, MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
+            else if (Prayers.usingPrayer(player, AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
         }
+
+        System.out.println(prayerBonus);
         return prayerBonus;
     }
 

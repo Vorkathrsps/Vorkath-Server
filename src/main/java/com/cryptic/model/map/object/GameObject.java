@@ -7,7 +7,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.utility.SecondsTimer;
 import lombok.Getter;
@@ -15,9 +14,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * This file manages a game object entity on the globe.
@@ -492,11 +489,11 @@ public class GameObject {
         if (custom && newId == -1) {
             if (t != null) t.removeObject(this);
             Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
-                    if (p == null) return;
-                    if (p.getZ() != t.getZ()) return;
-                    if (p.tile().distanceTo(t) >= 64) return;
-                    sendRemove(p);
-                });
+                if (p == null) return;
+                if (p.getZ() != t.getZ()) return;
+                if (p.tile().distanceTo(t) >= 64) return;
+                sendRemove(p);
+            });
         } else {
             clip(true);
             this.id = newId;
@@ -548,13 +545,9 @@ public class GameObject {
             }
             if (def.clipType != 0) {
                 if (remove) {
-                    ClipUtils.removeClipping(x, y, z, xLength, yLength, def.tall, false);
-                    if (def.tall)
-                        ClipUtils.removeClipping(x, y, z, xLength, yLength, true, true);
+                    ClipUtils.removeClipping(x, y, z, xLength, yLength, def.tall, def.clipped);
                 } else {
-                    ClipUtils.addClipping(x, y, z, xLength, yLength, def.tall, false);
-                    if (def.tall)
-                        ClipUtils.addClipping(x, y, z, xLength, yLength, true, true);
+                    ClipUtils.addClipping(x, y, z, xLength, yLength, def.tall, def.clipped);
                 }
             }
         } else if (type >= 0 && type <= 3) {

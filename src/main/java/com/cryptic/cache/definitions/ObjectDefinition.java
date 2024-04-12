@@ -3,7 +3,6 @@ package com.cryptic.cache.definitions;
 import com.cryptic.GameConstants;
 import com.cryptic.model.World;
 import com.cryptic.network.codec.RSBuffer;
-import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -49,7 +48,7 @@ public class ObjectDefinition implements Definition {
     public short[] retex_d;
     public int anInt2286 = -1;
     public boolean verticalFlip = false;
-    public boolean aBool2284 = true;
+    public boolean clipped = true;
     public int op65Render0x1 = -1;
     public int op66Render0x2 = -1;
     public int op67Render0x4 = -1;
@@ -356,7 +355,7 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 64)
         {
-            aBool2284 = (false);
+            clipped = (false);
         }
         else if (opcode == 65)
         {
@@ -600,7 +599,7 @@ public class ObjectDefinition implements Definition {
             ", retex_d=" + Arrays.toString(retex_d) +
             ", anInt2286=" + anInt2286 +
             ", vflip=" + verticalFlip +
-            ", aBool2284=" + aBool2284 +
+            ", aBool2284=" + clipped +
             ", op65Render0x1=" + op65Render0x1 +
             ", op66Render0x2=" + op66Render0x2 +
             ", op67Render0x4=" + op67Render0x4 +

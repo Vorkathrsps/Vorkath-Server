@@ -106,16 +106,22 @@ public class DeathResult {
 
                 for (var breakable : Breakable.values()) {
                     if (breakable.brokenId == item.getId()) {
-                        untradeables.add(new Item(breakable.brokenId));
+                        final Item broken = new Item(breakable.brokenId);
+                        untradeables.add(broken);
                         break;
                     }
                     if (breakable.id == item.getId()) {
-                        untradeables.add(new Item(breakable.brokenId));
+                        final Item broken = new Item(breakable.brokenId);
+                        untradeables.add(broken);
                         if (breakable.coinAmount != -1) {
                             itemList.add(new Item(COINS_995, breakable.coinAmount));
                         }
+                        final Item conversion = new Item(breakable.itemConversion);
                         if (breakable.itemConversion != -1) {
-                            itemList.add(new Item(breakable.itemConversion));
+                            itemList.add(conversion);
+                        }
+                        if (item.untradable() && !untradeables.contains(broken)) {
+                            untradeables.add(new Item(item.getId(), item.getAmount()));
                         }
                         break;
                     }
@@ -128,10 +134,6 @@ public class DeathResult {
                         }
                         break;
                     }
-                }
-
-                if (item.untradable() && !untradeables.contains(item)) {
-                    untradeables.add(new Item(item.getId(), item.getAmount()));
                 }
             }
         }

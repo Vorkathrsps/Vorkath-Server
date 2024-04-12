@@ -16,8 +16,8 @@ public class ClipUtils {
         new ClipUtils() {
             @Override
             public int getAbs(int absX, int absY, int z) {
-                    Region region = RegionManager.getRegion(absX, absY);
-                    return region.getClip(absX, absY, z);
+                Region region = RegionManager.getRegion(absX, absY);
+                return region.getClip(absX, absY, z);
             }
         };
 
@@ -76,6 +76,21 @@ public class ClipUtils {
         }
     }
 
+    public static void setFlagOffNonSquare(
+        int x, int y, int z, int xLength, int yLength, int orientation, boolean solid, boolean projectile) {
+        int mask = 256;
+        if (solid) mask |= 0x20000;
+        int var9;
+        if (orientation == 1 || orientation == 3) {
+            var9 = xLength;
+            xLength = yLength;
+            yLength = var9;
+        }
+        for (int a = x; a < x + xLength; a++) {
+            for (int b = y; b < y + yLength; b++) removeClipping(a, b, z, mask, projectile);
+        }
+    }
+
     public static void removeClipping(int x, int y, int z, int mask, boolean projectile) {
         if (projectile) RegionManager.removeClippingProj(x, y, z, mask);
         else RegionManager.removeClipping(x, y, z, mask);
@@ -84,7 +99,7 @@ public class ClipUtils {
     public static void removeClipping(
         int x, int y, int z, int xLength, int yLength, boolean solid, boolean projectile) {
         int mask = 256;
-        if (solid) mask |= 0x20000;
+        if (solid) mask &= ~0x20000;
         for (int a = x; a < x + xLength; a++) {
             for (int b = y; b < y + yLength; b++) removeClipping(a, b, z, mask, projectile);
         }
@@ -207,6 +222,139 @@ public class ClipUtils {
                     addClipping(x, y, z, 81920, projectile);
                     addClipping(x, y - 1, z, 1024, projectile);
                     addClipping(x - 1, y, z, 4096, projectile);
+                }
+            }
+        }
+    }
+
+    public static void setObject(int plane, int x, int y, int width, int height, boolean blocksFly, boolean add) {
+        int flag = Flags.OBJECT;
+        if (blocksFly) {
+            flag += Flags.OBJECT_PROJECTILE;
+        }
+        for (int tileX = x; tileX < width + x; ++tileX) {
+            for (int tileY = y; tileY < y + height; ++tileY) {
+                addClipping(tileX, tileY, plane, flag, add);
+            }
+        }
+    }
+
+    public static void setWall(int plane, int x, int y, int type, int rotation, boolean blocksFly, boolean add) {
+        if (type == 0) {
+            if (rotation == 0) {
+                addClipping(plane, x, y, Flags.WALL_WEST, add);
+                addClipping(plane, x - 1, y, Flags.WALL_EAST, add);
+            }
+            if (rotation == 1) {
+                addClipping(plane, x, y, Flags.WALL_NORTH, add);
+                addClipping(plane, x, y + 1, Flags.WALL_SOUTH, add);
+            }
+            if (rotation == 2) {
+                addClipping(plane, x, y, Flags.WALL_EAST, add);
+                addClipping(plane, x + 1, y, Flags.WALL_WEST, add);
+            }
+            if (rotation == 3) {
+                addClipping(plane, x, y, Flags.WALL_SOUTH, add);
+                addClipping(plane, x, y - 1, Flags.WALL_NORTH, add);
+            }
+        }
+        if (type == 1 || type == 3) {
+            if (rotation == 0) {
+                addClipping(plane, x, y, Flags.CORNER_NORTH_WEST, add);
+                addClipping(plane, x - 1, y + 1, Flags.CORNER_SOUTH_EAST, add);
+            }
+            if (rotation == 1) {
+                addClipping(plane, x, y, Flags.CORNER_NORTH_EAST, add);
+                addClipping(plane, x + 1, y + 1, Flags.CORNER_SOUTH_WEST, add);
+            }
+            if (rotation == 2) {
+                addClipping(plane, x, y, Flags.CORNER_SOUTH_EAST, add);
+                addClipping(plane, x + 1, y - 1, Flags.CORNER_NORTH_WEST, add);
+            }
+            if (rotation == 3) {
+                addClipping(plane, x, y, Flags.CORNER_SOUTH_WEST, add);
+                addClipping(plane, x - 1, y - 1, Flags.CORNER_NORTH_EAST, add);
+            }
+        }
+        if (type == 2) {
+            if (rotation == 0) {
+                addClipping(plane, x, y, Flags.WALL_NORTH_WEST, add);
+                addClipping(plane, x - 1, y, Flags.WALL_EAST, add);
+                addClipping(plane, x, y + 1, Flags.WALL_SOUTH, add);
+            }
+            if (rotation == 1) {
+                addClipping(plane, x, y, Flags.WALL_NORTH_EAST, add);
+                addClipping(plane, x, y + 1, Flags.WALL_SOUTH, add);
+                addClipping(plane, x + 1, y, Flags.WALL_WEST, add);
+            }
+            if (rotation == 2) {
+                addClipping(plane, x, y, Flags.WALL_SOUTH_EAST, add);
+                addClipping(plane, x + 1, y, Flags.WALL_WEST, add);
+                addClipping(plane, x, y - 1, Flags.WALL_NORTH, add);
+            }
+            if (rotation == 3) {
+                addClipping(plane, x, y, Flags.WALL_SOUTH_WEST, add);
+                addClipping(plane, x, y - 1, Flags.WALL_NORTH, add);
+                addClipping(plane, x - 1, y, Flags.WALL_EAST, add);
+            }
+        }
+        if (blocksFly) {
+            if (type == 0) {
+                if (rotation == 0) {
+                    addClipping(plane, x, y, Flags.WALL_WEST_PROJECTILE, add);
+                    addClipping(plane, x - 1, y, Flags.WALL_EAST_PROJECTILE, add);
+                }
+                if (rotation == 1) {
+                    addClipping(plane, x, y, Flags.WALL_NORTH_PROJECTILE, add);
+                    addClipping(plane, x, y + 1, Flags.WALL_SOUTH_PROJECTILE, add);
+                }
+                if (rotation == 2) {
+                    addClipping(plane, x, y, Flags.WALL_EAST_PROJECTILE, add);
+                    addClipping(plane, x + 1, y, Flags.WALL_WEST_PROJECTILE, add);
+                }
+                if (rotation == 3) {
+                    addClipping(plane, x, y, Flags.WALL_SOUTH_PROJECTILE, add);
+                    addClipping(plane, x, y - 1, Flags.WALL_NORTH_PROJECTILE, add);
+                }
+            }
+            if (type == 1 || type == 3) {
+                if (rotation == 0) {
+                    addClipping(plane, x, y, Flags.CORNER_NORTH_WEST_PROJECTILE, add);
+                    addClipping(plane, x - 1, y + 1, Flags.CORNER_SOUTH_EAST_PROJECTILE, add);
+                }
+                if (rotation == 1) {
+                    addClipping(plane, x, y, Flags.CORNER_NORTH_EAST_PROJECTILE, add);
+                    addClipping(plane, x + 1, y + 1, Flags.CORNER_SOUTH_WEST_PROJECTILE, add);
+                }
+                if (rotation == 2) {
+                    addClipping(plane, x, y, Flags.CORNER_SOUTH_EAST_PROJECTILE, add);
+                    addClipping(plane, x + 1, y - 1, Flags.CORNER_NORTH_WEST_PROJECTILE, add);
+                }
+                if (rotation == 3) {
+                    addClipping(plane, x, y, Flags.CORNER_SOUTH_WEST_PROJECTILE, add);
+                    addClipping(plane, x - 1, y - 1, Flags.CORNER_NORTH_EAST_PROJECTILE, add);
+                }
+            }
+            if (type == 2) {
+                if (rotation == 0) {
+                    addClipping(plane, x, y, Flags.WALL_NORTH_WEST_PROJECTILE, add);
+                    addClipping(plane, x - 1, y, Flags.WALL_EAST_PROJECTILE, add);
+                    addClipping(plane, x, y + 1, Flags.WALL_SOUTH_PROJECTILE, add);
+                }
+                if (rotation == 1) {
+                    addClipping(plane, x, y, Flags.WALL_NORTH_EAST_PROJECTILE, add);
+                    addClipping(plane, x, y + 1, Flags.WALL_SOUTH_PROJECTILE, add);
+                    addClipping(plane, x + 1, y, Flags.WALL_WEST_PROJECTILE, add);
+                }
+                if (rotation == 2) {
+                    addClipping(plane, x, y, Flags.WALL_SOUTH_EAST_PROJECTILE, add);
+                    addClipping(plane, x + 1, y, Flags.WALL_WEST_PROJECTILE, add);
+                    addClipping(plane, x, y - 1, Flags.WALL_NORTH_PROJECTILE, add);
+                }
+                if (rotation == 3) {
+                    addClipping(plane, x, y, Flags.WALL_SOUTH_WEST_PROJECTILE, add);
+                    addClipping(plane, x, y - 1, Flags.WALL_NORTH_PROJECTILE, add);
+                    addClipping(plane, x - 1, y, Flags.WALL_EAST_PROJECTILE, add);
                 }
             }
         }

@@ -521,12 +521,11 @@ public class GameObject {
         if (id == -1 || skipClipping)
             return this;
         // when osrs data is rdy
-        ObjectDefinition def = definition();
-        if (def == null)
-            return this;
+        ObjectDefinition def = ObjectDefinition.get(id);
+        if (def == null) return this;
         if (type == 22) {
             if (def.isClippedDecoration()) {
-                if (def.clipType == 1) {
+                if (def.interactType == 1) {
                     if (remove) {
                         tile.unflagDecoration();
                     } else {
@@ -534,7 +533,7 @@ public class GameObject {
                     }
                 }
             }
-        } else if (type >= 9) {
+        } else if (type >= 9 && type <= 21) {
             int xLength, yLength;
             if (rotation == 1 || rotation == 3) {
                 xLength = def.sizeY; // invert the direction the clip will go in on purpose
@@ -543,23 +542,27 @@ public class GameObject {
                 xLength = def.sizeX;
                 yLength = def.sizeY;
             }
-            if (def.clipType != 0) {
+            if (def.interactType != 0) {
                 if (remove) {
-                    ClipUtils.removeClipping(x, y, z, xLength, yLength, def.tall, def.clipped);
+                    ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, def.boolean1, false);
+                    if (def.boolean1)
+                        ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
                 } else {
-                    ClipUtils.addClipping(x, y, z, xLength, yLength, def.tall, def.clipped);
+                    ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, def.boolean1, false);
+                    if (def.boolean1)
+                        ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
                 }
             }
         } else if (type >= 0 && type <= 3) {
-            if (def.clipType != 0) {
+            if (def.interactType != 0) {
                 if (remove) {
-                    ClipUtils.removeVariableClipping(x, y, z, type, rotation, def.tall, false);
-                    if (def.tall)
-                        ClipUtils.removeVariableClipping(x, y, z, type, rotation, true, true);
+                    ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.boolean1, false);
+                    if (def.boolean1)
+                        ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
                 } else {
-                    ClipUtils.addVariableClipping(x, y, z, type, rotation, def.tall, false);
-                    if (def.tall)
-                        ClipUtils.addVariableClipping(x, y, z, type, rotation, true, true);
+                    ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.boolean1, false);
+                    if (def.boolean1)
+                        ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
                 }
             }
         }

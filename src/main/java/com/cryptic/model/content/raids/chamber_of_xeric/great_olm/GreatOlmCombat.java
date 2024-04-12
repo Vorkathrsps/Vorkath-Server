@@ -79,7 +79,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc1) {
-        World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
+        World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).interactType = 1; // force flame wall fire to clip tiles
         npc = entity.npc();
         npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
         northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug

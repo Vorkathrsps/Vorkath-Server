@@ -25,56 +25,55 @@ public class ObjectDefinition implements Definition {
     public String name = "null";
     public String description;
     public boolean randomAnimStart;
-    public int[] modeltypes;
+    public int[] modelIds;
     public int[] models;
     public int sizeX = 1;
-    private int interactType = 2;
 
     public Map<Integer, Object> params = null;
     public int sizeY = 1;
-    public int clipType = 2;
-    public boolean tall = true; // formerly projectileClipped
-    public int anInt2292 = -1;
-    public int anInt2296 = -1;
-    public boolean aBool2279 = false;
-    public boolean aBool2280 = false;
-    public int anInt2281 = -1;
-    public int anInt2291 = -1;
-    public int anInt2283 = 0;
-    public int anInt2285 = 0;
-    public short[] recol_s;
-    public short[] recol_d;
-    public short[] retex_s;
-    public short[] retex_d;
+    public int interactType = 2;
+    public boolean boolean1 = true; // formerly projectileClipped
+    public int int1 = -1;
+    public int clipType = -1;
+    public boolean nonFlatShading = false;
+    public boolean modelClipped = false;
+    public int animationId = -1;
+    public int int2 = -1;
+    public int ambient = 0;
+    public int contrast = 0;
+    public short[] recolorFrom;
+    public short[] recolorTo;
+    public short[] retextureFrom;
+    public short[] retextureTo;
     public int anInt2286 = -1;
-    public boolean verticalFlip = false;
+    public boolean isRotated = false;
     public boolean clipped = true;
-    public int op65Render0x1 = -1;
-    public int op66Render0x2 = -1;
-    public int op67Render0x4 = -1;
-    public int anInt2287 = -1;
-    public int anInt2307 = 0;
-    public int anInt2294 = 0;
-    public int anInt2295 = 0;
-    public boolean aBool2264 = false;
-    public boolean unclipped = false;
-    public int anInt2298 = -1;
+    public int modelSizeX = 128;
+    public int modelHeight = 128;
+    public int modelSizeY = 128;
+    public int mapsceneId = -1;
+    public int offsetX = 0;
+    public int offsetHeight = 0;
+    public int offsetY = 0;
+    public boolean boolean2 = false;
+    public boolean isSolid = false;
+    public int int3 = -1;
     public int varbit = -1;
     public int anInt2302 = -1;
-    public int anInt2303 = 0;
+    public int int8 = 0;
     public boolean rev220SoundData = true;
     public int ambientSoundRetain;
     public int varp = -1;
-    public int anInt2304 = 0;
-    public int anInt2290 = 0;
+    public int ambientSoundId = 0;
+    public int int7 = 0;
     public int cflag = 0;
     public int[] anIntArray2306;
     public int[] to_objs;
-    public String[] options = new String[5];
+    public String[] actions = new String[5];
     public Map<Integer, Object> clientScriptData;
 
     public int id;
-    private int anInt2167;
+    private int mapIconId;
 
     /**
      * Door data, server side, non-cache from Runite team
@@ -111,54 +110,54 @@ public class ObjectDefinition implements Definition {
 
         if(id == 23311) {
             name = GameConstants.SERVER_NAME+ " Teleporter";
-            options = new String[] {"Teleport", null, null, null, null};
+            actions = new String[] {"Teleport", null, null, null, null};
         }
 
         if (id == 7811) {
             name = "Supplies";
-            options[1] = "Vote-Rewards";
-            options[1] = null;
+            actions[1] = "Vote-Rewards";
+            actions[1] = null;
         }
 
         if (id == 29149) {
-            options = new String[]{"Pray-at", "Ancients", "Lunar", "Modern", null};
+            actions = new String[]{"Pray-at", "Ancients", "Lunar", "Modern", null};
         }
 
         if (id == 29150) {
-            options = new String[]{ "Switch-Moderns", "Switch-Ancients", "Switch-Lunars", null, null};
+            actions = new String[]{ "Switch-Moderns", "Switch-Ancients", "Switch-Lunars", null, null};
         }
 
         if (id == 13641) {
             name = "Teleports";
-            options = new String[] { "View", "Previous", null, null, null};
+            actions = new String[] { "View", "Previous", null, null, null};
         }
 
         if(id == 33020) {
             name = "Forging table";
-            options = new String[] {"Forge", null, null, null, null};
+            actions = new String[] {"Forge", null, null, null, null};
         }
 
         if (id == 29165) {
             name = "Pile Of Coins";
-            options[0] = null;
-            options[1] = null;
-            options[2] = null;
-            options[3] = null;
-            options[4] = null;
+            actions[0] = null;
+            actions[1] = null;
+            actions[2] = null;
+            actions[3] = null;
+            actions[4] = null;
         }
 
         if(id == 8878) {
             name = "Item dispenser";
-            options = new String[] {"Dispense", "Exchange coins", null, null, null};
+            actions = new String[] {"Dispense", "Exchange coins", null, null, null};
         }
 
         if(id == 637) {
             name = "Item cart";
-            options = new String[] {"Check cart", "Item list", "Clear cart", null, null};
+            actions = new String[] {"Check cart", "Item list", "Clear cart", null, null};
         }
 
         if (id == 13291) {
-            options = new String[] {"Open", null, null, null, null};
+            actions = new String[] {"Open", null, null, null, null};
         }
 
         if (id == 27269) {
@@ -174,7 +173,7 @@ public class ObjectDefinition implements Definition {
         }
 
         if (id == 23709) {
-            options[0] = "Use";
+            actions[0] = "Use";
         }
 
         if (id == 2156) {
@@ -187,10 +186,10 @@ public class ObjectDefinition implements Definition {
 
         if (id == 27097) {
             name = "Boss Portal";
-            options[0] = "Teleport to";
-            options[1] = null;
-            options[2] = null;
-            options[3] = null;
+            actions[0] = "Teleport to";
+            actions[1] = null;
+            actions[2] = null;
+            actions[3] = null;
         }
 
         if (id == 14986) {
@@ -203,9 +202,8 @@ public class ObjectDefinition implements Definition {
 
         if(id == 11508 || id == 11509) {
             //curtain
-            clipType = 0;
+            interactType = 0;
         }
-
 
         cached.put(id, this);
     }
@@ -226,7 +224,7 @@ public class ObjectDefinition implements Definition {
                     objectTypes[index] = is.readUByte();
                 }
 
-                modeltypes = (objectTypes);
+                modelIds = (objectTypes);
                 models = (objectModels);
             }
         }
@@ -239,7 +237,7 @@ public class ObjectDefinition implements Definition {
             int length = is.readUByte();
             if (length > 0)
             {
-                modeltypes = (null);
+                modelIds = (null);
                 int[] objectModels = new int[length];
 
                 for (int index = 0; index < length; ++index)
@@ -260,59 +258,59 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 17)
         {
-            clipType = (0);
-            tall = (false);
+            interactType = (0);
+            boolean1 = (false);
         }
         else if (opcode == 18)
         {
-            tall = (false);
+            boolean1 = (false);
         }
         else if (opcode == 19)
         {
-            anInt2292 = (is.readUByte());
+            int1 = (is.readUByte());
         }
         else if (opcode == 21)
         {
-            anInt2296 = (0);
+            clipType = (0);
         }
         else if (opcode == 22)
         {
-            aBool2279 = (true);
+            nonFlatShading = (true);
         }
         else if (opcode == 23)
         {
-            aBool2280 = (true);
+            modelClipped = (true);
         }
         else if (opcode == 24)
         {
-            anInt2281 = (is.readUShort());
-            if (anInt2281 == 0xFFFF)
+            animationId = (is.readUShort());
+            if (animationId == 0xFFFF)
             {
-                anInt2281 = (-1);
+                animationId = (-1);
             }
         }
         else if (opcode == 27)
         {
-            clipType = (1);
+            interactType = (1);
         }
         else if (opcode == 28)
         {
-            anInt2291 = (is.readUByte());
+            int2 = (is.readUByte());
         }
         else if (opcode == 29)
         {
-            anInt2283 = (is.readByte());
+            ambient = (is.readByte());
         }
         else if (opcode == 39)
         {
-            anInt2285 = (is.readByte() * 25);
+            contrast = (is.readByte() * 25);
         }
         else if (opcode >= 30 && opcode < 35)
         {
-            options[opcode - 30] = is.readString();
-            if (options[opcode - 30].equalsIgnoreCase("Hidden"))
+            actions[opcode - 30] = is.readString();
+            if (actions[opcode - 30].equalsIgnoreCase("Hidden"))
             {
-                options[opcode - 30] = null;
+                actions[opcode - 30] = null;
             }
         }
         else if (opcode == 40)
@@ -327,8 +325,8 @@ public class ObjectDefinition implements Definition {
                 recolorToReplace[index] = is.readShort();
             }
 
-            recol_s = (recolorToFind);
-            recol_d = (recolorToReplace);
+            recolorFrom = (recolorToFind);
+            recolorTo = (recolorToReplace);
         }
         else if (opcode == 41)
         {
@@ -342,16 +340,16 @@ public class ObjectDefinition implements Definition {
                 textureToReplace[index] = is.readShort();
             }
 
-            retex_s = (retextureToFind);
-            retex_d = (textureToReplace);
+            retextureFrom = (retextureToFind);
+            retextureTo = (textureToReplace);
         }
         else if (opcode == 61)
         {
-            anInt2286 = (is.readUShort());
+            is.readUShort();
         }
         else if (opcode == 62)
         {
-            verticalFlip = (true);
+            isRotated = (true);
         }
         else if (opcode == 64)
         {
@@ -359,19 +357,19 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 65)
         {
-            op65Render0x1 = (is.readUShort());
+            modelSizeX = (is.readUShort());
         }
         else if (opcode == 66)
         {
-            op66Render0x2 = (is.readUShort());
+            modelHeight = (is.readUShort());
         }
         else if (opcode == 67)
         {
-            op67Render0x4 = (is.readUShort());
+            modelSizeY = (is.readUShort());
         }
         else if (opcode == 68)
         {
-            anInt2287 = (is.readUShort());
+            mapsceneId = (is.readUShort());
         }
         else if (opcode == 69)
         {
@@ -379,27 +377,27 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 70)
         {
-            anInt2307 = (is.readUShort());
+            offsetX = (is.readUShort());
         }
         else if (opcode == 71)
         {
-            anInt2294 = (is.readUShort());
+            offsetHeight = (is.readUShort());
         }
         else if (opcode == 72)
         {
-            anInt2295 = (is.readUShort());
+            offsetY = (is.readUShort());
         }
         else if (opcode == 73)
         {
-            aBool2264 = (true);
+            boolean2 = (true);
         }
         else if (opcode == 74)
         {
-            unclipped = (true);
+            isSolid = (true);
         }
         else if (opcode == 75)
         {
-            anInt2298 = (is.readUByte());
+            int3 = (is.readUByte());
         }
         else if (opcode == 77)
         {
@@ -435,14 +433,15 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 78)
         {
-            anInt2302 = (is.readUShort());
-            anInt2303 = (is.readUByte());
+            is.readUShort();
+            is.readUByte();
+            is.readUByte();
         }
         else if (opcode == 79)
         {
-            anInt2304 = (is.readUShort());
-            anInt2290 = (is.readUShort());
-            anInt2303 = (is.readUByte());
+            ambientSoundId = (is.readUShort());
+            int7 = (is.readUShort());
+            int8 = (is.readUByte());
             if (rev220SoundData)
             {
                 this.ambientSoundRetain = is.readUByte();
@@ -459,15 +458,15 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 81)
         {
-            anInt2296 = (is.readUByte() * 256);
+            clipType = (is.readUByte() * 256);
         }
         else if (opcode == 82)
         {
-            anInt2167 = (is.readUShort());
+            mapIconId = (is.readUShort());
         }
         else if (opcode == 89)
         {
-            randomAnimStart = (true);
+            randomAnimStart = false;
         }
         else if (opcode == 92)
         {
@@ -532,6 +531,33 @@ public class ObjectDefinition implements Definition {
                 params.put(key, value);
             }
         }
+
+        postDecode();
+
+        if (isSolid) {
+            interactType = 0;
+            boolean1 = false;
+        }
+    }
+
+    void postDecode() {
+        if (this.int1 == -1) {
+            this.int1 = 0;
+            if (this.models != null && (this.models == null || this.models[0] == 10)) {
+                this.int1 = 1;
+            }
+
+            for (int var1 = 0; var1 < 5; ++var1) {
+                if (this.actions[var1] != null) {
+                    this.int1 = 1;
+                }
+            }
+        }
+
+        if (this.int3 == -1) {
+            this.int3 = this.interactType != 0 ? 1 : 0;
+        }
+
     }
 
     public static int method32(int var0) {
@@ -549,10 +575,10 @@ public class ObjectDefinition implements Definition {
     }
 
     public int getOption(String... searchOptions) {
-        if (options != null) {
+        if (actions != null) {
             for (String s : searchOptions) {
-                for (int i = 0; i < options.length; i++) {
-                    String option = options[i];
+                for (int i = 0; i < actions.length; i++) {
+                    String option = actions[i];
                     if (s.equalsIgnoreCase(option))
                         return i + 1;
                 }
@@ -562,9 +588,9 @@ public class ObjectDefinition implements Definition {
     }
 
     public int optionsCount() {
-        if (options != null) {
+        if (actions != null) {
             var opts = 0;
-            for (String option : options) {
+            for (String option : actions) {
                 if (option != null && !option.equals("null"))
                     opts++;
             }
@@ -573,56 +599,56 @@ public class ObjectDefinition implements Definition {
         return 0;
     }
     public boolean isClippedDecoration() {
-        return anInt2292 != 0 || clipType == 1 || aBool2264;
+        return int1 != 0 || interactType == 1 || boolean2;
     }
 
     public String toStringBig() {
         return "ObjectDefinition{" +
             "name='" + name + '\'' +
-            ", modeltypes=" + Arrays.toString(modeltypes) +
+            ", modeltypes=" + Arrays.toString(modelIds) +
             ", models=" + Arrays.toString(models) +
             ", sizeX=" + sizeX +
             ", sizeY=" + sizeY +
-            ", clipType=" + clipType +
-            ", tall=" + tall +
-            ", anInt2292=" + anInt2292 +
-            ", anInt2296=" + anInt2296 +
-            ", aBool2279=" + aBool2279 +
-            ", aBool2280=" + aBool2280 +
-            ", anInt2281=" + anInt2281 +
-            ", anInt2291=" + anInt2291 +
-            ", anInt2283=" + anInt2283 +
-            ", anInt2285=" + anInt2285 +
-            ", recol_s=" + Arrays.toString(recol_s) +
-            ", recol_d=" + Arrays.toString(recol_d) +
-            ", retex_s=" + Arrays.toString(retex_s) +
-            ", retex_d=" + Arrays.toString(retex_d) +
+            ", clipType=" + interactType +
+            ", tall=" + boolean1 +
+            ", anInt2292=" + int1 +
+            ", anInt2296=" + clipType +
+            ", aBool2279=" + nonFlatShading +
+            ", aBool2280=" + modelClipped +
+            ", anInt2281=" + animationId +
+            ", anInt2291=" + int2 +
+            ", anInt2283=" + ambient +
+            ", anInt2285=" + contrast +
+            ", recol_s=" + Arrays.toString(recolorFrom) +
+            ", recol_d=" + Arrays.toString(recolorTo) +
+            ", retex_s=" + Arrays.toString(retextureFrom) +
+            ", retex_d=" + Arrays.toString(retextureTo) +
             ", anInt2286=" + anInt2286 +
-            ", vflip=" + verticalFlip +
+            ", vflip=" + isRotated +
             ", aBool2284=" + clipped +
-            ", op65Render0x1=" + op65Render0x1 +
-            ", op66Render0x2=" + op66Render0x2 +
-            ", op67Render0x4=" + op67Render0x4 +
-            ", anInt2287=" + anInt2287 +
-            ", anInt2307=" + anInt2307 +
-            ", anInt2294=" + anInt2294 +
-            ", anInt2295=" + anInt2295 +
-            ", aBool2264=" + aBool2264 +
-            ", unclipped=" + unclipped +
-            ", anInt2298=" + anInt2298 +
+            ", op65Render0x1=" + modelSizeX +
+            ", op66Render0x2=" + modelHeight +
+            ", op67Render0x4=" + modelSizeY +
+            ", anInt2287=" + mapsceneId +
+            ", anInt2307=" + offsetX +
+            ", anInt2294=" + offsetHeight +
+            ", anInt2295=" + offsetY +
+            ", aBool2264=" + boolean2 +
+            ", unclipped=" + isSolid +
+            ", anInt2298=" + int3 +
             ", varbit=" + varbit +
             ", anInt2302=" + anInt2302 +
-            ", anInt2303=" + anInt2303 +
+            ", anInt2303=" + int8 +
             ", varp=" + varp +
-            ", anInt2304=" + anInt2304 +
-            ", anInt2290=" + anInt2290 +
+            ", anInt2304=" + ambientSoundId +
+            ", anInt2290=" + int7 +
             ", cflag=" + cflag +
             ", anIntArray2306=" + Arrays.toString(anIntArray2306) +
             ", to_objs=" + Arrays.toString(to_objs) +
-            ", options=" + Arrays.toString(options) +
+            ", options=" + Arrays.toString(actions) +
             ", clientScriptData=" + clientScriptData +
             ", id=" + id +
-            ", anInt2167=" + anInt2167 +
+            ", anInt2167=" + mapIconId +
             '}';
     }
 }

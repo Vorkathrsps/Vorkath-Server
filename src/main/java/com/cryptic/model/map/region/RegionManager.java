@@ -1,5 +1,6 @@
 package com.cryptic.model.map.region;
 
+import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.map.position.Area;
 import com.displee.cache.CacheLibrary;
 import com.cryptic.model.map.object.GameObject;

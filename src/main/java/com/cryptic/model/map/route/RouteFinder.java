@@ -168,13 +168,26 @@ public class RouteFinder {
      */
     private RouteObject routeObject;
 
+    private int getType(final GameObject object) {
+        final int type = object.getType();
+        if ((type >= 0 && type <= 3) || type == 9) {
+            return 0; // wall
+        } else if (type < 9) {
+            return 1; // deco
+        } else if (type == 10 || type == 11 || type == 22) {
+            return 2; // ground
+        }
+        else {
+            return 3; // misc
+        }
+    }
+
     public RouteObject routeObject(GameObject gameObject) {
         if (routeObject == null) routeObject = new RouteObject();
         ObjectDefinition definition = gameObject.definition();
+        var routeTypnae = getType(gameObject);
         // osrs format
-        if (gameObject.getType() == 10
-            || gameObject.getType() == 11
-            || gameObject.getType() == 22) {
+        if (gameObject.getType() == 10 || gameObject.getType() == 11 || gameObject.getType() == 22) {
             int xLength, yLength;
             if (gameObject.getRotation() == 0 || gameObject.getRotation() == 2) {
                 xLength = definition.sizeX; // opcode 14
@@ -183,19 +196,12 @@ public class RouteFinder {
                 xLength = definition.sizeY;
                 yLength = definition.sizeX;
             }
-            int someDirection = gameObject.definition().cflag; // opcode 69
+            int someDirection = definition.cflag; // opcode 69
             if (gameObject.getRotation() != 0)
-                someDirection =
-                    (0xf & someDirection << gameObject.getRotation())
-                        + (someDirection >> -gameObject.getRotation() + 4);
-            routeObject.set(
-                gameObject.tile().x,
-                gameObject.tile().y,
-                xLength,
-                yLength,
-                ObjectType.values()[gameObject.getType()],
-                gameObject.getRotation(),
-                someDirection);
+                someDirection = (0xf & someDirection << gameObject.getRotation()) + (someDirection >> -gameObject.getRotation() + 4);
+            routeObject.set(gameObject.tile().x, gameObject.tile().y,
+                xLength, yLength, ObjectType.values()[gameObject.getType()],
+                gameObject.getRotation(), someDirection);
         } else if (gameObject.getType() >= 0 && gameObject.getType() <= 3
             || gameObject.getType() == 9) {
             routeObject.set(

@@ -42,7 +42,7 @@ public class Ladders extends PacketInteraction {
         if (Arrays.stream(ladders).anyMatch(b -> b == obj.getId())) {
             boolean animate = !obj.definition().name.toLowerCase().contains("staircase");
             if (option == 1) {
-                switch (obj.definition().options[0]) {
+                switch (obj.definition().actions[0]) {
                     case "Climb" -> player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
@@ -92,7 +92,7 @@ public class Ladders extends PacketInteraction {
                 }
                 return true;
             } else if (option == 2) {
-                if ((obj.definition().options[1].equals("Climb-up"))) {
+                if ((obj.definition().actions[1].equals("Climb-up"))) {
                     int change = 1;
 
                     Tile endPos = new Tile(player.tile().x, player.tile().y, player.tile().level + change);
@@ -100,7 +100,7 @@ public class Ladders extends PacketInteraction {
                 }
                 return true;
             } else if (option == 3) {
-                if ((obj.definition().options[2].equals("Climb-down"))) {
+                if ((obj.definition().actions[2].equals("Climb-down"))) {
                     int change = 1;
 
                     ladderDown(player, new Tile(player.tile().x, player.tile().y, player.tile().level - change), animate);

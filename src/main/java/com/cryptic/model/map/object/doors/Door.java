@@ -1,9 +1,7 @@
 package com.cryptic.model.map.object.doors;
 
-import com.cryptic.GameServer;
 import com.cryptic.annotate.Init;
 import com.cryptic.cache.definitions.ObjectDefinition;
-import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
@@ -64,7 +61,7 @@ public class Door {
         if (def.doorReversed)
             dir = (dir + 2) & 0x3;
         GameObject pairObj = null;
-        boolean verticalFlip = def.verticalFlip;
+        boolean verticalFlip = def.isRotated;
         if (def.reversedConstructionDoor)
             verticalFlip = !verticalFlip;
         if (def.doorClosed) {
@@ -92,22 +89,22 @@ public class Door {
         } else {
             if (def.longGate) {
                 if (dir == 3) { //North
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         pairObj = findPair(obj, 1, 0);
                     else
                         pairObj = findPair(obj, -1, 0);
                 } else if (dir == 1) { //South
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         pairObj = findPair(obj, -1, 0);
                     else
                         pairObj = findPair(obj, 1, 0);
                 } else if (dir == 0) { //East
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         pairObj = findPair(obj, 0, -1);
                     else
                         pairObj = findPair(obj, 0, 1);
                 } else if (dir == 2) { //West
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         pairObj = findPair(obj, 0, 1);
                     else
                         pairObj = findPair(obj, 0, -1);
@@ -138,7 +135,7 @@ public class Door {
         }
         if (pairObj != null) {
             if (!def.doorClosed) {
-                if (!skipJammedCheck && isJammed(player, def.verticalFlip ? pairObj : obj)) {
+                if (!skipJammedCheck && isJammed(player, def.isRotated ? pairObj : obj)) {
                     player.message("The " + (def.gateType ? "gates" : "doors") + " seem to be stuck.");
                     return;
                 }
@@ -269,7 +266,7 @@ public class Door {
              */
             if (def.longGate) {
                 if (def.doorClosed) {
-                    if (def.verticalFlip) {
+                    if (def.isRotated) {
                         diffDir--;
 
                         if (dir == 0) {
@@ -298,34 +295,34 @@ public class Door {
                         }
                     }
                 } else {
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         diffDir--;
                     else
                         diffDir++;
                     if (dir == 0) {
-                        if (def.verticalFlip)
+                        if (def.isRotated)
                             diffY--;
                         else
                             diffY++;
                     } else if (dir == 1) {
-                        if (def.verticalFlip)
+                        if (def.isRotated)
                             diffX++;
                         else
                             diffX--;
                     } else if (dir == 2) {
-                        if (def.verticalFlip)
+                        if (def.isRotated)
                             diffY++;
                         else
                             diffY--;
                     } else if (dir == 3) {
-                        if (def.verticalFlip)
+                        if (def.isRotated)
                             diffX--;
                         else
                             diffX++;
                     }
                 }
             } else if (def.doorClosed) {
-                if (def.verticalFlip)
+                if (def.isRotated)
                     diffDir++;
                 else
                     diffDir--;
@@ -338,27 +335,27 @@ public class Door {
                 else if (dir == 3)
                     diffY--;
             } else {
-                if (def.verticalFlip)
+                if (def.isRotated)
                     diffDir--;
                 else
                     diffDir++;
                 if (dir == 0) {
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         diffY--;
                     else
                         diffY++;
                 } else if (dir == 1) {
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         diffX++;
                     else
                         diffX--;
                 } else if (dir == 2) {
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         diffY++;
                     else
                         diffY--;
                 } else if (dir == 3) {
-                    if (def.verticalFlip)
+                    if (def.isRotated)
                         diffX--;
                     else
                         diffX++;
@@ -369,7 +366,7 @@ public class Door {
              * Single diagonal
              */
             if (def.doorClosed) {
-                if (def.verticalFlip) {
+                if (def.isRotated) {
                     diffDir--;
                 } else {
                     diffDir++;
@@ -383,7 +380,7 @@ public class Door {
                         diffX--;
                 }
             } else {
-                if (def.verticalFlip) {
+                if (def.isRotated) {
                     diffDir++;
                 } else {
                     diffDir--;
@@ -400,7 +397,7 @@ public class Door {
              * Single regular
              */
             if (def.doorClosed) {
-                if (def.verticalFlip)
+                if (def.isRotated)
                     diffDir--;
                 else
                     diffDir++;
@@ -413,7 +410,7 @@ public class Door {
                 else if (dir == 3)
                     diffY--;
             } else {
-                if (def.verticalFlip)
+                if (def.isRotated)
                     diffDir++;
                 else
                     diffDir--;
@@ -592,21 +589,21 @@ public class Door {
                 continue;
             if (!Objects.equals(def.name, originalDef.name))
                 continue;
-            if (def.op66Render0x2 != originalDef.op66Render0x2)
+            if (def.modelHeight != originalDef.modelHeight)
                 continue;
             if (!Arrays.equals(def.models, originalDef.models))
                 continue;
-            if (!Arrays.equals(def.modeltypes, originalDef.modeltypes))
+            if (!Arrays.equals(def.modelIds, originalDef.modelIds))
                 continue;
-            if (!Arrays.equals(def.recol_d, originalDef.recol_d))
+            if (!Arrays.equals(def.recolorTo, originalDef.recolorTo))
                 continue;
-            if (def.verticalFlip != originalDef.verticalFlip)
+            if (def.isRotated != originalDef.isRotated)
                 continue;
-            if (Arrays.equals(def.options, originalDef.options))
+            if (Arrays.equals(def.actions, originalDef.actions))
                 continue;
-            for (int i = 0; i < def.options.length; i++) {
-                String s1 = def.options[i];
-                String s2 = originalDef.options[i];
+            for (int i = 0; i < def.actions.length; i++) {
+                String s1 = def.actions[i];
+                String s2 = originalDef.actions[i];
                 if (!Objects.equals(s1, s2)) {
                     if ("open".equalsIgnoreCase(s1) && "close".equalsIgnoreCase(s2))
                         continue;

@@ -2,6 +2,7 @@ package com.cryptic.model.entity.player.commands;
 
 import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
+import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
@@ -28,7 +29,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -513,7 +513,6 @@ public class CommandManager {
         for (String s : new String[]{"cpa", "clipat", "clippos"})
             dev(s, (p, cmd, parts) -> {
                 int c = RegionManager.getClipping(p.tile().x, p.tile().y, p.tile().level);
-
                 p.message("cur clip %s %s = %s", p.tile(), c, World.clipstr(c));
                 p.message(String.format("%s", World.clipstrMethods(p.tile())));
                 CLIP.debug(p, String.format("%s", World.clipstrMethods(p.tile())));
@@ -665,9 +664,14 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            p.tile().area(2).middleTile().gameObjects.forEach(o -> {
-                System.out.println("ehre");
-                System.out.println("o="+o);
+            MapObjects.getAll(p.tile()).forEach(o -> {
+                var def = ObjectDefinition.cached.get(o.getId());
+                System.out.println("id="+def.id);
+                System.out.println("rotation="+def.cflag);
+                System.out.println("unclipped="+def.isSolid);
+                System.out.println("tall="+def.boolean1);
+                System.out.println("cliptype="+def.interactType);
+                System.out.println("o=" + o.getType());
             });
         });
 

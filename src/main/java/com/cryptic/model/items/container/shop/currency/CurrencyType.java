@@ -25,7 +25,7 @@ public enum CurrencyType {
     TOURNAMENT_POINTS(new TournamentPointsCurrency()),
     RISKZONE_POINTS(new RiskzonePointsCurrency()),
     VOID_ISLAND_POINTS(new VoidIslandPointCurrency()),
-    DONATOR_TICKETS(new ItemCurrency(ItemIdentifiers.AGILITY_ARENA_TICKET));
+    DONATOR_TICKETS(new ItemCurrency(ItemIdentifiers.DONATOR_TICKET));
 
     private static final ImmutableSet<CurrencyType> VALUES = ImmutableSet.copyOf(values());
 

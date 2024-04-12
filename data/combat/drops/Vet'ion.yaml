@@ -234,4 +234,10 @@ drops:
   chance: 6
   rareDrop: false
   sendToBank: false
+- item: SKULL_OF_VETION
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: true
+  sendToBank: false
 rolls: 1

@@ -7,12 +7,9 @@ import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.utility.ItemIdentifiers;
-import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,7 +141,10 @@ public class ItemDefinition implements Definition {
                 stackable = 1;
                 notelink = 0;
             }
-            case AGILITY_ARENA_TICKET -> stackable = 1;
+            case DONATOR_TICKET -> {
+                name = "Donator Ticket";
+                stackable = 1;
+            }
         }
 
         int[] untradeables_with_destroy = new int[]{

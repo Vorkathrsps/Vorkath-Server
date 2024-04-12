@@ -1833,7 +1833,7 @@ public class ItemIdentifiers
     public static final int CHOMPY_BIRD_HAT_2993 = 2993;
     public static final int CHOMPY_BIRD_HAT_2994 = 2994;
     public static final int CHOMPY_BIRD_HAT_2995 = 2995;
-    public static final int AGILITY_ARENA_TICKET = 2996;
+    public static final int DONATOR_TICKET = 2996;
     public static final int PIRATES_HOOK = 2997;
     public static final int TOADFLAX = 2998;
     public static final int SNAPDRAGON = 3000;

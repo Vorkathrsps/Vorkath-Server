@@ -212,7 +212,7 @@ public class Hit {
         return maxHit;
     }
 
-    @Getter @Setter public static boolean debugAccuracy = true;
+    @Getter @Setter public static boolean debugAccuracy = false;
 
     AbstractAccuracy accuracy;
     public Hit roll() {

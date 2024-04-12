@@ -227,4 +227,10 @@ drops:
   chance: 6
   rareDrop: false
   sendToBank: false
+- item: CLAWS_OF_CALLISTO
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: true
+  sendToBank: false
 rolls: 1

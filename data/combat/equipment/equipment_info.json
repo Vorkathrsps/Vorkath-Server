@@ -10766,8 +10766,8 @@
   },
   "4164": {
     "slot": 0,
-    "type": 11,
-    "showBeard": true
+    "type": 0,
+    "showBeard": false
   },
   "12357": {
     "slot": 3,

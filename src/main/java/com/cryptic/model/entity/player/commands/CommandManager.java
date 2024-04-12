@@ -665,7 +665,10 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            p.message("test command");
+            p.tile().area(2).middleTile().gameObjects.forEach(o -> {
+                System.out.println("ehre");
+                System.out.println("o="+o);
+            });
         });
 
         dev("cleartask", (p, c, s) ->

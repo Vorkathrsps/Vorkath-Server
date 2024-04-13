@@ -5,8 +5,7 @@ import com.cryptic.model.map.position.Tile;
 
 public class EntityEvent<T extends Entity> extends Event<T> {
 
-    public EntityEvent(ContinuationScope continuationScope,
-                       T context) {
+    public EntityEvent(ContinuationScope continuationScope, T context) {
         super(continuationScope, context);
     }
 

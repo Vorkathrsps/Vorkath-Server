@@ -1496,7 +1496,7 @@
   {
     "shopId": 6,
     "name": "<col=09FF00>Vote Point Shop",
-    "currency": "VOTE_POINTS",
+    "currency": "VOTE_TICKETS",
     "noiron": false,
     "restock": true,
     "sellType": "NONE",

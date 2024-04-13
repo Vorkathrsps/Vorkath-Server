@@ -14,6 +14,7 @@ import com.cryptic.network.Session;
 import com.cryptic.utility.flood.Buffer;
 import com.google.gson.Gson;
 import lombok.val;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -64,6 +65,10 @@ public class Utils {
         double percentage = (decimal - 1.0) * 100;
         percentage -= 100;
         return String.format("%.2f%%", percentage);
+    }
+
+    public static boolean isUsedWith(int[] items, Item item) {
+        return ArrayUtils.contains(items, item.getId());
     }
 
     public static int calculateIntMath(double percent) {

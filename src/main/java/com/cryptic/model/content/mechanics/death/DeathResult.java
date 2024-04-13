@@ -213,12 +213,12 @@ public class DeathResult {
         if (player.getGameMode().equals(GameMode.HARDCORE_REALISM)) {
             player.setGameMode(GameMode.REALISM);
             player.getPacketSender().sendRights();
-            World.getWorld().sendWorldMessage(player.getDisplayName() + " has lost their hardcore Realism status! Total Level: " + player.getSkills().totalLevel());
+            World.getWorld().sendWorldMessage(STR."\{player.getDisplayName()} has lost their hardcore Realism status! Total Level: \{player.getSkills().totalLevel()}");
         }
         if (player.getIronManStatus().isHardcoreIronman()) {
             player.setIronmanStatus(IronMode.REGULAR);
             player.getPacketSender().sendRights();
-            World.getWorld().sendWorldMessage("<img=504>" + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
+            World.getWorld().sendWorldMessage(STR."<img=504>\{player.getDisplayName()} has lost their hardcore ironman status! Total Level: \{player.getSkills().totalLevel()}");
         }
         return this;
     }

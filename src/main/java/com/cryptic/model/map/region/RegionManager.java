@@ -41,13 +41,11 @@ public class RegionManager {
     public static void init() throws Exception {
         var index = cache.index(5);
         index.cache();
-
         Archive[] archives = index.archives();
         Int2IntMap hashNameToArchive = new Int2IntOpenHashMap(archives.length);
         for (Archive archive : archives) {
             hashNameToArchive.put(archive.getHashName(), archive.getId());
         }
-
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 256; y++) {
                 int landArchiveId = hashNameToArchive.getOrDefault(("l" + x + "_" + y).hashCode(), -1);//index.archiveId("l" + x + "_" + y);
@@ -61,7 +59,6 @@ public class RegionManager {
                 regions.put(regionId, new Region(regionId, landArchiveId, mapArchiveId));
             }
         }
-
         logger.info("Loaded {} regions.", regions.size());
     }
 

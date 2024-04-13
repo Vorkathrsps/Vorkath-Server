@@ -4,6 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.core.event.EntityEvent;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -19,6 +20,7 @@ import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
+import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -361,6 +363,12 @@ public class CommandManager {
         commands.put("reset", new EcoResetCommand());
         commands.put("tradepost", new TradingPostCommand());
         commands.put("savepost", new SaveTradingPostCommand());
+        dev("k", (p, c, s) -> {
+            p.event(e -> {
+                    p.message("hi");
+                    e.delay(3);
+            });
+        });
         dev("nex1", (p, c, s) -> {
             ZarosGodwars.clear();
             ZarosGodwars.nex = null;

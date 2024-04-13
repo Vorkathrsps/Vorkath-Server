@@ -3,12 +3,18 @@ package com.cryptic.cache.definitions;
 import com.cryptic.GameConstants;
 import com.cryptic.model.World;
 import com.cryptic.network.codec.RSBuffer;
+import com.cryptic.utility.Utils;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,9 +23,15 @@ import java.util.Map;
 public class ObjectDefinition implements Definition {
 
     public static Int2ObjectMap<ObjectDefinition> cached = new Int2ObjectLinkedOpenHashMap<>();
+    public static final Long2ObjectMap<List<ObjectDefinition>> nameToTypes = new Long2ObjectOpenHashMap<>();
 
     public static ObjectDefinition get(int id) {
         return World.getWorld().definitions().get(ObjectDefinition.class, id);
+    }
+
+    public static List<ObjectDefinition> getByName(String name) {
+        long nameLong = Utils.stringToLong(name);
+        return nameToTypes.get(nameLong);
     }
 
     public String name = "null";
@@ -98,6 +110,9 @@ public class ObjectDefinition implements Definition {
 
         cached.put(id, this);
 
+        long nameLong = Utils.stringToLong(name);
+        List<ObjectDefinition> defs = nameToTypes.computeIfAbsent(nameLong, _id -> new ObjectArrayList<>());
+        defs.add(this);
     }
 
     void decode(RSBuffer buffer) {

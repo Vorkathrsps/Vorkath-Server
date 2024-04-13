@@ -5,6 +5,8 @@ import com.cryptic.model.map.position.Area;
 import com.displee.cache.CacheLibrary;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.displee.cache.index.ReferenceTable;
+import com.displee.cache.index.archive.Archive;
 import it.unimi.dsi.fastutil.ints.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,16 +40,29 @@ public class RegionManager {
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
     public static void init() throws Exception {
         var index = cache.index(5);
+        index.cache();
+
+        Archive[] archives = index.archives();
+        Int2IntMap hashNameToArchive = new Int2IntOpenHashMap(archives.length);
+        for (Archive archive : archives) {
+            hashNameToArchive.put(archive.getHashName(), archive.getId());
+        }
+
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 256; y++) {
-                int mapArchiveId = index.archiveId("m" + x + "_" + y);
-                int landArchiveId = index.archiveId("l" + x + "_" + y);
+                int landArchiveId = hashNameToArchive.getOrDefault(("l" + x + "_" + y).hashCode(), -1);//index.archiveId("l" + x + "_" + y);
+                if (landArchiveId == -1) continue;
+
+                int mapArchiveId = hashNameToArchive.getOrDefault(("m" + x + "_" + y).hashCode(), -1);//index.archiveId("m" + x + "_" + y);
+                if (mapArchiveId == -1) continue;
+
                 var regionId = x << 8 | y;
-                if (landArchiveId != -1) {
-                    regions.put(regionId, new Region(regionId, landArchiveId, mapArchiveId));
-                }
+
+                regions.put(regionId, new Region(regionId, landArchiveId, mapArchiveId));
             }
         }
+
+        logger.info("Loaded {} regions.", regions.size());
     }
 
     private static byte[] getMapData(int baseX, int baseY, CacheLibrary library) {

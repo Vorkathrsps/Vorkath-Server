@@ -9411,9 +9411,9 @@
   {"x":3079,"y":3511,"z":0,"id":6481,"walkRange":0,"direction":"e"},
   {"x":3088,"y":3471,"z":0,"id":10642,"walkRange":3,"direction":"e"},
   {"x":3090,"y":3494,"z":0,"id":7458,"walkRange":5,"direction":"n"},
-  {"x":1754,"y":11539,"z":0,"id":6609,"direction":"s"}, //callisto
-  {"x":1629,"y":11546,"z":2,"id":6610,"direction":"s"}, //venenatis
-  {"x":1886,"y":11545,"z":1,"id":6611,"direction":"w"}, //vetion
+  {"x":1754,"y":11539,"z":0,"id":6609,"direction":"s"},
+  {"x":1629,"y":11546,"z":2,"id":6610,"direction":"s"},
+  {"x":1886,"y":11545,"z":1,"id":6611,"direction":"w"},
   {"x":3081,"y":3502,"z":0,"id":7663,"direction":"e"},
   {"x":3097,"y":3525,"z":0,"id":2200,"walkRange":2,"direction":"w"},
   {"x":3119,"y":3485,"z":0,"id":2854,"walkRange":5,"direction":"e"},
@@ -23913,30 +23913,30 @@
   {"x":2664,"y":2588,"z":0,"id":1738,"walkRange":1,"direction":"s"},
   {"x":2649,"y":2588,"z":0,"id":1736,"walkRange":1,"direction":"s"},
   {"x":2666,"y":2593,"z":0,"id":1735,"walkRange":1,"direction":"s"},
-  {"x":2646,"y":2593,"z":0,"id":1735,"walkRange":1,"direction":"s"}, //end of brawler
+  {"x":2646,"y":2593,"z":0,"id":1735,"walkRange":1,"direction":"s"},
   {"x":2659,"y":2590,"z":0,"id":1691,"walkRange":1,"direction":"s"},
   {"x":2654,"y":2590,"z":0,"id":1690,"walkRange":1,"direction":"s"},
   {"x":2659,"y":2595,"z":0,"id":1689,"walkRange":1,"direction":"s"},
-  {"x":2654,"y":2595,"z":0,"id":1691,"walkRange":1,"direction":"s"}, //end of spatter
+  {"x":2654,"y":2595,"z":0,"id":1691,"walkRange":1,"direction":"s"},
   {"x":2662,"y":2589,"z":0,"id":1713,"walkRange":1,"direction":"s"},
   {"x":2651,"y":2589,"z":0,"id":1712,"walkRange":1,"direction":"s"},
   {"x":2662,"y":2596,"z":0,"id":1711,"walkRange":1,"direction":"s"},
-  {"x":2651,"y":2596,"z":0,"id":1710,"walkRange":1,"direction":"s"}, //end of spinner
+  {"x":2651,"y":2596,"z":0,"id":1710,"walkRange":1,"direction":"s"},
   {"x":2660,"y":2599,"z":0,"id":1702,"walkRange":1,"direction":"s"},
   {"x":2653,"y":2599,"z":0,"id":1703,"walkRange":1,"direction":"s"},
   {"x":2669,"y":2588,"z":0,"id":1700,"walkRange":1,"direction":"s"},
   {"x":2644,"y":2588,"z":0,"id":1701,"walkRange":1,"direction":"s"},
   {"x":2657,"y":2586,"z":0,"id":1702,"walkRange":1,"direction":"s"},
   {"x":2669,"y":2598,"z":0,"id":1703,"walkRange":1,"direction":"s"},
-  {"x":2645,"y":2598,"z":0,"id":1700,"walkRange":1,"direction":"s"}, //end of shifter
+  {"x":2645,"y":2598,"z":0,"id":1700,"walkRange":1,"direction":"s"},
   {"x":2649,"y":2605,"z":0,"id":1708,"walkRange":1,"direction":"s"},
   {"x":2656,"y":2600,"z":0,"id":1707,"walkRange":1,"direction":"s"},
   {"x":2666,"y":2600,"z":0,"id":1706,"walkRange":1,"direction":"s"},
   {"x":2664,"y":2605,"z":0,"id":1705,"walkRange":1,"direction":"s"},
-  {"x":2657,"y":2605,"z":0,"id":1704,"walkRange":1,"direction":"s"}, //end of ravager
-  {"x":3082,"y":3515,"z":0,"id":1755,"walkRange":0,"direction":"s"}, //void knight
-  {"x":3096,"y":3503,"z":0,"id":1306,"walkRange":0,"direction":"n"}, //makeover mage
-  {"x":3081,"y":3515,"z":0,"id":10962,"walkRange":0,"direction":"s"}, //Lord Trobin (donor store)
+  {"x":2657,"y":2605,"z":0,"id":1704,"walkRange":1,"direction":"s"},
+  {"x":3082,"y":3515,"z":0,"id":1755,"walkRange":0,"direction":"s"},
+  {"x":3096,"y":3503,"z":0,"id":1306,"walkRange":0,"direction":"n"},
+  {"x":3081,"y":3515,"z":0,"id":10962,"walkRange":0,"direction":"s"},
   {"x":3085,"y":3514,"z":0,"id":10631,"walkRange":0,"direction":"w"},
   {"x":3085,"y":3513,"z":0,"id":5919,"walkRange":0,"direction":"w"},
   {"x":3080,"y":3515,"z":0,"id":2980,"walkRange":0,"direction":"s"}

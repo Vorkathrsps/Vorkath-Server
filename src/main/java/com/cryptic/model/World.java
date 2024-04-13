@@ -6,6 +6,7 @@ import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
+import com.cryptic.core.event.EventWorker;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.content.areas.burthope.warriors_guild.dialogue.Shanomi;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
@@ -42,6 +43,8 @@ import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.Direction;
 import com.cryptic.network.codec.login.LoginService;
 import com.cryptic.utility.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,11 +53,10 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
@@ -311,6 +313,7 @@ public class World {
     private static void processTasks() {
         try {
             TaskManager.sequence();
+            EventWorker.process();
             MinigameManager.onTick();
             StarEventTask.checkDepletionTask();
         } catch (Exception e) {
@@ -690,51 +693,44 @@ public class World {
         NpcDropRepository.loadAll(new File("data/combat/drops"));
     }
 
-    public static void loadNpcSpawns(File dir) {
+    public static final ThreadLocal<Gson> gson = ThreadLocal.withInitial(Gson::new);
+
+    public static void loadNpcSpawns(String dirPath) {
         long start = System.currentTimeMillis();
-        Gson gson = new Gson();
 
-        for (File spawn : Objects.requireNonNull(dir.listFiles())) {
-            if (spawn.getName().endsWith(".json")) {
-                try {
-                    NpcSpawn[] s = gson.fromJson(new FileReader(spawn), NpcSpawn[].class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new AfterburnerModule());
+        try (BufferedReader r = Files.newBufferedReader(Path.of(dirPath))) {
+            NpcSpawn[] s = objectMapper.readValue(r, NpcSpawn[].class);
+            for (NpcSpawn sp : s) {
+                Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
+                NPC npc = NPC.of(sp.id, spawnTile);
+                npc.spawnDirection(sp.dir());
+                npc.walkRadius(sp.walkRange);
 
-                    for (NpcSpawn sp : s) {
-                        if (sp == null) continue;
-                        Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
-                        NPC npc = NPC.of(sp.id, spawnTile);
-                        npc.spawnDirection(sp.dir());
-                        npc.walkRadius(sp.walkRange);
-                        npc.ancientSpawn(sp.ancientSpawn);
-
-                        if (npc.id() == SHANOMI) {
-                            Shanomi.shoutMessage(npc);
-                        }
-
-                        // successfully added to game world
-                        KrakenBoss.onNpcSpawn(npc);
-
-                        if (npc.id() == NpcIdentifiers.VENENATIS_6610) {
-                            npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
-                        }
-
-                        // Set the max return to spawnpoint distance for gwd room npcs
-                        if (npc.def().gwdRoomNpc) {
-                            npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
-                        }
-
-                        // successfully added to game world
-                        World.getWorld().registerNpc(npc);
-                    }
-                } catch (JsonParseException e) {
-                    throw new RuntimeException("Failed to parse npc spawn: " + spawn.getAbsolutePath() + " (" + e + ")");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if (npc.id() == SHANOMI) {
+                    Shanomi.shoutMessage(npc);
                 }
-            } else if (spawn.isDirectory()) {
-                loadNpcSpawns(spawn);
+
+                // successfully added to game world
+                KrakenBoss.onNpcSpawn(npc);
+
+                if (npc.id() == NpcIdentifiers.VENENATIS_6610) {
+                    npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+                }
+
+                // Set the max return to spawnpoint distance for gwd room npcs
+                if (npc.def().gwdRoomNpc) {
+                    npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
+                }
+
+                // successfully added to game world
+                World.getWorld().registerNpc(npc);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         long elapsed = System.currentTimeMillis() - start;
         logger.info("Loaded World Npc Spawns. It took {}ms.", elapsed);
     }
@@ -796,7 +792,7 @@ public class World {
         }
 
         try {
-            loadNpcSpawns(new File("data/def/npcs/worldspawns"));
+            loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
         } catch (Exception e) {
             e.printStackTrace();
         }

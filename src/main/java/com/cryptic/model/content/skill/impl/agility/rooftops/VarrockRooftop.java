@@ -1,5 +1,8 @@
 package com.cryptic.model.content.skill.impl.agility.rooftops;
 
+import com.cryptic.core.event.EventWorker;
+import com.cryptic.core.task.TaskManager;
+import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.agility.MarksOfGrace;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.masks.ForceMovement;
@@ -95,6 +98,7 @@ public class VarrockRooftop extends PacketInteraction {
             player.setPositionToFace(null);
             Tile startPos = obj.tile().transform(3, 1);
             player.smartPathTo(startPos);
+
             player.waitForTile(startPos, () -> {
                     player.getMovementQueue().step(3194, 3416, MovementQueue.StepType.FORCED_WALK);
                 }).name("VarrockSwingwall1Task")

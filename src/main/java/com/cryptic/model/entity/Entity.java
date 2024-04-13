@@ -5,6 +5,9 @@ import com.cryptic.cache.definitions.AnimationDefinition;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
+import com.cryptic.core.event.EntityEvent;
+import com.cryptic.core.event.Event;
+import com.cryptic.core.event.EventWorker;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.TickAndStop;
@@ -47,6 +50,7 @@ import com.cryptic.utility.timers.TimerKey;
 import com.cryptic.utility.timers.TimerRepository;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -87,6 +91,17 @@ public abstract class Entity {
         this.tile = tile;
         this.type = type;
         this.lastKnownRegion = tile;
+    }
+
+    public final List<EntityEvent<?>> events = new ObjectArrayList<>();
+
+    @SuppressWarnings("unchecked")
+    public <T extends Entity> EntityEvent<T> event(Consumer<EntityEvent<T>> consumer) {
+        EntityEvent<T> event = new EntityEvent<>((T) this);
+        event.onContinue(() -> consumer.accept(event));
+        events.add(event);
+        EventWorker.startEvent(event);
+        return event;
     }
 
     /**
@@ -1901,6 +1916,7 @@ public abstract class Entity {
         if (cancelMoving)
             getMovementQueue().clear();
         action.clearNonWalkableActions();
+        events.forEach(Event::stop);
         interruptChains();
         TargetRoute.reset(this);
     }

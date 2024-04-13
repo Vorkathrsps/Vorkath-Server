@@ -582,38 +582,40 @@ public class Door {
         if (originalDef.getOption("open", "close") == -1)
             return -1;
         ArrayList<Integer> ids = new ArrayList<>();
-        defs:
-        for (int objIdx = 0; objIdx < World.getWorld().definitions().total(ObjectDefinition.class); objIdx++) {
-            ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, objIdx);
-            if (def == null || def.id == originalDef.id)
-                continue;
-            if (!Objects.equals(def.name, originalDef.name))
-                continue;
-            if (def.modelHeight != originalDef.modelHeight)
-                continue;
-            if (!Arrays.equals(def.models, originalDef.models))
-                continue;
-            if (!Arrays.equals(def.modelIds, originalDef.modelIds))
-                continue;
-            if (!Arrays.equals(def.recolorTo, originalDef.recolorTo))
-                continue;
-            if (def.isRotated != originalDef.isRotated)
-                continue;
-            if (Arrays.equals(def.actions, originalDef.actions))
-                continue;
-            for (int i = 0; i < def.actions.length; i++) {
-                String s1 = def.actions[i];
-                String s2 = originalDef.actions[i];
-                if (!Objects.equals(s1, s2)) {
-                    if ("open".equalsIgnoreCase(s1) && "close".equalsIgnoreCase(s2))
-                        continue;
-                    if ("close".equalsIgnoreCase(s1) && "open".equalsIgnoreCase(s2))
-                        continue;
-                    continue defs;
+
+        List<ObjectDefinition> types = ObjectDefinition.getByName(originalDef.name);
+        if (types != null) {
+            defs:
+            for (ObjectDefinition def : types) {
+                if (def.id == originalDef.id) continue;
+                if (def.modelHeight != originalDef.modelHeight)
+                    continue;
+                if (!Arrays.equals(def.models, originalDef.models))
+                    continue;
+                if (!Arrays.equals(def.modelIds, originalDef.modelIds))
+                    continue;
+                if (!Arrays.equals(def.recolorTo, originalDef.recolorTo))
+                    continue;
+                if (def.isRotated != originalDef.isRotated)
+                    continue;
+                if (Arrays.equals(def.actions, originalDef.actions))
+                    continue;
+                for (int i = 0; i < def.actions.length; i++) {
+                    String s1 = def.actions[i];
+                    String s2 = originalDef.actions[i];
+                    if (!Objects.equals(s1, s2)) {
+                        if ("open".equalsIgnoreCase(s1) && "close".equalsIgnoreCase(s2))
+                            continue;
+                        if ("close".equalsIgnoreCase(s1) && "open".equalsIgnoreCase(s2))
+                            continue;
+                        continue defs;
+                    }
                 }
+
+                ids.add(def.id);
             }
-            ids.add(def.id);
         }
+
         if (!ids.isEmpty()) {
             ids.sort((i1, i2) -> {
                 int diff1 = Math.abs(i1 - originalDef.id);

@@ -82,7 +82,8 @@ public final class Bootstrap {
     }
 
     public void scanInitMethods() {
-        Reflection.getMethodsAnnotatedWith(Init.class).forEach(method -> {
+        long start = System.currentTimeMillis();
+        Reflection.getMethodsAnnotatedWith(Init.class).parallelStream().forEach(method -> {
             try {
                 method.invoke(null);
             } catch (Exception e) {
@@ -91,5 +92,8 @@ public final class Bootstrap {
                 System.exit(1);
             }
         });
+        long end = System.currentTimeMillis();
+        long elapsed = end - start;
+        logger.info("Scanning init methods took {}ms", elapsed);
     }
 }

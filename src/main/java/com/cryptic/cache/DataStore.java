@@ -131,7 +131,5 @@ public class DataStore {
                 i.clearMemory();
             }
         }
-
-        System.gc();
     }
 }

@@ -1,22 +1,19 @@
 package com.cryptic.model.entity.player.commands.impl.dev;
 
 import com.cryptic.GameEngine;
-import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.npc.NPCCombatInfo;
-import com.cryptic.model.items.container.sounds.SoundLoader;
-import com.cryptic.utility.loaders.loader.impl.ObjectSpawnDefinitionLoader;
-import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
-import com.cryptic.utility.loaders.loader.impl.ShopLoader;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
+import com.cryptic.model.items.container.sounds.SoundLoader;
+import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
+import com.cryptic.utility.loaders.loader.impl.ObjectSpawnDefinitionLoader;
+import com.cryptic.utility.loaders.loader.impl.ShopLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.InvocationTargetException;
 
 import static com.cryptic.model.World.loadNpcSpawns;
 import static java.lang.String.format;
@@ -54,7 +51,7 @@ public class ReloadCommand implements Command {
                     World.getWorld().unregisterNpc(worldNpcs);
                 }
                 // Halloween.loadNpcs();
-                loadNpcSpawns(new File("data/def/npcs/worldspawns"));
+                loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
                 try {
                     Fishing.respawnAllSpots(World.getWorld());
                 } catch (FileNotFoundException e) {

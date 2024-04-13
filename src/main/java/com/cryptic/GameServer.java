@@ -1,5 +1,6 @@
 package com.cryptic;
 
+import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.pipeline.Bootstrap;
@@ -187,6 +188,7 @@ public class GameServer {
             logger.info("Initializing the Bootstrap...");
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
             bootstrap.scanInitMethods();
+            GameEngine.getInstance().start();
             bootstrap.bind();
             initializeDatabase();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

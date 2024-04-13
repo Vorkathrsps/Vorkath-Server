@@ -521,7 +521,7 @@ public class GameObject {
         if (id == -1 || skipClipping)
             return this;
         // when osrs data is rdy
-        ObjectDefinition def = definition();
+        ObjectDefinition def = ObjectDefinition.get(id);
         if (def == null) return this;
         if (type == 22) {
             if (def.isClippedDecoration()) {

@@ -1,6 +1,8 @@
 package com.cryptic.utility;
 
 import com.cryptic.GameConstants;
+import io.github.classgraph.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
@@ -19,7 +21,25 @@ import java.util.stream.Collectors;
 public class Reflection {
 
     public static Set<Method> getMethodsAnnotatedWith(Class<? extends Annotation> annotationClass) {
-        return getMethodsAnnotatedWith(GameConstants.PACKAGE, annotationClass);
+        Set<Method> methods = new ObjectOpenHashSet<>();
+        try (ScanResult result = new ClassGraph()
+            .enableMethodInfo()
+            .enableClassInfo()
+            .enableAnnotationInfo()
+            .acceptPackages(GameConstants.PACKAGE)
+            .scan()) {
+            ClassInfoList classInfos = result.getClassesWithMethodAnnotation(annotationClass);
+            for (ClassInfo classInfo : classInfos) {
+                MethodInfoList methodInfos = classInfo.getMethodInfo();
+                for (MethodInfo methodInfo : methodInfos) {
+                    if (methodInfo.hasAnnotation(annotationClass)) {
+                        Method method = methodInfo.loadClassAndGetMethod();
+                        methods.add(method);
+                    }
+                }
+            }
+        }
+        return methods;
     }
 
     public static Set<Method> getMethodsAnnotatedWith(String packageName, Class<? extends Annotation> annotationClass) {

@@ -28,14 +28,7 @@ public class DustDevilCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) target;
-        if ((!player.getEquipment().contains(ItemIdentifiers.FACEMASK) || !FormulaUtils.hasSlayerHelmet(player) || !FormulaUtils.hasSlayerHelmetImbued(player))) {
-            new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
-            player.message("<col=ff0000>The devil's dust blinds and damages you!");
-            player.message("<col=ff0000>A facemask can protect you from this attack.");
-            for (int skill : DRAIN) player.getSkills().alterSkill(skill, -5);
-        } else {
-            basicAttack(entity, target);
-        }
+        basicAttack(entity, player);
         return true;
     }
 

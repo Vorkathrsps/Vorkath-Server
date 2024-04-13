@@ -128,6 +128,7 @@ public final class Hunter {
         player.animate(5208);
         MutableObject<GroundItem> groundItem = new MutableObject<GroundItem>();
         groundItem.setValue(new GroundItem(new Item(trap.getType().getItemId()), player.tile(), player));
+
         int[] ticks = new int[]{0};
         int[] attempts = new int[]{0};
         Chain.bound(player).name("trap_placement_task").runFn(1, () -> {

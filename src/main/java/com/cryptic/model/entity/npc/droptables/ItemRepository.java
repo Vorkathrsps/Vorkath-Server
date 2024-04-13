@@ -5,6 +5,7 @@ import com.cryptic.core.TimesCycle;
 import com.cryptic.model.entity.npc.droptables.util.DropsConverter;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
+import io.github.classgraph.ClassGraph;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,15 +54,16 @@ public class ItemRepository {
     }
 
     public static void load() {
-        List<Field> item = Arrays.stream(ItemIdentifiers.class.getFields()).filter(field -> Modifier.isPublic(field.getModifiers())).toList();
-        item.forEach(it -> {
+        for (Field field : ItemIdentifiers.class.getFields()) {
             try {
-                itemIds.put(it.getName(), it.getInt(ItemIdentifiers.class));
-                itemNames.put(it.getInt(ItemIdentifiers.class), it.getName());
+                String name = field.getName();
+                int id = field.getInt(ItemIdentifiers.class);
+                itemIds.put(name, id);
+                itemNames.put(id, name);
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }
         logger.info("Loaded " + itemIds.size() + " item names");
     }
 }

@@ -612,10 +612,6 @@ public class NPC extends Entity {
         performance.assess(this);
     }*/
 
-    public void findAgroTargetTimed() {
-        accumulateRuntimeTo(this::findAgroTarget, d -> NpcPerformance.H += d.toNanos());
-    }
-
     public void findAgroTarget() {
         boolean wilderness = (WildernessArea.getWildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
         if (combatMethod instanceof CommonCombatMethod ccm) {
@@ -624,12 +620,10 @@ public class NPC extends Entity {
 
         if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null))) return;
 
-        //NPCs should only aggro if you can attack them.
         final int ceil = def.combatlevel * 2;
         final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
 
-        //Highly optimized code
         List<Player> players = this.tile.getRegion().getPlayers();
         Stream<Player> playerStream =
             players.stream()
@@ -637,12 +631,11 @@ public class NPC extends Entity {
                 .filter(p -> !p.looks().hidden())
                 .filter(p -> p.getZ() == this.getZ())
                 .filter(p -> bounds.inside(p.tile()));
-        // apply overrides
+
         if (override) {
             playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
         } else {
             if (!wilderness) {
-                // only check combatLevel if no custom script is present which will override it
                 playerStream = playerStream.filter(p -> p.getSkills().combatLevel() <= ceil)
                     .filter(p -> CombatFactory.bothInFixedRoom(this, p));
             } else {
@@ -659,16 +652,11 @@ public class NPC extends Entity {
                 || p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
                 if (CombatFactory.canAttack(this, combatMethod, p)) {
                     getCombat().attack(p);
-                    //String ss = this.def.getName()+" v "+p.getUsername()+" : "+ CombatFactory.canAttack(this, method, p);
-                    //System.out.println(ss);
-                    //this.forceChat(ss);
                     break;
                 }
 
             }
         }
-        //stopwatch1.stop(); maven
-        //performance.aggression = stopwatch1;
     }
 
     /**

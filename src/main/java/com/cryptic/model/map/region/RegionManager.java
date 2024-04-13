@@ -37,9 +37,9 @@ public class RegionManager {
     public static final Path OSRS = Path.of("data", "cache");
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
     public static void init() throws Exception {
+        var index = cache.index(5);
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 256; y++) {
-                var index = cache.index(5);
                 int mapArchiveId = index.archiveId("m" + x + "_" + y);
                 int landArchiveId = index.archiveId("l" + x + "_" + y);
                 var regionId = x << 8 | y;

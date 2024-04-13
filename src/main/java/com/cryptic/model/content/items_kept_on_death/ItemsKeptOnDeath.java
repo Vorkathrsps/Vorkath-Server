@@ -91,20 +91,18 @@ public class ItemsKeptOnDeath {
 
         LinkedList<Item> toDrop = new LinkedList<>(tempToDrop);
 
-        // remove always kept before calculating kept-3 by value
         List<Item> alwaysKept = toDrop.stream().filter(ItemsKeptOnDeath::alwaysKept).collect(Collectors.toList());
         itemsAlwaysKeptOnDeath.addAll(alwaysKept); // so static list is for the visual interface but for actually ikod idk why this list isn't also used
         toDrop.removeIf(ItemsKeptOnDeath::alwaysKept);
 
-        // Sort remaining lost items by value.
         boolean sort = true;
         if (sort) {
             toDrop.sort((o1, o2) -> {
                 o1 = o1.unnote();
                 o2 = o2.unnote();
 
-                ItemDefinition def = o1.definition(World.getWorld());
-                ItemDefinition def2 = o2.definition(World.getWorld());
+                ItemDefinition def = ItemDefinition.cached.get(o1.getId());
+                ItemDefinition def2 = ItemDefinition.cached.get(o2.getId());
 
                 int v1 = 0;
                 int v2 = 0;
@@ -208,10 +206,6 @@ public class ItemsKeptOnDeath {
         return false;
     }
 
-    /**
-     * anything that isn't always kept, stuff that converts, zulrah, things with charges, etc
-     * mimics {@link com.cryptic.core.task.impl.PlayerDeathTask#dropItems(Player, Mob)} {@code toDrop.foreach() block}
-     */
     private static boolean changes(Item item) {
         return item.definition(World.getWorld()).changes;
     }

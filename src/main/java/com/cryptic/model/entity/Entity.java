@@ -2024,8 +2024,9 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphics.clear();
-
-        Arrays.fill(nextHits, null);
+        for (int i = 0; i < nextHits.length; i++) {
+            nextHits[i] = null;
+        }
         nextHitIndex = 0;
     }
 

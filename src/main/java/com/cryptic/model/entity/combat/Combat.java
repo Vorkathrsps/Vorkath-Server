@@ -696,7 +696,7 @@ public class Combat {
 
         method = CombatFactory.getMethod(mob);
 
-        mob.npc().findAgroTargetTimed();
+        mob.npc().findAgroTarget();
 
         if (target != null && method instanceof CommonCombatMethod ccm) {
             ccm.set(mob, target);

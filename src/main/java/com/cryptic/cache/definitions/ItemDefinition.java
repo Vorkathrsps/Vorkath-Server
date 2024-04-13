@@ -444,11 +444,8 @@ public class ItemDefinition implements Definition {
 
     public int findLinkedValue(String name) {
         for (ItemDefinition item : cached.values()) {
-            if (item.name.contains("Looting bag")) continue;
-            if (isSimilarName(item.name, name)) {
-                if (item.name.contains(name)) {
+            if (item.name.contains(name) && !item.name.equals(name)) {
                 return item.bm.value();
-                }
             }
         }
         return 0;

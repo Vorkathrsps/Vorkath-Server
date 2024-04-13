@@ -804,7 +804,7 @@ public class Item implements Cloneable {
      * @return the value of this item.
      */
     public int getValue() {
-        final ItemDefinition def = definition(World.getWorld());
+        final ItemDefinition def = ItemDefinition.cached.get(id);
         if (def == null) return 0;
         if (def.noted()) return unnote().getBloodMoneyPrice().value();
         if (def.bm != null) {

@@ -137,10 +137,7 @@ public class DwarfCannon extends OwnedObject {
                     getOwner().inventory().remove(balls, needed);
                     getOwner()
                         .message(
-                            "You load the cannon with "
-                                + (needed == 1 ? "one" : needed)
-                                + " cannonball"
-                                + ((needed > 1) ? "s." : "."));
+                                STR."You load the cannon with \{needed == 1 ? "one" : needed} cannonball\{(needed > 1) ? "s." : "."}");
                     setAmmo(getAmmo() + needed);
                 }
 
@@ -226,26 +223,24 @@ public class DwarfCannon extends OwnedObject {
         }
 
         target.ifPresent(
-            npc -> {
-                getOwnerOpt().ifPresent(owner -> {
-                    var center = getCorrectedTile(tile());
-                    var distance = center.distance(npc.tile());
-                    var duration = (41 - 5 + (5 * distance));
-                    Projectile p1 = new Projectile(center, npc.tile(), 53, 0, duration, 40, 30, 16, 1, 5);
-                    final int delay = p1.send(center, npc.tile());
-                    var hit = new Hit(owner, npc, delay, CombatType.RANGED);
-                    hit.checkAccuracy(false).submit().postDamage(h1 -> {
-                        h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
-                        if (h1.getDamage() > 30) h1.setDamage(30);
-                        getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
-                        setAmmo(getAmmo() - 1);
-                        if (getAmmo() <= 0) {
-                            owner.message("Your cannon is out of ammo!");
-                            setStage(CannonStage.FURNACE, true);
-                        }
-                    });
+            npc -> getOwnerOpt().ifPresent(owner -> {
+                var center = getCorrectedTile(tile());
+                var distance = center.distance(npc.tile());
+                var duration = (41 - 5 + (5 * distance));
+                Projectile p1 = new Projectile(center, npc.tile(), 53, 0, duration, 40, 30, 16, 1, 5);
+                final int delay = p1.send(center, npc.tile());
+                var hit = new Hit(owner, npc, delay, CombatType.RANGED);
+                hit.checkAccuracy(false).submit().postDamage(h1 -> {
+                    h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
+                    if (h1.getDamage() > 30) h1.setDamage(30);
+                    getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
+                    setAmmo(getAmmo() - 1);
+                    if (getAmmo() <= 0) {
+                        owner.message("Your cannon is out of ammo!");
+                        setStage(CannonStage.FURNACE, true);
+                    }
                 });
-            });
+            }));
     }
 
     public void checkDecayTimer() {

@@ -361,12 +361,12 @@ public class GameObject {
         var t = Tile.get(x, y, z, true);
         if (lastAnimationTick != currentTick) {
             lastAnimationTick = currentTick;
-            for (var p : t.getRegion().getPlayers()) {
-                if (p == null) continue;
-                if (p.getZ() != t.getZ()) continue;
-                if (p.tile().distanceTo(t) >= 64) continue;
+            Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
+                if (p == null) return;
+                if (p.getZ() != t.getZ()) return;
+                if (p.tile().distanceTo(t) >= 64) return;
                 p.getPacketSender().sendObjectAnimation(this, id);
-            }
+            });
         }
     }
 

@@ -1,5 +1,7 @@
 package com.cryptic.model.map.object.dwarf_cannon;
 
+import java.util.Objects;
+
 /**
  * The cannon build stages.
  *
@@ -37,6 +39,6 @@ public enum CannonStage {
     }
 
     public CannonStage next() {
-        return values()[forId(objectId).ordinal() + 1];
+        return values()[Objects.requireNonNull(forId(objectId)).ordinal() + 1];
     }
 }

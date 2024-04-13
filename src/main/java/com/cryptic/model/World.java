@@ -313,7 +313,6 @@ public class World {
     private static void processTasks() {
         try {
             TaskManager.sequence();
-            EventWorker.process();
             MinigameManager.onTick();
             StarEventTask.checkDepletionTask();
         } catch (Exception e) {

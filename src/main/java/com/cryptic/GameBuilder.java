@@ -46,6 +46,8 @@ public class GameBuilder {
         Utils.packages();
         RegionManager.init();
         backgroundLoader.init(createBackgroundTasks());
+        System.gc();
+        GameEngine.getInstance().start();
         if (!backgroundLoader.awaitCompletion()) throw new IllegalStateException("Background load did not complete normally!");
     }
 

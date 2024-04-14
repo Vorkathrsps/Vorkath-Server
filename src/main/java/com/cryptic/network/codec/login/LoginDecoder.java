@@ -216,7 +216,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         String password = ByteBufUtils.readString(rsaBuffer);
         String mac = ByteBufUtils.readString(rsaBuffer);
 
-        if (username.length() < 1 || username.length() > 12 || password.length() < 3 || password.length() > 20) {
+        if (username.isEmpty() || username.length() > 12 || password.length() < 3 || password.length() > 20) {
             sendLoginResponse(ctx, LoginResponses.INVALID_CREDENTIALS_COMBINATION);
             return;
         }

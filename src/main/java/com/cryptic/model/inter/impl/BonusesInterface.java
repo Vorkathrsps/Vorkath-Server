@@ -57,25 +57,25 @@ public class BonusesInterface extends PacketInteraction {
     public void sendBonuses() {
         EquipmentBonuses b = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
         var dropRateBonus = player.getDropRateBonus();
-        player.getPacketSender().sendString(1675, "Stab: " + plusify(b.getStab()));
-        player.getPacketSender().sendString(1676, "Slash: " + plusify(b.getSlash()));
-        player.getPacketSender().sendString(1677, "Crush: " + plusify(b.getCrush()));
-        player.getPacketSender().sendString(1678, "Magic: " + plusify(b.getMage()));
-        player.getPacketSender().sendString(1679, "Range: " + plusify(b.getRange()));
-        player.getPacketSender().sendString(1680, "Stab: " + plusify(b.getStabdef()));
-        player.getPacketSender().sendString(1681, "Slash: " + plusify(b.getSlashdef()));
-        player.getPacketSender().sendString(1682, "Crush: " + plusify(b.getCrushdef()));
-        player.getPacketSender().sendString(1683, "Range: " + plusify(b.getRangedef()));
-        player.getPacketSender().sendString(1684, "Magic: " + plusify(b.getMagedef()));
-        player.getPacketSender().sendString(1686, "Melee strength: " + plusify(b.getStr()));
-        player.getPacketSender().sendString(24751, "Ranged strength: " + plusify(b.getRangestr()));
-        player.getPacketSender().sendString(24752, "Magic damage: " + plusify(b.getMagestr()) + "%");
-        player.getPacketSender().sendString(1687, "Prayer: " + plusify(b.getPray()));
-        player.getPacketSender().sendString(24754, "Undead: " + plusify(getUndead()) + "%");
-        player.getPacketSender().sendString(24755, "Slayer: " + plusify(getSlay()) + "%");
-        player.getPacketSender().sendString(24757, "Base: " + plusify(player.getBaseAttackSpeed()) + "s");
-        player.getPacketSender().sendString(24774, "BM: " + (bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)));
-        player.getPacketSender().sendString(24775, "Drop Rate: " + (dropRateBonus > 0 ? Color.GREEN.wrap(Utils.formatpercent(dropRateBonus)) : dropRateBonus + "%"));
+        player.getPacketSender().sendString(1675, STR."Stab: \{plusify(b.getStab())}");
+        player.getPacketSender().sendString(1676, STR."Slash: \{plusify(b.getSlash())}");
+        player.getPacketSender().sendString(1677, STR."Crush: \{plusify(b.getCrush())}");
+        player.getPacketSender().sendString(1678, STR."Magic: \{plusify(b.getMage())}");
+        player.getPacketSender().sendString(1679, STR."Range: \{plusify(b.getRange())}");
+        player.getPacketSender().sendString(1680, STR."Stab: \{plusify(b.getStabdef())}");
+        player.getPacketSender().sendString(1681, STR."Slash: \{plusify(b.getSlashdef())}");
+        player.getPacketSender().sendString(1682, STR."Crush: \{plusify(b.getCrushdef())}");
+        player.getPacketSender().sendString(1683, STR."Range: \{plusify(b.getRangedef())}");
+        player.getPacketSender().sendString(1684, STR."Magic: \{plusify(b.getMagedef())}");
+        player.getPacketSender().sendString(1686, STR."Melee strength: \{plusify(b.getStr())}");
+        player.getPacketSender().sendString(24751, STR."Ranged strength: \{plusify(b.getRangestr())}");
+        player.getPacketSender().sendString(24752, STR."Magic damage: \{plusify(b.getMagestr())}%");
+        player.getPacketSender().sendString(1687, STR."Prayer: \{plusify(b.getPray())}");
+        player.getPacketSender().sendString(24754, STR."Undead: \{plusify(getUndead())}%");
+        player.getPacketSender().sendString(24755, STR."Slayer: \{plusify(getSlay())}%");
+        player.getPacketSender().sendString(24757, STR."Base: \{plusify(player.getBaseAttackSpeed())}s");
+        player.getPacketSender().sendString(24774, STR."BM: \{bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)}");
+        player.getPacketSender().sendString(24775, STR."Drop Rate: \{dropRateBonus > 0 ? Color.GREEN.wrap(Utils.formatpercent(dropRateBonus)) : dropRateBonus + "%"}");
     }
 
     public int getSlay() {

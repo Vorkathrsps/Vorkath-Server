@@ -188,11 +188,10 @@ public class GameServer {
             logger.info("Initializing the Bootstrap...");
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
             bootstrap.scanInitMethods();
-            GameEngine.getInstance().start();
             bootstrap.bind();
             initializeDatabase();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                System.out.println("Official Java Shutdownhook: triggered. Players in world: "+World.getWorld().getPlayers().size());
+                System.out.println(STR."Official Java Shutdownhook: triggered. Players in world: \{World.getWorld().getPlayers().size()}");
                 PlayerSaves.processSaves();
 
                 for (Player player : World.getWorld().getPlayers()) {
@@ -208,7 +207,7 @@ public class GameServer {
                         new PlayerSave.SaveDetails(player).parseDetails();
                         System.out.printf("DIRECT SAVE: %s%n", player);
                     } catch (Throwable e) {
-                        System.out.println("EMERGENCY SAVE FAIL Player "+player+" ex: "+e);
+                        System.out.println(STR."EMERGENCY SAVE FAIL Player \{player} ex: \{e}");
                         e.printStackTrace();
                     }
                 }

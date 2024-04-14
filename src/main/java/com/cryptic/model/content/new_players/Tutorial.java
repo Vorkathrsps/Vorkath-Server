@@ -24,7 +24,6 @@ public class Tutorial extends Dialogue {
 
     public static void start(Player player) {
         player.lock();
-        player.looks().hide(true);
         player.teleport(GameServer.properties().defaultTile.tile());
         player.getDialogueManager().start(new Tutorial());
     }
@@ -76,7 +75,6 @@ public class Tutorial extends Dialogue {
             stop();
             player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
             player.unlock();
-            player.looks().hide(false);
             /*if (player.mode() == GameMode.INSTANT_PKER) {
                 player.getPresetManager().open();
                 player.message("Pick a preset to load to get started.");

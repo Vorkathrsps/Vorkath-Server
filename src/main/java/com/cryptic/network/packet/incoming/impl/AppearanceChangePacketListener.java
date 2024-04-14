@@ -16,7 +16,7 @@ public class AppearanceChangePacketListener implements PacketListener {
         if (player.dead()) {
             return;
         }
-        
+
         player.afkTimer.reset();
 
         try {
@@ -29,11 +29,11 @@ public class AppearanceChangePacketListener implements PacketListener {
             final int hands = packet.readUnsignedByte();
             final int legs = packet.readUnsignedByte();
             final int feet = packet.readUnsignedByte();
-            final short hairColor = (short) packet.readUnsignedByte();
-            final short torsoColor = (short) packet.readUnsignedByte();
-            final short legsColor = (short) packet.readUnsignedByte();
-            final short feetColor = (short) packet.readUnsignedByte();
-            final short skinColor = (short) packet.readUnsignedByte();
+            final int hairColor = packet.readUnsignedByte();
+            final int torsoColor = packet.readUnsignedByte();
+            final int legsColor = packet.readUnsignedByte();
+            final int feetColor = packet.readUnsignedByte();
+            final int skinColor = packet.readUnsignedByte();
 
             if (skinColor == 10 && !player.getMemberRights().isRegularMemberOrGreater(player)) {
                 player.message("You need to be a Ruby member to use this skin!");
@@ -71,12 +71,12 @@ public class AppearanceChangePacketListener implements PacketListener {
             }
 
             player.looks().female(gender);
-            player.looks().looks(new int[] {head, jaw, torso, arms, hands, legs, feet});
-            player.looks().colors(new short[] {hairColor, torsoColor, legsColor, feetColor, skinColor});
+            player.looks().looks(new int[]{head, jaw, torso, arms, hands, legs, feet});
+            player.looks().colors(new int[]{hairColor, torsoColor, legsColor, feetColor, skinColor});
             player.getUpdateFlag().flag(Flag.APPEARANCE);
             player.stopActions(true);
             player.getInterfaceManager().close();
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("sadge", e);
         }
     }

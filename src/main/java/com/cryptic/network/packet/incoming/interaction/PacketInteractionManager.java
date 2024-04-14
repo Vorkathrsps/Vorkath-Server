@@ -6,10 +6,6 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.map.object.GameObject;
 import com.google.common.reflect.ClassPath;
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.MethodInfoList;
-import io.github.classgraph.ScanResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,28 +45,9 @@ public class PacketInteractionManager {
     }
 
     private static void loadRecursive() throws IOException {
-        try (ScanResult scanResult = new ClassGraph()
-            .enableClassInfo()
-            .enableMethodInfo()
-            .acceptPackages("com.cryptic.model")
-            .scan()) {
-            List<Class<PacketInteraction>> classes = scanResult
-                .getSubclasses(PacketInteraction.class)
-                .filter(classInfo -> {
-                    if (classInfo.isAbstract()) return false;
-
-                    MethodInfoList methodInfos = classInfo.getMethodInfo("<init>");
-                    return methodInfos.stream().anyMatch(
-                        methodInfo ->
-                            methodInfo.isPublic()
-                                && !methodInfo.isSynthetic()
-                                && methodInfo.getParameterInfo().length == 0);
-                })
-                .loadClasses(PacketInteraction.class);
-            for (Class<PacketInteraction> clazz : classes) {
-                PacketInteractionManager.load(clazz);
-            }
-        }
+        ClassPath classPath = ClassPath.from(Thread.currentThread().getContextClassLoader());
+        Set<Class<?>> clazzes = classPath.getTopLevelClassesRecursive("com.cryptic.model").stream().map(ClassPath.ClassInfo::load).collect(Collectors.toSet());
+        clazzes.forEach(PacketInteractionManager::load);
     }
 
     public static void onRegionChange(Player player) {
@@ -306,33 +283,28 @@ public class PacketInteractionManager {
         return false;
     }
 
-    private static void load(Class<PacketInteraction> clazz) {
-/*        if (Modifier.isAbstract(clazz.getModifiers())
+    private static void load(Class<?> clazz) {
+        if (Modifier.isAbstract(clazz.getModifiers())
             || clazz.isAnonymousClass()
             || clazz.isEnum()
             || clazz.isInterface()) {
             //System.err.println("Unable to load this class: "+clazz.getName()+" abstract class: "+Modifier.isAbstract(clazz.getModifiers())+" anonymousClass: "+clazz.isAnonymousClass()+" enumClass: "+clazz.isEnum()+" interfaceClass: "+clazz.isInterface());
             return;
-        }*/
-
-        ////System.out.println("Found: "+clazz.getName() + "default cons: "+hasDefaultConstructor(clazz)+" superclass: "+isSuperClass(clazz, PacketInteraction.class));
-
-        // A valid interaction must extend PacketInteraction and have a default zero-parameters
-        // constructor.
-        //if (hasDefaultConstructor(clazz) && isSuperClass(clazz, PacketInteraction.class)) {
+        }
+        if (hasDefaultConstructor(clazz) && isSuperClass(clazz, PacketInteraction.class)) {
             //System.err.println("Enter class: "+clazz.getName());
             try {
                 // Try to create an instance of that type
-                PacketInteraction interaction = clazz.getDeclaredConstructor().newInstance();
+                PacketInteraction interaction = (PacketInteraction) clazz.getDeclaredConstructor().newInstance();
 
                 if (!interactions.contains(interaction)) {
                     interactions.add(interaction);
-                   // System.err.println("Add class: "+clazz.getName());
+                    // System.err.println("Add class: "+clazz.getName());
                 }
             } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException ex) {
-                //System.err.println("Unable to load class: "+ clazz.getName());
+                System.err.println("Unable to load class: "+ clazz.getName());
             }
-        //}
+        }
     }
 
     private static boolean hasDefaultConstructor(Class<?> clazz) {

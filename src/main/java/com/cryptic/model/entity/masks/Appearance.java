@@ -21,7 +21,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.LOOT_KEYS_CARRIED
 public class Appearance {
 
     private final Player player;
-
     private static final int[] TRANSLATION_TABLE_BACK = new int[]{-1, -1, -1, -1, 2, -1, 3, 5, 0, 4, 6, 1};
     private static final int[] WRONG_LOOKS = {18, 26, 36, 7, 33, 42, 10};
     public static final int[] GOOD_LOOKS = {0, 10, 18, 26, 33, 36, 42};
@@ -29,10 +28,9 @@ public class Appearance {
     private boolean female;
     private int transmog = -1;
     private boolean hide;
-    @Setter
-    public boolean hideLooks;
+    @Setter public boolean resetLooks = false;
     private int[] looks = {0, 10, 18, 26, 33, 36, 42};
-    private short[] colors = new short[5];
+    private int[] colors = new int[5];
 
     public Appearance(Player player) {
         this.player = player;
@@ -48,7 +46,7 @@ public class Appearance {
         }
     }
 
-    public void colors(short[] c) {
+    public void colors(int[] c) {
         colors = c;
     }
 
@@ -72,7 +70,7 @@ public class Appearance {
         return looks;
     }
 
-    public short[] colors() {
+    public int[] colors() {
         return colors;
     }
 
@@ -104,7 +102,7 @@ public class Appearance {
     }
 
     public void hideLooks(boolean state) {
-        player.looks().setHideLooks(state);
+        player.looks().setResetLooks(state);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
@@ -148,11 +146,12 @@ public class Appearance {
                 packetBuilder.putShort(-1);
                 packetBuilder.putShort(transmog);
             } else {
-                if (hideLooks) {
+              /*  if (resetLooks) {
                     for (int index = 0; index < 12; index++) {
                         packetBuilder.put(0);
+                        target.looks().looks()[index] = 0;
                     }
-                } else {
+                } else {*/
                     Item helm = target.getEquipment().get(EquipSlot.HEAD);
                     if (helm != null && helm.getId() > 1) {
                         packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HEAD).getId());
@@ -239,7 +238,7 @@ public class Appearance {
                         packetBuilder.put(0);
                     }
                 }
-            }
+           // }
 
             // Dem colors
             for (int color : colors) {

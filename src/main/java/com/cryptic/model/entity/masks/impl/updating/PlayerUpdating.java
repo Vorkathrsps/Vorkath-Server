@@ -70,6 +70,12 @@ public class PlayerUpdating {
     }
 
     private static boolean shouldUpdatePlayer(Player player, Player otherPlayer) {
+        System.out.println(STR."update-\{otherPlayer.getIndex() != -1
+                && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null
+                && !otherPlayer.looks().hidden()
+                && otherPlayer.tile().isWithinDistance(player.tile())
+                && !otherPlayer.isNeedsPlacement()
+                && canSee(player, otherPlayer)}");
         return otherPlayer.getIndex() != -1
             && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null
             && !otherPlayer.looks().hidden()

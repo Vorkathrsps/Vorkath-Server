@@ -132,11 +132,7 @@ public class LoginWorker implements Runnable {
                     initForGame(message, channel);
                     World.getWorld().getPlayers().add(player);
                     Utils.sendDiscordInfoLog(
-                        "```Login successful for player "
-                            + request.message.getUsername()
-                            + " with IP "
-                            + request.message.getHost()
-                            + "```",
+                            STR."```Login successful for player \{request.message.getUsername()} with IP \{request.message.getHost()}```",
                         "login");
                     loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
                 });

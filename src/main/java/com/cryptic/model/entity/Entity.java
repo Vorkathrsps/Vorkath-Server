@@ -111,7 +111,13 @@ public abstract class Entity {
 
     /**
      * The entity's unique index.
+     * -- GETTER --
+     *  Gets the entity's unique index.
+     *
+     * @return The entity's index.
+
      */
+    @Getter
     private int index;
 
     /**
@@ -138,15 +144,6 @@ public abstract class Entity {
 
     public boolean finished() {
         return index < 1;
-    }
-
-    /**
-     * Gets the entity's unique index.
-     *
-     * @return The entity's index.
-     */
-    public int getIndex() {
-        return index;
     }
 
     /**
@@ -740,30 +737,6 @@ public abstract class Entity {
     @Getter
     List<NPC> activeThrall = new ArrayList<>();
 
-    public void setNeedsPlacement(boolean needsPlacement) {
-        this.needsPlacement = needsPlacement;
-    }
-
-    public boolean isNeedsPlacement() {
-        return needsPlacement;
-    }
-
-    public boolean isSpecialActivated() {
-        return specialActivated;
-    }
-
-    public void setSpecialActivated(boolean specialActivated) {
-        this.specialActivated = specialActivated;
-    }
-
-    public int getSpecialAttackPercentage() {
-        return specialAttackPercentage;
-    }
-
-    public void setSpecialAttackPercentage(int specialAttackPercentage) {
-        this.specialAttackPercentage = specialAttackPercentage;
-    }
-
     public void desecreaseSpecialAttack(int drainAmount) {
         this.specialAttackPercentage -= drainAmount;
 
@@ -781,10 +754,6 @@ public abstract class Entity {
 
     public boolean isRecoveringSpecialAttack() {
         return recoveringSpecialAttack;
-    }
-
-    public void setRecoveringSpecialAttack(boolean recoveringSpecialAttack) {
-        this.recoveringSpecialAttack = recoveringSpecialAttack;
     }
 
     public boolean inDungeon() {
@@ -2128,9 +2097,16 @@ public abstract class Entity {
     private Tinting tinting;
     private Entity interactingEntity;
     private boolean resetMovementQueue;
+    @Getter
+    @Setter
     private boolean needsPlacement;
+    @Setter
+    @Getter
     private int specialAttackPercentage = 100;
+    @Setter
+    @Getter
     private boolean specialActivated;
+    @Setter
     private boolean recoveringSpecialAttack;
     @Getter
     @Setter

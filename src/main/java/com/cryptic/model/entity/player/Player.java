@@ -1051,7 +1051,6 @@ public class Player extends Entity {
         if (uid == 0L) {
             uid = Utils.generateUUID();
             this.putAttrib(AttributeKey.PLAYER_UID, uid);
-            System.out.println("setting player unique ID: " + PLAYER_UID);
         }
         World.getWorld().ls.ONLINE.add(getMobName().toUpperCase());
         session.setState(SessionState.LOGGED_IN);
@@ -1347,8 +1346,6 @@ public class Player extends Entity {
         }
     }
 
-    CompletableFuture<Boolean> saveFuture;
-
     private void submitSave(Runnable whenComplete) {
         if (!World.getWorld().ls.ONLINE.contains(getMobName().toUpperCase())) {
             return;
@@ -1370,11 +1367,8 @@ public class Player extends Entity {
     }
 
 
+    @Getter
     private final Map<String, Runnable> onLogoutListeners = new HashMap<>();
-
-    public Map<String, Runnable> getOnLogoutListeners() {
-        return onLogoutListeners;
-    }
 
     public void runExceptionally(Runnable r) {
         try {
@@ -1492,11 +1486,7 @@ public class Player extends Entity {
             TournamentManager.leaveTourny(this, true);
         });
 
-        runExceptionally(() ->
-
-        {
-            HealthHud.close(this);
-        });
+        runExceptionally(() -> HealthHud.close(this));
 
         //Technically this is the last logout, but we'll use it as the last login so the last login doesn't get "overwritten" for the welcome screen when the player logs in.
         setLastLogin(new Timestamp(new Date().getTime()));
@@ -1534,16 +1524,16 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
-        message("Welcome " + (newAccount ? "" : "back ") + "to " + GameConstants.SERVER_NAME + "!");
+        message(STR."Welcome \{newAccount ? "" : "back "}to \{GameConstants.SERVER_NAME}!");
         switch (this.rights) {
             case SUPPORT ->
-                World.getWorld().sendWorldMessage("<img=" + PlayerRights.SUPPORT.getSpriteId() + ">" + "<shad=1" + Color.BLUE.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+                World.getWorld().sendWorldMessage(STR."<img=\{PlayerRights.SUPPORT.getSpriteId()}><shad=1\{Color.BLUE.wrap(this.username + " has logged in! Feel free to message them for help!")}</shad>");
             case MODERATOR ->
-                World.getWorld().sendWorldMessage("<img=" + PlayerRights.MODERATOR.getSpriteId() + ">" + "<shad=1" + Color.WHITE.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+                World.getWorld().sendWorldMessage(STR."<img=\{PlayerRights.MODERATOR.getSpriteId()}><shad=1\{Color.WHITE.wrap(this.username + " has logged in! Feel free to message them for help!")}</shad>");
             case ADMINISTRATOR ->
-                World.getWorld().sendWorldMessage("<img=" + PlayerRights.ADMINISTRATOR.getSpriteId() + ">" + "<shad=1" + Color.GOLD.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+                World.getWorld().sendWorldMessage(STR."<img=\{PlayerRights.ADMINISTRATOR.getSpriteId()}><shad=1\{Color.GOLD.wrap(this.username + " has logged in! Feel free to message them for help!")}</shad>");
             case OWNER ->
-                World.getWorld().sendWorldMessage("<img=" + PlayerRights.OWNER.getSpriteId() + ">" + "<shad=1" + Color.RED.wrap(this.username + " has logged in! Feel free to message them for help!") + "</shad>");
+                World.getWorld().sendWorldMessage(STR."<img=\{PlayerRights.OWNER.getSpriteId()}><shad=1\{Color.RED.wrap(this.username + " has logged in! Feel free to message them for help!")}</shad>");
         }
         handleForcedTeleports();
         applyAttributes();

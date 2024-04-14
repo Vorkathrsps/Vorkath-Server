@@ -24,9 +24,8 @@ import com.cryptic.utility.Utils;
 import com.google.common.base.Stopwatch;
 import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -137,7 +136,7 @@ public class DwarfCannon extends OwnedObject {
                     getOwner().inventory().remove(balls, needed);
                     getOwner()
                         .message(
-                                STR."You load the cannon with \{needed == 1 ? "one" : needed} cannonball\{(needed > 1) ? "s." : "."}");
+                            STR."You load the cannon with \{needed == 1 ? "one" : needed} cannonball\{(needed > 1) ? "s." : "."}");
                     setAmmo(getAmmo() + needed);
                 }
 
@@ -180,6 +179,7 @@ public class DwarfCannon extends OwnedObject {
     private void rotate() {
         boolean ownerOnline = getOwnerOpt().isPresent();
         Optional<NPC> target = Optional.empty();
+        List<NPC> potentialTargets = new ArrayList<>();
         if (ownerOnline && getStage().equals(CannonStage.FIRING)) {
             if (!MultiwayCombat.includes(getOwner()) && Objects.nonNull(getOwner().getCombat().getTarget())) {
                 Entity combatTarget = getOwner().getCombat().getTarget();
@@ -192,17 +192,18 @@ public class DwarfCannon extends OwnedObject {
                     }
                 }
             } else {
-                target =
-                    Arrays.stream(getOwner().closeNpcs(48))
-                        .filter(Objects::nonNull)
-                        .filter(npc -> npc.getCombatInfo() != null)
-                        .filter(npc -> MultiwayCombat.includes(getOwner().tile()) && MultiwayCombat.includes(npc.tile()))
-                        .filter(npc -> ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, npc.tile().getX(), npc.tile().getY(), npc.getSize()))
-                        .filter(npc -> npc.tile().isWithinDistance(getCorrectedTile(tile()), CANNON_RANGE))
-                        .filter(npc -> npc.def().combatlevel > 0 && !npc.dead())
-                        .filter(npc -> !npc.def().isPet)
-                        .filter(npc -> cannonDirection.validArea(getCorrectedTile(tile()).transform(1, 1, 0), npc.tile()))
-                        .findAny();
+                for (var n : getOwner().closeNpcs(14)) {
+                    if (n == null) continue;
+                    if (n.getZ() != getOwner().getZ()) continue;
+                    if (!n.tile().isViewableFrom(getOwner().tile())) continue;
+                    if (n.getCombatInfo() == null) continue;
+                    if (!ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, n.tile().getX(), n.tile().getY(), n.getSize())) continue;
+                    if (!n.tile().isWithinDistance(getCorrectedTile(tile()), CANNON_RANGE)) continue;
+                    if (n.def().isPet) continue;
+                    if (!cannonDirection.validArea(getCorrectedTile(tile()).transform(1, 1, 0), n.tile())) continue;
+                    if (!MultiwayCombat.includes(getOwner().tile()) && !MultiwayCombat.includes(n.tile())) continue;
+                    potentialTargets.add(n);
+                }
             }
             if (tile().inArea(new Area(2240, 4672, 2303, 4735, -1))) { // king black dragon
                 getOwner().message("Your cannon has been destroyed for placing it in this area.");
@@ -222,25 +223,30 @@ public class DwarfCannon extends OwnedObject {
             cannonDirection = cannonDirection.next();
         }
 
-        target.ifPresent(
-            npc -> getOwnerOpt().ifPresent(owner -> {
-                var center = getCorrectedTile(tile());
-                var distance = center.distance(npc.tile());
-                var duration = (41 - 5 + (5 * distance));
-                Projectile p1 = new Projectile(center, npc.tile(), 53, 0, duration, 40, 30, 16, 1, 5);
-                final int delay = p1.send(center, npc.tile());
-                var hit = new Hit(owner, npc, delay, CombatType.RANGED);
-                hit.checkAccuracy(false).submit().postDamage(h1 -> {
-                    h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
-                    if (h1.getDamage() > 30) h1.setDamage(30);
-                    getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
-                    setAmmo(getAmmo() - 1);
-                    if (getAmmo() <= 0) {
-                        owner.message("Your cannon is out of ammo!");
-                        setStage(CannonStage.FURNACE, true);
-                    }
-                });
-            }));
+        for (var t : potentialTargets) {
+            if (t == null) continue;
+            if (t.dead()) continue;
+            target = Optional.of(t);
+        }
+
+        target.ifPresent(npc -> getOwnerOpt().ifPresent(owner -> {
+            var center = getCorrectedTile(tile());
+            var distance = center.distance(npc.tile());
+            var duration = (41 - 5 + (5 * distance));
+            Projectile p1 = new Projectile(center, npc.getCentrePosition(), 53, 0, duration, 40, 30, 16, 1, 5);
+            final int delay = p1.send(center, npc.getCentrePosition());
+            var hit = new Hit(owner, npc, delay, CombatType.RANGED);
+            hit.checkAccuracy(false).submit().postDamage(h1 -> {
+                h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
+                if (h1.getDamage() > 30) h1.setDamage(30);
+                getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
+                setAmmo(getAmmo() - 1);
+                if (getAmmo() <= 0) {
+                    owner.message("Your cannon is out of ammo!");
+                    setStage(CannonStage.FURNACE, true);
+                }
+            });
+        }));
     }
 
     public void checkDecayTimer() {

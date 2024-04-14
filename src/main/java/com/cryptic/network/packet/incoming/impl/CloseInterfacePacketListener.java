@@ -12,9 +12,10 @@ public class CloseInterfacePacketListener implements PacketListener {
     @Override
     public void handleMessage(Player player, Packet packet) {
         if (player.getInterfaceManager().isInterfaceOpen(TradingPost.BUY_CONFIRM_UI_ID)) {
-            // proper cleanup of paralell
             player.getInterfaceManager().close();
+            return;
         }
+
         if (player.dead()) {
             return;
         }

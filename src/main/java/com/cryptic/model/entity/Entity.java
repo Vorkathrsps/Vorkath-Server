@@ -112,10 +112,9 @@ public abstract class Entity {
     /**
      * The entity's unique index.
      * -- GETTER --
-     *  Gets the entity's unique index.
+     * Gets the entity's unique index.
      *
      * @return The entity's index.
-
      */
     @Getter
     private int index;
@@ -2009,7 +2008,9 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphics.clear();
-        Arrays.fill(nextHits, null);
+        for (int i = 0; i < nextHits.length; i++) {
+            nextHits[i] = null;
+        }
         nextHitIndex = 0;
     }
 

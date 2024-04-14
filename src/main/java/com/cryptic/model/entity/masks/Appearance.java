@@ -119,13 +119,11 @@ public class Appearance {
 
     private void writeEquipmentData(PacketBuilder out, Player player) {
         List<Integer> skippedSlots = new ArrayList<>();
-
         for (int index = 0; index < player.getEquipment().capacity(); index++) {
             var slot = player.getEquipment().get(index);
             if (slot == null) continue;
             var equipmentId = slot.getId();
             ItemDefinition def = ItemDefinition.cached.get(equipmentId);
-            System.out.println(def);
             if (def.wearPos2 != -1) {
                 if (!skippedSlots.contains(def.wearPos2)) {
                     skippedSlots.add(def.wearPos2);
@@ -139,7 +137,6 @@ public class Appearance {
         }
 
         for (int index = 0; index < 12; index++) {
-            System.out.println(skippedSlots);
             if (skippedSlots.contains(index)) {
                 out.put(0);
                 continue;

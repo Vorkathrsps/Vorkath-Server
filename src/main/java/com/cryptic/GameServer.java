@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 
 import static io.netty.util.ResourceLeakDetector.Level.DISABLED;
 import static io.netty.util.ResourceLeakDetector.Level.PARANOID;
+import static java.lang.StringTemplate.STR;
 
 /**
  * The starting point of Ferox.

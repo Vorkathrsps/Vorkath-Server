@@ -2134,14 +2134,6 @@ public class Player extends Entity {
     private int duelWins = 0;
     private int duelLosses = 0;
 
-    public int getPlayerQuestTabCycleCount() {
-        return playerQuestTabCycleCount;
-    }
-
-    public void setPlayerQuestTabCycleCount(int playerQuestTabCycleCount) {
-        this.playerQuestTabCycleCount = playerQuestTabCycleCount;
-    }
-
     public void syncContainers() {
         if (getBank().dirty) {
             getBank().sync();
@@ -2269,6 +2261,8 @@ public class Player extends Entity {
     @Setter
     private volatile ByteBuf cachedUpdateBlock;
 
+    @Getter
+    @Setter
     private int playerQuestTabCycleCount;
 
     public int getInteractingNpcId() {

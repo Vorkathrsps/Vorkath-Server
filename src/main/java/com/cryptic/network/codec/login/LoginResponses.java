@@ -80,14 +80,6 @@ public final class LoginResponses {
         }
 
 
-        if (isLive && player.getUsername().equalsIgnoreCase("origin") && !msg.getHost().equalsIgnoreCase("192.168.1.56")) {
-            if (player.getSession().getChannel() != null) {
-                player.getSession().ctx.close();
-                return LOGIN_INVALID_CREDENTIALS;
-            }
-        }
-
-
         if (!msg.getClientVersion().equals(GameServer.properties().gameVersion)) {
             System.err.println(msg.getClientVersion() + " vs " + GameServer.properties().gameVersion);
             if (!GameServer.properties().test)

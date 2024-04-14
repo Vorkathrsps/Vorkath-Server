@@ -66,6 +66,7 @@ public class InterfaceManager {
                 player.getDialogueManager().interrupt();
             }
         }
+
         player.unlock();
         main = identification;
         player.getMovementQueue().clear();

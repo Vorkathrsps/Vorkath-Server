@@ -115,10 +115,10 @@
                 <version>3.13.0</version>
                 <configuration>
                     <release>21</release>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
+                    <compilerArgs>--enable-preview</compilerArgs>
                     <useIncrementalCompilation>true</useIncrementalCompilation>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
                 <executions>
                     <!-- Replacing default-compile as it is treated specially by maven -->

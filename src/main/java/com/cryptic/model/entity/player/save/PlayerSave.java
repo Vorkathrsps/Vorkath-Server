@@ -509,7 +509,7 @@ public class PlayerSave {
         private final Item topPkerReward;
         private final boolean female;
         private final int[] looks;
-        private final int[] colors;
+        private final byte[] colors;
 
         //Combat attribs
         private final String spellBook;

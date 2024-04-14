@@ -58,7 +58,7 @@ public class EquipPacketListener implements PacketListener {
 
         if (item != null && item.getId() == id && !player.locked() && !player.dead()) {
             if (player.getInterfaceManager().isInterfaceOpen(27200)) {
-                player.message("Close this interface before trying to equip your " + item.unnote().name() + ".");
+                player.message(STR."Close this interface before trying to equip your \{item.unnote().name()}.");
                 return;
             }
 

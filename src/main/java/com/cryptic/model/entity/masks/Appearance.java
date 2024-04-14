@@ -1,16 +1,20 @@
 package com.cryptic.model.entity.masks;
 
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.ValueType;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.LOOT_KEYS_CARRIED;
 
@@ -28,9 +32,10 @@ public class Appearance {
     private boolean female;
     private int transmog = -1;
     private boolean hide;
-    @Setter public boolean resetLooks = false;
+    @Setter
+    public boolean resetLooks = false;
     private int[] looks = {0, 10, 18, 26, 33, 36, 42};
-    private int[] colors = new int[5];
+    private byte[] colors = new byte[5];
 
     public Appearance(Player player) {
         this.player = player;
@@ -46,7 +51,7 @@ public class Appearance {
         }
     }
 
-    public void colors(int[] c) {
+    public void colors(byte[] c) {
         colors = c;
     }
 
@@ -70,7 +75,7 @@ public class Appearance {
         return looks;
     }
 
-    public int[] colors() {
+    public byte[] colors() {
         return colors;
     }
 
@@ -110,6 +115,76 @@ public class Appearance {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
+    private static final byte[] EMPTY_EQUIPMENT_DATA = new byte[12];
+
+    private void writeEquipmentData(PacketBuilder out, Player player) {
+        List<Integer> skippedSlots = new ArrayList<>();
+
+        for (int index = 0; index < player.getEquipment().capacity(); index++) {
+            var slot = player.getEquipment().get(index);
+            if (slot == null) continue;
+            var equipmentId = slot.getId();
+            ItemDefinition def = ItemDefinition.cached.get(equipmentId);
+            System.out.println(def);
+            if (def.wearPos2 != -1) {
+                if (!skippedSlots.contains(def.wearPos2)) {
+                    skippedSlots.add(def.wearPos2);
+                }
+            }
+            if (def.wearPos3 != -1) {
+                if (!skippedSlots.contains(def.wearPos3)) {
+                    skippedSlots.add(def.wearPos3);
+                }
+            }
+        }
+
+        for (int index = 0; index < 12; index++) {
+            System.out.println(skippedSlots);
+            if (skippedSlots.contains(index)) {
+                out.put(0);
+                continue;
+            }
+
+            var slot = player.getEquipment().get(index);
+            if (slot == null) {
+                var appearanceValue = this.getAppearanceInSlot(index);
+                if (appearanceValue < 1) {
+                    out.put(0);
+                } else {
+                    out.putShort(appearanceValue);
+                }
+            } else {
+                out.putShort(0x200 + slot.getId());
+            }
+        }
+    }
+
+    public int getAppearanceInSlot(int slot) {
+        int part = -1;
+        if (slot == 8) {
+            part = this.looks[0];
+        } else if (slot == 11) {
+            part = this.looks[1];
+        } else if (slot == 4) {
+            part = this.looks[2];
+        } else if (slot == 6) {
+            part = this.looks[3];
+        } else if (slot == 9) {
+            part = this.looks[4];
+        } else if (slot == 7) {
+            part = this.looks[5];
+        } else if (slot == 10) {
+            part = this.looks[6];
+        }
+
+        if (part == -1) {
+            return 0;
+        } else {
+            return 256 + part;
+        }
+    }
+
+
     public void update(PacketBuilder out, Player target) {
         try (final PacketBuilder packetBuilder = new PacketBuilder()) {
             String title = target.getAttribOr(AttributeKey.TITLE, "");
@@ -129,7 +204,6 @@ public class Appearance {
             //Skull icon
             var lootKeysCarried = target.<Integer>getAttribOr(LOOT_KEYS_CARRIED, 0);
             var skullType = switch (lootKeysCarried) {
-
                 case 1 -> 2;
                 case 2 -> 3;
                 case 3 -> 4;
@@ -142,118 +216,27 @@ public class Appearance {
 
             packetBuilder.put(0);
 
-            if (transmog >= 0) {
+            final NpcDefinition definitions = NpcDefinition.cached.get(transmog);
+            if (definitions != null) {
                 packetBuilder.putShort(-1);
                 packetBuilder.putShort(transmog);
+            } else if (!resetLooks) {
+                System.out.println("writting equip data");
+                writeEquipmentData(packetBuilder, target);
             } else {
-              /*  if (resetLooks) {
-                    for (int index = 0; index < 12; index++) {
-                        packetBuilder.put(0);
-                        target.looks().looks()[index] = 0;
-                    }
-                } else {*/
-                    Item helm = target.getEquipment().get(EquipSlot.HEAD);
-                    if (helm != null && helm.getId() > 1) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HEAD).getId());
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.CAPE) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.CAPE).getId());
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.AMULET) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.AMULET).getId());
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.WEAPON) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.WEAPON).getId());
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    Item torso = target.getEquipment().get(EquipSlot.BODY);
-                    if (torso != null && torso.getId() > 1) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.BODY).getId());
-                    } else {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[2]);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.SHIELD) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.SHIELD).getId());
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    if (torso != null && torso.getId() > 1 && World.getWorld().equipmentInfo().typeFor(torso.getId()) == 6) {
-                        packetBuilder.put(0);
-                    } else {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[3]);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.LEGS) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.LEGS).getId());
-                    } else {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[5]);
-                    }
-
-                    boolean head = true;
-                    boolean beard = true;
-
-                    if (helm != null && helm.getId() > 1) {
-                        head = World.getWorld().equipmentInfo().typeFor(helm.getId()) == 0;
-                        beard = World.getWorld().equipmentInfo().showBeard(helm.getId());
-                    }
-
-                    if (head) {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[0]);
-                    } else {
-                        packetBuilder.put(0);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.HANDS) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.HANDS).getId());
-                    } else {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[4]);
-                    }
-
-                    if (target.getEquipment().get(EquipSlot.FEET) != null) {
-                        packetBuilder.putShort(0x200 + target.getEquipment().get(EquipSlot.FEET).getId());
-                    } else {
-                        packetBuilder.putShort(0x100 + target.looks().looks()[6]);
-                    }
-
-                    if (!target.looks().female()) {
-                        if (beard) {
-                            packetBuilder.putShort(0x100 + target.looks().looks()[1]);
-                        } else {
-                            packetBuilder.put(0);
-                        }
-                    } else {
-                        packetBuilder.put(0);
-                    }
-                }
-           // }
-
-            // Dem colors
-            for (int color : colors) {
-                int col = Math.max(0, color);
-                packetBuilder.put(col);
+                System.out.println("writting empty");
+                packetBuilder.writeByteArray(EMPTY_EQUIPMENT_DATA);
             }
+
+            packetBuilder.writeByteArray(colors);
 
             int weapon = target.getEquipment().hasAt(EquipSlot.WEAPON) ? target.getEquipment().get(EquipSlot.WEAPON).getId() : -1;
 
             int[] renderpair = renderpairOverride != null ? renderpairOverride : World.getWorld().equipmentInfo().renderPair(weapon);
-            // Stand, walk sideways, walk, turn 180, turn 90 cw, turn 90 ccw, run
+
             for (int renderAnim : renderpair) {
-                packetBuilder.putShort(renderAnim); // Renderanim
+                packetBuilder.putShort(renderAnim);
             }
-            //System.out.printf("%s %s %s %s%n", weapon, Arrays.toString(renderpair), target.getEquipment().get(EquipSlot.WEAPON), target.getEquipment().hasAt(EquipSlot.WEAPON));
 
             packetBuilder.putString(target.getUsername());
             packetBuilder.put(target.getSkills().combatLevel());

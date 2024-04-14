@@ -1,5 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
+import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.masks.Appearance;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.packet.Packet;
@@ -18,6 +20,8 @@ public class AppearanceChangePacketListener implements PacketListener {
         }
 
         player.afkTimer.reset();
+
+        var newAccount = player.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false);
 
         try {
 
@@ -72,10 +76,10 @@ public class AppearanceChangePacketListener implements PacketListener {
 
             player.looks().female(gender);
             player.looks().looks(new int[]{head, jaw, torso, arms, hands, legs, feet});
-            player.looks().colors(new int[]{hairColor, torsoColor, legsColor, feetColor, skinColor});
-            player.getUpdateFlag().flag(Flag.APPEARANCE);
+            player.looks().colors(new byte[]{(byte) hairColor, (byte) torsoColor, (byte) legsColor, (byte) feetColor, (byte) skinColor});
             player.stopActions(true);
             player.getInterfaceManager().close();
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
         } catch (Exception e) {
             logger.error("sadge", e);
         }

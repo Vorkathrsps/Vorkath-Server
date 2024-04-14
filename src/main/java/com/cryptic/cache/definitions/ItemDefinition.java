@@ -31,8 +31,8 @@ public class ItemDefinition implements Definition {
 
     public String unknown1;
 
-    public int wearPos1;
-    public int wearPos2;
+    public int wearPos1 = -1;
+    public int wearPos2 = -1;
 
     public int cost = 1;
     public int inventoryModel;
@@ -69,7 +69,7 @@ public class ItemDefinition implements Definition {
     public int notelink;
     public int femaleModel0;
 
-    public int wearPos3;
+    public int wearPos3 = -1;
 
     public int weight;
     public int femaleOffset;
@@ -474,9 +474,14 @@ public class ItemDefinition implements Definition {
         return "ItemDefinition{" +
             "resizey=" + resizey +
             ", xan2d=" + xan2d +
+            ", unknown1='" + unknown1 + '\'' +
+            ", wearPos1=" + wearPos1 +
+            ", wearPos2=" + wearPos2 +
             ", cost=" + cost +
             ", inventoryModel=" + inventoryModel +
+            ", params=" + params +
             ", resizez=" + resizez +
+            ", category=" + category +
             ", recol_s=" + Arrays.toString(recol_s) +
             ", recol_d=" + Arrays.toString(recol_d) +
             ", name='" + name + '\'' +
@@ -490,6 +495,7 @@ public class ItemDefinition implements Definition {
             ", options=" + Arrays.toString(options) +
             ", ioptions=" + Arrays.toString(ioptions) +
             ", maleModel0=" + maleModel0 +
+            ", maleOffset=" + maleOffset +
             ", maleModel1=" + maleModel1 +
             ", retex_s=" + Arrays.toString(retex_s) +
             ", retex_d=" + Arrays.toString(retex_d) +
@@ -504,6 +510,9 @@ public class ItemDefinition implements Definition {
             ", femaleModel2=" + femaleModel2 +
             ", notelink=" + notelink +
             ", femaleModel0=" + femaleModel0 +
+            ", wearPos3=" + wearPos3 +
+            ", weight=" + weight +
+            ", femaleOffset=" + femaleOffset +
             ", resizex=" + resizex +
             ", noteModel=" + noteModel +
             ", ambient=" + ambient +
@@ -518,6 +527,13 @@ public class ItemDefinition implements Definition {
             ", op139=" + op139 +
             ", op140=" + op140 +
             ", id=" + id +
+            ", isCrystal=" + isCrystal +
+            ", tradeable_special_items=" + tradeable_special_items +
+            ", changes=" + changes +
+            ", autoKeptOnDeath=" + autoKeptOnDeath +
+            ", bm=" + bm +
+            ", pvpAllowed=" + pvpAllowed +
+            ", consumable=" + consumable +
             ", clientScriptData=" + clientScriptData +
             '}';
     }

@@ -2009,9 +2009,7 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphics.clear();
-        for (int i = 0; i < nextHits.length; i++) {
-            nextHits[i] = null;
-        }
+        Arrays.fill(nextHits, null);
         nextHitIndex = 0;
     }
 

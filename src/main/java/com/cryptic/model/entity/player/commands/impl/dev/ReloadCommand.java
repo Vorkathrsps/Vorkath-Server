@@ -48,7 +48,7 @@ public class ReloadCommand implements Command {
                     if (worldNpcs == null || worldNpcs.def().isPet) {
                         continue;
                     }
-                    World.getWorld().unregisterNpc(worldNpcs);
+                    worldNpcs.remove();
                 }
                 // Halloween.loadNpcs();
                 loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");

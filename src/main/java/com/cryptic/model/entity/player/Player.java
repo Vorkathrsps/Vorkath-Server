@@ -353,18 +353,18 @@ public class Player extends Entity {
         };
 
         switch (getIronManStatus()) {
-            case REGULAR -> percent += 1.05;
-            case HARDCORE -> percent += 1.065;
+            case REGULAR -> percent += 0.05;
+            case HARDCORE -> percent += 0.065;
         }
 
         percent += this.getGameMode().dropRate;
 
         if (Skulling.skulled(this) && this.tile.insideRevCave()) {
-            percent += 1.05;
+            percent += 0.05;
         }
 
         if (getEquipment().contains(RING_OF_WEALTH_I)) {
-            percent += 1.075;
+            percent += 0.075;
         }
 
         return percent;

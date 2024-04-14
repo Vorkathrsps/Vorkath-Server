@@ -42,7 +42,7 @@ public class DwarfCannon extends OwnedObject {
     public static final int[] CANNON_OBJECTS = {7, 8, 9, 6};
     public static final int SETUP_ANIM = 827;
     private static int MAX_AMMO = 30;
-    private static final int CANNON_RANGE = 8;
+    private static final int CANNON_RANGE = 9;
     private static final int DECAY_TIME = 20;
     private static final int BROKEN_TIME = 25;
 
@@ -197,7 +197,7 @@ public class DwarfCannon extends OwnedObject {
                     if (n.getZ() != getOwner().getZ()) continue;
                     if (!n.tile().isViewableFrom(getOwner().tile())) continue;
                     if (n.getCombatInfo() == null) continue;
-                    if (!ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, n.tile().getX(), n.tile().getY(), n.getSize())) continue;
+                    if (!ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, n.getCentrePosition().getX(), n.getCentrePosition().getY(), n.getSize())) continue;
                     if (!n.tile().isWithinDistance(getCorrectedTile(tile()), CANNON_RANGE)) continue;
                     if (n.def().isPet) continue;
                     if (!cannonDirection.validArea(getCorrectedTile(tile()).transform(1, 1, 0), n.tile())) continue;

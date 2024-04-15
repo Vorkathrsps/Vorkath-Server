@@ -22,6 +22,8 @@ public final class ServerProperties {
     static final ServerProperties current;
     public static final LocalProperties localProperties;
 
+    public static final boolean IS_LIVE = false;
+
     static {
         Path filePathLocal = Paths.get("./data/local-properties.json");
         try {
@@ -64,12 +66,11 @@ public final class ServerProperties {
                 current = new ServerProperties(localProperties.sqlOn, localProperties.discordLoggingOn);
                 logger.info("Server properties file (./data/properties.json) was not found, loaded with default settings.");
             }
-            //Since the static initializer is called after the constructor, we can set the game port here if we don't want to override the game port.
             if (!current.overrideGamePort) {
-                if (current.pvpMode) {
-                    current.gamePort = 43597;
+                if (IS_LIVE) {
+                    current.gamePort = 43594;
                 } else {
-                    current.gamePort = 43596;
+                    current.gamePort = 43597;
                 }
             }
         } catch (IOException e) {

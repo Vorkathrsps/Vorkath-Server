@@ -1,6 +1,7 @@
 package com.cryptic.model.map.region;
 
 import com.cryptic.cache.definitions.ObjectDefinition;
+import com.cryptic.model.World;
 import com.cryptic.model.map.position.Area;
 import com.displee.cache.CacheLibrary;
 import com.cryptic.model.map.object.GameObject;
@@ -414,6 +415,144 @@ public class RegionManager {
         return true;
     }
 
+    public static final boolean checkWalkStep(final int plane, final int x, final int y, final int xOffset, final int yOffset, final int size, final boolean checkCollidingNPCs, final boolean checkCollidingPlayers) {
+        int collisionFlag = 0;
+        if (checkCollidingNPCs) {
+            collisionFlag |= com.cryptic.model.map.route.Flags.OCCUPIED_BLOCK_NPC;
+        }
+        if (checkCollidingPlayers) {
+            collisionFlag |= com.cryptic.model.map.route.Flags.OCCUPIED_BLOCK_PLAYER;
+        }
+        if (size == 1) {
+            final int mask = World.getMasks(plane, x + xOffset, y + yOffset);
+            if ((mask & collisionFlag) != 0) return false;
+            if (xOffset == -1 && yOffset == 0) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_EAST)) == 0;
+            }
+            if (xOffset == 1 && yOffset == 0) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_WEST)) == 0;
+            }
+            if (xOffset == 0 && yOffset == -1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_NORTH)) == 0;
+            }
+            if (xOffset == 0 && yOffset == 1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH)) == 0;
+            }
+            if (xOffset == -1 && yOffset == -1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST)) == 0 && (World.getMasks(plane, x - 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_EAST)) == 0 && (World.getMasks(plane, x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH)) == 0;
+            }
+            if (xOffset == 1 && yOffset == -1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST)) == 0 && (World.getMasks(plane, x + 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_WEST)) == 0 && (World.getMasks(plane, x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH)) == 0;
+            }
+            if (xOffset == -1 && yOffset == 1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST)) == 0 && (World.getMasks(plane, x - 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_EAST)) == 0 && (World.getMasks(plane, x, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH)) == 0;
+            }
+            if (xOffset == 1 && yOffset == 1) {
+                return (mask & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST)) == 0 && (World.getMasks(plane, x + 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_WEST)) == 0 && (World.getMasks(plane, x, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH)) == 0;
+            }
+        } else if (size == 2) {
+            if (xOffset == -1 && yOffset == 0) {
+                return (World.getMasks(plane, x - 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x - 1, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) == 0;
+            }
+            if (xOffset == 1 && yOffset == 0) {
+                return (World.getMasks(plane, x + 2, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) == 0 && (World.getMasks(plane, x + 2, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0;
+            }
+            if (xOffset == 0 && yOffset == -1) {
+                return (World.getMasks(plane, x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x + 1, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) == 0;
+            }
+            if (xOffset == 0 && yOffset == 1) {
+                return (World.getMasks(plane, x, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x + 1, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0;
+            }
+            if (xOffset == -1 && yOffset == -1) {
+                return (World.getMasks(plane, x - 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x - 1, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) == 0;
+            }
+            if (xOffset == 1 && yOffset == -1) {
+                return (World.getMasks(plane, x + 1, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x + 2, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) == 0 && (World.getMasks(plane, x + 2, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0;
+            }
+            if (xOffset == -1 && yOffset == 1) {
+                return (World.getMasks(plane, x - 1, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x - 1, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) == 0 && (World.getMasks(plane, x, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0;
+            }
+            if (xOffset == 1 && yOffset == 1) {
+                return (World.getMasks(plane, x + 1, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0 && (World.getMasks(plane, x + 2, y + 2) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0 && (World.getMasks(plane, x + 1, y + 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) == 0;
+            }
+        } else {
+            if (xOffset == -1 && yOffset == 0) {
+                if ((World.getMasks(plane, x - 1, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0 || (World.getMasks(plane, x - 1, -1 + (y + size)) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++) {
+                    if ((World.getMasks(plane, x - 1, y + sizeOffset) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == 1 && yOffset == 0) {
+                if ((World.getMasks(plane, x + size, y) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) != 0 || (World.getMasks(plane, x + size, y - (-size + 1)) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++) {
+                    if ((World.getMasks(plane, x + size, y + sizeOffset) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == 0 && yOffset == -1) {
+                if ((World.getMasks(plane, x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0 || (World.getMasks(plane, x + size - 1, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++) {
+                    if ((World.getMasks(plane, x + sizeOffset, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == 0 && yOffset == 1) {
+                if ((World.getMasks(plane, x, y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0 || (World.getMasks(plane, x + (size - 1), y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++) {
+                    if ((World.getMasks(plane, x + sizeOffset, y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == -1 && yOffset == -1) {
+                if ((World.getMasks(plane, x - 1, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size; sizeOffset++) {
+                    if ((World.getMasks(plane, x - 1, y + (-1 + sizeOffset)) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0 || (World.getMasks(plane, sizeOffset - 1 + x, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == 1 && yOffset == -1) {
+                if ((World.getMasks(plane, x + size, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size; sizeOffset++) {
+                    if ((World.getMasks(plane, x + size, sizeOffset + (-1 + y)) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0 || (World.getMasks(plane, x + sizeOffset, y - 1) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == -1 && yOffset == 1) {
+                if ((World.getMasks(plane, x - 1, y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size; sizeOffset++) {
+                    if ((World.getMasks(plane, x - 1, y + sizeOffset) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | collisionFlag)) != 0 || (World.getMasks(plane, -1 + (x + sizeOffset), y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            } else if (xOffset == 1 && yOffset == 1) {
+                if ((World.getMasks(plane, x + size, y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                    return false;
+                }
+                for (int sizeOffset = 1; sizeOffset < size; sizeOffset++) {
+                    if ((World.getMasks(plane, x + sizeOffset, y + size) & (com.cryptic.model.map.route.Flags.BLOCK_SOUTH_EAST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0 || (World.getMasks(plane, x + size, y + sizeOffset) & (com.cryptic.model.map.route.Flags.BLOCK_NORTH_WEST | com.cryptic.model.map.route.Flags.BLOCK_SOUTH_WEST | collisionFlag)) != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
     public static boolean canMove(int startX, int startY, int endX, int endY, int zLevel, int xLength, int yLength) {
         int diffX = endX - startX;
         int diffY = endY - startY;

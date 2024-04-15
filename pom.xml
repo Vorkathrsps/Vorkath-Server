@@ -83,11 +83,25 @@
                 <version>3.2.0</version>
                 <configuration>
                     <executable>java</executable>
+                    <mainClass>com.cryptic.GameServer</mainClass>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.basedir}/libs/functions-1.93.0.jar</additionalClasspathElement>
+                    </additionalClasspathElements>
                     <arguments>
+                        <argument>-enable-preview</argument>
                         <argument>-jar</argument>
                         <argument>target/Cryptic-GameServer-1.1-shaded.jar</argument>
                     </arguments>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.everythingrs</groupId>
+                        <artifactId>everythingrs-api</artifactId>
+                        <version>1.0.0</version>
+                        <scope>system</scope>
+                        <systemPath>C:\Users\Administrator\Desktop\gameserver\libs\everythingrs-api.jar</systemPath>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>
@@ -520,6 +534,14 @@
             <version>1.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/everythingrs-api.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.varlamore</groupId>
+            <artifactId>Application</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/Application-1.0-all.jar</systemPath>
         </dependency>
 
     </dependencies>

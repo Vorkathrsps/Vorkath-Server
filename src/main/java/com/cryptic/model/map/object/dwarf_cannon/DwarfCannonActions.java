@@ -141,7 +141,6 @@ public class DwarfCannonActions extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (option == 1) {
-            // Repairing
             if (object.getId() == ObjectIdentifiers.BROKEN_MULTICANNON) {
                 if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
                     DwarfCannon cannon = ((DwarfCannon) object);
@@ -180,6 +179,7 @@ public class DwarfCannonActions extends PacketInteraction {
         if (option == 2) {
             if (object.getId() == ObjectIdentifiers.DWARF_MULTICANNON) {
                 if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
+                    object.asOwnedObject().getOwner().tile().faceObjectTile(object);
                     ((DwarfCannon) object).pickup();
                 } else {
                     player.message("Your not the owner of this cannon.");
@@ -198,9 +198,7 @@ public class DwarfCannonActions extends PacketInteraction {
                         if (player.inventory().hasFreeSlots(1) || player.inventory().hasCapacity(new Item(balls))) {
                             if (cannon.getAmmo() > 0) {
                                 player.inventory().add(balls, cannon.getAmmo());
-                                player.message(
-                                    "You unload your cannon and receive Cannonball x "
-                                        + cannon.getAmmo());
+                                player.message(STR."You unload your cannon and receive Cannonball x \{cannon.getAmmo()}");
                                 cannon.setAmmo(0);
                                 cannon.setStage(CannonStage.FURNACE, false);
                             }

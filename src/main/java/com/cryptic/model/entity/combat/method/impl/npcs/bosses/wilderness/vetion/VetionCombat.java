@@ -4,6 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Direction;
@@ -183,9 +184,9 @@ public class VetionCombat extends CommonCombatMethod {
                                 return;
                             }
                             if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
-                                vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
+                                new Hit(vetion, target, 0, Utils.random(15, 30), CombatType.MAGIC).checkAccuracy(false).submit();
                             } else if (player.tile().nextTo(tile)) {
-                                vetion.submitAccurateHit(player, 0, (Utils.random(15, 30) / 2), this);
+                                new Hit(vetion, target, 0, Utils.random(15, 30) / 2, CombatType.MAGIC).checkAccuracy(false).submit();
                             }
                         })
                         .then(2, () -> {

@@ -5,7 +5,7 @@ public final class Flags {
     public static final int OCCUPIED_BLOCK_NPC = 0x1000000;
     public static final int OCCUPIED_PROJECTILE_BLOCK_NPC = 0x2000000;
     public static final int OCCUPIED_BLOCK_PLAYER = 0x4000000;
-    public static final int OCCUPIED_PROJECTILE_BLOCK_PLAYER = 0x8000000;
+    public static final int OCCUPIED_PROJECTILE_BLOCK_PLAYER = 134217728;
 
 
     public static final int FLOOR = 0x200000;

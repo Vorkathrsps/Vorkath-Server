@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_STEPS;
+import static com.cryptic.model.map.region.RegionManager.checkWalkStep;
 import static com.cryptic.model.map.route.routes.DumbRoute.getStepDirection;
 
 /**
@@ -68,8 +69,10 @@ public class MovementQueue {
      * @return
      */
     public static boolean canWalk(Tile from, Tile to, int size) {
-        return RegionManager.canMove(from, to, size, size);
+        return checkWalkStep(from.getZ(), from.getX(), from.getY(), to.getX(), to.getY(), size, true, true);
+        //return RegionManager.canMove(from, to, size, size);
     }
+
     /**
      * Steps away from a Gamemob
      *

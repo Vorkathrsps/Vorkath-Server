@@ -14,14 +14,18 @@ import com.cryptic.utility.test.generic.PlayerProfileVerf;
 import com.cryptic.utility.DiscordWebhook;
 import com.cryptic.utility.flood.Flooder;
 import com.google.common.base.Preconditions;
+import com.varlamore.RunJs5;
 import io.netty.util.ResourceLeakDetector;
 import com.cryptic.cache.DataStore;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jire.js5server.Js5ServiceConfig;
+import org.jire.js5server.MainNew;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 import static io.netty.util.ResourceLeakDetector.Level.DISABLED;
 import static io.netty.util.ResourceLeakDetector.Level.PARANOID;
@@ -170,19 +174,17 @@ public class GameServer {
      */
     public static void main(String[] args) {
         try {
-            //This is the time we start loading the server. We have a separate variable for after we have bound the server.
+            logger.info("Loading JS5 Service...");
+            MainNew.INSTANCE.init(Path.of("data", "cache").toFile());
             startTime = System.currentTimeMillis();
             File store = new File(properties().fileStore);
             if (!store.exists()) {
-                throw new FileNotFoundException("Cannot load data store from " + store.getAbsolutePath() + ", aborting.");
+                throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
             }
             fileStore = new DataStore(properties().fileStore);
             logger.info("Loaded filestore @ (./data/filestore) successfully.");
             definitions = new DefinitionRepository();
             ResourceLeakDetector.setLevel(properties().enableLeakDetection ? PARANOID : DISABLED);
-            Preconditions.checkState(args.length == 0, "No runtime arguments needed!");
-            //We should only verify player profile integrity with SQL disabled,
-            //because the DatabaseService does not exist yet during server startup.
             if (!GameServer.properties().enableSql) {
                 PlayerProfileVerf.verifyIntegrity();
             }

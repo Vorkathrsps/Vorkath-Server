@@ -855,10 +855,13 @@ public class World {
         int regionId = tile.region();
         Region region = RegionManager.getRegion(regionId);
         int clip = region.getClip(x, y, tile.getLevel());
-        //("gm %s,%s,%s = %s aka %s%n", x, y, tile.level, clip, clipstr(clip));
         return clip;
-        // int baseLocalX = x - ((regionId >> 8) * 64);
-        // int baseLocalY = y - ((regionId & 0xff) * 64);
+    }
+
+    public static int getMasks(final int plane, final int x, final int y) {
+        final int regionId = (((x & 16383) >> 6) << 8) | ((y & 16383) >> 6);
+        final Region region = RegionManager.regions.get(regionId);
+        return region.getClip(plane & 3, x & 63, y & 63);
     }
 
     public static String clipstr(final int clip) {
@@ -868,20 +871,19 @@ public class World {
                 sb.append(s).append(",");
             }
         });
-        return sb.toString().length() == 0 ? "none" : sb.toString();
+        return sb.toString().isEmpty() ? "none" : sb.toString();
     }
 
     public static String clipstrMethods(Tile tile) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(RegionManager.blockedEast(tile) ? "E, " : "");
-        stringBuilder.append(RegionManager.blockedNorth(tile) ? "N, " : "");
-        stringBuilder.append(RegionManager.blockedSouth(tile) ? "S, " : "");
-        stringBuilder.append(RegionManager.blockedWest(tile) ? "W, " : "");
-        stringBuilder.append(RegionManager.blockedNorthEast(tile) ? "NE, " : "");
-        stringBuilder.append(RegionManager.blockedNorthWest(tile) ? "NW, " : "");
-        stringBuilder.append(RegionManager.blockedSouthEast(tile) ? "SE, " : "");
-        stringBuilder.append(RegionManager.blockedSouthWest(tile) ? "SW, " : "");
-        return "blocked in dirs: " + stringBuilder.toString();
+        String stringBuilder = (RegionManager.blockedEast(tile) ? "E, " : "") +
+                (RegionManager.blockedNorth(tile) ? "N, " : "") +
+                (RegionManager.blockedSouth(tile) ? "S, " : "") +
+                (RegionManager.blockedWest(tile) ? "W, " : "") +
+                (RegionManager.blockedNorthEast(tile) ? "NE, " : "") +
+                (RegionManager.blockedNorthWest(tile) ? "NW, " : "") +
+                (RegionManager.blockedSouthEast(tile) ? "SE, " : "") +
+                (RegionManager.blockedSouthWest(tile) ? "SW, " : "");
+        return STR."blocked in dirs: \{stringBuilder}";
     }
 
     public Tile randomTileAround(Tile base, int radius) {

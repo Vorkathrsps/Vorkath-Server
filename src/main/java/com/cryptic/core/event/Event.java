@@ -8,21 +8,15 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class Event<T> {
-
     private static final Logger logger = LoggerFactory.getLogger(Event.class);
-
     @Getter
     private int ticks;
-
     protected final ContinuationScope continuationScope;
     protected final Continuation continuation;
-
     @Nullable
     protected Runnable onContinue;
-
     @Nullable
     protected final T context;
-
     @Nullable
     private Supplier<Boolean> cancelCondition;
 

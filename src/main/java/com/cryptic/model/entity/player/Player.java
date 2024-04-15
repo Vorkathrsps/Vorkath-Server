@@ -4,9 +4,6 @@ import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
-import com.cryptic.core.event.Event;
-import com.cryptic.core.event.EventConsumer;
-import com.cryptic.core.event.EventWorker;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.*;
@@ -159,10 +156,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
@@ -182,7 +177,7 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    @Getter private final Pet petEntity = new Pet(this);
+    @Getter private final Pet petEntity = new Pet();
     @Getter @Setter public TheatreInterface theatreInterface;
     @Getter @Setter public RoomState roomState;
     @Getter @Setter private NightmareInstance nightmareInstance;
@@ -330,8 +325,8 @@ public class Player extends Entity {
             };
 
         if (this.getPetEntity() != null) {
-            if (this.getPetEntity().getPet() != null) {
-                var identification = this.getPetEntity().getPet().getId();
+            if (this.getPetEntity().getEntity() != null) {
+                var identification = this.getPetEntity().getEntity().getId();
                 if (identification == PETS[0]) {
                     damage += 15.0;
                 }
@@ -1289,6 +1284,7 @@ public class Player extends Entity {
         stopActions(true);
         getSession().setState(SessionState.REQUESTED_LOG_OUT);
         logoutLock();
+        onLogout();
         ObjectList<Item> temp = new ObjectArrayList<>();
         for (var o : World.getWorld().getOwnedObjects().values()) {
             if (o == null) continue;
@@ -1329,7 +1325,6 @@ public class Player extends Entity {
                         // Perform player removal and cleanup
                         try {
                             logger.info("Removing player: {}", this.getMobName());
-                            onLogout();
                             World.getWorld().getPlayers().remove(this);
                             this.onRemove();
                             logger.info("Player removed successfully: {}", this.getMobName());
@@ -1390,12 +1385,12 @@ public class Player extends Entity {
         if (tile.region() == 9023 && getZ() > 3) // vorkath
             teleport(2272, 4050, 0);
 
-        if (this.getPetEntity().getPet() != null) {
-            this.getPetEntity().clearSpawnedPet();
-        }
-
         if (this.getParticipatingTournament() != null) {
             TournamentManager.leaveTourny(this, true);
+        }
+
+        if (this.getPetEntity().getEntity() != null) {
+            this.getPetEntity().onLogout(this);
         }
 
         if (getInstancedArea() != null) {

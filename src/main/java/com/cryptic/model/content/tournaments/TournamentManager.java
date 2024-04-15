@@ -185,7 +185,7 @@ public class TournamentManager extends PacketInteraction {
     }
 
     static boolean canEnterLobby(Player player) {
-        if (player.getPetEntity().getPet() != null) {
+        if (player.getPetEntity().getEntity() != null) {
             player.message("You can't bring any pets into the tournament.");
             return false;
         }
@@ -381,8 +381,8 @@ public class TournamentManager extends PacketInteraction {
     static void bankEverything(Player player) {
         player.getBank().depositInventory();
         player.getBank().depositeEquipment();
-        if (player.getPetEntity().getPet() != null) {
-            player.getPetEntity().clearSpawnedPet();
+        if (player.getPetEntity().getEntity() != null) {
+            player.getPetEntity().clearSpawnedEntity(player);
         }
         //We don't have to bank runes, since they are spawnable
         //player.getRunePouch().bankRunesFromNothing();

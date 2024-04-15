@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * An abstract class which handles the loading
  * of some sort of definition-related file.
@@ -22,10 +24,8 @@ public abstract class DefinitionLoader implements Runnable {
     public void run() {
         String file = file();
         try {
-            long start = System.currentTimeMillis();
             load();
-            long elapsed = System.currentTimeMillis() - start;
-            logger.info("Loaded definitions for {}. It took {}ms.", file, elapsed);
+            logger.info("Loaded definitions for {}", file.replace("/", "").replace("data", "").replace("def", "").replace("objects","").replace("json", "").replace(".", "").toUpperCase());
         } catch (Throwable e) {
             logger.fatal(new ParameterizedMessage("Could not load definition for {}", file), e);
         }

@@ -161,9 +161,9 @@ public class NPCInteractionHandler implements PacketListener {
         player.setEntityInteraction(npc);
 
         if (option == 3) {
-            if (player.getPetEntity().getPet() != null) {
-                if (npc.id() == player.getPetEntity().getPet().getId()) {
-                    player.getPetEntity().pickup();
+            if (player.getPetEntity().getEntity() != null) {
+                if (npc.id() == player.getPetEntity().getEntity().getId()) {
+                    player.getPetEntity().pickup(player);
                     return;
                 }
             }

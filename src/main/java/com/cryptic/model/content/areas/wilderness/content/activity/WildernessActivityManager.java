@@ -45,7 +45,7 @@ public class WildernessActivityManager {
      * server
      */
     public void init() {
-        logger.info("Loading Wilderness Activity Manager");
+        logger.info("Loaded Wilderness Activity Manager");
         activities.add(new EdgevileActivity());
         activities.add(new PureActivity());
         activities.add(new ZerkerActivity());

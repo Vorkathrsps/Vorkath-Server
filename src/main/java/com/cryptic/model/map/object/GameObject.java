@@ -371,8 +371,7 @@ public class GameObject {
     }
 
     public int getSize() {
-        if (definition() == null)
-            return 1;
+        if (definition() == null) return 1;
         return (definition().sizeX + definition().sizeY) - 1;
     }
 
@@ -518,11 +517,17 @@ public class GameObject {
     }
 
     public GameObject clip(boolean remove) {
-        if (id == -1 || skipClipping)
-            return this;
-        // when osrs data is rdy
+        if (id == -1 || skipClipping) return this;
         ObjectDefinition def = ObjectDefinition.get(id);
         if (def == null) return this;
+        int xLength, yLength;
+        if (rotation == 1 || rotation == 3) {
+            xLength = def.sizeY; // invert the direction the clip will go in on purpose
+            yLength = def.sizeX;
+        } else {
+            xLength = def.sizeX;
+            yLength = def.sizeY;
+        }
         if (type == 22) {
             if (def.isClippedDecoration()) {
                 if (def.interactType == 1) {
@@ -534,14 +539,6 @@ public class GameObject {
                 }
             }
         } else if (type >= 9 && type <= 21) {
-            int xLength, yLength;
-            if (rotation == 1 || rotation == 3) {
-                xLength = def.sizeY; // invert the direction the clip will go in on purpose
-                yLength = def.sizeX;
-            } else {
-                xLength = def.sizeX;
-                yLength = def.sizeY;
-            }
             if (def.interactType != 0) {
                 if (remove) {
                     ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, def.boolean1, false);

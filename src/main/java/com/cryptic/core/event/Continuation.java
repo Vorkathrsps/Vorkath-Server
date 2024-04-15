@@ -10,7 +10,6 @@ public final class Continuation {
     static final Class<?> IMPL_CLASS;
     static final MethodHandle NEW;
     static final MethodHandle YIELD;
-
     static final MethodHandle RUN;
     static final MethodHandle IS_DONE;
 

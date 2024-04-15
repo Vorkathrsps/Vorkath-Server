@@ -86,7 +86,6 @@ public class Zulrah {
                         }.bind(npc));
                     }
                 }
-                // will loop forever until chatbox closed or npc/player offline/outside instance
             }
         }.bind(npc));
     }
@@ -94,7 +93,7 @@ public class Zulrah {
     private static int getPatternPhaseTime(NPC npc, ZulrahPhase phase, Entity target, boolean init) {
         int cooldown = 0;
         if (!init) {
-            cooldown += 3; // init rise up from pool
+            cooldown += 3;
         }
         if (!phase.hasConfig(ZulrahConfig.NO_ATTACK)) {
             switch (phase.getForm()) {
@@ -339,9 +338,7 @@ public class Zulrah {
     }
 
     private static void fillToxicFumes(NPC npc, Entity target) {
-
         Tile spawnTile = npc.spawnTile();
-
         Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(4, -4));

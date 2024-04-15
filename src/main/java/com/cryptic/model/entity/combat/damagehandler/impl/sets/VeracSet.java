@@ -14,15 +14,17 @@ public class VeracSet implements DamageModifyingListener {
     @Override
     public boolean isModifyAccuracy(Entity entity, AbstractAccuracy accuracy, Hit hit) {
         if (entity instanceof Player player) {
-            if (hit.getCombatType() != null) {
-                if (CombatType.MELEE.equals(hit.getCombatType())) {
-                    if (FormulaUtils.wearingFullVerac(player)) {
-                        if (Utils.rollDie(25, 1)) {
-                            int damage = hit.getDamage();
-                            hit.setAccurate(true);
-                            hit.setDamage(damage + 1);
-                            hit.getTarget().graphic(1041);
-                            return true;
+            if (player.getCombat().getTarget() != null) {
+                if (hit.getCombatType() != null) {
+                    if (CombatType.MELEE.equals(hit.getCombatType())) {
+                        if (FormulaUtils.wearingFullVerac(player)) {
+                            if (Utils.rollDie(25, 1)) {
+                                int damage = hit.getDamage();
+                                hit.setAccurate(true);
+                                hit.setDamage(damage + 1);
+                                hit.getTarget().graphic(1041);
+                                return true;
+                            }
                         }
                     }
                 }

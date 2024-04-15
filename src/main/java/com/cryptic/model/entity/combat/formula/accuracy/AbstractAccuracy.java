@@ -2,8 +2,8 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
-import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
+import com.cryptic.model.entity.combat.damagehandler.DamageModifyingHandler;
+import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageModifying;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Color;
@@ -14,7 +14,7 @@ public interface AbstractAccuracy {
 
     Logger logger = LogManager.getLogger(AbstractAccuracy.class);
 
-    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    DamageModifyingHandler handler = new DamageModifyingHandler(new EquipmentDamageModifying());
 
     Entity attacker();
 

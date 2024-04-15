@@ -2,7 +2,7 @@ package com.cryptic.model.entity.combat.damagehandler.impl.armor;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -12,7 +12,7 @@ import com.cryptic.model.entity.player.Player;
 
 import static com.cryptic.utility.ItemIdentifiers.DRAGON_HUNTER_LANCE;
 
-public class DragonHunterLance implements DamageEffectListener {
+public class DragonHunterLance implements DamageModifyingListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {

@@ -2,11 +2,8 @@ package com.cryptic.model.entity.combat.damagehandler.impl.armor;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -15,7 +12,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 
-public class BraceletOfEthereum implements DamageEffectListener {
+public class BraceletOfEthereum implements DamageModifyingListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof NPC npc) {

@@ -3,16 +3,11 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
-import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
 

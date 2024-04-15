@@ -258,6 +258,7 @@ public class Hit {
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.MISSED);
         else this.setHitMark(HitMark.DEFAULT);
+        CombatFactory.damageModifiers.applyModifiedAccuracy(this.attacker, accuracy, this);
         return this;
     }
 

@@ -18,9 +18,9 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.damagehandler.PreAmmunitionDamageEffectHandler;
-import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.cryptic.model.entity.combat.damagehandler.DamageModifyingHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.AmmunitionDamageEffect;
-import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
+import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageModifying;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
@@ -50,8 +50,6 @@ import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
-import com.cryptic.model.entity.masks.Flag;
-import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -785,7 +783,7 @@ public class CombatFactory {
         }
     }
 
-    static PreDamageEffectHandler triggerDamageEffects = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    public static final DamageModifyingHandler damageModifiers = new DamageModifyingHandler(new EquipmentDamageModifying());
     static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 
 
@@ -918,9 +916,9 @@ public class CombatFactory {
 
         if (attacker instanceof Player player) {
             player.sigil.process(player, target);
-            triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
+            damageModifiers.triggerEffectForAttacker(player, combatType, hit);
         } else if (attacker instanceof NPC npc) {
-            triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
+            damageModifiers.triggerEffectForAttacker(npc, combatType, hit);
         }
 
         if (target.isNpc()) {

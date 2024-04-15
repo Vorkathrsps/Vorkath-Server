@@ -3,17 +3,14 @@ package com.cryptic.model.entity.combat.damagehandler.impl.sets;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.utility.Utils;
 
-public class GuthanSet implements DamageEffectListener {
+public class GuthanSet implements DamageModifyingListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {

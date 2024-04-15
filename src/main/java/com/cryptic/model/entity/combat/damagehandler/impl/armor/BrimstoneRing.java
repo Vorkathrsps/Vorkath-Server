@@ -3,14 +3,14 @@ package com.cryptic.model.entity.combat.damagehandler.impl.armor;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
 import static com.cryptic.utility.ItemIdentifiers.BRIMSTONE_RING;
 
-public class BrimstoneRing implements DamageEffectListener {
+public class BrimstoneRing implements DamageModifyingListener {
     @Override
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {

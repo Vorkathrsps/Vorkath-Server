@@ -4,7 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentBonuses;
@@ -12,7 +12,7 @@ import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import static com.cryptic.utility.ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW;
 import static com.cryptic.utility.ItemIdentifiers.TUMEKENS_SHADOW;
 
-public class TumekensShadow implements DamageEffectListener {
+public class TumekensShadow implements DamageModifyingListener {
 
     @Override
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {

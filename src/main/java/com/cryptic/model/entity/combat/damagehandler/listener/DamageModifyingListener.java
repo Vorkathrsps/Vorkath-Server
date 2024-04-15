@@ -5,7 +5,10 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 
-public interface DamageEffectListener {
+public interface DamageModifyingListener {
+    default boolean isModifyAccuracy(Entity player, AbstractAccuracy accuracy, Hit hit) {
+        return false;
+    }
     default boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
     }

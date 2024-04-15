@@ -4,13 +4,13 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
-import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
-public class SalveAmulet implements DamageEffectListener {
+public class SalveAmulet implements DamageModifyingListener {
     @Override
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {

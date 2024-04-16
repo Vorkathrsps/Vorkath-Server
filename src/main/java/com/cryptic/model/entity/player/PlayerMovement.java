@@ -5,12 +5,14 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.Direction;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.route.RouteFinder;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Optional;
 
@@ -102,7 +104,7 @@ public class PlayerMovement extends MovementQueue {
             followX--;
         if (diffY >= 2)
             followY++;
-        else if (diffY <=-2)
+        else if (diffY <= -2)
             followY--;
 
         handleRegionChange();
@@ -149,11 +151,31 @@ public class PlayerMovement extends MovementQueue {
         else if (diffY >= 88)
             regionChanged = true;
         if (regionChanged || player.getRegionHeight() != player.tile().getLevel()) {
-            System.out.println("Region changed for " + player.toString() + " region: " + player.tile().region());
+            NPC pet = player.getPetEntity().entity;
+            if (pet != null) updatePetRegionPosition(pet, player);
             player.removeFromRegions();
             player.getPacketSender().sendMapRegion();
             player.setRegionHeight(player.tile().getLevel());
             player.setActiveMap(new Tile(player.tile().x, player.tile().y, player.tile().level));
+        }
+    }
+
+    void updatePetRegionPosition(NPC pet, Player player) {
+        if (player == null || pet == null || pet.getLastKnownRegion() == null) return;
+        var lastKnownRegion = pet.getLastKnownRegion();
+        for (var region : player.getRegions()) {
+            ArrayList<NPC> regionalNpcs = region.getNpcs();
+            if (!regionalNpcs.contains(pet)) {
+                Tile petTile = pet.tile();
+                if (!lastKnownRegion.equals(petTile)) {
+                    var lastRegion = lastKnownRegion.getRegion();
+                    var currentRegion = petTile.getRegion();
+                    if (lastRegion != currentRegion) {
+                        lastRegion.getNpcs().remove(pet);
+                        currentRegion.getNpcs().add(pet);
+                    }
+                }
+            }
         }
     }
 }

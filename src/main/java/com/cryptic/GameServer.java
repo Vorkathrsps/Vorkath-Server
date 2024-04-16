@@ -174,8 +174,6 @@ public class GameServer {
      */
     public static void main(String[] args) {
         try {
-            logger.info("Loading JS5 Service...");
-            MainNew.INSTANCE.init(Path.of("data", "cache").toFile());
             startTime = System.currentTimeMillis();
             File store = new File(properties().fileStore);
             if (!store.exists()) {

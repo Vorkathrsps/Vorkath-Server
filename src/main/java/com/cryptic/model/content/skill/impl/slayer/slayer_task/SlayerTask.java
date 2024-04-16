@@ -1,5 +1,6 @@
 package com.cryptic.model.content.skill.impl.slayer.slayer_task;
 
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
@@ -58,7 +59,7 @@ public class SlayerTask {
     ObjectList<SlayerTask> cached = new ObjectArrayList<>();
     final int[] emblems = new int[]{ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5};
     final int[] pvp_equipment = new int[]{VESTAS_LONGSWORD_BH, STATIUSS_WARHAMMER_BH, VESTAS_SPEAR_BH, ZURIELS_STAFF_BH};
-    final int[] sigils = new int[]{};
+    final int[] sigils = new int[]{SIGIL_OF_THE_FERAL_FIGHTER_26075, SIGIL_OF_THE_MENACING_MAGE_26078, SIGIL_OF_THE_RUTHLESS_RANGER_26072, SIGIL_OF_DEFT_STRIKES_26012, SIGIL_OF_THE_METICULOUS_MAGE_26003, SIGIL_OF_CONSISTENCY_25994, SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, SIGIL_OF_RESISTANCE_28490, SIGIL_OF_PRECISION_28514, SIGIL_OF_FORTIFICATION_26006, SIGIL_OF_STAMINA_26042, SIGIL_OF_THE_ALCHEMANIAC_28484, SIGIL_OF_EXAGGERATION_26057, SIGIL_OF_DEVOTION_26099, SIGIL_OF_LAST_RECALL_26144, SIGIL_OF_REMOTE_STORAGE_26141, SIGIL_OF_THE_NINJA_28526, SIGIL_OF_THE_INFERNAL_SMITH_28505};
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
             Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
@@ -437,6 +438,12 @@ public class SlayerTask {
         if (rollChance(chance)) {
             int id = Utils.randomElement(sigils);
             GroundItemHandler.createGroundItem(new GroundItem(new Item(id), npc.tile(), killer));
+            if (ArrayUtils.contains(sigils, id)) {
+                var def = ItemDefinition.cached.get(id);
+                var inWild = WildernessArea.inWilderness(killer.tile());
+                var level = WildernessArea.getWildernessLevel(killer.tile());
+                World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + killer.getUsername() + " has received a " + def.name + " from a " + npc.getMobName() + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
+            }
         }
     }
 

@@ -121,11 +121,10 @@ public class NPCInteractionHandler implements PacketListener {
                 player.getCombat().reset();
                 return;
             }
-            npc.getMovementQueue().setBlockMovement(true);
+
             player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
             player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(npc));
             player.getCombat().attack(npc);
-            npc.getMovementQueue().setBlockMovement(false);
             return;
         }
 

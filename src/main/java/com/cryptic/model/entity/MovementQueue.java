@@ -69,8 +69,7 @@ public class MovementQueue {
      * @return
      */
     public static boolean canWalk(Tile from, Tile to, int size) {
-        return checkWalkStep(from.getZ(), from.getX(), from.getY(), to.getX(), to.getY(), size, true, true);
-        //return RegionManager.canMove(from, to, size, size);
+        return RegionManager.canMove(from, to, size, size);
     }
 
     /**

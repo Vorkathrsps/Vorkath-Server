@@ -15,7 +15,6 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class GameConstants {
 
     public static final String PACKAGE = "com.cryptic";
-
     public static final String VOTE_URL = "https://aelous.net/vote/";
     public static final String WEBSITE_URL = "https://aelous.net";
 

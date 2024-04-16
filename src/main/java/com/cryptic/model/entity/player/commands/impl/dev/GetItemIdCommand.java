@@ -29,7 +29,7 @@ GetItemIdCommand implements Command {
             return;
         }
         int results = 0;
-        player.message("Searching: " + itemName);// used to be ("Searching: " + input)
+        player.message(STR."Searching: \{itemName}");// used to be ("Searching: " + input)
         for (int j = 0; j < World.getWorld().definitions().total(ItemDefinition.class); j++) {
             if (results >= 75) {
                 player.message("Over 75 results have been found, the maximum number of allowed results. If you cannot");

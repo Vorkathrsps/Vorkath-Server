@@ -7,6 +7,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.model.map.route.types.RouteAbsolute;
@@ -398,9 +399,7 @@ public class RouteFinder {
                 entity.getMovement().reset();
                 return false;
             }
-            if (DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) == null) {
-                return false;
-            }
+            return DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) != null;
         }
         return true;
     }

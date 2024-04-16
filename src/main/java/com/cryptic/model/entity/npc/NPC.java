@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.cryptic.model.map.region.Region;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.*;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.BossEvent;
@@ -187,7 +188,7 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-        ignoreOccupiedTiles = def.ignoreOccupiedTiles;
+        //ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -236,7 +237,7 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-        ignoreOccupiedTiles = def.ignoreOccupiedTiles;
+    //    ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -269,8 +270,7 @@ public class NPC extends Entity {
                 return current.isDiagonal || t.distance(tile()) == 1;
             };
         }
-        if (tile().equals(3109, 3517))
-            walkTo = tile.transform(1, 0);
+        if (tile().equals(3109, 3517)) walkTo = tile.transform(1, 0);
         ignoreOccupiedTiles = true;
     }
 

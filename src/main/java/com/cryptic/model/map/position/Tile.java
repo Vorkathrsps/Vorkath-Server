@@ -1151,7 +1151,6 @@ public class Tile implements Cloneable {
         for (int x = stepX; x < (stepX + size); x++) {
             for (int y = stepY; y < (stepY + size); y++) {
                 if (x >= absX && x <= eastMostX && y >= absY && y <= northMostY) {
-                    /* stepping within itself, allow it */
                     continue;
                 }
                 Tile tile = Tile.get(x, y, z, true);

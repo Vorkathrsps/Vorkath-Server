@@ -218,7 +218,6 @@ public class Appearance {
                 packetBuilder.putShort(-1);
                 packetBuilder.putShort(transmog);
             } else if (!resetLooks) {
-                System.out.println("writting equip data");
                 writeEquipmentData(packetBuilder, target);
             } else {
                 System.out.println("writting empty");

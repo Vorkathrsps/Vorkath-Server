@@ -441,7 +441,19 @@ public abstract class Entity {
 
     /**
      * Is this entity registered.
+     * -- GETTER --
+     *  Gets if this entity is registered.
+     *
+     *
+     * -- SETTER --
+     *  Sets if this entity is registered,
+     *
+     @return the unregistered.
+      * @param registered the registered to set.
+
      */
+    @Setter
+    @Getter
     private boolean registered;
 
     public Graphic graphic() {
@@ -701,24 +713,6 @@ public abstract class Entity {
      */
     public final boolean isResetMovementQueue() {
         return resetMovementQueue;
-    }
-
-    /**
-     * Gets if this entity is registered.
-     *
-     * @return the unregistered.
-     */
-    public boolean isRegistered() {
-        return registered;
-    }
-
-    /**
-     * Sets if this entity is registered,
-     *
-     * @param registered the registered to set.
-     */
-    public void setRegistered(boolean registered) {
-        this.registered = registered;
     }
 
     /**

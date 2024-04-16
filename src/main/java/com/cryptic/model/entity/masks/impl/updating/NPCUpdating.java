@@ -44,23 +44,27 @@ public class NPCUpdating {
             ArrayList<Region> regions = player.getRegions();
             packet.initializeAccess(AccessType.BIT).putBits(8, npcs.size());
             Iterator<NPC> iterator = npcs.iterator();
-            var list = Lists.newArrayList(iterator);
-            for (NPC npc : list) {
-                if (npc == null) continue;
-                if (npc.getIndex() != -1 && !npc.hidden() && !npc.isTeleportJump() && !npc.isNeedsPlacement() && tile.isViewableFrom(npc.tile())) {
-                    updateMovement(npc, packet);
-                    npc.inViewport(true);
-                    if (npc.getUpdateFlag().isUpdateRequired()) appendUpdates(npc, player, update, false);
+            while (iterator.hasNext()) {
+                NPC npc = iterator.next();
+                if (npc == null) {
+                    iterator.remove();
                     continue;
                 }
-                npcs.remove(npc);
-                packet.putBits(1, 1).putBits(2, 3);
+                if (!npc.hidden() && !npc.isTeleportJump() && !npc.isNeedsPlacement() && tile.isViewableFrom(npc.tile()) && npc.isRegistered()) {
+                    updateMovement(npc, packet);
+                    npc.inViewport(true);
+                    if (npc.getUpdateFlag().isUpdateRequired()) {
+                        appendUpdates(npc, player, update, false);
+                    }
+                } else {
+                    iterator.remove();
+                    packet.putBits(1, 1).putBits(2, 3);
+                }
             }
             for (var region : regions) {
                 for (var npc : region.getNpcs()) {
-                    if (npc == null || npc.hidden()) continue;
-                    if (npcs.contains(npc)) continue;
-                    if (tile.isViewableFrom(npc.tile())) {
+                    if (npc == null || !npc.isRegistered() || npc.hidden() || npcs.contains(npc)) continue;
+                    if (tile.isViewableFrom(npc.tile()) && npc.isRegistered()) {
                         npcs.add(npc);
                         addNPC(player, npc, packet, npc.isTeleportJump());
                         npc.inViewport(true);

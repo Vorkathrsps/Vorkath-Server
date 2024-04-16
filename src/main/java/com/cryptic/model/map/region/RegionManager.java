@@ -49,10 +49,10 @@ public class RegionManager {
         }
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 256; y++) {
-                int landArchiveId = hashNameToArchive.getOrDefault(("l" + x + "_" + y).hashCode(), -1);//index.archiveId("l" + x + "_" + y);
+                int landArchiveId = hashNameToArchive.getOrDefault(("l" + x + "_" + y).hashCode(), -1);
                 if (landArchiveId == -1) continue;
 
-                int mapArchiveId = hashNameToArchive.getOrDefault(("m" + x + "_" + y).hashCode(), -1);//index.archiveId("m" + x + "_" + y);
+                int mapArchiveId = hashNameToArchive.getOrDefault(("m" + x + "_" + y).hashCode(), -1);
                 if (mapArchiveId == -1) continue;
 
                 var regionId = x << 8 | y;

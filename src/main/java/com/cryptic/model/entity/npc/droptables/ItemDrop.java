@@ -47,6 +47,7 @@ public class ItemDrop {
     }
 
     public void postLoad() {
+        int val = 0;
         if(item != null) {
             if(item.equalsIgnoreCase("null"))
                 return;

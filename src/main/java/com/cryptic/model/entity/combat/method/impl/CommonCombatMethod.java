@@ -58,6 +58,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
         var center = calculateDistanceBetweenCenters();
         return center > calculateCombatBoundary();
     }
+    
     protected double calculateCombatBoundary() {
         double maxAllowedDistance = Math.ceil(calculateMaxAllowedDistance());
         double maximumReach = maxAllowedDistance * maxAllowedDistance;

@@ -365,8 +365,8 @@ public class CommandManager {
         commands.put("savepost", new SaveTradingPostCommand());
         dev("k", (p, c, s) -> {
             p.event(e -> {
-                    p.message("hi");
-                    e.delay(3);
+                p.message("hi");
+                e.delay(3);
             });
         });
         dev("nex1", (p, c, s) -> {
@@ -670,15 +670,29 @@ public class CommandManager {
         dev("cp", (p, c, s) ->
             p.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, 0));
 
+
+        dev("findobject", (p, c, s) ->
+        {
+            String name = c.substring(s[0].length() + 1);
+            var id = ObjectDefinition.getByName(name);
+            int[] count = new int[]{0};
+            id.stream().filter(Objects::nonNull).forEach(o -> {
+                if (count[0] >= 75) return;
+                var def = ObjectDefinition.cached.get(o.id);
+                p.message(STR."[Object name]: \{Color.BLUE.wrap(STR."\{def.name}")} [Object id]: \{Color.BLUE.wrap(STR."\{def.id}")}");
+                count[0]++;
+            });
+        });
+
         dev("cc", (p, c, s) ->
         {
             MapObjects.getAll(p.tile()).forEach(o -> {
                 var def = ObjectDefinition.cached.get(o.getId());
-                System.out.println("id="+def.id);
-                System.out.println("rotation="+def.cflag);
-                System.out.println("unclipped="+def.isSolid);
-                System.out.println("tall="+def.boolean1);
-                System.out.println("cliptype="+def.interactType);
+                System.out.println("id=" + def.id);
+                System.out.println("rotation=" + def.cflag);
+                System.out.println("unclipped=" + def.isSolid);
+                System.out.println("tall=" + def.boolean1);
+                System.out.println("cliptype=" + def.interactType);
                 System.out.println("o=" + o.getType());
             });
         });

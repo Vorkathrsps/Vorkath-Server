@@ -1,6 +1,8 @@
 package com.cryptic.model.map.route;
 
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
+import com.cryptic.model.map.region.RegionManager;
 
 public abstract class RouteType {
 

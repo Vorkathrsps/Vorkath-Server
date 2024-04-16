@@ -4,13 +4,17 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Tuple;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Data;
 import org.jetbrains.annotations.Nullable;
+
 import javax.annotation.Nonnull;
+
+import java.util.ArrayList;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 
@@ -22,7 +26,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 @Data
 public class Pet {
 
-    @Nullable public NPC entity;
+    @Nullable
+    public NPC entity;
 
     public final boolean inventoryContainsItem(final Player player, @Nonnull final Item item) {
         PetDefinitions petDefinitions = PetDefinitions.getPetByItem(item.getId());
@@ -108,7 +113,7 @@ public class Pet {
                 t.stop();
                 return;
             }
-            if (player.isRegistered() && this.entity.isRegistered()) {
+            if (player.isRegistered()) {
                 if (player.dead()) {
                     return;
                 }

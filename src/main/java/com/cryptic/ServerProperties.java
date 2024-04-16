@@ -35,7 +35,7 @@ public final class ServerProperties {
                     localProperties = new LocalProperties();
                 } else {
                     localProperties = loaded;
-                    logger.info("Loaded server properties file (./data/LocalProperties.json) successfully. "+ localProperties);
+                    logger.info(STR."Loaded server properties file (./data/LocalProperties.json) successfully. \{localProperties}");
                 }
             } else {
                 localProperties = new LocalProperties();

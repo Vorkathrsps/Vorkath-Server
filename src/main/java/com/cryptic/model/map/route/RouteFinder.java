@@ -15,6 +15,7 @@ import com.cryptic.model.map.route.types.RouteEntity;
 import com.cryptic.model.map.route.types.RouteObject;
 import com.cryptic.model.map.route.types.RouteRelative;
 import com.cryptic.utility.chainedwork.Chain;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +36,10 @@ public class RouteFinder {
     /**
      * Separator
      */
-    private Entity entity;
+    private final Entity entity;
 
-    private ClipUtils clipUtils;
-
-    public ClipUtils getClipUtils() {
-        return clipUtils;
-    }
-
+    @Getter
+    private final ClipUtils clipUtils;
     public ClipUtils customClipUtils;
 
     public RouteFinder(Entity entity) {
@@ -68,8 +65,6 @@ public class RouteFinder {
     /***
      *
      * PERFORMANCE ISSUE LIES HERE IN THE ROUTE METHOD FOR NPCS THEY SHOULD BE USING DUMBROUTE NOT SMART
-     *
-     *
      * @param route
      * @param message
      * @param ignoreFreeze
@@ -149,7 +144,7 @@ public class RouteFinder {
                     int diffY = pos.getY() - groundItem.getTile().y;
                     int mask = getDirectionMask(diffX, diffY);
                     if (mask != 0) {
-                       // Tile tile = new Tile(pos.getX(), pos.getY(), pos.getZ());
+                        // Tile tile = new Tile(pos.getX(), pos.getY(), pos.getZ());
                         Tile tile = Tile.get(pos.getX(), pos.getY(), pos.getZ());
                         if (tile == null || tile.allowEntrance(mask)) {
                             entity.setPositionToFace(groundItem.getTile());
@@ -177,8 +172,7 @@ public class RouteFinder {
             return 1; // deco
         } else if (type == 10 || type == 11 || type == 22) {
             return 2; // ground
-        }
-        else {
+        } else {
             return 3; // misc
         }
     }
@@ -271,7 +265,8 @@ public class RouteFinder {
             return true;
         // yes they are remote. trigger instantly and handle PF walkto code inside the handler code
         return switch (object.getId()) {
-            case LAVA_GAP, STEPS_30189, STEPS_30190, PIPE_21728, STEPPING_STONE_23556, OBSTACLE_PIPE_16509, ROPESWING_23132, GAP_14947, STEPPING_STONE_19040, CABLE, TROPICAL_TREE_14404, LEDGE_14920, NARROW_WALL, LEDGE_14836, EDGE, GAP_14990, GAP_14991, SARCOPHAGUS_20722, STAIRCASE_20670, HAND_HOLDS_14901, GAP_14903, TIGHTROPE_14992, SARCOPHAGUS_20771, GAP_11631, CRATE_11632, ROPE_LADDER_28858, STAIRCASE_20668, WALL_14832, GAP_14835, PILE_OF_FISH, ZIP_LINE_14403, STAIRCASE_20667, REDWOOD, REDWOOD_29670, WALL_11630, GAP_14848, GAP_14846, POLEVAULT, GAP_14847, GAP_14897, TREASURE_ROOM -> true;
+            case LAVA_GAP, STEPS_30189, STEPS_30190, PIPE_21728, STEPPING_STONE_23556, OBSTACLE_PIPE_16509, ROPESWING_23132, GAP_14947, STEPPING_STONE_19040, CABLE, TROPICAL_TREE_14404, LEDGE_14920, NARROW_WALL, LEDGE_14836, EDGE, GAP_14990, GAP_14991, SARCOPHAGUS_20722, STAIRCASE_20670, HAND_HOLDS_14901, GAP_14903, TIGHTROPE_14992, SARCOPHAGUS_20771, GAP_11631, CRATE_11632, ROPE_LADDER_28858, STAIRCASE_20668, WALL_14832, GAP_14835, PILE_OF_FISH, ZIP_LINE_14403, STAIRCASE_20667, REDWOOD, REDWOOD_29670, WALL_11630, GAP_14848, GAP_14846, POLEVAULT, GAP_14847, GAP_14897, TREASURE_ROOM ->
+                true;
             default -> false;
         };
     }
@@ -395,11 +390,13 @@ public class RouteFinder {
             if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle())) {
                 return false;
             }
-            if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles && Tile.isOccupied(entity, stepX, stepY)) {
+            /*if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles && Tile.isOccupied(entity, stepX, stepY)) {
                 entity.getMovement().reset();
                 return false;
+            }*/
+            if (DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) == null) {
+                return false;
             }
-            return DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) != null;
         }
         return true;
     }
@@ -407,11 +404,10 @@ public class RouteFinder {
     /**
      * Route finding
      */
-    int[][] directions = new int[128][128];
-
-    int[][] distances = new int[128][128];
-    int[] queueX = new int[4096];
-    int[] queueY = new int[4096];
+    public static final int[][] directions = new int[128][128];
+    public static final int[][] distances = new int[128][128];
+    public static final int[] queueX = new int[4096];
+    public static final int[] queueY = new int[4096];
     int foundMapX, foundMapY;
 
     public int findRoute(

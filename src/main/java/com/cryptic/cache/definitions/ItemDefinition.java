@@ -8,7 +8,10 @@ import com.cryptic.model.items.Item;
 import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.utility.ItemIdentifiers;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -95,6 +98,19 @@ public class ItemDefinition implements Definition {
     public BloodMoneyPrices bm;
     public boolean pvpAllowed;//this isnt pvp mode lol ik, but have a feeling its possibly fucking with it, if values arent set ? idk
     public boolean consumable;
+    public static final Object2IntMap<String> linkedValueMap = new Object2IntOpenHashMap<>();
+    public int findLinkedValue(String name) {
+        var value = linkedValueMap.getOrDefault(name, -1);
+        if (value != -1) return value;
+        for (ItemDefinition item : cached.values()) {
+            if (item.name.contains(name) && !item.name.equals(name)) {
+                linkedValueMap.put(name, item.bm.value());
+                return item.bm.value();
+            }
+        }
+        linkedValueMap.put(name, 0);
+        return 0;
+    }
 
     public ItemDefinition(int id, byte[] data) {
         this.id = id;
@@ -145,20 +161,6 @@ public class ItemDefinition implements Definition {
                 name = "Donator Ticket";
                 stackable = 1;
             }
-        }
-
-        int[] untradeables_with_destroy = new int[]{
-            VOLATILE_NIGHTMARE_STAFF,
-            HARMONISED_NIGHTMARE_STAFF,
-            ELDRITCH_NIGHTMARE_STAFF,
-        };
-
-        if (IntStream.of(untradeables_with_destroy).anyMatch(untradeable -> id == untradeable)) {
-            ioptions = new String[]{null, null, null, null, "Destroy"};
-        }
-
-        if (name.contains("slayer helmet") || name.contains("Slayer helmet")) {
-            ioptions = new String[]{null, "Wear", null, null, "Drop"};
         }
 
         if (id == DHAROKS_ARMOUR_SET || id == KARILS_ARMOUR_SET || id == GUTHANS_ARMOUR_SET || id == AHRIMS_ARMOUR_SET || id == VERACS_ARMOUR_SET) {
@@ -441,15 +443,6 @@ public class ItemDefinition implements Definition {
     }
 
     public Map<Integer, Object> clientScriptData;
-
-    public int findLinkedValue(String name) {
-        for (ItemDefinition item : cached.values()) {
-            if (item.name.contains(name) && !item.name.equals(name)) {
-                return item.bm.value();
-            }
-        }
-        return 0;
-    }
 
     private boolean isSimilarName(String name1, String name2) {
         String lowerName1 = name1.toLowerCase();

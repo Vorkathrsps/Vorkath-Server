@@ -64,7 +64,7 @@ public class WildernessArea extends Controller {
         final int y = tile.getY();
         final int x = tile.getX();
         int level = 0;
-        CustomWildernessRegions customWildernessRegions = CustomWildernessRegions.byRegion(tile.region());
+        CustomWildernessRegions customWildernessRegions = CustomWildernessRegions.byRegion(region);
         if (customWildernessRegions != null && customWildernessRegions.region == tile.region()) {
             return customWildernessRegions.level;
         }
@@ -191,22 +191,8 @@ public class WildernessArea extends Controller {
     }
 
     public void refreshInterface(Player player, boolean kd) {
-        //53731
-        //53732
-        //53733
         if (kd) {
-            //player.getPacketSender().sendString(53731, "Kills: " + player.getAttribOr(AttributeKey.PLAYER_KILLS, 0));
-            // player.getPacketSender().sendString(53732, "Deaths: " + player.getAttribOr(AttributeKey.PLAYER_DEATHS, 0));
-            // player.getPacketSender().sendString(53733, "K/D Ratio: " + player.getKillDeathRatio());
         }
-        //53723 - target name
-        //53724 - loc/combat level
-        //53725 - risk/ v.high ect
-        //53726 - risk sprite
-        //53727 - target emblem sprite
-        //53728 - target emblem #
-        //53729 - skip target button
-
     }
 
     @Override

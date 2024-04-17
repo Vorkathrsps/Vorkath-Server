@@ -84,17 +84,14 @@ public class World {
 
     /**
      * World instance.
-     */
-    private static final World world = new World();
-
-    /**
-     * Gets the world instance.
+     * -- GETTER --
+     *  Gets the world instance.
      *
      * @return The world instance.
+
      */
-    public static World getWorld() {
-        return world;
-    }
+    @Getter
+    private static final World world = new World();
 
     public Map<Integer, Shop> shops = new HashMap<>();
 
@@ -268,6 +265,7 @@ public class World {
      * Executes the game sequence.
      */
     public void sequence() {
+        var start = System.currentTimeMillis();
         resetSection();
         shufflePlayerRenderOrder();
 
@@ -285,6 +283,8 @@ public class World {
         flushEntities();
 
         incrementElapsedTicks();
+        var end = System.currentTimeMillis();
+        System.out.println("ticks="+(end - start)+"ms");
     }
 
     /**
@@ -437,7 +437,6 @@ public class World {
                 try {
                     npc.resetUpdating();
                     npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    npc.performance.reset();
                     npc.processed = false;
                 } catch (Exception e) {
                     logger.error("Error occurred while flushing NPC: " + e.getMessage());

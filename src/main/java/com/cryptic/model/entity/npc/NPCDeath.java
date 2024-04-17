@@ -502,8 +502,8 @@ public class NPCDeath {
                 if ((npc.id() != KALPHITE_QUEEN_6500 && npc.id() != RUNITE_GOLEM && !npc.isWorldBoss() && npc.id() != THE_NIGHTMARE_9430)) {
 
                     if (WildernessArea.inWilderness(killer.tile())) {
-                        killer.getWildernessSlayerCasket().rollForCasket(npc);
-                        killer.getWildernessSlayerCasket().rollForSupplys(npc);
+                        killer.getWildernessSlayerCasket().rollForCasket(killer, npc);
+                        killer.getWildernessSlayerCasket().rollForSupplys(killer, npc);
                     }
 
                     ItemDrops.rollTheDropTable(killer, npc);

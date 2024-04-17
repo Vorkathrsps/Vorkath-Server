@@ -1562,8 +1562,7 @@ public abstract class Entity {
     private RouteFinder routeFinder;
 
     public RouteFinder getRouteFinder() {
-        if (routeFinder == null)
-            routeFinder = new RouteFinder(this);
+        if (routeFinder == null) routeFinder = new RouteFinder(this);
         return routeFinder;
     }
 
@@ -2002,9 +2001,7 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphics.clear();
-        for (int i = 0; i < nextHits.length; i++) {
-            nextHits[i] = null;
-        }
+        Arrays.fill(nextHits, null);
         nextHitIndex = 0;
     }
 
@@ -2068,11 +2065,8 @@ public abstract class Entity {
      * The {@link TimerRepository} which manages all of the
      * timers/delays for this {@link Entity}.
      */
+    @Getter
     private final TimerRepository timers = new TimerRepository();
-
-    public TimerRepository getTimers() {
-        return timers;
-    }
 
     /*
      * Fields

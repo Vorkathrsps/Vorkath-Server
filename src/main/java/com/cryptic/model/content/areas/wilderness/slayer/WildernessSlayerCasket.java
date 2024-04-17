@@ -26,20 +26,11 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class WildernessSlayerCasket {
 
     /**
-     * The Player Recieving Their Casket
-     */
-    private final Player player;
-
-    public WildernessSlayerCasket(Player player) {
-        this.player = player;
-    }
-
-    /**
      * The Supply Loot Drop Generator
      *
      * @param npc
      */
-    private void dropSupplys(@NotNull NPC npc) {
+    private void dropSupplys(@NotNull final Player player, @NotNull NPC npc) {
         var taskID = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(player.slayerTaskId());
 
@@ -65,7 +56,7 @@ public class WildernessSlayerCasket {
      *
      * @param npc
      */
-    private void dropCasket(NPC npc) {
+    private void dropCasket(@NotNull final Player player, NPC npc) {
         var taskID = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(player.slayerTaskId());
         if (task != null && Slayer.creatureMatches(player, npc.id())) {
@@ -83,9 +74,9 @@ public class WildernessSlayerCasket {
      *
      * @param npc
      */
-    public void rollForCasket(NPC npc) {
+    public void rollForCasket(@NotNull final Player player, NPC npc) {
         if (Utils.rollDie(50, 1)) {
-            dropCasket(npc);
+            dropCasket(player, npc);
         }
     }
 
@@ -93,13 +84,11 @@ public class WildernessSlayerCasket {
      * The Roll For The Supply Loot Drop Rate While On Task
      *
      * @param npc
-     * @return
      */
-    public boolean rollForSupplys(NPC npc) {
+    public void rollForSupplys(@NotNull final Player player, NPC npc) {
         if (Utils.rollDie(25, 1)) {
-            dropSupplys(npc);
+            dropSupplys(player, npc);
         }
-        return false;
     }
 
     /**

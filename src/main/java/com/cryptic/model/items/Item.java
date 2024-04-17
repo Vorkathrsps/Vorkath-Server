@@ -808,7 +808,6 @@ public class Item implements Cloneable {
         if (def == null) return 0;
         if (def.noted()) return unnote().getBloodMoneyPrice().value();
         if (def.bm != null) {
-            if (rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
             if (!rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
             return getBloodMoneyPrice() == null ? 0 : def.bm.value();
         }

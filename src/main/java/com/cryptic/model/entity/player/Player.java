@@ -187,7 +187,7 @@ public class Player extends Entity {
     @Getter @Setter private boolean usingLastRecall = false;
     @Getter @Setter private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
-    @Getter private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+    @Getter private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket();
     @Setter @Getter private PresetData[] presetData = new PresetData[8];
     @Getter private final WildernessKeys wildernessKeys = new WildernessKeys();
     @Getter private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
@@ -2955,7 +2955,7 @@ public class Player extends Entity {
             this.action.sequence();
             TaskManager.sequenceForMob(this);
             PacketInteractionManager.onPlayerProcess(this);
-            this.getTimers().cycle(this);
+            this.getTimers().cycle();
             this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             updateServerInformation(this);
             updateAccountStatus(this);

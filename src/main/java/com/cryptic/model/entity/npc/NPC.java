@@ -1,11 +1,9 @@
 package com.cryptic.model.entity.npc;
 
-import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.cryptic.model.map.region.Region;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.*;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.BossEvent;
@@ -33,7 +31,6 @@ import com.cryptic.model.entity.npc.bots.NPCBotHandler;
 import com.cryptic.model.entity.npc.impl.MaxHitDummyNpc;
 import com.cryptic.model.entity.npc.impl.UndeadMaxHitDummy;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -42,19 +39,16 @@ import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE;
 import static com.cryptic.utility.CustomNpcIdentifiers.BRUTAL_LAVA_DRAGON;
 import static com.cryptic.utility.CustomNpcIdentifiers.CORRUPTED_NECHRYARCH;
-import static com.cryptic.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 import static org.apache.logging.log4j.util.Unbox.box;
 
 /**
@@ -188,7 +182,6 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-        //ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -222,7 +215,6 @@ public class NPC extends Entity {
             };
         }
         if (tile().equals(3109, 3517)) walkTo = tile.transform(1, 0);
-        ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile) {
@@ -237,7 +229,6 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-    //    ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -264,14 +255,13 @@ public class NPC extends Entity {
             setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
-        if (getMobName().toLowerCase().contains("shop assistant") || getMobName().toLowerCase().contains("shop keeper") ||getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
+        if (getMobName().toLowerCase().contains("shop assistant") || getMobName().toLowerCase().contains("shop keeper") || getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
             skipReachCheck = t -> {
                 Direction current = Direction.fromDeltas(getX() - t.getX(), getY() - t.getY());
                 return current.isDiagonal || t.distance(tile()) == 1;
             };
         }
         if (tile().equals(3109, 3517)) walkTo = tile.transform(1, 0);
-        ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile, boolean spawn) {
@@ -324,7 +314,6 @@ public class NPC extends Entity {
         if (spawn) {
             World.getWorld().registerNpc(this);
         }
-        ignoreOccupiedTiles = true;
     }
 
     /**
@@ -516,13 +505,6 @@ public class NPC extends Entity {
     public NpcPerformance performance = new NpcPerformance();
 
     /**
-     * Processes this npc. Previously called onTick.
-     */
-    public final void sequence() {
-        sequenceNormal();
-    }
-
-    /**
      * override me
      */
     public void combatSequence() {
@@ -542,10 +524,10 @@ public class NPC extends Entity {
 
     public boolean useSmartPath;
 
-    private void sequenceNormal() {
+    public final void sequence() {
         action.sequence();
         TaskManager.sequenceForMob(this);
-        getTimers().cycle(this);
+        getTimers().cycle();
         getCombat().followTarget();
         if (useSmartPath) TargetRoute.beforeMovement(this);
         getMovementQueue().process();
@@ -553,64 +535,6 @@ public class NPC extends Entity {
         getCombat().process();
     }
 
-    /*private void sequencePerformanceMode() {
-        performance.reset();
-
-        // accumulateRuntimeTo(() -> {
-        performance.actionSequence = Stopwatch.createStarted();
-        action.sequence();
-        performance.actionSequence.stop();
-        if (performance.action == null && action.getCurrentAction() != null) {
-            performance.action = action.getCurrentAction().keyOrOrigin();
-        }
-
-        TaskManager.sequenceForMob(this); // performance part F = tasks
-
-        accumulateRuntimeTo(() -> {
-            // Timers
-            getTimers().cycle(this);
-        }, d -> NpcPerformance.G += d.toNanos());
-
-        //}, d -> NpcPerformance.cumeNpcE += d.toNanos());
-
-
-        //Only process the npc if they have properly been added
-        //to the game with a definition.
-        if (def != null) {
-            try {
-                accumulateRuntimeTo(() -> {
-                    //Handles random walk and retreating from fights
-                    getCombat().followTarget();
-                }, to -> NpcPerformance.npcA += to.toNanos());
-
-                accumulateRuntimeTo(() -> {
-                    if (useSmartPath)
-                        TargetRoute.beforeMovement(this);
-                    getMovementQueue().process();
-                    if (useSmartPath)
-                        TargetRoute.afterMovement(this);
-                }, d -> NpcPerformance.cumeNpcB += d.toNanos());
-
-                //Handle combat
-                accumulateRuntimeTo(() -> {
-                    //Process the bot handler!
-                    if (getBotHandler() != null) {
-                        getBotHandler().process();
-                    }
-
-                    getCombat().process();
-                    // Process areas..
-                }, d -> NpcPerformance.cumeNpcD += d.toNanos());
-
-            } catch (Exception e) {
-                logger.error("There was an error sequencing an NPC. Check the npc spawns and other json files.", e);
-                GameEngine.getInstance().addSyncTask(() -> {
-                    remove();
-                });
-            }
-        }
-        performance.assess(this);
-    }*/
 
     public void findAgroTarget() {
         boolean wilderness = (WildernessArea.getWildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
@@ -618,33 +542,31 @@ public class NPC extends Entity {
             if (!ccm.isAggressive()) return;
         }
 
-        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null))) return;
+        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
+            return;
 
         final int ceil = def.combatlevel * 2;
         final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
 
-        List<Player> players = this.tile.getRegion().getPlayers();
-        Stream<Player> playerStream =
-            players.stream()
-                .filter(Objects::nonNull)
-                .filter(p -> !p.looks().hidden())
-                .filter(p -> p.getZ() == this.getZ())
-                .filter(p -> bounds.inside(p.tile()));
-
-        if (override) {
-            playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
-        } else {
-            if (!wilderness) {
-                playerStream = playerStream.filter(p -> p.getSkills().combatLevel() <= ceil)
-                    .filter(p -> CombatFactory.bothInFixedRoom(this, p));
-            } else {
-                playerStream = playerStream.filter(p -> p.getEquipment().getId(EquipSlot.HANDS) != BRACELET_OF_ETHEREUM && (def != null && !def.name.contains("revenant")));
+        List<Player> temp = new ArrayList<>();
+        for (var region : this.getSurroundingRegions()) {
+            for (var player : region.getPlayers()) {
+                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || !bounds.inside(player.tile()) || player.looks().hidden() || temp.contains(player))
+                    continue;
+                if (override) {
+                    combatInfo.scripts.agro_.shouldAgro(this, player);
+                    temp.add(player);
+                    continue;
+                }
+                if (player.getSkills().combatLevel() <= ceil) {
+                    CombatFactory.bothInFixedRoom(this, player);
+                    temp.add(player);
+                }
             }
         }
-        // execute stream filters and use.
-        final List<Player> collect = playerStream.toList();
-        for (Player p : collect) {
+
+        for (Player p : temp) {
             long lastTime = System.currentTimeMillis() - (long) p.getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
             Entity lastAttacker = p.getAttrib(AttributeKey.LAST_DAMAGER);
             if (lastTime > 5000L || lastAttacker == this ||
@@ -654,7 +576,6 @@ public class NPC extends Entity {
                     getCombat().attack(p);
                     break;
                 }
-
             }
         }
     }

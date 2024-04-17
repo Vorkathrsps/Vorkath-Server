@@ -1,5 +1,7 @@
 package com.cryptic.model.map.position.areas.impl;
 
+import org.apache.commons.lang.ArrayUtils;
+
 /**
  * This class utilizes all custom wilderness regions.
  *
@@ -11,7 +13,7 @@ public enum CustomWildernessRegions {
     VETION_CAVE(7604, 35),
     VENENATIS_CAVE(6580, 35);
 
-
+    public static final CustomWildernessRegions[] values = CustomWildernessRegions.values();
     public final int region;
     public final int level;
 
@@ -21,12 +23,11 @@ public enum CustomWildernessRegions {
     }
 
     public static CustomWildernessRegions byRegion(int id) {
-        for (CustomWildernessRegions customWildernessRegions : CustomWildernessRegions.values()) {
+        for (CustomWildernessRegions customWildernessRegions : values) {
             if(customWildernessRegions.region == id) {
-                return customWildernessRegions;//Found region
+                return customWildernessRegions;
             }
         }
-        //Nothing was found
         return null;
     }
 }

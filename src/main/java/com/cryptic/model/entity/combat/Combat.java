@@ -188,12 +188,12 @@ public class Combat {
         checkLastTarget();
         checkGraniteMaul();
         if (target != null) {
-            if (!CombatFactory.canAttack(mob, method, target))
-                reset();
+            if (!CombatFactory.canAttack(mob, method, target)) reset();
             else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().useSmartPath)))
                 TargetRoute.set(mob, target, method.moveCloseToTargetTileRange(mob));
         }
     }
+
 
     public boolean multiCheck(Player player) {
         boolean targetInMulti = target.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1;

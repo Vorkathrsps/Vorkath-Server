@@ -686,14 +686,8 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            MapObjects.getAll(p.tile()).forEach(o -> {
-                var def = ObjectDefinition.cached.get(o.getId());
-                System.out.println("id=" + def.id);
-                System.out.println("rotation=" + def.cflag);
-                System.out.println("unclipped=" + def.isSolid);
-                System.out.println("tall=" + def.boolean1);
-                System.out.println("cliptype=" + def.interactType);
-                System.out.println("o=" + o.getType());
+            p.getTimers().getActiveTimers().forEach(timer -> {
+                p.message(timer.name());
             });
         });
 

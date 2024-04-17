@@ -96,7 +96,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             if (npc.getCombat().getCombatType() == null) {
                 if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
             }
-            if (!withinDistance(1)) return false;
+            if (!isReachable()) return false;
         }
 
         if (target.isNpc() && entity instanceof Player player) {
@@ -157,9 +157,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        if (entity.getCombat().getWeaponType() == WeaponType.HALBERD) {
-            return 2;
-        }
+        if (WeaponType.HALBERD.equals(entity.getCombat().getWeaponType())) return 2;
         return 1;
     }
 

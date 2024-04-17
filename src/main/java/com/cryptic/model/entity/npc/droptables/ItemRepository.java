@@ -6,6 +6,8 @@ import com.cryptic.model.entity.npc.droptables.util.DropsConverter;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 import io.github.classgraph.ClassGraph;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

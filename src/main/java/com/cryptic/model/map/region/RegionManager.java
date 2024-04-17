@@ -41,7 +41,6 @@ public class RegionManager {
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
     public static void init() throws Exception {
         var index = cache.index(5);
-        index.cache();
         Archive[] archives = index.archives();
         Int2IntMap hashNameToArchive = new Int2IntOpenHashMap(archives.length);
         for (Archive archive : archives) {

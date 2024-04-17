@@ -265,26 +265,16 @@ public class World {
      * Executes the game sequence.
      */
     public void sequence() {
-        var start = System.currentTimeMillis();
         resetSection();
         shufflePlayerRenderOrder();
-
         readPlayerPackets();
-
         processTasks();
-
         processObjects();
-
         readNpcs();
         readPlayers();
-
         processEntityUpdating();
-
         flushEntities();
-
         incrementElapsedTicks();
-        var end = System.currentTimeMillis();
-        System.out.println("ticks="+(end - start)+"ms");
     }
 
     /**

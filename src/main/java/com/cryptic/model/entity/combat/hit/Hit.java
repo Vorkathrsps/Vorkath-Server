@@ -155,7 +155,8 @@ public class Hit {
 
     public void applyBeforeRemove() {
         if (!CombatType.MAGIC.equals(getCombatType())) {
-            if (target.getBlockAnim() != -1) {
+            if (target.getBlockAnim() > 0) {
+                System.out.println(target.getBlockAnim());
                 target.animate(new Animation(target.getBlockAnim()));
             }
         }

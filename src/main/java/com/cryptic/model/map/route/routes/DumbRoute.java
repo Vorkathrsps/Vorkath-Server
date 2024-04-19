@@ -2,6 +2,7 @@ package com.cryptic.model.map.route.routes;
 
 import static com.cryptic.model.map.route.RouteFinder.*;
 
+import com.cryptic.GameEngine;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.map.position.Tile;
@@ -63,8 +64,9 @@ public class DumbRoute {
         // todo - Figure out a correct way to calc the destX/destY because this doesn't work like I
         // want it to!!
         /** If not already within distance, take a step.. */
-        if (!withinDistance(entity, target, distance))
+        if (!withinDistance(entity, target, distance)) {
             step(entity, rf.routeEntity.finishX, rf.routeEntity.finishY);
+        }
     }
 
     public static boolean withinDistance(Entity entity, Entity target, int distance) {

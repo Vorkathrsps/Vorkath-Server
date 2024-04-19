@@ -23,8 +23,7 @@ import java.util.Optional;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
-public enum
-CombatSpells {
+public enum CombatSpells {
 
     WIND_STRIKE(new CombatNormalSpell() {
         @Override
@@ -426,14 +425,18 @@ CombatSpells {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, SWAMPBARK_HELM)) {
                 count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
-                    count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS)) {
+                count += 0.6;
             }
             castOn.freeze((int) (8 + count), cast, false);
         }
@@ -818,14 +821,18 @@ CombatSpells {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, SWAMPBARK_HELM)) {
                 count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS))
-                    count += 0.6;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
-                    count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS)) {
+                count += 0.6;
             }
             castOn.freeze((int) (16 + count), cast, false);
         }
@@ -1458,15 +1465,19 @@ CombatSpells {
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, SWAMPBARK_HELM)) {
-                count += 0.6D;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY))
-                    count += 0.6D;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS))
-                    count += 0.6D;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS))
-                    count += 0.6D;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
-                    count += 0.6D;
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, SWAMPBARK_BODY)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, SWAMPBARK_LEGS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, SWAMPBARK_BOOTS)) {
+                count += 0.6;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS)) {
+                count += 0.6;
             }
             castOn.freeze((int) (25 + count), cast, false); // 15 second freeze timer
         }
@@ -1959,17 +1970,21 @@ CombatSpells {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, BLOODBARK_HELM)) {
                 count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS))
-                    count += .15;
-                if (hit.isAccurate()) {
-                    cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
-                }
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS)) {
+                count += .15;
+            }
+            if (hit.isAccurate()) {
+                cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
             }
         }
 
@@ -2200,17 +2215,21 @@ CombatSpells {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, BLOODBARK_HELM)) {
                 count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS))
-                    count += .15;
-                if (hit.isAccurate()) {
-                    cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
-                }
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS)) {
+                count += .15;
+            }
+            if (hit.isAccurate()) {
+                cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
             }
         }
 
@@ -2681,17 +2700,21 @@ CombatSpells {
             double count = 0;
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HEAD, BLOODBARK_HELM)) {
                 count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS))
-                    count += .15;
-                if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS))
-                    count += .15;
-                if (hit.isAccurate()) {
-                    cast.heal((int) (hit.getDamage() / 4 + count));
-                }
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.BODY, BLOODBARK_BODY)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.LEGS, BLOODBARK_LEGS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.FEET, BLOODBARK_BOOTS)) {
+                count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS)) {
+                count += .15;
+            }
+            if (hit.isAccurate()) {
+                cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
             }
         }
 

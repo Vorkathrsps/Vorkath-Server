@@ -1,89 +1,59 @@
 package com.cryptic.utility.timers;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.base.Stopwatch;
+import com.cryptic.model.entity.Entity;
+import com.cryptic.utility.Indexer;
+import com.cryptic.utility.NpcPerformance;
+
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Created by Bart on 8/12/2015.
+ */
 public class TimerRepository {
-    private long keyMask = 0L;
-    private final long[] timers = new long[TimerKey.cachedValues.length];
 
-    public List<TimerKey> getActiveTimers() {
-        List<TimerKey> activeTimers = new ArrayList<>();
-        TimerKey[] keys = TimerKey.values();
-        for (int i = 0; i < keys.length; i++) {
-            if ((keyMask & (1L << i)) != 0) {
-                activeTimers.add(keys[i]);
-            }
-        }
-        return activeTimers;
-    }
+    private Indexer<Timer> timers = new Indexer<>(TimerKey.cachedValues.length + 1);
 
     public boolean has(TimerKey key) {
-        return (keyMask & (1L << key.ordinal())) != 0;
+        Timer timer = timers.get(key.ordinal());
+        return timer != null && timer.ticks() > 0;
     }
 
-    public void register(TimerKey key, int ticks) {
-        int index = key.ordinal();
-        keyMask |= (1L << index);
-        timers[index] = ticks;
+    public void register(Timer timer) {
+        timers.set(timer.key().ordinal(), timer);
     }
 
     public int left(TimerKey key) {
-        int index = key.ordinal();
-        if ((keyMask & (1L << index)) != 0) return (int) timers[index];
-        return 0;
+        Timer timer = timers.get(key.ordinal());
+        return timer == null ? 0 : timer.ticks();
     }
 
-    public void extendOrRegister(TimerKey key, int ticks) {
-        int index = key.ordinal();
-        long timerFlags = this.keyMask;
-        boolean timerExists = (timerFlags & (1L << index)) != 0;
-        if (!timerExists) {
-            timers[index] = ticks;
-            timerFlags |= (1L << index);
-        } else {
-            timers[index] = Math.max(timers[index], ticks);
-        }
-        this.keyMask = timerFlags;
-    }
+    public String asHoursAndMinutesLeft(TimerKey key) {
+        long ms = left(key) * 600L;
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(ms);
+        int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(ms);
+        String str = "";
 
-    public void addOrSet(TimerKey key, int ticks) {
-        int index = key.ordinal();
-        long timerFlags = this.keyMask;
-        boolean timerExists = (timerFlags & (1L << index)) != 0;
-        if (!timerExists) {
-            timers[index] = ticks;
-            timerFlags |= (1L << index);
-        } else {
-            timers[index] += ticks;
-        }
-        this.keyMask = timerFlags;
-    }
+        if (hours > 0) {
+            if (hours > 1) {
+                str = hours + " hours";
+            } else {
+                str = "one hour";
+            }
 
-    public void cancel(TimerKey key) {
-        int index = key.ordinal();
-        long timerFlags = this.keyMask;
-        boolean timerExists = (timerFlags & (1L << index)) != 0;
-        if (timerExists) {
-            timerFlags &= ~(1L << index);
-            timers[index] = 0;
-            this.keyMask = timerFlags;
-        }
-    }
-
-    public void cycle() {
-        if (keyMask == 0L) return;
-        int numTimerKeys = TimerKey.values().length;
-        for (int i = 0; i < numTimerKeys; i++) {
-            if ((keyMask & (1L << i)) != 0) {
-                timers[i]--;
-                if (timers[i] <= 0) {
-                    keyMask &= ~(1L << i);
-                    timers[i] = 0;
-                }
+            if (minutes > 0) {
+                str += " and ";
             }
         }
+
+        if (minutes == 1) {
+            str += "one minute";
+        } else if (minutes > 0) {
+            str += minutes + " minutes";
+        }
+
+        return str;
     }
 
     public String asMinutesAndSecondsLeft(TimerKey key) {
@@ -142,6 +112,83 @@ public class TimerRepository {
         }
 
         return str;
+    }
+
+    public void register(TimerKey key, int ticks) {
+        timers.set(key.ordinal(), new Timer(key, ticks));
+    }
+
+    /**
+     * Extend up to (if exists) the given ticks, or register new
+     */
+    public void extendOrRegister(TimerKey key, int ticks) {
+        Timer t = timers.get(key.ordinal());
+        if (t == null) {
+            t = new Timer(key, ticks);
+        } else if (t.ticks() < ticks) {
+            t.ticks(ticks);
+        }
+        timers.set(key.ordinal(), t);
+    }
+
+    /**
+     * Register if non-existant, or extend.
+     */
+    public void addOrSet(TimerKey key, int ticks) {
+        Timer t = timers.get(key.ordinal());
+        if (t == null) {
+            t = new Timer(key, ticks);
+        } else {
+            t.ticks(t.ticks() + ticks);
+        }
+        timers.set(key.ordinal(), t);
+    }
+
+    public void cancel(TimerKey name) {
+        timers.set(name.ordinal(), null);
+    }
+
+    public void cycle() {
+        if (timers.isEmpty()) return;
+        for (Timer entry : timers) {
+            if (entry == null) {
+                continue;
+            }
+            entry.tick();
+        }
+    }
+
+    private void cyclePerformanceMode(Entity entity) {
+        long lol = 0L;
+        for (Timer entry : timers) {
+            if (entry == null) {
+                continue;
+            }
+            Stopwatch stopwatch = Stopwatch.createStarted();
+            entry.tick();
+            stopwatch.stop();
+
+            long ns = stopwatch.elapsed().toNanos();
+            lol += ns;
+            if (NpcPerformance.DETAL_LOG_ENABLED) {
+                if (ns > 100_000) { // 0.1ms
+                    if (entity.isNpc()) {
+                        NpcPerformance.TimerPerfEntry e = new NpcPerformance.TimerPerfEntry();
+                        e.name = entry.key();
+                        e.duration = stopwatch.elapsed();
+                        entity.getAsNpc().performance.addTimerOffender(e);
+                        entity.getAsNpc().performance.timers++;
+                    }
+                }
+            }
+        }
+        if (entity.isNpc()) {
+            entity.getAsNpc().performance.sumRuntimeTimers = Duration.ofNanos(lol);
+        }
+    }
+
+    public Indexer<Timer> timers() {
+        return timers;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.cryptic.model.entity;
 
+import com.cryptic.GameEngine;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.npc.NPC;

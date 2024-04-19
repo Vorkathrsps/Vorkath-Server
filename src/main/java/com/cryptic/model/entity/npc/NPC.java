@@ -441,7 +441,8 @@ public class NPC extends Entity {
 
     public void hidden(boolean b) {
         hidden = b;
-        Tile.occupy(this);
+        //Tile.occupy(this);
+        Tile.unoccupy(this);
     }
 
     public boolean hidden() {
@@ -552,8 +553,8 @@ public class NPC extends Entity {
         List<Player> temp = new ArrayList<>();
         for (var region : this.getSurroundingRegions()) {
             for (var player : region.getPlayers()) {
-                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || !bounds.inside(player.tile()) || player.looks().hidden() || temp.contains(player))
-                    continue;
+                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || player.looks().hidden() || temp.contains(player)) continue;
+                if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
                 if (override) {
                     combatInfo.scripts.agro_.shouldAgro(this, player);
                     temp.add(player);
@@ -784,7 +785,6 @@ public class NPC extends Entity {
     public void onAdd() {
         setNeedsPlacement(true);
         if (!this.tile.getRegion().getNpcs().contains(this)) this.tile().getRegion().getNpcs().add(this);
-        Tile.occupy(this);
     }
 
     @Override

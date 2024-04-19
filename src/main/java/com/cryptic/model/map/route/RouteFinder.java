@@ -18,6 +18,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -390,10 +391,18 @@ public class RouteFinder {
             if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle())) {
                 return false;
             }
-            /*if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles && Tile.isOccupied(entity, stepX, stepY)) {
-                entity.getMovement().reset();
-                return false;
-            }*/
+            if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles) {
+                var close = entity.npc().closeNpcs(6); // shadowrs: assume no npcs are bigger than 6x6 fr
+                if (close.length > 0) {
+                    var overlaps = Arrays.stream(close).filter(n -> n.tile().distance(entity.tile()) <= entity.getSize()).anyMatch(n -> n.getBounds().intersects(entity.getBounds()));
+                    if (!overlaps) {
+                        if (Tile.isOccupied(entity, stepX, stepY)) {
+                            entity.getMovement().reset();
+                            return false;
+                        }
+                    }
+                }
+            }
             if (DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) == null) {
                 return false;
             }

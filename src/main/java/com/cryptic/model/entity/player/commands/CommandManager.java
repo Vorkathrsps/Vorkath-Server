@@ -686,9 +686,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            p.getTimers().getActiveTimers().forEach(timer -> {
-                p.message(timer.name());
-            });
+
         });
 
         dev("cleartask", (p, c, s) ->

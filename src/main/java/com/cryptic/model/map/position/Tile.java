@@ -1156,8 +1156,9 @@ public class Tile implements Cloneable {
                 if (tile == null) continue;
                 var npcCount = tile.npcCount;
                 if (entity.isNpc() && entity.tile().equals(tile)) npcCount--;
-                if (tile.playerCount > 0 || npcCount > 0)
+                if (tile.playerCount > 0 || npcCount > 0) {
                     return true;
+                }
             }
         }
         return false;

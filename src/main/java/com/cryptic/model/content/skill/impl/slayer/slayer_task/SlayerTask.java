@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -246,15 +247,15 @@ public class SlayerTask {
         if (assignment != null && this.isLinkedById(player, npc.id())) {
             double experience = this.getSlayerExperience(npc);
             int amount = this.getRemainingTaskAmount(player);
-            Map<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
+            HashMap<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
             boolean inWilderness = WildernessArea.inWilderness(player.tile());
             if (this.isWildernessTask(player) && !inWilderness) return;
-            if (inWilderness && this.isWildernessTask(player)) {
+            //if (inWilderness && this.isWildernessTask(player)) {
                 isSlayerPerkEnabled(player, npc, slayerPerks);
-            }
-            if (inWilderness) {
+            //}
+           // if (inWilderness) {
                 this.upgradeEmblem(player);
-            }
+            //}
             player.getSlayerKillLog().addKill(npc);
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
             player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
@@ -274,7 +275,7 @@ public class SlayerTask {
         }
     }
 
-    void isSlayerPerkEnabled(Player player, NPC npc, Map<Integer, String> slayerPerks) {
+    void isSlayerPerkEnabled(final Player player, final NPC npc, HashMap<Integer, String> slayerPerks) {
         if (slayerPerks.containsKey(SlayerConstants.SIGIL_DROPPER)) {
             rollForSigil(player, npc);
         }

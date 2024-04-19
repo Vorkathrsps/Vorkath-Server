@@ -165,4 +165,7 @@ public class Boundary {
             ", height=" + zLevel +
             '}';
     }
+    public boolean intersects(Boundary other) {
+        return getMinimumX() < other.getMaximumX() && getMaximumX() > other.getMinimumX() && getMinimumY() < other.getMaximumY() && getMaximumY() > other.getMinimumY();
+    }
 }

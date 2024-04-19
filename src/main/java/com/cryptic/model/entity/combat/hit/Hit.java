@@ -156,7 +156,6 @@ public class Hit {
     public void applyBeforeRemove() {
         if (!CombatType.MAGIC.equals(getCombatType())) {
             if (target.getBlockAnim() > 0) {
-                System.out.println(target.getBlockAnim());
                 target.animate(new Animation(target.getBlockAnim()));
             }
         }
@@ -263,10 +262,10 @@ public class Hit {
         return this;
     }
 
-    public void addCombatXp(Player player, CombatType style, FightStyle mode, boolean isAccurate, int damage) {
+    public void addCombatXp(final Player player, final CombatType style, final FightStyle mode, boolean isAccurate, int damage) {
         if (combatType == null) return;
-        double hXP = calculateHitpointsExperience(damage);
-        double rmXP = calculateRangedOrMeleeXP(damage);
+        final double hXP = calculateHitpointsExperience(damage);
+        final double rmXP = calculateRangedOrMeleeXP(damage);
         switch (style) {
             case MELEE -> {
                 switch (mode) {

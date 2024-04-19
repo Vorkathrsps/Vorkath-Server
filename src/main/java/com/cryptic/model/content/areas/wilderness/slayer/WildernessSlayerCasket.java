@@ -86,7 +86,17 @@ public class WildernessSlayerCasket {
      * @param npc
      */
     public void rollForSupplys(@NotNull final Player player, NPC npc) {
-        if (Utils.rollDie(25, 1)) {
+        int chance = 75;
+        switch (player.getMemberRights()) {
+            case RUBY_MEMBER -> chance = 70;
+            case SAPPHIRE_MEMBER -> chance = 65;
+            case EMERALD_MEMBER -> chance = 60;
+            case DIAMOND_MEMBER -> chance = 55;
+            case DRAGONSTONE_MEMBER -> chance = 50;
+            case ONYX_MEMBER -> chance = 45;
+            case ZENYTE_MEMBER -> chance = 40;
+        }
+        if (Utils.rollDie(chance, 1)) {
             dropSupplys(player, npc);
         }
     }

@@ -55,15 +55,9 @@ public class SlayerRewards {
      * The list of all slayer tasks extensions.
      */
 
+    @Getter
+    @Setter
     private HashMap<Integer, String> extendable = new HashMap<>();
-
-    public HashMap<Integer, String> getExtendable() {
-        return extendable;
-    }
-
-    public void setExtendable(HashMap<Integer, String> extension) {
-        this.extendable = extension;
-    }
 
     public int slayerTaskAmount(Player player, SlayerTaskDef def) {
         if (extendable.containsKey(ADAMIND_SOME_MORE)) {
@@ -166,6 +160,7 @@ public class SlayerRewards {
     /**
      * Stores all unlocked HashMaps
      */
+    @Setter
     @Getter
     private HashMap<Integer, String> unlocks = new HashMap<>();
 
@@ -186,10 +181,6 @@ public class SlayerRewards {
      */
     private void setPreviousInterface(int interfaceId) {
         prevInterfaceId = interfaceId;
-    }
-
-    public void setUnlocks(HashMap<Integer, String> unlocks) {
-        this.unlocks = unlocks;
     }
 
     public void open() {
@@ -268,7 +259,7 @@ public class SlayerRewards {
             for (int index = 0; index < 6; index++) {
                 player.getPacketSender().sendString(63220 + index, "Empty");
                 player.getPacketSender().sendString(63232 + index, "<col=-8434673>Unblock Task</col>");
-                if (player.getSlayerRewards().getBlockedSlayerTask().size() > 0 && player.getSlayerRewards().getBlockedSlayerTask().size() > index) {
+                if (!player.getSlayerRewards().getBlockedSlayerTask().isEmpty() && player.getSlayerRewards().getBlockedSlayerTask().size() > index) {
                     if (assignment != null) {
                         player.getPacketSender().sendString(63220 + index, Utils.formatEnum(assignment.getTaskName()));
                     }
@@ -302,7 +293,7 @@ public class SlayerRewards {
                     player.message("Opening unlock interface");
                 }
                 SlayerUnlockable.updateInterface(player);
-                for (SlayerUnlockable unlockable : SlayerUnlockable.values()) {
+                for (SlayerUnlockable unlockable : SlayerUnlockable.values) {
                     player.getPacketSender().sendConfig(750 + unlockable.ordinal(), player.getSlayerRewards().getUnlocks().containsKey(unlockable.getButtonId()) ? 1 : 0);
                 }
                 player.getInterfaceManager().open(slayerRewardButtons.getInterface());

@@ -119,9 +119,6 @@ public class NPCDeath {
 
             killer.getCombat().reset();
 
-            // Increment kill.
-            slayerTask.handleSlayerDeath(killer, npc);
-
             if (!npc.isWorldBoss() || npc.id() != THE_NIGHTMARE_9430 || npc.id() != KALPHITE_QUEEN_6500) {
                 killer.getBossKillLog().addKill(npc);
             }
@@ -470,7 +467,8 @@ public class NPCDeath {
             }
 
             if (killer != null) {
-                //Do inferno minigame death here and fight caves
+
+                slayerTask.handleSlayerDeath(killer, npc);
 
                 if (WildernessArea.isInWilderness(killer)) {
                     WildernessKeys.rollWildernessKey(killer, npc);

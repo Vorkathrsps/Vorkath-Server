@@ -1578,7 +1578,7 @@ public enum AttributeKey {
     SLAYER_TASK_AMOUNT_REMAINING("slayer_task_amount_remaining", AttribType.INTEGER),
     IS_WILDERNESS_TASK("wilderness_task", AttribType.BOOLEAN),
     RECALL_ATTUNE_ACTIVE("last_saved_type", AttribType.BOOLEAN),
-    SIGIL_OF_REMOTE_STORAGE, REMOTE_STORAGE, SIGIL_OF_THE_NINJA, NINJA, SIGIL_OF_INFERNAL_SMITH, INFERNAL_SMITH;
+    SIGIL_OF_REMOTE_STORAGE, REMOTE_STORAGE, SIGIL_OF_THE_NINJA, NINJA, SIGIL_OF_INFERNAL_SMITH, INFERNAL_SMITH, EXO_SKELETON;
 
     private String saveName;
     private AttribType type;

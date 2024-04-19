@@ -220,7 +220,6 @@ public class Appearance {
             } else if (!resetLooks) {
                 writeEquipmentData(packetBuilder, target);
             } else {
-                System.out.println("writting empty");
                 packetBuilder.writeByteArray(EMPTY_EQUIPMENT_DATA);
             }
 

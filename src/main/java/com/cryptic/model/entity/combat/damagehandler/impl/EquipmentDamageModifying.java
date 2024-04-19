@@ -42,6 +42,7 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
         listeners.add(new BraceletOfEthereum());
         listeners.add(new ToxicStaffOfTheDead());
         listeners.add(new PrayerDamage());
+        listeners.add(new KerisPartisan());
         return listeners;
     }
 

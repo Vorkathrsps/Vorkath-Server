@@ -5,23 +5,23 @@ package com.cryptic.utility.timers;
  */
 public class Timer {
 
-    private long key;
-    private long ticks;
+    private TimerKey key;
+    private int ticks;
 
-    public Timer(long key, long ticks) {
+    public Timer(TimerKey key, int ticks) {
         this.key = key;
         this.ticks = ticks;
     }
 
-    public long ticks() {
+    public int ticks() {
         return ticks;
     }
 
-    public void ticks(long ticks) {
+    public void ticks(int ticks) {
         this.ticks = ticks;
     }
 
-    public long key() {
+    public TimerKey key() {
         return key;
     }
 
@@ -31,3 +31,4 @@ public class Timer {
     }
 
 }
+

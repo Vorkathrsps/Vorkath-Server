@@ -182,7 +182,7 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-
+        this.ignoreOccupiedTiles = true;
         for (int types : venom_immunes) {
             if (id == types) {
                 setVenomImmune(true);
@@ -229,7 +229,7 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-
+        this.ignoreOccupiedTiles = true;
         for (int types : venom_immunes) {
             if (id == types) {
                 setVenomImmune(true);
@@ -276,7 +276,7 @@ public class NPC extends Entity {
         }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
-
+        this.ignoreOccupiedTiles = true;
         for (int types : venom_immunes) {
             if (id == types) {
                 setVenomImmune(true);

@@ -269,7 +269,7 @@ public class Skills {
     public boolean addXp(int skill, double amt) {
         boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
         for (GameMode mode : GameMode.values()) {
-            if (player.getGameMode().equals(mode)) {
+            if (mode.equals(player.getGameMode())) {
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }

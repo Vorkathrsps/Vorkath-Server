@@ -703,7 +703,6 @@ public class Combat {
             ccm.doFollowLogic();
             ccm.process(mob, target);
         } else if (target != null) {
-            // fallback: the normal code for all mobs who dont have CommonCombat as their script
             DumbRoute.step(mob, target, method.moveCloseToTargetTileRange(mob));
         }
         checkRetreat();
@@ -750,12 +749,9 @@ public class Combat {
         BooleanSupplier waitUntil = () -> mob.npc().tile().distanceTo(mob.npc().spawnTile()) == 0;
         AttributeKey attribute = AttributeKey.RETREATING;
         if (target != null) {
-            var lastRegion = mob.npc().getLastKnownRegion().getRegion();
             boolean singleWayCombat = lastTargetTimeoutTicks == 0 && target instanceof Player player && player.getCombat().getTarget() != mob.npc() && !MultiwayCombat.includes(player.tile());
             boolean clippedTile = World.getWorld().clipAt(target.tile()) != 0 && !ProjectileRoute.hasLineOfSight(mob.npc(), target);
             boolean inBounds = mob.npc().tile().inArea(fightArea) && !target.tile().inArea(fightArea);
-     /*       boolean inRegion = Arrays.stream(mob.closePlayers()).anyMatch(p -> mob.tile().getRegion().getPlayers().contains(target));
-            boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());*/
             if ((singleWayCombat || clippedTile || inBounds)) {
                 if (!mob.npc().hasAttrib(attribute)) mob.npc().putAttrib(attribute, true);
                 mob.npc().ignoreOccupiedTiles = true;

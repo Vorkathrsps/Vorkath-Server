@@ -567,10 +567,6 @@ public abstract class Entity {
         return new Hit(attacker, target);
     }
 
-    public UpdateFlag getUpdateFlag() {
-        return updateFlag;
-    }
-
     public abstract MovementQueue getMovementQueue();
 
     public Combat getCombat() {
@@ -2076,6 +2072,7 @@ public abstract class Entity {
     private boolean fixingDiagonal = false;
     private boolean repositioning = false;
     private Direction walkingDirection = Direction.NONE, runningDirection = Direction.NONE;
+    @Getter
     private final UpdateFlag updateFlag = new UpdateFlag();
     private Animation animation;
     public Animation recentAnim;

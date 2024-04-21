@@ -450,7 +450,7 @@ public class Player extends Entity {
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
         long risked = ItemsKeptOnDeath.getLostItemsValue();
         String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
-        player.getPacketSender().sendString(80055, "Valor Information");
+        player.getPacketSender().sendString(80055, GameConstants.SERVER_NAME + " Information");
         player.getPacketSender().sendString(80059, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
         player.getPacketSender().sendString(80060, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
         player.getPacketSender().sendString(80061, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
@@ -2537,7 +2537,7 @@ public class Player extends Entity {
 
     public void debugMessage(String message) {
         boolean debugMessagesEnabled = getAttribOr(AttributeKey.DEBUG_MESSAGES, true);
-        if (getPlayerRights().isOwner(this) && debugMessagesEnabled) {
+        if (PlayerRights.OWNER.equals(this.getPlayerRights()) && debugMessagesEnabled) {
             getPacketSender().sendMessage("[Debug] " + message);
         }
     }

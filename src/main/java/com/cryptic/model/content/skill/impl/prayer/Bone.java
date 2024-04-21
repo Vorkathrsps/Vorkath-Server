@@ -33,8 +33,9 @@ public enum Bone {
         this.xp = xp;
     }
 
+    final static Bone[] values = Bone.values();
     public static Bone get(int itemId) {
-        for (Bone bone : Bone.values()) {
+        for (Bone bone : values) {
             if (itemId == bone.itemId) {
                 return bone;
             }

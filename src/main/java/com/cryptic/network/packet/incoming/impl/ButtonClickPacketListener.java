@@ -8,6 +8,7 @@ import com.cryptic.core.task.Task;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.shop.Shop;
@@ -48,7 +49,7 @@ public class ButtonClickPacketListener implements PacketListener {
     public static final int[] DIALOGUE_BUTTONS = new int[]{SECOND_DIALOGUE_OPTION_OF_TWO, FIRST_DIALOGUE_OPTION_OF_TWO, THIRD_DIALOGUE_OPTION_OF_THREE, SECOND_DIALOGUE_OPTION_OF_THREE, FIRST_DIALOGUE_OPTION_OF_THREE, FOURTH_DIALOGUE_OPTION_OF_FOUR, THIRD_DIALOGUE_OPTION_OF_FOUR, SECOND_DIALOGUE_OPTION_OF_FOUR, FIRST_DIALOGUE_OPTION_OF_FOUR, FIFTH_DIALOGUE_OPTION_OF_FIVE, FOURTH_DIALOGUE_OPTION_OF_FIVE, THIRD_DIALOGUE_OPTION_OF_FIVE, SECOND_DIALOGUE_OPTION_OF_FIVE, FIRST_DIALOGUE_OPTION_OF_FIVE};
 
     public static final int[] ALL = new int[]{2494, 2495, 2496, 2497, 2498, 2482, 2483, 2484, 2485, 2471, 2472, 2473, 2461, 2462, 2458, 24492};
-
+    public static final int[] TELEPORT_BUTTONS = new int[]{13035, 13045, 13053, 13061, 13069, 13079, 13087, 13095, 1164, 1167, 1170, 1174, 1541, 7455, 31674, 30064, 30075, 30083, 30106, 30114, 30138, 30146, 30162, 30170, 30226, 30250, 30258, 30266, 30274, 40305, 40307, 40308, 40309, 40310, 40312, 40316, 40323, 40326, 40334, 40343};
     public static void main(String[] args) {
         final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0, (byte) 0, (byte) 101, (byte) -9}));
         int r = packet.readInt();
@@ -77,7 +78,9 @@ public class ButtonClickPacketListener implements PacketListener {
             player.getInterfaceManager().closeDialogue();
         }
 
-        player.debugMessage("button=" + button);
+        if (PlayerRights.OWNER.equals(player.getPlayerRights())) {
+            player.debugMessage("button=" + button);
+        }
 
         if (player.getTeleportInterface().handleButton(button, -1)) {
             return;
@@ -85,6 +88,13 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (button == 53729) {
             BountyHunter.skip(player);
+            return;
+        }
+
+        if (ArrayUtils.contains(TELEPORT_BUTTONS, button)) {
+            player.setCurrentTabIndex(1);
+            player.getInterfaceManager().open(88000);
+            player.getnewteleInterface().drawInterface(88005);
             return;
         }
 

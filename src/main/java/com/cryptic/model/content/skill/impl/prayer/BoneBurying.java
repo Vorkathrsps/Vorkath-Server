@@ -22,11 +22,10 @@ public class BoneBurying extends PacketInteraction {
     public boolean handleItemInteraction(Player player, Item item, int option) {
         int id = item.getId();
         Bone bones = Bone.get(id);
-        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         if (option == 1) {
             if (bones != null) {
                 if (item.getId() == bones.itemId) {
-                    bury(player, bones, gameModeMultiplier);
+                    bury(player, bones);
                     return true;
                 }
             }
@@ -50,15 +49,15 @@ public class BoneBurying extends PacketInteraction {
         return false;
     }
 
-    private void bury(Player player, Bone bone, double multiplier) {
+    private void bury(Player player, Bone bone) {
         if (player.getTimers().has(TimerKey.BONE_BURYING)) return;
         player.getMovementQueue().clear();
-        player.getTimers().extendOrRegister(TimerKey.BONE_BURYING, 2);
+        player.getTimers().extendOrRegister(TimerKey.BONE_BURYING, 3);
         player.getInventory().remove(bone.itemId);
         player.animate(827);
         player.message("You dig a hole in the ground...");
         player.sendPrivateSound(2738, 0);
-        var xp = (bone.xp * multiplier) / 2;
+        var xp = bone.xp / 2;
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
         player.getSkills().addXp(Skills.PRAYER, xp);
         Chain.bound(player).runFn(1, () -> player.message("You bury the bones."));
@@ -151,13 +150,13 @@ public class BoneBurying extends PacketInteraction {
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {
             player.message("The gods are very pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp);
         } else if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp);
         } else {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp * multiplier);
+            player.getSkills().addXp(Skills.PRAYER, bones.xp);
         }
     }
 

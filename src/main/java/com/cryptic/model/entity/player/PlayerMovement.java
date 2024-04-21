@@ -48,11 +48,9 @@ public class PlayerMovement extends MovementQueue {
         player.setRunningDirection(Direction.NONE);
         if (following != null) {
             if (!following.isRegistered() || !following.tile().isWithinDistance(player.tile())) {
-                //player.setPositionToFace(null);
                 following = null;
             } else {
                 int destX, destY;
-                // processed is to determine who had pid to fix who moves first
                 if (following.processed && following.getMovement().hasMoved()) {
                     destX = following.getMovement().lastFollowX;
                     destY = following.getMovement().lastFollowY;

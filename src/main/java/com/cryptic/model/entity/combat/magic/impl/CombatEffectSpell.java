@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.magic.impl;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
@@ -58,61 +59,41 @@ public abstract class CombatEffectSpell extends CombatSpell {
             it = cast.getLocalPlayers().iterator();
         } else if (cast.isPlayer() && castOn.isNpc()) {
             it = cast.getLocalNpcs().iterator();
-        } else if (cast.isNpc() && castOn.isNpc()) {
-            it = World.getWorld().getNpcs().iterator();
-        } else if (cast.isNpc() && castOn.isPlayer()) {
-            it = World.getWorld().getPlayers().iterator();
         }
 
         if (it != null) {
             while (it.hasNext()) {
                 Entity next = it.next();
 
-                if (next == null) {
-                    continue;
-                }
-
-                if (!next.tile().isWithinDistance(castOn.tile(), spellRadius()) || next.dead()) {
+                if (next == null || next.dead()) continue;
+                if (targets.size() > 9) break;
+                if (!next.tile().isWithinDistance(castOn.tile(), spellRadius()) || !MultiwayCombat.includes(next)) continue;
+                if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, next)) {
+                    cast.getCombat().reset();
                     continue;
                 }
 
                 if (next.isNpc()) {
                     NPC npc = (NPC) next;
-                    if (castOn == npc) continue;
+                    NpcDefinition definition = NpcDefinition.cached.get(npc.id());
+                    if (definition == null || castOn == npc) continue;
+                    if (definition.isPet) continue;
                     if (ArrayUtils.contains(ignored_npcs, npc.id())) continue;
-                    if (!next.tile().isWithinDistance(castOn.tile(), spellRadius()) || next.dead()) continue;
                     if (npc.getCombatInfo() != null && npc.getCombatInfo().unattackable) continue;
                     if (npc.getCombatInfo() == null) continue;
-                    if (!MultiwayCombat.includes(npc)) continue;
-                    if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, npc)) {
-                        cast.getCombat().reset();
-                        continue;
-                    }
                     targets.add(npc);
                 } else {
                     Player p = (Player) next;
-                    if (castOn == p) {
-                        continue;
-                    }
-
-                    if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0) {
-                        continue;
-                    }
-                    if (!WildernessArea.inAttackableArea(p))
-                        continue;
-                    if (!MultiwayCombat.includes(p))
-                        continue;
-
-                    if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, p)) {
-                        cast.getCombat().reset();
-                        continue;
-                    }
+                    if (castOn == p) continue;
+                    if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0) continue;
+                    if (!WildernessArea.inAttackableArea(p)) continue;
                     targets.add(p);
                 }
             }
         }
 
         for (Entity target : targets) {
+            if (target == null) continue;
             Hit hit = new Hit(cast, target, delay, cast.getCombat().getCombatType());
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile()))
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);

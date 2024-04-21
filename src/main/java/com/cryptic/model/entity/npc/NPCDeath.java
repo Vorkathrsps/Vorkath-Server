@@ -504,7 +504,8 @@ public class NPCDeath {
                         killer.getWildernessSlayerCasket().rollForSupplys(killer, npc);
                     }
 
-                    ItemDrops.rollTheDropTable(killer, npc);
+                    ItemDrops drop = new ItemDrops();
+                    drop.rollTheDropTable(killer, npc);
 
 //                        table.getGuaranteedDrops().forEach(tableItem -> {
 //                            if (killer.inventory().contains(13116)) {

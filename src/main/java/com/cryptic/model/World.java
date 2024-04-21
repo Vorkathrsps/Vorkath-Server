@@ -568,6 +568,7 @@ public class World {
         Tile.occupy(npc);
         npc.setNeedsPlacement(true);
         npc.spawnStack = new Throwable().getStackTrace()[1].toString();
+        if (npc.hidden()) npc.hidden(false);
         return true;
     }
 

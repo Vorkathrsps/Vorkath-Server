@@ -24,6 +24,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
@@ -31,6 +32,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -686,7 +688,13 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-
+            Tile firstLocation = p.tile().copy();
+            World.getWorld().tileGraphic(1919, firstLocation, 0, 0);
+            Chain.noCtx().runFn(2, () -> {
+                if (p.tile().equals(firstLocation)) {
+                    new Hit(p, p, Utils.random(0, 10), 0, CombatType.MAGIC).checkAccuracy(true).submit();
+                }
+            });
         });
 
         dev("cleartask", (p, c, s) ->

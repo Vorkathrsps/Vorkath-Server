@@ -93,5 +93,35 @@
       "block": 430,
       "death": 836
     }
+  },
+  {
+    "ids": [
+      10951, 10953, 10954, 10955, 10956
+    ],
+    "maxhit": 10,
+    "aggressive": true,
+    "attackspeed": 4,
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 2500,
+      "attack": 0,
+      "strength": 0,
+      "defence": 100,
+      "magic": 140,
+      "ranged": 0
+    },
+    "bonuses": {
+      "magic": 20,
+      "magicstrength": 12,
+      "rangestrength": 0,
+      "stabdefence": 180,
+      "slashdefence": 180,
+      "crushdefence": 180,
+      "magicdefence": 260,
+      "rangeddefence": 30
+    },
+    "scripts": {
+      "combat": "XamphurCombat"
+    }
   }
 ]

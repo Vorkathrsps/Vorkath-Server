@@ -1,6 +1,5 @@
 package com.cryptic.model.content.items.combine.darktotem;
 
-import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;

@@ -117,6 +117,8 @@ public enum NewTeleData {
     BANDIT_CAMP(new Tile(3034, 3690),"Bandit Camp", "@red@Dangerous Teleport Level:22 Multi-combat Wilderness", WILDERNESS, MEDIUM),
     CHAOS_TEMPLE(new Tile(3235, 3643),"Chaos Temple", "@red@Dangerous Teleport Level:16 Multi-combat Wilderness", WILDERNESS, MEDIUM),
     THE_GATE(new Tile(3225, 3903),"Wilderness Gates", "@red@Dangerous Teleport Level:48 Multi-combat Wilderness", WILDERNESS, MEDIUM),
+    LAVA_DRAGONS(new Tile(3202, 3860),"Lava Dragons", "@red@Dangerous Teleport Level:43 Multi-combat Wilderness", WILDERNESS, MEDIUM),
+    GDZ(new Tile(3288, 3886),"Greater Demons", "@red@Dangerous Teleport Level:46 Multi-combat Wilderness", WILDERNESS, MEDIUM),
 
     //City Teleports
     CATHERBY(new Tile(2809, 3439),"Catherby", "", CITIES, MEDIUM),

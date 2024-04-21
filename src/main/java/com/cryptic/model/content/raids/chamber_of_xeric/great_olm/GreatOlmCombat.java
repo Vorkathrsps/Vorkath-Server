@@ -176,12 +176,10 @@ public class GreatOlmCombat extends CommonCombatMethod {
     @Override
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
-        if (hit.getAttacker() == player) {
-            if (this.currentPhase != lastPhase) {
-                if (!leftClaw.dead()) {
-                    if (!rightClaw.dead()) {
-                        hit.block();
-                    }
+        if (this.currentPhase != lastPhase) {
+            if (!leftClaw.dead()) {
+                if (!rightClaw.dead()) {
+                    hit.block();
                 }
             }
         }

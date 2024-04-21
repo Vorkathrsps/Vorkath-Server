@@ -150,20 +150,13 @@ public class XamphurCombat extends CommonCombatMethod {
     public void postDamage(Hit hit) {
         var target = hit.getTarget();
         var source = hit.getSource();
-        if (source instanceof Player player && target instanceof NPC) {
-            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
-            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
-        }
+        incrementDamageMap(hit, source, target);
     }
 
     @Override
     public boolean customOnDeath(Hit hit) {
         if (this.entity instanceof NPC npc) {
-            for (var player : corruption) {
-                if (!player.hasAttrib(AttributeKey.MARK_OF_DARKNESS)) continue;
-                player.clearAttrib(AttributeKey.MARK_OF_DARKNESS);
-            }
-            tiles.clear();
+            clearCorruptions();
             ItemDrops drops = new ItemDrops();
             Chain.noCtx().runFn(3, () -> {
                 computeDropTable(npc, drops);
@@ -173,11 +166,11 @@ public class XamphurCombat extends CommonCombatMethod {
         return true;
     }
 
-    final void clear(NPC npc) {
-        for (var object : objects) object.remove();
-        damageMap.clear();
-        objects.clear();
-        npc.remove();
+    final void incrementDamageMap(Hit hit, Entity source, Entity target) {
+        if (source instanceof Player player && target instanceof NPC) {
+            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
+            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
+        }
     }
 
     final void computeDropTable(NPC npc, ItemDrops drops) {
@@ -187,6 +180,21 @@ public class XamphurCombat extends CommonCombatMethod {
             if (player == null || damage < 100) continue;
             drops.rollTheDropTable(player, npc);
         }
+    }
+
+    final void clearCorruptions() {
+        for (var player : corruption) {
+            if (!player.hasAttrib(AttributeKey.MARK_OF_DARKNESS)) continue;
+            player.clearAttrib(AttributeKey.MARK_OF_DARKNESS);
+        }
+        tiles.clear();
+    }
+
+    final void clear(NPC npc) {
+        for (var object : objects) object.remove();
+        damageMap.clear();
+        objects.clear();
+        npc.remove();
     }
 
     @Override

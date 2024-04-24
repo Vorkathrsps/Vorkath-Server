@@ -35,6 +35,7 @@ public final class TaskManager {
             }
 
             Task[] tasks = activeTasks.stream().filter(t2 -> t2.getKey() == null || !(t2.getKey() instanceof Entity)).toArray(Task[]::new);
+
             for (Task task : tasks) {
                 if (task.isRunning()) {
                     task.onTick();
@@ -47,8 +48,6 @@ public final class TaskManager {
         } catch (Exception e) {
             logger.error("task error", e);
         }
-
-        //logger.info("it took "+end+"ms for processing tasks.");
     }
 
     public static void sequenceForMob(Entity entity) {
@@ -63,15 +62,15 @@ public final class TaskManager {
 
     private static void sequenceNormalMode(Entity entity) {
         List<Task> tasks = entity.activeTasks;
+        if (tasks.isEmpty()) return;
         sequenceTasks.addAll(tasks);
         for (Task task : sequenceTasks) {
-            if (task.isRunning()) {
-                task.onTick();
-            }
+            if (!task.isRunning()) continue;
+            task.onTick();
             task.sequence();
         }
         sequenceTasks.clear();
-        entity.activeTasks.removeIf(t -> !t.isRunning());
+        tasks.removeIf(task -> !task.isRunning());
     }
 
     public static void submit(Task task) {
@@ -99,7 +98,6 @@ public final class TaskManager {
         try {
             if (key instanceof Entity entity) {
                 cancels.addAll(entity.activeTasks);
-                System.out.println(cancels.size());
                 cancels.forEach(Task::stop);
                 cancels.clear();
             } else {

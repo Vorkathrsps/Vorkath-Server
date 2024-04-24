@@ -125,9 +125,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
             e.pidOrderIndex = -1;
             e.setRegistered(false);
             entities.remove(e.getIndex());
-            System.out.println("[remove] Slot queue was " + slotQueue.size());
             slotQueue.enqueue(e.getIndex());
-            System.out.println("[remove] Slot queue is " + slotQueue.size());
             e.setIndex(-1);
             if (!e.isPlayer())
                 e.onRemove();

@@ -220,6 +220,11 @@ public class ObjectDefinition implements Definition {
             interactType = 0;
         }
 
+        if (this.id == 52980) {
+            System.out.println("varp: " + this.varp);
+            System.out.println("varbit: " + this.varbit);
+        }
+
         cached.put(id, this);
     }
 

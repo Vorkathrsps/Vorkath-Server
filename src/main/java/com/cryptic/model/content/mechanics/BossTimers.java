@@ -54,6 +54,7 @@ public class BossTimers {
     private Map<String, Integer> times = new HashMap<>();
 
     public void submit(String name, int newTime, Player player) {
+        if (name == null) return;
         if (!TRACKED_NPCS.contains(name)) return;
         if (newTime == 0) {
             return;

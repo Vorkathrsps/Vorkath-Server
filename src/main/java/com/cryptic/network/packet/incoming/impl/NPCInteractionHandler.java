@@ -39,6 +39,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Tuple;
 import com.cryptic.utility.timers.TimerKey;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -53,6 +54,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 public class NPCInteractionHandler implements PacketListener {
 
     private static final int ATTACK_OPTION = 72, OPTION_1 = 155, OPTION_2 = 17, OPTION_3 = 21, OPTION_4 = 18;
+    private final int[] ignore = new int[]{10382, 1306, 6797, 7663, 2822, 2821, 10692, 2980, 1755, 5919, 10631};
 
     @Override
     public void handleMessage(Player player, Packet packet) throws Exception {
@@ -148,7 +150,9 @@ public class NPCInteractionHandler implements PacketListener {
                 bankerAction.run();
                 return;
             }
-            npc.setPositionToFace(player.tile());
+            if (!ArrayUtils.contains(ignore, npc.id())) {
+                npc.setPositionToFace(player.tile());
+            }
             player.setInteractingNpcId(npc.id());
             handleInteraction(player, npc, finalOption);
             npc.getMovementQueue().setBlockMovement(false);

@@ -13,6 +13,7 @@ import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.compress.utils.Lists;
@@ -20,6 +21,7 @@ import org.apache.commons.compress.utils.Lists;
 import java.util.*;
 
 public class XamphurCombat extends CommonCombatMethod {
+    int attackcount = 0;
     boolean initiated = false;
     List<GameObject> objects = new ArrayList<>();
     Set<Tile> tiles = new HashSet<>();
@@ -62,9 +64,14 @@ public class XamphurCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!this.initiated) return false;
-        if (Utils.rollDie(25, 1)) resetAndShuffleMarks();
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) return false;
+        if (attackcount % 5 == 0) {
+            attackcount = 0;
+            resetAndShuffleMarks();
+        }
         if (Utils.rollDie(2, 1)) regularAttack();
         else handAttack();
+        attackcount++;
         return true;
     }
 

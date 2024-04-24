@@ -34,7 +34,6 @@ import com.cryptic.utility.timers.TimerKey;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -267,7 +266,7 @@ public class Combat {
         }
     }
 
-    public static final int[] ignored_interaction = new int[]{11774, 11762, 6611, 11776};
+    public static final int[] ignored_interaction = new int[]{11774, 11762, 6611, 11776, 13013, 13017};
 
     public boolean beforePerformAttack() {
 
@@ -352,9 +351,8 @@ public class Combat {
 
         if (combatAttackTicksRemaining <= 0) {
             if (!method.prepareAttack(mob, target)) return;
-            if (mob.isPlayer() && target.isPlayer()) {
-                if (WildernessArea.isInWilderness((Player) mob)) {
-                    Player player = mob.getAsPlayer();
+            if (mob instanceof Player player && target instanceof Player) {
+                if (WildernessArea.isInWilderness(player)) {
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);
                 }
             }

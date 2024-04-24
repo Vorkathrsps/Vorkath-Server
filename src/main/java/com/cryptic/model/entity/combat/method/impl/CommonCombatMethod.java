@@ -51,7 +51,6 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     public void process(Entity entity, @Nullable Entity target) {
-
     }
 
     protected boolean isInsideCombatBoundary() {

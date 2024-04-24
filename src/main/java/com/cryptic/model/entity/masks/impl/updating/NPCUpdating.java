@@ -202,7 +202,10 @@ public class NPCUpdating {
         if (sendFaceTile || (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null)) {
             mask |= 0x4;
         }
-        block.put(mask);
+        if (flag.flagged(Flag.VISIBLE_MENU_OPTIONS)) {
+            mask |= 0x200;
+        }
+        block.putShort(mask);
         if (flag.flagged(Flag.ANIMATION) && npc.getAnimation() != null) {
             updateAnimation(block, npc);
         }
@@ -231,6 +234,9 @@ public class NPCUpdating {
             int y = position == null ? 0 : position.getY();
             block.putShort(x * 2 + 1, ByteOrder.LITTLE);
             block.putShort(y * 2 + 1, ByteOrder.LITTLE);
+        }
+        if (flag.flagged(Flag.VISIBLE_MENU_OPTIONS)) {
+            block.put(npc.visibleMenuOptions);
         }
     }
 

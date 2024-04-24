@@ -893,7 +893,7 @@ public final class PacketSender {
     }
 
     public void sendMultipleStrings(List<Player.TextData> stringList) {
-        List<Player.TextData> filtered = stringList.stream().collect(Collectors.toList());
+        List<Player.TextData> filtered = stringList.stream().toList();
 
         PacketBuilder out = new PacketBuilder(129, PacketType.VARIABLE_SHORT);
 

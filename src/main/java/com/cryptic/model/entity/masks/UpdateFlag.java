@@ -13,7 +13,7 @@ public class UpdateFlag {
     /**
      * A set containing the entity's update flags.
      */
-    private BitSet flags = new BitSet();
+    private final BitSet flags = new BitSet();
 
     /**
      * Checks if {@code flag} is contained in the entity's flag set.

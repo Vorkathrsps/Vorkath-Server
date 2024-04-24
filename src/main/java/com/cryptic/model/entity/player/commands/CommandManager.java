@@ -4,7 +4,6 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
-import com.cryptic.core.event.EntityEvent;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -20,19 +19,17 @@ import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
-import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -688,13 +685,10 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            Tile firstLocation = p.tile().copy();
-            World.getWorld().tileGraphic(1919, firstLocation, 0, 0);
-            Chain.noCtx().runFn(2, () -> {
-                if (p.tile().equals(firstLocation)) {
-                    new Hit(p, p, Utils.random(0, 10), 0, CombatType.MAGIC).checkAccuracy(true).submit();
-                }
-            });
+           List<Player> players = new ArrayList<>();
+            players.add(p);
+            PerilOfMoonInstance instance = new PerilOfMoonInstance(p, players);
+            instance.buildParty();
         });
 
         dev("cleartask", (p, c, s) ->

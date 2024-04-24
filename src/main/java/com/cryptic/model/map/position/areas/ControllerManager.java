@@ -2,6 +2,8 @@ package com.cryptic.model.map.position.areas;
 
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.bluemoon.area.BlueMoonArea;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.bluemoon.area.BlueMoonLobbyArea;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusArea;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
@@ -33,6 +35,8 @@ public class ControllerManager {
         CONTROLLERS.add(new CorporealArea());
         CONTROLLERS.add(new ScurriusArea());
         CONTROLLERS.add(new NightmareArea());
+        CONTROLLERS.add(new BlueMoonArea());
+        CONTROLLERS.add(new BlueMoonLobbyArea());
     }
 
     /**

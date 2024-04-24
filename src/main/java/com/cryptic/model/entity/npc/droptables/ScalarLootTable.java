@@ -279,8 +279,6 @@ public class ScalarLootTable {
             System.out.println(item.getAmount() + " x " + repo.get(ItemDefinition.class, new Item(item.getId()).unnote(repo).getId()).name + " (1/" + indiv + ")");
         }
 
-        System.out.println();
-        System.out.println();
         }
     }
 

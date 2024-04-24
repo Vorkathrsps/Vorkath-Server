@@ -1126,7 +1126,6 @@ public class TournamentManager extends PacketInteraction {
         ZonedDateTime next = now.withHour(Integer.parseInt(hours.substring(0, 2))).withMinute(Integer.parseInt(hours.substring(3, 5))).withSecond(0);
         if (tomorrow)
             next = next.plusDays(1);
-        //System.out.printf("%s -> %s from %s | %s < %s%n", hours, next, now, next.toEpochSecond(), now.toEpochSecond());
         return next;
     }
 

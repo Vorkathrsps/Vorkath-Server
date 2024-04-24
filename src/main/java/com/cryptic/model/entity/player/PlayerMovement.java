@@ -91,7 +91,6 @@ public class PlayerMovement extends MovementQueue {
         int diffX = player.tile().getX() - player.getPreviousTile().getX();
         int diffY = player.tile().getY() - player.getPreviousTile().getY();
 
-        //System.out.println("diffX " + diffX + " diffY " + diffY+" "+isRunning());
         lastFollowX = followX;
         lastFollowY = followY;
         followX = player.getPreviousTile().getX();

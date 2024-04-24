@@ -77,6 +77,7 @@ import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -182,6 +183,7 @@ public class Player extends Entity {
     @Getter @Setter public RoomState roomState;
     @Getter @Setter private NightmareInstance nightmareInstance;
     @Getter @Setter private TheatreInstance theatreInstance;
+    @Getter @Setter private PerilOfMoonInstance perilInstance;
     @Getter @Setter private double[] savedTornamentXp;
     @Getter @Setter private Tile lastSavedTile;
     @Getter @Setter private boolean usingLastRecall = false;
@@ -260,7 +262,7 @@ public class Player extends Entity {
         return username;
     }
 
-    private int[] sessionVarps = new int[4000];
+    private int[] sessionVarps = new int[5000];
 
     public int[] sessionVarps() {
         return sessionVarps;
@@ -1396,6 +1398,8 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
+
+        if (this.getTimers().has(TimerKey.TELEBLOCK)) this.getTimers().cancel(TimerKey.TELEBLOCK);
 
         removeFromRegions();
 

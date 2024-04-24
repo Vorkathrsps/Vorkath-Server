@@ -442,15 +442,14 @@ public abstract class Entity {
     /**
      * Is this entity registered.
      * -- GETTER --
-     *  Gets if this entity is registered.
-     *
-     *
+     * Gets if this entity is registered.
+     * <p>
+     * <p>
      * -- SETTER --
-     *  Sets if this entity is registered,
+     * Sets if this entity is registered,
      *
-     @return the unregistered.
-      * @param registered the registered to set.
-
+     * @return the unregistered.
+     * @param registered the registered to set.
      */
     @Setter
     @Getter
@@ -685,21 +684,27 @@ public abstract class Entity {
     public int nextHitIndex;
     public final Hit[] nextHits = new Hit[4];
 
-    public void setWalkingDirection(Direction walkDirection) {
-        this.walkingDirection = walkDirection;
+    public void setVisibleMenuOptions(boolean enableOp1, boolean enableOp2, boolean enableOp3, boolean enableOp4, boolean enableop5) {
+        this.visibleMenuOptions = 0;
+        if (enableOp1) {
+            this.visibleMenuOptions = this.visibleMenuOptions | 0x1;
+        }
+        if (enableOp2) {
+            this.visibleMenuOptions = this.visibleMenuOptions | 0x2;
+        }
+        if (enableOp3) {
+            this.visibleMenuOptions = this.visibleMenuOptions | 0x4;
+        }
+        if (enableOp4) {
+            this.visibleMenuOptions = this.visibleMenuOptions | 0x8;
+        }
+        if (enableop5) {
+            this.visibleMenuOptions = this.visibleMenuOptions | 0x10;
+        }
+        this.getUpdateFlag().flag(Flag.VISIBLE_MENU_OPTIONS);
     }
 
-    public void setRunningDirection(Direction runDirection) {
-        this.runningDirection = runDirection;
-    }
-
-    public Direction getWalkingDirection() {
-        return walkingDirection;
-    }
-
-    public Direction getRunningDirection() {
-        return runningDirection;
-    }
+    public int visibleMenuOptions = 31;
 
     /**
      * Determines if this mob needs to reset their movement queue.
@@ -1945,6 +1950,7 @@ public abstract class Entity {
         setEntityInteraction(null);
 
         if (this instanceof Player player) {
+            if (!player.getRegions().contains(player.tile().getRegion())) player.addRegion(player.tile().getRegion());
             player.getMovementQueue().handleRegionChange();
         }
 
@@ -2071,6 +2077,8 @@ public abstract class Entity {
     private String forcedChat;
     private boolean fixingDiagonal = false;
     private boolean repositioning = false;
+    @Getter
+    @Setter
     private Direction walkingDirection = Direction.NONE, runningDirection = Direction.NONE;
     @Getter
     private final UpdateFlag updateFlag = new UpdateFlag();

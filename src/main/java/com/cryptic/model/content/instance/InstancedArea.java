@@ -145,7 +145,7 @@ public class InstancedArea {
         if (!npcs.contains(npc))
             npcs.add(npc);
         npc.setInstancedArea(this);
-        logger.trace(marker, "Add to instance npc={}, instance={}", npc, this);
+       // logger.trace(marker, "Add to instance npc={}, instance={}", npc, this);
     }
 
     /**
@@ -206,7 +206,7 @@ public class InstancedArea {
     public void removeNpc(NPC npc) {
         npcs.remove(npc);
         npc.setInstancedArea(null);
-        logger.trace(marker, "Remove from instance npc={}, instance={}", npc, this);
+        //logger.trace(marker, "Remove from instance npc={}, instance={}", npc, this);
     }
 
     /**
@@ -231,7 +231,7 @@ public class InstancedArea {
         }
         if (player.getInstancedArea() != this)
             player.setInstancedArea(this);
-        logger.trace(marker, "Add to instance player={}, instance={}", player, this);
+        //logger.trace(marker, "Add to instance player={}, instance={}", player, this);
     }
 
     /**
@@ -241,7 +241,7 @@ public class InstancedArea {
         players.remove(player);
         if (player.getInstancedArea() == this)
             player.setInstancedArea(null);
-        logger.trace(marker, "Remove from instance player={}, instance={}", player, this);
+       // logger.trace(marker, "Remove from instance player={}, instance={}", player, this);
 
         if (!disposed && players.isEmpty() && configuration.isCloseOnPlayersEmpty()) {//probs needs this flag
             logger.trace(marker, "Players list is empty, closing instance {}", this);

@@ -123,153 +123,156 @@ public class NPCDeath {
                 killer.getBossKillLog().addKill(npc);
             }
 
-            if (npc.def().name.equalsIgnoreCase("Yak")) {
-                AchievementsManager.activate(killer, Achievements.YAK_HUNTER, 1);
-            }
+            if (npc.def() != null && npc.def().name != null) {
 
-            if (npc.def().name.equalsIgnoreCase("Rock Crab")) {
-                AchievementsManager.activate(killer, Achievements.ROCK_CRAB_HUNTER, 1);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Sand Crab")) {
-                AchievementsManager.activate(killer, Achievements.SAND_CRAB_HUNTER, 1);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Experiment")) {
-                AchievementsManager.activate(killer, Achievements.EXPERIMENTS_HUNTER, 1);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Adamant dragon")) {
-                var kc = killer.<Integer>getAttribOr(ADAMANT_DRAGONS_KILLED, 0) + 1;
-                killer.putAttrib(ADAMANT_DRAGONS_KILLED, kc);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Rune dragon")) {
-                var kc = killer.<Integer>getAttribOr(RUNE_DRAGONS_KILLED, 0) + 1;
-                killer.putAttrib(RUNE_DRAGONS_KILLED, kc);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Lava dragon")) {
-                var kc = killer.<Integer>getAttribOr(LAVA_DRAGONS_KILLED, 0) + 1;
-                killer.putAttrib(LAVA_DRAGONS_KILLED, kc);
-            }
-
-            if (npc.def().name.contains("dragon") || npc.def().name.contains("Dragon")) {
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_I, 1);
-                killer.getTaskMasterManager().increase(Tasks.DRAGONS);
-            }
-
-            if (npc.def().name.contains("Black dragon") || npc.def().name.contains("black dragon")) {
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("K'ril Tsutsaroth") || npc.def().name.equalsIgnoreCase("General Graardor") || npc.def().name.equalsIgnoreCase("Commander Zilyana") || npc.def().name.equalsIgnoreCase("Kree'arra")) {
-                AchievementsManager.activate(killer, Achievements.GODWAR, 1);
-            }
-
-            if (npc.def().name.contains("Revenant") || npc.def().name.contains("revenant")) {
-                AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_I, 1);
-                AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_II, 1);
-                AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_III, 1);
-                AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_IV, 1);
-                killer.getTaskMasterManager().increase(Tasks.REVENANTS);
-                DailyTaskManager.increase(DailyTasks.REVENANTS, killer);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Alchemical Hydra")) {
-                killer.getTaskMasterManager().increase(Tasks.ALCHEMICAL_HYDRA);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Chaos Fanatic")) {
-                killer.getTaskMasterManager().increase(Tasks.CHAOS_FANATIC);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Corporeal Beast")) {
-                AchievementsManager.activate(killer, Achievements.CORPOREAL_CRITTER, 1);
-                DailyTaskManager.increase(DailyTasks.CORPOREAL_BEAST, killer);
-                killer.getTaskMasterManager().increase(Tasks.CORPOREAL_BEAST);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Crazy archaeologist")) {
-                killer.getTaskMasterManager().increase(Tasks.CRAZY_ARCHAEOLOGIST);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("Demonic gorilla")) {
-                killer.getTaskMasterManager().increase(Tasks.DEMONIC_GORILLA);
-            }
-
-            if (npc.def().name.equalsIgnoreCase("King Black Dragon")) {
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
-                killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
-            }
-
-            if (npc.id() == ANCIENT_KING_BLACK_DRAGON) {
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
-                AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
-                killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
-                DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-                if (!npc.ancientSpawn()) {
-                    Chain.bound(null).runFn(30, () -> {
-                        var kingBlackDragon = new NPC(KING_BLACK_DRAGON, npc.spawnTile());
-                        World.getWorld().getNpcs().add(kingBlackDragon);
-                    });
+                if (npc.def().name.equalsIgnoreCase("Yak")) {
+                    AchievementsManager.activate(killer, Achievements.YAK_HUNTER, 1);
                 }
-            }
 
-            if (npc.def().name.equalsIgnoreCase("Lizardman shaman")) {
-                killer.getTaskMasterManager().increase(Tasks.LIZARDMAN_SHAMAN);
-            }
+                if (npc.def().name.equalsIgnoreCase("Rock Crab")) {
+                    AchievementsManager.activate(killer, Achievements.ROCK_CRAB_HUNTER, 1);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Thermonuclear smoke devil")) {
-                killer.getTaskMasterManager().increase(Tasks.THERMONUCLEAR_SMOKE_DEVIL);
-            }
+                if (npc.def().name.equalsIgnoreCase("Sand Crab")) {
+                    AchievementsManager.activate(killer, Achievements.SAND_CRAB_HUNTER, 1);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Vet'ion")) {
-                killer.getTaskMasterManager().increase(Tasks.VETION);
-            }
+                if (npc.def().name.equalsIgnoreCase("Experiment")) {
+                    AchievementsManager.activate(killer, Achievements.EXPERIMENTS_HUNTER, 1);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Chaos Elemental")) {
-                killer.getTaskMasterManager().increase(Tasks.CHAOS_ELEMENTAL);
-                AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
-                AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
-                AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
-                DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-            }
+                if (npc.def().name.equalsIgnoreCase("Adamant dragon")) {
+                    var kc = killer.<Integer>getAttribOr(ADAMANT_DRAGONS_KILLED, 0) + 1;
+                    killer.putAttrib(ADAMANT_DRAGONS_KILLED, kc);
+                }
 
-            if (npc.def().name.contains("Zulrah")) {
-                killer.getTaskMasterManager().increase(Tasks.ZULRAH);
-                DailyTaskManager.increase(DailyTasks.ZULRAH, killer);
-            }
+                if (npc.def().name.equalsIgnoreCase("Rune dragon")) {
+                    var kc = killer.<Integer>getAttribOr(RUNE_DRAGONS_KILLED, 0) + 1;
+                    killer.putAttrib(RUNE_DRAGONS_KILLED, kc);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Vorkath")) {
-                killer.getTaskMasterManager().increase(Tasks.VORKATH);
-                DailyTaskManager.increase(DailyTasks.VORKATH, killer);
-            }
+                if (npc.def().name.equalsIgnoreCase("Lava dragon")) {
+                    var kc = killer.<Integer>getAttribOr(LAVA_DRAGONS_KILLED, 0) + 1;
+                    killer.putAttrib(LAVA_DRAGONS_KILLED, kc);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Brutal lava dragon") || npc.def().name.equalsIgnoreCase("Skotizo") || npc.def().name.equalsIgnoreCase("Corrupted nechryarch")) {
-                killer.getTaskMasterManager().increase(Tasks.WORLD_BOSS);
-            }
+                if (npc.def().name.contains("dragon") || npc.def().name.contains("Dragon")) {
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_I, 1);
+                    killer.getTaskMasterManager().increase(Tasks.DRAGONS);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Kalphite Queen")) {
-                killer.getTaskMasterManager().increase(Tasks.KALPHITE_QUEEN);
-            }
+                if (npc.def().name.contains("Black dragon") || npc.def().name.contains("black dragon")) {
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Dagannoth Supreme") || npc.def().name.equalsIgnoreCase("Dagannoth Prime") || npc.def().name.equalsIgnoreCase("Dagannoth Rex")) {
-                AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_I, 1);
-                AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_II, 1);
-                killer.getTaskMasterManager().increase(Tasks.DAGANNOTH_KINGS);
-            }
+                if (npc.def().name.equalsIgnoreCase("K'ril Tsutsaroth") || npc.def().name.equalsIgnoreCase("General Graardor") || npc.def().name.equalsIgnoreCase("Commander Zilyana") || npc.def().name.equalsIgnoreCase("Kree'arra")) {
+                    AchievementsManager.activate(killer, Achievements.GODWAR, 1);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Giant Mole")) {
-                AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_I, 1);
-                AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_II, 1);
-                AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_III, 1);
-                killer.getTaskMasterManager().increase(Tasks.GIANT_MOLE);
-            }
+                if (npc.def().name.contains("Revenant") || npc.def().name.contains("revenant")) {
+                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_I, 1);
+                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_II, 1);
+                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_III, 1);
+                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_IV, 1);
+                    killer.getTaskMasterManager().increase(Tasks.REVENANTS);
+                    DailyTaskManager.increase(DailyTasks.REVENANTS, killer);
+                }
 
-            if (npc.def().name.equalsIgnoreCase("Barrelchest")) {
-                DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
+                if (npc.def().name.equalsIgnoreCase("Alchemical Hydra")) {
+                    killer.getTaskMasterManager().increase(Tasks.ALCHEMICAL_HYDRA);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Chaos Fanatic")) {
+                    killer.getTaskMasterManager().increase(Tasks.CHAOS_FANATIC);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Corporeal Beast")) {
+                    AchievementsManager.activate(killer, Achievements.CORPOREAL_CRITTER, 1);
+                    DailyTaskManager.increase(DailyTasks.CORPOREAL_BEAST, killer);
+                    killer.getTaskMasterManager().increase(Tasks.CORPOREAL_BEAST);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Crazy archaeologist")) {
+                    killer.getTaskMasterManager().increase(Tasks.CRAZY_ARCHAEOLOGIST);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Demonic gorilla")) {
+                    killer.getTaskMasterManager().increase(Tasks.DEMONIC_GORILLA);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("King Black Dragon")) {
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
+                    killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
+                }
+
+                if (npc.id() == ANCIENT_KING_BLACK_DRAGON) {
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
+                    killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
+                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
+                    if (!npc.ancientSpawn()) {
+                        Chain.bound(null).runFn(30, () -> {
+                            var kingBlackDragon = new NPC(KING_BLACK_DRAGON, npc.spawnTile());
+                            World.getWorld().getNpcs().add(kingBlackDragon);
+                        });
+                    }
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Lizardman shaman")) {
+                    killer.getTaskMasterManager().increase(Tasks.LIZARDMAN_SHAMAN);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Thermonuclear smoke devil")) {
+                    killer.getTaskMasterManager().increase(Tasks.THERMONUCLEAR_SMOKE_DEVIL);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Vet'ion")) {
+                    killer.getTaskMasterManager().increase(Tasks.VETION);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Chaos Elemental")) {
+                    killer.getTaskMasterManager().increase(Tasks.CHAOS_ELEMENTAL);
+                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
+                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
+                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
+                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
+                }
+
+                if (npc.def().name.contains("Zulrah")) {
+                    killer.getTaskMasterManager().increase(Tasks.ZULRAH);
+                    DailyTaskManager.increase(DailyTasks.ZULRAH, killer);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Vorkath")) {
+                    killer.getTaskMasterManager().increase(Tasks.VORKATH);
+                    DailyTaskManager.increase(DailyTasks.VORKATH, killer);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Brutal lava dragon") || npc.def().name.equalsIgnoreCase("Skotizo") || npc.def().name.equalsIgnoreCase("Corrupted nechryarch")) {
+                    killer.getTaskMasterManager().increase(Tasks.WORLD_BOSS);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Kalphite Queen")) {
+                    killer.getTaskMasterManager().increase(Tasks.KALPHITE_QUEEN);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Dagannoth Supreme") || npc.def().name.equalsIgnoreCase("Dagannoth Prime") || npc.def().name.equalsIgnoreCase("Dagannoth Rex")) {
+                    AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_I, 1);
+                    AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_II, 1);
+                    killer.getTaskMasterManager().increase(Tasks.DAGANNOTH_KINGS);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Giant Mole")) {
+                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_I, 1);
+                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_II, 1);
+                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_III, 1);
+                    killer.getTaskMasterManager().increase(Tasks.GIANT_MOLE);
+                }
+
+                if (npc.def().name.equalsIgnoreCase("Barrelchest")) {
+                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
+                }
             }
 
             if (killer.getMinigame() != null) {
@@ -494,7 +497,7 @@ public class NPCDeath {
                     WildernessBossEvent.getINSTANCE().bossDeath(npc);
                 }
 
-                killer.getBossTimers().submit(npc.def().name, (int) killer.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), killer);
+                killer.getBossTimers().submit(NpcDefinition.cached.get(npc.id()).name, (int) killer.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), killer);
 
                 //Drop loot, but the first form of KQ, Runite golem and world bosses do not drop anything.
                 if ((npc.id() != KALPHITE_QUEEN_6500 && npc.id() != RUNITE_GOLEM && !npc.isWorldBoss() && npc.id() != THE_NIGHTMARE_9430)) {

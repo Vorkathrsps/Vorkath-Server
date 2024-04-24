@@ -8,6 +8,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +51,7 @@ public class MultiwayCombat {
     public static boolean regionStrict(Tile tile) {
         return REGIONS.stream().anyMatch(id -> id == tile.region());
     }
+
     public static boolean chunkStrict(Tile tile) {
         return CHUNKS.stream().anyMatch(id -> id == tile.chunk());
     }
@@ -74,7 +76,7 @@ public class MultiwayCombat {
             var state = includes(player.tile()) ? 1 : 0;
             //player.message("state " + state);
 
-            if (player.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) != state) {
+            if (player.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) != state) {
                 player.getPacketSender().sendMultiIcon(state);
             }
         }
@@ -90,17 +92,17 @@ public class MultiwayCombat {
 
         if (inMulti) {
             player.getPacketSender().sendMultiIcon(1);
-            player.putAttrib(AttributeKey.MULTIWAY_AREA,1);
+            player.putAttrib(AttributeKey.MULTIWAY_AREA, 1);
         } else {
             player.getPacketSender().sendMultiIcon(0);
-            player.putAttrib(AttributeKey.MULTIWAY_AREA,0);
+            player.putAttrib(AttributeKey.MULTIWAY_AREA, 0);
         }
 
-        if(lastregion == 13103 && lastregion != player.tile().region()) { // actually changed now
+        if (lastregion == 13103 && lastregion != player.tile().region()) { // actually changed now
             // Make sure blurite removed when leaving this area
             for (Item i : player.inventory().getItems()) {// Clear blurite ores.
                 if (i == null) continue;
-                if(i.getId() == BLURITE_ORE) {
+                if (i.getId() == BLURITE_ORE) {
                     player.inventory().remove(i, true);
                 }
             }
@@ -108,7 +110,7 @@ public class MultiwayCombat {
         }
 
         //When leaving the raids area remove from party
-        if(player.raidsParty != null) {
+        if (player.raidsParty != null) {
             boolean raiding = player.getRaids() != null && player.getRaids().raiding(player);
             if (!raiding) {
                 // defo not raiding
@@ -116,18 +118,18 @@ public class MultiwayCombat {
             }
         }
 
-        if(lastregion == 13118) {
-            if(!inMulti) {
+        if (lastregion == 13118) {
+            if (!inMulti) {
                 player.getPacketSender().sendMultiIcon(0);
                 player.putAttrib(AttributeKey.MULTIWAY_AREA, 0);
             }
         }
 
-        if(lastregion == 12190) {
+        if (lastregion == 12190) {
             // Leaving wildy gwd. Has to be hardcoded because in the same region, it is partly single.
             if (!inMulti) {
                 player.getPacketSender().sendMultiIcon(0);
-                player.putAttrib(AttributeKey.MULTIWAY_AREA,0);
+                player.putAttrib(AttributeKey.MULTIWAY_AREA, 0);
             }
         }
     }
@@ -178,6 +180,7 @@ public class MultiwayCombat {
         7222,
         6965,
         13210,
+        5783,
 
         /* Wildy: (uses 8x8 chunks for some sections as well as chunks) **/
         5789,
@@ -200,7 +203,7 @@ public class MultiwayCombat {
         12889, 13136, 13137, 13138, 13139, //COX
         12869, 12613, 13125, 13122, 13123, 12611, 12612, 12867,//TOB
         12615, 12616, // HP raids
-            7604, 7092, 6580, 15696, 12994
+        7604, 7092, 6580, 15696, 12994
     );
 
     private static final List<Integer> CHUNKS = Arrays.asList(

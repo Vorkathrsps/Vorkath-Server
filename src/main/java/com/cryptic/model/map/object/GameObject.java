@@ -541,25 +541,25 @@ public class GameObject {
         } else if (type >= 9 && type <= 21) {
             if (def.interactType != 0) {
                 if (remove) {
-                    ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, def.boolean1, false);
+                    ClipUtils.removeClipping(x, y, z, xLength, yLength, def.boolean1, false);
                     if (def.boolean1)
-                        ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
+                        ClipUtils.removeClipping(x, y, z, xLength, yLength, true, true);
                 } else {
-                    ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, def.boolean1, false);
+                    ClipUtils.addClipping(x, y, z, xLength, yLength, def.boolean1, false);
                     if (def.boolean1)
-                        ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
+                        ClipUtils.addClipping(x, y, z, xLength, yLength, true, true);
                 }
             }
         } else if (type >= 0 && type <= 3) {
             if (def.interactType != 0) {
                 if (remove) {
-                    ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.boolean1, false);
+                    ClipUtils.removeVariableClipping(x, y, z, type, rotation, def.boolean1, false);
                     if (def.boolean1)
-                        ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
+                        ClipUtils.removeVariableClipping(x, y, z, type, rotation, true, true);
                 } else {
-                    ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.boolean1, false);
+                    ClipUtils.addVariableClipping(x, y, z, type, rotation, def.boolean1, false);
                     if (def.boolean1)
-                        ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
+                        ClipUtils.addVariableClipping(x, y, z, type, rotation, true, true);
                 }
             }
         }

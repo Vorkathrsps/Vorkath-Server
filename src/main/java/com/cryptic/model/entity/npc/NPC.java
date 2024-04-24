@@ -361,6 +361,7 @@ public class NPC extends Entity {
 
     public void inViewport(boolean b) {
         inViewport = b;
+        getUpdateFlag().flag(Flag.VISIBLE_MENU_OPTIONS);
     }
 
     public boolean inViewport() {
@@ -512,6 +513,13 @@ public class NPC extends Entity {
 
     }
 
+    /**
+     * override me
+     */
+    public void movementQueueCombatSequence() {
+
+    }
+
     public boolean beforeAttack() {
         return false;
     }
@@ -553,7 +561,8 @@ public class NPC extends Entity {
         List<Player> temp = new ArrayList<>();
         for (var region : this.getSurroundingRegions()) {
             for (var player : region.getPlayers()) {
-                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || player.looks().hidden() || temp.contains(player)) continue;
+                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || player.looks().hidden() || temp.contains(player))
+                    continue;
                 if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
                 if (override) {
                     combatInfo.scripts.agro_.shouldAgro(this, player);
@@ -686,7 +695,7 @@ public class NPC extends Entity {
 
 
     static final int[] PERMANENT_MOVEMENT_BLOCKED = {
-        11762, NpcIdentifiers.VORKATH_8061, 10814, 10815, 10816, 10817, NpcIdentifiers.SOTETSEG_10865, NpcIdentifiers.PORTAL_1747, NpcIdentifiers.PORTAL_1748, NpcIdentifiers.PORTAL_1749, NpcIdentifiers.PORTAL_1750, NpcIdentifiers.VOID_KNIGHT_2950, NpcIdentifiers.VOID_KNIGHT_2951, NpcIdentifiers.VOID_KNIGHT_2952,
+        11762, 13013, 13017, NpcIdentifiers.VORKATH_8061, 10814, 10815, 10816, 10817, NpcIdentifiers.SOTETSEG_10865, NpcIdentifiers.PORTAL_1747, NpcIdentifiers.PORTAL_1748, NpcIdentifiers.PORTAL_1749, NpcIdentifiers.PORTAL_1750, NpcIdentifiers.VOID_KNIGHT_2950, NpcIdentifiers.VOID_KNIGHT_2951, NpcIdentifiers.VOID_KNIGHT_2952,
         XARPUS, XARPUS_8340, XARPUS_10767, XARPUS_8339, XARPUS_8341, SPINOLYP, SPINOLYP_5961, SPINOLYP_5963, VERZIK_VITUR_8375, VERZIK_VITUR_8369, VERZIK_VITUR_8371, VERZIK_VITUR_8373
     };
 

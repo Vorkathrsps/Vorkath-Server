@@ -19,7 +19,7 @@ public class Varps {
     }
 
     private final Player player;
-    private final int[] varps = new int[4000];
+    private final int[] varps = new int[5000];
 
     public Varps(Player player) {
         this.player = player;

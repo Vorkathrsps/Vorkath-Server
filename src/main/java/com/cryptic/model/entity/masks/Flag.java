@@ -21,5 +21,5 @@ public enum Flag {
     /**
      * Update flag used to transform npc to another.
      */
-    TRANSFORM;
+    TRANSFORM, VISIBLE_MENU_OPTIONS;
 }

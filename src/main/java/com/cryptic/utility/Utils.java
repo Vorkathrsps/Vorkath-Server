@@ -81,6 +81,7 @@ public class Utils {
      * @param size the size
      * @return the coord offsets near
      */
+
     public static int[][] getCoordOffsetsNear(int size) {
         int[] xs = new int[4 + (4 * size)];
         int[] xy = new int[xs.length];

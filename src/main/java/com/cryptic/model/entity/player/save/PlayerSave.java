@@ -473,7 +473,7 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
             player.setInvulnerable(details.infhp);
             if (details.varps != null) {
-                int[] varps = new int[4000];
+                int[] varps = new int[5000];
                 details.varps.forEach((k, v) -> {
                     varps[k] = v;
                 });

@@ -12,6 +12,7 @@ import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,11 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 public class KrilCombat extends CommonCombatMethod {
-    private static final Area ENCAMPMENT = new Area(2918, 5318, 2936, 5331);
 
-    public static Area getENCAMPMENT() {
-        return ENCAMPMENT;
-    }
+    @Getter private static final Area ENCAMPMENT = new Area(2918, 5318, 2936, 5331);
 
     private final List<String> QUOTES = Arrays.asList("Attack them, you dogs!",
         "Forward!",
@@ -65,18 +63,17 @@ public class KrilCombat extends CommonCombatMethod {
             target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
             target.getSkills().alterSkill(Skills.PRAYER, -20);
         } else {
-            new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
+            new Hit(entity, target, 1, CombatType.MELEE).checkAccuracy(true).submit();
         }
     }
 
     public void magic() {
         if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
         entity.animate(6950);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int durationMagic = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 60, 30, 6, entity.getSize(), 5);
-        final int delay = (int) (p.getSpeed() / 30D);
-        entity.executeProjectile(p);
+        final int delay = entity.executeProjectile(p);
         new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
      }
 

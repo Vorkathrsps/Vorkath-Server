@@ -78,7 +78,7 @@ public class VorkathCombat extends CommonCombatMethod {
         int attackType;
 
         if (count-- < 1) {
-            count = 6; // reset back
+            count = 6;
             int major = entity.<Integer>getAttribOr(VORKATH_LAST_MAJOR_ATTACK, 0) == 0 ? 1 : 0; // switch last attack
             entity.putAttrib(VORKATH_LAST_MAJOR_ATTACK, major);
             attackType = major == 0 ? 6 : 7; // decide the major attack
@@ -105,7 +105,7 @@ public class VorkathCombat extends CommonCombatMethod {
     private void bomb() {
         entity.animate(FIREBALL_ATTACK_ANIMATION);
         final Tile targetPos = target.tile().clone();
-        var tileDist = entity.tile().getChevDistance(targetPos);
+        var tileDist = entity.getCentrePosition().getChevDistance(targetPos);
         int duration = (85 + -5 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p1 = new Projectile(tile, targetPos, 1491, 85, duration, 150, 0, 16, entity.getSize(), 10);
@@ -120,7 +120,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
     private void range() {
         entity.animate(ATTACK_ANIMATION);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 5);
@@ -132,7 +132,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
     private void mage() {
         entity.animate(ATTACK_ANIMATION);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
@@ -159,7 +159,7 @@ public class VorkathCombat extends CommonCombatMethod {
             case 0 -> {
                 entity.animate(ATTACK_ANIMATION);
                 entity.animate(ATTACK_ANIMATION);
-                var tileDist = entity.tile().distance(target.tile());
+                var tileDist = entity.getCentrePosition().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1470, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
@@ -167,18 +167,18 @@ public class VorkathCombat extends CommonCombatMethod {
                 target.graphic(1472, GraphicHeight.MIDDLE, p.getSpeed());
                 if (Utils.random(4) <= 3)
                     target.venom(entity);
-                Hit hit = entity.submitAccurateHit(target, delay, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), this);
+                Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 fireDamage(hit);
             }
             case 1 -> {
                 entity.animate(ATTACK_ANIMATION);
-                var tileDist = entity.tile().distance(target.tile());
+                var tileDist = entity.getCentrePosition().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1471, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1473, GraphicHeight.MIDDLE, p.getSpeed());
-                Hit hit = entity.submitAccurateHit(target, delay, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), this);
+                Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 fireDamage(hit);
                 if (target.isPlayer()) {
                     for (int i = 0; i < target.getAsPlayer().getPrayerActive().length; i++) {
@@ -188,14 +188,14 @@ public class VorkathCombat extends CommonCombatMethod {
                 }
             }
             case 2 -> {
-                var tileDist = entity.tile().distance(target.tile());
+                var tileDist = entity.getCentrePosition().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 393, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
                 entity.animate(ATTACK_ANIMATION);
-                Hit hit = entity.submitAccurateHit(target, delay, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), this);
+                Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 fireDamage(hit);
             }
         }
@@ -290,7 +290,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
             MutableObject<Projectile> projectileMutableObject = new MutableObject<>();
             for (Tile poisonTile : poisonTiles) {
-                var tileDist = entity.tile().distance(poisonTile);
+                var tileDist = entity.getCentrePosition().distance(poisonTile);
                 int duration = (50 + 25 + (2 * tileDist));
                 Projectile p = new Projectile(entity, poisonTile, 1483, 50, duration, 80, 0, 25, entity.getSize(), 2);
                 projectileMutableObject.setValue(p);
@@ -348,14 +348,11 @@ public class VorkathCombat extends CommonCombatMethod {
         var ref = new Object() {
             int loops = 25;
         };
-        MutableObject<Player> playerMutableObject = new MutableObject<>();
-        playerMutableObject.setValue((Player) target);
         Chain.noCtx().cancelWhen(() -> {
             boolean finished = VorkathCombat.finished(entity);
             if (finished) entity.putAttrib(VORKATH_CB_COOLDOWN, 0);
             return finished;
         }).repeatingTask(1, t -> {
-            Player target = playerMutableObject.getValue();
             ref.loops--;
             if (ref.loops == 0 || target.getInstancedArea() == null || entity.dead()) {
                 entity.animate(-1);
@@ -363,7 +360,7 @@ public class VorkathCombat extends CommonCombatMethod {
                 return;
             }
             Tile cloneTile = target.tile().clone();
-            var tileDist = entity.tile().distance(cloneTile);
+            var tileDist = entity.getCentrePosition().distance(cloneTile);
             int duration = (10 + 11 + (5 * tileDist));
             var projectile = new Projectile(entity, cloneTile, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
             int delay = projectile.send(entity, cloneTile);
@@ -404,8 +401,7 @@ public class VorkathCombat extends CommonCombatMethod {
                 World.getWorld().registerNpc(spawn);
 
                 //Add the spawn to the instance list
-                if (target != null && target instanceof Player) {
-                    Player player = (Player) target;
+                if (target != null && target instanceof Player player) {
                     player.getInstancedArea().addNpc(spawn);
                 }
             } else if (t.tick > 3) {
@@ -414,8 +410,7 @@ public class VorkathCombat extends CommonCombatMethod {
                         spawn.hit(spawn, spawn.hp());
 
                         //Remove the spawn from the instance list
-                        if (target != null && target instanceof Player) {
-                            Player player = (Player) target;
+                        if (target != null && target instanceof Player player) {
                             player.getInstancedArea().addNpc(spawn);
                         }
                     }
@@ -425,8 +420,7 @@ public class VorkathCombat extends CommonCombatMethod {
                     spawn = null;
 
                     //Remove the spawn from the instance list
-                    if (target != null && target instanceof Player) {
-                        Player player = (Player) target;
+                    if (target != null && target instanceof Player player) {
                         player.getInstancedArea().addNpc(spawn);
                     }
                 } else {

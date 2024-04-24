@@ -6,6 +6,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
@@ -28,28 +29,15 @@ public class RuneDragonCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity dragon, Entity target) {
-        int rand = Utils.random(5);
         NPC npc = (NPC) dragon;
-        if (rand == 1) {
-            doDragonBreath(npc, target);
-        } else if (rand == 2) {
-            doRangedAttack(npc, target);
-        } else if (rand == 3) {
-            doMagicBlast(npc, target);
-        } else if (rand == 4) {
-            sparkAttack = true;
-            sparkAttack(npc, target);
-        } else {
-            if (withinDistance(1)) {
-                doMelee(npc, target);
-            } else {
-                int roll = Utils.random(3);
-                if (roll == 1) {
-                    doDragonBreath(npc, target);
-                } else if (roll == 2) {
-                    doRangedAttack(npc, target);
-                } else if (roll == 3) {
-                    doMagicBlast(npc, target);
+        var random = World.getWorld().random().nextInt(0, 7);
+        switch (random) {
+            case 0, 1 -> doDragonBreath();
+            case 2, 3 -> doRangedAttack(npc, target);
+            case 4, 5 -> doMagicBlast(npc, target);
+            case 6, 7 -> {
+                if (isReachable()) {
+                    doMelee(npc, target);
                 }
             }
         }
@@ -96,7 +84,7 @@ public class RuneDragonCombat extends CommonCombatMethod {
     private void doRangedAttack(NPC npc, Entity target) {
         npc.animate(81);
         int damage = Utils.random(npc.getCombatInfo().maxhit);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1486, 41, duration, 43, 31, 16, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
@@ -110,59 +98,65 @@ public class RuneDragonCombat extends CommonCombatMethod {
 
     private void doMagicBlast(NPC npc, Entity target) {
         npc.animate(81);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 16, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
-    private void doDragonBreath(NPC npc, Entity target) {
-        if(target instanceof Player player) {
-            double max = 50.0;
-            int antifire_charges = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
+    private void doDragonBreath() {
+        entity.animate(81);
+        var tileDist = entity.getCentrePosition().distance(target.tile());
+        var duration = 51 + 10 * (tileDist);
+        Projectile p = new Projectile(entity, target, 54, 51, duration, 43, 31, 32, entity.getSize(), 127, 0);
+        final int delay = entity.executeProjectile(p);
+        if (target instanceof Player player) {
+            int antifire = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
-            boolean hasPotion = antifire_charges > 0;
+            boolean hasPotion = antifire > 0;
 
-            boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.isInWilderness(player);
-            if (player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
-                player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
-                max = 0.0;
-            }
+            var max_damage = 50.0D;
 
-            //Does our player have an anti-dragon shield?
-            if (max > 0 && hasShield) {
+            Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
+
+            if (player.getEquipment().containsAny(ItemIdentifiers.DRAGONFIRE_WARD, ItemIdentifiers.DRAGONFIRE_WARD_22003, ItemIdentifiers.DRAGONFIRE_SHIELD, ItemIdentifiers.DRAGONFIRE_SHIELD_11284, ItemIdentifiers.ANTIDRAGON_SHIELD, ItemIdentifiers.ANTIDRAGON_SHIELD_8282)) {
                 player.message("Your shield absorbs most of the dragon fire!");
-                max *= 0.3;
+                max_damage *= 0.10D;
             }
 
-            //Has our player recently consumed an antifire potion?
-            if (max > 0 && hasPotion) {
-                player.message("Your potion protects you from the heat of the dragon's breath!");
-                max *= 0.3;
-            }
-
-            //Is our player using protect from magic?
-            if (max > 0 && Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
+            if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
                 player.message("Your prayer absorbs most of the dragon's breath!");
-                max *= 0.6;
+                max_damage *= 0.60D;
+            }
+
+            if (antifire > 0) {
+                player.message("Your potion protects you from the heat of the dragon's breath!");
+                max_damage *= 0.30D;
+            }
+
+            if (player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false)) {
+                player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
+                max_damage = 0;
             }
 
             if (hasShield && hasPotion) {
-                max = 0.0;
+                max_damage = 0;
             }
 
+            var damage = Utils.random(1, (int) max_damage);
 
-            entity.animate(81);
-            int hit = Utils.random((int) max);
-            var tileDist = entity.tile().distance(target.tile());
-            int duration = (41 + 11 + (5 * tileDist));
-            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, entity.getSize(), 5);
-            final int delay = entity.executeProjectile(p1);
-            target.hit(entity, hit, delay, CombatType.MAGIC).submit();
-            if (max == 65 && hit > 0) {
-                player.message("You are badly burned by the dragon fire!");
+            if (max_damage == 0) {
+                damage = 0;
             }
+
+            if (damage == 50) player.message("You are badly burned by the dragon fire!");
+
+            int finalDamage = damage;
+            hit.postDamage(post -> {
+                if (post.isAccurate() && post.getDamage() > 0) post.setDamage(finalDamage);
+                else hit.block();
+            });
         }
     }
 

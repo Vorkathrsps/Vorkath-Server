@@ -14,7 +14,7 @@ public class ZaklnCombat extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7077);
         entity.graphic(1222);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1223, 41, duration, 1, 5, 0, entity.getSize(), 5);
         final int delay = (int) (p.getSpeed() / 30D);

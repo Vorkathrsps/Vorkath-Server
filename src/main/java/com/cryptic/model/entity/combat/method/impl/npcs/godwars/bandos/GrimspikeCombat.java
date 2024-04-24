@@ -12,11 +12,10 @@ public class GrimspikeCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6154);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1220, 41, duration, 43, 31, 0, entity.getSize(), 5);
-        final int delay = (int) (p.getSpeed() / 30D);
-        entity.executeProjectile(p);
+        final int delay = entity.executeProjectile(p);
         new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;
     }

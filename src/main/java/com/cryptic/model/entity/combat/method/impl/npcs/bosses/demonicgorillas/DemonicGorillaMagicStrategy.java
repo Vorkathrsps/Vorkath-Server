@@ -16,7 +16,7 @@ public class DemonicGorillaMagicStrategy extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         //mob.forceChat("MAGIC!");
         entity.animate(7238);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1304, 51, duration, 43, 31, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);

@@ -15,7 +15,7 @@ public class DagannothSupremeCombat extends CommonCombatMethod {
             return false;
         }
         entity.animate(2855);
-        int tileDist = entity.tile().distance(target.tile());
+        int tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 475, 41, duration, 45, 31, 16, entity.getSize(), 5);

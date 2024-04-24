@@ -1,17 +1,11 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.bluemoon;
 
-import com.cryptic.model.World;
-import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TornadoNPC extends NPC {
 

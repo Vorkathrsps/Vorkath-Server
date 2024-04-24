@@ -15,7 +15,7 @@ public class DagannothPrimeCombat extends CommonCombatMethod {
             return false;
         }
         entity.animate(2854);
-        int tileDist = entity.tile().distance(target.tile());
+        int tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 60, 31, 12, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);

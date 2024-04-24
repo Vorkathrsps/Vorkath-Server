@@ -3320,7 +3320,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "BrutalDragonsCombat"
+      "combat": "MithrilDragonCombat"
     }
   },
   {

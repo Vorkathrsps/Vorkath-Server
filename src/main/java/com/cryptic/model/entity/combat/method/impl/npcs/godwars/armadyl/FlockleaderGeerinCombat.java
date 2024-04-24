@@ -13,7 +13,7 @@ public class FlockleaderGeerinCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6956);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (43 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1192, 29, duration, 95, 33, 0, entity.getSize(), 5);
         final int delay = (int) (p.getSpeed() / 30D);

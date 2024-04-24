@@ -1006,13 +1006,12 @@
       "magicdefence": 18
     },
     "animations": {
-      "attack": 7026,
       "block": 7027,
       "death": 7028
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "BreeCombat"
+      "combat": "GrowlerCombat"
     }
   },
   {
@@ -1042,12 +1041,12 @@
     },
     "animations": {
       "attack": 7037,
-      "block": 7035,
+      "block": 0,
       "death": 7034
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "GrowlerCombat"
+      "combat": "BreeCombat"
     }
   },
   {

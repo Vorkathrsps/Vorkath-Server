@@ -127,38 +127,38 @@ public class DemonicGorilla extends NPC {
             return false;
         }
 
-            @Override
-            public int getAttackSpeed (Entity entity){
-                return currentMethod.getAttackSpeed(entity);
-            }
+        @Override
+        public int getAttackSpeed(Entity entity) {
+            return currentMethod.getAttackSpeed(entity);
+        }
 
-            @Override
-            public int moveCloseToTargetTileRange(Entity entity){
-                return currentMethod.moveCloseToTargetTileRange(entity);
-            }
+        @Override
+        public int moveCloseToTargetTileRange(Entity entity) {
+            return currentMethod.moveCloseToTargetTileRange(entity);
+        }
 
-            public void handleAfterHit (Hit hit){
-                if (hit.getDamage() == 0) {
-                    missCounter++;
-                    if (missCounter == 4) {
-                        updatePhase(Phase.nextPhase(demonic.phase));
-                        missCounter = 0;
-                    }
+        public void handleAfterHit(Hit hit) {
+            if (hit.getDamage() == 0) {
+                missCounter++;
+                if (missCounter == 4) {
+                    updatePhase(Phase.nextPhase(demonic.phase));
+                    missCounter = 0;
                 }
             }
+        }
 
-            private void boulderToss (Entity entity, Entity target){
-                Tile boulderTile = target.tile().clone();
-                entity.animate(7228);
-                Projectile p = new Projectile(target.tile().transform(-1, -1, 0), target.tile(), 0, 856, 165, 41, 127, 0, 0);
-                entity.executeProjectile(p);
-                Hit hit = target.hit(entity, (int) Math.ceil(target.maxHp() * 0.33), 0, null).setAccurate(true);
-                Chain.bound(null).name("boulderTask").cancelWhen(() -> !target.tile().inSqRadius(boulderTile, 1) || target.dead()).runFn(11, () -> {
-                    if (target.tile().inSqRadius(boulderTile, 1)) {
-                        hit.submit();
-                    }
-                });
-                World.getWorld().tileGraphic(305, boulderTile, 5, p.getSpeed());
-            }
+        private void boulderToss(Entity entity, Entity target) {
+            Tile boulderTile = target.tile().clone();
+            entity.animate(7228);
+            Projectile p = new Projectile(target.tile().transform(-1, -1, 0), target.tile(), 0, 856, 165, 41, 127, 0, 0);
+            entity.executeProjectile(p);
+            Hit hit = target.hit(entity, (int) Math.ceil(target.maxHp() * 0.33), 0, null).setAccurate(true);
+            Chain.bound(null).name("boulderTask").cancelWhen(() -> !target.tile().inSqRadius(boulderTile, 1) || target.dead()).runFn(11, () -> {
+                if (target.tile().inSqRadius(boulderTile, 1)) {
+                    hit.submit();
+                }
+            });
+            World.getWorld().tileGraphic(305, boulderTile, 5, p.getSpeed());
         }
     }
+}

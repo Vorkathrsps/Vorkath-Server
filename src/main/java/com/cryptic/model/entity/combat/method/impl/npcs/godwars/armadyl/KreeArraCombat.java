@@ -21,7 +21,7 @@ public class KreeArraCombat extends CommonCombatMethod {
         if (!withinDistance(8)) return false;
 
         int roll = Utils.random(2);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int durationRanged = (43 + 11 + (5 * tileDist));
         int durationMagic = (51 + -5 + (10 * tileDist));
 

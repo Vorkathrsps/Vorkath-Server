@@ -39,7 +39,7 @@ public class CerberusCombat extends CommonCombatMethod {
         if (entity.dead() || target.dead()) return;
         if (comboAttackCooldown.remaining() < 60)
             entity.animate(4492);
-        int tileDist = (int) entity.tile().getDistance(target.tile());
+        int tileDist = (int) entity.getCentrePosition().getDistance(target.tile());
         int duration = (80 + 11 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1245, 80, duration, 70, 31, 0, entity.getSize(), 15);
@@ -54,7 +54,7 @@ public class CerberusCombat extends CommonCombatMethod {
             return; // because in combo attack, its called with a delay in which target can die.
         if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
             entity.animate(4492);
-        int tileDist = (int) entity.tile().getDistance(target.tile());
+        int tileDist = (int) entity.getCentrePosition().getDistance(target.tile());
         int duration = (80 + 11 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1242, 80, duration, 70, 31, 0, entity.getSize(), 15);

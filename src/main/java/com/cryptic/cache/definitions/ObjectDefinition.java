@@ -216,13 +216,7 @@ public class ObjectDefinition implements Definition {
         }
 
         if(id == 11508 || id == 11509) {
-            //curtain
             interactType = 0;
-        }
-
-        if (this.id == 52980) {
-            System.out.println("varp: " + this.varp);
-            System.out.println("varbit: " + this.varbit);
         }
 
         cached.put(id, this);

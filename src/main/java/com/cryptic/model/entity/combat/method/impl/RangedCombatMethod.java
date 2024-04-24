@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 public class RangedCombatMethod extends CommonCombatMethod {
-    public static final int[] immune_to_range = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_HAGIOS_8347, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355};
+    public static final int[] immune_to_range = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_HAGIOS_8347, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355, 7145};
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {

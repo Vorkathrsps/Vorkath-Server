@@ -13,7 +13,7 @@ public class BalfrugCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(4630);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (25 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1227, 25, duration, 1, 5, 0, entity.getSize(), 10);
         final int delay = (int) (p.getSpeed() / 30D);

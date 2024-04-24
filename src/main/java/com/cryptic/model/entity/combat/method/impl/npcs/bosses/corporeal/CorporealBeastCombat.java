@@ -77,7 +77,7 @@ public class CorporealBeastCombat extends CommonCombatMethod {
 
     void magic(NPC corp, Player target) {
         corp.animate(1680);
-        var tileDist = corp.tile().distance(target.tile());
+        var tileDist = corp.getCentrePosition().distance(target.tile());
         var duration = (21 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 314, 21, duration, 47, 31, 10, 5 * 64, 10);
         final int delay = entity.executeProjectile(p);
@@ -90,9 +90,9 @@ public class CorporealBeastCombat extends CommonCombatMethod {
 
         List<Tile> radius = new ArrayList<>();
 
-        var tileCopy = target.tile().copy();
+        var tileCopy = target.getCentrePosition().copy();
 
-        var tileDist = corp.tile().distance(target.tile());
+        var tileDist = corp.getCentrePosition().distance(target.tile());
 
         var duration = (21 + -5 + (10 * tileDist));
 

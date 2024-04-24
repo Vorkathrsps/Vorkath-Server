@@ -64,11 +64,10 @@ public class GraardorCombat extends CommonCombatMethod {
         entity.animate(7021);
         if (target == null) return;
         if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 8, entity.getSize(), 5);
-        final int delay = (int) (p.getSpeed() / 30D);
-        entity.executeProjectile(p);
+        final int delay = entity.executeProjectile(p);
         new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
@@ -76,7 +75,7 @@ public class GraardorCombat extends CommonCombatMethod {
         if (!withinDistance(1)) return;
         entity.animate(7018);
         if (target == null) return;
-        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
+        new Hit(entity, target, 1, CombatType.MELEE).checkAccuracy(true).submit();
         if (GwdLogic.isBoss(entity.getAsNpc().id())) {
             Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
             last_attacked_map.put(target, System.currentTimeMillis());

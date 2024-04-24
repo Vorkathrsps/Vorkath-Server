@@ -15,7 +15,7 @@ public class DemonicGorillaRangedStrategy extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7227);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1302, 41, duration, 45, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);

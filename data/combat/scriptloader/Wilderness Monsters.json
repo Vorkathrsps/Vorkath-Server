@@ -116,6 +116,9 @@
       "death": [
         409
       ]
+    },
+    "scripts": {
+      "combat": "BasicDragonCombat"
     }
   },
   {
@@ -455,52 +458,6 @@
       "attack": 185,
       "block": 186,
       "death": 188
-    }
-  },
-  {
-    "ids": [
-      260,
-      261,
-      262,
-      263,
-      264
-    ],
-    "maxhit": 8,
-    "attackspeed": 4,
-    "deathlen": 5,
-    "aggroradius": 5,
-    "aggressive": true,
-    "slayerlvl": 1,
-    "slayerxp": 75,
-    "stats": {
-      "attack": 68,
-      "strength": 68,
-      "defence": 68,
-      "magic": 68,
-      "hitpoints": 75
-    },
-    "bonuses": {
-      "stabdefence": 20,
-      "slashdefence": 40,
-      "crushdefence": 40,
-      "magicdefence": 30,
-      "rangeddefence": 20
-    },
-    "animations": {
-      "attack": 80,
-      "block": 89,
-      "death": 92
-    },
-    "sounds": {
-      "attack": [
-        408
-      ],
-      "block": [
-        410
-      ],
-      "death": [
-        409
-      ]
     }
   },
   {

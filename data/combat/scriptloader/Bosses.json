@@ -411,6 +411,7 @@
     "aggroradius": 50,
     "aggressive": true,
     "retaliates": false,
+    "combattype": "MELEE",
     "slayerxp": 142,
     "slayerlvl": 1,
     "stats": {

@@ -4,30 +4,57 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
-public class MetalDragonCombat extends CommonCombatMethod {
+
+/**
+ * @author Origin | Zerikoth | PVE
+ * @date maart 14, 2020 09:50
+ */
+public class MithrilDragonCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        var random = World.getWorld().random().nextInt(0, 3);
+        var random = World.getWorld().random().nextInt(0, 7);
         switch (random) {
-            case 0, 1 -> doDragonBreath();
-            case 2, 3 -> {
-                if (isReachable()) basicAttack(entity, target);
+            case 0,1 -> doDragonBreath();
+            case 2,3 -> doMagic();
+            case 4,5 -> doRanged();
+            case 6,7 -> {
+                if (isReachable()) doMelee();
             }
         }
         return true;
+    }
+
+    private void doMelee() {
+        entity.animate(80);
+        new Hit(entity, target, 1, CombatType.MELEE).checkAccuracy(true).submit();
+    }
+
+    private void doMagic() {
+        entity.animate(6722);
+        var tileDist = entity.getCentrePosition().distance(target.tile());
+        var duration = 51 + 10 * (tileDist);
+        Projectile p = new Projectile(entity, target, 136, 51, duration, 17, 23, 10, entity.getSize(), 36, 0);
+        final int delay = entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
+    }
+
+    private void doRanged() {
+        entity.animate(6722);
+        var tileDist = entity.getCentrePosition().distance(target.tile());
+        var duration = 51 + 10 * (tileDist);
+        Projectile p = new Projectile(entity, target, 16, 51, duration, 17, 23, 10, entity.getSize(), 36, 0);
+        final int delay = entity.executeProjectile(p);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void doDragonBreath() {
@@ -83,11 +110,6 @@ public class MetalDragonCombat extends CommonCombatMethod {
                 else hit.block();
             });
         }
-    }
-
-    private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
-        entity.animate(entity.attackAnimation());
     }
 
     @Override

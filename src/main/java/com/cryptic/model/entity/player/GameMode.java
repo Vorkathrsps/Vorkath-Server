@@ -8,8 +8,8 @@ package com.cryptic.model.entity.player;
 public enum GameMode {
 
     TRAINED_ACCOUNT("Normal account",1, 25, 100, 1.0),
-    REALISM("realism", 2, 10, 5, 1.10),
-    HARDCORE_REALISM("hardcore realism", 3, 10, 5, 1.115);
+    REALISM("realism", 2, 10, 5, 1.15),
+    HARDCORE_REALISM("hardcore realism", 3, 10, 5, 1.20);
 
     private final String name;
     private final int uid;
@@ -30,7 +30,7 @@ public enum GameMode {
     }
 
     public boolean isIronman() {
-        return name.equals("Ironman");
+        return name.contains("Ironman");
     }
 
     public String toName() {

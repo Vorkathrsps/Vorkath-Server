@@ -66,7 +66,8 @@ import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
  * @author Origin | 28 feb. 2019 : 12:16:21
  * @see <a href="https://www.rune-server.ee/members/_Patrick_/">Rune-Server profile</a>
  */
-public class PlayerSave {
+public class
+PlayerSave {
 
     /**
      * SUPER IMPORTANT INFO: Player class needs to have default values set for any objects (or variables) that could be null that it tries to access on login to prevent NPEs thrown when loading a Player from PlayerSave.

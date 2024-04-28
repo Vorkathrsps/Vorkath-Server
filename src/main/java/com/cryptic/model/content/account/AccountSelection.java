@@ -29,13 +29,13 @@ public class AccountSelection extends PacketInteraction {
         player.getPacketSender().sendString(42802, "Regular");
         player.getPacketSender().sendString(42803, "No Ironman restrictions will be applied to this account.");
         player.getPacketSender().sendString(42804, "Ironman");
-        player.getPacketSender().sendString(42805, "Restrictions on trading, dueling, and trading post.<br>"+"5% Drop rate boost.");
+        player.getPacketSender().sendString(42805, "Restrictions on trading, dueling, and trading post.<br>"+"15% Drop rate boost.");
         player.getPacketSender().sendString(42806, "Hardcore Ironman");
-        player.getPacketSender().sendString(42807, "Restrictions on trading, dueling, and trading post.<br>"+"6.5% Drop rate boost.");
+        player.getPacketSender().sendString(42807, "Restrictions on trading, dueling, and trading post.<br>"+"20% Drop rate boost.");
         player.getPacketSender().sendString(42808, "Realism");
-        player.getPacketSender().sendString(42809, "No Ironman restrictions. 10% Drop rate boost.");
+        player.getPacketSender().sendString(42809, "No Ironman restrictions. 15% Drop rate boost.");
         player.getPacketSender().sendString(42810, "Hardcore Realism");
-        player.getPacketSender().sendString(42811, "No ironman restrictions, status is lost on death.<br>" + "11.5% Drop rate boost.");
+        player.getPacketSender().sendString(42811, "No ironman restrictions, status is lost on death.<br>" + "20% Drop rate boost.");
         player.getPacketSender().sendString(42418, "Please set your pin.");
         player.getPacketSender().sendString(42410, "");
         player.getPacketSender().sendString(42411, "");

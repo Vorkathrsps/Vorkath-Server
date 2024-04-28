@@ -350,8 +350,8 @@ public class Player extends Entity {
         };
 
         switch (getIronManStatus()) {
-            case REGULAR -> percent += 0.05;
-            case HARDCORE -> percent += 0.065;
+            case REGULAR -> percent += 0.10;
+            case HARDCORE -> percent += 0.15;
         }
 
         percent += this.getGameMode().dropRate;

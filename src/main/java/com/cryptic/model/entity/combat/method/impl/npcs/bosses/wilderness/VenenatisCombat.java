@@ -37,20 +37,13 @@ public class VenenatisCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(1)) {
-            if (Utils.rollDie(3, 1)) {
-                rangeAttack(entity, target);
-            } else {
-                magicAttack(entity, target);
-            }
+        if (isReachable()) meleeAttack(entity, target);
+        else if (Utils.rollDie(3, 1)) {
+            rangeAttack(entity, target);
         } else {
-            meleeAttack(entity, target);
+            magicAttack(entity, target);
         }
         return true;
-    }
-
-    private void spawnSpiderlings(@Nonnull Entity entity) {
-
     }
 
     public void meleeAttack(@NonNull final Entity entity, @NonNull Entity target) {
@@ -79,7 +72,7 @@ public class VenenatisCombat extends CommonCombatMethod {
     private void rangeAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
         entity.animate(9989);
 
-        var tile = entity.tile().transform(4, 4, 0);
+        var tile = entity.getCentrePosition().transform(4, 4, 0);
 
         var tileDist = tile.distance(target.tile());
 

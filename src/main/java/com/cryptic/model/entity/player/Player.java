@@ -1067,7 +1067,10 @@ public class Player extends Entity {
 
     @Override
     public Hit manipulateHit(@Nullable Hit hit) {
-        Entity attacker = hit.getAttacker();
+        Entity attacker = null;
+        if (hit != null) {
+            attacker = hit.getAttacker();
+        }
 
         if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();

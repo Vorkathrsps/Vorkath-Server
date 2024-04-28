@@ -474,6 +474,7 @@ public class Skills {
 
         if (!player.hasAttrib(AttributeKey.EXAGGERATION_BOOST)) {
             for (int i = 0; i < SKILL_COUNT; i++) {
+                if (i == 5) continue;
                 if (levels[i] < xpLevel(i)) {
                     levels[i]++;
                     update(i);

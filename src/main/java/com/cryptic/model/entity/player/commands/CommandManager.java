@@ -16,6 +16,7 @@ import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.RaidParty;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
+import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -49,6 +50,7 @@ import com.cryptic.model.entity.player.commands.impl.super_member.YellColourComm
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.items.tradingpost.TradingPost;
@@ -685,10 +687,6 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-           List<Player> players = new ArrayList<>();
-            players.add(p);
-            PerilOfMoonInstance instance = new PerilOfMoonInstance(p, players);
-            instance.buildParty();
         });
 
         dev("cleartask", (p, c, s) ->

@@ -331,8 +331,7 @@ public final class Equipment extends ItemContainer {
         player.inventory().remove(toWear);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
         WeaponInterfaces.updateWeaponInterface(player);
-        if (refresh)
-            player.getEquipment().refresh();
+        if (refresh) player.getEquipment().refresh();
     }
 
     public boolean equip(Item item) {
@@ -341,31 +340,35 @@ public final class Equipment extends ItemContainer {
     }
 
     private static final Object[][] SOUNDS = {
-        {2247, "staff", "wand", "mej-tal", "void knight mace", "trident", "tumeken", "halberd"},
-        {2232, "axe"},
-        {2239, "torso", "platebody", "chainbody"}, //metal_body
-        {3284, "ava's"}, //backpack
-        {2233, "warhammer", "maul"},
-        {2234, "plate", "platebody ", "chain", "chainbody", "chest", "crystal body"},
-        {2236, "glove",},
-        {2237, "boot", "boots"},
-        {2238, "robe", "hat", "ancient staff", "ring", "book"},
-        {2240, "helm", "proselyte", "initiate"},
-        {2241, "hide", "leather", "brassard", "vamb", "age range", "lunar torso"},
-        {2242, "karil's leatherskirt", "legs"}, //legs
-        {2243, "chainskirt", "plateskirt", "platelegs", "tasset"}, //metal_legs
-        {2244, "bow"},
-        {2246, "mace", "flail", "anchor"},
-        {2248, "sword", "scimitar", "voidwaker"},
-        {2249, "whip", "tentacle"},
+        {2238, "hat", "lightness", "bolts", "cape", "amulet", "necklace", "defender", "black mask", "flippers", "dark flippers", "ankou", "mummy", "tuxedo", "cow", "chinchompa"}, //equipfun
+        {2236, "gloves", "vambraces", "bracers", "bracelet", "paws", "gauntlets", "cuffs", "crab claw", "cow gloves"}, //equip hand
+        {2233, "10th birthday balloons", "'24-carat' sword", "warhammer", "flowers", "cake", "club", "carrot sword", "clueless scroll", "corrupted sceptre", "goblin hammer", "warhammer", "warhammer (cr)", "warhammer (or)", "elder maul", "frying pan", "gadderhammer", "giant boulder", "giant easter egg", "granite maul", "blackjack", "love crossbow", "large spade", "trophy", "tenderiser", "zombie head", "bludgeon", "bulwark"}, //equipblunt
+        {2247, "crozier", "halberd", "dragon cane", "sceptre", "staff", "blue moon spear", "wand", "staves", "mej-tal", "staff of balance", "trident", "tumeken"}, //equip staff
+        {2248, "harpoon", "dual sai", "scimitar", "dagger", "longsword", "2h sword", "godsword", "colossal blade", "giant bronze dagger", "spatula", "shadow sword", "sword", "saeldor", "cleaver", "sickle", "machete", "cutlass", "saw", "arclight", "darklight", "voidwaker", "excalibur", "blade", "harpoon", "wolfbane", "wooden sword", "fang", "xil-ak", "swift blade", "spork", "secateurs", "kitchen knife", "keris", "cattleprod", "egg whisk", "rapier"}, //equip sword
+        {2240, "helm", "full helm", "slayer helmet", "fighter hat", "faceguard", "sallet", "med helm", "great helm", "nietiznot"}, //equip helmet
+        {2229, "axe", "hatchet", "felling axe"}, //equip axed
+        {2232, "pickaxe", "battleaxe", "greataxe", "zombie axe"}, //equip battleaxe
+        {2249, "whip", "tentancle"}, //equip whip
+        {2246, "dragon mace", "adamant cane", "mace", "macuahuitl", "flail", "chainmace", "cudgel", "cane", "torch", "anchor", "anger mace", "trailblazer cane", "steel mace", "mace"}, //equip spiked
+        {2244, "bow", "shortbow", "faerdhinen", "orge bow", "twisted bow", "longbow", "venator bow", "zaryte bow", "comp bow", "webweaver bow", "crossbow"},//equip ranged
+        {2241, "robe top", "d'hide body", "d'hide shield", "ancestral", "crystal top", "moon chestplate", "leather body", "masori", "leather body", "penance", "third-age", "eclipse moon", "gilded d", "blue d", "spined", "snakeskin", "clue hunter", "robin hood", "xerican"},//equip leather
+        {2242, "chaps", "crystal leg", "trousers", "moon tassets", "blessed chaps", "greaves", "void robe", "karil's leatherskirt", "leatherskirt", "tassets", "platelegs"},//equip legs
+        {1539, "mind shield", "elemental shield"},//shield appear
+        {2237, "bandos boots", "boots of brimstone", "boots of darkness", "boots of stone", "devout boots", "dragon boots", "decorative boots", "fremennik boots", "rock-shell boots", "rune boots", "iron boots", "mithril boots", "black boost", "adamant boots", "primordial", "eternal", "pegasian"},//equp feet
+        {2250},//equip wood
+        {2246},//equip spiked
+        {2245, "spirit shield", "dragonfire ward", "ward", "shield", "defender", "crystal shield", "broodoo shield", "bulwark"},//equip shield
+        {2239, "platebody", "chainbody", "granite body", "dragon platebody", "bandos chestplate", "brassard", "torag", "dharok", "guthan", "karil", "crystal", "justiciar", "virtus", "torva"},//equip metal body
+        {2230, "battlestaff", "mystic smoke", "mystic steam", "mystic mud", "mystic lava", "mystic mist", "mystic dust"},//equip elemetnal staff
+        {3738, "dark bow"} //equip darkbow
     };
 
     public static int getAudioId(String name) {
         name = name.toLowerCase();
-        for (int i = 0; i < SOUNDS.length; i++) {
-            for (int y = 0; y < SOUNDS[i].length; y++) {
-                if (name.contains(SOUNDS[i][y].toString()) || name.equals(SOUNDS[i][y].toString())) {
-                    return (int) SOUNDS[i][0];
+        for (Object[] sound : SOUNDS) {
+            for (Object o : sound) {
+                if (name.contains(o.toString()) || name.equals(o.toString())) {
+                    return (int) sound[0];
                 }
             }
         }

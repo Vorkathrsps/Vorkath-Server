@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static com.cryptic.model.World.loadNpcSpawns;
 import static java.lang.String.format;
@@ -81,17 +82,10 @@ public class ReloadCommand implements Command {
             player.message("Finished.");
         } else if (reload.equalsIgnoreCase("objects")) {
             player.message("Reloading objects...");
-            //TODO ask Jak why this is broken
-            /*World.getWorld().getObjects().forEach(obj -> {
-                if(obj != null) {
-                    ObjectManager.removeObj(obj);
-                }
-            });*/
             new ObjectSpawnDefinitionLoader().run();
             player.message("Finished.");
         } else if (reload.equalsIgnoreCase("presets")) {
             player.message("Reloading presets...");
-            // new PresetLoader().run();
             player.message("Finished.");
         }
     }

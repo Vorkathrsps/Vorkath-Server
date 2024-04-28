@@ -17,17 +17,15 @@ public class DragonHunterLance implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
-            if (player.getCombat().getCombatType() == CombatType.MELEE) {
+            if (CombatType.MELEE.equals(player.getCombat().getCombatType())) {
                 if (target instanceof NPC npc) {
                     if (player.getEquipment().hasAt(EquipSlot.WEAPON, DRAGON_HUNTER_LANCE)) {
-                        if (combatType == CombatType.MELEE) {
-                            if (FormulaUtils.isDragon(npc)) {
-                                var damage = hit.getDamage();
-                                var increase = 1.20;
-                                var output = damage * increase;
-                                hit.setDamage((int) output);
-                                return true;
-                            }
+                        if (FormulaUtils.isDragon(npc)) {
+                            var damage = hit.getDamage();
+                            var increase = 1.20;
+                            var output = damage * increase;
+                            hit.setDamage((int) output);
+                            return true;
                         }
                     }
                 }
@@ -40,12 +38,12 @@ public class DragonHunterLance implements DamageModifyingListener {
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
-            if (target instanceof NPC npc) {
-                if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
-                    if (combatType == CombatType.MELEE) {
+            if (CombatType.MELEE.equals(player.getCombat().getCombatType())) {
+                if (target instanceof NPC npc) {
+                    if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
                         if (FormulaUtils.isDragon(npc)) {
                             var modifier = accuracy.modifier();
-                            modifier += 1.20F;
+                            modifier += 1.20;
                             return modifier;
                         }
                     }

@@ -19,7 +19,7 @@ public class WildernessWeapon implements DamageModifyingListener {
                     if (FormulaUtils.hasMagicWildernessWeapon(player)) {
                         var modifier = accuracy.modifier();
                         if (WildernessArea.inWilderness(npc.tile())) {
-                            modifier += 1.50F;
+                            modifier += 1.50;
                             return modifier;
                         }
                     }

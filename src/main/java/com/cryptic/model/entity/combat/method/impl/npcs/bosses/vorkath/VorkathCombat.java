@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.items.combine.MagmaHelm;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
@@ -22,6 +23,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -35,28 +37,13 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.ZOMBIFIED
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 public class VorkathCombat extends CommonCombatMethod {
-
-    public static final SecureRandom RANDOM = new SecureRandom();
-
     private static final Animation ATTACK_ANIMATION = new Animation(7952, Priority.HIGH);
-    private static final Animation MELEE_ATTACK_ANIMATION = new Animation(7953, Priority.HIGH);
     private static final Animation MELEE_ATTACK_ANIMATION_2 = new Animation(7951, Priority.HIGH);
     public static final Animation FIREBALL_ATTACK_ANIMATION = new Animation(7960, Priority.HIGH);
     private static final Animation FIREBALL_SPIT_ATTACK_ANIMATION = new Animation(7957, Priority.HIGH);
-    private static final Graphic RANGED_END_GRAPHIC = new Graphic(1478, GraphicHeight.MIDDLE);
-    private static final Graphic MAGIC_END_GRAPHIC = new Graphic(1480, GraphicHeight.MIDDLE);
-    private static final Graphic REGULAR_DRAGONFIRE_END_GRAPHIC = new Graphic(157, GraphicHeight.MIDDLE);
-    private static final Graphic VENOMOUS_DRAGONFIRE_END_GRAPHIC = new Graphic(1472, GraphicHeight.MIDDLE);
-    private static final Graphic PRAYER_DRAGONFIRE_END_GRAPHIC = new Graphic(1473, GraphicHeight.MIDDLE);
-
     private static final int BREATH_START_HEIGHT = 25;
     private static final int BREATH_END_HEIGHT = 31;
     private static final int BREATH_DELAY = 30;
-    private static final int BREATH_DURATION_START = 46;
-    private static final int BREATH_DURATION_INCREMENT = 8;
-    private static final int BREATH_CURVE = 15;
-    private static final int BREATH_OFFSET = 255;
-    private static final int TILE_OFFSET = 1;
 
     boolean poison;
 
@@ -68,9 +55,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(15)) {
-            return false;
-        }
+        if (!withinDistance(15)) return false;
 
         if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0) return false;
 
@@ -79,20 +64,22 @@ public class VorkathCombat extends CommonCombatMethod {
 
         if (count-- < 1) {
             count = 6;
-            int major = entity.<Integer>getAttribOr(VORKATH_LAST_MAJOR_ATTACK, 0) == 0 ? 1 : 0; // switch last attack
+            int major = entity.<Integer>getAttribOr(VORKATH_LAST_MAJOR_ATTACK, 0) == 0 ? 1 : 0;
             entity.putAttrib(VORKATH_LAST_MAJOR_ATTACK, major);
-            attackType = major == 0 ? 6 : 7; // decide the major attack
+            attackType = major == 0 ? 6 : 7;
         } else {
-            if (entity.hasAttrib(VORKATH_LINEAR_ATTACKS)) // finish the remaining grouped triple attacks
+            if (entity.hasAttrib(VORKATH_LINEAR_ATTACKS))
                 attackType = 4;
             else {
-                attackType = !withinDistance(1) ? 2 + RANDOM.nextInt(4) : 1 + RANDOM.nextInt(5);
+                attackType = !withinDistance(1) ? 2 + World.getWorld().random().nextInt(4) : 1 + World.getWorld().random().nextInt(5);
             }
         }
         entity.putAttrib(VORKATH_NORMAL_ATTACK_COUNT, count);
 
         switch (attackType) {
-            case 1 -> melee();
+            case 1 -> {
+                if (isReachable()) melee();
+            }
             case 2 -> mage();
             case 3 -> range();
             case 4 -> tripleOrdered();
@@ -105,27 +92,25 @@ public class VorkathCombat extends CommonCombatMethod {
     private void bomb() {
         entity.animate(FIREBALL_ATTACK_ANIMATION);
         final Tile targetPos = target.tile().clone();
-        var tileDist = entity.getCentrePosition().getChevDistance(targetPos);
-        int duration = (85 + -5 + (10 * tileDist));
+        var tileDist = entity.getCentrePosition().distance(targetPos);
+        int duration = (61 + -5 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p1 = new Projectile(tile, targetPos, 1491, 85, duration, 150, 0, 16, entity.getSize(), 10);
-        final int delay = p1.send(tile, targetPos);
-        Chain.noCtx().runFn(delay, () -> {
-            if (target.tile().equals(p1.getEnd())) {
-                entity.submitAccurateHit(target, 0, Utils.random(1, 121), this);
-            }
+        Projectile projectile = new Projectile(tile, targetPos, 1491, 61, duration, 150, 0, 32, entity.getSize(), 10);
+        projectile.send(tile, targetPos);
+        Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D), () -> {
+            if (target.tile().equals(projectile.getEnd())) new Hit(entity, target, 0, CombatType.MAGIC).checkAccuracy(true).submit();
         });
-        World.getWorld().tileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), p1.getSpeed());
+        World.getWorld().tileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
     }
 
     private void range() {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.getCentrePosition().distance(target.tile());
-        int duration = (41 + 11 + (5 * tileDist));
+        int duration = (30 + 11 + (5 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p = new Projectile(tile, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 5);
+        Projectile p = new Projectile(tile, target, 1477, 30, duration, 35, 31, 14, entity.getSize(), 128,5);
         final int delay = entity.executeProjectile(p);
-        entity.submitAccurateHit(target, delay, Utils.random(0, 32), this);
+        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(1478, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
@@ -133,18 +118,18 @@ public class VorkathCombat extends CommonCombatMethod {
     private void mage() {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.getCentrePosition().distance(target.tile());
-        int duration = (51 + -5 + (10 * tileDist));
+        int duration = (30 + -5 + (5 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p = new Projectile(tile, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
+        Projectile p = new Projectile(tile, target, 1479, 30, duration, 35, 31, 14, entity.getSize(), 128,5);
         final int delay = entity.executeProjectile(p);
-        entity.submitAccurateHit(target, delay, Utils.random(0, 30), this);
+        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(1480, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 
     private void melee() {
         entity.animate(MELEE_ATTACK_ANIMATION_2);
-        entity.submitAccurateHit(target, 0, Utils.random(0, 32), this);
+        new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 
@@ -160,22 +145,25 @@ public class VorkathCombat extends CommonCombatMethod {
                 entity.animate(ATTACK_ANIMATION);
                 entity.animate(ATTACK_ANIMATION);
                 var tileDist = entity.getCentrePosition().distance(target.tile());
-                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                int duration = (30 + 6 + (5 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                Projectile p = new Projectile(tile, target, 1470, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
+                Projectile p = new Projectile(tile, target, 1470, 30, duration, 35, 31, 14, entity.getSize(), 128,5);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1472, GraphicHeight.MIDDLE, p.getSpeed());
-                if (Utils.random(4) <= 3)
-                    target.venom(entity);
+                if (target instanceof Player player) {
+                    if (!player.getEquipment().containsAny(ItemIdentifiers.MAGMA_HELM, ItemIdentifiers.SERPENTINE_HELM, ItemIdentifiers.TANZANITE_HELM)) {
+                        if (Utils.random(4) <= 3) player.venom(entity);
+                    }
+                }
                 Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 fireDamage(hit);
             }
             case 1 -> {
                 entity.animate(ATTACK_ANIMATION);
                 var tileDist = entity.getCentrePosition().distance(target.tile());
-                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                int duration = (30 + 6 + (5 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                Projectile p = new Projectile(tile, target, 1471, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
+                Projectile p = new Projectile(tile, target, 1471, 30, duration, 35, 31, 14, entity.getSize(), 128,5);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1473, GraphicHeight.MIDDLE, p.getSpeed());
                 Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
@@ -189,9 +177,9 @@ public class VorkathCombat extends CommonCombatMethod {
             }
             case 2 -> {
                 var tileDist = entity.getCentrePosition().distance(target.tile());
-                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                int duration = 30 + 6 + (5 * tileDist);
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                Projectile p = new Projectile(tile, target, 393, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
+                Projectile p = new Projectile(tile, target, 393, 30, duration, 35, 31, 14, entity.getSize(), 128,5);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
                 entity.animate(ATTACK_ANIMATION);
@@ -291,15 +279,15 @@ public class VorkathCombat extends CommonCombatMethod {
             MutableObject<Projectile> projectileMutableObject = new MutableObject<>();
             for (Tile poisonTile : poisonTiles) {
                 var tileDist = entity.getCentrePosition().distance(poisonTile);
-                int duration = (50 + 25 + (2 * tileDist));
-                Projectile p = new Projectile(entity, poisonTile, 1483, 50, duration, 80, 0, 25, entity.getSize(), 2);
+                int duration = (32 + 25 + (2 * tileDist));
+                Projectile p = new Projectile(entity.tile(), poisonTile, 1483, 32, duration, 85, 0, 46, entity.getSize(), 128,2);
                 projectileMutableObject.setValue(p);
                 p.send(entity, poisonTile);
             }
 
             Chain
                 .noCtx()
-                .delay((int) (projectileMutableObject.getValue().getSpeed() / 30D + 1), () -> {
+                .delay((int) (projectileMutableObject.getValue().getSpeed() / 30D) + 1, () -> {
                     for (GameObject object : poisons) {
                         for (Player player : players) {
                             player.getPacketSender().sendObject(object);
@@ -346,7 +334,7 @@ public class VorkathCombat extends CommonCombatMethod {
 
     private void startSpitBall() {
         var ref = new Object() {
-            int loops = 25;
+            int loops = 21;
         };
         Chain.noCtx().cancelWhen(() -> {
             boolean finished = VorkathCombat.finished(entity);
@@ -430,8 +418,7 @@ public class VorkathCombat extends CommonCombatMethod {
                         spawn.graphic(157);
 
                         //Remove the spawn from the instance list
-                        if (target != null && target instanceof Player) {
-                            Player player = (Player) target;
+                        if (target != null && target instanceof Player player) {
                             player.getInstancedArea().addNpc(spawn);
                         }
                     }

@@ -16,17 +16,15 @@ public class DragonHunterCrossbow implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
-            if (player.getCombat().getCombatType() == CombatType.RANGED) {
+            if (CombatType.RANGED.equals(player.getCombat().getCombatType())) {
                 if (target instanceof NPC npc) {
                     if (player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) {
-                        if (combatType == CombatType.MELEE) {
-                            if (FormulaUtils.isDragon(npc)) {
-                                var damage = hit.getDamage();
-                                var increase = 1.20;
-                                var output = damage * increase;
-                                hit.setDamage((int) output);
-                                return true;
-                            }
+                        if (FormulaUtils.isDragon(npc)) {
+                            var damage = hit.getDamage();
+                            var increase = 1.20;
+                            var output = damage * increase;
+                            hit.setDamage((int) output);
+                            return true;
                         }
                     }
                 }
@@ -40,13 +38,13 @@ public class DragonHunterCrossbow implements DamageModifyingListener {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
-                if (combatType == CombatType.RANGED) {
+                if (CombatType.RANGED.equals(player.getCombat().getCombatType())) {
                     if (player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) {
                         var modifier = accuracy.modifier();
                         if (FormulaUtils.isDragon(npc)) {
-                            modifier += 1.25F;
+                            modifier += 1.25;
                         } else {
-                            modifier += 1.30F;
+                            modifier += 1.30;
                         }
                         return modifier;
                     }

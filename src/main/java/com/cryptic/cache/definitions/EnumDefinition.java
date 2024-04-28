@@ -18,13 +18,11 @@ public class EnumDefinition implements Definition {
     private int defaultInt;
     private String defaultString;
 
-    private Map<Integer, Object> enums = new HashMap<>();
+    private final Map<Integer, Object> enums = new HashMap<>();
 
     public EnumDefinition(int id, byte[] data) {
         this.id = id;
-
-        if (data != null && data.length > 0)
-            decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
+        if (data != null && data.length > 0) decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
     }
 
     void decode(RSBuffer buffer) {
@@ -60,6 +58,10 @@ public class EnumDefinition implements Definition {
         } else {
             throw new RuntimeException("unrecognized enum code " + code);
         }
+    }
+
+    public void test() {
+        getInt(3631);
     }
 
     public int keyType() {

@@ -14,6 +14,7 @@ import com.cryptic.model.content.minigames.MinigameManager;
 import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
+import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.entity.EntityList;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.NodeType;
@@ -43,18 +44,22 @@ import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.Direction;
 import com.cryptic.network.codec.login.LoginService;
 import com.cryptic.utility.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
@@ -85,10 +90,9 @@ public class World {
     /**
      * World instance.
      * -- GETTER --
-     *  Gets the world instance.
+     * Gets the world instance.
      *
      * @return The world instance.
-
      */
     @Getter
     private static final World world = new World();
@@ -604,7 +608,7 @@ public class World {
         int total = 0;
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(new GsonPropertyValidator()).create();
         File defs = new File("data/combat/scriptloader");
-        for (File def : defs.listFiles()) {
+        for (File def : Objects.requireNonNull(defs.listFiles())) {
             if (def.getName().endsWith(".json")) {
                 NPCCombatInfo[] s = null;
                 try {
@@ -686,9 +690,7 @@ public class World {
 
     public static void loadNpcSpawns(String dirPath) {
         long start = System.currentTimeMillis();
-
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new AfterburnerModule());
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new AfterburnerModule());
         try (BufferedReader r = Files.newBufferedReader(Path.of(dirPath))) {
             NpcSpawn[] s = objectMapper.readValue(r, NpcSpawn[].class);
             for (NpcSpawn sp : s) {
@@ -737,6 +739,10 @@ public class World {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        final var Pathto = Path.of("data", "def", "sounds", "soundeffects.txt");
+        SoundDataLoader.loadDataFromFile(Pathto.toString());
+
 
         try {
             PresetHandler.defaultKits = PresetData.loadDefaultPresets(new File("data/combat/preset/presets.json")).toArray(new PresetData[0]);
@@ -866,13 +872,13 @@ public class World {
 
     public static String clipstrMethods(Tile tile) {
         String stringBuilder = (RegionManager.blockedEast(tile) ? "E, " : "") +
-                (RegionManager.blockedNorth(tile) ? "N, " : "") +
-                (RegionManager.blockedSouth(tile) ? "S, " : "") +
-                (RegionManager.blockedWest(tile) ? "W, " : "") +
-                (RegionManager.blockedNorthEast(tile) ? "NE, " : "") +
-                (RegionManager.blockedNorthWest(tile) ? "NW, " : "") +
-                (RegionManager.blockedSouthEast(tile) ? "SE, " : "") +
-                (RegionManager.blockedSouthWest(tile) ? "SW, " : "");
+            (RegionManager.blockedNorth(tile) ? "N, " : "") +
+            (RegionManager.blockedSouth(tile) ? "S, " : "") +
+            (RegionManager.blockedWest(tile) ? "W, " : "") +
+            (RegionManager.blockedNorthEast(tile) ? "NE, " : "") +
+            (RegionManager.blockedNorthWest(tile) ? "NW, " : "") +
+            (RegionManager.blockedSouthEast(tile) ? "SE, " : "") +
+            (RegionManager.blockedSouthWest(tile) ? "SW, " : "");
         return STR."blocked in dirs: \{stringBuilder}";
     }
 

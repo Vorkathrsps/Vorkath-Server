@@ -17,6 +17,7 @@ import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
+import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -493,10 +494,6 @@ public abstract class Entity {
         return tinting;
     }
 
-    public Animation getAnimation() {
-        return animation;
-    }
-
     @Setter
     private Tile faceTile;
 
@@ -568,32 +565,17 @@ public abstract class Entity {
 
     public abstract MovementQueue getMovementQueue();
 
-    public Combat getCombat() {
-        return combat;
-    }
-
-    public Entity getInteractingEntity() {
-        return interactingEntity;
-    }
-
-    public String getForcedChat() {
-        return forcedChat;
-    }
-
-    public Entity setForcedChat(String forcedChat) {
-        this.forcedChat = forcedChat;
-        return this;
-    }
-
-    public boolean[] getPrayerActive() {
-        return prayerActive;
-    }
-
-    public Entity setPrayerActive(int id, boolean prayerActive) {
+    public void setPrayerActive(int id, boolean prayerActive) {
         this.prayerActive[id] = prayerActive;
-        return this;
     }
 
+    public void sendPrivateSoundByName(String name, int delay) {
+        sendPrivateSound(SoundDataLoader.getIdByName(name), delay);
+    }
+
+    public void sendPrivateSoundByName(String name) {
+        sendPrivateSound(SoundDataLoader.getIdByName(name));
+    }
     public void sendPrivateSound(int id) {
         sendPrivateSound(id, 0);
     }
@@ -750,28 +732,8 @@ public abstract class Entity {
         return recoveringSpecialAttack;
     }
 
-    public boolean inDungeon() {
-        return false;
-    }
-
     public int distanceToPoint(int pointX, int pointY) {
         return (int) Math.sqrt(Math.pow(getX() - pointX, 2) + Math.pow(getY() - pointY, 2));
-    }
-
-    public boolean isFixingDiagonal() {
-        return fixingDiagonal;
-    }
-
-    public void setFixingDiagonal(boolean fixingDiagonal) {
-        this.fixingDiagonal = fixingDiagonal;
-    }
-
-    public boolean isRepositioning() {
-        return repositioning;
-    }
-
-    public void setRepositioning(boolean repositioning) {
-        this.repositioning = repositioning;
     }
 
     protected Map<AttributeKey, Object> attribs;
@@ -1903,6 +1865,7 @@ public abstract class Entity {
         }
     }
 
+    @Getter
     private boolean[] prayerActive = new boolean[30];
 
     @Getter
@@ -2073,20 +2036,28 @@ public abstract class Entity {
     /*
      * Fields
      */
+    @Getter
     private final Combat combat = new Combat(this);
+    @Setter
+    @Getter
     private String forcedChat;
+    @Setter
     private boolean fixingDiagonal = false;
+    @Setter
+    @Getter
     private boolean repositioning = false;
     @Getter
     @Setter
     private Direction walkingDirection = Direction.NONE, runningDirection = Direction.NONE;
     @Getter
     private final UpdateFlag updateFlag = new UpdateFlag();
+    @Getter
     private Animation animation;
     public Animation recentAnim;
 
     private ArrayList<Graphic> graphics = new ArrayList<>();
     private Tinting tinting;
+    @Getter
     private Entity interactingEntity;
     private boolean resetMovementQueue;
     @Getter

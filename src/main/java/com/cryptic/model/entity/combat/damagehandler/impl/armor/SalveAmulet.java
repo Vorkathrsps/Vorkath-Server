@@ -25,7 +25,7 @@ public class SalveAmulet implements DamageModifyingListener {
                     }
                 } else if (equipment.contains(SALVE_AMULET)) {
                     if (FormulaUtils.isUndead(npc)) {
-                        modifier += 1.15F;
+                        modifier += 1.15;
                         return modifier;
                     }
                 }

@@ -52,25 +52,17 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
         listeners.add(new TumekensShadow());
         listeners.add(new SalveAmulet());
         listeners.add(new WildernessWeapon());
-        listeners.add(new VoidEquipment());
         listeners.add(new ZurielStaff());
         listeners.add(new SlayerHelmets());
         listeners.add(new VirtusSet());
         listeners.add(new CrystalSet());
         listeners.add(new TwistedBow());
-        listeners.add(new SalveAmulet());
         listeners.add(new DragonHunterCrossbow());
-        listeners.add(new VoidEquipment());
-        listeners.add(new WildernessWeapon());
-        listeners.add(new SlayerHelmets());
         listeners.add(new VoidEquipment());
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
         listeners.add(new DragonMace());
-        listeners.add(new SalveAmulet());
         listeners.add(new DragonHunterLance());
-        listeners.add(new WildernessWeapon());
-        listeners.add(new SlayerHelmets());
         return listeners;
     }
 

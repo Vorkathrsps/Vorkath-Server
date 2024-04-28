@@ -1,9 +1,11 @@
 package com.cryptic.model.items.container.def;
 
 import com.cryptic.model.entity.combat.weapon.WeaponType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EquipmentData {
     private int id;
     private String name;

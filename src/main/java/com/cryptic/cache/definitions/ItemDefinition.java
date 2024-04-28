@@ -40,7 +40,7 @@ public class ItemDefinition implements Definition {
     public int cost = 1;
     public int inventoryModel;
 
-    public Map<Integer, Object> params = null;
+    public Map<Integer, Object> params = new HashMap<>();
     public int resizez;
     public int category;
     public short[] recol_s;

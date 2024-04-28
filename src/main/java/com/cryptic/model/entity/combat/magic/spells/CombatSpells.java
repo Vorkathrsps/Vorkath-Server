@@ -12,6 +12,7 @@ import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.timers.TimerKey;
@@ -1849,8 +1850,12 @@ public enum CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
+            int count = 2;
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count *= 2;
+            }
             if (World.getWorld().rollDie(100, 25)) {
-                castOn.poison(2);
+                castOn.poison(count);
             }
         }
 
@@ -1914,6 +1919,11 @@ public enum CombatSpells {
                 }
 
                 int decrease = (int) (0.1 * (player.getSkills().level(Skills.ATTACK)));
+
+                if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                    decrease *= 2;
+                }
+
                 player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
                 player.getSkills().update(Skills.ATTACK);
             }
@@ -1982,6 +1992,9 @@ public enum CombatSpells {
             }
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS)) {
                 count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count += .50;
             }
             if (hit.isAccurate()) {
                 cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
@@ -2090,8 +2103,12 @@ public enum CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
+            int count = 2;
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count *= 2;
+            }
             if (World.getWorld().rollDie(100, 25)) {
-                castOn.poison(2);
+                castOn.poison(count);
             }
         }
 
@@ -2159,6 +2176,11 @@ public enum CombatSpells {
                 }
 
                 int decrease = (int) (0.1 * (player.getSkills().level(Skills.ATTACK)));
+
+                if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                    decrease *= 2;
+                }
+
                 player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
                 player.getSkills().update(Skills.ATTACK);
             }
@@ -2227,6 +2249,9 @@ public enum CombatSpells {
             }
             if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS)) {
                 count += .15;
+            }
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count += .50;
             }
             if (hit.isAccurate()) {
                 cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
@@ -2335,8 +2360,12 @@ public enum CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
+            int count = 4;
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count *= 4;
+            }
             if (World.getWorld().rollDie(100, 25)) {
-                castOn.poison(4);
+                castOn.poison(count);
             }
         }
 
@@ -2404,6 +2433,11 @@ public enum CombatSpells {
                 }
 
                 int decrease = (int) (0.15 * (player.getSkills().level(Skills.ATTACK)));
+
+                if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                    decrease *= 2;
+                }
+
                 player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
                 player.getSkills().update(Skills.ATTACK);
             }
@@ -2468,6 +2502,9 @@ public enum CombatSpells {
                     count += .15;
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, BLOODBARK_GAUNTLETS))
                     count += .15;
+                if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                    count += .50;
+                }
                 if (hit.isAccurate()) {
                     cast.heal((int) (hit.getDamage() / 4 + count)); // Heal for 25% with blood barr
                 }
@@ -2575,8 +2612,12 @@ public enum CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
+            int count = 4;
+            if (cast.getAsPlayer().getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617, ZURIELS_STAFF_BH)) {
+                count *= 4;
+            }
             if (World.getWorld().rollDie(100, 25)) {
-                castOn.poison(4);
+                castOn.poison(count);
             }
         }
 

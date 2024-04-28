@@ -16,11 +16,12 @@ public class DarkWizardCombat extends CommonCombatMethod {
         if (!ProjectileRoute.hasLineOfSight(entity, target)) {
             return false;
         }
+        target.sendPrivateSoundByName("waterstrike_cast_and_fire");
         entity.performGraphic(new Graphic(96, GraphicHeight.HIGH));
         entity.animate(entity.attackAnimation());
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 97, 51, duration, 43, 31, 16, 1, 10);
+        Projectile p = new Projectile(entity, target, 97, 51, duration, 43, 31, 16, 1, 64,10);
         final int delay = (int) (p.getSpeed() / 20D);
         entity.executeProjectile(p);
         new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();

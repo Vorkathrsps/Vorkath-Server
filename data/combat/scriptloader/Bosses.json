@@ -1,6 +1,5 @@
 [
   {
-    // Kalphite Queen (Stage 1)
     "ids": [
       6500
     ],
@@ -13,7 +12,6 @@
     "slayerlvl": 1,
     "deathlen": 4,
     "stats": {
-      //in the npc death class
       "attack": 300,
       "strength": 300,
       "magic": 150,
@@ -36,11 +34,9 @@
     },
     "scripts": {
       "combat": "KalphiteQueenFirstFormCombat"
-      //"death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenFirstForm.death"
     }
   },
   {
-    // Kalphite Queen (Stage 2)
     "ids": [
       6501
     ],
@@ -74,11 +70,9 @@
     },
     "scripts": {
       "combat": "KalphiteQueenSecondFormCombat"
-    //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
     }
   },
   {
-    //WARDEN
     "ids": [
       11762
     ],
@@ -112,7 +106,6 @@
     }
   },
   {
-    //WARDEN
     "ids": [
       11776
     ],
@@ -146,7 +139,6 @@
     }
   },
   {
-    //ZEBAK PHANTOM
     "ids": [
       11774
     ],
@@ -180,7 +172,6 @@
     }
   },
   {
-    // Sotetseg
     "ids": [
       10865
     ],
@@ -212,7 +203,6 @@
     }
   },
   {
-    // Fragment of seren
     "ids": [
       8917
     ],
@@ -246,7 +236,6 @@
     }
   },
   {
-    // The Mimic
     "ids": [
       8633
     ],
@@ -279,13 +268,9 @@
       "attack": -1,
       "block": -1,
       "death": 8310
-    },
-    "scripts": {
-      //"combat": ""
     }
   },
   {
-    // Cerberus
     "ids": [
       5862,
       5863,
@@ -328,7 +313,6 @@
     }
   },
   {
-    // Tempoross
     "ids": [
       10572, 10574, 10575
     ],
@@ -363,7 +347,6 @@
     }
   },
   {
-    // Kerberos
     "ids": [
       16008
     ],
@@ -400,9 +383,7 @@
       "death": 4495
     }
   },
-  //Zamorak God Wars
   {
-    //Tstanon Karlak
     "ids": [
       3130
     ],
@@ -434,13 +415,9 @@
       "attack": 64,
       "block": 65,
       "death": 68
-    },
-    "scripts": {
-      //"droptable": "droptables.GWDZamorakMinion"
     }
   },
   {
-    //Zakl'n Gritch
     "ids": [
       3131
     ],
@@ -473,12 +450,10 @@
       "death": 68
     },
     "scripts": {
-      //"droptable": "droptables.GWDZamorakMinion",
       "combat": "ZaklnCombat"
     }
   },
   {
-    //Balfrug Kreeyath
     "ids": [
       3132
     ],
@@ -511,12 +486,10 @@
       "death": 67
     },
     "scripts": {
-      //"droptable": "droptables.GWDZamorakMinion",
       "combat": "BalfrugCombat"
     }
   },
   {
-    //K'ril Tsutsaroth
     "ids": [
       3129
     ],
@@ -551,12 +524,10 @@
       "death": 6949
     },
     "scripts": {
-      //"droptable": "droptables.GWDZamorakMinion",
       "combat": "KrilCombat"
     }
   },
   {
-    //Corporeal beast
     "ids": [
       319
     ],
@@ -591,7 +562,6 @@
     }
   },
   {
-    // King black dragon (KBD)
     "ids": [
       239,
       16006
@@ -629,7 +599,6 @@
     }
   },
   {
-    // Dagannoth rex
     "ids": [
       2267
     ],
@@ -664,7 +633,6 @@
     }
   },
   {
-    // Dagannoth supreme
     "ids": [
       2265
     ],
@@ -700,7 +668,6 @@
     }
   },
   {
-    // Dagannoth prime
     "ids": [
       2266
     ],
@@ -736,7 +703,6 @@
     }
   },
   {
-    // Dagannoth spinolyp
     "ids": [
       5947, 5961, 5963
     ],
@@ -769,7 +735,6 @@
     }
   },
   {
-    // General graardor
     "ids": [
       2215
     ],
@@ -807,7 +772,6 @@
     }
   },
   {
-    // Strongstack
     "ids": [
       2216
     ],
@@ -829,13 +793,9 @@
       "attack": 6154,
       "block": 6155,
       "death": 6156
-    },
-    "scripts": {
-      //"droptable": "droptables.GWDBandosMinion"
     }
   },
   {
-    // Steelwill
     "ids": [
       2217
     ],
@@ -860,12 +820,10 @@
       "death": 6156
     },
     "scripts": {
-      //"droptable": "droptables.GWDBandosMinion",
       "combat": "SteelwillCombat"
     }
   },
   {
-    // Grimspike
     "ids": [
       2218
     ],
@@ -888,12 +846,10 @@
       "death": 6156
     },
     "scripts": {
-      //"droptable": "droptables.GWDBandosMinion",
       "combat": "GrimspikeCombat"
     }
   },
   {
-    // Thermonuclear Smoke Devil
     "ids": [
       499
     ],
@@ -927,7 +883,6 @@
     }
   },
   {
-    // Zulrah (Green ranged form)
     "ids": [
       2042
     ],
@@ -961,7 +916,6 @@
     }
   },
   {
-    // Zulrah (Crimson melee form)
     "ids": [
       2043
     ],
@@ -995,7 +949,6 @@
     }
   },
   {
-    // Zulrah (Blue mage form)
     "ids": [
       2044
     ],
@@ -1029,7 +982,6 @@
     }
   },
   {
-    // Snakeling
     "ids": [
       2045,
       2046
@@ -1061,7 +1013,6 @@
     }
   },
   {
-    // Lizard Shaman
     "ids": [
       6766,
       6767,
@@ -1102,7 +1053,6 @@
     }
   },
   {
-    // Lizard Shaman spawn
     "ids": [
       6768
     ],
@@ -1130,7 +1080,6 @@
     }
   },
   {
-    // Demonic Gorilla
     "ids": [
       7144,
       7145,
@@ -1169,7 +1118,6 @@
     }
   },
   {
-    // Vorkath zombified spawn
     "ids": [
       8063
     ],
@@ -1206,7 +1154,6 @@
     }
   },
   {
-    // Vorkath
     "ids": [
       8061
     ],
@@ -1290,7 +1237,6 @@
     }
   },
   {
-    // Giant mole
     "ids": [
       5779
     ],
@@ -1326,7 +1272,6 @@
     }
   },
   {
-    // Corrupted Nechryarch
     "ids": [
       15001
     ],
@@ -1363,7 +1308,6 @@
     }
   },
   {
-    // The nightmare
     "ids": [
       9430
     ],
@@ -1397,7 +1341,6 @@
     }
   },
   {
-    // The nightmare
     "ids": [
       9425
     ],
@@ -1431,7 +1374,6 @@
     }
   },
   {
-    // Husks
     "ids": [
       9454
     ],
@@ -1612,7 +1554,6 @@
     }
   },
   {
-    // sleepwalker
     "ids": [
       9446
     ],
@@ -1646,7 +1587,6 @@
     }
   },
   {
-    // Corrupted Hunllef
     "ids": [
       9035,
       9036,
@@ -1682,7 +1622,6 @@
     }
   },
   {
-    // Judge Of Yama World Boss
     "ids": [
       10938
     ],

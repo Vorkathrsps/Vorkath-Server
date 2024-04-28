@@ -1,6 +1,5 @@
 [
   {
-    // Wild Dog
     "ids": [
       112, 113
     ],
@@ -21,7 +20,6 @@
     }
   },
   {
-    // Unicorns
     "ids": [
       2849
     ],
@@ -49,7 +47,6 @@
     }
   },
   {
-    // magic thrall
     "ids": [
       10880
     ],
@@ -81,7 +78,6 @@
     }
   },
   {
-    // Range Summoned soul
     "ids": [
       5867
     ],
@@ -126,7 +122,6 @@
     }
   },
   {
-    // Magic Summoned soul
     "ids": [
       5868
     ],
@@ -160,7 +155,6 @@
     }
   },
   {
-    // Melee Summoned soul
     "ids": [
       5869
     ],
@@ -194,7 +188,6 @@
     }
   },
   {
-    // Guards @ Varrock
     "ids": [
       3010,
       3011
@@ -233,7 +226,6 @@
     }
   },
   {
-    // Man
     "ids": [
       3014, 3078, 3079, 3080, 3081, 3082, 3101, 3109, 3260, 3264, 3265, 3266, 3652, 6987, 6988, 6989
     ],
@@ -269,7 +261,6 @@
     }
   },
   {
-    // Woman
     "ids": [
       3015, 3083, 3084, 3085, 3110, 3267, 3268, 6990, 6991, 6992
     ],
@@ -305,7 +296,6 @@
     }
   },
   {
-    // Skeleton
     "ids": [
       70,
       71,
@@ -362,7 +352,6 @@
     }
   },
   {
-    // Zombie with sword
     "ids": [
       42,
       55,
@@ -404,7 +393,6 @@
     }
   },
   {
-    // Zombie with nothing
     "ids": [
       43
     ],
@@ -442,7 +430,6 @@
     }
   },
   {
-    // Zombie with axe
     "ids": [
       44
     ],
@@ -480,7 +467,6 @@
     }
   },
   {
-    // Thug
     "ids": [
       525
     ],
@@ -507,7 +493,6 @@
     }
   },
   {
-    // Chaos Druid
     "ids": [
       520
     ],
@@ -546,7 +531,6 @@
     }
   },
   {
-    // Chickens
     "ids": [
       1173, 1174
     ],
@@ -586,7 +570,6 @@
     }
   },
   {
-    // Skeleton Mage
     "ids": [
       84
     ],
@@ -624,7 +607,6 @@
     }
   },
   {
-    // Skeleton
     "ids": [
       82
     ],
@@ -666,7 +648,6 @@
     }
   },
   {
-    // Mugger
     "ids": [
       2871
     ],
@@ -691,7 +672,6 @@
     }
   },
   {
-    // Pirate
     "ids": [
       523
     ],
@@ -727,7 +707,6 @@
     }
   },
   {
-    // Rogue (15)
     "ids": [
       526
     ],
@@ -753,7 +732,6 @@
     }
   },
   {
-    // Rogue (135)
     "ids": [
       6603
     ],
@@ -779,7 +757,6 @@
     }
   },
   {
-    // Albino Bat
     "ids": [
       1039
     ],
@@ -805,7 +782,6 @@
     }
   },
   {
-    // Yak
     "ids": [
       5816
     ],
@@ -842,7 +818,6 @@
     }
   },
   {
-    // Skeleton thug
     "ids": [
       1541
     ],
@@ -882,7 +857,6 @@
     }
   },
   {
-    // Experiment 1
     "ids": [
       1275
     ],
@@ -909,7 +883,6 @@
     }
   },
   {
-    // Experiment 2
     "ids": [
       1273
     ],
@@ -936,7 +909,6 @@
     }
   },
   {
-    // Experiment 3
     "ids": [
       1274
     ],
@@ -963,7 +935,6 @@
     }
   },
   {
-    // Jail Guard
     "ids": [
       4279,
       4276,
@@ -1003,7 +974,6 @@
     }
   },
   {
-    // Suit of Armour
     "ids": [
       5043
     ],
@@ -1028,7 +998,6 @@
     }
   },
   {
-    // Black Knight
     "ids": [
       516, 517, 1545, 2875, 4331, 4959, 4960
     ],
@@ -1066,7 +1035,6 @@
     }
   },
   {
-    // Magic Axe
     "ids": [
       2844, 7268
     ],
@@ -1093,7 +1061,6 @@
     }
   },
   {
-    // Jailer
     "ids": [
       300
     ],
@@ -1120,7 +1087,6 @@
     }
   },
   {
-    // Monk of Zamorak
     "ids": [
       2887
     ],
@@ -1147,7 +1113,6 @@
     }
   },
   {
-    // Dust devil
     "ids": [
       423,
       7249
@@ -1173,7 +1138,6 @@
     }
   },
   {
-    // Reanimated Goblin (no cb level)
     "ids": [
       7018
     ],
@@ -1198,13 +1162,9 @@
       "attack": 309,
       "block": 312,
       "death": 313
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Monkey
     "ids": [
       7019
     ],
@@ -1229,13 +1189,9 @@
       "attack": 220,
       "block": 222,
       "death": 223
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Imp
     "ids": [
       7020
     ],
@@ -1271,13 +1227,9 @@
       "death": [
         512
       ]
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Abyssal Creature
     "ids": [
       7038
     ],
@@ -1303,13 +1255,9 @@
       "attack": 1537,
       "block": 2309,
       "death": 1538
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Minotaur
     "ids": [
       7021
     ],
@@ -1334,13 +1282,9 @@
       "attack": 4266,
       "block": 4267,
       "death": 4265
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Scorpion
     "ids": [
       7022
     ],
@@ -1364,13 +1308,9 @@
       "attack": 6254,
       "block": 6255,
       "death": 6256
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Bear
     "ids": [
       7023
     ],
@@ -1394,13 +1334,9 @@
       "attack": 4927,
       "block": 4925,
       "death": 4929
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Unicorn
     "ids": [
       7024
     ],
@@ -1424,13 +1360,9 @@
       "attack": 6376,
       "block": 6375,
       "death": 6377
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Dog
     "ids": [
       7025
     ],
@@ -1447,13 +1379,9 @@
       "attack": 6565,
       "block": 6563,
       "death": 6564
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Chaos Druid
     "ids": [
       7026
     ],
@@ -1478,13 +1406,9 @@
       "attack": 422,
       "block": 425,
       "death": 836
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Giant
     "ids": [
       7027
     ],
@@ -1508,13 +1432,9 @@
       "attack": 4652,
       "block": 4651,
       "death": 4653
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Ogre
     "ids": [
       7028
     ],
@@ -1538,13 +1458,9 @@
       "attack": 359,
       "block": 360,
       "death": 361
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Elf
     "ids": [
       7029
     ],
@@ -1568,13 +1484,9 @@
       "attack": 422,
       "block": 425,
       "death": 836
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Troll
     "ids": [
       7030
     ],
@@ -1596,13 +1508,9 @@
       "attack": 284,
       "block": 286,
       "death": 287
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Cave Horror
     "ids": [
       7031
     ],
@@ -1627,13 +1535,9 @@
       "attack": 4234,
       "block": 4232,
       "death": 4233
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Kalphite
     "ids": [
       7032
     ],
@@ -1657,13 +1561,9 @@
       "attack": 6223,
       "block": 6227,
       "death": 6230
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Dragon
     "ids": [
       7039
     ],
@@ -1690,12 +1590,10 @@
       "death": 92
     },
     "scripts": {
-      //"droptable": "droptables.ReanimatedMinion",
       "combat": "BasicDragonCombat"
     }
   },
   {
-    // Reanimated Dagannoth
     "ids": [
       7033
     ],
@@ -1721,12 +1619,10 @@
       "death": 1342
     },
     "scripts": {
-      //"droptable": "droptables.ReanimatedMinion",
       "combat": "DagannothRangeCombat"
     }
   },
   {
-    // Reanimated Bloodveld
     "ids": [
       7034
     ],
@@ -1743,13 +1639,9 @@
       "attack": 1552,
       "block": 1550,
       "death": 1553
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Mutated Bloodveld
     "ids": [
       7276
     ],
@@ -1784,7 +1676,6 @@
     }
   },
   {
-    // Bat
     "ids": [
       2827
     ],
@@ -1813,7 +1704,6 @@
     }
   },
   {
-    // Reanimated TzHaar
     "ids": [
       7035
     ],
@@ -1831,13 +1721,9 @@
       "attack": 2610,
       "block": -1,
       "death": 2607
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Demon
     "ids": [
       7036
     ],
@@ -1862,13 +1748,9 @@
       "attack": 64,
       "block": 65,
       "death": 67
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Reanimated Aviansie
     "ids": [
       7037
     ],
@@ -1894,13 +1776,9 @@
       "attack": 6957,
       "block": 6956,
       "death": 6959
-    },
-    "scripts": {
-      //"droptable": "droptables.ReanimatedMinion"
     }
   },
   {
-    // Spider
     "ids": [
       3019
     ],
@@ -1939,7 +1817,6 @@
     }
   },
   {
-    // Runite Golem
     "ids": [
       6600
     ],
@@ -1962,7 +1839,6 @@
     }
   },
   {
-    // Frog
     "ids": [
       2145
     ],
@@ -1982,7 +1858,6 @@
     }
   },
   {
-    // Big Frog
     "ids": [
       2144
     ],
@@ -2002,7 +1877,6 @@
     }
   },
   {
-    // Giant Frog
     "ids": [
       2143
     ],
@@ -2021,7 +1895,6 @@
     }
   },
   {
-    // Unicorn
     "ids": [
       2837
     ],
@@ -2053,7 +1926,6 @@
     }
   },
   {
-    // Dark Wizard
     "ids": [
       510,
       512,
@@ -2107,7 +1979,6 @@
     }
   },
   {
-    // Dark Wizard
     "ids": [
       5088
     ],
@@ -2150,7 +2021,6 @@
     }
   },
   {
-    // Battle Mage (Guthix)
     "ids": [
       1612
     ],
@@ -2177,7 +2047,6 @@
     }
   },
   {
-    // Battle Mage (Zammy + Sara)
     "ids": [
       1610,
       1611
@@ -2205,7 +2074,6 @@
     }
   },
   {
-    // Cyclops level 56
     "ids": [
       2464
     ],
@@ -2231,7 +2099,6 @@
     }
   },
   {
-    // Cyclops lvl 76
     "ids": [
       2465, 2137
     ],
@@ -2257,7 +2124,6 @@
     }
   },
   {
-    // Ents (WC guild)
     "ids": [
       7234
     ],
@@ -2283,13 +2149,9 @@
       "attack": 7145,
       "block": 7144,
       "death": 7146
-    },
-    "scripts": {
-      //"droptable": "droptables.Ent"
     }
   },
   {
-    // Ancient Wizard (Mage)
     "ids": [
       7307
     ],
@@ -2311,13 +2173,9 @@
       "attack": 1979,
       "block": 1156,
       "death": 836
-    },
-    "scripts": {
-      //"combat": "nl.bartpelle.veteres.content.npcs.ancientsurvival.AncientMage.script"
     }
   },
   {
-    // Barrelchest
     "ids": [
       600, 6342, 16005
     ],
@@ -2349,7 +2207,6 @@
     }
   },
   {
-    // Wintertodt pyromancer
     "ids": [
       7371
     ],
@@ -2369,13 +2226,9 @@
     "animations": {
       "attack": -1,
       "death": 6295
-    },
-    "scripts": {
-      //"hit": "nl.bartpelle.veteres.content.minigames.wintertodt.WintertodtPyromancer.hit"
     }
   },
   {
-    // Spawn
     "ids": [
       5916
     ],
@@ -2395,13 +2248,9 @@
       "attack": 4522,
       "block": 4523,
       "death": 4521
-    },
-    "scripts": {
-      // "combat": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireSpawn.script"
     }
   },
   {
-    // Scion
     "ids": [
       5918
     ],
@@ -2425,13 +2274,9 @@
       "attack": 7126,
       "block": 7128,
       "death": 7129
-    },
-    "scripts": {
-      //"combat": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireScion.script"
     }
   },
   {
-    // Respiratory System
     "ids": [
       5914
     ],
@@ -2450,12 +2295,10 @@
       "death": 4521
     },
     "scripts": {
-      //"death": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireRespiratorySystem.deathScript",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireRespiratorySystem.hitScript"
     }
   },
   {
-    // Guard (archer)
     "ids": [
       6056
     ],
@@ -2473,13 +2316,9 @@
       "attack": 426,
       "block": 424,
       "death": 836
-    },
-    "scripts": {
-      //"combat": "nl.bartpelle.veteres.content.npcs.misc.RangedGuard.script"
     }
   },
   {
-    // Dummy
     "ids": [
       2668, 7413
     ],
@@ -2494,7 +2333,6 @@
     }
   },
   {
-    // Guards @ Fally
     "ids": [
       3269,
       3271
@@ -2533,7 +2371,6 @@
     }
   },
   {
-    // Guards @ Ardougne
     "ids": [
       3245
     ],
@@ -2560,7 +2397,6 @@
     }
   },
   {
-    // Paladin @ Ardougne
     "ids": [
       3105
     ],
@@ -2587,7 +2423,6 @@
     }
   },
   {
-    // Hero @ Ardougne
     "ids": [
       3295
     ],
@@ -2614,7 +2449,6 @@
     }
   },
   {
-    // Warrior women @ Ardougne
     "ids": [
       3100
     ],
@@ -2641,7 +2475,6 @@
     }
   },
   {
-    //Knight of ardougne @ Ardougne
     "ids": [
       3297
     ],
@@ -2668,7 +2501,6 @@
     }
   },
   {
-    //Barbarian at village
     "ids": [
       3057,
       3068,
@@ -2709,7 +2541,6 @@
     }
   },
   {
-    //Gunthor the brave at Barbarian village
     "ids": [
       299
     ],
@@ -2736,7 +2567,6 @@
     }
   },
   {
-    // Dagannoths lv 74 in kourend caves (melee)
     "ids": [
       7259
     ],
@@ -2772,7 +2602,6 @@
     }
   },
   {
-    // Dagannoths lv 92 in kourend caves (melee)
     "ids": [
       7260, 5943
     ],
@@ -2923,7 +2752,6 @@
     }
   },
   {
-    // Death spawn
     "ids": [
       10
     ],
@@ -2955,7 +2783,6 @@
     }
   },
   {
-    // Chaotic death spawn
     "ids": [
       6716
     ],
@@ -2987,7 +2814,6 @@
     }
   },
   {
-    // Chaotic death spawn
     "ids": [
       6723
     ],
@@ -3019,7 +2845,6 @@
     }
   },
   {
-    // Chaotic death spawn
     "ids": [
       7649
     ],
@@ -3051,7 +2876,6 @@
     }
   },
   {
-    // Brutal lava dragon
     "ids": [
       15016
     ],
@@ -3084,7 +2908,6 @@
     }
   },
   {
-    // Brutal lava dragon landed
     "ids": [
       15019
     ],
@@ -3117,7 +2940,6 @@
     }
   },
   {
-    // Zombies Champion
     "ids": [
       3359
     ],
@@ -3148,7 +2970,6 @@
     }
   },
   {
-    // Brutal green dragon
     "ids": [
       2918, 8081
     ],
@@ -3183,7 +3004,6 @@
     }
   },
   {
-    // Brutal blue dragon
     "ids": [
       7273
     ],
@@ -3218,7 +3038,6 @@
     }
   },
   {
-    // Brutal red dragon
     "ids": [
       7274,
       8087
@@ -3254,7 +3073,6 @@
     }
   },
   {
-    // Brutal black dragon
     "ids": [
       7275, 8092, 8093
     ],
@@ -3289,7 +3107,6 @@
     }
   },
   {
-    // Mithril dragon
     "ids": [
       2919, 8088, 8089
     ],
@@ -3324,7 +3141,6 @@
     }
   },
   {
-    // Wallasalki
     "ids": [
       5938, 5939
     ],
@@ -3359,7 +3175,6 @@
     }
   },
   {
-    // Giant Rock Crab (137)
     "ids": [
       2261, 5940
     ],
@@ -3394,7 +3209,6 @@
     }
   },
   {
-    // King Sand Crab
     "ids": [
       7266, 7267
     ],
@@ -3428,7 +3242,6 @@
     }
   },
   {
-    // Mountain troll
     "ids": [
       936, 937, 938, 939, 940, 941, 942
     ],
@@ -3460,7 +3273,6 @@
     }
   },
   {
-    // Mountain troll
     "ids": [
       4143
     ],
@@ -3492,7 +3304,6 @@
     }
   },
   {
-    // Thrower troll
     "ids": [
       931, 932, 933, 934, 935
     ],

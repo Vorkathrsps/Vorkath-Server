@@ -1638,6 +1638,14 @@
       "MACE_BLOCK": 2566
     }
   },
+  "27690": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
   "27660": {
     "styles": {
       "MACE_POUND": 2566,

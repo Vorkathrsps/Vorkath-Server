@@ -23,8 +23,7 @@ public class AncientGodsword extends CommonCombatMethod {
         final Player player = (Player) entity;
         player.animate(9171);
         player.graphic(1996);
-
-        System.out.println("calling here");
+        player.sendPrivateSound(3869);
 
         entity.submitHit(target, 0, this).postDamage(hit -> {
             hit.setAccurate(true);
@@ -36,7 +35,7 @@ public class AncientGodsword extends CommonCombatMethod {
                 hit.block();
                 return;
             }
-            if (hit.isAccurate() && hit.getDamage() <= 0) {
+            if (hit.getDamage() <= 0) {
                 hit.block();
                 return;
             }
@@ -46,6 +45,7 @@ public class AncientGodsword extends CommonCombatMethod {
                 entity.submitAccurateHit(target, 0, 25, this)
                     .postDamage(h2 -> {
                         entity.heal(25);
+                        target.sendPrivateSound(102);
                         target.graphic(2001, GraphicHeight.HIGH, 0);
                     });
             });

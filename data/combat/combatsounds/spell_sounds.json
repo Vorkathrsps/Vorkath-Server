@@ -1,4 +1,8 @@
 {
+  "2": {
+    "cast_sound": 178,
+    "hit_sound": 1460
+  },
   "1152": {
     "cast_sound": 220,
     "hit_sound": 221

@@ -1,7 +1,8 @@
 package com.cryptic.model.entity.combat.method.impl;
 
-import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -19,15 +20,21 @@ import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.lang.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 public class RangedCombatMethod extends CommonCombatMethod {
-    public static final int[] immune_to_range = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_HAGIOS_8347, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355, 7145};
+    public static final int[] immune_to_range = new int[]{NYLOCAS_HAGIOS, NYLOCAS_HAGIOS_8347, NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355, 7145};
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {
@@ -177,9 +184,14 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 final int hitDelay = attacker.executeProjectile(projectile);
                 Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
-                if (sound != null) player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                if (sound != null)
+                    player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
+                if (player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) && MultiwayCombat.includes(target.tile())) {
+                    player.sendPrivateSound(6797);
+                    hit.postDamage(_ -> sendBouncingArrows(attacker, target));
+                }
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
@@ -189,16 +201,91 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     }
 
                     if (weaponTypeSpecial == RangedData.RangedWeaponType.BALLISTA) {
-                        if (drawbackBow != null) target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                        if (drawbackBow != null)
+                            target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
                     }
                 }
             }
+
 
             CombatFactory.decrementAmmo(player);
 
         }
         return true;
     }
+
+    private static void sendBouncingArrows(Entity attacker, Entity originalTarget) {
+        final Entity original = originalTarget;
+        Area area = original.getCentrePosition().area(original.getSize()).enlarge(2);
+        final Region region = original.tile().getRegion();
+        final Result firstResult = getResult(original, region, area);
+        if (firstResult.closestToPoint().isPresent()) {
+            Entity secondTarget = firstResult.temp().stream().filter(entity -> !entity.equals(original)).findFirst().orElse(null);
+            if (secondTarget != null) {
+                Tile secondCenterPosition = secondTarget.getCentrePosition();
+                var distance = secondCenterPosition.distanceTo(original.tile());
+                int duration = (int) (15 + (distance));
+                Projectile projectile = new Projectile(original, secondTarget, 2007, 0, duration, 31, 31, 127, 1, 0, 0);
+                int delay = attacker.executeProjectile(projectile);
+                attacker.sendPrivateSound(6672, projectile.getSpeed());
+                Hit hit = new Hit(attacker, secondTarget, delay, CombatType.RANGED).checkAccuracy(true).submit();
+                if (hit != null) hit.postDamage(h -> {
+                    h.setDamage(h.getDamage() * 2 / 3);
+                });
+                area = secondCenterPosition.area(secondTarget.getSize());
+                Result secondResult = getResult(secondTarget, region, area);
+                if (secondResult.closestToPoint().isPresent()) {
+                    boolean returnToOriginal = World.getWorld().random(2) == 0;
+                    Entity thirdTarget;
+                    if (returnToOriginal) {
+                        thirdTarget = original;
+                    } else {
+                        List<Entity> potentialThirdTargets = secondResult.temp().stream().filter(entity -> !entity.equals(original) && !entity.equals(secondTarget)).toList();
+                        if (!potentialThirdTargets.isEmpty()) {
+                            int randomIndex = World.getWorld().random(potentialThirdTargets.size() - 1);
+                            thirdTarget = potentialThirdTargets.get(randomIndex);
+                        } else {
+                            thirdTarget = original;
+                        }
+                    }
+                    if (thirdTarget != null) {
+                        distance = secondCenterPosition.distanceTo(thirdTarget.tile());
+                        duration = (int) (projectile.getSpeed() + 15 + (distance));
+                        projectile = new Projectile(secondTarget, thirdTarget, 2007, projectile.getSpeed(), duration, 31, 31, 127, 1, 0, 0);
+                        delay = attacker.executeProjectile(projectile);
+                        attacker.sendPrivateSound(6672, projectile.getSpeed());
+                        new Hit(attacker, thirdTarget, delay, CombatType.RANGED).checkAccuracy(true).submit();
+                    }
+                }
+            }
+        }
+    }
+
+    @NotNull
+    private static Result getResult(Entity target, Region region, Area area) {
+        Set<Entity> temp = new HashSet<>();
+
+        for (NPC npc : region.getNpcs()) {
+            if (npc == null || npc.hidden()) continue;
+            var def = NpcDefinition.cached.get(npc.getId());
+            if (def.isPet || !def.isInteractable) continue;
+            if (area.contains(npc.tile()) && !npc.equals(target)) {
+                temp.add(npc);
+                break;
+            }
+        }
+
+        OptionalInt closestToPoint = temp.stream()
+            .filter(Objects::nonNull)
+            .mapToInt(npc -> npc.getCentrePosition().getNorthEastTile().distance(target.tile()))
+            .sorted()
+            .findFirst();
+        return new Result(temp, closestToPoint);
+    }
+
+    private record Result(Set<Entity> temp, OptionalInt closestToPoint) {
+    }
+
 
     private boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
@@ -254,7 +341,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             if (targ.isNpc()) {
                 var n = targ.getAsNpc();
 
-                if (n.id() == NpcIdentifiers.ROCKY_SUPPORT || n.id() == NpcIdentifiers.ROCKY_SUPPORT_7710 || n.def().isPet) {
+                if (n.id() == ROCKY_SUPPORT || n.id() == ROCKY_SUPPORT_7710 || n.def().isPet) {
                     continue;
                 }
             }

@@ -20,6 +20,7 @@ public class VoidWaker extends CommonCombatMethod {
         double hitDamage = minHit + random;
         entity.animate(new Animation(1378));
         target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
+        entity.sendPrivateSound(6182, 30);
         if (isDummy) hitDamage = maxHit * 1.5;
         int finalDamage = (int) Math.floor(hitDamage);
         entity.submitAccurateHit(target, 0, finalDamage, this)

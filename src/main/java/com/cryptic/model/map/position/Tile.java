@@ -451,6 +451,16 @@ public class Tile implements Cloneable {
         return new Tile(newX, newY, z);
     }
 
+    public Tile getNorthEastTile() {
+        int x = this.getX();
+        int y = this.getY();
+        int z = this.getZ();
+        int newX = x + 1;  // Move one tile to the east
+        int newY = y - 1;  // Move one tile to the north
+        return new Tile(newX, newY, z);
+    }
+
+
 
     public double calculateDistance(int x1, int y1, int x2, int y2) {
         int deltaX = x2 - x1;

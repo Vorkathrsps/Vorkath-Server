@@ -10,6 +10,7 @@ public class VestaLongsword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
         entity.submitHit(target, 1, this);
+        entity.sendPrivateSound(2529);
         CombatSpecial.drain(entity, CombatSpecial.VESTAS_BLIGHTED_LONGSWORD.getDrainAmount());
         return true;
     }

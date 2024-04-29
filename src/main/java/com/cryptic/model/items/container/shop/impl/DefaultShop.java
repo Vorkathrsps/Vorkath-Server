@@ -228,7 +228,7 @@ public final class DefaultShop extends Shop {
         }
         int finalShop = shopInventoryId;
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());
-        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(finalShop, items));
+        players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterface(finalShop, items));
         if (restock) {
             if (!needsRestock()) return;
             startAddStock();

@@ -22,6 +22,7 @@ import org.apache.commons.lang.ArrayUtils;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.cryptic.model.content.skill.impl.slayer.SlayerConstants.BONE_HUNTER;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class ItemDrops {
@@ -41,6 +42,8 @@ public class ItemDrops {
                 LogType.OTHER.log(player, npc.id(), item);
                 var drop = item.noted() ? item.unnote().note() : item;
                 if (skipLootingBag(player, drop)) continue;
+                if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
+                if (isUsingBoneHunter(player, drop)) drop = drop.note();
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
@@ -51,6 +54,14 @@ public class ItemDrops {
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
+    }
+
+    private static boolean isMembersNotedDragonhide(Player player, Item drop) {
+        return player.getMemberRights().isEliteMemberOrGreater(player) && drop.name().contains("dragonhide");
+    }
+
+    private boolean isUsingBoneHunter(Player player, Item drop) {
+        return player.getSlayerRewards().getUnlocks().containsKey(BONE_HUNTER) && ArrayUtils.contains(BONES, drop.getId()) && !isUsingDevotionSigil(player, drop);
     }
 
     private boolean isUsingSoulBearer(Player player, Item drop) {

@@ -1,7 +1,9 @@
 package com.cryptic.model.content.skill.impl.prayer;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.player.GameMode;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -59,8 +61,21 @@ public class BoneBurying extends PacketInteraction {
         player.sendPrivateSound(2738, 0);
         var xp = bone.xp / 2;
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
+        xp = isSetExperienceBoost(player, xp);
         player.getSkills().addXp(Skills.PRAYER, xp);
         Chain.bound(player).runFn(1, () -> player.message("You bury the bones."));
+    }
+
+    private static double isSetExperienceBoost(Player player, double xp) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.PRAYER)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    xp *= set.experienceBoost;
+                    break;
+                }
+            }
+        }
+        return xp;
     }
 
     private void startBonesOnAltar(Player player, Bone bones, GameObject obj) {
@@ -104,7 +119,7 @@ public class BoneBurying extends PacketInteraction {
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
 
         if (amt == 1) {
-            boneOnAltar(player, bones, obj, gameModeMultiplier);
+            boneOnAltar(player, bones, obj);
             return;
         }
 
@@ -124,19 +139,26 @@ public class BoneBurying extends PacketInteraction {
                 return;
             }
 
-            boneOnAltar(player, bones, obj, gameModeMultiplier);
+            boneOnAltar(player, bones, obj);
             count.getAndIncrement();
         });
     }
 
-    public void boneOnAltar(Player player, Bone bones, GameObject object, double multiplier) {
+    public void boneOnAltar(Player player, Bone bones, GameObject object) {
         player.animate(3705);
         World.getWorld().tileGraphic(624, object.tile(), 0, 0);
 
         var removeBone = true;
 
+        int chance = 2;
+        switch (player.getMemberRights()) {
+            case RUBY_MEMBER, SAPPHIRE_MEMBER -> chance = 3;
+            case EMERALD_MEMBER,DIAMOND_MEMBER -> chance = 4;
+            case DRAGONSTONE_MEMBER, ONYX_MEMBER -> chance = 5;
+            case ZENYTE_MEMBER -> chance = 6;
+        }
         if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
-            if (World.getWorld().rollDie(2, 1)) {
+            if (World.getWorld().rollDie(chance, 1)) {
                 removeBone = false;
             }
         }
@@ -147,16 +169,25 @@ public class BoneBurying extends PacketInteraction {
 
         player.sendPrivateSound(958, 0);
 
+        double experienece = bones.xp;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.PRAYER)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    experienece *= set.experienceBoost;
+                    break;
+                }
+            }
+        }
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {
             player.message("The gods are very pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, experienece);
         } else if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, experienece);
         } else {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, bones.xp);
+            player.getSkills().addXp(Skills.PRAYER, experienece);
         }
     }
 

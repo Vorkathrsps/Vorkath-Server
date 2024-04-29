@@ -31,22 +31,15 @@ public class WildernessSlayerCasket {
      * @param npc
      */
     private void dropSupplys(@NotNull final Player player, @NotNull NPC npc) {
-        var taskID = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
-        var task = SlayerCreature.lookup(player.slayerTaskId());
-
-        if (task != null && Slayer.creatureMatches(player, npc.id())) {
-            if (task.matches(taskID)) {
-                player.message(Color.RED.wrap("<img=2010>You've received a supply loot drop!"));
-                int[] lootAmounts = supplyLoot();
-                for (int amount : lootAmounts) {
-                    int itemId = Objects.requireNonNull(Utils.randomElement(LOOT)).getId();
-                    Item item = new Item(itemId, amount);
-                    GroundItem groundItem = new GroundItem(item, npc.tile(), player);
-                    GroundItemHandler.createGroundItem(groundItem);
-                    var name = item.noted() ? item.unnote().name() : item.name();
-                    player.message(Color.RED.wrap(item.getAmount() + "X: " + name));
-                }
-            }
+        player.message(Color.RED.wrap("<img=2010>You've received a supply loot drop!"));
+        int[] lootAmounts = supplyLoot();
+        for (int amount : lootAmounts) {
+            int itemId = Objects.requireNonNull(Utils.randomElement(LOOT)).getId();
+            Item item = new Item(itemId, amount);
+            GroundItem groundItem = new GroundItem(item, npc.tile(), player);
+            GroundItemHandler.createGroundItem(groundItem);
+            var name = item.noted() ? item.unnote().name() : item.name();
+            player.message(Color.RED.wrap(item.getAmount() + "X: " + name));
         }
     }
 
@@ -134,9 +127,10 @@ public class WildernessSlayerCasket {
      * The Loot ArrayList
      */
     private static final List<Item> LOOT = Arrays.asList(
-        new Item(13442, World.getWorld().random(25, 100)),
-        new Item(6686, World.getWorld().random(1, 10)),
-        new Item(3025, World.getWorld().random(1, 5)),
+        new Item(COINS_995, World.getWorld().random(20000, 250000)),
+        new Item(ANGLERFISH + 1, World.getWorld().random(25, 100)),
+        new Item(SARADOMIN_BREW4 + 1, World.getWorld().random(1, 10)),
+        new Item(SUPER_RESTORE4 + 1, World.getWorld().random(1, 5)),
         new Item(BLIGHTED_ANCIENT_ICE_SACK, 150),
         new Item(BLIGHTED_ENTANGLE_SACK, 150),
         new Item(BLIGHTED_TELEPORT_SPELL_SACK, 150),

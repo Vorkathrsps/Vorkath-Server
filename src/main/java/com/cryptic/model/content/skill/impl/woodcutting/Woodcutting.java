@@ -1,20 +1,24 @@
 package com.cryptic.model.content.skill.impl.woodcutting;
 
 import com.cryptic.core.task.Task;
+import com.cryptic.model.World;
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Trees;
 import com.cryptic.model.content.skill.perks.SkillingItems;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import org.apache.commons.lang.ArrayUtils;
@@ -142,11 +146,13 @@ public class Woodcutting extends PacketInteraction {
                             addLog(player, tree);
                             checkBonus(player, tree);
                             addExperience(player, tree);
+                            rollForPet(player);
                             return;
                         }
                         if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
                         checkBonus(player, tree);
                         addExperience(player, tree);
+                        rollForPet(player);
                         return;
                     }
                 }
@@ -154,16 +160,43 @@ public class Woodcutting extends PacketInteraction {
                 addLog(player, tree);
                 checkBonus(player, tree);
                 addExperience(player, tree);
+                rollForPet(player);
             }
         });
     }
 
+    private static void rollForPet(Player player) {
+        double chance = 2000;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.WOODCUTTING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    chance *= 0.85D;
+                    break;
+                }
+            }
+        }
+        if (Utils.rollDie((int) chance, 1)) {
+            player.getInventory().addOrBank(new Item(ItemIdentifiers.BEAVER));
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Beaver Pet!" + "</shad>"));
+        }
+    }
+
     private static void addLog(Player player, Trees tree) {
+        Item log = new Item(tree.item);
         if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
-            player.getBank().add(new Item(tree.item));
+            player.getBank().add(log);
             return;
         }
-        player.inventory().add(new Item(tree.item));
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.WOODCUTTING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    if (Utils.rollDie(4, 1)) log = log.note();
+                    player.inventory().add(log);
+                    break;
+                }
+            }
+        }
+        player.inventory().add(log);
     }
 
     private static void addExperience(Player player, Trees tree) {

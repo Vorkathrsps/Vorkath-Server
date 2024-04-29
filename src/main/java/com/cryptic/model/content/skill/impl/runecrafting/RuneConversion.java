@@ -1,10 +1,13 @@
 package com.cryptic.model.content.skill.impl.runecrafting;
 
+import com.cryptic.model.World;
 import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 
 import com.cryptic.model.entity.player.Player;
@@ -13,6 +16,8 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -157,15 +162,18 @@ public class RuneConversion extends PacketInteraction {
                             multi++;
                     }
 
+                    multi = isSetBonus(player, multi);
+
                     if (altar == Altar.DEATH) {
                         player.getTaskMasterManager().increase(Tasks.CRAFT_DEATH_RUNES, finalAmount);
                     }
 
+                    rollForPet(player, altar);
                     player.inventory().add(new Item(altar.rune, finalAmount * multi), true);
-                    player.getSkills().addXp(Skills.RUNECRAFTING, altar.xp * finalAmount);
+                    double experience = altar.xp * finalAmount;
+                    experience = isBonusExperience(player, experience);
+                    player.getSkills().addXp(Skills.RUNECRAFTING, experience);
                     player.putAttrib(AttributeKey.RUNECRAFTING, false);
-
-
                     player.unlock();
                 });
             } else {
@@ -178,6 +186,46 @@ public class RuneConversion extends PacketInteraction {
             player.getInterfaceManager().close();
             player.message("You need a Runecrafting level of " + altar.levelReq + " to infuse these runes.");
         }
+    }
+
+    private static void rollForPet(Player player, Altar altar) {
+        double chance = 2500;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.RUNECRAFTING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    chance *= 0.85D;
+                }
+            }
+        }
+        if (Utils.rollDie((int) chance, 1)) {
+            Item pet = new Item(altar.petDefinitionsTransform.getItem());
+            player.inventory().addOrBank(pet);
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rift Guardian Pet!" + "</shad>"));
+        }
+    }
+
+    private static double isBonusExperience(Player player, double experience) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.RUNECRAFTING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    experience *= set.experienceBoost;
+                    break;
+                }
+             }
+        }
+        return experience;
+    }
+
+    private static int isSetBonus(Player player, int multi) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.RUNECRAFTING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    multi *= 3;
+                    break;
+                }
+            }
+        }
+        return multi;
     }
 
     public static Action<Player> action(Player player, Altar altar, int amount) {

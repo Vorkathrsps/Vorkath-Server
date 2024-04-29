@@ -253,9 +253,6 @@ public class SlayerTask {
             //if (inWilderness && this.isWildernessTask(player)) {
                 isSlayerPerkEnabled(player, npc, slayerPerks);
             //}
-           // if (inWilderness) {
-                this.upgradeEmblem(player);
-            //}
             player.getSlayerKillLog().addKill(npc);
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
             player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
@@ -270,6 +267,7 @@ public class SlayerTask {
                 player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints);
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
+                this.upgradeEmblem(player);
                 return;
             }
         }

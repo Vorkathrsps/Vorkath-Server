@@ -1,7 +1,12 @@
 package com.cryptic.model.content.skill.perks;
 
 import com.cryptic.model.entity.player.Skill;
+import com.cryptic.model.entity.player.Skills;
+import com.cryptic.model.items.container.equipment.Equipment;
 import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum SkillingSets {
 
@@ -18,7 +23,7 @@ public enum SkillingSets {
     @Getter public final Skill skillType;
     @Getter public final int[] set;
     @Getter public final double experienceBoost, chanceIncrease;
-
+    @Getter public static final SkillingSets[] VALUES = SkillingSets.values();
     SkillingSets(int[] set, Skill skillType, double experienceBoost, double chanceIncrease) {
         this.set = set;
         this.skillType = skillType;

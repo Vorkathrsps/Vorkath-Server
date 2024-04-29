@@ -1,13 +1,16 @@
 package com.cryptic.model.content.skill.impl.mining;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
@@ -117,7 +120,7 @@ public class Mining extends PacketInteraction {
             var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
 
             if (success) {
-                if (Utils.rollDie(rockType.geode_chance / geode_multiplier, 1)) {
+                if (Utils.rollDie(rockType.geode_chance, 1)) {
                     player.getInventory().addOrDrop(new Item(Utils.randomElement(GEODES), 1));
                     player.message(Color.BLUE.wrap("The rock broke, inside you find a geode!"));
                 }
@@ -172,13 +175,18 @@ public class Mining extends PacketInteraction {
                     } else if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
                         player.getBank().add(new Item(rockType.item));
                     } else {
+                        Item ore = new Item(rockType.item);
+                        isSetCrashedStarBonus(player, ore);
                         player.getInventory().add(new Item(rockType.item));
                     }
                     player.message("You manage to mine some " + rockType.name + ".");
                 }
 
+                double experience = rockType.experience;
                 if (!player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
-                    player.getSkills().addXp(Skills.MINING, rockType.experience);
+                    experience = isSetExperienceBonus(player, experience);
+                    rollForPet(player, rockType);
+                    player.getSkills().addXp(Skills.MINING, experience);
                 }
 
                 switch (rockType) {
@@ -193,12 +201,63 @@ public class Mining extends PacketInteraction {
                 }
 
                 if (rockType == Ore.GEM_ROCK) {
-                    rockType.setItem(new Item(Utils.randomElement(GEMS)).getId());
+                    Item gem = new Item(Utils.randomElement(GEMS));
+                    gem = isNoted(player, gem);
+                    rockType.setItem(gem.getId());
                 }
 
             }
         }).then(1, () -> player.animate(Animation.DEFAULT_RESET_ANIMATION));
 
+    }
+
+    private static void isSetCrashedStarBonus(Player player, Item ore) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.MINING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    ore.setAmount(ore.getAmount() * 2);
+                }
+            }
+        }
+    }
+
+    private static Item isNoted(Player player, Item gem) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.MINING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    gem = gem.note();
+                }
+            }
+        }
+        return gem;
+    }
+
+    private static void rollForPet(Player player, Ore ore) {
+        double chance = ore.pet_chance;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.MINING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    chance *= 0.85D;
+                    break;
+                }
+            }
+        }
+        if (Utils.rollDie((int) chance, 1)) {
+            player.getInventory().add(new Item(ItemIdentifiers.ROCK_GOLEM));
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rock Golem Pet!" + "</shad>"));
+        }
+    }
+
+    private static double isSetExperienceBonus(Player player, double experience) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.MINING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    experience *= set.experienceBoost;
+                    break;
+                }
+            }
+        }
+        return experience;
     }
 
     private static void addBar(Player player, Ore rock) {

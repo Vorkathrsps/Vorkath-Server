@@ -3,16 +3,20 @@ package com.cryptic.model.content.skill.impl.fishing;
 import com.cryptic.PlainTile;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.gson.Gson;
@@ -67,7 +71,7 @@ public class Fishing {
 
         // Level requirement
         if (player.getSkills().level(Skills.FISHING) < selectedAction.levelReq()) {
-            DialogueManager.sendStatement(player, "You need to be at least level "+selectedAction.levelReq()+" Fishing to catch these fish.");
+            DialogueManager.sendStatement(player, "You need to be at least level " + selectedAction.levelReq() + " Fishing to catch these fish.");
             return;
         }
 
@@ -128,12 +132,12 @@ public class Fishing {
 
                 Fish weCatch = selectedAction.randomFish(player.getSkills().level(Skills.FISHING));
 
-                if(weCatch == Fish.SHARK) {
+                if (weCatch == Fish.SHARK) {
                     player.getTaskMasterManager().increase(Tasks.CATCH_SHARKS);
                 }
 
                 if (Utils.rollDie(100, catchChance(player, weCatch, overrideTool ? fishingToolDef.get() : FishingToolType.NONE))) {
-                    player.message("You catch "+weCatch.prefix+" "+weCatch.fishName+".");
+                    player.message("You catch " + weCatch.prefix + " " + weCatch.fishName + ".");
 
                     // Do we need to remove bait?
                     if (selectedAction.baitItem != -1) {
@@ -142,14 +146,16 @@ public class Fishing {
 
                     // Woo! A pet! The reason we do this BEFORE the item is because it's... quite some more valuable :)
                     // Rather have a pet than a slimy fishy thing, right?
-                    var odds = (int) (weCatch.petChance * player.getMemberRights().petRateMultiplier());
+                    rollForPet(player, weCatch);
 
                     if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
                         player.getBank().add(new Item(weCatch.item));
                     } else {
                         player.inventory().add(new Item(weCatch.item), true);
                     }
-                    player.getSkills().addXp(Skills.FISHING, weCatch.xp);
+
+                    double experience = getExperience(weCatch);
+                    player.getSkills().addXp(Skills.FISHING, experience);
 
                     switch (weCatch) {
                         case SHRIMP -> AchievementsManager.activate(player, Achievements.FISHING_I, 1);
@@ -168,6 +174,33 @@ public class Fishing {
         });
     }
 
+    private static void rollForPet(Player player, Fish weCatch) {
+        double odds = weCatch.petChance;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.FISHING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    odds *= 0.85D;
+                }
+            }
+        }
+
+        if (Utils.rollDie((int) odds, 1)) {
+            player.getInventory().addOrBank(new Item(ItemIdentifiers.HERON));
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Heron Pet!" + "</shad>"));
+        }
+    }
+
+    private static double getExperience(Fish weCatch) {
+        double experience = weCatch.xp;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.FISHING)) {
+                experience *= set.experienceBoost;
+                break;
+            }
+        }
+        return experience;
+    }
+
     public static NPC createSpot(World world, FishSpot spot, List<PlainTile> possible) {
         Collections.shuffle(possible);
         NPC npc = new NPC(spot.id, randomFreeSpotTile(world, possible).tile());
@@ -177,7 +210,7 @@ public class Fishing {
     }
 
     public static PlainTile randomFreeSpotTile(World world, List<PlainTile> tiles) {
-        return tiles.parallelStream().filter(t -> world.getNpcs().stream().filter(Objects::nonNull).noneMatch(n  -> n.tile() == t.tile())).findAny().orElse(tiles.get(0));
+        return tiles.parallelStream().filter(t -> world.getNpcs().stream().filter(Objects::nonNull).noneMatch(n -> n.tile() == t.tile())).findAny().orElse(tiles.get(0));
     }
 
     public static class FishSpotDef {

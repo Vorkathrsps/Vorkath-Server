@@ -311,14 +311,12 @@ public class Skills {
             amount *= multiplier;
         }
 
-        if (inWilderness && target instanceof NPC) {
+        if (inWilderness) {
             amount *= 1.05;
         }
 
-        Map<Integer, SkillingSets> sets = getSkillingSets();
-        SkillingSets set = sets.get(skill);
-        if (set != null && player.getEquipment().containsAll(set.getSet())) {
-            amount *= set.getExperienceBoost();
+        if (skill == AGILITY) {
+            amount = isAgilitySetBonus(amount);
         }
 
         int oldLevel = xpToLevel((int) xps[skill]);
@@ -355,6 +353,19 @@ public class Skills {
         update();
 
         return oldLevel != newLevel;
+    }
+
+    private double isAgilitySetBonus(double amount) {
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().getId() == AGILITY) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    amount *= set.experienceBoost;
+                    System.out.println("yeuh");
+                    break;
+                }
+            }
+        }
+        return amount;
     }
 
     private double getDonatorRankMultiplier(MemberRights memberRights) {

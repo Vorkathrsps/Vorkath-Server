@@ -11,6 +11,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
@@ -252,13 +253,44 @@ public class LogLighting {
         player.lockMoveDamageOk();
         Chain.bound(player).runFn(1, () -> {
             player.unlock();
-            if(log == LightableLog.MAGIC) player.getTaskMasterManager().increase(Tasks.BURN_MAGIC_LOGS);
-            player.getSkills().addXp(Skills.FIREMAKING, log.xp);
+            if (log == LightableLog.MAGIC) player.getTaskMasterManager().increase(Tasks.BURN_MAGIC_LOGS);
+            double chance = getChance(player);
+            if (Utils.rollDie((int) chance, 1)) {
+                player.inventory().add(new Item(PHOENIX));
+            }
+            double experience = getExperience(player, log);
+            player.getSkills().addXp(Skills.FIREMAKING, experience);
             AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_IV, 1);
         });
+    }
+
+    private static double getChance(Player player) {
+        double chance = 2000;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.FIREMAKING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    chance *= 0.85D;
+                    break;
+                }
+            }
+        }
+        return chance;
+    }
+
+    private static double getExperience(Player player, LightableLog log) {
+        double experience = log.xp;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.FIREMAKING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    experience *= set.experienceBoost;
+                    break;
+                }
+            }
+        }
+        return experience;
     }
 
     public static void onInvitemOnGrounditem(Player player, Item item) {
@@ -407,7 +439,7 @@ public class LogLighting {
     }
 
     private static int getLighter(Player player) {
-        for(LightingAnimation lighter : LightingAnimation.values()) {
+        for (LightingAnimation lighter : LightingAnimation.values()) {
             if (player.inventory().contains(lighter.item)) {
                 return lighter.anim;
             }

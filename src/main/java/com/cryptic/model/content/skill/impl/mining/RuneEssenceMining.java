@@ -1,7 +1,9 @@
 package com.cryptic.model.content.skill.impl.mining;
 
 import com.cryptic.model.action.impl.UnwalkableAction;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -21,7 +23,7 @@ public class RuneEssenceMining extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if(option == 1) {
+        if (option == 1) {
             if (obj.getId() == RUNE_ESSENCE_34773) {
                 mineEssence(player);
                 return true;
@@ -44,9 +46,9 @@ public class RuneEssenceMining extends PacketInteraction {
 
     private void mineEssence(Player player) {
         Optional<Pickaxe> pick = Mining.findPickaxe(player);
-        
+
         if (pick.isEmpty()) {
-            DialogueManager.sendStatement(player,"You need a pickaxe to mine this rock. You do not have a pickaxe", "which you have the Mining level to use.");
+            DialogueManager.sendStatement(player, "You need a pickaxe to mine this rock. You do not have a pickaxe", "which you have the Mining level to use.");
             return;
         }
 
@@ -60,6 +62,7 @@ public class RuneEssenceMining extends PacketInteraction {
 
         player.action.execute(new UnwalkableAction(player, 1) {
             int ticks = 1; // ticks at start
+
             @Override
             protected void execute() {
                 ticks--;
@@ -73,7 +76,15 @@ public class RuneEssenceMining extends PacketInteraction {
 
                     player.animate(pick.get().anim);
                     Chain.bound(player).runFn(pick.get().getDelay(), () -> {
-                        player.inventory().add(new Item(player.getSkills().level(Skills.MINING) >= 30 ? 7936 : 1436));
+                        Item essence = new Item(player.getSkills().level(Skills.MINING) >= 30 ? 7936 : 1436);
+                        for (var set : SkillingSets.VALUES) {
+                            if (set.getSkillType().equals(Skill.MINING)) {
+                                if (player.getEquipment().containsAll(set.getSet())) {
+                                    essence = essence.note();
+                                }
+                            }
+                        }
+                        player.inventory().add(essence);
                         player.getSkills().addXp(Skills.MINING, 5.0);
                     });
                 }

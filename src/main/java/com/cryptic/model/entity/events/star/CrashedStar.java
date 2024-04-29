@@ -1,6 +1,8 @@
 package com.cryptic.model.entity.events.star;
 
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
@@ -13,17 +15,24 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CrashedStar extends GameObject {
-    @Getter @Setter private int dustCount = 0;
+    @Getter
+    @Setter
+    private int dustCount = 0;
     private static final List<Integer> miningLevels = Arrays.asList(10, 20, 30, 40, 50, 60, 70, 80, 90);
     private static final List<Integer> xpRates = Arrays.asList(3360, 6480, 4920, 5920, 8400, 7750, 11180, 15400, 16400);
     private static final List<Integer> additionalDustChance = Arrays.asList(2, 6, 12, 20, 30, 42, 56, 72, 90);
-    @Getter @Setter private boolean stopActions = false;
-    @Getter @Setter private StarStage starStage;
+    @Getter
+    @Setter
+    private boolean stopActions = false;
+    @Getter
+    @Setter
+    private StarStage starStage;
 
     public CrashedStar(int id, Tile tile) {
         super(id, tile);
@@ -147,8 +156,11 @@ public class CrashedStar extends GameObject {
                 player.message(Color.BLUE.wrap("The crashed star rewards you with extra stardust."));
             }
 
-            player.getInventory().addOrDrop(new Item(ItemIdentifiers.STARDUST, dustToAdd));
-            player.getInventory().addOrDrop(new Item(ItemIdentifiers.BLOOD_MONEY, 150));
+            Item stardust = new Item(ItemIdentifiers.STARDUST, dustToAdd);
+            Item bloodMoney = new Item(ItemIdentifiers.BLOOD_MONEY, 150);
+            player.getInventory().addOrDrop(stardust);
+            player.getInventory().addOrDrop(bloodMoney);
+            System.out.println("yes");
             player.skills().addXp(Skills.MINING, assignedXpRate);
         }
     }

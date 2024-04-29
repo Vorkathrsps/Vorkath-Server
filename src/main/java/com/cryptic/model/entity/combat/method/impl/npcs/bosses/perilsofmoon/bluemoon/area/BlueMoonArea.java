@@ -21,7 +21,6 @@ public class BlueMoonArea extends Controller {
 
     @Override
     public void enter(Player player) {
-        System.out.println("should be entering doe?");
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc == null || npc.dead() || npc.tile().getLevel() != player.tile().getLevel()) continue;

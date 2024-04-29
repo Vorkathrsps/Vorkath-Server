@@ -3,12 +3,18 @@ package com.cryptic.model.content.skill.impl.thieving;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
+import com.cryptic.model.items.Item;
 import com.cryptic.model.items.loot.LootItem;
 import com.cryptic.model.items.loot.LootTable;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -75,9 +81,19 @@ public class Pickpocketing extends PacketInteraction {
                 player.animate(881);
                 player.runFn(2, () -> {
                     player.message("You pick the " + pickpocket.identifier + " pocket.");
-
-                    player.inventory().add(pickpocket.lootTable.rollItem());
-                    player.getSkills().addXp(Skills.THIEVING, pickpocket.exp);
+                    rollForPet(player, pickpocket);
+                    Item item = pickpocket.lootTable.rollItem();
+                    for (var set : SkillingSets.VALUES) {
+                        if (set.getSkillType().equals(Skill.THIEVING)) {
+                            if (player.getEquipment().containsAll(set.getSet())) {
+                                item = new Item(item, item.getAmount() * 2);
+                                break;
+                            }
+                        }
+                    }
+                    player.inventory().add(item);
+                    double exp = isBonusExperience(pickpocket.exp, player, 1.25);
+                    player.getSkills().addXp(Skills.THIEVING, exp);
                 });
             } else {
                 player.runFn(1, () -> {
@@ -93,7 +109,29 @@ public class Pickpocketing extends PacketInteraction {
         }).then(2, player::unlock);
     }
 
+    private static double isBonusExperience(double pickpocket, Player player, double exp) {
+        double experience = pickpocket;
+        for (var set : SkillingSets.VALUES) {
+            if (set.getSkillType().equals(Skill.THIEVING)) {
+                if (player.getEquipment().containsAll(set.getSet())) {
+                    experience *= exp;
+                    break;
+                }
+            }
+        }
+        return experience;
+    }
+
+    private static void rollForPet(Player player, PickPocket pickpocket) {
+        double chance = isBonusExperience(pickpocket.petOdds, player, 0.85D);
+        if (Utils.rollDie((int) chance, 1)) {
+            player.inventory().addOrBank(new Item(ROCKY, 1));
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rocky Pet!" + "</shad>"));
+        }
+    }
+
     private static boolean successful(Player player, PickPocket pickpocket) {
+        for (var set : SkillingSets.VALUES) if (set.getSkillType().equals(Skill.THIEVING) && player.getEquipment().containsAll(set.getSet())) return true;
         return World.getWorld().random(100) <= chance(player, pickpocket.levelReq);
     }
 
@@ -101,14 +139,13 @@ public class Pickpocketing extends PacketInteraction {
         int slope = 2;
         int chance = 60; //Starts at a 60% chance
         int thievingLevel = player.getSkills().level(Skills.THIEVING);
-        int requiredLevel = levelReq;
 
         if (player.getEquipment().contains(GLOVES_OF_SILENCE))
             chance += 5;
         if (player.getEquipment().wearingMaxCape())
-            chance *= 1.1;
+            chance *= 1.1D;
         if (thievingLevel > levelReq)
-            chance += (thievingLevel - requiredLevel) * slope;
+            chance += (thievingLevel - levelReq) * slope;
         return Math.min(chance, 95); //Caps at 95%
     }
 

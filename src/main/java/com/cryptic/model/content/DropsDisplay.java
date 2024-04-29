@@ -205,6 +205,12 @@ public class DropsDisplay {
             int maxAmount = drop[2];
             int average = drop[3];
 
+
+            if (player.getDropRateBonus() > 0) {
+                var reduction = average * player.getDropRateBonus() / 100D;
+                average -= (int) reduction;
+            }
+
             int colorIndex;
 
             if (average == 1) {

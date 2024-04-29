@@ -687,6 +687,10 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
+            List<Player> player = new ArrayList<>();
+            player.add(p);
+            PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
+            instance.buildParty();
         });
 
         dev("cleartask", (p, c, s) ->

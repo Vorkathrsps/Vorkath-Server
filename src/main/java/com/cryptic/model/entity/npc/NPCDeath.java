@@ -79,9 +79,9 @@ public class NPCDeath {
         var respawnTimer = Utils.secondsToTicks(45);// default 45 seconds
         NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, npc.id());
         if (def != null) {
-            if (def.combatlevel >= 1 && def.combatlevel <= 50) {
+            if (def.combatLevel >= 1 && def.combatLevel <= 50) {
                 respawnTimer = Utils.secondsToTicks(30);//30 seconds
-            } else if (def.combatlevel >= 51 && def.combatlevel <= 150) {
+            } else if (def.combatLevel >= 51 && def.combatLevel <= 150) {
                 respawnTimer = Utils.secondsToTicks(25);//25 seconds
             } else {
                 respawnTimer = Utils.secondsToTicks(20);// 20 seconds

@@ -717,7 +717,7 @@ public class CombatFactory {
                             entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                             return false;
                         } else {
-                            var withinLvl = npc.def().combatlevel >= getLowestLevel(entity, npc) && npc.def().combatlevel <= getHighestLevel(entity, npc);
+                            var withinLvl = npc.def().combatLevel >= getLowestLevel(entity, npc) && npc.def().combatLevel <= getHighestLevel(entity, npc);
                             if (!withinLvl) {
                                 entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                                 return false;
@@ -1687,7 +1687,7 @@ public class CombatFactory {
     }
 
     public static int getLowestLevel(Entity entity, Entity target) {
-        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
+        var combat = entity.isNpc() ? entity.getAsNpc().def().combatLevel : entity.getSkills().combatLevel();
         var wilderness = WildernessArea.getWildernessLevel(entity.tile());
         var min = combat - wilderness;
         if (min < 3) {
@@ -1697,7 +1697,7 @@ public class CombatFactory {
     }
 
     public static int getHighestLevel(Entity entity, Entity target) {
-        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
+        var combat = entity.isNpc() ? entity.getAsNpc().def().combatLevel : entity.getSkills().combatLevel();
         var wilderness = WildernessArea.getWildernessLevel(entity.tile());
         var max = combat + wilderness;
         if (max > 126) {

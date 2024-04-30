@@ -188,10 +188,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
-                if (player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) && MultiwayCombat.includes(target.tile())) {
-                    player.sendPrivateSound(6797);
-                    hit.postDamage(_ -> sendBouncingArrows(attacker, target));
-                }
+                checkVenatorBow(attacker, target, player, hit);
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
@@ -214,11 +211,18 @@ public class RangedCombatMethod extends CommonCombatMethod {
         return true;
     }
 
+    private static void checkVenatorBow(Entity attacker, Entity target, Player player, Hit hit) {
+        if (player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) && MultiwayCombat.includes(target.tile())) {
+            player.sendPrivateSound(6797);
+            hit.postDamage(_ -> sendBouncingArrows(attacker, target));
+        }
+    }
+
     private static void sendBouncingArrows(Entity attacker, Entity originalTarget) {
         final Entity original = originalTarget;
         Area area = original.getCentrePosition().area(original.getSize()).enlarge(2);
         final Region region = original.tile().getRegion();
-        final Result firstResult = getResult(original, region, area);
+        final Result firstResult = getResult(attacker, original, region, area);
         if (firstResult.closestToPoint().isPresent()) {
             Entity secondTarget = firstResult.temp().stream().filter(entity -> !entity.equals(original)).findFirst().orElse(null);
             if (secondTarget != null) {
@@ -229,11 +233,9 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 int delay = attacker.executeProjectile(projectile);
                 attacker.sendPrivateSound(6672, projectile.getSpeed());
                 Hit hit = new Hit(attacker, secondTarget, delay, CombatType.RANGED).checkAccuracy(true).submit();
-                if (hit != null) hit.postDamage(h -> {
-                    h.setDamage(h.getDamage() * 2 / 3);
-                });
+                if (hit != null) hit.postDamage(h -> h.setDamage(h.getDamage() * 2 / 3));
                 area = secondCenterPosition.area(secondTarget.getSize());
-                Result secondResult = getResult(secondTarget, region, area);
+                Result secondResult = getResult(attacker, secondTarget, region, area);
                 if (secondResult.closestToPoint().isPresent()) {
                     boolean returnToOriginal = World.getWorld().random(2) == 0;
                     Entity thirdTarget;
@@ -262,13 +264,14 @@ public class RangedCombatMethod extends CommonCombatMethod {
     }
 
     @NotNull
-    private static Result getResult(Entity target, Region region, Area area) {
+    private static Result getResult(Entity attacker, Entity target, Region region, Area area) {
         Set<Entity> temp = new HashSet<>();
 
+        var cached = NpcDefinition.cached;
         for (NPC npc : region.getNpcs()) {
-            if (npc == null || npc.hidden()) continue;
-            var def = NpcDefinition.cached.get(npc.getId());
-            if (def.isPet || !def.isInteractable) continue;
+            if (npc == null || npc.hidden() || !npc.tile().isViewableFrom(attacker.tile())) continue;
+            var def = cached.get(npc.getId());
+            if (def.isPet || !def.isInteractable || def.actions[1] == null) continue;
             if (area.contains(npc.tile()) && !npc.equals(target)) {
                 temp.add(npc);
                 break;

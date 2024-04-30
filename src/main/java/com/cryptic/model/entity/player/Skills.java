@@ -22,6 +22,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 
@@ -319,6 +320,9 @@ public class Skills {
             amount = isAgilitySetBonus(amount);
         }
 
+        rollSkillingSet(skill);
+        rollAntiqueLamp();
+
         int oldLevel = xpToLevel((int) xps[skill]);
         xps[skill] = Math.min(200000000, xps[skill] + amount);
         int newLevel = xpToLevel((int) xps[skill]);
@@ -353,6 +357,35 @@ public class Skills {
         update();
 
         return oldLevel != newLevel;
+    }
+
+    private void rollSkillingSet(int skill) {
+        var definition = ItemDefinition.cached;
+        for (SkillingSets set : SkillingSets.getVALUES()) {
+            if (set.getSkillType().getId() == skill) {
+                if (Utils.rollDie(250, 1)) {
+                    final int itemID = Utils.randomElement(set.getSet());
+                    final Item item = new Item(itemID);
+                    final String name = definition.get(itemID).name;
+                    player.getInventory().addOrBank(item);
+                    player.message(Color.PURPLE.wrap("<shad=0>You have recieved a ") + Color.PURPLE.wrap(name + "!</shad>"));
+                    break;
+                }
+            }
+        }
+    }
+
+    private void rollAntiqueLamp() {
+        int chance = 500;
+        switch (player.getMemberRights()) {
+            case RUBY_MEMBER, SAPPHIRE_MEMBER -> chance = 450;
+            case DIAMOND_MEMBER, EMERALD_MEMBER -> chance = 400;
+            case DRAGONSTONE_MEMBER,ONYX_MEMBER -> chance = 350;
+            case ZENYTE_MEMBER -> chance = 300;
+        }
+        if (Utils.rollDie(chance, 1)) {
+            player.getInventory().addOrDrop(new Item(ItemIdentifiers.ANTIQUE_LAMP_28800));
+        }
     }
 
     private double isAgilitySetBonus(double amount) {

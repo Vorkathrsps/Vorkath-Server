@@ -10,16 +10,10 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -230,7 +224,7 @@ public class NpcStatsConverter {
                     List<Integer> nonTranslatedAnimations = new ArrayList<>();
                     var cached = NpcDefinition.cached.get(npc);
                     for (var anim : entry.getKey()) {
-                        int[] translated = new int[]{cached.runAnimation, cached.standingAnimation, cached.walkingAnimation, cached.turnLeftSequence, cached.turnRightSequence, cached.rotate180Animation, cached.rotate180Animation, cached.rotate90LeftAnimation, cached.rotate90RightAnimation};
+                        int[] translated = new int[]{cached.runAnimation, cached.standingAnimation, cached.walkingAnimation, cached.idleRotateLeftAnimation, cached.idleRotateRightAnimation, cached.rotate180Animation, cached.rotate180Animation, cached.rotate90LeftAnimation, cached.rotate90RightAnimation};
                         if (!ArrayUtils.contains(translated, anim)) {
                             nonTranslatedAnimations.add(anim);
                         }

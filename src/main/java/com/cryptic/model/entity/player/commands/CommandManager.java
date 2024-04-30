@@ -16,7 +16,6 @@ import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.RaidParty;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
-import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -50,7 +49,6 @@ import com.cryptic.model.entity.player.commands.impl.super_member.YellColourComm
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.items.tradingpost.TradingPost;
@@ -989,7 +987,7 @@ public class CommandManager {
                     }
                     NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, i);
                     if (def != null && def.name != null && def.name.toLowerCase().contains(s[1])) {
-                        String result_string = "Result: " + i + " - " + def.name + " (cb " + def.combatlevel + ", alts: " + Arrays.toString(def.altForms) + ", renders: " + def.standingAnimation + ", " + def.walkingAnimation + ")";
+                        String result_string = "Result: " + i + " - " + def.name + " (cb " + def.combatLevel + ", alts: " + Arrays.toString(def.altForms) + ", renders: " + def.standingAnimation + ", " + def.walkingAnimation + ")";
                         p.message(result_string);
                         if (World.getWorld().getPlayers().size() < 10) { // Show in cmd for more results
                             System.out.println(result_string);

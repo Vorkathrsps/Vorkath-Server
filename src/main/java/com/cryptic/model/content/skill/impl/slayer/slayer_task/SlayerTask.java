@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -330,8 +329,8 @@ public class SlayerTask {
     }
 
     public boolean hasTaskRequirements(@Nonnull Player player, SlayerTask task) {
-        if (task == null || player.getSkills().combatLevel() < task.combatReq) return false;
-        if (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq) return false;
+        System.out.println(task.combatReq);
+        if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))) return false;
         return true;
     }
 
@@ -378,7 +377,7 @@ public class SlayerTask {
     }
 
     void rollForPvpEquipment(Player killer, NPC npc) {
-        var cb = npc.def().combatlevel;
+        var cb = npc.def().combatLevel;
         var chance = calculatePvpEquipment(cb);
         var random = Utils.randomElement(pvp_equipment);
         if (Utils.rollDie(chance, 1)) {
@@ -422,7 +421,7 @@ public class SlayerTask {
     }
 
     void rollForLarransKey(Player killer, NPC npc) {
-        int combatLevel = npc.def().combatlevel;
+        int combatLevel = npc.def().combatLevel;
         int chance = calculateLarrans(combatLevel);
         int amount = 1;
         amount = getLarransKeyAmountToDrop(killer, amount);
@@ -447,7 +446,7 @@ public class SlayerTask {
     }
 
     int calculateSigilChance(NPC npc) {
-        var combatLevel = npc.def().combatlevel;
+        var combatLevel = npc.def().combatLevel;
         int chance;
         if (combatLevel <= 50) chance = 1000;
         else if (combatLevel >= 150) chance = 500;

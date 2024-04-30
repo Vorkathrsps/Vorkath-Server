@@ -1,7 +1,6 @@
 package com.cryptic.cache.definitions;
 
 import com.cryptic.cache.DataStore;
-import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.network.codec.RSBuffer;
 import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
@@ -29,15 +28,15 @@ public class NpcDefinition implements Definition {
         return -1;
     }
 
-    public int[] models;
+    public int[] modelId;
     public String name = null;
     @Getter
     public int size = 1;
     public int standingAnimation = -1;
     public int walkingAnimation = -1;
     public boolean isFollower;
-    public int turnLeftSequence = -1;
-    public int turnRightSequence = -1;
+    public int idleRotateLeftAnimation = -1;
+    public int idleRotateRightAnimation = -1;
     public int rotate180Animation = -1;
     public int rotate90LeftAnimation = -1;
     public int rotate90RightAnimation = -1;
@@ -47,16 +46,16 @@ public class NpcDefinition implements Definition {
     public Map<Integer, Object> params;
     public static Map<Integer, NpcDefinition> cached = Maps.newConcurrentMap();
 
-    short[] recolorFrom;
-    short[] recolorTo;
-    short[] retexture_from;
-    short[] retexture_to;
-    int[] additionalModels;
-    public boolean mapdot = true;
-    public int combatlevel = -1;
-    int width = -1;
-    int height = -1;
-    public boolean renderPriority = false;
+    short[] recolorToFind;
+    short[] recolorToReplace;
+    short[] retextureToFind;
+    short[] retextureToReplace;
+    int[] chatheadModels;
+    public boolean isMinimapVisible = true;
+    public int combatLevel = -1;
+    int widthScale = -1;
+    int heightScale = -1;
+    public boolean hasRenderPriority = false;
     int ambient = 0;
     int contrast = 0;
     public int headIcon = -1;
@@ -160,10 +159,10 @@ public class NpcDefinition implements Definition {
         int var4;
         if (var2 == 1) {
             index = buffer.readUByte();
-            models = new int[index];
+            modelId = new int[index];
 
-            for (var4 = 0; var4 < index; ++var4) {
-                models[var4] = buffer.readUShort();
+            for(var4 = 0; var4 < index; ++var4) {
+                modelId[var4] = buffer.readUShort();
             }
         } else if (var2 == 2) {
             name = buffer.readJagexString();
@@ -174,9 +173,9 @@ public class NpcDefinition implements Definition {
         } else if (var2 == 14) {
             walkingAnimation = buffer.readUShort();
         } else if (var2 == 15) {
-            turnLeftSequence = buffer.readUShort();
+            idleRotateLeftAnimation = buffer.readUShort();
         } else if (var2 == 16) {
-            turnRightSequence = buffer.readUShort();
+            idleRotateRightAnimation = buffer.readUShort();
         } else if (var2 == 17) {
             walkingAnimation = buffer.readUShort();
             rotate180Animation = buffer.readUShort();
@@ -191,39 +190,39 @@ public class NpcDefinition implements Definition {
             }
         } else if (var2 == 40) {
             index = buffer.readUByte();
-            recolorFrom = new short[index];
-            recolorTo = new short[index];
+            recolorToFind = new short[index];
+            recolorToReplace = new short[index];
 
-            for (var4 = 0; var4 < index; ++var4) {
-                recolorFrom[var4] = (short) buffer.readUShort();
-                recolorTo[var4] = (short) buffer.readUShort();
+            for(var4 = 0; var4 < index; ++var4) {
+                recolorToFind[var4] = (short)buffer.readUShort();
+                recolorToReplace[var4] = (short)buffer.readUShort();
             }
         } else if (var2 == 41) {
             index = buffer.readUByte();
-            retexture_from = new short[index];
-            retexture_to = new short[index];
+            retextureToFind = new short[index];
+            retextureToReplace = new short[index];
 
-            for (var4 = 0; var4 < index; ++var4) {
-                retexture_from[var4] = (short) buffer.readUShort();
-                retexture_to[var4] = (short) buffer.readUShort();
+            for(var4 = 0; var4 < index; ++var4) {
+                retextureToFind[var4] = (short)buffer.readUShort();
+                retextureToReplace[var4] = (short)buffer.readUShort();
             }
         } else if (var2 == 60) {
             index = buffer.readUByte();
-            additionalModels = new int[index];
+            chatheadModels = new int[index];
 
-            for (var4 = 0; var4 < index; ++var4) {
-                additionalModels[var4] = buffer.readUShort();
+            for(var4 = 0; var4 < index; ++var4) {
+                chatheadModels[var4] = buffer.readUShort();
             }
         } else if (var2 == 93) {
-            mapdot = false;
+            isMinimapVisible = false;
         } else if (var2 == 95) {
-            combatlevel = buffer.readUShort();
+            combatLevel = buffer.readUShort();
         } else if (var2 == 97) {
-            width = buffer.readUShort();
+            widthScale = buffer.readUShort();
         } else if (var2 == 98) {
-            height = buffer.readUShort();
+            heightScale = buffer.readUShort();
         } else if (var2 == 99) {
-            renderPriority = true;
+            hasRenderPriority = true;
         } else if (var2 == 100) {
             ambient = buffer.readByte();
         } else if (var2 == 101) {
@@ -237,25 +236,25 @@ public class NpcDefinition implements Definition {
                     headIconSpriteIndex = new short[1];
                     int defaultHeadIconArchive = -1;
                     headIconArchiveIds[0] = defaultHeadIconArchive;
-                    headIconSpriteIndex[0] = (short) buffer.readUShort();
+                    headIconSpriteIndex[0] = (short)buffer.readUShort();
                 } else {
                     index = buffer.readUByte();
                     var4 = 0;
 
-                    for (var5 = index; var5 != 0; var5 >>= 1) {
+                    for(var5 = index; var5 != 0; var5 >>= 1) {
                         ++var4;
                     }
 
                     headIconArchiveIds = new int[var4];
                     headIconSpriteIndex = new short[var4];
 
-                    for (int var6 = 0; var6 < var4; ++var6) {
+                    for(int var6 = 0; var6 < var4; ++var6) {
                         if ((index & 1 << var6) == 0) {
                             headIconArchiveIds[var6] = -1;
                             headIconSpriteIndex[var6] = -1;
                         } else {
                             headIconArchiveIds[var6] = buffer.readNullableLargeSmart();
-                            headIconSpriteIndex[var6] = (short) buffer.readShortSmartSub();
+                            headIconSpriteIndex[var6] = (short)buffer.readShortSmartSub();
                         }
                     }
                 }
@@ -272,16 +271,16 @@ public class NpcDefinition implements Definition {
                     runAnimation = buffer.readUShort();
                 } else if (var2 == 115) {
                     runAnimation = buffer.readUShort();
-                    runrender5 = buffer.readUShort();
-                    runrender6 = buffer.readUShort();
-                    runrender7 = buffer.readUShort();
+                    runRotate180Animation = buffer.readUShort();
+                    runRotateLeftAnimation = buffer.readUShort();
+                    runRotateRightAnimation = buffer.readUShort();
                 } else if (var2 == 116) {
                     crawlAnimation = buffer.readUShort();
                 } else if (var2 == 117) {
                     crawlAnimation = buffer.readUShort();
-                    crawlrender5 = buffer.readUShort();
-                    crawlrender6 = buffer.readUShort();
-                    crawlrender7 = buffer.readUShort();
+                    crawlRotate180Animation = buffer.readUShort();
+                    crawlRotateLeftAnimation = buffer.readUShort();
+                    crawlRotateRightAnimation = buffer.readUShort();
                 } else if (var2 == 249) {
                     int length = buffer.readUByte();
 
@@ -323,7 +322,7 @@ public class NpcDefinition implements Definition {
                 var4 = buffer.readUByte();
                 altForms = new int[var4 + 2];
 
-                for (var5 = 0; var5 <= var4; ++var5) {
+                for(var5 = 0; var5 <= var4; ++var5) {
                     altForms[var5] = buffer.readUShort();
                     if (altForms[var5] == 65535) {
                         altForms[var5] = -1;
@@ -356,14 +355,14 @@ public class NpcDefinition implements Definition {
 
     public int[] headIconArchiveIds;
     public short[] headIconSpriteIndex;
-    public int runrender5 = -1;
-    public int runrender6 = -1;
-    public int runrender7 = -1;
+    public int runRotate180Animation = -1;
+    public int runRotateLeftAnimation = -1;
+    public int runRotateRightAnimation = -1;
     public int crawlAnimation = -1;
-    public int crawlrender5 = -1;
+    public int crawlRotate180Animation = -1;
     public int runAnimation = -1;
-    public int crawlrender6 = -1;
-    public int crawlrender7 = -1;
+    public int crawlRotateLeftAnimation = -1;
+    public int crawlRotateRightAnimation = -1;
 
     public boolean isInteractable = true;
 
@@ -375,30 +374,30 @@ public class NpcDefinition implements Definition {
     public String toStringBig() {
         return "NpcDefinition{" +
             "occupyTiles=" + occupyTiles +
-            ", models=" + Arrays.toString(models) +
+            ", models=" + Arrays.toString(modelId) +
             ", name='" + name + '\'' +
             ", size=" + size +
             ", standingAnimation=" + standingAnimation +
             ", walkingAnimation=" + walkingAnimation +
             ", isFollower=" + isFollower +
-            ", turnLeftSequence=" + turnLeftSequence +
-            ", turnRightSequence=" + turnRightSequence +
+            ", turnLeftSequence=" + idleRotateLeftAnimation +
+            ", turnRightSequence=" + idleRotateRightAnimation +
             ", rotate180Animation=" + rotate180Animation +
             ", rotate90LeftAnimation=" + rotate90LeftAnimation +
             ", rotate90RightAnimation=" + rotate90RightAnimation +
             ", category=" + category +
             ", isClickable=" + isClickable +
             ", params=" + params +
-            ", recolorFrom=" + Arrays.toString(recolorFrom) +
-            ", recolorTo=" + Arrays.toString(recolorTo) +
-            ", retexture_from=" + Arrays.toString(retexture_from) +
-            ", retexture_to=" + Arrays.toString(retexture_to) +
-            ", additionalModels=" + Arrays.toString(additionalModels) +
-            ", mapdot=" + mapdot +
-            ", combatlevel=" + combatlevel +
-            ", width=" + width +
-            ", height=" + height +
-            ", renderPriority=" + renderPriority +
+            ", recolorFrom=" + Arrays.toString(recolorToFind) +
+            ", recolorTo=" + Arrays.toString(recolorToReplace) +
+            ", retexture_from=" + Arrays.toString(retextureToFind) +
+            ", retexture_to=" + Arrays.toString(retextureToReplace) +
+            ", additionalModels=" + Arrays.toString(chatheadModels) +
+            ", mapdot=" + isMinimapVisible +
+            ", combatlevel=" + combatLevel +
+            ", width=" + widthScale +
+            ", height=" + heightScale +
+            ", renderPriority=" + hasRenderPriority +
             ", ambient=" + ambient +
             ", contrast=" + contrast +
             ", headIcon=" + headIcon +
@@ -418,14 +417,14 @@ public class NpcDefinition implements Definition {
             ", roomBoss=" + roomBoss +
             ", headIconArchiveIds=" + Arrays.toString(headIconArchiveIds) +
             ", headIconSpriteIndex=" + Arrays.toString(headIconSpriteIndex) +
-            ", runrender5=" + runrender5 +
-            ", runrender6=" + runrender6 +
-            ", runrender7=" + runrender7 +
+            ", runrender5=" + runRotate180Animation +
+            ", runrender6=" + runRotateLeftAnimation +
+            ", runrender7=" + runRotateRightAnimation +
             ", crawlAnimation=" + crawlAnimation +
-            ", crawlrender5=" + crawlrender5 +
+            ", crawlrender5=" + crawlRotate180Animation +
             ", runAnimation=" + runAnimation +
-            ", crawlrender6=" + crawlrender6 +
-            ", crawlrender7=" + crawlrender7 +
+            ", crawlrender6=" + crawlRotateLeftAnimation +
+            ", crawlrender7=" + crawlRotateRightAnimation +
             ", isInteractable=" + isInteractable +
             ", ignoreOccupiedTiles=" + ignoreOccupiedTiles +
             ", flightClipping=" + flightClipping +

@@ -346,6 +346,12 @@ public class RSBuffer {
         return var2 == 0 ? "" : decodeStringCp1252(this.get().array(), var1, var2);
     }
 
+    public int readUnsignedShort() {
+        this.bitPosition += 2;
+        return ((this.get().array()[this.bitPosition - 2] & 0xff) << 8)
+            + (this.get().array()[this.bitPosition - 1] & 0xff);
+    }
+
     public String decodeStringCp1252(byte[] var0, int var1, int var2) {
         char[] var3 = new char[var2];
         int var4 = 0;

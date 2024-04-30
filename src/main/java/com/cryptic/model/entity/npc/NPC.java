@@ -554,7 +554,7 @@ public class NPC extends Entity {
         if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
             return;
 
-        final int ceil = def.combatlevel * 2;
+        final int ceil = def.combatLevel * 2;
         final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
 

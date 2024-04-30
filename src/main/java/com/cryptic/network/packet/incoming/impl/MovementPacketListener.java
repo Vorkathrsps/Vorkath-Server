@@ -105,6 +105,10 @@ public class MovementPacketListener implements PacketListener {
         }
 
         // Close dialogues
+        if (player.getDialogueManager().isActive()) {
+            player.getDialogueManager().interrupt();
+        }
+
         player.getInterfaceManager().closeDialogue();
 
         player.getRunePouch().close();

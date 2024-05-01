@@ -25,11 +25,6 @@
             <url>https://raw.githubusercontent.com/OpenRune/hosting/master</url>
         </repository>
         <repository>
-            <id>local</id>
-            <name>Local Repository</name>
-            <url>file://${env.MAVEN_REPOSITORY}</url>
-        </repository>
-        <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
@@ -103,7 +98,7 @@
                         <artifactId>everythingrs-api</artifactId>
                         <version>1.0.0</version>
                         <scope>system</scope>
-                        <systemPath>C:\Users\Administrator\Desktop\gameserver\libs\everythingrs-api.jar</systemPath>
+                        <systemPath>${project.basedir}/libs/everythingrs-api.jar</systemPath>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -525,14 +520,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.dev.shadow</groupId>
-            <artifactId>functions</artifactId>
-            <version>1.93.0</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-compiler</artifactId>
             <version>1.8.10</version>
@@ -547,12 +534,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.varlamore</groupId>
-            <artifactId>Application</artifactId>
-            <version>1.0</version>
+            <groupId>com.dev.shadow</groupId>
+            <artifactId>functions</artifactId>
+            <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/Application-1.0-all.jar</systemPath>
+            <systemPath>${project.basedir}/libs/functions-1.93.0.jar</systemPath>
         </dependency>
+
 
     </dependencies>
 </project>

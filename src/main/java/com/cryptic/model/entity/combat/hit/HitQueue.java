@@ -45,7 +45,7 @@ public class HitQueue {
             }
         }
 
-        if (entity.isDelayDamageLocked() || entity.isLogoutOkLocked() || hits.size() == 0) {
+        if (entity.isDelayDamageLocked() || entity.isLogoutOkLocked() || hits.isEmpty()) {
             return;
         }
 

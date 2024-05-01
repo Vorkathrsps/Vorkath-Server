@@ -60,7 +60,7 @@ public class ZebakPhantomCombat extends CommonCombatMethod {
                 if (player == null || !player.isRegistered() || player.dead()) continue;
                 Projectile projectileTwo = new Projectile(hiddenTile, player, 2181, 0, duration, projectileOne.getEndHeight(), 22, 127, npc.getSize(), 90, 0);
                 projectileTwo.sendProjectile();
-                new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.MAGIC).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
+                new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.MAGIC).setHitMark(HitMark.HIT).checkAccuracy(false).submit();
                 player.graphic(131, GraphicHeight.HIGH, projectileTwo.getSpeed());
             }
         });
@@ -81,7 +81,7 @@ public class ZebakPhantomCombat extends CommonCombatMethod {
                 if (player == null || !player.isRegistered() || player.dead()) continue;
                 Projectile projectileTwo = new Projectile(hiddenTile, player, 2187, 0, duration, projectileOne.getEndHeight(), 22, 127, npc.getSize(), 90, 0);
                 projectileTwo.sendProjectile();
-                new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.RANGED).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
+                new Hit(npc, target, Utils.random(10, 15), (int) (projectileTwo.getSpeed() / 30D) + 1, CombatType.RANGED).setHitMark(HitMark.HIT).checkAccuracy(false).submit();
                 player.graphic(1103, GraphicHeight.HIGH, projectileTwo.getSpeed());
             }
         });

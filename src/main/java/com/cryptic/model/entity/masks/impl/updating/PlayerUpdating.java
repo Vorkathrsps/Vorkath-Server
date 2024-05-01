@@ -3,6 +3,9 @@ package com.cryptic.model.entity.masks.impl.updating;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.healthbar.DynamicHealthBarUpdate;
+import com.cryptic.model.entity.healthbar.RemoveHealthBarUpdate;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.UpdateFlag;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
@@ -24,7 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author relex lawl
  */
 public class PlayerUpdating {
-
     public static void update(final Player player) {
         final PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
         try (final PacketBuilder builder = new PacketBuilder()) {
@@ -493,18 +495,45 @@ public class PlayerUpdating {
         }
     }
 
-    private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
-        int count = Math.min(player.nextHitIndex, 4);
-        builder.put(count);
-        int playerHp = player.hp();
-        int playerMaxHp = player.maxHp();
-        for (int index = 0; index < count; index++) {
-            Hit hit = player.nextHits[index];
-            builder.putShort(hit.getDamage());
-            builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
-            builder.putShort(playerHp);
-            builder.putShort(playerMaxHp);
+    public static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
+        builder.put(player.nextHitIndex);
+        int hitmarks = Math.min(1, player.nextHitIndex);
+        for (Hit hit : player.nextHits) {
+            if (hit == null) continue;
+            if (hitmarks == 1) {
+                builder.put(0);
+            } else if (hitmarks == 0) {
+                builder.put(1);
+            }
+            for (int i = 0; i < hitmarks; i++) {
+                builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
+                builder.put(hit.getDamage());
+                if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
+                else builder.put(0);
+            }
+            builder.put(0);
         }
+        appendHealthBarUpdate(builder, player);
+    }
+
+    static void appendHealthBarUpdate(PacketBuilder builder, Player player) {
+        builder.putShort(player.healthBarQueue.size());
+        for (var health : player.healthBarQueue) {
+            builder.putShort(health.getId());
+            if (health instanceof StaticHealthBarUpdate barUpdate) {
+                builder.putShort(0);
+                builder.putShort(barUpdate.getDelay());
+                builder.putShort(barUpdate.getBarWidth());
+            } else if (health instanceof DynamicHealthBarUpdate barUpdate) {
+                builder.putShort(barUpdate.getDecreaseSpeed());
+                builder.putShort(barUpdate.getDelay());
+                builder.putShort(barUpdate.getStartBarWidth());
+                builder.putShort(barUpdate.getEndBarWidth());
+            } else if (health instanceof RemoveHealthBarUpdate barUpdate) {
+
+            }
+        }
+        player.healthBarQueue.clear();
     }
 
     /**

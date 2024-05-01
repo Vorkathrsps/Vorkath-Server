@@ -163,9 +163,9 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
         }
 
         if (this.getAshihamaState().equals(AshihamaState.SHIELD)) {
-            hit.setHitMark(HitMark.SHIELD_HITSPLAT);
+            hit.setHitMark(HitMark.SHIELD);
         } else {
-            hit.setHitMark(HitMark.REGULAR);
+            hit.setHitMark(HitMark.HIT);
         }
 
         if (this.getAshihamaState().equals(AshihamaState.TOTEM)) {
@@ -268,7 +268,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
             }
         });
 
-        Task.runOnceTask(1, apply -> {
+        Task.runOnceTask(1, _ -> {
             if (cursed.get()) {
                 target.putAttrib(NIGHTMARE_CURSE, true);
             }

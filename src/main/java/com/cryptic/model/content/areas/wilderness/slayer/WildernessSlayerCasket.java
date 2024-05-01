@@ -101,14 +101,12 @@ public class WildernessSlayerCasket {
      */
     private int[] supplyLoot() {
         List<Item> loot = new ArrayList<>(LOOT);
-        Collections.shuffle(loot);
+        Collections.shuffle(LOOT);
         int[] itemAmounts = new int[3];
-
         for (int i = 0; i < 3 && i < loot.size(); i++) {
             Item item = loot.get(i);
             itemAmounts[i] = item.getAmount();
         }
-
         return itemAmounts;
     }
 

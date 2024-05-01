@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.npc.impl;
 
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
@@ -28,6 +29,7 @@ public class MaxHitDummyNpc extends NPC {
 
     @Override
     public NPC setHitpoints(int hitpoints) {
+        this.updateHealthBar(new StaticHealthBarUpdate(this));
         return this;
     }
 

@@ -72,15 +72,15 @@ public class Crafting extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if (option == 1) {
-            if (obj.getId() == POTTERY_OVEN_11601) {
+        if (obj.getId() == POTTERY_OVEN_11601) {
+            if (option == 1) {
                 Jewellery.open(player);
                 return true;
-            }
-        } else if (option == 2) {
-            if (obj != null && obj.definition() != null && obj.definition().name != null && obj.definition().name.toLowerCase().contains("spinning wheel")) {
-                Spinning.open(player);
-                return true;
+            } else if (option == 2) {
+                if (obj.definition() != null && obj.definition().name != null && obj.definition().name.toLowerCase().contains("spinning wheel")) {
+                    Spinning.open(player);
+                    return true;
+                }
             }
         }
         return false;

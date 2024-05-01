@@ -62,7 +62,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        hit.setHitMark(HitMark.SHIELD_HITSPLAT);
+        hit.setHitMark(HitMark.SHIELD);
         Arrays.stream(entity.closePlayers()).forEach(p -> {
             HealthHud.open(p, HealthHud.Type.CYAN_SHIELD,"The Nightmare", 1100);
         });

@@ -22,7 +22,7 @@ public class TornadoNPC extends NPC {
             if (player.tile().equals(this.tile())) {
                 var damage = Utils.random(1, 11);
                 player.putAttrib(AttributeKey.TORNADO_DAMAGE, damage);
-                this.submitHit(player, 0, Utils.random(1, 11), HitMark.DEFAULT);
+                this.submitHit(player, 0, Utils.random(1, 11), HitMark.HIT);
                 return true;
             }
         }

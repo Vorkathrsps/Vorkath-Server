@@ -24,6 +24,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
@@ -434,7 +435,7 @@ public class CommandManager {
             p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.hit(p, 1, HitMark.HEALED);
+            p.hit(p, 1, HitMark.NPC_HEAL);
         });
         dev("hit2", (p, c, s) -> {
             p.hit(p, 1, HitMark.POISON);
@@ -444,7 +445,7 @@ public class CommandManager {
             p.hit(p, 1, HitMark.POISON.ordinal());
         });
         dev("hit4", (p, c, s) -> {
-            p.hit(p, 1, HitMark.DEFAULT.getMax_hit());
+            p.hit(p, 1, HitMark.HIT.getMax_hit());
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
@@ -689,6 +690,8 @@ public class CommandManager {
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
             instance.buildParty();
+           /* NightmareInstance instance = new NightmareInstance(p, new ArrayList<>());
+            instance.build();*/
         });
 
         dev("cleartask", (p, c, s) ->

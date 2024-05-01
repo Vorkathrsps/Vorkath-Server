@@ -25,6 +25,7 @@ import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
+import com.cryptic.model.entity.healthbar.HealthBarUpdate;
 import com.cryptic.model.entity.masks.*;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -605,7 +606,7 @@ public abstract class Entity {
         if (dead())
             return;
 
-        if (hit.getHitMark() == HitMark.HEALED) {
+        if (hit.getHitMark() == HitMark.NPC_HEAL) {
             heal(hit.getDamage());
             return;
         }
@@ -907,14 +908,14 @@ public abstract class Entity {
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public void hit(Entity attacker, int damage) {
-        hit(attacker, damage, HitMark.DEFAULT);
+        hit(attacker, damage, HitMark.HIT);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public void hit(Entity attacker, int damage, int delay) {
-        hit(attacker, damage, HitMark.DEFAULT);
+        hit(attacker, damage, HitMark.HIT);
     }
 
     /**
@@ -951,14 +952,14 @@ public abstract class Entity {
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal) {
-        hit(attacker, heal, null, HitMark.HEALED);
+        hit(attacker, heal, null, HitMark.NPC_HEAL);
     }
 
     /**
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal, int delay) {
-        hit(attacker, heal, delay, null, HitMark.HEALED);
+        hit(attacker, heal, delay, null, HitMark.NPC_HEAL);
     }
 
     /**
@@ -2043,6 +2044,11 @@ public abstract class Entity {
     private String forcedChat;
     @Setter
     private boolean fixingDiagonal = false;
+    @Getter public final List<HealthBarUpdate> healthBarQueue = new ArrayList<>();
+    @Getter public int healthBar = 0;
+    public void updateHealthBar(HealthBarUpdate update) {
+        healthBarQueue.add(update);
+    }
     @Setter
     @Getter
     private boolean repositioning = false;

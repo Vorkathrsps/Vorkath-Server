@@ -78,7 +78,7 @@ public class KephriPhantomCombat extends CommonCombatMethod {
                 for (var player : this.instance.getPlayers()) {
                     if (player == null) continue;
                     if (projectileTiles.contains(player.tile())) {
-                        new Hit(npc, target, Utils.random(10, 15), 0, CombatType.MAGIC).setHitMark(HitMark.DEFAULT).checkAccuracy(false).submit();
+                        new Hit(npc, target, Utils.random(10, 15), 0, CombatType.MAGIC).setHitMark(HitMark.HIT).checkAccuracy(false).submit();
                     }
                 }
             });

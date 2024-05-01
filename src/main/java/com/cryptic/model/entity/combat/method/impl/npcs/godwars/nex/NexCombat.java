@@ -11,7 +11,6 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.NexStage;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.FaceDirection;
 import com.cryptic.model.entity.masks.Projectile;
@@ -26,12 +25,12 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.model.phase.PhaseStage;
@@ -135,6 +134,7 @@ public class NexCombat extends CommonCombatMethod {
         nex.faceEntity(target);
         attackCount += 1;
         lastAttack = 0;
+
 
         switch (nex.getPhase().getStage()) {
             case ONE -> {
@@ -591,10 +591,10 @@ public class NexCombat extends CommonCombatMethod {
             .filter(p -> !p.hasAttrib(AttributeKey.CHOKED))
             .filter(p -> !p.getAsPlayer().getEquipment().wearingSlayerHelm())
             .filter(f -> furthestDistance != 0).filter(p -> p.tile().distanceTo(nex.tile()) == furthestDistance).forEach(p -> {
-            nex.forceChat("Let the virus flow through you!");
-            p.putAttrib(AttributeKey.CHOKED, true);
-            tickChoke(count, p);
-        });
+                nex.forceChat("Let the virus flow through you!");
+                p.putAttrib(AttributeKey.CHOKED, true);
+                tickChoke(count, p);
+            });
     }
 
     private void tickChoke(AtomicInteger count, Entity p) {
@@ -666,17 +666,24 @@ public class NexCombat extends CommonCombatMethod {
         nex.lockMoveDamageOk();
         nex.forceChat("Contain this!");
         nex.animate(SHADOW_SMASH_ATTACK_ANIM);
-        Set<Tile> tiles = nex.tile().expandedBounds(2);
+        var copy = nex.getCentrePosition().copy();
+        var area = copy.area(2);
+        Set<Tile> tiles = new HashSet<>();
+        var middle = area.middleTile();
+
+        for (int dx = -2; dx <= 2; dx++) {
+            for (int dy = -2; dy <= 2; dy++) {
+                if ((Math.abs(dx) == 2 || Math.abs(dy) == 2) && (dx != 2 || dy != 2) && (dx != 2 || dy != -2) && (dx != -2 || dy != 2) && (dx != -2 || dy != -2)) {
+                    tiles.add(middle.transform(dx, dy));
+                }
+            }
+        }
 
         Chain.noCtx().runFn(4, () -> {
             for (Tile tile : tiles) {
-                if(!tile.allowObjectPlacement()) {
-                    continue;
-                } // Skip can't spawn a obj on a obj
+                if (RegionManager.zarosBlock(tile)) continue;
+                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
 
-                if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
-                    nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
-                }
             }
         }).then(7, () -> {
             for (Tile tile : tiles) {
@@ -706,18 +713,18 @@ public class NexCombat extends CommonCombatMethod {
 
         target.freeze(5, nex, true);
 
-        Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
+        var playerTile = target.getCentrePosition();
+        var area = playerTile.area(1);
+        Set<Tile> tiles = new HashSet<>();
+        area.forEachPos(tile -> {
+            if (tile.equals(playerTile)) return;
+            tiles.add(tile);
+        });
         Chain.bound(null).runFn(4, () -> {
             for (Tile tile : tiles) {
-                if(!tile.allowObjectPlacement()) {
-                    continue;
-                } // Skip can't spawn a obj on a obj
-
-                if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
-                    nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
-                }
+                if (RegionManager.zarosBlock(tile)) continue;
+                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
             }
-
         }).then(7, () -> {
             for (Tile tile : tiles) {
 

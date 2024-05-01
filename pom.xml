@@ -21,6 +21,10 @@
 
     <repositories>
         <repository>
+            <id>openrune-repo</id>
+            <url>https://raw.githubusercontent.com/OpenRune/hosting/master</url>
+        </repository>
+        <repository>
             <id>local</id>
             <name>Local Repository</name>
             <url>file://${env.MAVEN_REPOSITORY}</url>
@@ -468,6 +472,12 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>4.0.0.RC1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.openrune</groupId>
+            <artifactId>filestore</artifactId>
+            <version>1.2.7</version>
         </dependency>
 
         <!-- Discord Libs -->

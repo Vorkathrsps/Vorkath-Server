@@ -959,7 +959,7 @@ public class CombatFactory {
         target.action.reset();
 
         // no need to process anything more
-        if (hit.getHitMark() == HitMark.HEALED) {
+        if (hit.getHitMark() == HitMark.NPC_HEAL) {
             hit.getTarget().heal(damage, 0);
             return;
         }

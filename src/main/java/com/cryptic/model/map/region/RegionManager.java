@@ -1,12 +1,10 @@
 package com.cryptic.model.map.region;
 
-import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.map.position.Area;
 import com.displee.cache.CacheLibrary;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
-import com.displee.cache.index.ReferenceTable;
 import com.displee.cache.index.archive.Archive;
 import it.unimi.dsi.fastutil.ints.*;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +15,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
 @SuppressWarnings("ALL")
 public class RegionManager {
 
@@ -39,6 +38,7 @@ public class RegionManager {
 
     public static final Path OSRS = Path.of("data", "cache");
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
+
     public static void init() throws Exception {
         var index = cache.index(5);
         Archive[] archives = index.archives();
@@ -287,6 +287,11 @@ public class RegionManager {
 
     public static boolean blockedEast(Tile pos) {
         return (getClipping(pos.getX() + 1, pos.getY(), pos.getLevel()) & 0x1280180) != 0;
+    }
+
+    public static boolean zarosBlock(Tile pos) {
+        int flags = World.getWorld().clipAt(pos.getX(), pos.getY(), pos.getZ());
+        return (flags & 0x100) != 0 || (flags & 0x40000) != 0 || (flags & 0x200000) != 0;
     }
 
     public static boolean blockedSouth(Tile pos) {
@@ -551,7 +556,7 @@ public class RegionManager {
         }
         return true;
     }
-    
+
     public static boolean canMove(int startX, int startY, int endX, int endY, int zLevel, int xLength, int yLength) {
         int diffX = endX - startX;
         int diffY = endY - startY;
@@ -697,7 +702,8 @@ public class RegionManager {
                             int direction = hash & 0x3;
                             if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) continue;
                             if ((r.heightMap[1][localX][localY] & 2) == 2) zLevel--;
-                            if (zLevel >= 0 && zLevel <= 3) consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
+                            if (zLevel >= 0 && zLevel <= 3)
+                                consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
                         }
                     }
                 }

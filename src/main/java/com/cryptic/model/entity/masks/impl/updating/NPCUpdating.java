@@ -3,6 +3,9 @@ package com.cryptic.model.entity.masks.impl.updating;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.healthbar.DynamicHealthBarUpdate;
+import com.cryptic.model.entity.healthbar.RemoveHealthBarUpdate;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.UpdateFlag;
 import com.cryptic.model.entity.npc.NPC;
@@ -342,17 +345,44 @@ public class NPCUpdating {
      * @return The NPCUpdating instance.
      */
 
-    private static void updateSingleHit(PacketBuilder builder, NPC npc, Player player) {
-        int count = Math.min(npc.nextHitIndex, 4); // count
-        builder.put(count);
-        int npcHp = npc.hp();
-        int npcMaxHp = npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints;
-        for (int i = 0; i < count; i++) {
-            Hit hit = npc.nextHits[i];
-            builder.putShort(hit.getDamage());
-            builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
-            builder.putShort(npcHp);
-            builder.putShort(npcMaxHp);
+    public static void updateSingleHit(PacketBuilder builder, NPC npc, Player player) {
+        builder.put(npc.nextHitIndex);
+        int hitmarks = Math.min(1, npc.nextHitIndex);
+        for (Hit hit : npc.nextHits) {
+            if (hit == null) continue;
+            if (hitmarks == 1) {
+                builder.put(0);
+            } else if (hitmarks == 0) {
+                builder.put(1);
+            }
+            for (int i = 0; i < hitmarks; i++) {
+                builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
+                builder.put(hit.getDamage());
+                if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
+                else builder.put(0);
+            }
+            builder.put(0);
         }
+        appendHealthBarUpdate(builder, npc);
+    }
+
+    static void appendHealthBarUpdate(PacketBuilder builder, NPC npc) {
+        builder.putShort(npc.healthBarQueue.size());
+        for (var health : npc.healthBarQueue) {
+            builder.putShort(health.getId());
+            if (health instanceof StaticHealthBarUpdate barUpdate) {
+                builder.putShort(0);
+                builder.putShort(barUpdate.getDelay());
+                builder.putShort(barUpdate.getBarWidth());
+            } else if (health instanceof DynamicHealthBarUpdate barUpdate) {
+                builder.putShort(barUpdate.getDecreaseSpeed());
+                builder.putShort(barUpdate.getDelay());
+                builder.putShort(barUpdate.getStartBarWidth());
+                builder.putShort(barUpdate.getEndBarWidth());
+            } else if (health instanceof RemoveHealthBarUpdate barUpdate) {
+
+            }
+        }
+        npc.healthBarQueue.clear();
     }
 }

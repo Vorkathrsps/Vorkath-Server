@@ -187,7 +187,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
 
     @Override
     public void postDamage(Hit hit) {
-        if (hit.getDamage() == 0 || hit.getHitMark() == HitMark.HEALED || entity.dead())
+        if (hit.getDamage() == 0 || hit.getHitMark() == HitMark.NPC_HEAL || entity.dead())
             return;
         if (currentPhase != lastPhase || !leftClaw.dead() || !rightClaw.dead()) {
             entity.healHit(entity, hit.getDamage(), 3);
@@ -793,7 +793,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                     player.hit(npc, damageDealt);
                 }
             }
-            npc.hit(npc, damageDealt * 3, HitMark.HEALED);
+            npc.hit(npc, damageDealt * 3, HitMark.NPC_HEAL);
         });
 
     }
@@ -802,7 +802,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         if (clenched)
             hit.block();
         else if (clawHealing)
-            hit.setHitMark(HitMark.HEALED);
+            hit.setHitMark(HitMark.NPC_HEAL);
         else if (hit.getCombatType() != null && !hit.getCombatType().isMelee()) {
             if (hit.getSource() != null && hit.getSource().isPlayer())
                 hit.getSource().message("The claw resists your non-melee attack!");

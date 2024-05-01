@@ -100,7 +100,7 @@ public class Hit {
         this.target = target;
         this.delay = this.initialDelay = delay;
         this.damage = damage;
-        this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
+        this.hitMark = damage > 0 ? HitMark.HIT : HitMark.BLOCK_HIT;
     }
 
     /**
@@ -142,7 +142,7 @@ public class Hit {
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
-        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.DEFAULT : HitMark.MISSED);
+        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.HIT : HitMark.BLOCK_HIT);
         hit.delay = hit.initialDelay = delay;
         hit.combatType = type;
         return hit;
@@ -178,7 +178,7 @@ public class Hit {
         this.damage = damage;
         if (this.damage > 0) {
             if (this.hitMark.equals(HitMark.POISON)) this.setHitMark(HitMark.POISON);
-            else this.setHitMark(HitMark.DEFAULT);
+            else this.setHitMark(HitMark.HIT);
         }
         return this;
     }
@@ -216,7 +216,7 @@ public class Hit {
 
     AbstractAccuracy accuracy;
     public Hit roll() {
-        if (attacker == null || target == null || hitMark == HitMark.HEALED) return this;
+        if (attacker == null || target == null || hitMark == HitMark.NPC_HEAL) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
@@ -256,8 +256,8 @@ public class Hit {
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
-        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.MISSED);
-        else this.setHitMark(HitMark.DEFAULT);
+        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.BLOCK_HIT);
+        else this.setHitMark(HitMark.HIT);
         CombatFactory.damageModifiers.applyModifiedAccuracy(this.attacker, accuracy, this);
         return this;
     }

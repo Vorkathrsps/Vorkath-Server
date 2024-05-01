@@ -118,6 +118,7 @@ public class ObjectInteractionHandler implements PacketListener {
             }
         }
 
+        player.getInterfaceManager().closeDialogue();
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);

@@ -177,7 +177,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
             for (Tile spot : new ArrayList<>(spots)) {
                 final Tile curSpot = base.transform(spot.x, spot.y);
                 if (curSpot.equals(target.tile())) {
-                    target.hit(entity, World.getWorld().random(1, 35), HitMark.DEFAULT);
+                    target.hit(entity, World.getWorld().random(1, 35), HitMark.HIT);
                 } else {
                     final Direction direction = Direction.getDirection(curSpot, target.tile());
                     Tile newSpot = spot.transform(direction.x, direction.y);

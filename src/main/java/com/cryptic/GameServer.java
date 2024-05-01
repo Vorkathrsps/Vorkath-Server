@@ -15,6 +15,7 @@ import com.cryptic.utility.DiscordWebhook;
 import com.cryptic.utility.flood.Flooder;
 import com.google.common.base.Preconditions;
 import com.varlamore.RunJs5;
+import dev.openrune.cache.CacheManager;
 import io.netty.util.ResourceLeakDetector;
 import com.cryptic.cache.DataStore;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import org.jire.js5server.MainNew;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static io.netty.util.ResourceLeakDetector.Level.DISABLED;
 import static io.netty.util.ResourceLeakDetector.Level.PARANOID;
@@ -182,6 +184,7 @@ public class GameServer {
             fileStore = new DataStore(properties().fileStore);
             logger.info("Loaded filestore @ (./data/filestore) successfully.");
             definitions = new DefinitionRepository();
+            CacheManager.INSTANCE.init(Paths.get(properties().fileStore), 221);
             ResourceLeakDetector.setLevel(properties().enableLeakDetection ? PARANOID : DISABLED);
             if (!GameServer.properties().enableSql) {
                 PlayerProfileVerf.verifyIntegrity();

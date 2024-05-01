@@ -45,7 +45,6 @@ public class AncientGodsword extends CommonCombatMethod {
                 entity.submitAccurateHit(target, 0, 25, this)
                     .postDamage(h2 -> {
                         entity.heal(25);
-                        target.sendPrivateSound(102);
                         target.graphic(2001, GraphicHeight.HIGH, 0);
                     });
             });

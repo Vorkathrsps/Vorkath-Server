@@ -149,7 +149,7 @@ public class WardenCombat extends CommonCombatMethod {
             for (var player : this.instance.getPlayers()) {
                 if ((player == null || player.dead() || !player.isRegistered())) continue;
                 if (!player.tile().equals(tile)) continue;
-                new Hit(npc, player, Utils.random(10, 18), 0, CombatType.MELEE).setHitMark(HitMark.DEFAULT).submit();
+                new Hit(npc, player, Utils.random(10, 18), 0, CombatType.MELEE).setHitMark(HitMark.HIT).submit();
             }
         });
     }

@@ -18,7 +18,7 @@ public class NorthEastTotemCombat extends CommonCombatMethod {
     }
     @Override
     public void preDefend(Hit hit) {
-        hit.setHitMark(HitMark.YELLOW_ARROW_UP);
+        hit.setHitMark(HitMark.CHARGE);
     }
     @Override
     public void postDamage(Hit hit) {

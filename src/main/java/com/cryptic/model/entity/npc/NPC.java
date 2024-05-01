@@ -3,6 +3,7 @@ package com.cryptic.model.entity.npc;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.*;
 import com.cryptic.cache.definitions.NpcDefinition;
@@ -839,6 +840,7 @@ public class NPC extends Entity {
             }
         }
         this.hp = hitpoints;
+        this.updateHealthBar(new StaticHealthBarUpdate(this));
         return this;
     }
 

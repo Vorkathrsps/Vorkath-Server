@@ -84,6 +84,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.masks.Appearance;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
@@ -1116,7 +1117,8 @@ public class Player extends Entity {
             }
         }
         skills.setLevel(Skills.HITPOINTS, hitpoints);
-        skills.makeDirty(Skills.HITPOINTS);//Force refresh
+        skills.makeDirty(Skills.HITPOINTS);
+        this.updateHealthBar(new StaticHealthBarUpdate(this));
         return this;
     }
 

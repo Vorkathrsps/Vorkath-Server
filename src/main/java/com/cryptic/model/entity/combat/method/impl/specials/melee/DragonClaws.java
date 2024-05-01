@@ -26,8 +26,7 @@ public class DragonClaws extends CommonCombatMethod {
         final int maxHit = entity.getCombat().getMaximumMeleeDamage();
 
         if (hit1.isAccurate()) {
-            if (hit1.getDamage() > 4)
-                hit1.setDamage(hit1.getDamage() - 1);
+            if (hit1.getDamage() > 4) hit1.setDamage(hit1.getDamage() - 1);
             hit2 = target.hit(entity, hit1.getDamage() / 2,1, CombatType.MELEE);
             hit3 = target.hit(entity, hit2.getDamage() / 2 ,2, CombatType.MELEE);
             hit4 = target.hit(entity, hit3.getDamage() + (Utils.get(1) == 1 ? 1 : 0) ,2, CombatType.MELEE);

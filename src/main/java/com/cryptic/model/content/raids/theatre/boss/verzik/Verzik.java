@@ -264,7 +264,7 @@ public final class Verzik extends NPC {
         int delay = (int) (projectile.getSpeed() / 30D);
         projectile.send(this, playerTile);
         runToxicBlastTask(player, projectile, delay);
-        World.getWorld().tileGraphic(1584, player.tile(), 0, projectile.getSpeed());
+        World.getWorld().sendClippedTileGraphic(1584, player.tile(), 0, projectile.getSpeed());
     }
 
     public void sendKnockBack(Player p) {
@@ -463,7 +463,7 @@ public final class Verzik extends NPC {
             Tile randomTileAround = World.getWorld().randomTileAround(this.tile, 10);
             randomTile.setValue(randomTileAround);
             if (RegionManager.blocked(getTileValue(randomTile))) continue;
-            World.getWorld().tileGraphic(1595, getTileValue(randomTile), 0, 0);
+            World.getWorld().sendClippedTileGraphic(1595, getTileValue(randomTile), 0, 0);
         }
     }
 

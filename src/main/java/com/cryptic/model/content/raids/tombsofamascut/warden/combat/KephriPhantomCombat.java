@@ -58,7 +58,7 @@ public class KephriPhantomCombat extends CommonCombatMethod {
 
         for (var tile : tiles) {
             if (tile == null) continue;
-            World.getWorld().tileGraphic(1447, tile, 0, 38);
+            World.getWorld().sendClippedTileGraphic(1447, tile, 0, 38);
         }
 
         int delay = -1;
@@ -68,7 +68,7 @@ public class KephriPhantomCombat extends CommonCombatMethod {
             int duration = (int) (31 + (82 + distance));
             Projectile projectile = new Projectile(baseTile, tile, 1481, 31, duration, 39, 50, 51, 0, 0);
             projectile.send(baseTile, tile);
-            World.getWorld().tileGraphic(2157, tile, 0, projectile.getSpeed());
+            World.getWorld().sendClippedTileGraphic(2157, tile, 0, projectile.getSpeed());
             delay = projectile.getSpeed();
             delay /= 30D;
         }

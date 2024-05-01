@@ -70,17 +70,17 @@ public class RevenantMaledictusCombat extends CommonCombatMethod {
 
         var clientTimePerTick = 20;
 
-        World.getWorld().tileGraphic(bigWave, targetTile, 0, (int) ((delay * clientTimePerTick) * 1.1));
+        World.getWorld().sendClippedTileGraphic(bigWave, targetTile, 0, (int) ((delay * clientTimePerTick) * 1.1));
 
         for (Tile cornerTile : cornerTiles) {
-            World.getWorld().tileGraphic(littleWave, cornerTile, 0, (int) (((delay + 1) * clientTimePerTick) * 1.1 * .9));
+            World.getWorld().sendClippedTileGraphic(littleWave, cornerTile, 0, (int) (((delay + 1) * clientTimePerTick) * 1.1 * .9));
         }
 
         for (Tile outlineTile : outlineTiles) {
-            World.getWorld().tileGraphic(littleWave, outlineTile, 0, (int) (((delay + 2) * clientTimePerTick) * 1.1 * .9));
+            World.getWorld().sendClippedTileGraphic(littleWave, outlineTile, 0, (int) (((delay + 2) * clientTimePerTick) * 1.1 * .9));
         }
 
-        World.getWorld().tileGraphic(bigWave, targetTile, 0, (int) (((delay + 2) * clientTimePerTick) * 1.1 * .9));
+        World.getWorld().sendClippedTileGraphic(bigWave, targetTile, 0, (int) (((delay + 2) * clientTimePerTick) * 1.1 * .9));
 
         var damage = Utils.random(1, 25);
 

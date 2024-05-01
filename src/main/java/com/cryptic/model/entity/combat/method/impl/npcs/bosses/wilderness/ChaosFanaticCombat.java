@@ -2,7 +2,6 @@ package com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
@@ -125,7 +124,7 @@ public class ChaosFanaticCombat extends CommonCombatMethod {
 
         Arrays.stream(projectiles).forEach(p -> {
             final int delay = npc.executeProjectile(p);
-            World.getWorld().tileGraphic(157, p.getEnd(), 0, p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(157, p.getEnd(), 0, p.getSpeed());
 
             Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
                 if (target.tile().equals(p.getEnd())) {

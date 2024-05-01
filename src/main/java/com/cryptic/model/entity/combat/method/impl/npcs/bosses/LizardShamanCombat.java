@@ -55,7 +55,7 @@ public class LizardShamanCombat extends CommonCombatMethod {
         }).then(3, () -> {
             spawn.getMovementQueue().clear();
             spawn.remove();
-            World.getWorld().tileGraphic(1295, spawn.tile(), 1, 0);
+            World.getWorld().sendClippedTileGraphic(1295, spawn.tile(), 1, 0);
             if (target.tile().inSqRadius(spawn.tile(), 1)) {
                 target.hit(entity, Utils.random(1, 10));
             }
@@ -133,7 +133,7 @@ public class LizardShamanCombat extends CommonCombatMethod {
                     }
                 });
         });
-        World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
+        World.getWorld().sendClippedTileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
     }
 
     @Override

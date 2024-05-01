@@ -3,19 +3,15 @@ package com.cryptic.model.entity.combat.method.impl;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
-import com.cryptic.model.entity.masks.impl.animations.Animation;
-import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.math.Fraction;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_VASILIAS_8356;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -60,7 +56,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
         Tile gfxTile = entity.getCentrePosition().transform(dir.x, dir.y);
 
-        World.getWorld().tileGraphic(gfx, gfxTile, 96, 20);
+        World.getWorld().sendClippedTileGraphic(gfx, gfxTile, 96, 20);
 
         Hit[] hit = new Hit[]
             {

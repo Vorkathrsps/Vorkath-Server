@@ -2,7 +2,6 @@ package com.cryptic.model.content.skill.impl.prayer;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.perks.SkillingSets;
-import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.entity.player.Player;
@@ -116,12 +115,13 @@ public class BoneBurying extends PacketInteraction {
 
     private void altarTask(Player player, Bone bones, GameObject obj, int amt) {
         AtomicInteger count = new AtomicInteger(0);
-        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
 
         if (amt == 1) {
             boneOnAltar(player, bones, obj);
             return;
         }
+
+        boneOnAltar(player, bones, obj);
 
         player.repeatingTask(4, altarTask -> {
             if (altarTask.isStopped()) {
@@ -146,7 +146,7 @@ public class BoneBurying extends PacketInteraction {
 
     public void boneOnAltar(Player player, Bone bones, GameObject object) {
         player.animate(3705);
-        World.getWorld().tileGraphic(624, object.tile(), 0, 0);
+        World.getWorld().sendUnclippedTileGraphic(624, object.tile(), 0, 0);
 
         var removeBone = true;
 

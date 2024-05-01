@@ -105,7 +105,7 @@ public class MageBank extends PacketInteraction {
             }).then(2, () -> {
                 DialogueManager.sendStatement(player,"You kneel and chant to Saradomin...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
-                World.getWorld().tileGraphic(188, new Tile(2500, 4719,0), 50, 0);
+                World.getWorld().sendClippedTileGraphic(188, new Tile(2500, 4719,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(SARADOMIN_CAPE), new Tile(2500, 4719, 0), player);
                 groundItem.setState(GroundItem.State.SEEN_BY_OWNER);
                 GroundItemHandler.createGroundItem(groundItem);
@@ -121,7 +121,7 @@ public class MageBank extends PacketInteraction {
             }).then(2, () -> {
                 DialogueManager.sendStatement(player,"You kneel and chant to Zamorak...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
-                World.getWorld().tileGraphic(188, new Tile(2516, 4719,0), 50, 0);
+                World.getWorld().sendClippedTileGraphic(188, new Tile(2516, 4719,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(ZAMORAK_CAPE), new Tile(2516, 4719, 0), player);
                 groundItem.setState(GroundItem.State.SEEN_BY_OWNER);
                 GroundItemHandler.createGroundItem(groundItem);
@@ -137,7 +137,7 @@ public class MageBank extends PacketInteraction {
             }).then(2, () -> {
                 DialogueManager.sendStatement(player,"You kneel and chant to Guthix...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
-                World.getWorld().tileGraphic(188, new Tile(2507, 4722,0), 50, 0);
+                World.getWorld().sendClippedTileGraphic(188, new Tile(2507, 4722,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(GUTHIX_CAPE), new Tile(2507, 4722, 0), player);
                 groundItem.setState(GroundItem.State.SEEN_BY_OWNER);
                 GroundItemHandler.createGroundItem(groundItem);

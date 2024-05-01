@@ -24,7 +24,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
@@ -569,7 +568,7 @@ public class CommandManager {
             p.tile().getRegion().activeTiles.clear();
         });
         dev("gfx1", (p, c, s) -> {
-            World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y, p.getZ()), 0, 0);
+            World.getWorld().sendClippedTileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y, p.getZ()), 0, 0);
         });
         dev("npc3", (p, c, s) -> {
             var cal = new NPC(6611, p.tile(), false).spawn();
@@ -866,24 +865,24 @@ public class CommandManager {
 
             Tile centerTile = p.tile();
 
-            World.getWorld().tileGraphic(bigWave, centerTile, 0, 0);
+            World.getWorld().sendClippedTileGraphic(bigWave, centerTile, 0, 0);
 
             for (int dx = -1; dx <= 1; dx += 2) {
                 for (int dy = -1; dy <= 1; dy += 2) {
                     Tile cornerTile = new Tile(centerTile.x + dx, centerTile.y + dy, centerTile.level);
 
-                    World.getWorld().tileGraphic(littleWave, cornerTile, 0, 20);
+                    World.getWorld().sendClippedTileGraphic(littleWave, cornerTile, 0, 20);
                 }
             }
 
-            World.getWorld().tileGraphic(bigWave, centerTile, 0, 40);
+            World.getWorld().sendClippedTileGraphic(bigWave, centerTile, 0, 40);
 
             for (int dx = -2; dx <= 2; dx++) {
                 for (int dy = -2; dy <= 2; dy++) {
                     if ((Math.abs(dx) == 2 || Math.abs(dy) == 2) && (dx != 2 || dy != 2) && (dx != 2 || dy != -2) && (dx != -2 || dy != 2) && (dx != -2 || dy != -2)) {
                         Tile outlineTile = new Tile(centerTile.x + dx, centerTile.y + dy, centerTile.level);
 
-                        World.getWorld().tileGraphic(littleWave, outlineTile, 0, 40);
+                        World.getWorld().sendClippedTileGraphic(littleWave, outlineTile, 0, 40);
                     }
                 }
             }

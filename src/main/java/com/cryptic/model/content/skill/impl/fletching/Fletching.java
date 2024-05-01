@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Origin
@@ -28,7 +29,7 @@ public class Fletching extends PacketInteraction {
 
     private static final Logger logger = LoggerFactory.getLogger(Fletching.class);
 
-    private final static HashMap<Integer, Fletchable> FLETCHABLES = new HashMap<>();
+    private final static HashMap<Map<Integer, Integer>, Fletchable> FLETCHABLES = new HashMap<>();
 
     public static void load() {
         Arrow.load();
@@ -41,11 +42,21 @@ public class Fletching extends PacketInteraction {
     }
 
     public static void addFletchable(Fletchable fletchable) {
-        FLETCHABLES.put(fletchable.getWith().getId(), fletchable);
+        Map<Integer, Integer> items = new HashMap<>();
+        items.put(fletchable.getUse().getId(), fletchable.getWith().getId());
+        FLETCHABLES.put(items, fletchable);
     }
 
     private static Fletchable getFletchable(int use, int with) {
-        return FLETCHABLES.getOrDefault(use, FLETCHABLES.get(with));
+        Map<Integer, Integer> items = new HashMap<>();
+        items.put(use, with);
+        Fletchable fletchable = FLETCHABLES.get(items);
+        if (fletchable == null) {
+            items.clear();
+            items.put(with, use);
+            fletchable = FLETCHABLES.get(items);
+        }
+        return fletchable;
     }
 
     @Override
@@ -58,12 +69,12 @@ public class Fletching extends PacketInteraction {
 
         String prefix = fletchable.getWith().name().split(" ")[0];
 
-        if (ArrayUtils.contains(fletchable.getIngediants(), fletchable.getUse().getId()) && ArrayUtils.contains(fletchable.getIngediants(), fletchable.getUse().getId())) {
-            System.out.println("yep");
-            if (ArrayUtils.contains(fletchable.getIngediants(), fletchable.getWith().getId())) {
-                System.out.println("true");
-            }
+        if (!fletchable.getUse().equalIds(use) && !fletchable.getUse().equalIds(usedWith)) {
+            player.message("You need to use this with " + Utils.getAOrAn(fletchable.getUse().name()) + " " + fletchable.getUse().name().toLowerCase() + " to fletch this item.");
+            return true;
         }
+
+
         switch (fletchable.getFletchableItems().length) {
             case 1:
                 player.putAttrib(AttributeKey.FLETCHABLE_KEY, fletchable);
@@ -80,15 +91,17 @@ public class Fletching extends PacketInteraction {
                 player.getPacketSender().sendChatboxInterface(8866);
                 return true;
             case 3:
-                player.putAttrib(AttributeKey.FLETCHABLE_KEY, fletchable);
-                player.getPacketSender().sendInterfaceModel(8883, 125, fletchable.getFletchableItems()[0].getProduct().getId());
-                player.getPacketSender().sendInterfaceModel(8884, 125, fletchable.getFletchableItems()[1].getProduct().getId());
-                player.getPacketSender().sendInterfaceModel(8885, 125, fletchable.getFletchableItems()[2].getProduct().getId());
-                player.getPacketSender().sendString(8889, "<br> <br> <br> <br>".concat(prefix + " Short Bow"));
-                player.getPacketSender().sendString(8893, "<br> <br> <br> <br>".concat(prefix + " Long Bow"));
-                player.getPacketSender().sendString(8897, "<br> <br> <br> <br>".concat("Crossbow Stock"));
-                player.getPacketSender().sendChatboxInterface(8880);
-                return true;
+                if (ArrayUtils.contains(fletchable.getIngediants(), use.getId())) {
+                    player.putAttrib(AttributeKey.FLETCHABLE_KEY, fletchable);
+                    player.getPacketSender().sendInterfaceModel(8883, 125, fletchable.getFletchableItems()[0].getProduct().getId());
+                    player.getPacketSender().sendInterfaceModel(8884, 125, fletchable.getFletchableItems()[1].getProduct().getId());
+                    player.getPacketSender().sendInterfaceModel(8885, 125, fletchable.getFletchableItems()[2].getProduct().getId());
+                    player.getPacketSender().sendString(8889, "<br> <br> <br> <br>".concat(prefix + " Short Bow"));
+                    player.getPacketSender().sendString(8893, "<br> <br> <br> <br>".concat(prefix + " Long Bow"));
+                    player.getPacketSender().sendString(8897, "<br> <br> <br> <br>".concat("Crossbow Stock"));
+                    player.getPacketSender().sendChatboxInterface(8880);
+                    return true;
+                }
             case 4:
                 player.putAttrib(AttributeKey.FLETCHABLE_KEY, fletchable);
                 player.getPacketSender().sendInterfaceModel(8902, 125, fletchable.getFletchableItems()[0].getProduct().getId());
@@ -101,8 +114,9 @@ public class Fletching extends PacketInteraction {
                 player.getPacketSender().sendString(8921, "<br> <br> <br> <br>".concat("Crossbow Stock"));
                 player.getPacketSender().sendChatboxInterface(8899);
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @Override

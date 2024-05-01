@@ -527,7 +527,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                 if (npc.dead() || !npc.isRegistered()) t.stop();
                 if (t.getRunDuration() == 17)
                     t.stop();
-                World.getWorld().tileGraphic(1356, lightningPos[0], 0, 0);
+                World.getWorld().sendClippedTileGraphic(1356, lightningPos[0], 0, 0);
                 forAllTargets(player -> {
                     if (player.isAt(lightningPos[0])) {
                         player.hit(npc, World.getWorld().random(npc.getCombatInfo().maxhit / 2));
@@ -578,7 +578,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                     if (finalOther != null)
                         finalOther.graphic(gfxId, GraphicHeight.LOW, 0);
                     else
-                        World.getWorld().tileGraphic(gfxId, finalTile, 0, 0);
+                        World.getWorld().sendClippedTileGraphic(gfxId, finalTile, 0, 0);
                 } else {
                     t.stop();
                 }
@@ -630,7 +630,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                 GameObject bomb = GameObject.spawn(29766, bombPos, 10, 0);
                 Chain.noCtx().delay(8, () -> {
                     bomb.remove();
-                    World.getWorld().tileGraphic(40, bombPos, 0, CRYSTAL_BOMB_PROJECTILE.getSpeed());
+                    World.getWorld().sendClippedTileGraphic(40, bombPos, 0, CRYSTAL_BOMB_PROJECTILE.getSpeed());
                     forAllTargets(p -> {
                         int distance = p.tile().distance(bombPos);
                         if (distance > 3)
@@ -665,7 +665,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
             Tile pos = target.tile().copy();
             sleep.addAndGet(3);
             CRYSTAL_SPIKE_PROJECTILE.send(pos.relative(0, 1), pos);
-            World.getWorld().tileGraphic(1353, pos, 0, 1);
+            World.getWorld().sendClippedTileGraphic(1353, pos, 0, 1);
             Chain.noCtx().delay(1, () -> {
                 getAllTargets().forEach(p -> {
                     if (p.tile().equals(pos))
@@ -776,7 +776,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         }
         Chain.noCtx().delay(4, () -> {
             for (Tile siphon : siphons) {
-                World.getWorld().tileGraphic(1363, siphon, 0, 0);
+                World.getWorld().sendClippedTileGraphic(1363, siphon, 0, 0);
             }
         }).delay(5, () -> {
             int damageDealt = 0;
@@ -953,8 +953,8 @@ public class GreatOlmCombat extends CommonCombatMethod {
                         Tile src = World.getWorld().get() < 0.5 ? tile.relative(1, 0) : tile.relative(0, 1);
                         Projectile p1 = new Projectile(entity, tile, 1357, 0, 120, 150, 0, 0, 1, 10);
                         final int projDelay = p1.send(src, tile);
-                        World.getWorld().tileGraphic(1447, tile, 0, 30);
-                        World.getWorld().tileGraphic(1358, tile, 0, 90);
+                        World.getWorld().sendClippedTileGraphic(1447, tile, 0, 30);
+                        World.getWorld().sendClippedTileGraphic(1358, tile, 0, 90);
                         Chain.bound(null).runFn(4, () -> forAllTargets(p -> {
                             int distance = p.tile().distance(tile);
                             if (p.tile().isWithinDistance(tile, 1)) {

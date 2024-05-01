@@ -22,10 +22,11 @@ public class MetalDragonCombat extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         var random = World.getWorld().random().nextInt(0, 3);
         switch (random) {
-            case 0, 1 -> doDragonBreath();
-            case 2, 3 -> {
-                if (isReachable()) basicAttack(entity, target);
+            case 0, 1 -> {
+                if (isReachable()) basicAttack();
+                else doDragonBreath();
             }
+            case 2, 3 -> doDragonBreath();
         }
         return true;
     }
@@ -85,7 +86,7 @@ public class MetalDragonCombat extends CommonCombatMethod {
         }
     }
 
-    private void basicAttack(Entity entity, Entity target) {
+    private void basicAttack() {
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }

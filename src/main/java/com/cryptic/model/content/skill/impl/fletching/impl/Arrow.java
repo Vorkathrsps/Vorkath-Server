@@ -32,8 +32,9 @@ public enum Arrow implements Fletchable {
         this.items = items;
     }
 
+    static final Arrow[] values = values();
     public static void load() {
-        for (Arrow cuttable : values()) {
+        for (Arrow cuttable : values) {
             Fletching.addFletchable(cuttable);
         }
     }

@@ -31,9 +31,10 @@ public enum Javelin implements Fletchable {
         this.items = items;
     }
 
+    static final Javelin[] values = values();
     public static void load() {
-        for (Javelin javelin : values()) {
-            Fletching.addFletchable(javelin);
+        for (Javelin cuttable : values) {
+            Fletching.addFletchable(cuttable);
         }
     }
 

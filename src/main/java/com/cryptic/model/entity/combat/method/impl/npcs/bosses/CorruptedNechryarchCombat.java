@@ -68,8 +68,8 @@ public class CorruptedNechryarchCombat extends CommonCombatMethod {
                 var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
 
                 //new Projectile(lastAcidPos, lockonTile, -1, 5005, 12 * tileDist, 10, 35, 35, 0, 16, 64).sendProjectile();
-                World.getWorld().tileGraphic(5001, lastAcidPos, 0, 0);
-                World.getWorld().tileGraphic(5004, lastAcidPos, 0, 0);
+                World.getWorld().sendClippedTileGraphic(5001, lastAcidPos, 0, 0);
+                World.getWorld().sendClippedTileGraphic(5004, lastAcidPos, 0, 0);
                 acidPools.add(lastAcidPos);
                 for (Player player : targets) {
                     Chain.bound(null).runFn(delay, () -> {

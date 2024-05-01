@@ -101,7 +101,7 @@ public class ScurriusCombat extends CommonCombatMethod {
         }
         for (var t : tiles) {
             if (t == null) continue;
-            World.getWorld().tileGraphic(2644, t, 0, 60);
+            World.getWorld().sendClippedTileGraphic(2644, t, 0, 60);
             Chain.noCtx().cancelWhen(cancelIf).runFn(9, () -> {
                 for (var target : this.getPossibleTargets(entity)) {
                     if (target == null) continue;

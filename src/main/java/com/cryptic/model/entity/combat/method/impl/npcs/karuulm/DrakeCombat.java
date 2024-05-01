@@ -58,7 +58,7 @@ public class DrakeCombat extends CommonCombatMethod {
         final var tile = target.tile().copy();
        // new Projectile(drake.getCentrePosition(), tile, 1,1637,125, 40, 25, 0,0,16,96).sendProjectile();
         Chain.bound(null).runFn(5, () -> {
-            World.getWorld().tileGraphic(1638, tile, 0, 0);
+            World.getWorld().sendClippedTileGraphic(1638, tile, 0, 0);
             if (target.tile().equals(tile)) {
                 for (int hits = 0; hits < 4; hits++) {
                     Chain.bound(null).name("drake_special_attack_task").runFn(hits, () -> {

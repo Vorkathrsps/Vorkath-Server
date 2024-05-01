@@ -95,7 +95,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9674);
             if (npc.getInstancedArea() != null) {
                 type.buildEast(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -103,7 +103,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9676);
             if (npc.getInstancedArea() != null) {
                 type.buildWest(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -111,7 +111,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9678);
             if (npc.getInstancedArea() != null) {
                 type.buildCenter(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -120,7 +120,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9674);
             if (npc.getInstancedArea() != null) {
                 type.buildEast(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -128,7 +128,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9676);
             if (npc.getInstancedArea() != null) {
                 type.buildWest(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -136,7 +136,7 @@ public class WardenCombat extends CommonCombatMethod {
             npc.animate(9678);
             if (npc.getInstancedArea() != null) {
                 type.buildCenter(npc, new Tile(3936, 5156), false).forEach(tile -> {
-                    World.getWorld().tileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
+                    World.getWorld().sendClippedTileGraphic(new Graphic(Utils.randomInclusive(2220, 2223), GraphicHeight.LOW, tile.delay).id(), tile, 0, tile.delay);
                     checkDamage(npc, tile);
                 });
             }
@@ -191,11 +191,11 @@ public class WardenCombat extends CommonCombatMethod {
                 Collections.shuffle(availableLocations);
                 List<Tile> thunderTiles = availableLocations.subList(0, Math.max(2, (int) (availableLocations.size() * .3)));
                 thunderTiles.forEach(loc -> {
-                    World.getWorld().tileGraphic(1446, loc, 0, 0);
+                    World.getWorld().sendClippedTileGraphic(1446, loc, 0, 0);
                     occupiedThunderLocations.add(loc);
                 });
                 Chain.noCtx().cancelWhen(cancel).runFn(2, () -> thunderTiles.forEach(loc -> {
-                    World.getWorld().tileGraphic(2197, loc, 0, 0);
+                    World.getWorld().sendClippedTileGraphic(2197, loc, 0, 0);
                     for (var player : this.instance.getPlayers()) {
                         if ((player == null || player.dead() || !player.isRegistered())) continue;
                         if (!player.tile().equals(loc)) continue;

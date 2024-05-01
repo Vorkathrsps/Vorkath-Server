@@ -308,7 +308,7 @@ public class HydraChamber {
          * Spawns the graphics.
          */
         private void spawn(Tile tile, int delay, ArrayList<Tile> spots) {
-            World.getWorld().tileGraphic(1668, tile, 0, delay);
+            World.getWorld().sendClippedTileGraphic(1668, tile, 0, delay);
             spots.add(tile);
         }
 

@@ -123,7 +123,7 @@ public class CorporealBeastCombat extends CommonCombatMethod {
 
                     blast[0].send(tileCopy, tile);
 
-                    World.getWorld().tileGraphic(1836, tile, 0, blast[0].getSpeed());
+                    World.getWorld().sendClippedTileGraphic(1836, tile, 0, blast[0].getSpeed());
 
                     Chain.noCtx().runFn(blast[0].getSpeed(), () -> {
                         if (target.tile().equals(blast[0].getEnd())) {

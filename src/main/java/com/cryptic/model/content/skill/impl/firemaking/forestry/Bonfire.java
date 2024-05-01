@@ -70,7 +70,7 @@ public class Bonfire extends PacketInteraction {
     }
 
     private void addExperience(Player player, GameObject gameObject, double experience) {
-        Chain.noCtx().runFn(4, () -> World.getWorld().tileGraphic(2576, gameObject.tile(), 0, 30)).then(1, () -> player.getSkills().addXp(Skill.FIREMAKING.getId(), experience));
+        Chain.noCtx().runFn(4, () -> World.getWorld().sendClippedTileGraphic(2576, gameObject.tile(), 0, 30)).then(1, () -> player.getSkills().addXp(Skill.FIREMAKING.getId(), experience));
     }
 
     private boolean skillRequirement(Player player, Logs log) {

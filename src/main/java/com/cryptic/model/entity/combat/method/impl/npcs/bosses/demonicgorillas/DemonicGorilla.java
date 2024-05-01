@@ -158,7 +158,7 @@ public class DemonicGorilla extends NPC {
                     hit.submit();
                 }
             });
-            World.getWorld().tileGraphic(305, boulderTile, 5, p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(305, boulderTile, 5, p.getSpeed());
         }
     }
 }

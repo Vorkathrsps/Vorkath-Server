@@ -24,12 +24,13 @@ public class MithrilDragonCombat extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         var random = World.getWorld().random().nextInt(0, 7);
         switch (random) {
-            case 0,1 -> doDragonBreath();
+            case 0,1 -> {
+                if (isReachable()) doMelee();
+                else doDragonBreath();
+            }
             case 2,3 -> doMagic();
             case 4,5 -> doRanged();
-            case 6,7 -> {
-                if (isReachable()) doMelee();
-            }
+            case 6,7 -> doDragonBreath();
         }
         return true;
     }

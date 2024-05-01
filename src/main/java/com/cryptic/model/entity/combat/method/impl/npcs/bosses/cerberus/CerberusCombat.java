@@ -181,8 +181,8 @@ public class CerberusCombat extends CommonCombatMethod {
             new Tile(entity.getAbsX() + Utils.random(-1, entity.getSize() - 2), entity.getAbsY() + Utils.random(-4, entity.getSize() + 4), entity.getZ())};
         for (Tile pos : positions) {
             entity.runFn(1, () -> {
-                World.getWorld().tileGraphic(1246, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
-                World.getWorld().tileGraphic(1246, new Tile(pos.getX() - 1, pos.getY() - 1, pos.getZ()), 0, 0);
+                World.getWorld().sendClippedTileGraphic(1246, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
+                World.getWorld().sendClippedTileGraphic(1246, new Tile(pos.getX() - 1, pos.getY() - 1, pos.getZ()), 0, 0);
             }).then(2, () -> {
                 if (target == null)
                     return;
@@ -192,7 +192,7 @@ public class CerberusCombat extends CommonCombatMethod {
                     target.hit(entity, 7);
                 }
             }).then(2, () -> {
-                World.getWorld().tileGraphic(1247, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
+                World.getWorld().sendClippedTileGraphic(1247, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
             }).then(1, () -> {
                 if (target == null)
                     return;

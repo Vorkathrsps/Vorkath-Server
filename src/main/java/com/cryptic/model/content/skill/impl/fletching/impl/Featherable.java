@@ -42,9 +42,10 @@ public enum Featherable implements Fletchable {
         this.items = items;
     }
 
+    static final Featherable[] values = values();
     public static void load() {
-        for (Featherable featherable : values()) {
-            Fletching.addFletchable(featherable);
+        for (Featherable cuttable : values) {
+            Fletching.addFletchable(cuttable);
         }
     }
 

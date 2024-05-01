@@ -165,13 +165,13 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         Tile central = base.transform(centralCrystalSpot.x, centralCrystalSpot.y);
         ArrayList<Tile> spots = new ArrayList<>(crystalSpots);
         int[] ticker = new int[1];
-        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(1718, central, 0, 0)).repeatingTask(1, t -> {
+        Chain.bound(null).runFn(2, () -> World.getWorld().sendClippedTileGraphic(1718, central, 0, 0)).repeatingTask(1, t -> {
             if (ticker[0] == 10) {
                 t.stop();
                 return;
             }
             for (Tile spot : spots) {
-                World.getWorld().tileGraphic(1718, base.transform(spot.x, spot.y), 0, 0);
+                World.getWorld().sendClippedTileGraphic(1718, base.transform(spot.x, spot.y), 0, 0);
             }
             ArrayList<Tile> newSpots = new ArrayList<>();
             for (Tile spot : new ArrayList<>(spots)) {

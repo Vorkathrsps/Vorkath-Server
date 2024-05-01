@@ -19,11 +19,8 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Author: Origin
@@ -105,7 +102,7 @@ public class Xarpus extends NPC {
             var entityTile = this.tile().transform(1, 1);
             Projectile p = new Projectile(entityTile, tile, 1555, 68, duration, 95, 0, 20, 5, 10);
             p.send(entityTile, tile);
-            World.getWorld().tileGraphic(1556, tile, 0, p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(1556, tile, 0, p.getSpeed());
             PoisonSplat poisonSplat = new PoisonSplat(32744, tile, 22, 0);
             Chain.noCtx().runFn(p.getSpeed() / 30 + 1, () -> {
                 if (!poisonTile.contains(poisonSplat.tile())) {

@@ -125,7 +125,7 @@ public class VetionCombat extends CommonCombatMethod {
                         .then(1, () -> {
                             vetion.animate(9969);
                             vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
-                            World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                            World.getWorld().sendClippedTileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
                         })
                         .then(3, () -> {
                             if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
@@ -177,7 +177,7 @@ public class VetionCombat extends CommonCombatMethod {
                         .then(1, () -> {
                             vetion.animate(9972);
                             vetion.graphic(2348);
-                            World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                            World.getWorld().sendClippedTileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
                         })
                         .then(3, () -> {
                             if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
@@ -332,8 +332,8 @@ public class VetionCombat extends CommonCombatMethod {
                     break;
                 var pos = origin.transform(offset[0], offset[1]);
                 vetionCombat.tiles.add(pos); // you were missing side ones
-                World.getWorld().tileGraphic(1446, pos, 0, 0);
-                World.getWorld().tileGraphic(2184, pos, 0, 90);
+                World.getWorld().sendClippedTileGraphic(1446, pos, 0, 0);
+                World.getWorld().sendClippedTileGraphic(2184, pos, 0, 90);
                 //World.getWorld().tileGraphic(2349, pos, 0, 30);
             }
         } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
@@ -352,8 +352,8 @@ public class VetionCombat extends CommonCombatMethod {
                 });
             }
             for (Tile tile : vetionCombat.tiles) {
-                World.getWorld().tileGraphic(2236, tile, 0, 0);
-                World.getWorld().tileGraphic(2184, tile, 0, 90);
+                World.getWorld().sendClippedTileGraphic(2236, tile, 0, 0);
+                World.getWorld().sendClippedTileGraphic(2184, tile, 0, 90);
             }
         }
     }

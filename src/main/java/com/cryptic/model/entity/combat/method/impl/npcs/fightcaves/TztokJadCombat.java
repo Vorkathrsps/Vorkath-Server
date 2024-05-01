@@ -87,7 +87,7 @@ public class TztokJadCombat extends CommonCombatMethod {
             return;
         }
         entity.animate(2652);
-        World.getWorld().tileGraphic(451, target.tile(), 0, 60);
+        World.getWorld().sendClippedTileGraphic(451, target.tile(), 0, 60);
         new Hit(entity, target, 4, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(157, GraphicHeight.LOW, 120);
     }

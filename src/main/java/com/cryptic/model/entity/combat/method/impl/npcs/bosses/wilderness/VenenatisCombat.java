@@ -3,7 +3,6 @@ package com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
@@ -117,7 +116,7 @@ public class VenenatisCombat extends CommonCombatMethod {
 
         p.send(entity, finalTile);
 
-        World.getWorld().tileGraphic(2361, finalTile, 0, p.getSpeed());
+        World.getWorld().sendClippedTileGraphic(2361, finalTile, 0, p.getSpeed());
 
         var webTile = p.getTarget().copy();
 

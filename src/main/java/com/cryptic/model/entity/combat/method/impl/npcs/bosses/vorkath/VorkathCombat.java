@@ -1,11 +1,9 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.items.combine.MagmaHelm;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
@@ -14,7 +12,6 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -30,7 +27,6 @@ import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.commons.lang3.mutable.MutableObject;
 
-import java.security.SecureRandom;
 import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.ZOMBIFIED_SPAWN_8063;
@@ -100,7 +96,7 @@ public class VorkathCombat extends CommonCombatMethod {
         Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D), () -> {
             if (target.tile().equals(projectile.getEnd())) new Hit(entity, target, 0, CombatType.MAGIC).checkAccuracy(true).submit();
         });
-        World.getWorld().tileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
+        World.getWorld().sendClippedTileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
     }
 
     private void range() {
@@ -352,7 +348,7 @@ public class VorkathCombat extends CommonCombatMethod {
             int duration = (10 + 11 + (5 * tileDist));
             var projectile = new Projectile(entity, cloneTile, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
             int delay = projectile.send(entity, cloneTile);
-            World.getWorld().tileGraphic(131, cloneTile, 0, projectile.getSpeed());
+            World.getWorld().sendClippedTileGraphic(131, cloneTile, 0, projectile.getSpeed());
             entity.getCombat().delayAttack(0);
             Chain.noCtx().runFn(1, () -> {
                 if (target.tile().equals(cloneTile)) {

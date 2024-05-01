@@ -321,7 +321,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
             for (int i = 0; i < numTiles; i++) {
                 Tile t = tiles.get(i);
                 if (!usedTiles.contains(t)) {
-                    World.getWorld().tileGraphic(1767, t, 0, 20);
+                    World.getWorld().sendClippedTileGraphic(1767, t, 0, 20);
                     usedTiles.add(t);
                 }
             }

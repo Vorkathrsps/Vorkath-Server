@@ -14,6 +14,7 @@ import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.VorkathCombat;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
+import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
@@ -409,6 +410,7 @@ public class Hit {
         if (target.nextHitIndex >= 3) return;
         target.nextHits[target.nextHitIndex++] = this;
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
+        target.updateHealthBar(new StaticHealthBarUpdate(target));
     }
 
     public Hit block() {

@@ -44,9 +44,10 @@ public enum Stringable implements Fletchable {
         this.items = items;
     }
 
+    static final Stringable[] values = values();
     public static void load() {
-        for (Stringable featherable : values()) {
-            Fletching.addFletchable(featherable);
+        for (Stringable cuttable : values) {
+            Fletching.addFletchable(cuttable);
         }
     }
 

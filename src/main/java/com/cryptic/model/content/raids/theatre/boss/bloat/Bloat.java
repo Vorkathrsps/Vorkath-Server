@@ -114,7 +114,7 @@ public class Bloat extends NPC {
                 Tile randomTile = bloatUtils.getRandomTile().transform(0, 0, theatreInstance.getzLevel());
                 if (bloatUtils.isTileValid(tile, randomTile) && !RegionManager.blocked(randomTile)) {
                     if (!IGNORED_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(randomTile)) {
-                        World.getWorld().tileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
+                        World.getWorld().sendClippedTileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
                         graphicTiles.add(randomTile);
                     }
                 }

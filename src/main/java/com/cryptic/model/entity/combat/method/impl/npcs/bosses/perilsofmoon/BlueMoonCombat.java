@@ -5,12 +5,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.position.Tile;
-import com.cryptic.utility.chainedwork.Chain;
-
-import java.util.function.BooleanSupplier;
 
 public class BlueMoonCombat extends CommonCombatMethod {
     boolean initiated = false;
@@ -34,7 +28,7 @@ public class BlueMoonCombat extends CommonCombatMethod {
     public boolean customOnDeath(Hit hit) {
         NPC moon = (NPC) this.entity;
         moon.hidden(true);
-        World.getWorld().tileGraphic(2790, moon.tile().transform(2, 1), 0, 0);
+        World.getWorld().sendClippedTileGraphic(2790, moon.tile().transform(2, 1), 0, 0);
         moon.die();
         return true;
     }

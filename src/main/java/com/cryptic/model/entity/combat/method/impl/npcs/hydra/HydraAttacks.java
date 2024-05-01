@@ -71,9 +71,9 @@ public enum HydraAttacks {
                 int duration = (50 + -5 + (10 * tileDist));
                 Projectile p = new Projectile(hydra, pool, 1644, 50, duration, 105, 0, 0, hydra.getSize(), 10);
                 p.send(hydra, pool);
-                World.getWorld().tileGraphic(1645, pool, 0, p.getSpeed());
+                World.getWorld().sendClippedTileGraphic(1645, pool, 0, p.getSpeed());
                 var graphicId = getPoolGraphic(hydra, pool);
-                World.getWorld().tileGraphic(graphicId, pool, 0, p.getSpeed());
+                World.getWorld().sendClippedTileGraphic(graphicId, pool, 0, p.getSpeed());
             }
 
             Chain.noCtx().repeatingTask(1, acidTask -> {
@@ -106,7 +106,7 @@ public enum HydraAttacks {
             int duration = (50 + -5 + (10 * tileDist));
             Projectile p = new Projectile(hydra, central, 1664, 50, duration, 0, 0, 0, hydra.getSize(), 10);
             p.send(hydra, central);
-            World.getWorld().tileGraphic(1664, central, 0, p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(1664, central, 0, p.getSpeed());
 
             AtomicInteger ticker = new AtomicInteger(0);
 
@@ -123,7 +123,7 @@ public enum HydraAttacks {
                     return;
                 }
                 for (Tile spot : spots) {
-                    World.getWorld().tileGraphic(1666, base.transform(spot.x, spot.y), 0, finalP.getSpeed());
+                    World.getWorld().sendClippedTileGraphic(1666, base.transform(spot.x, spot.y), 0, finalP.getSpeed());
                 }
                 ArrayList<Tile> newSpots = new ArrayList<>();
                 for (Tile spot : new ArrayList<>(spots)) {
@@ -225,7 +225,7 @@ public enum HydraAttacks {
                             } else {
                                 startMovingFire = getMoveLocation(base, startMovingFire, target.tile());
                                 spots.add(startMovingFire);
-                                World.getWorld().tileGraphic(1668, base.transform(startMovingFire.x, startMovingFire.y), 0, 0);
+                                World.getWorld().sendClippedTileGraphic(1668, base.transform(startMovingFire.x, startMovingFire.y), 0, 0);
                             }
                         } else if (i == 16) {
                             hydra.unlock();
@@ -252,12 +252,12 @@ public enum HydraAttacks {
 
             Chain.bound(null).runFn(3, () -> {
                 for (Tile pool : pools) {
-                    World.getWorld().tileGraphic(1645, pool, 0, 0);
+                    World.getWorld().sendClippedTileGraphic(1645, pool, 0, 0);
                 }
             }).then(1, () -> {
                 for (Tile pool : pools) {
                     var graphicId = getPoolGraphic(hydra, pool);
-                    World.getWorld().tileGraphic(graphicId, pool, 0, 0);
+                    World.getWorld().sendClippedTileGraphic(graphicId, pool, 0, 0);
                 }
             }).repeatingTask(1, t -> {
                 for (Tile pool : pools) {

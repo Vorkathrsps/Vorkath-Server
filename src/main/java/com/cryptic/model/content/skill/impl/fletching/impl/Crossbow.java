@@ -31,8 +31,9 @@ public enum Crossbow implements Fletchable {
         this.items = items;
     }
 
+    static final Crossbow[] values = values();
     public static void load() {
-        for (Crossbow cuttable : values()) {
+        for (Crossbow cuttable : values) {
             Fletching.addFletchable(cuttable);
         }
     }

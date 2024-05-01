@@ -44,9 +44,10 @@ public enum Carvable implements Fletchable {
         this.items = items;
     }
 
+    static final Carvable[] values = values();
     public static void load() {
-        for (Carvable car : values()) {
-            Fletching.addFletchable(car);
+        for (Carvable cuttable : values) {
+            Fletching.addFletchable(cuttable);
         }
     }
 

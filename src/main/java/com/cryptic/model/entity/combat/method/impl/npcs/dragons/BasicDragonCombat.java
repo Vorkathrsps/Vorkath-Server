@@ -24,21 +24,21 @@ public class BasicDragonCombat extends CommonCombatMethod {
         var random = World.getWorld().random().nextInt(0, 3);
         switch (random) {
             case 0, 1 -> {
-                if (isReachable()) basicAttack(entity, target);
-                else breathFire(entity, target);
+                if (isReachable()) basicAttack();
+                else breathFire();
             }
-            case 2, 3 -> breathFire(entity, target);
+            case 2, 3 -> breathFire();
         }
         return true;
     }
 
-    private void basicAttack(Entity entity, Entity target) {
+    private void basicAttack() {
         if (!withinDistance(1)) return;
         entity.animate(entity.attackAnimation());
         new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
-    private void breathFire(Entity entity, Entity target) {
+    private void breathFire() {
         if (World.getWorld().clipAt(entity.tile()) != 0) return;
         entity.animate(81);
         entity.graphic(1, GraphicHeight.HIGH, 0);

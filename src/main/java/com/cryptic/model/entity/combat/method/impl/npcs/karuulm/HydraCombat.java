@@ -91,8 +91,8 @@ public class HydraCombat extends CommonCombatMethod {
             final int delay = hydra.executeProjectile(p);
             Direction dir = Direction.getDirection(Utils.getClosestTile(hydra, pos), pos);
 
-            World.getWorld().tileGraphic(1645, new Tile(pos.getX(), pos.getY()), pos.getZ(), p.getSpeed());
-            World.getWorld().tileGraphic(POISON_POOLS[dir.ordinal()], new Tile(pos.getX(), pos.getY()), pos.getZ(),p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(1645, new Tile(pos.getX(), pos.getY()), pos.getZ(), p.getSpeed());
+            World.getWorld().sendClippedTileGraphic(POISON_POOLS[dir.ordinal()], new Tile(pos.getX(), pos.getY()), pos.getZ(),p.getSpeed());
             Chain.bound(hydra).runFn(3, () -> {
                 for (int i = 0; i < 15; i++) {
                     if (target.tile().equals(pos)) {

@@ -29,22 +29,22 @@ public class AdamantDragonCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity dragon, Entity entity) {
-        NPC npc = (NPC) dragon;
         var random = World.getWorld().random().nextInt(0, 7);
         switch (random) {
-            case 0, 1 -> doDragonBreath();
+            case 0, 1 -> {
+                if (isReachable()) doMelee();
+                else doDragonBreath();
+            }
             case 2, 3 -> doRangedAttack();
             case 4, 5 -> doMagicBlast();
-            case 6, 7 -> {
-                if (isReachable()) doMelee(npc);
-            }
+            case 6, 7 -> doDragonBreath();
         }
         return true;
     }
 
-    private void doMelee(NPC npc) {
+    private void doMelee() {
         if (!withinDistance(1)) return;
-        npc.animate(npc.attackAnimation());
+        entity.animate(entity.attackAnimation());
         new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 

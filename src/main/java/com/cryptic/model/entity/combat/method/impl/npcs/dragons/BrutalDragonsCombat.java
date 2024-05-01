@@ -26,18 +26,17 @@ import com.cryptic.utility.Utils;
  */
 public class BrutalDragonsCombat extends CommonCombatMethod {
 
-    boolean fire;
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         var random = World.getWorld().random().nextInt(0, 4);
         NPC npc = (NPC) entity;
         switch (random) {
-            case 0, 1 -> breathFire(npc, target);
-            case 2, 3 -> magicAttack(npc, target);
-            case 4, 5 -> {
+            case 0, 1 -> {
                 if (isReachable()) basicAttack(npc, target);
+                else breathFire(npc, target);
             }
+            case 2, 3 -> magicAttack(npc, target);
+            case 4, 5 -> breathFire(npc, target);
         }
         return true;
     }

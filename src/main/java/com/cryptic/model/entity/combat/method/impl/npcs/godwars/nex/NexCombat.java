@@ -433,7 +433,7 @@ public class NexCombat extends CommonCombatMethod {
             }
             shadows.clear();
             for (int[] tile : tiles.values()) {
-                World.getWorld().tileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
+                World.getWorld().sendClippedTileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
                 for (Entity t : possibleTargets) {
                     if (t.getX() == tile[0] && t.getY() == tile[1]) {
                         t.hit(nex, World.getWorld().random(1, SHADOW_SMASH_ATTACK_MAX));
@@ -851,7 +851,7 @@ public class NexCombat extends CommonCombatMethod {
                     for (Tile tile : list) {
                         var projectile = new Projectile(npc.getCentrePosition(), tile, 1, 2012, 100, 40, tile.getZ(), 0, 0);
                         nex.executeProjectile(projectile);
-                        World.getWorld().tileGraphic(2014, tile, 0, 85);
+                        World.getWorld().sendClippedTileGraphic(2014, tile, 0, 85);
                     }
                     close.hit(npc, World.getWorld().random(40));
                 }

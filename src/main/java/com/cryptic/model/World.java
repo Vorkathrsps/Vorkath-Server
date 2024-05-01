@@ -6,7 +6,6 @@ import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
-import com.cryptic.core.event.EventWorker;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.content.areas.burthope.warriors_guild.dialogue.Shanomi;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
@@ -16,7 +15,6 @@ import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.entity.EntityList;
-import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.NodeType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
@@ -41,25 +39,19 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Flags;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.model.map.route.Direction;
 import com.cryptic.network.codec.login.LoginService;
 import com.cryptic.utility.*;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
@@ -945,11 +937,19 @@ public class World {
         });
     }
 
-    public void tileGraphic(int id, Tile tile, int height, int delay) {
+    public void sendClippedTileGraphic(int id, Tile tile, int height, int delay) {
         players.forEach(p -> {
             if (p.getZ() != tile.getZ()) return;
             if (!p.tile().isViewableFrom(tile)) return;
-            if (World.getWorld().clipAt(tile) != 0) return;
+            if (RegionManager.zarosBlock(tile)) return;
+            p.getPacketSender().sendTileGraphic(id, tile, height, delay);
+        });
+    }
+
+    public void sendUnclippedTileGraphic(int id, Tile tile, int height, int delay) {
+        players.forEach(p -> {
+            if (p.getZ() != tile.getZ()) return;
+            if (!p.tile().isViewableFrom(tile)) return;
             p.getPacketSender().sendTileGraphic(id, tile, height, delay);
         });
     }

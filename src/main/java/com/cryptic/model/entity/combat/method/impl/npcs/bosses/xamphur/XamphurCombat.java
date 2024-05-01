@@ -90,7 +90,7 @@ public class XamphurCombat extends CommonCombatMethod {
         for (var player : getPossibleTargets(this.entity)) {
             if (player == null || player.dead()) continue;
             Tile firstLocation = player.tile().copy();
-            World.getWorld().tileGraphic(1919, firstLocation, 0, 15);
+            World.getWorld().sendClippedTileGraphic(1919, firstLocation, 0, 15);
             Chain.bound(player).runFn(2, () -> {
                 if (player.tile().equals(firstLocation)) {
                     entity.submitHit(player, 0, Utils.random(0, 5), HitMark.HIT);

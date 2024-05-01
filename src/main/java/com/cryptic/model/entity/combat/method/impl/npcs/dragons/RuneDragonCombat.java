@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
+import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
@@ -32,14 +33,13 @@ public class RuneDragonCombat extends CommonCombatMethod {
         NPC npc = (NPC) dragon;
         var random = World.getWorld().random().nextInt(0, 7);
         switch (random) {
-            case 0, 1 -> doDragonBreath();
-            case 2, 3 -> doRangedAttack(npc, target);
-            case 4, 5 -> doMagicBlast(npc, target);
-            case 6, 7 -> {
-                if (isReachable()) {
-                    doMelee(npc, target);
-                }
+            case 0, 1 -> {
+                if (isReachable()) doMelee(npc, target);
+                else doDragonBreath();
             }
+            case 2, 3 -> doRangedAttack();
+            case 4, 5 -> doMagicBlast();
+            case 6, 7 -> doDragonBreath();
         }
         return true;
     }
@@ -81,28 +81,28 @@ public class RuneDragonCombat extends CommonCombatMethod {
         target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
-    private void doRangedAttack(NPC npc, Entity target) {
-        npc.animate(81);
-        int damage = Utils.random(npc.getCombatInfo().maxhit);
+    private void doRangedAttack() {
+        entity.animate(81);
+        final int damage = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1486, 41, duration, 43, 31, 16, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         if (Utils.rollDie(5, 2)) {
-            target.hit(npc, damage, delay, CombatType.RANGED).submit();
-            npc.heal(damage, npc.maxHp());
+            target.hit(entity, damage, delay, CombatType.RANGED).submit();
+            entity.heal(damage, entity.maxHp());
         } else {
-            target.hit(npc, damage, delay, CombatType.RANGED).checkAccuracy(true).submit();
+            target.hit(entity, damage, delay, CombatType.RANGED).checkAccuracy(true).submit();
         }
     }
 
-    private void doMagicBlast(NPC npc, Entity target) {
-        npc.animate(81);
+    private void doMagicBlast() {
+        entity.animate(81);
         var tileDist = entity.getCentrePosition().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 16, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy(true).submit();
+        target.hit(entity,  CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     private void doDragonBreath() {

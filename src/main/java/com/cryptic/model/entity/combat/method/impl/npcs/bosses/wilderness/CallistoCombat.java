@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
-import com.cryptic.annotate.CombatScript;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;
@@ -225,7 +224,7 @@ public class CallistoCombat extends CommonCombatMethod {
 
         for (Tile newTrap : newTraps) {
             if (MovementQueue.dumbReachable(newTrap.getX(), newTrap.getY(), entity.tile())) {
-                World.getWorld().tileGraphic(2343, newTrap, 0, 0);
+                World.getWorld().sendClippedTileGraphic(2343, newTrap, 0, 0);
                 Chain.noCtx().delay(1, () -> {
                     GameObject o = newTrap.object(47146).spawn();
                     allActiveTrapObjects.add(o);

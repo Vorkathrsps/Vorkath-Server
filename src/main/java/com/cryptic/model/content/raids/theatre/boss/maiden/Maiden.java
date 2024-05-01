@@ -20,7 +20,6 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 import static com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUtils.*;
@@ -85,7 +84,7 @@ public class Maiden extends NPC {
         int duration = (68 + 25 + (10 * tileDist));
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
-        World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
+        World.getWorld().sendClippedTileGraphic(1579, tile, 0, p.getSpeed());
         this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreInstance.getzLevel()), target, this, theatreInstance);
         Chain.noCtx().runFn(16, () -> {
             this.orb.setInstancedArea(theatreInstance);

@@ -20,7 +20,6 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -269,7 +268,7 @@ public class Nex extends NPC {
             }
             shadows.clear();
             for (int[] tile : tiles.values()) {
-                World.getWorld().tileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
+                World.getWorld().sendClippedTileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
                 for (Entity t : getPossibleTargets(this)) {
                     if (t.getX() == tile[0] && t.getY() == tile[1]) {
                         t.hit(this, World.getWorld().random(1, 50));
@@ -398,7 +397,7 @@ public class Nex extends NPC {
                 var projectile = new Projectile(this.getCentrePosition(), tile, 1, 2012, 100, 40, tile.getZ(), 0, 0);
                 // projectile.sendProjectile
 
-                World.getWorld().tileGraphic(2014, tile, 0, projectile.getSpeed());
+                World.getWorld().sendClippedTileGraphic(2014, tile, 0, projectile.getSpeed());
             }
         }).then(3, () -> {
             for (Player close : this.closePlayers(10)) {

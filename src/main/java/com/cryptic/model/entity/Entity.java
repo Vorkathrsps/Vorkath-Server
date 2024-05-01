@@ -1747,7 +1747,7 @@ public abstract class Entity {
     }
 
     public void stun(int time, boolean message, boolean gfx, boolean npcStun) {
-        if (timers.has(TimerKey.STUN_IMMUNITY)) {
+        if (this instanceof Player && timers.has(TimerKey.STUN_IMMUNITY)) {
             return;
         }
 
@@ -1969,6 +1969,7 @@ public abstract class Entity {
         graphics.clear();
         Arrays.fill(nextHits, null);
         nextHitIndex = 0;
+        healthBarQueue.clear();
     }
 
     public Entity forceChat(String message) {
@@ -2061,7 +2062,7 @@ public abstract class Entity {
     private Animation animation;
     public Animation recentAnim;
 
-    private ArrayList<Graphic> graphics = new ArrayList<>();
+    private final ArrayList<Graphic> graphics = new ArrayList<>();
     private Tinting tinting;
     @Getter
     private Entity interactingEntity;

@@ -71,7 +71,7 @@ public class Hit {
     @Setter
     boolean invalidated = false;
 
-    public Entity getSource() {
+    public final Entity getSource() {
         return attacker;
     }
 

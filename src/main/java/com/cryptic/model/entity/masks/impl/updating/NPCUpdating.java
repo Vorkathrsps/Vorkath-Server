@@ -346,21 +346,19 @@ public class NPCUpdating {
      */
 
     public static void updateSingleHit(PacketBuilder builder, NPC npc, Player player) {
-        builder.put(npc.nextHitIndex);
+        int length = Math.min(255, npc.nextHits.length);
         int hitmarks = Math.min(1, npc.nextHitIndex);
-        for (Hit hit : npc.nextHits) {
+        builder.put(npc.nextHitIndex);
+        Hit hit;
+        for (int index = 0; index < length; index++) {
+            hit = npc.nextHits[index];
             if (hit == null) continue;
-            if (hitmarks == 1) {
-                builder.put(0);
-            } else if (hitmarks == 0) {
-                builder.put(1);
-            }
-            for (int i = 0; i < hitmarks; i++) {
-                builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
-                builder.put(hit.getDamage());
-                if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
-                else builder.put(0);
-            }
+            if (hitmarks == 1) builder.put(0);
+            else if (hitmarks == 0) builder.put(1);
+            builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
+            builder.put(hit.getDamage());
+            if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
+            else builder.put(0);
             builder.put(0);
         }
         appendHealthBarUpdate(builder, npc);
@@ -383,6 +381,5 @@ public class NPCUpdating {
 
             }
         }
-        npc.healthBarQueue.clear();
     }
 }

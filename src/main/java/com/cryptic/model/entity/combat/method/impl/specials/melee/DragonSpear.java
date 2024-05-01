@@ -2,14 +2,19 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.MovementQueue;
-import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.route.routes.TargetRoute;
+import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * The dragon spear has a special attack, Shove, which it shares with the Zamorakian spear and hasta. It pushes an opponent back and stuns them for three seconds,
@@ -28,7 +33,6 @@ public class DragonSpear extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity victim) {
-        //The special attack can only be used on targets that take up one square.
         if (attacker.isPlayer() && victim.isNpc()) {
             var playerAttacker = (Player) attacker;
             if (victim.getSize() > 1) {
@@ -36,52 +40,58 @@ public class DragonSpear extends CommonCombatMethod {
                 return false;
             }
         }
-        //Player vs Player
         if (attacker.isPlayer() && victim.isPlayer()) {
             var player = (Player) attacker;
-
-            //Start with checks first
-
             if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_MOVEMENT.ordinal()]) {
                 player.message("This weapon's special attack cannot be used in this duel.");
                 return false;
             }
-
-            //The effects of this special are non-stackable, meaning that players cannot use the spear's special attack on a target who is already stunned.
             if (victim.stunned()) {
                 player.message("They're already stunned!");
                 return false;
             }
         }
+
+        if (victim.stunned() || attacker.hasAttrib(AttributeKey.SPEARING)) return false;
+
         attacker.animate(1064);
         attacker.graphic(253, GraphicHeight.HIGH, 0);
 
-        attacker.setPositionToFace(victim.tile());
-        attacker.getTimers().register(TimerKey.COMBAT_ATTACK, 2);
-        attacker.getCombat().setTarget(victim);
+        attacker.putAttrib(AttributeKey.SPEARING, true);
+        Chain.noCtx().runFn(7, () -> attacker.clearAttrib(AttributeKey.SPEARING));
+        attacker.getCombat().reset();
+        attacker.face(victim);
 
         victim.getTimers().extendOrRegister(TimerKey.COMBAT_LOGOUT, 16);
-        victim.getMovementQueue().clear();
+        victim.stopActions(true);
+        victim.getCombat().reset();
 
-        Tile targTile = victim.tile().transform(-1, 0, 0);
-        boolean legal = victim.getMovementQueue().canWalkNoLogicCheck(-1, 0);
-        if (!legal) {
-            targTile = victim.tile().transform(1, 0, 0);
-            legal = victim.getMovementQueue().canWalkNoLogicCheck(1, 0);
-        }
-
+        Tile tile = legalTileDirection(victim, attacker);
         victim.stun(5);
-        if (legal) {
-            if (victim instanceof NPC npc) {
-                npc.getMovementQueue().interpolate(targTile, MovementQueue.StepType.FORCED_WALK);
-            } else {
-                victim.getMovementQueue().interpolate(targTile, MovementQueue.StepType.FORCED_WALK);
-            }
-        }
+        victim.step(tile.getX(), tile.getY(), MovementQueue.StepType.FORCED_WALK);
         CombatSpecial.drain(attacker, CombatSpecial.DRAGON_SPEAR.getDrainAmount());
         return true;
 
     }
+
+    Tile legalTileDirection(Entity victim, Entity attacker) {
+        Tile victimTile = victim.tile();
+        Tile attackerTile = attacker.tile();
+        boolean attackOnXAxis = Math.abs(victimTile.getX() - attackerTile.getX()) > Math.abs(victimTile.getY() - attackerTile.getY());
+        boolean attackOnYAxis = !attackOnXAxis;
+        int deltaX = 0;
+        int deltaY = 0;
+        if (attackOnXAxis)
+            deltaX = victimTile.getX() < attackerTile.getX() ? -1 : 1;
+        if (attackOnYAxis)
+            deltaY = victimTile.getY() < attackerTile.getY() ? -1 : 1;
+        if (!victim.getMovementQueue().canWalkNoLogicCheck(deltaX, deltaY)) {
+            if (attackOnXAxis) deltaX = victimTile.getX() < attackerTile.getX() ? 1 : -1;
+            if (attackOnYAxis) deltaY = victimTile.getY() < attackerTile.getY() ? 1 : -1;
+        }
+        return new Tile(deltaX, deltaY);
+    }
+
 
     @Override
     public int getAttackSpeed(Entity entity) {

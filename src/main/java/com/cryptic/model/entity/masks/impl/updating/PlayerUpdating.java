@@ -496,21 +496,19 @@ public class PlayerUpdating {
     }
 
     public static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
-        builder.put(player.nextHitIndex);
+        int length = Math.min(255, player.nextHits.length);
         int hitmarks = Math.min(1, player.nextHitIndex);
-        for (Hit hit : player.nextHits) {
+        builder.put(player.nextHitIndex);
+        Hit hit;
+        for (int index = 0; index < length; index++) {
+            hit = player.nextHits[index];
             if (hit == null) continue;
-            if (hitmarks == 1) {
-                builder.put(0);
-            } else if (hitmarks == 0) {
-                builder.put(1);
-            }
-            for (int i = 0; i < hitmarks; i++) {
-                builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
-                builder.put(hit.getDamage());
-                if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
-                else builder.put(0);
-            }
+            if (hitmarks == 1) builder.put(0);
+            else if (hitmarks == 0) builder.put(1);
+            builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
+            builder.put(hit.getDamage());
+            if (hit.getCombatType() != null) builder.put(hit.getCombatType().ordinal());
+            else builder.put(0);
             builder.put(0);
         }
         appendHealthBarUpdate(builder, player);
@@ -520,20 +518,24 @@ public class PlayerUpdating {
         builder.putShort(player.healthBarQueue.size());
         for (var health : player.healthBarQueue) {
             builder.putShort(health.getId());
-            if (health instanceof StaticHealthBarUpdate barUpdate) {
-                builder.putShort(0);
-                builder.putShort(barUpdate.getDelay());
-                builder.putShort(barUpdate.getBarWidth());
-            } else if (health instanceof DynamicHealthBarUpdate barUpdate) {
-                builder.putShort(barUpdate.getDecreaseSpeed());
-                builder.putShort(barUpdate.getDelay());
-                builder.putShort(barUpdate.getStartBarWidth());
-                builder.putShort(barUpdate.getEndBarWidth());
-            } else if (health instanceof RemoveHealthBarUpdate barUpdate) {
-
+            switch (health) {
+                case StaticHealthBarUpdate barUpdate -> {
+                    builder.putShort(0);
+                    builder.putShort(barUpdate.getDelay());
+                    builder.putShort(barUpdate.getBarWidth());
+                }
+                case DynamicHealthBarUpdate barUpdate -> {
+                    builder.putShort(barUpdate.getDecreaseSpeed());
+                    builder.putShort(barUpdate.getDelay());
+                    builder.putShort(barUpdate.getStartBarWidth());
+                    builder.putShort(barUpdate.getEndBarWidth());
+                }
+                case RemoveHealthBarUpdate barUpdate -> {
+                }
+                default -> {
+                }
             }
         }
-        player.healthBarQueue.clear();
     }
 
     /**

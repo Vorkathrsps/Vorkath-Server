@@ -1146,7 +1146,7 @@ public class Player extends Entity {
                 .getAspeed();
         }
 
-        if (attackSpeed > 4) {
+        if (attackSpeed > 3) {
             if (this.hasAttrib(NINJA)) {
                 if (!FormulaUtils.hasBowOfFaerdhenin(this) && !this.getEquipment().containsAny(CRYSTAL_BOW)) {
                     attackSpeed--;

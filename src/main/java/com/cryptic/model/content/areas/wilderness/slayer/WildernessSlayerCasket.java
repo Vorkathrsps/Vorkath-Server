@@ -32,10 +32,10 @@ public class WildernessSlayerCasket {
      */
     private void dropSupplys(@NotNull final Player player, @NotNull NPC npc) {
         player.message(Color.RED.wrap("<img=2010>You've received a supply loot drop!"));
-        int[] lootAmounts = supplyLoot();
-        for (int amount : lootAmounts) {
-            int itemId = Objects.requireNonNull(Utils.randomElement(LOOT)).getId();
-            Item item = new Item(itemId, amount);
+        for (var items : supplyLoot().entrySet()) {
+            final int id = items.getKey();
+            final int amount = items.getValue();
+            Item item = new Item(id, amount);
             GroundItem groundItem = new GroundItem(item, npc.tile(), player);
             GroundItemHandler.createGroundItem(groundItem);
             var name = item.noted() ? item.unnote().name() : item.name();
@@ -99,15 +99,15 @@ public class WildernessSlayerCasket {
      *
      * @return
      */
-    private int[] supplyLoot() {
+    private Map<Integer, Integer> supplyLoot() {
         List<Item> loot = new ArrayList<>(LOOT);
         Collections.shuffle(LOOT);
-        int[] itemAmounts = new int[3];
+        Map<Integer, Integer> items = new HashMap<>();
         for (int i = 0; i < 3 && i < loot.size(); i++) {
             Item item = loot.get(i);
-            itemAmounts[i] = item.getAmount();
+            items.put(item.getId(), item.getAmount());
         }
-        return itemAmounts;
+        return items;
     }
 
 

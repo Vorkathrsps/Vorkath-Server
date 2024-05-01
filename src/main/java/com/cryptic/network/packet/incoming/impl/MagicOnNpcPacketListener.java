@@ -1,6 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
@@ -44,7 +45,7 @@ public class MagicOnNpcPacketListener implements PacketListener {
             return;
         }
 
-        if(player.askForAccountPin()) {
+        if (player.askForAccountPin()) {
             player.sendAccountPinMessage();
             return;
         }
@@ -53,6 +54,12 @@ public class MagicOnNpcPacketListener implements PacketListener {
         if (other == null) {
             player.message("Unable to find npc.");
         } else {
+            var def = NpcDefinition.cached.get(other.getId());
+            if (def.isPet || !def.isInteractable || def.actions[1] == null) {
+                player.stopActions(true);
+                player.getCombat().reset();
+                return;
+            }
             if (!player.locked() && !player.dead()) {
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));

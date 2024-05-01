@@ -142,10 +142,10 @@ public enum HitMark {
                 } else if (this.equals(POISON)) {
                     return POISON.non_tinted;
                 }
-                return BLOCK_HIT.non_tinted;
+                return MISS.non_tinted;
             }
             return non_tinted;
         }
-        return hit.getDamage() == 0 ? BLOCK_HIT.tinted : tinted;
+        return hit.getDamage() == 0 ? MISS.tinted : tinted;
     }
 }

@@ -25,6 +25,7 @@ public class BasicDragonCombat extends CommonCombatMethod {
         switch (random) {
             case 0, 1 -> {
                 if (isReachable()) basicAttack(entity, target);
+                else breathFire(entity, target);
             }
             case 2, 3 -> breathFire(entity, target);
         }

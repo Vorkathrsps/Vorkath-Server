@@ -100,7 +100,7 @@ public class Hit {
         this.target = target;
         this.delay = this.initialDelay = delay;
         this.damage = damage;
-        this.hitMark = damage > 0 ? HitMark.HIT : HitMark.BLOCK_HIT;
+        this.hitMark = damage > 0 ? HitMark.HIT : HitMark.MISS;
     }
 
     /**
@@ -142,7 +142,7 @@ public class Hit {
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
-        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.HIT : HitMark.BLOCK_HIT);
+        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.HIT : HitMark.MISS);
         hit.delay = hit.initialDelay = delay;
         hit.combatType = type;
         return hit;
@@ -256,7 +256,7 @@ public class Hit {
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
-        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.BLOCK_HIT);
+        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.MISS);
         else this.setHitMark(HitMark.HIT);
         CombatFactory.damageModifiers.applyModifiedAccuracy(this.attacker, accuracy, this);
         return this;

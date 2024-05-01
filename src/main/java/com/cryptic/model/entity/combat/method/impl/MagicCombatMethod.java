@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
@@ -106,6 +107,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 player.sendPrivateSound(soundInfo.getCastSound(), 0);
             }
         }
+
         player.animate(new Animation(castAnimation, Priority.HIGH));
         player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 

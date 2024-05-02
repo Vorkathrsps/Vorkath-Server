@@ -453,7 +453,7 @@ public class Player extends Entity {
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
         long risked = ItemsKeptOnDeath.getLostItemsValue();
         String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
-        player.getPacketSender().sendString(80055, GameConstants.SERVER_NAME + " Information");
+        player.getPacketSender().sendString(80055, GameServer.settings().getName() + " Information");
         player.getPacketSender().sendString(80059, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
         player.getPacketSender().sendString(80060, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
         player.getPacketSender().sendString(80061, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
@@ -972,7 +972,7 @@ public class Player extends Entity {
      * @param playerIO
      */
     public Player(Session playerIO) {
-        super(NodeType.PLAYER, GameServer.properties().defaultTile.tile());
+        super(NodeType.PLAYER, GameServer.settings().getHomeTile());
         initializationSource = new RuntimeException("player created");
         this.session = playerIO;
         this.appearance = new Appearance(this);
@@ -981,7 +981,7 @@ public class Player extends Entity {
     }
 
     public Player() {
-        super(NodeType.PLAYER, GameServer.properties().defaultTile.tile());
+        super(NodeType.PLAYER, GameServer.settings().getHomeTile());
         initializationSource = new RuntimeException("player created");
         this.appearance = new Appearance(this);
         this.skills = new Skills(this);
@@ -1528,7 +1528,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
-        message(STR."Welcome \{newAccount ? "" : "back "}to \{GameConstants.SERVER_NAME}!");
+        message(STR."Welcome \{newAccount ? "" : "back "}to \{GameServer.settings().getName()}!");
         switch (this.rights) {
             case SUPPORT ->
                 World.getWorld().sendWorldMessage(STR."<img=\{PlayerRights.SUPPORT.getSpriteId()}><shad=1\{Color.BLUE.wrap(this.username + " has logged in! Feel free to message them for help!")}</shad>");
@@ -1846,7 +1846,7 @@ public class Player extends Entity {
         putAttrib(IS_RUNNING, false);
         Arrays.fill(getPresets(), null);
         //place player at edge
-        setTile(GameServer.properties().defaultTile.tile().copy());
+        setTile(GameServer.settings().getHomeTile().copy());
 
         //Save player save to re-index
         PlayerSave.save(this);
@@ -1865,7 +1865,7 @@ public class Player extends Entity {
         putAttrib(IS_RUNNING, false);
         putAttrib(RUN_ENERGY, 100.0);
         //place player at edge
-        setTile(GameServer.properties().defaultTile.tile().copy());
+        setTile(GameServer.settings().getHomeTile().copy());
 
         //Clear content
         Arrays.fill(getPresets(), null);
@@ -1937,7 +1937,7 @@ public class Player extends Entity {
         putAttrib(AttributeKey.ELO_RATING, DEFAULT_ELO_RATING);
         getRecentKills().clear();
 
-        setTile(GameServer.properties().defaultTile.tile().copy());
+        setTile(GameServer.settings().getHomeTile().copy());
 
         //Reset skills
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
@@ -2019,7 +2019,7 @@ public class Player extends Entity {
         getEquipment().clear(false);
         getRunePouch().clear(false);
         getLootingBag().clear(false);
-        setTile(GameServer.properties().defaultTile.tile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
+        setTile(GameServer.settings().getHomeTile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
         setSpellbook(MagicSpellbook.NORMAL);
         setMemberRights(MemberRights.NONE);
         putAttrib(AttributeKey.TOTAL_PAYMENT_AMOUNT, 0D);

@@ -3,6 +3,7 @@ data/filestore/*
 data/clipping/*
 data/saves/*
 data/logs/*
+data/raw-cache/*
 .idea/*
 target/
 out/production/Velrai/com/ferox/game/content/areas/burthope/warriors_guild/dialogue/Shanomi.class
@@ -42,7 +43,6 @@ dependency-reduced-pom.xml
 1 serv.bat
 .profileconfig.json
 .idea
-.run
 resources
 Cryptic-GameServer.iml
 votes.ini
@@ -51,3 +51,4 @@ mvnw.cmd
 pom.xml
 .mvn/
 libs/functions-1.93.0.jar
+settings.toml

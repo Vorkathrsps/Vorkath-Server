@@ -17,7 +17,7 @@ import com.cryptic.utility.ItemIdentifiers;
 public class AchievementCape extends PacketInteraction {
 
     private void teleport(Player player) {
-        Tile tile = GameServer.properties().defaultTile.tile();
+        Tile tile = GameServer.settings().getHomeTile();
 
         if (Teleports.canTeleport(player,true, TeleportType.ABOVE_20_WILD)) {
             Teleports.basicTeleport(player, tile);

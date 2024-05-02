@@ -1,6 +1,7 @@
 package com.cryptic.model.items.container.bank;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.duel.Dueling;
@@ -169,7 +170,7 @@ public class Bank extends ItemContainer {
             player.message("As an Ultimate Iron Man, you cannot use the bank.");
             return;
         }
-        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of " +  GameConstants.SERVER_NAME);
+        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of " +  GameServer.settings().getName());
         //Set search button inactive by default
         player.getPacketSender().setWidgetActive(26102, false);
         player.getPacketSender().sendString(26019, "");

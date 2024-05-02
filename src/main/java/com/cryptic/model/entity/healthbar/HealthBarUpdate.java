@@ -1,14 +1,14 @@
 package com.cryptic.model.entity.healthbar;
 
 import dev.openrune.cache.CacheManager;
-import dev.openrune.cache.filestore.definition.data.HealthDefinition;
+import dev.openrune.cache.filestore.definition.data.HealthBarType;
 import lombok.Getter;
 
 public abstract class HealthBarUpdate {
 
     @Getter
     protected final int id;
-    protected HealthDefinition template;
+    protected HealthBarType template;
 
     public HealthBarUpdate(int id) {
         this.id = id;

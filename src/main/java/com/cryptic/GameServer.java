@@ -1,8 +1,6 @@
 package com.cryptic;
 
-import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.entity.player.save.PlayerSaves;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.pipeline.Bootstrap;
 import com.cryptic.services.database.DatabaseService;
 import com.cryptic.services.database.DatabaseServiceBuilder;
@@ -10,6 +8,7 @@ import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.save.PlayerSave;
+import com.cryptic.tools.CacheTools;
 import com.cryptic.utility.test.generic.PlayerProfileVerf;
 import com.cryptic.utility.DiscordWebhook;
 import com.cryptic.utility.flood.Flooder;
@@ -22,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Paths;
 
 import static io.netty.util.ResourceLeakDetector.Level.DISABLED;
 import static io.netty.util.ResourceLeakDetector.Level.PARANOID;
@@ -63,6 +61,10 @@ public class GameServer {
         return ServerProperties.current;
     }
 
+    public static ServerSettings settings() {
+        return ServerSettingsManager.INSTANCE.getSettings();
+    }
+
     public static DefinitionRepository definitions;
 
     public static DefinitionRepository definitions() {
@@ -79,7 +81,7 @@ public class GameServer {
     }
 
     static {
-        Thread.currentThread().setName(""+GameConstants.SERVER_NAME+"InitializationThread");
+        Thread.currentThread().setName(""+GameServer.settings().getName()+"InitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         logger = LogManager.getLogger(GameServer.class);
         if (properties().enableDiscordLogging) {
@@ -172,14 +174,16 @@ public class GameServer {
     public static void main(String[] args) {
         try {
             startTime = System.currentTimeMillis();
-            File store = new File(properties().fileStore);
+            ServerSettingsManager.INSTANCE.init();
+            CacheTools.INSTANCE.initJs5Server();
+            File store = new File(settings().getCacheLocation());
             if (!store.exists()) {
                 throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
             }
-            fileStore = new DataStore(properties().fileStore);
-            logger.info("Loaded filestore @ (./data/filestore) successfully.");
+            fileStore = new DataStore(settings().getCacheLocation());
+            logger.info(STR."Loaded filestore @ \{settings().getCacheLocation()} successfully.");
             definitions = new DefinitionRepository();
-            CacheManager.INSTANCE.init(Paths.get(properties().fileStore), 221);
+            CacheManager.INSTANCE.init(store.toPath(), 221);
             ResourceLeakDetector.setLevel(properties().enableLeakDetection ? PARANOID : DISABLED);
             if (!GameServer.properties().enableSql) {
                 PlayerProfileVerf.verifyIntegrity();
@@ -214,11 +218,11 @@ public class GameServer {
             }));
             PlayerSaves.start();
             boundTime = System.currentTimeMillis();
-            logger.info("Loaded "+GameConstants.SERVER_NAME+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
-            logger.info("The Bootstrap has been bound, "+GameConstants.SERVER_NAME+ " is now online (it took {}ms).", boundTime - startTime);
+            logger.info("Loaded "+GameServer.settings().getName()+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
+            logger.info("The Bootstrap has been bound, "+GameServer.settings().getName()+ " is now online (it took {}ms).", boundTime - startTime);
             //DiscordBot.init();
         } catch (Throwable t) {
-            logger.fatal("An error occurred while loading "+GameConstants.SERVER_NAME+".", t);
+            logger.fatal("An error occurred while loading "+GameServer.settings().getName()+".", t);
             System.exit(1);
         }
     }

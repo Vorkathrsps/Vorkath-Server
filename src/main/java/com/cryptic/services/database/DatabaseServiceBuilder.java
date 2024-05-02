@@ -1,6 +1,7 @@
 package com.cryptic.services.database;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameServer;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -44,7 +45,7 @@ public final class DatabaseServiceBuilder {
 
         if (executor == null) {
             executor = Executors.newFixedThreadPool(slaves - 1, new ThreadFactoryBuilder()
-                .setNameFormat(GameConstants.SERVER_NAME+"DatabaseServiceThread")
+                .setNameFormat(GameServer.settings().getName()+"DatabaseServiceThread")
                 .build());
         }
 

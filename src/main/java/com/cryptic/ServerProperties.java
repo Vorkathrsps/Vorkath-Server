@@ -117,7 +117,6 @@ public final class ServerProperties {
         concurrency = false; //(Runtime.getRuntime().availableProcessors() > 1);
         queuedLoopThreshold = 45;
         packetProcessLimit = 25;
-        defaultTile = new PlainTile(3097, 3501, 0);
         duelTile = new PlainTile(3369, 3266);
         defaultClanChat = "help";
         queueSwitchingRefresh = false;
@@ -179,7 +178,6 @@ public final class ServerProperties {
         enableMoneyPouch = false;
         venomVsPlayersOn = false;
         venomFromAdminsOn = false;
-        fileStore = "";
         definitionsLazy = false;
         discordNotifyId = "";
         enableDiscordLogging = discordLoggingOn;
@@ -234,7 +232,6 @@ public final class ServerProperties {
         nerfDropRateBoxes = true;
     }
 
-    public final String fileStore;
     public final boolean definitionsLazy;
 
     /**
@@ -292,12 +289,6 @@ public final class ServerProperties {
      * This limit may need to be increased or decreased in the future.
      */
     public final int packetProcessLimit;
-
-    /**
-     * The default position, where players will
-     * spawn upon logging in for the first time.
-     */
-    public final PlainTile defaultTile;
 
     /**
      * The default position, where players will

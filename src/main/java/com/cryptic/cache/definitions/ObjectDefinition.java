@@ -1,6 +1,7 @@
 package com.cryptic.cache.definitions;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameServer;
 import com.cryptic.model.World;
 import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.utility.Utils;
@@ -124,7 +125,7 @@ public class ObjectDefinition implements Definition {
         }
 
         if(id == 23311) {
-            name = GameConstants.SERVER_NAME+ " Teleporter";
+            name = GameServer.settings().getName()+ " Teleporter";
             actions = new String[] {"Teleport", null, null, null, null};
         }
 

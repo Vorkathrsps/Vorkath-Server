@@ -1,6 +1,8 @@
 package com.cryptic.utility.flood;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameEngine;
+import com.cryptic.GameServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +92,7 @@ public final class BufferedConnection implements Runnable {
             if (!isWriter) {
                 isWriter = true;
                 Thread t = new Thread(this);
-                t.setName(""+GameConstants.SERVER_NAME+"FlooderIOThread");
+                t.setName(""+ GameServer.settings().getName() +"FlooderIOThread");
                 t.setPriority(3);
                 t.start();
             }

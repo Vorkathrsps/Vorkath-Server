@@ -278,7 +278,7 @@ public class TournamentManager extends PacketInteraction {
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
             player.getPacketSender().sendEntityHintRemoval(true);
-            Tile tile = GameServer.properties().defaultTile.tile();
+            Tile tile = GameServer.settings().getHomeTile();
             player.teleport(tile);
         } else {
             logger.error(player.getUsername() + " tried to leave but isn't in a torny");

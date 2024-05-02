@@ -22,7 +22,7 @@ public class RoyalSeedPot extends PacketInteraction {
                 player.graphic(767);
                 player.animate(4544);
                 player.lockNoDamage();
-                Chain.bound(null).runFn(3, () -> player.looks().transmog(716)).then(1, () -> player.teleport(GameServer.properties().defaultTile.tile())).then(2, () -> player.graphic(769)).then(2, () -> {
+                Chain.bound(null).runFn(3, () -> player.looks().transmog(716)).then(1, () -> player.teleport(GameServer.settings().getHomeTile())).then(2, () -> player.graphic(769)).then(2, () -> {
                     player.looks().transmog(-1);
                     player.animate(-1);
                     player.getTimers().cancel(TimerKey.FROZEN);

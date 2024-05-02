@@ -123,7 +123,7 @@ public enum HitMark {
     }
 
     public int getObservedType(Hit hit, Entity source, Entity target, Player observer, boolean isMaxHit) {
-        if (isMaxHit && source == observer) {
+        if (this.max_hit != -1 && isMaxHit && source == observer) {
             if (this.equals(CHARGE)) {
                 return CHARGE.max_hit;
             } else if (this.equals(SHIELD)) {
@@ -146,6 +146,6 @@ public enum HitMark {
             }
             return non_tinted;
         }
-        return hit.getDamage() == 0 ? MISS.tinted : tinted;
+        return hit.getDamage() == 0 ? MISS.tinted : tinted != -1 ? tinted : non_tinted;
     }
 }

@@ -1278,7 +1278,7 @@ public class CommandManager {
             for (int i = 0; i < tasks.size(); i++) {
                 player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
             }
-            DailyTaskManager.displayTaskInfo(player, tasks.get(0));
+            DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
             player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
         });
 

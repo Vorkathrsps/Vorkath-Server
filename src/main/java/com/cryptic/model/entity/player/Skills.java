@@ -363,7 +363,7 @@ public class Skills {
         var definition = ItemDefinition.cached;
         for (SkillingSets set : SkillingSets.getVALUES()) {
             if (set.getSkillType().getId() == skill) {
-                if (Utils.rollDie(250, 1)) {
+                if (Utils.rollDie(1000, 1)) {
                     final int itemID = Utils.randomElement(set.getSet());
                     final Item item = new Item(itemID);
                     final String name = definition.get(itemID).name;

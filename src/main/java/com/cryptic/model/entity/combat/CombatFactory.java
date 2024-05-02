@@ -1039,7 +1039,7 @@ public class CombatFactory {
                 chargeKey = AttributeKey.STARTER_SWORD_CHARGES;
             }
 
-            if (weaponId != -1 && chargeKey != null) {
+            if (weaponId != -1) {
                 int charges = player.<Integer>getAttribOr(chargeKey, 0);
                 if (charges != -1) {
                     if (target instanceof NPC npc && !npc.isCombatDummy()) {

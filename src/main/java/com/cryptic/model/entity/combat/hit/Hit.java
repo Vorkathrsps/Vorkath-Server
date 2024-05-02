@@ -53,7 +53,7 @@ public class Hit {
     private int damage;
     @Getter
     private int delay;
-    @Getter
+    @Getter @Setter
     private int initialDelay;
     @Getter
     public boolean checkAccuracy;
@@ -178,7 +178,7 @@ public class Hit {
     public Hit setDamage(int damage) {
         this.damage = damage;
         if (this.damage > 0) {
-            if (this.hitMark.equals(HitMark.POISON)) this.setHitMark(HitMark.POISON);
+            if (HitMark.POISON.equals(this.hitMark)) this.setHitMark(HitMark.POISON);
             else this.setHitMark(HitMark.HIT);
         }
         return this;

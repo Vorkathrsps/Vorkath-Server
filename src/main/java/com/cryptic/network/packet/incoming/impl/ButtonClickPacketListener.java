@@ -3,6 +3,8 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.GameServer;
 import com.cryptic.model.content.account.AccountSelection;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
+import com.cryptic.model.content.daily_tasks.DailyTaskManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.packet_actions.interactions.buttons.Buttons;
 import com.cryptic.core.task.Task;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -21,8 +23,12 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+
+import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_LIST;
+import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_POINTS;
 
 /**
  * This packet listener manages a button that the player has clicked upon.
@@ -83,6 +89,18 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         if (player.getTeleportInterface().handleButton(button, -1)) {
+            return;
+        }
+
+        if (button == 80017) {
+            player.getInterfaceManager().open(80750);
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            var challengeListText = 80778;
+            for (int i = 0; i < tasks.size(); i++) {
+                player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
+            }
+            DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
+            player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
             return;
         }
 

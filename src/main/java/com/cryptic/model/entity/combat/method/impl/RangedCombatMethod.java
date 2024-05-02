@@ -7,6 +7,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.ranged.RangedData;
 import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeapon;
@@ -24,12 +25,11 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.ItemIdentifiers;
-import com.cryptic.utility.chainedwork.Chain;
+import com.cryptic.utility.Utils;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
@@ -184,10 +184,10 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 final int hitDelay = attacker.executeProjectile(projectile);
                 Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
-                if (sound != null)
-                    player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                if (sound != null) player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
+                checkKarilsSetEffect(target, player, hitDelay, hit);
                 checkVenatorBow(attacker, target, player, hit);
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
@@ -203,12 +203,17 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     }
                 }
             }
-
-
             CombatFactory.decrementAmmo(player);
-
         }
         return true;
+    }
+
+    private void checkKarilsSetEffect(Entity target, Player player, int hitDelay, Hit hit) {
+        if (FormulaUtils.wearingFullKarils(player) && FormulaUtils.wearingAmuletOfDamned(player)) {
+            if (Utils.rollDie(25, 1)) {
+                new Hit(entity, target, hitDelay, CombatType.RANGED).checkAccuracy(false).setDamage(hit.getDamage() / 2).submit();
+            }
+        }
     }
 
     private static void checkVenatorBow(Entity attacker, Entity target, Player player, Hit hit) {

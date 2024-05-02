@@ -18,14 +18,45 @@ public class StaffCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        //Generate a list of staff members online
-        List<Player> staff = World.getWorld().getPlayers().stream().filter(px -> px != null && px.getPlayerRights().isStaffMember(px)).collect(Collectors.toList());
-        int admins = 0, mods = 0, helpers = 0;
+        List<Player> staff = World.getWorld().getPlayers().stream().filter(px -> px != null && px.getPlayerRights().isStaffMember(px)).toList();
+        int admins = 0, mods = 0, helpers = 0, cm = 0, owner = 0;
 
-        StringBuilder staffOnline = new StringBuilder("<col=800000>Administrators:");
+        StringBuilder staffOnline = new StringBuilder("<img=2175></img> <col=800000>Owner:");
 
         for (Player staffmember : staff) {
-            if (staffmember.getPlayerRights() == PlayerRights.ADMINISTRATOR || staffmember.getPlayerRights() == PlayerRights.COMMUNITY_MANAGER) {
+            if (staffmember.getPlayerRights() == PlayerRights.OWNER) {
+                if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
+                    continue;
+
+                staffOnline.append("<br><br> - ").append(staffmember.getUsername());
+                owner++;
+            }
+        }
+
+        if (owner == 0) {
+            staffOnline.append(" - Nobody");
+        }
+
+        staffOnline.append("<br><br><br><img=2174></img>  <col=800000>Community Managers:");
+
+        for (Player staffmember : staff) {
+            if (staffmember.getPlayerRights() == PlayerRights.COMMUNITY_MANAGER) {
+                if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
+                    continue;
+
+                staffOnline.append("<br><br> - ").append(staffmember.getUsername());
+                cm++;
+            }
+        }
+
+        if (cm == 0) {
+            staffOnline.append("<br><br>- Nobody");
+        }
+
+        staffOnline.append("<br><br><br><img=2172></img>  <col=800000>Administrators:");
+
+        for (Player staffmember : staff) {
+            if (staffmember.getPlayerRights() == PlayerRights.ADMINISTRATOR) {
                 if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
                     continue;
 
@@ -35,10 +66,10 @@ public class StaffCommand implements Command {
         }
 
         if (admins == 0) {
-            staffOnline.append(" - Nobody");
+            staffOnline.append("<br><br>- Nobody");
         }
 
-        staffOnline.append("<br><br><br><col=800000>Moderators:");
+        staffOnline.append("<br><br><br><img=2171></img> <col=800000>Moderators:");
         for (Player staffmember : staff) {
             if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) continue;
             if (staffmember.getPlayerRights() == PlayerRights.MODERATOR) {
@@ -51,11 +82,11 @@ public class StaffCommand implements Command {
             staffOnline.append("<br><br>- Nobody");
         }
 
-        staffOnline.append("<br><br><br><col=800000>Helpers:");
+        staffOnline.append("<br><br><br><img=2170></img> <col=800000>Support:");
         for (Player staffmember : staff) {
             if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
                 continue;
-            if (staffmember.getPlayerRights().isSupport(player)) {
+            if (staffmember.getPlayerRights() == PlayerRights.SUPPORT) {
                 staffOnline.append("<br><br> - ").append(staffmember.getUsername());
                 helpers++;
             }

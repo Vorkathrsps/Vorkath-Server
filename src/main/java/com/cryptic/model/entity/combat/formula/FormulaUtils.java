@@ -140,7 +140,7 @@ public class FormulaUtils {
 
 
     public static boolean wearingAmuletOfDamned(Player player) {
-        return player.getEquipment().contains(AMULET_OF_THE_DAMNED_FULL);
+        return player.getEquipment().containsAny(AMULET_OF_THE_DAMNED_FULL, AMULET_OF_THE_DAMNED);
     }
 
     public static boolean wearingFullInquisitors(Player player) {

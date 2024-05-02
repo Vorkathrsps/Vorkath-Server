@@ -18,7 +18,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
  * @author Origin | June, 15, 2021, 16:15
- * 
  */
 @Slf4j
 public class DailyTaskManager {
@@ -44,16 +43,16 @@ public class DailyTaskManager {
     public static void displayTaskInfo(Player player, DailyTasks task) {
         var completed = player.<Integer>getAttribOr(task.key, 0);
         var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
-        var completionAmt = task.completionAmount;
+        int completionAmt = task.completionAmount;
         log.info("{}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
         completionAmt += extensions.getOrDefault(task, 0);
         final var progress = (int) (completed * 100 / (double) completionAmt);
         player.getPacketSender().sendString(START_LIST_ID, "<col=ff9040>" + Utils.formatEnum(task.taskName));
         player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%)  " + Utils.format(completed) + "/" + Utils.format(completionAmt));
         player.getPacketSender().sendProgressBar(PROGRESS_BAR_ID, progress);
-        player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, task.taskDescription);
-
-        //Clear item frames
+        var description = task.taskDescription;
+        String replacement = description.replaceAll("\\b\\d{1,3}\\b", String.valueOf(completionAmt));
+        player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, replacement);
         var rewards = new ItemContainer(3, ItemContainer.StackPolicy.ALWAYS, new Item[3]);
         rewards.addAll(task.rewards);
         for (int i = 0; i < Math.max(3, rewards.size()); i++) {
@@ -72,12 +71,23 @@ public class DailyTaskManager {
 
             var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.key, 0) + 1;
             player.putAttrib(dailyTask.key, newCompletedAmt);
-            player.message(Color.PURPLE.wrap("Daily task; " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")"));
+            player.message(Color.ORANGE.wrap("<img=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
 
             //We have completed the task
             if (newCompletedAmt == completionAmount) {
+                int rewardPoints = player.<Integer>getAttribOr(DAILY_TASKS_POINTS, 0);
                 player.putAttrib(dailyTask.completed, true);
-                player.message(Color.PURPLE.wrap(dailyTask.taskName + " completed, you may now claim its rewards!"));
+                rewardPoints += 1;
+                player.putAttrib(DAILY_TASKS_POINTS, rewardPoints);
+                player.getInventory().addOrBank(dailyTask.rewards);
+                StringBuilder builder = new StringBuilder();
+                builder.append(dailyTask.taskName).append(" has been completed! You have received 1 Daily Task point, as well as the following items: ");
+                for (int index = 0; index < dailyTask.rewards.length; index++) {
+                    builder.append(dailyTask.rewards[index].getAmount()).append("x ");
+                    builder.append(dailyTask.rewards[index].name());
+                    builder.append(", ");
+                }
+                player.message(Color.PURPLE.wrap("<img=2014><shad=0>" + builder + "</shad></img>"));
             }
         }
     }
@@ -85,7 +95,7 @@ public class DailyTaskManager {
     public static void onLogin(Player player) {
         var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
         if (tasks == null) {
-            tasks = new ArrayList<DailyTasks>();
+            tasks = new ArrayList<>();
         }
         player.putAttrib(DAILY_TASKS_LIST, tasks);
         if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth() || tasks.isEmpty()) {
@@ -127,7 +137,7 @@ public class DailyTaskManager {
         player.inventory().addOrBank(dailyTask.rewards);
         player.message("<col=ca0d0d>You have claimed the reward from task: " + dailyTask.taskName + ".");
         player.putAttrib(DAILY_TASKS_POINTS, player.getOrT(DAILY_TASKS_POINTS, 0) + 1);
-        player.getPacketSender().sendString(80756, "Reward points: "+player.getAttribOr(DAILY_TASKS_POINTS, 0));
+        player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
     }
 
 }

@@ -7,6 +7,7 @@ import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.MovementQueue;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
@@ -52,6 +53,7 @@ public class DragonSpear extends CommonCombatMethod {
             }
         }
 
+        if (victim instanceof NPC npc && npc.isCombatDummy()) return false;
         if (victim.stunned() || attacker.hasAttrib(AttributeKey.SPEARING)) return false;
 
         attacker.animate(1064);

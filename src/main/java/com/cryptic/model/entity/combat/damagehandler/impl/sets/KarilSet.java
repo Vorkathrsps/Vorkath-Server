@@ -10,6 +10,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.Utils;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class KarilSet implements DamageModifyingListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
@@ -19,11 +21,14 @@ public class KarilSet implements DamageModifyingListener {
                     if (FormulaUtils.wearingFullKarils(player)) {
                         if (hit.isAccurate()) {
                             if (Utils.rollDie(25, 1)) {
-                                if (player.getCombat().getTarget().getSkills() != null) {
-                                    if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {
-                                        player.getCombat().getTarget().graphic(401, GraphicHeight.HIGH, 0);
-                                        player.getCombat().getTarget().getSkills().alterSkill(Skills.AGILITY, player.getCombat().getTarget().getSkills().level(Skills.AGILITY) - 20);
-                                        return true;
+                                Entity target = hit.getTarget();
+                                if (target != null) {
+                                    if (player.getCombat().getTarget().getSkills() != null) {
+                                        if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {
+                                            player.getCombat().getTarget().graphic(401, GraphicHeight.HIGH, 0);
+                                            player.getCombat().getTarget().getSkills().alterSkill(Skills.AGILITY, player.getCombat().getTarget().getSkills().level(Skills.AGILITY) - 20);
+                                            return true;
+                                        }
                                     }
                                 }
                             }

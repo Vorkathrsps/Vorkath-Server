@@ -1564,6 +1564,7 @@ public class Player extends Entity {
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);
         ControllerManager.process(player);
+        DailyTaskManager.onLogin(player);
     }
 
     private void updatePlayer() {

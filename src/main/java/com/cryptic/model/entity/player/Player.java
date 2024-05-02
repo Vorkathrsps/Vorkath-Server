@@ -2466,7 +2466,7 @@ public class Player extends Entity {
     }
 
     public Region lastRegion;
-    private ArrayList<Region> mapRegions = new ArrayList<>();
+    private final ArrayList<Region> mapRegions = new ArrayList<>();
 
     public void addRegion(Region region) {
         if (!region.players.contains(this)) region.players.add(this);

@@ -38,6 +38,7 @@ import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,9 +104,10 @@ public class NPCDeath {
         Player killer = killer_id.orElse(null);
 
         if (killer != null) {
-            var biggest_and_baddest_perk = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BIGGER_AND_BADDER) && Slayer.creatureMatches(killer, npc.id());
+            /*var assignment = slayerTask.getCurrentAssignment(killer);
+            var biggest_and_baddest_perk = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BIGGER_AND_BADDER) && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id());
             var ancientRevSpawnRoll = 25;
-            var superiorSpawnRoll = biggest_and_baddest_perk ? 4 : 6;
+            var superiorSpawnRoll = biggest_and_baddest_perk ? 4 : 6;*/
 
             var legendaryInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
             var VIPInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);

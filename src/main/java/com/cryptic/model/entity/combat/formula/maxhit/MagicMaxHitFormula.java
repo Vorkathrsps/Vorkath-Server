@@ -2,6 +2,7 @@ package com.cryptic.model.entity.combat.formula.maxhit;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
@@ -104,7 +105,9 @@ public class MagicMaxHitFormula {
 
     public double getSlayerBonus(@NonNull final Player player) {
         Entity target = player.getCombat().getTarget();
-        boolean isSlayerMatch = target instanceof NPC npc && Slayer.creatureMatches(player, npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+        var assignment = slayerTask.getCurrentAssignment(player);
+        boolean isSlayerMatch = target instanceof NPC npc && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
         return isSlayerMatch && FormulaUtils.hasSlayerHelmetImbued(player) ? 1.15 : 1;
     }
 

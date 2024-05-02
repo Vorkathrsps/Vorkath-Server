@@ -17,14 +17,14 @@ public enum CustomWildernessRegions {
     public final int region;
     public final int level;
 
-    CustomWildernessRegions(final int region, final int level){
+    CustomWildernessRegions(final int region, final int level) {
         this.region = region;
         this.level = level;
     }
 
     public static CustomWildernessRegions byRegion(int id) {
         for (CustomWildernessRegions customWildernessRegions : values) {
-            if(customWildernessRegions.region == id) {
+            if (customWildernessRegions.region == id) {
                 return customWildernessRegions;
             }
         }

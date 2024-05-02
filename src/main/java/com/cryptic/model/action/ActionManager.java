@@ -16,22 +16,28 @@ import java.util.Queue;
  */
 public final class ActionManager {
 
-    /**  A queue of {@link Action} object. */
+    /**
+     * A queue of {@link Action} object.
+     */
     private final Queue<Action<?>> queuedActions = new ArrayDeque<>();
 
-    /** The current action.  */
+    /**
+     * The current action.
+     */
     private Action<?> currentAction = null;
 
-    /** Sequences the pending actions, and as soon as the current action  has stopped, it executes the head of the queue.  */
+    /**
+     * Sequences the pending actions, and as soon as the current action  has stopped, it executes the head of the queue.
+     */
     public void sequence() {
-        if (queuedActions.isEmpty() || (currentAction != null && currentAction.isRunning())) {
-            return;
-        }
-
+        if (currentAction == null || queuedActions.isEmpty()) return;
+        if (currentAction.isRunning()) return;
         execute(this.currentAction = queuedActions.poll(), true);
     }
 
-    /** Queues the specified {@code action}.  */
+    /**
+     * Queues the specified {@code action}.
+     */
     public <A extends Action<?>> void queue(A action) {
         queuedActions.add(action);
     }
@@ -40,7 +46,9 @@ public final class ActionManager {
         execute(action, true);
     }
 
-    /**  Adds an <code>Action</code> to the queue.  */
+    /**
+     * Adds an <code>Action</code> to the queue.
+     */
     public <A extends Action<?>> void execute(A action, boolean override) {
         //if current action is priorized stop.
         if (currentAction != null && currentAction.isRunning() && currentAction.prioritized()) {
@@ -66,17 +74,21 @@ public final class ActionManager {
         TaskManager.submit(currentAction = action);
         stopwatch.stop();
         if (NpcPerformance.DETAL_LOG_ENABLED && stopwatch.elapsed().toNanos() > 100_000) {
-            System.err.println("sketchy "+stopwatch.elapsed().toNanos()+" ns by:" + currentAction.getMob().getMobName() + "Loc: " + currentAction.keyOrOrigin());
+            System.err.println("sketchy " + stopwatch.elapsed().toNanos() + " ns by:" + currentAction.getMob().getMobName() + "Loc: " + currentAction.keyOrOrigin());
         }
     }
 
-    /** Cancels all the queued actions by stopping them and removing all elements from the queue.  */
+    /**
+     * Cancels all the queued actions by stopping them and removing all elements from the queue.
+     */
     private void cancelQueuedActions() {
         queuedActions.forEach(Action::stop);
         queuedActions.clear();
     }
 
-    /** Cancels the current {@link Action} for the underlying {@link Mob}. */
+    /**
+     * Cancels the current {@link Action} for the underlying {@link Mob}.
+     */
     public void cancel() {
         if (currentAction != null && currentAction.isRunning() && currentAction.prioritized()) {
             currentAction.stop();
@@ -84,13 +96,17 @@ public final class ActionManager {
         }
     }
 
-    /**  Resets all the actions for the underlying {@link Mob}. */
+    /**
+     * Resets all the actions for the underlying {@link Mob}.
+     */
     public void reset() {
         cancel();
         cancelQueuedActions();
     }
 
-    /** Purges actions in the queue with a <code>WalkablePolicy</code> of <code>NON_WALKABLE</code>.  */
+    /**
+     * Purges actions in the queue with a <code>WalkablePolicy</code> of <code>NON_WALKABLE</code>.
+     */
     public void clearNonWalkableActions() {
         if (currentAction != null && currentAction.getWalkablePolicy() == WalkablePolicy.NON_WALKABLE) {
             currentAction.stop();
@@ -105,7 +121,9 @@ public final class ActionManager {
         }
     }
 
-    /** Purges actions in the queue with a <code>WalkablePolicy</code> of <code>NON_WALKABLE</code>. */
+    /**
+     * Purges actions in the queue with a <code>WalkablePolicy</code> of <code>NON_WALKABLE</code>.
+     */
     public void cancel(String name) {
         if (currentAction != null && Objects.equals(currentAction.getName(), name)) {
             currentAction.stop();
@@ -120,7 +138,9 @@ public final class ActionManager {
         }
     }
 
-    /** Gets the current action. */
+    /**
+     * Gets the current action.
+     */
     public Action<?> getCurrentAction() {
         return currentAction;
     }

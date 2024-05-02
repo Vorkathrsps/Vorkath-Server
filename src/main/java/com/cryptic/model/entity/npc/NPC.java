@@ -95,12 +95,10 @@ public class NPC extends Entity {
 
     public boolean isRandomWalkAllowed() {
         boolean canwalk = walkRadius > 0 && spawnArea != null && inViewport && !hidden() && getMovement().isAtDestination() && !locked() && !isMovementBlocked(false, false);
-        if (canwalk) {
-            for (Region surroundingRegion : this.getSurroundingRegions()) {
-                for (Player player : surroundingRegion.getPlayers()) {
-                    if (player.tile().isViewableFrom(this.tile()))
-                        return true;
-                }
+        if (!canwalk) return false;
+        for (Region surroundingRegion : this.getSurroundingRegions()) {
+            for (Player player : surroundingRegion.getPlayers()) {
+                if (player.tile().isViewableFrom(this.tile())) return true;
             }
         }
         return canwalk;
@@ -562,7 +560,8 @@ public class NPC extends Entity {
         List<Player> temp = new ArrayList<>();
         for (var region : this.getSurroundingRegions()) {
             for (var player : region.getPlayers()) {
-                if (player == null || player.getZ() != this.getZ() || !region.getPlayers().contains(player) || player.looks().hidden() || temp.contains(player))
+                if (!region.getPlayers().contains(player)) continue;
+                if (player == null || player.getZ() != this.getZ() || player.looks().hidden() || temp.contains(player))
                     continue;
                 if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
                 if (override) {

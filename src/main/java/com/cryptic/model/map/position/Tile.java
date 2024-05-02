@@ -614,8 +614,7 @@ public class Tile implements Cloneable {
     }
 
     public boolean isViewableFrom(Tile other) {
-        if (this.getLevel() != other.getLevel())
-            return false;
+        if (this.getLevel() != other.getLevel()) return false;
         Tile p = Utils.delta(this, other);
         return p.x <= 14 && p.x >= -15 && p.y <= 14 &&
             p.y >= -15;

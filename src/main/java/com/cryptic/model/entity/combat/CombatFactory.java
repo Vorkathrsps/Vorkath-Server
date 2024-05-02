@@ -153,39 +153,19 @@ public class CombatFactory {
         if (attacker.isPlayer()) {
             Player p = attacker.getAsPlayer();
 
-            // Update player data..
-
-            // Update ranged ammo / weapon
             if (p.getEquipment().getWeapon() != null) p.getCombat().setRangedWeapon(RangedWeapon.getFor(p));
-
-            /**
-             * KINDA COMPLEX ORDERING:
-             * the first one to trigger is the one that is executes, the others are ignored
-             *   1. TRIGGER EXISTING SPELL (MANUAL SPELL ON PLAYER)
-             *   2. TRIGGER NMS SPEC
-             *   3. TRIGGER AUTOCAST
-             *   4. TRIGGER NMS NORMAL SPELL
-             *   5. TRIGGER ALL SPECIAL ATTACKS
-             *   6. TRIGGER RANGE-WEP BASED ATTACK
-             *   7. DEFAULT TO MELEE
-             */
 
             int wep = p.getEquipment().getId(3);
             boolean specialWeapons = wep == ELDRITCH_NIGHTMARE_STAFF || wep == VOLATILE_NIGHTMARE_STAFF || wep == DRAGON_THROWNAXE || wep == DRAGON_THROWNAXE_21207;
 
-            // check spec activated on NMS staff.
             if (specialWeapons && p.isSpecialActivated()) {
                 return p.getCombatSpecial().getCombatMethod();
             }
 
-            // Order here is important: Spell on player takes priority over
-            // having the special attack button just "on"
-            // Check if player is maging..
             if (p.getCombat().getCastSpell() != null || p.getCombat().getAutoCastSpell() != null || p.getCombat().getPoweredStaffSpell() != null) {
                 return MAGIC_COMBAT;
             }
 
-            // Check special attacks..
             if (p.getCombatSpecial() != null) {
                 boolean isGmaul = Combat.gmauls.stream().anyMatch(granite_maul -> p.getEquipment().hasAt(EquipSlot.WEAPON, granite_maul));
 
@@ -194,17 +174,12 @@ public class CombatFactory {
                 }
             }
 
-            // Check if player is ranging..
             if (p.getCombat().getRangedWeapon() != null) {
-                //System.out.println("Player is ranging with " + p.getCombat().getRangedWeapon());
                 return RANGED_COMBAT;
             }
         } else if (attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
-
-            // Attempt to return the npc's defined combat method..
             if (npc.getCombatMethod() != null) {
-                //System.out.println("Combat method is: " + npc.getCombatMethod());
                 return npc.getCombatMethod();
             }
         }
@@ -213,14 +188,6 @@ public class CombatFactory {
         return MELEE_COMBAT;
     }
 
-    /**
-     * Generates a random {@link Splat} based on the argued entity's stats.
-     *
-     * @param attacker the entity to generate the random hit for.
-     * @param target   the victim being attacked.
-     * @param type     the combat type being used.
-     * @return the HitDamage.
-     */
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
         if (type == null) {
             return 0;

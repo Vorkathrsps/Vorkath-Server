@@ -94,9 +94,9 @@ public final class Indexer<E> implements Iterable<E> {
         @SuppressWarnings("unchecked")
         public E next() {
             Object o = arr[pointer++];
-            if (o == null && hasNext())
-                return next();
-            return (E) o;
+            if (o != null) return (E) o;
+            if (hasNext()) return next();
+            return null;
         }
 
         @Override

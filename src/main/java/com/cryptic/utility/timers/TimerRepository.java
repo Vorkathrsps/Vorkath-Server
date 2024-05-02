@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimerRepository {
 
-    private Indexer<Timer> timers = new Indexer<>(TimerKey.cachedValues.length + 1);
+    private final Indexer<Timer> timers = new Indexer<>(TimerKey.cachedValues.length + 1);
 
     public boolean has(TimerKey key) {
         Timer timer = timers.get(key.ordinal());

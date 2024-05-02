@@ -213,7 +213,7 @@ public final class Equipment extends ItemContainer {
     private final int[] GRACEFUL_ITEMS = new int[]{11850, 11852, 11854, 11856, 11858, 11860};
 
     public boolean wearsFullGraceful() {
-        return player.getEquipment().hasAllArr(GRACEFUL_ITEMS);
+        return player.getEquipment().containsAll(GRACEFUL_ITEMS);
     }
 
     private final List<Integer> MAX_CAPES = Arrays.asList(

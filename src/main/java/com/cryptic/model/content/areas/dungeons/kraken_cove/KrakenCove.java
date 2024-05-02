@@ -3,6 +3,7 @@ package com.cryptic.model.content.areas.dungeons.kraken_cove;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
@@ -15,6 +16,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_537;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_538;
@@ -59,13 +61,15 @@ public class KrakenCove extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            var task_id = player.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
-                            var task = SlayerCreature.lookup(task_id);
-                            if (task != null && Slayer.creatureMatches(player, 494)) {
-                                if (task.matches(task_id)) {
-                                    player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
-                                    return;
-                                }
+                            SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+                            var assignment = slayerTask.getCurrentAssignment(player);
+                            if (assignment != null && !ArrayUtils.contains(assignment.getNpcs(), 494)) {
+                                player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
+                                return;
+                            }
+                            if (assignment == null) {
+                                player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
+                                return;
                             }
                             send(DialogueType.OPTION, "Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
                             setPhase(0);

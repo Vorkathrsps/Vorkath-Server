@@ -89,7 +89,6 @@ public abstract class Shop {
 
     public static void closeShop(Player player) {
         if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SPRITE_SHOP_INTERFACE)) {
-            System.out.println("ayo g?");
             return;
         }
 

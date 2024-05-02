@@ -384,7 +384,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
             }
             lastIndex = index;
             index++;
-            return list.entities.get(lastIndex);
+            return list.entities.getOrDefault(lastIndex, null);
         }
 
         @Override

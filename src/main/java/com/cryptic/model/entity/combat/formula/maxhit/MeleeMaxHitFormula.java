@@ -5,6 +5,7 @@ import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.World;
 
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -16,6 +17,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -27,6 +29,7 @@ public class MeleeMaxHitFormula {
 
     /**
      * The max hit
+     *
      * @param player The player performing the hit
      * @return return the max hit based on the given calculations
      */
@@ -78,12 +81,12 @@ public class MeleeMaxHitFormula {
 
     public static double slayerPerkBonus(Player player) {
         Entity target = player.getCombat().getTarget();
-
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+        var assignment = slayerTask.getCurrentAssignment(player);
         double slayerPerkBonus = 1.0;
-
-        var weakSpot = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WEAK_SPOT);
-        if(weakSpot && target != null && target.isNpc()) {
-            if(Slayer.creatureMatches(player, target.getAsNpc().id())) {
+        var weakSpot = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.STRONK);
+        if (target instanceof NPC npc) {
+            if (assignment != null && weakSpot && ArrayUtils.contains(assignment.getNpcs(), npc.id())) {
                 slayerPerkBonus *= 1.10;
             }
         }
@@ -116,24 +119,25 @@ public class MeleeMaxHitFormula {
         }
 
         var wearingAnyBlackMask = FormulaUtils.wearingBlackMask(player) || FormulaUtils.wearingBlackMaskImbued(player) || player.getEquipment().wearingSlayerHelm();
-
-        if(wearingAnyBlackMask && target != null && target.isNpc() && includeNpcMax) {
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+        var assignment = slayerTask.getCurrentAssignment(player);
+        if (wearingAnyBlackMask && target != null && target.isNpc() && includeNpcMax) {
             NPC npc = target.getAsNpc();
-            if(npc.id() == NpcIdentifiers.COMBAT_DUMMY) {
+            if (npc.id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.1667;
             }
 
-            if(Slayer.creatureMatches(player, npc.id())) {
+            if (assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id())) {
                 otherBonus *= 1.1667;
             }
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.AMULET, SALVE_AMULETEI) && !wearingAnyBlackMask && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+        if (player.getEquipment().hasAt(EquipSlot.AMULET, SALVE_AMULETEI) && !wearingAnyBlackMask && target != null && includeNpcMax) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.20;
             }
 
-            if(FormulaUtils.isUndead(target)) {
+            if (FormulaUtils.isUndead(target)) {
                 otherBonus *= 1.20;
             }
         }
@@ -142,32 +146,32 @@ public class MeleeMaxHitFormula {
             otherBonus *= 1.10;
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.WEAPON, ARCLIGHT) && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, ARCLIGHT) && target != null && includeNpcMax) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.70;
             }
 
-            if(FormulaUtils.isDemon(target)) {
+            if (FormulaUtils.isDemon(target)) {
                 otherBonus *= 1.70;
             }
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.WEAPON, DARKLIGHT) && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, DARKLIGHT) && target != null && includeNpcMax) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.60;
             }
 
-            if(FormulaUtils.isDemon(target)) {
+            if (FormulaUtils.isDemon(target)) {
                 otherBonus *= 1.60;
             }
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.WEAPON, DARKLIGHT) && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, DARKLIGHT) && target != null && includeNpcMax) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.175;
             }
 
-            if(target.isNpc() && target.getAsNpc().def() != null && (target.getAsNpc().def().name.equalsIgnoreCase("Kurask") || target.getAsNpc().def().name.equalsIgnoreCase("Turoth"))) {
+            if (target.isNpc() && target.getAsNpc().def() != null && (target.getAsNpc().def().name.equalsIgnoreCase("Kurask") || target.getAsNpc().def().name.equalsIgnoreCase("Turoth"))) {
                 otherBonus *= 1.175;
             }
         }
@@ -176,7 +180,7 @@ public class MeleeMaxHitFormula {
             otherBonus *= 1.10;
         }
 
-        if(FormulaUtils.berserkerNecklace(player) && FormulaUtils.hasObbyWeapon(player)) {
+        if (FormulaUtils.berserkerNecklace(player) && FormulaUtils.hasObbyWeapon(player)) {
             otherBonus *= 1.10;
         }
 
@@ -186,18 +190,18 @@ public class MeleeMaxHitFormula {
             }
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.WEAPON, DRAGON_HUNTER_LANCE) && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY || FormulaUtils.isDragon(target)) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, DRAGON_HUNTER_LANCE) && target != null && includeNpcMax) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY || FormulaUtils.isDragon(target)) {
                 otherBonus *= 1.20;
             }
 
-            if(FormulaUtils.isDragon(target)) {
+            if (FormulaUtils.isDragon(target)) {
                 otherBonus *= 1.20;
             }
         }
 
-        if(player.getEquipment().hasAt(EquipSlot.WEAPON, GADDERHAMMER)) {
-            if(target != null && target.isNpc()) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, GADDERHAMMER)) {
+            if (target != null && target.isNpc()) {
                 NPC npc = target.getAsNpc();
                 NpcDefinition def = npc.def();
                 var isShade = def != null && def.name.equalsIgnoreCase("Shade");

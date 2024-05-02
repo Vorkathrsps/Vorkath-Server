@@ -1,6 +1,7 @@
 package com.cryptic.model.content.skill.impl.slayer.slayer_task;
 
 import com.cryptic.cache.definitions.ItemDefinition;
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
@@ -421,7 +422,8 @@ public class SlayerTask {
     }
 
     void rollForLarransKey(Player killer, NPC npc) {
-        int combatLevel = npc.def().combatLevel;
+        var def = NpcDefinition.cached.get(npc.id());
+        int combatLevel = def.combatLevel;
         int chance = calculateLarrans(combatLevel);
         int amount = 1;
         amount = getLarransKeyAmountToDrop(killer, amount);
@@ -483,7 +485,8 @@ public class SlayerTask {
     int calculateLarrans(int combatLevel) {
         int probability;
         if (combatLevel > 0 && combatLevel <= 80) {
-            probability = (int) (100 / Math.floor(310 * Math.pow((80 - combatLevel), 2)) + 100);
+            double result = 100.0 / (310 * Math.pow((80 - combatLevel), 2));
+            probability = (int) (100 / Math.floor(result) + 100);
         } else if (combatLevel > 80 && combatLevel <= 350) {
             probability = (int) (100 / Math.floor(-527 * combatLevel) + 115);
         } else if (combatLevel > 350) {

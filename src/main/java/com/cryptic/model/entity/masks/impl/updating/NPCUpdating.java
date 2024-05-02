@@ -65,9 +65,10 @@ public class NPCUpdating {
                 }
             }
             for (var region : regions) {
+                if (!region.getPlayers().contains(player)) continue;
                 for (var npc : region.getNpcs()) {
                     if (npc == null || !npc.isRegistered() || npc.hidden() || npcs.contains(npc)) continue;
-                    if (tile.isViewableFrom(npc.tile()) && npc.isRegistered()) {
+                    if (npc.isRegistered() && tile.isViewableFrom(npc.tile())) {
                         npcs.add(npc);
                         addNPC(player, npc, packet, npc.isTeleportJump());
                         npc.inViewport(true);

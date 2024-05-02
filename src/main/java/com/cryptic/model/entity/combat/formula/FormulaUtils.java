@@ -138,7 +138,6 @@ public class FormulaUtils {
         return player.getEquipment().containsAll(KARILS_COIF, KARILS_CROSSBOW, KARILS_LEATHERSKIRT, KARILS_LEATHERTOP);
     }
 
-
     public static boolean wearingAmuletOfDamned(Player player) {
         return player.getEquipment().containsAny(AMULET_OF_THE_DAMNED_FULL, AMULET_OF_THE_DAMNED);
     }

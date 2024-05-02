@@ -2,6 +2,7 @@ package com.cryptic.model.entity.combat.formula.maxhit;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -81,7 +82,9 @@ public class RangeMaxHitFormula {
 
     public double getSlayerBonus(@NonNull final Player player) {
         Entity target = player.getCombat().getTarget();
-        boolean isSlayerMatch = target instanceof NPC npc && Slayer.creatureMatches(player, npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+        var assignment = slayerTask.getCurrentAssignment(player);
+        boolean isSlayerMatch = target instanceof NPC npc && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
         return isSlayerMatch && FormulaUtils.hasSlayerHelmetImbued(player) ? 1.15 : 1;
     }
 
@@ -98,7 +101,8 @@ public class RangeMaxHitFormula {
         var hasCrystalLegs = player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27701) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27713) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27725) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27737) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27749) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27761) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27773);
 
         if (target instanceof NPC npc) {
-            boolean isSlayerMatch = Slayer.creatureMatches(player, npc.id());
+            SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+            var assignment = slayerTask.getCurrentAssignment(player);
             boolean isUndead = FormulaUtils.isUndead(npc);
 
             if (!player.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
@@ -107,7 +111,7 @@ public class RangeMaxHitFormula {
             }
 
             var hasSlayerHelm = FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.hasSlayerHelmetImbued(player);
-            if ((isSlayerMatch && hasSlayerHelm && hasCrystalBody && hasCrystalLegs || npc.isCombatDummy() && hasSlayerHelm && hasCrystalBody && hasCrystalLegs)) {
+            if ((assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id()) && hasSlayerHelm && hasCrystalBody && hasCrystalLegs || npc.isCombatDummy() && hasSlayerHelm && hasCrystalBody && hasCrystalLegs)) {
                 otherBonus *= (1.015) * (1.075) * (1.005);
             }
 

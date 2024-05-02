@@ -561,6 +561,14 @@
         </dependency>
 
         <dependency>
+            <groupId>com.dev.shadow</groupId>
+            <artifactId>functions</artifactId>
+            <version>1.93.0</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>com.everythingrs</groupId>
             <artifactId>everythingrs-api</artifactId>
             <version>1.0.0</version>

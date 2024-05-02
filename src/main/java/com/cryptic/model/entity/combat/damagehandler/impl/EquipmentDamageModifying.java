@@ -32,6 +32,7 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
         listeners.add(new VeracSet());
         listeners.add(new GuthanSet());
         listeners.add(new KarilSet());
+        listeners.add(new AhrimSet());
         listeners.add(new VirtusSet());
         listeners.add(new JusticiarSet());
         listeners.add(new DinhBulwark());

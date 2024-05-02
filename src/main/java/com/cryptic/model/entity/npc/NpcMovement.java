@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.npc;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
@@ -46,8 +47,9 @@ public class NpcMovement extends MovementQueue {
 
     public void randomWalk() {
         if (!npc.isRandomWalkAllowed()) return;
-        if (npc.def().walkingAnimation == npc.def().standingAnimation) return;
-        if (npc.def().walkingAnimation == -1) return;
+        var def = NpcDefinition.cached.get(npc.id());
+        if (def.walkingAnimation == def.standingAnimation) return;
+        if (def.walkingAnimation == -1) return;
         if (!npc.getMovement().isAtDestination()) return;
         if (!World.getWorld().rollDie(8, 1)) return;
         Combat combat = npc.getCombat();

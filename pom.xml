@@ -45,6 +45,14 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io/</url>
         </repository>
+        <repository>
+            <id>maven.scijava.org</id>
+            <url>https://maven.scijava.org/content/repositories/public//</url>
+        </repository>
+        <repository>
+            <id>openrune-repo</id>
+            <url>https://raw.githubusercontent.com/OpenRune/hosting/master</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -103,7 +111,7 @@
                         <artifactId>everythingrs-api</artifactId>
                         <version>1.0.0</version>
                         <scope>system</scope>
-                        <systemPath>C:\Users\Administrator\Desktop\gameserver\libs\everythingrs-api.jar</systemPath>
+                        <systemPath>${project.basedir}/libs/everythingrs-api.jar</systemPath>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -215,9 +223,24 @@
         </dependency>
 
         <dependency>
+            <groupId>cc.ekblad</groupId>
+            <artifactId>4koma</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dev.shadow</groupId>
+            <artifactId>functions</artifactId>
+            <version>1.93.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/functions-1.93.0.jar</systemPath>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -475,9 +498,16 @@
         </dependency>
 
         <dependency>
+            <groupId>me.tongfei</groupId>
+            <artifactId>progressbar</artifactId>
+            <version>0.9.2</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>dev.openrune</groupId>
             <artifactId>filestore</artifactId>
-            <version>1.2.7</version>
+            <version>1.2.8</version>
         </dependency>
 
         <!-- Discord Libs -->
@@ -525,14 +555,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.dev.shadow</groupId>
-            <artifactId>functions</artifactId>
-            <version>1.93.0</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-compiler</artifactId>
             <version>1.8.10</version>
@@ -544,14 +566,6 @@
             <version>1.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/everythingrs-api.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.varlamore</groupId>
-            <artifactId>Application</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/Application-1.0-all.jar</systemPath>
         </dependency>
 
     </dependencies>

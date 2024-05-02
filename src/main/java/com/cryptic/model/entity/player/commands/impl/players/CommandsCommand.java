@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.player.commands.impl.players;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameServer;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.utility.Color;
@@ -40,9 +41,9 @@ public class CommandsCommand implements Command {
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::riskzone</col> - Teleports you to the riskzone area.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::gamble</col> - Teleports you to the gambling area.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::changepassword</col> - Change your password.");
-        commands.add("<br><col=" + Color.RED.getColorValue() + ">::vote</col> - Opens the store on the " + GameConstants.SERVER_NAME + " website.");
-        commands.add("<br><col=" + Color.RED.getColorValue() + ">::store</col> - Opens the store on the " + GameConstants.SERVER_NAME + " website.");
-        commands.add("<br><col=" + Color.RED.getColorValue() + ">::donate</col> - Opens the store on the " + GameConstants.SERVER_NAME + " website.");
+        commands.add("<br><col=" + Color.RED.getColorValue() + ">::vote</col> - Opens the store on the " + GameServer.settings().getName() + " website.");
+        commands.add("<br><col=" + Color.RED.getColorValue() + ">::store</col> - Opens the store on the " + GameServer.settings().getName() + " website.");
+        commands.add("<br><col=" + Color.RED.getColorValue() + ">::donate</col> - Opens the store on the " + GameServer.settings().getName() + " website.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::forums</col> - Opens the Forums.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::discord</col> - Opens the link to our Discord server.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::rules</col> - Opens the link to our rules.");

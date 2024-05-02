@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.cryptic.GameConstants;
+import com.cryptic.GameServer;
 import com.cryptic.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +41,7 @@ public class Flooder implements Runnable {
         if (!running) {
             running = true;
             Thread t = new Thread(this);
-            t.setName(""+GameConstants.SERVER_NAME+"FlooderThread");
+            t.setName(""+ GameServer.settings().getName()+"FlooderThread");
             t.start();
         }
     }

@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import com.cryptic.GameServer;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.cryptic.GameConstants;
@@ -35,7 +36,7 @@ public final class BackgroundLoader {
      * The executor that will execute the queue of tasks in the
      * background. Do not do this asynchronously or on more than 1 thread, doing so will cause issues and is slower than using 1 thread.
      */
-    private final ExecutorService service = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat(""+GameConstants.SERVER_NAME+"LoaderThread").setDaemon(true).build());
+    private final ExecutorService service = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat(""+ GameServer.settings().getName()+"LoaderThread").setDaemon(true).build());
 
     /**
      * The queue of tasks that will be executed by the executor.

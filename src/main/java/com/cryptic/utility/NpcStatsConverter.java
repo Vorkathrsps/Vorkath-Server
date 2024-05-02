@@ -30,7 +30,7 @@ public class NpcStatsConverter {
 
     public static void main(String[] args) throws IOException {
         MonsterLoader.load();
-        GameServer.fileStore = new DataStore(GameServer.properties().fileStore);
+        GameServer.fileStore = new DataStore(GameServer.settings().getCacheLocation());
         GameServer.definitions = new DefinitionRepository();
         mapAnimsAndNpcs();
        /* ObjectMapper mapper = new ObjectMapper();

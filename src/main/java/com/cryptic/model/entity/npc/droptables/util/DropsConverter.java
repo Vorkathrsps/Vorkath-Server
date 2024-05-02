@@ -32,7 +32,8 @@ public class DropsConverter {
     public static void main(String[] args) throws Exception {
         ItemRepository.load();
         MonsterLoader.load();
-        GameServer.fileStore = new DataStore(GameServer.properties().fileStore);
+
+        GameServer.fileStore = new DataStore(GameServer.settings().getCacheLocation());
         GameServer.definitions = new DefinitionRepository();
         new BloodMoneyPriceLoader().load();
         MonsterLoader.monsters.int2ObjectEntrySet().fastForEach(monster -> {

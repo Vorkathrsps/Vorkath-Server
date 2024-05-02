@@ -2,6 +2,7 @@ package com.cryptic.model.items.tradingpost;
 
 import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
+import com.cryptic.GameServer;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
@@ -1084,7 +1085,7 @@ public class TradingPost {
                     Utils.sendDiscordInfoLog(player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price), "trading_post_sales");
                     tradingPostLogs.log(TRADING_POST, player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price));
                     save(listing);
-                    player.message("You've successfully listed your offer to the " + GameConstants.SERVER_NAME + " marketplace!");
+                    player.message("You've successfully listed your offer to the " + GameServer.settings().getName() + " marketplace!");
                     refreshOverview(player);
                     player.tradingPostListedItemId = -1;
                     player.tradingPostListedAmount = -1;

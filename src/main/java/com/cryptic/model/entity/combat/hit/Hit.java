@@ -217,7 +217,7 @@ public class Hit {
 
     AbstractAccuracy accuracy;
     public Hit roll() {
-        if (attacker == null || target == null || hitMark == HitMark.NPC_HEAL) return this;
+        if (attacker == null || target == null || hitMark == HitMark.HEAL) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
@@ -431,7 +431,7 @@ public class Hit {
     }
 
     public int getMark(Entity source, Entity target, Player observer) {
-        return hitMark.getObservedType(this, source, target, observer, isMaxHit);
+        return hitMark.getObservedType(source, target, observer, isMaxHit);
     }
 
     @Override

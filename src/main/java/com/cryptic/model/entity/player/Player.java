@@ -1552,8 +1552,14 @@ public class Player extends Entity {
         if (memberRights.isSponsorOrGreater(this)) MemberFeatures.checkForMonthlySponsorRewards(this);
         restartTasks();
         auditTabs();
+        setHitMarkVarbits();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
+    private void setHitMarkVarbits() {
+        this.varps().varbit(14196, 0);
+        this.varps().varbit(10236, 0);
     }
 
     private static void handleOnLogin(Player player) {

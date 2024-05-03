@@ -2239,9 +2239,9 @@ public class Utils {
                 IsaacRandom.DUMMY()
         );
         KtCommands.setBotAccIncrementor(KtCommands.getBotAccIncrementor() + 1);
-        var bot = new Session(null).getPlayer();
+        var bot = new Session(msg.getContext().channel()).getPlayer();
         bot.putAttrib(AttributeKey.IS_BOT, true);
         bot.getSession().finalizeLogin(msg);
-        return null;
+        return bot;
     }
 }

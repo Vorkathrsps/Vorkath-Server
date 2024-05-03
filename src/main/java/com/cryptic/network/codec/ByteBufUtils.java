@@ -96,7 +96,7 @@ public final class ByteBufUtils {
      * @return The host address of this connection.
      */
     public static String getHost(Channel channel) {
-        if (channel == null) {
+        if (channel == null || channel.remoteAddress() == null) {
             return "0.0.0.0"; // probably testbot
         }
         return ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress();

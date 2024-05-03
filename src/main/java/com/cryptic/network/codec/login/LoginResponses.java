@@ -102,6 +102,7 @@ public final class LoginResponses {
                 return LOGIN_INVALID_USERNAME;
             }
             if (player.getUsername().toLowerCase().startsWith("testbot") && player.getSession().getChannel() != null) {
+                logger.info("rejected testbot login, we're on prod!");
                 // reject people trying to log on to developer rights testbot accs on prod. u can still make dummy bots because channel will be null
                 return LOGIN_INVALID_USERNAME;
             }

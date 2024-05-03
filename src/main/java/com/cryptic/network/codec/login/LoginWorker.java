@@ -98,6 +98,8 @@ public class LoginWorker implements Runnable {
     }
 
     private void sendCodeAndClose(Channel channel, int response) {
+        if (channel == null || channel.alloc() == null)
+            return;
         ByteBuf buffer = channel.alloc().buffer(Byte.BYTES);
         buffer.writeByte(response);
         channel.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
@@ -118,7 +120,7 @@ public class LoginWorker implements Runnable {
                     int response = LoginResponses.evaluateOnGamethread(player);
                     ChannelFuture future = player.getSession().sendOkLogin(response);
 
-                    if (future == null) {//TODO test.
+                    if (future == null && !player.isBot()) {//TODO test.
                         player.getSession().ctx.close();
                         return;
                     }
@@ -129,7 +131,8 @@ public class LoginWorker implements Runnable {
                             return;
                         }
                     }
-                    initForGame(message, channel);
+                    if (!player.isBot())
+                        initForGame(message, channel);
                     World.getWorld().getPlayers().add(player);
                     Utils.sendDiscordInfoLog(
                             STR."```Login successful for player \{request.message.getUsername()} with IP \{request.message.getHost()}```",

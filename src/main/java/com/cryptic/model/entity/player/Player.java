@@ -276,6 +276,9 @@ public class Player extends Entity {
     @Getter
     private final Farming farming = new Farming(this);
 
+    public boolean isBot() {
+        return getAttribOr(AttributeKey.IS_BOT, false);
+    }
     public static class TextData {
 
         public final String text;

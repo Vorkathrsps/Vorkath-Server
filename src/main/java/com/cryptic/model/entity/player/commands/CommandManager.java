@@ -60,6 +60,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.tools.KtCommands;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.extern.slf4j.Slf4j;
@@ -98,6 +99,7 @@ public class CommandManager {
 
     static {
         loadCmds();
+        KtCommands.INSTANCE.init();
         locsTeles.put("mbwebs", new Tile(3095, 3957));
         locsTeles.put("mbo", new Tile(3095, 3957));
         locsTeles.put("callisto", new Tile(3292, 3834));

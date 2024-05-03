@@ -1,5 +1,6 @@
 package com.cryptic.model.map.object.dwarf_cannon;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -230,6 +231,7 @@ public class DwarfCannon extends OwnedObject {
 
     private ArrayList<NPC> populatePotentialTargets() {
         ArrayList<NPC> potentialTargets = new ArrayList<>(); // Initialize the ArrayList
+        var cached = NpcDefinition.cached;
         for (var n : getOwner().closeNpcs(16)) {
             if (n == null) continue;
             if (n.getZ() != getOwner().getZ()) continue;
@@ -237,7 +239,8 @@ public class DwarfCannon extends OwnedObject {
             if (n.getCombatInfo() == null) continue;
             if (isProjectileClipped(getCorrectedTile(this.tile()))) continue;
             if (!n.tile().isWithinDistance(getCorrectedTile(this.tile()), CANNON_RANGE)) continue;
-            if (n.def().isPet) continue;
+            var def = cached.get(n.getId());
+            if (def.isPet || !def.isInteractable || def.actions[1] == null) continue;
             if (!MultiwayCombat.includes(n.tile())) continue;
             potentialTargets.add(n);
         }

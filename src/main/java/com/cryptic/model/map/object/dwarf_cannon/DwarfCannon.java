@@ -160,7 +160,7 @@ public class DwarfCannon extends OwnedObject {
     }
 
     private static Tile getCorrectedTile(Tile pos) {
-        return pos.copy().transform(1, 1, 0);
+        return pos.clone().transform(1, 1, 0);
     }
 
     private void computeTarget() {

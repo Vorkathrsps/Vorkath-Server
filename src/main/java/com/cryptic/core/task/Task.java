@@ -246,11 +246,33 @@ public abstract class Task {
                 countdown = delay;
             }
             long elapsed = System.currentTimeMillis() - start;
-            if (Arrays.stream(IGNORED_TASKS).noneMatch(task -> task.equals(getClass().getSimpleName())) && uptime > GameEngine.IGNORE_LAG_TIME && elapsed > 750) {
-                logger.error(String.format("It took %s milliseconds to execute the %s task.", elapsed, (!getClass().getSimpleName().equals("") ? getClass().getSimpleName() : getClass().getName()) + " at " + codeOrigin));
+            if (elapsed > 750 && uptime > GameEngine.IGNORE_LAG_TIME) {
+                report(elapsed);
             }
+            warnLongDurations();
         }
         return running;
+    }
+
+    private void warnLongDurations() {
+        if (runDuration >= 6100) {
+            if (Arrays.stream(IGNORED_TASKS).anyMatch(task -> task.equals(getName())))
+                return;
+            stop();
+            logger.warn("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin());
+            Utils.sendDiscordInfoLog("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin(), "warning");
+            if (parent != null) {
+                logger.error("chain task's running for {} {}", runDuration, parent.info());
+            }
+        }
+    }
+
+    private void report(long elapsed) {
+        var ignore = Arrays.stream(IGNORED_TASKS).anyMatch(task -> task.equals(getClass().getSimpleName()));
+        if (ignore) return;
+        logger.error("It took {} milliseconds to execute the {} task.",
+                elapsed,
+                (!getClass().getSimpleName().equals("") ? getClass().getSimpleName() : getClass().getName()) + " at " + codeOrigin);
     }
 
     /**
@@ -306,14 +328,6 @@ public abstract class Task {
      */
     private void increaseRunDuration() {
         runDuration++;
-        if (runDuration >= 6100 && Arrays.stream(IGNORED_TASKS).noneMatch(task -> task.equals(getName()))) {
-            stop();
-            logger.warn("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin());
-            Utils.sendDiscordInfoLog("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin(), "warning");
-            if (parent != null) {
-                logger.error("chain task's running for {} {}", runDuration, parent.info());
-            }
-        }
     }
 
     /**

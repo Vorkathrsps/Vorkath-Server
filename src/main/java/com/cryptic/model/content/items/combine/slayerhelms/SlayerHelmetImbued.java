@@ -17,7 +17,7 @@ public class SlayerHelmetImbued extends PacketInteraction {
                 player.getInventory().remove(ItemIdentifiers.SCROLL_OF_REDIRECTION, 1);
                 player.getInventory().remove(ItemIdentifiers.SLAYER_HELMET);
                 player.getInventory().add(ItemIdentifiers.SLAYER_HELMET_I);
-                var def = ItemDefinition.cached.get(ItemIdentifiers.PURPLE_SLAYER_HELMET_I);
+                var def = ItemDefinition.cached.get(ItemIdentifiers.SLAYER_HELMET_I);
                 player.doubleItemStatement("You've created a " + def.name + ".", ItemIdentifiers.SCROLL_OF_REDIRECTION, ItemIdentifiers.SLAYER_HELMET_I);
                 return true;
             }

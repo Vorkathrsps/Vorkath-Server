@@ -2,8 +2,6 @@ package com.cryptic.model.content.items.combine.slayerhelms;
 
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.ItemIdentifiers;

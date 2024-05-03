@@ -106,6 +106,7 @@ public class NPCInteractionHandler implements PacketListener {
         if (player.locked() || player.dead() || npc.dead() || npc.cantInteract())
             return;
 
+
         player.stopActions(false);
 
         player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());
@@ -137,7 +138,9 @@ public class NPCInteractionHandler implements PacketListener {
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(npc));
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
         player.setEntityInteraction(npc);
-        npc.getMovementQueue().setBlockMovement(true);
+        if (!npc.isPet()) {
+            npc.getMovementQueue().setBlockMovement(true);
+        }
         int size = npc.getSize();
         Runnable bankerAction = BankTeller.bankerDialogue(player, npc);
         if (bankerAction != null) {
@@ -163,11 +166,13 @@ public class NPCInteractionHandler implements PacketListener {
 
         player.setEntityInteraction(npc);
 
-        if (option == 3) {
-            if (player.getPetEntity().getEntity() != null) {
-                if (npc.id() == player.getPetEntity().getEntity().getId()) {
-                    player.getPetEntity().pickup(player);
-                    return;
+        if (npc.isPet()) {
+            if (option == 3 || option == 2) {
+                if (player.getPetEntity().getEntity() != null) {
+                    if (npc.id() == player.getPetEntity().getEntity().getId()) {
+                        player.getPetEntity().pickup(player);
+                        return;
+                    }
                 }
             }
         }

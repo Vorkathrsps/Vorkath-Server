@@ -158,7 +158,7 @@ public class TournamentManager extends PacketInteraction {
         final ZonedDateTime next = nextEvent();
         if (next == null)
             return -1;
-        return next.toEpochSecond() - ZonedDateTime.now().toEpochSecond();
+        return next.toEpochSecond() - nowSec;
     }
 
     static boolean gameInProgress() {
@@ -726,6 +726,7 @@ public class TournamentManager extends PacketInteraction {
         }
         tournaments.clear();
         nextTorn = null;
+        nextEvent = null;
         prevTorn = null;
         //System.out.println("Key is " + LOCK);
         TaskManager.cancelTasks(LOCK);
@@ -792,6 +793,9 @@ public class TournamentManager extends PacketInteraction {
         }
     }
 
+    public static ZonedDateTime now = ZonedDateTime.now();
+    public static long nowSec = now.toEpochSecond();
+
     /**
      * Running every 20 seconds, handles the tournament system
      */
@@ -804,22 +808,12 @@ public class TournamentManager extends PacketInteraction {
 
         @Override
         public void run() {
-            try {
-                long start = System.currentTimeMillis();
-                //Calculate the server uptime.
-                long uptime = start - GameServer.startTime;
-                process();
-
-                long elapsed = System.currentTimeMillis() - start;
-                if (uptime > GameEngine.IGNORE_LAG_TIME && elapsed > 75 && (!GameServer.properties().linuxOnlyDisplayTaskLag || GameServer.isLinux())) {
-                    logger.error(String.format("It took %s milliseconds to execute tournament code.", elapsed));
-                }
-            } catch (Throwable t) {
-                logger.catching(t);
-            }
+            process();
         }
 
         private void process() {
+            now = ZonedDateTime.now();
+            nowSec = now.toEpochSecond();
             //System.out.printf("Core openEventLobby: %s lobbyActive: %s tournaments.size: %s timeTillNext: %s | startTimes: %s nextTorn: %s %s%n", openEventLobby(), lobbyActive(), tournaments.size(), timeTillNext(), Arrays.toString(settings.startTimes), nextTorn != null ? nextTorn.getConfig().key : "none", nextEvent());
             setNextTournyType();
             if (checkAndOpenLobby(false)) return;
@@ -847,7 +841,7 @@ public class TournamentManager extends PacketInteraction {
     }
 
     public static void setNextTournyType() {
-        final ZonedDateTime nextEvent = getNextEventTime();
+        final ZonedDateTime nextEvent = nextEvent();
         if (nextEvent != null && nextTorn == null) {
 
             // tomorrow, was using overrides, lets reset
@@ -871,6 +865,7 @@ public class TournamentManager extends PacketInteraction {
                 while (++iterations < max && prevTorn.getTypeName().equals(nextTorn.getTypeName())) {
                     nextTorn = new Tournament(settings.tornConfigs[Utils.random(settings.tornConfigs.length)]);
                 } // this should stop them ever being the same
+                TournamentManager.nextEvent = null;
             }
             if (waitingRoomTournament != null)
                 prevTorn = waitingRoomTournament;
@@ -879,46 +874,6 @@ public class TournamentManager extends PacketInteraction {
         }
     }
 
-    private static ZonedDateTime getNextEventTime() {
-        // today
-        for (String startTime : settings.getStartTimes()) {
-            try {
-                ZonedDateTime next = timeStringToDateTime(startTime);
-                // first one in list that is larger than current time
-                if (next.toEpochSecond() > ZonedDateTime.now(ZoneId.of("Europe/London")).toEpochSecond()) {
-                    return next;
-                }
-            } catch (ParseException e) {
-                logger.error("bad", e);
-            }
-        }
-        // tomorrow!
-        for (String startTime : settings.getStartTimes()) {
-            try {
-                ZonedDateTime next = timeStringToDateTime(startTime, true);
-                // first one in list that is larger than current time
-                if (next.toEpochSecond() > ZonedDateTime.now(ZoneId.of("Europe/London")).toEpochSecond()) {
-                    return next;
-                }
-            } catch (ParseException e) {
-                logger.error("bad", e);
-            }
-        }
-        return null;
-    }
-
-    public static ZonedDateTime timeStringToDateTime(String hhmm) throws ParseException {
-        return timeStringToDateTime(hhmm, false);
-    }
-
-    public static ZonedDateTime timeStringToDateTime(String hhmmTime, boolean transformToTomorrow) throws ParseException {
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/London"));
-        ZonedDateTime next = now.withHour(Integer.parseInt(hhmmTime.substring(0, 2))).withMinute(Integer.parseInt(hhmmTime.substring(3, 5))).withSecond(0);
-        if (transformToTomorrow)
-            next = next.plusDays(1);
-        //System.out.printf("%s -> %s from %s | %s < %s%n", hhmmTime, next, now, next.toEpochSecond(), now.toEpochSecond());
-        return next;
-    }
 
     public static boolean checkAndOpenLobby(boolean force) {
         if ((openEventLobby() || force) && !lobbyActive()) {
@@ -931,6 +886,7 @@ public class TournamentManager extends PacketInteraction {
             Tournament t = nextTorn;
             if (t != null) {
                 nextTorn = null;
+                nextEvent = null;
                 tournaments.add(t);
                 waitingRoomTournament = t;
                 World.getWorld().sendWorldMessage(format("<img=1082>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: A %s tournament will start in %s.", t.fullName(), t.lobbyTimeMessage()));
@@ -1069,14 +1025,15 @@ public class TournamentManager extends PacketInteraction {
      * @return true if the hour matches when an event should start
      */
     private static boolean openEventLobby() {
+        var now = ZonedDateTime.now();
         for (String startTime : settings.startTimes) {
             if (startTime == null || startTime.length() != 5 || !startTime.contains(":")) {
                 System.err.println("bad start for tournament! " + startTime);
                 startTime = "00:00";
             }
             try {
-                ZonedDateTime next = calForTime(startTime);
-                if (active(ZonedDateTime.now(), next))
+                ZonedDateTime next = calForTime(now, startTime);
+                if (active(now, next))
                     return true;
             } catch (ParseException e) {
                 logger.catching(e);
@@ -1084,15 +1041,18 @@ public class TournamentManager extends PacketInteraction {
         }
         return false;
     }
+    private static ZonedDateTime nextEvent = null;
 
     private static ZonedDateTime nextEvent() {
+        if (nextEvent != null) // cached, nullified on event change
+            return nextEvent;
         // today
         for (String startTime : settings.startTimes) {
             try {
-                ZonedDateTime next = calForTime(startTime);
+                ZonedDateTime next = calForTime(now, startTime);
                 // first one in list that is larger than current time
-                if (next.toEpochSecond() > ZonedDateTime.now().toEpochSecond()) {
-                    return next;
+                if (next.toEpochSecond() > nowSec) {
+                    return nextEvent = next;
                 }
             } catch (ParseException e) {
                 logger.catching(e);
@@ -1101,10 +1061,10 @@ public class TournamentManager extends PacketInteraction {
         // tomorrow!
         for (String startTime : settings.startTimes) {
             try {
-                ZonedDateTime next = calForTime(startTime, true);
+                ZonedDateTime next = calForTime(now, startTime, true);
                 // first one in list that is larger than current time
-                if (next.toEpochSecond() > ZonedDateTime.now().toEpochSecond()) {
-                    return next;
+                if (next.toEpochSecond() > nowSec) {
+                    return nextEvent = next;
                 }
             } catch (ParseException e) {
                 logger.catching(e);
@@ -1113,16 +1073,15 @@ public class TournamentManager extends PacketInteraction {
         return null;
     }
 
-    public static boolean active(String current, String check) throws ParseException {
-        return active(calForTime(current), calForTime(check));
+    public static boolean active(ZonedDateTime now, String current, String check) throws ParseException {
+        return active(calForTime(now, current), calForTime(now, check));
     }
 
-    public static ZonedDateTime calForTime(String v) throws ParseException {
-        return calForTime(v, false);
+    public static ZonedDateTime calForTime(ZonedDateTime now, String v) throws ParseException {
+        return calForTime(now, v, false);
     }
 
-    public static ZonedDateTime calForTime(String hours, boolean tomorrow) throws ParseException {
-        ZonedDateTime now = ZonedDateTime.now();
+    public static ZonedDateTime calForTime(ZonedDateTime now, String hours, boolean tomorrow) throws ParseException {
         ZonedDateTime next = now.withHour(Integer.parseInt(hours.substring(0, 2))).withMinute(Integer.parseInt(hours.substring(3, 5))).withSecond(0);
         if (tomorrow)
             next = next.plusDays(1);

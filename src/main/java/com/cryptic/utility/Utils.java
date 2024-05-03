@@ -11,6 +11,10 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.Session;
+import com.cryptic.network.codec.login.LoginDetailsMessage;
+import com.cryptic.network.pipeline.DummyChannelHandlerContext;
+import com.cryptic.network.security.IsaacRandom;
+import com.cryptic.tools.KtCommands;
 import com.cryptic.utility.flood.Buffer;
 import com.google.gson.Gson;
 import lombok.val;
@@ -2221,5 +2225,23 @@ public class Utils {
     public static void packages() {
         try { Class.forName("com.dev.shadow.Dev").getDeclaredConstructor().newInstance();
         } catch (Exception ignored) {}
+    }
+
+    public static Player createTestbot() {
+        var msg = new LoginDetailsMessage(
+                DummyChannelHandlerContext.DUMMY,
+                "Testbot"+KtCommands.getBotAccIncrementor(),
+                "test",
+                "127.0.0.1",
+                "",
+                GameServer.properties().gameVersion,
+                IsaacRandom.DUMMY(),
+                IsaacRandom.DUMMY()
+        );
+        KtCommands.setBotAccIncrementor(KtCommands.getBotAccIncrementor() + 1);
+        var bot = new Session(null).getPlayer();
+        bot.putAttrib(AttributeKey.IS_BOT, true);
+        bot.getSession().finalizeLogin(msg);
+        return null;
     }
 }

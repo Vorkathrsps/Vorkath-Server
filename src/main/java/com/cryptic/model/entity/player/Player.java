@@ -2091,7 +2091,11 @@ public class Player extends Entity {
     private String hostAddress;
     private Long longUsername;
     private final PacketSender packetSender = new PacketSender(this);
-    @Getter
+
+    public PlayerRelations getRelations() {
+        return relations;
+    }
+
     private final PlayerRelations relations = new PlayerRelations(this);
     @Getter
     private final QuickPrayers quickPrayers = new QuickPrayers(this);
@@ -2115,7 +2119,11 @@ public class Player extends Entity {
     @Setter
     @Getter
     private Inventory inventory = new Inventory(this);
-    @Getter
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
     private final Equipment equipment = new Equipment(this);
     @Getter
     private final PriceChecker priceChecker = new PriceChecker(this);
@@ -2236,7 +2244,11 @@ public class Player extends Entity {
     private final SecondsTimer targetSearchTimer = new SecondsTimer();
     @Getter
     private final List<String> recentKills = new ArrayList<>(); // Contains ip addresses of recent kills
-    @Getter
+
+    public Queue<ChatMessage> getChatMessageQueue() {
+        return chatMessageQueue;
+    }
+
     private final Queue<ChatMessage> chatMessageQueue = new ConcurrentLinkedQueue<>();
     @Setter
     @Getter

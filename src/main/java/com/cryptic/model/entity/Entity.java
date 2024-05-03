@@ -441,6 +441,10 @@ public abstract class Entity {
         return this;
     }
 
+    public boolean isRegistered() {
+        return registered;
+    }
+
     /**
      * Is this entity registered.
      * -- GETTER --
@@ -454,7 +458,6 @@ public abstract class Entity {
      * @param registered the registered to set.
      */
     @Setter
-    @Getter
     private boolean registered;
 
     public Graphic graphic() {
@@ -2035,10 +2038,13 @@ public abstract class Entity {
     @Getter
     private final TimerRepository timers = new TimerRepository();
 
+    public Combat getCombat() {
+        return combat;
+    }
+
     /*
      * Fields
      */
-    @Getter
     private final Combat combat = new Combat(this);
     @Setter
     @Getter

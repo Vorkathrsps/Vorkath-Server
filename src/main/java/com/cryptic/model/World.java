@@ -86,8 +86,12 @@ public class World {
      *
      * @return The world instance.
      */
-    @Getter
     private static final World world = new World();
+
+    public static World getWorld() {
+        //noinspection LombokGetterMayBeUsed
+        return world;
+    }
 
     public Map<Integer, Shop> shops = new HashMap<>();
 

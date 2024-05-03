@@ -606,7 +606,7 @@ public abstract class Entity {
         if (dead())
             return;
 
-        if (hit.getHitMark() == HitMark.NPC_HEAL) {
+        if (hit.getHitMark() == HitMark.HEAL) {
             heal(hit.getDamage());
             return;
         }
@@ -952,14 +952,14 @@ public abstract class Entity {
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal) {
-        hit(attacker, heal, null, HitMark.NPC_HEAL);
+        hit(attacker, heal, null, HitMark.HEAL);
     }
 
     /**
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal, int delay) {
-        hit(attacker, heal, delay, null, HitMark.NPC_HEAL);
+        hit(attacker, heal, delay, null, HitMark.HEAL);
     }
 
     /**

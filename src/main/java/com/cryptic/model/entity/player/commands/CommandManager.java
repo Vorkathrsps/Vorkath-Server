@@ -22,6 +22,7 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
@@ -434,7 +435,8 @@ public class CommandManager {
             p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.hit(p, 1, HitMark.NPC_HEAL);
+            p.varps().varbit(14196, 1);
+            p.hit(null, 1);
         });
         dev("hit2", (p, c, s) -> {
             p.hit(p, 1, HitMark.POISON);
@@ -444,13 +446,17 @@ public class CommandManager {
             p.hit(p, 1, HitMark.POISON.ordinal());
         });
         dev("hit4", (p, c, s) -> {
+            new Hit(p, p, 0, CombatType.MELEE).setHitMark(HitMark.HIT).setMaxHit(true);
             p.hit(p, 1, HitMark.HIT.getMax_hit());
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
             for (HitMark value : HitMark.values()) {
                 Chain.noCtx().delay(i++, () -> {
-                    p.hit(p, 0, value);
+                    Hit hit = new Hit(p,p,0,CombatType.MELEE).checkAccuracy(false).setHitMark(value);
+                    hit.setMaxHit(true);
+                    hit.submit();
+                    new Hit(p,p,0,CombatType.MELEE).checkAccuracy(false).setHitMark(value).submit();
                 });
             }
         });

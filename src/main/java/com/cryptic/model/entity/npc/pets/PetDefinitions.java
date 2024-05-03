@@ -109,7 +109,8 @@ public enum PetDefinitions {
     HERBI(ItemIdentifiers.HERBI, NpcIdentifiers.HERBI_7760, UNLOCKED_PET_HERBI),
     BLOODHOUND(ItemIdentifiers.BLOODHOUND, NpcIdentifiers.BLOODHOUND_7232, UNLOCK_PET_BLOODHOUND),
     CHOMPY_CHICK(ItemIdentifiers.CHOMPY_CHICK, NpcIdentifiers.CHOMPY_CHICK_4002, UNLOCKED_PET_CHOMPY),
-    SCURRY(28801, 7616, UNLOCKED_PET_SCURRY);
+    SCURRY(28801, 7616, UNLOCKED_PET_SCURRY),
+    PHOENIX(ItemIdentifiers.PHOENIX, 7368, UNLOCKED_PET_PHOENIX);
 
     public int item;
     public int npc;

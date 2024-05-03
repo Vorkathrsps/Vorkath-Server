@@ -1,11 +1,16 @@
 package com.cryptic.utility.timers;
 
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.google.common.base.Stopwatch;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.utility.Indexer;
 import com.cryptic.utility.NpcPerformance;
 
 import java.time.Duration;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,19 +18,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimerRepository {
 
-    private final Indexer<Timer> timers = new Indexer<>(TimerKey.cachedValues.length + 1);
+    protected Map<TimerKey, Timer> timers = new HashMap<>();
 
     public boolean has(TimerKey key) {
-        Timer timer = timers.get(key.ordinal());
+        Timer timer = timers.get(key);
         return timer != null && timer.ticks() > 0;
     }
 
     public void register(Timer timer) {
-        timers.set(timer.key().ordinal(), timer);
+        timers.put(timer.key(), timer);
     }
 
     public int left(TimerKey key) {
-        Timer timer = timers.get(key.ordinal());
+        Timer timer = timers.get(key);
         return timer == null ? 0 : timer.ticks();
     }
 
@@ -115,61 +120,59 @@ public class TimerRepository {
     }
 
     public void register(TimerKey key, int ticks) {
-        timers.set(key.ordinal(), new Timer(key, ticks));
+        timers.put(key, new Timer(key, ticks));
     }
 
     /**
      * Extend up to (if exists) the given ticks, or register new
      */
     public void extendOrRegister(TimerKey key, int ticks) {
-        Timer t = timers.get(key.ordinal());
+        Timer t = timers.get(key);
         if (t == null) {
             t = new Timer(key, ticks);
         } else if (t.ticks() < ticks) {
             t.ticks(ticks);
         }
-        timers.set(key.ordinal(), t);
+        timers.put(key, t);
     }
 
     /**
      * Register if non-existant, or extend.
      */
     public void addOrSet(TimerKey key, int ticks) {
-        Timer t = timers.get(key.ordinal());
+        Timer t = timers.get(key);
         if (t == null) {
             t = new Timer(key, ticks);
         } else {
             t.ticks(t.ticks() + ticks);
         }
-        timers.set(key.ordinal(), t);
+        timers.put(key, t);
     }
 
     public void cancel(TimerKey name) {
-        timers.set(name.ordinal(), null);
+        timers.put(name, null);
     }
 
     public void cycle() {
         if (timers.isEmpty()) return;
-        for (Timer entry : timers) {
-            if (entry == null) {
-                continue;
-            }
-            entry.tick();
+        Iterator<Map.Entry<TimerKey, Timer>> iter = timers.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<TimerKey, Timer> entry = iter.next();
+            entry.getValue().tick();
+            if (entry.getValue().ticks() == 0)
+                iter.remove();
         }
     }
 
     private void cyclePerformanceMode(Entity entity) {
-        long lol = 0L;
-        for (Timer entry : timers) {
-            if (entry == null) {
-                continue;
-            }
+       // long lol = 0L;
+        timers.forEach((timer, entry) -> {
             Stopwatch stopwatch = Stopwatch.createStarted();
             entry.tick();
             stopwatch.stop();
 
             long ns = stopwatch.elapsed().toNanos();
-            lol += ns;
+          //  lol += ns;
             if (NpcPerformance.DETAL_LOG_ENABLED) {
                 if (ns > 100_000) { // 0.1ms
                     if (entity.isNpc()) {
@@ -181,14 +184,10 @@ public class TimerRepository {
                     }
                 }
             }
-        }
-        if (entity.isNpc()) {
+        });
+        /*if (entity.isNpc()) {
             entity.getAsNpc().performance.sumRuntimeTimers = Duration.ofNanos(lol);
-        }
-    }
-
-    public Indexer<Timer> timers() {
-        return timers;
+        }*/
     }
 
 }

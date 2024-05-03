@@ -14,8 +14,7 @@ public class PurpleSlayerHelmetImbued  extends PacketInteraction {
         if (!player.getInventory().containsAll(items)) return false;
         if (ArrayUtils.contains(items, use.getId())) {
             if (ArrayUtils.contains(items, usedWith.getId())) {
-                player.getInventory().remove(ItemIdentifiers.SCROLL_OF_REDIRECTION, 1);
-                player.getInventory().remove(ItemIdentifiers.PURPLE_SLAYER_HELMET);
+                for (var i : items) player.getInventory().remove(i);
                 player.getInventory().add(ItemIdentifiers.PURPLE_SLAYER_HELMET_I);
                 var def = ItemDefinition.cached.get(ItemIdentifiers.PURPLE_SLAYER_HELMET_I);
                 player.doubleItemStatement("You've created a " + def.name + ".", ItemIdentifiers.SCROLL_OF_REDIRECTION, ItemIdentifiers.PURPLE_SLAYER_HELMET_I);

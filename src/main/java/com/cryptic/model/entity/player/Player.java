@@ -2828,6 +2828,23 @@ public class Player extends Entity {
         });
     }
 
+    public void doubleItemStatement(String message, int item, int item2) {
+        this.getDialogueManager().start(new Dialogue() {
+            @Override
+            protected void start(Object... parameters) {
+                send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(item), new Item(item2), "", message);
+                setPhase(0);
+            }
+
+            @Override
+            protected void next() {
+                if (isPhase(0)) {
+                    stop();
+                }
+            }
+        });
+    }
+
     public void npcStatement(NPC npc, String[] strings) {
         this.getDialogueManager().start(new Dialogue() {
             @Override

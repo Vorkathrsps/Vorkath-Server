@@ -103,8 +103,7 @@ public abstract class Dialogue {
         } else if (type == DialogueType.ITEM_STATEMENT) {
             var item = (Item) parameters[0];
             player.getPacketSender().sendString(4902, (String) parameters[2]);
-            System.out.println("zoom: " + item.definition().xan2d);
-            player.getPacketSender().sendInterfaceModel(4901, ItemDefinition.cached.get(1).xan2d, (Item) parameters[0]);
+            player.getPacketSender().sendInterfaceModel(4901, 300, item);
             player.getPacketSender().sendChatboxInterface(4900);
         } else if (type == DialogueType.DOUBLE_ITEM_STATEMENT) {
             if (parameters.length == 3) {
@@ -112,10 +111,8 @@ public abstract class Dialogue {
                 player.getPacketSender().sendString(6233, "");
                 Item firstItem = (Item) parameters[0];
                 Item secondItem = (Item) parameters[1];
-                player.getPacketSender().sendItemOnInterface(37850, firstItem);
-                player.getPacketSender().sendItemOnInterface(37851, secondItem);
-                player.getPacketSender().sendInterfaceModel(6235, 125, -1);
-                player.getPacketSender().sendInterfaceModel(6236, 125, -1);
+                player.getPacketSender().sendInterfaceModel(6235, 500, firstItem);
+                player.getPacketSender().sendInterfaceModel(6236, 500, secondItem);
                 player.getPacketSender().sendChatboxInterface(6231);
             } else if (parameters.length == 4) {
                 player.getPacketSender().sendString(6232, (String) parameters[2]);

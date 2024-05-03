@@ -89,7 +89,7 @@ public class MenacingMage extends AbstractSigil {
 
     @Override
     protected boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MAGIC);
+        return CombatType.MAGIC.equals(player.getCombat().getCombatType());
     }
 
 }

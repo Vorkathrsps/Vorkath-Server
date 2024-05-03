@@ -102,7 +102,8 @@ public class Autocasting {
             TOXIC_STAFF_OF_THE_DEAD,
             STAFF_OF_LIGHT,
             STAFF_OF_BALANCE,
-            VOID_KNIGHT_MACE
+            VOID_KNIGHT_MACE,
+            HARMONISED_NIGHTMARE_STAFF
         );
 
     public static final Set<Integer> SPECIAL_AUTOCAST_STAFFS = Set.of(TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, THAMMARONS_SCEPTRE,

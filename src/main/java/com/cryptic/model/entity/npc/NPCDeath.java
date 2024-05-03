@@ -511,44 +511,6 @@ public class NPCDeath {
 
                     ItemDrops drop = new ItemDrops();
                     drop.rollTheDropTable(killer, npc);
-
-//                        table.getGuaranteedDrops().forEach(tableItem -> {
-//                            if (killer.inventory().contains(13116)) {
-//                                int[] BONES = new int[]{526, 528, 530, 2859, 532, 10976, 10977, 3125, 534, 536, 4812,
-//                                    4834, 6812, 6729, 11943};
-//                                for (int bone : BONES) {
-//                                    if (tableItem.convert().getId() == bone) {
-//                                        Bone bones = Bone.get(tableItem.convert().getId());
-//                                        if (bones != null)
-//                                            killer.getSkills().addXp(Skills.PRAYER, bones.xp);
-//                                    }
-//                                }
-//                            } else {
-//                                if (tableItem.min > 0) {
-//                                    Item dropped = new Item(tableItem.id, Utils.random(tableItem.min, tableItem.max));
-//
-//                                    if ((dropped.getId() == ItemIdentifiers.DRAGON_BONES || dropped.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BONE_HUNTER)) && WildernessArea.inWilderness(killer.tile())) {
-//                                        dropped = dropped.note();
-//                                    }
-//
-//                                    if (killer.getEquipment().contains(RING_OF_WEALTH_I) && dropped.getId() == BLOOD_MONEY) {
-//                                        killer.inventory().addOrDrop(new Item(dropped, dropped.getAmount()));
-//                                    } else {
-//                                        GroundItemHandler.createGroundItem(new GroundItem(dropped, tile, killer));
-//                                    }
-//                                } else {
-//                                    if ((tableItem.convert().getId() == ItemIdentifiers.DRAGON_BONES || tableItem.convert().getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BONE_HUNTER)) && WildernessArea.inWilderness(killer.tile())) {
-//                                        tableItem.convert().setId(tableItem.convert().note().getId());
-//                                    }
-//
-//                                    if (killer.getEquipment().contains(RING_OF_WEALTH_I) && tableItem.id == BLOOD_MONEY && tableItem.amount > 0) {
-//                                        killer.inventory().addOrDrop(new Item(tableItem.id, tableItem.amount));
-//                                    } else {
-//                                        GroundItemHandler.createGroundItem(new GroundItem(tableItem.convert(), tile, killer));
-//                                    }
-//                                }
-//                            }
-//                        });
                 }
 
                 if (npc.getCombatInfo() != null && npc.getCombatInfo().scripts != null && npc.getCombatInfo().scripts.droptable_ != null) {

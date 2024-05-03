@@ -16,15 +16,16 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.object.OwnedObject;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.RSPolygon;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.google.common.base.Stopwatch;
+import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -33,6 +34,7 @@ import java.util.stream.Stream;
 /**
  * @author Origin | April, 16, 2021, 13:39
  */
+@Getter
 public class DwarfCannon extends OwnedObject {
 
     public static final String IDENTIFIER = "dwarfCannon";
@@ -48,38 +50,22 @@ public class DwarfCannon extends OwnedObject {
 
     private Stopwatch decayTimer = Stopwatch.createUnstarted();
 
-    public Stopwatch getDecayTimer() {
-        return decayTimer;
-    }
-
     @Setter
     private int ammo;
 
-    public int getAmmo() {
-        return ammo;
-    }
-
     private CannonStage stage;
 
-    public CannonStage getStage() {
-        return stage;
-    }
+    private MulticannonDirection direction;
+    private final transient Map<MulticannonDirection, RSPolygon> polygons;
 
     public void setStage(CannonStage stage, boolean changeId) {
         this.stage = stage;
         if (changeId) setId(stage.getObjectId());
     }
 
-    @Setter
-    private CannonDirection cannonDirection = CannonDirection.NORTH;
-
-    public CannonDirection getCannonDirection() {
-        return cannonDirection;
-    }
-
     public static final Area[] AREA_RESTRICTIONS = {
         new Area(3036, 3478, 3144, 3524, -1), // edgevile
-        new Area(1600, 9984, 1727, 10111, -1), // catacomes of kourend
+        //new Area(1600, 9984, 1727, 10111, -1), // catacomes of kourend
         new Area(1728, 5312, 1791, 5375, -1), // ancient cavern
         new Area(3281, 3158, 3304, 3178, -1), // alkarid palace
         new Area(2368, 3072, 2431, 3135, -1), // castle wars
@@ -105,7 +91,8 @@ public class DwarfCannon extends OwnedObject {
     public DwarfCannon(Player owner, int id) {
         super(owner, IDENTIFIER, id, owner.tile(), 10, 0);
         this.stage = CannonStage.BASE;
-        setCannonDirection(CannonDirection.NORTH);
+        direction = MulticannonDirection.NORTH;
+        polygons = MulticannonDirection.create(getCorrectedTile(this.tile()));
     }
 
     @Override
@@ -113,11 +100,11 @@ public class DwarfCannon extends OwnedObject {
         if (decayTimer == null) {
             decayTimer = Stopwatch.createUnstarted();
         }
-        if (cannonDirection == null) {
-            cannonDirection = CannonDirection.NORTH;
+        if (direction == null) {
+            direction = MulticannonDirection.NORTH;
         }
         checkDecayTimer();
-        rotate();
+        computeTarget();
     }
 
     public void fill() {
@@ -176,77 +163,96 @@ public class DwarfCannon extends OwnedObject {
         return pos.copy().transform(1, 1, 0);
     }
 
-    private void rotate() {
+    private void computeTarget() {
         boolean ownerOnline = getOwnerOpt().isPresent();
+        if (!ownerOnline) return;
         Optional<NPC> target = Optional.empty();
-        List<NPC> potentialTargets = new ArrayList<>();
-        if (ownerOnline && getStage().equals(CannonStage.FIRING)) {
+        if (getStage().equals(CannonStage.FIRING)) {
+            rotate();
             if (!MultiwayCombat.includes(getOwner()) && Objects.nonNull(getOwner().getCombat().getTarget())) {
                 Entity combatTarget = getOwner().getCombat().getTarget();
                 if (combatTarget.isNpc()) {
                     target = Optional.ofNullable(combatTarget.getAsNpc());
                     if (target.isPresent()) {
-                        if (!cannonDirection.validArea(tile(), target.get().tile().copy().center(target.get().getSize()))) { // this changes the tile..
+                        if (!canAttack(target.get())) {
                             target = Optional.empty();
                         }
                     }
                 }
-            } else {
-                for (var n : getOwner().closeNpcs(14)) {
-                    if (n == null) continue;
-                    if (n.getZ() != getOwner().getZ()) continue;
-                    if (!n.tile().isViewableFrom(getOwner().tile())) continue;
-                    if (n.getCombatInfo() == null) continue;
-                    if (!ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, n.getCentrePosition().getX(), n.getCentrePosition().getY(), n.getSize())) continue;
-                    if (!n.tile().isWithinDistance(getCorrectedTile(tile()), CANNON_RANGE)) continue;
-                    if (n.def().isPet) continue;
-                    if (!cannonDirection.validArea(getCorrectedTile(tile()).transform(1, 1, 0), n.tile())) continue;
-                    if (!MultiwayCombat.includes(getOwner().tile()) && !MultiwayCombat.includes(n.tile())) continue;
-                    potentialTargets.add(n);
+            }
+
+            List<NPC> potentialTargets = populatePotentialTargets();
+
+            if (potentialTargets.isEmpty()) return;
+
+            for (var t : potentialTargets) {
+                if (t == null) continue;
+                if (t.dead()) continue;
+                if (canAttack(t)) {
+                    target = Optional.of(t);
+                    break;
                 }
             }
-            if (tile().inArea(new Area(2240, 4672, 2303, 4735, -1))) { // king black dragon
-                getOwner().message("Your cannon has been destroyed for placing it in this area.");
-                destroy();
-                getOwner().putAttrib(AttributeKey.LOST_CANNON, true);
-                return;
-            }
-        }
 
-        if (ownerOnline && getStage().equals(CannonStage.FIRING)) {
-            animate(cannonDirection.getAnimationId());
-            cannonDirection = cannonDirection.next();
-        } else if (getStage().equals(CannonStage.FURNACE)
-            && getAmmo() <= 0
-            && getCannonDirection() != CannonDirection.NORTH) {
-            animate(cannonDirection.getAnimationId());
-            cannonDirection = cannonDirection.next();
-        }
-
-        for (var t : potentialTargets) {
-            if (t == null) continue;
-            if (t.dead()) continue;
-            target = Optional.of(t);
-        }
-
-        target.ifPresent(npc -> getOwnerOpt().ifPresent(owner -> {
-            var center = getCorrectedTile(tile());
-            var distance = center.distance(npc.tile());
-            var duration = (41 - 5 + (5 * distance));
-            Projectile p1 = new Projectile(center, npc.getCentrePosition(), 53, 0, duration, 40, 30, 16, 1, 5);
-            final int delay = p1.send(center, npc.getCentrePosition());
-            var hit = new Hit(owner, npc, delay, CombatType.RANGED);
-            hit.checkAccuracy(false).submit().postDamage(h1 -> {
-                h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
-                if (h1.getDamage() > 30) h1.setDamage(30);
-                getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
-                setAmmo(getAmmo() - 1);
-                if (getAmmo() <= 0) {
-                    owner.message("Your cannon is out of ammo!");
-                    setStage(CannonStage.FURNACE, true);
+            target.ifPresent(npc -> getOwnerOpt().ifPresent(owner -> {
+                if (canAttack(npc)) {
+                    var center = getCorrectedTile(this.tile());
+                    var distance = center.getManhattanDistance(npc.getCentrePosition());
+                    var duration = (41 + -5 + (5 * distance));
+                    Projectile p1 = new Projectile(center, npc.getCentrePosition(), 53, 0, duration, 40, 30, 3, this.getSize(), 64, 5);
+                    p1.send(center, npc.getCentrePosition());
+                    final int delay = (int) (p1.getSpeed() / 30D);
+                    var hit = new Hit(owner, npc, delay + 1, CombatType.RANGED);
+                    hit.checkAccuracy(false).submit().postDamage(h1 -> {
+                        h1.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
+                        if (h1.getDamage() > 30) h1.setDamage(30);
+                        getOwner().getSkills().addXp(Skills.RANGED, h1.getDamage());
+                        setAmmo(getAmmo() - 1);
+                        if (getAmmo() <= 0) {
+                            owner.message("Your cannon is out of ammo!");
+                            setStage(CannonStage.FURNACE, true);
+                        }
+                    });
                 }
-            });
-        }));
+            }));
+        }
+    }
+
+    private boolean canAttack(final NPC npc) {
+        final Player player = this.getOwner();
+        if (player == null) return false;
+        return polygons.get(direction).contains(npc.getCentrePosition());
+    }
+
+    private boolean isProjectileClipped(final Tile cannonTile) {
+        return ProjectileRoute.isProjectileClipped(null, null, cannonTile, new Tile(cannonTile.getX() + 2, cannonTile.getY(), cannonTile.getZ()), true) || ProjectileRoute.isProjectileClipped(null, null, cannonTile, new Tile(cannonTile.getX(), cannonTile.getY() + 2, cannonTile.getZ()), true) || ProjectileRoute.isProjectileClipped(null, null, cannonTile, new Tile(cannonTile.getX() + 2, cannonTile.getY() + 2, cannonTile.getZ()), true) || ProjectileRoute.isProjectileClipped(null, null, cannonTile, new Tile(cannonTile.getX() + 1, cannonTile.getY() + 2, cannonTile.getZ()), true) || ProjectileRoute.isProjectileClipped(null, null, cannonTile, new Tile(cannonTile.getX() + 2, cannonTile.getY() + 1, cannonTile.getZ()), true);
+    }
+
+    private ArrayList<NPC> populatePotentialTargets() {
+        ArrayList<NPC> potentialTargets = new ArrayList<>(); // Initialize the ArrayList
+        for (var n : getOwner().closeNpcs(16)) {
+            if (n == null) continue;
+            if (n.getZ() != getOwner().getZ()) continue;
+            if (!n.tile().isViewableFrom(getOwner().tile())) continue;
+            if (n.getCombatInfo() == null) continue;
+            if (isProjectileClipped(getCorrectedTile(this.tile()))) continue;
+            if (!n.tile().isWithinDistance(getCorrectedTile(this.tile()), CANNON_RANGE)) continue;
+            if (n.def().isPet) continue;
+            if (!MultiwayCombat.includes(n.tile())) continue;
+            potentialTargets.add(n);
+        }
+        return potentialTargets;
+    }
+
+    private void rotate() {
+        final int dir = this.direction.ordinal() + 1;
+        if (getOwnerOpt().isPresent() && getStage().equals(CannonStage.FIRING)) {
+            animate(direction.getAnimation().getId());
+            this.direction = MulticannonDirection.values[dir == 8 ? 0 : dir];
+        } else if (getStage().equals(CannonStage.FURNACE) && getAmmo() <= 0 && direction != MulticannonDirection.NORTH) {
+            animate(direction.getAnimation().getId());
+            this.direction = MulticannonDirection.values[dir == 8 ? 0 : dir];
+        }
     }
 
     public void checkDecayTimer() {

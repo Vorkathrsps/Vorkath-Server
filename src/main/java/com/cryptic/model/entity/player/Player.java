@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.player;
 
-import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
@@ -179,22 +178,48 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    @Getter private final Pet petEntity = new Pet();
-    @Getter @Setter public TheatreInterface theatreInterface;
-    @Getter @Setter public RoomState roomState;
-    @Getter @Setter private NightmareInstance nightmareInstance;
-    @Getter @Setter private TheatreInstance theatreInstance;
-    @Getter @Setter private PerilOfMoonInstance perilInstance;
-    @Getter @Setter private double[] savedTornamentXp;
-    @Getter @Setter private Tile lastSavedTile;
-    @Getter @Setter private boolean usingLastRecall = false;
-    @Getter @Setter private int[] savedTornamentLevels;
+    @Getter
+    private final Pet petEntity = new Pet();
+    @Getter
+    @Setter
+    public TheatreInterface theatreInterface;
+    @Getter
+    @Setter
+    public RoomState roomState;
+    @Getter
+    @Setter
+    private NightmareInstance nightmareInstance;
+    @Getter
+    @Setter
+    private TheatreInstance theatreInstance;
+    @Getter
+    @Setter
+    private PerilOfMoonInstance perilInstance;
+    @Getter
+    @Setter
+    private double[] savedTornamentXp;
+    @Getter
+    @Setter
+    private Tile lastSavedTile;
+    @Getter
+    @Setter
+    private boolean usingLastRecall = false;
+    @Getter
+    @Setter
+    private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
-    @Getter private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket();
-    @Setter @Getter private PresetData[] presetData = new PresetData[8];
-    @Getter private final WildernessKeys wildernessKeys = new WildernessKeys();
-    @Getter private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
-    @Getter @Setter public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
+    @Getter
+    private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket();
+    @Setter
+    @Getter
+    private PresetData[] presetData = new PresetData[8];
+    @Getter
+    private final WildernessKeys wildernessKeys = new WildernessKeys();
+    @Getter
+    private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
+    @Getter
+    @Setter
+    public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -211,10 +236,16 @@ public class Player extends Entity {
         }
     }
 
-    @Getter public ArrayList<String> newPlayerChat = new ArrayList<>();
-    @Setter @Getter private Raids raids;
-    @Getter public BonusesInterface bonusInterface = new BonusesInterface(this);
-    @Getter @Setter RaidParty raidParty;
+    @Getter
+    public ArrayList<String> newPlayerChat = new ArrayList<>();
+    @Setter
+    @Getter
+    private Raids raids;
+    @Getter
+    public BonusesInterface bonusInterface = new BonusesInterface(this);
+    @Getter
+    @Setter
+    RaidParty raidParty;
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -279,6 +310,7 @@ public class Player extends Entity {
     public boolean isBot() {
         return getAttribOr(AttributeKey.IS_BOT, false);
     }
+
     public static class TextData {
 
         public final String text;
@@ -301,7 +333,7 @@ public class Player extends Entity {
     @Getter
     private final UnnecessaryPacketDropper packetDropper = new UnnecessaryPacketDropper();
 
-     public int extraItemRollChance() {
+    public int extraItemRollChance() {
         return switch (getMemberRights()) {
             case NONE, RUBY_MEMBER, SAPPHIRE_MEMBER -> 0;
             case EMERALD_MEMBER -> 1;
@@ -2416,10 +2448,9 @@ public class Player extends Entity {
     /**
      * The dialogue manager instance
      * -- GETTER --
-     *  Gets the dialogue manager
+     * Gets the dialogue manager
      *
      * @return
-
      */
     @Getter
     private final DialogueManager dialogueManager = new DialogueManager(this);
@@ -2711,8 +2742,8 @@ public class Player extends Entity {
 
     /**
      * -- GETTER --
-     *  Returns the single instance of the
-     *  class for this player.
+     * Returns the single instance of the
+     * class for this player.
      *
      * @return the tracker class
      */
@@ -2721,8 +2752,8 @@ public class Player extends Entity {
 
     /**
      * -- GETTER --
-     *  Returns the single instance of the
-     *  class for this player.
+     * Returns the single instance of the
+     * class for this player.
      *
      * @return the tracker class
      */

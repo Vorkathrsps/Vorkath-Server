@@ -158,9 +158,12 @@ public class TimerRepository {
         Iterator<Map.Entry<TimerKey, Timer>> iter = timers.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<TimerKey, Timer> entry = iter.next();
-            entry.getValue().tick();
-            if (entry.getValue().ticks() == 0)
-                iter.remove();
+            var timer = entry.getValue();
+            if (timer != null) {
+                timer.tick();
+                if (timer.ticks() == 0)
+                    iter.remove();
+            }
         }
     }
 

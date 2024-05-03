@@ -127,10 +127,16 @@ public class NPC extends Entity {
     private boolean inViewport = true;
     private NpcDefinition def;
     private int hp;
+    @Getter
+    @Setter
     private NPCCombatInfo combatInfo;
     private boolean hidden;
     private boolean respawns = true;
+    @Setter
+    @Getter
     private boolean venomImmune;
+    @Setter
+    @Getter
     private boolean poisonImmune;
     @Getter
     private Area spawnArea;
@@ -431,14 +437,6 @@ public class NPC extends Entity {
         this.def = d;
     }
 
-    public NPCCombatInfo getCombatInfo() {
-        return combatInfo;
-    }
-
-    public void setCombatInfo(NPCCombatInfo info) {
-        combatInfo = info;
-    }
-
     public void hidden(boolean b) {
         hidden = b;
         //Tile.occupy(this);
@@ -462,33 +460,19 @@ public class NPC extends Entity {
         return id >= 13000 && id <= 13009;
     }
 
-    public boolean isVenomImmune() {
-        return venomImmune;
-    }
-
-    public void setVenomImmune(boolean venomImmune) {
-        this.venomImmune = venomImmune;
-    }
-
-    public boolean isPoisonImmune() {
-        return poisonImmune;
-    }
-
-    public void setPoisonImmune(boolean poisonImmune) {
-        this.poisonImmune = poisonImmune;
-    }
-
 
     /**
      * The npc's combat method, used
      * for attacking.
      */
+    @Getter
     private CombatMethod combatMethod;
 
     /**
      * The {@link SecondsTimer} where this npc is
      * immune to attacks.
      */
+    @Getter
     private final SecondsTimer immunity = new SecondsTimer();
 
     public boolean canSeeTarget(Entity attacker, Entity target) {
@@ -560,7 +544,6 @@ public class NPC extends Entity {
         List<Player> temp = new ArrayList<>();
         for (var region : this.getSurroundingRegions()) {
             for (var player : region.getPlayers()) {
-                if (!region.getPlayers().contains(player)) continue;
                 if (player == null || player.getZ() != this.getZ() || player.looks().hidden() || temp.contains(player))
                     continue;
                 if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
@@ -604,11 +587,8 @@ public class NPC extends Entity {
     /**
      * The npc's head icon.
      */
+    @Getter
     private int PKBotHeadIcon = -1;
-
-    public int getPKBotHeadIcon() {
-        return PKBotHeadIcon;
-    }
 
     public void setPKBotHeadIcon(int PKBotHeadIcon) {
         this.PKBotHeadIcon = PKBotHeadIcon;
@@ -619,19 +599,9 @@ public class NPC extends Entity {
     /**
      * The npc bot handler.
      */
+    @Setter
+    @Getter
     private NPCBotHandler botHandler;
-
-    public NPCBotHandler getBotHandler() {
-        return botHandler;
-    }
-
-    public void setBotHandler(NPCBotHandler botHandler) {
-        this.botHandler = botHandler;
-    }
-
-    public CombatMethod getCombatMethod() {
-        return combatMethod;
-    }
 
     public void setCombatMethod(CombatMethod combatMethod) {
         this.combatMethod = combatMethod;
@@ -639,10 +609,6 @@ public class NPC extends Entity {
             ccm.set(this, null);
             ccm.init(this);
         }
-    }
-
-    public SecondsTimer getImmunity() {
-        return immunity;
     }
 
     public void graphic(int graphic) {
@@ -660,7 +626,7 @@ public class NPC extends Entity {
             long[] last_time = new long[1];
 
             // Identify invalid entries and our current targets last attack time
-            if (last_attacked_map.size() > 0) {
+            if (!last_attacked_map.isEmpty()) {
                 last_attacked_map.forEach((p, t) -> {
                     if (target == p) // Our current target hasn't attacked for 10s. Fuck that guy, change!
                         last_time[0] = t;
@@ -676,7 +642,7 @@ public class NPC extends Entity {
 
             // 0L = never attacked in the first place. otherwise 10s check
             if (last_time[0] == 0L || System.currentTimeMillis() - last_time[0] >= 8000) {
-                if (last_attacked_map.size() > 0) {
+                if (!last_attacked_map.isEmpty()) {
                     // Retaliate to a random person who has recently attacked us in this room.
                     super.autoRetaliate(last_attacked_map.keySet().toArray(new Entity[0])[Utils.random(last_attacked_map.size() - 1)]);
                 } else {

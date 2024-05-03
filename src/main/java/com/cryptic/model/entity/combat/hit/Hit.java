@@ -53,7 +53,8 @@ public class Hit {
     private int damage;
     @Getter
     private int delay;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int initialDelay;
     @Getter
     public boolean checkAccuracy;
@@ -206,16 +207,22 @@ public class Hit {
     public int getMaximumHit() {
         int maxHit = -1;
         if (attacker instanceof Player) {
-            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE) maxHit = attacker.getCombat().getMaximumMeleeDamage();
-            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) maxHit = attacker.player().getCombat().getMaximumRangedDamage();
-            if (this.getSource().getCombat().getCombatType() == CombatType.MAGIC) maxHit = attacker.getCombat().getMaximumMagicDamage();
+            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE)
+                maxHit = attacker.getCombat().getMaximumMeleeDamage();
+            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED)
+                maxHit = attacker.player().getCombat().getMaximumRangedDamage();
+            if (this.getSource().getCombat().getCombatType() == CombatType.MAGIC)
+                maxHit = attacker.getCombat().getMaximumMagicDamage();
         }
         return maxHit;
     }
 
-    @Getter @Setter public static boolean debugAccuracy = false;
+    @Getter
+    @Setter
+    public static boolean debugAccuracy = false;
 
     AbstractAccuracy accuracy;
+
     public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEAL) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
@@ -257,7 +264,8 @@ public class Hit {
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
-        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.MISS);
+        if (this.accurate && this.damage == 0) this.block();
+        if (!this.accurate && this.damage <= 0) this.block();
         else this.setHitMark(HitMark.HIT);
         CombatFactory.damageModifiers.applyModifiedAccuracy(this.attacker, accuracy, this);
         return this;
@@ -382,7 +390,8 @@ public class Hit {
         if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.damage >= this.target.hp()) this.damage = this.target.hp();
-        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        if (this.attacker instanceof Player player)
+            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }
@@ -414,6 +423,7 @@ public class Hit {
     }
 
     public Hit block() {
+        this.setHitMark(HitMark.MISS);
         this.isMaxHit = false;
         this.accurate = false;
         this.damage = 0;

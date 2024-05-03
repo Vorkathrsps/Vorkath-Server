@@ -211,7 +211,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         List<Player> targets = getFacingTargets();
         //System.out.println("targets size : " + targets.size());
         // if everyone runs between both sides, olm spends all the time turning and no time attacking.
-        if (justTurned && targets.size() == 0)
+        if (justTurned && targets.isEmpty())
             targets = getAllTargets();
         var headRunnerNotInDirection = false;
         if (isOnEastSide()) {
@@ -219,7 +219,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         } else {
             headRunnerNotInDirection = (facing == LEFT && target.tile().y < 5741) || (facing == RIGHT && target.tile().y > 5739) || (facing == CENTER && target.tile().y != 5740);
         }
-        if (targets.size() == 0 || (!justTurned && headRunnerNotInDirection)) {
+        if (targets.isEmpty() || (!justTurned && headRunnerNotInDirection)) {
             turn();
             justTurned = true;
             return false;
@@ -330,7 +330,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
         List<Player> potentialTargets = getFacingTargets();
-        if (potentialTargets.size() == 0)
+        if (potentialTargets.isEmpty())
             return;
         Player target = World.getWorld().get(potentialTargets);
         ACID_DRIP_PROJECTILE.send(npc, target);
@@ -406,7 +406,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
 
     public void burnAttack(NPC npc) {
         List<Player> potentialTargets = getFacingTargets();
-        if (potentialTargets.size() == 0)
+        if (potentialTargets.isEmpty())
             return;
         Player target = World.getWorld().get(potentialTargets);
         animate(npc, facing.getAttackAnim(isEmpowered()));
@@ -441,7 +441,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
     public void sphereAttack(NPC npc, List<Player> targets) {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
-        for (int i = 0; i < 3 && targets.size() > 0; i++) {
+        for (int i = 0; i < 3 && !targets.isEmpty(); i++) {
             Player target = targets.remove(World.getWorld().get(targets.size() - 1));
             CombatType style = World.getWorld().get() < 1d / 3 ? CombatType.MAGIC : (World.getWorld().get() < 1d / 2 ? CombatType.RANGED : CombatType.MELEE);
             String message;
@@ -646,7 +646,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
     public void crystalMark(NPC npc) {
         forAllTargets(p -> p.message("The Great Olm sounds a cry..."));
         List<Player> potentialTargets = getFacingTargets();
-        if (potentialTargets.size() == 0)
+        if (potentialTargets.isEmpty())
             return;
         Player target = World.getWorld().get(potentialTargets);
         target.message(Color.RED.wrap("The Great Olm has chosen you as its target - watch out!"));
@@ -680,7 +680,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
 
     public void flameWall(NPC npc) {
         List<Player> potentialTargets = getFacingTargets();
-        if (potentialTargets.size() == 0)
+        if (potentialTargets.isEmpty())
             return;
         Player target = World.getWorld().get(potentialTargets);
         animate(npc, facing.getAttackAnim(isEmpowered()));

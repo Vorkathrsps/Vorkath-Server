@@ -22,6 +22,8 @@ import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
+import com.cryptic.model.map.object.dwarf_cannon.DwarfCannon;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.route.RouteMisc;
@@ -41,6 +43,7 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.BooleanSupplier;
+import java.util.stream.IntStream;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;

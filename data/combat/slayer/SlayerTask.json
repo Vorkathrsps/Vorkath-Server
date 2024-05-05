@@ -2044,33 +2044,5 @@
     "extendedMin": 20,
     "extendedMax": 30,
     "uid": 59
-  },
-  {
-    "taskName": "Revenants",
-    "slayerMasters": [
-      6797
-    ],
-    "npcs": [
-      7881,
-      7931,
-      7932,
-      7933,
-      7934,
-      7935,
-      7936,
-      7937,
-      7938,
-      7939,
-      7940,
-      11246
-    ],
-    "combatReq": 100,
-    "slayerReq": 1,
-    "weight": 2,
-    "min": 25,
-    "max": 150,
-    "extendedMin": 160,
-    "extendedMax": 230,
-    "uid": 60
   }
 ]

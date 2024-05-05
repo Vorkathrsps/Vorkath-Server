@@ -143,6 +143,7 @@ public enum TimerKey {
      * The amount of immunity time the player has
      */
     STUN_IMMUNITY,
+    DOUBLE_DROPS,
 
     ATTACK_IMMUNITY,
     TOURNAMENT_FIGHT_IMMUNE,

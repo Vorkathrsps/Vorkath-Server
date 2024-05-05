@@ -49,10 +49,6 @@
             <id>maven.scijava.org</id>
             <url>https://maven.scijava.org/content/repositories/public//</url>
         </repository>
-        <repository>
-            <id>openrune-repo</id>
-            <url>https://raw.githubusercontent.com/OpenRune/hosting/master</url>
-        </repository>
     </repositories>
 
     <pluginRepositories>

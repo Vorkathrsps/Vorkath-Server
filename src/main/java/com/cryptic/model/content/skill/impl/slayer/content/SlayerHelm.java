@@ -5,9 +5,14 @@ import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Color;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SlayerHelm {
+    Map<Integer, Tile> locations = new HashMap<>();
 
     public static boolean onContainerAction2(Player player, Item item) {
         if (item.name().toLowerCase().contains("slayer helmet") || item.name().toLowerCase().contains("slayer helmet (i)")) {

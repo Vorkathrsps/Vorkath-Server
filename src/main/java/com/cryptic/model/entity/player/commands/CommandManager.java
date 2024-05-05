@@ -25,8 +25,8 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -455,10 +455,10 @@ public class CommandManager {
             var i = 1;
             for (HitMark value : HitMark.values()) {
                 Chain.noCtx().delay(i++, () -> {
-                    Hit hit = new Hit(p,p,0,CombatType.MELEE).checkAccuracy(false).setHitMark(value);
+                    Hit hit = new Hit(p, p, 0, CombatType.MELEE).checkAccuracy(false).setHitMark(value);
                     hit.setMaxHit(true);
                     hit.submit();
-                    new Hit(p,p,0,CombatType.MELEE).checkAccuracy(false).setHitMark(value).submit();
+                    new Hit(p, p, 0, CombatType.MELEE).checkAccuracy(false).setHitMark(value).submit();
                 });
             }
         });
@@ -690,13 +690,22 @@ public class CommandManager {
                 count[0]++;
             });
         });
+        dev("npcvarbit", (p, c, s) ->
+        {
+            int id = Integer.parseInt(s[1]);
+            int varbit = NpcDefinition.getVarbit(id);
+            p.forceChat("Npc Varbit: " + String.valueOf(varbit));
+        });
 
         dev("cc", (p, c, s) ->
         {
-            List<Player> player = new ArrayList<>();
+            int id = Integer.parseInt(s[1]);
+            int varbit = NpcDefinition.getVarbit(id);
+            p.forceChat("Npc Varbit: " + String.valueOf(varbit));
+        /*    List<Player> player = new ArrayList<>();
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
-            instance.buildParty();
+            instance.buildParty();*/
            /* NightmareInstance instance = new NightmareInstance(p, new ArrayList<>());
             instance.build();*/
         });

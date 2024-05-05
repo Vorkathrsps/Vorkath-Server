@@ -101,9 +101,7 @@ public class NpcDefinition implements Definition {
                 AnimationSkeletonSet sett = AnimationSkeletonSet.get(store, skel);
                 if (sett.loadedSkins.containsKey(skin)) {
                     work.add(i);
-                    //System.out.println("Animation #" + i + " uses player kinematic set.");
                 }
-                //System.out.println(skel);
             } catch (Exception ignored) {
 
             }
@@ -143,6 +141,10 @@ public class NpcDefinition implements Definition {
 
     public static NpcDefinition get(int id) {
         return cached.get(id);
+    }
+
+    public static int getVarbit(int id) {
+        return cached.get(id).varbit;
     }
 
     void decode(RSBuffer buffer) {

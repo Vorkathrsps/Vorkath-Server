@@ -16,6 +16,7 @@ import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
@@ -357,7 +358,7 @@ public class SlayerTask {
     public boolean hasTaskRequirements(@Nonnull Player player, SlayerTask task) {
         if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))) return false;
         if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid())) return false;
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 60) return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47) return false;
         return true;
     }
 
@@ -524,6 +525,72 @@ public class SlayerTask {
     int calculateEmblem(int hitpoints) {
         double result = (1.0 / 155) - (hitpoints / 2.0);
         return (int) Math.round(Math.abs(result));
+    }
+
+    public final Tile getLocation() {
+        Tile location = null;
+        switch (this.getTaskName()) {
+            case "Rune Dragons" -> location = new Tile(1573, 5074, 0);
+            case "Adamant Dragons" -> location = new Tile(1562, 5075, 0);
+            case "Aviansies" -> location = new Tile(2838, 5291, 2);
+            case "Lizardmen" -> location = new Tile(1453, 3694, 0);
+            case "Mithril Dragons" -> location = new Tile(1777, 5349, 1);
+            case "Tzhaars" -> location = new Tile(2456, 5159, 0);
+            case "Kalphites" -> location = new Tile(3499, 9525, 2);
+            case "Ankou" -> location = new Tile(1641, 9995, 0);
+            case "Trolls" -> location = new Tile(2849, 3674, 0);
+            case "Blue Dragons" -> location = new Tile(2907, 9812, 0);
+            case "Fire Giants" -> location = new Tile(2568, 9892, 0);
+            case "Red Dragons" -> location = new Tile(2708, 9537, 0);
+            case "Elves" -> location = new Tile(3189, 12409, 0);
+            case "Dagannoths" -> location = new Tile(2443, 10146, 0);
+            case "Hellhounds" -> location = new Tile(1644, 10066, 0);
+            case "Black Demons" -> location = new Tile(1719, 10084, 0);
+            case "Greater Demons" -> location = new Tile(1693, 10098, 0);
+            case "Black Dragons" -> location = new Tile(1613, 10085, 0);
+            case "Steel Dragons" -> location = new Tile(1606, 10048, 0);
+            case "Suqahs" -> location = new Tile(2112, 3862, 0);
+            case "Basilisks" -> location = new Tile(2747, 10012, 0);
+            case "Brine Rats" -> location = new Tile(2708, 10133, 0);
+            case "Bloodvelds" -> location = new Tile(1679, 10075, 0);
+            case "Turoths" -> location = new Tile(2728, 10002, 0);
+            case "Cave Horrors" -> location = new Tile(3826, 9425, 0);
+            case "Aberrant Spectres" -> location = new Tile(2464, 9783, 0);
+            case "Wyrms" -> location = new Tile(1279, 10187, 0);
+            case "Dust Devils" -> location = new Tile(1714, 10032, 0);
+            case "Wyverns" -> location = new Tile(3060, 9560, 0);
+            case "Kurasks" -> location = new Tile(2705, 9977, 0);
+            case "Gargoyles" -> location = new Tile(3444, 3539, 2);
+            case "Nechryael" -> location = new Tile(1706, 10081, 0);
+            case "Drakes" -> location = new Tile(1313, 10235, 0);
+            case "Abyssal Demons" -> location = new Tile(1676, 10059, 0);
+            case "Cave Krakens" -> location = new Tile(2277, 10003, 0);
+            case "Dark Beasts" -> location = new Tile(1991, 4648, 0);
+            case "Smoke Devils" -> location = new Tile(2388, 9449, 0);
+            case "Banshees" -> location = new Tile(1617, 9997, 0);
+            case "Bats" -> location = new Tile(2914, 9833, 0);
+            case "Bears" -> location = new Tile(3705, 3339, 0);
+            case "Crawling Hands" -> location = new Tile(3419, 3557, 0);
+            case "Hill Giants" -> location = new Tile(1652, 10036, 0);
+            case "Crabs" -> location = new Tile(2706, 3713, 0);
+            case "Skeletons" -> location = new Tile(1642, 10048, 0);
+            case "Spiders" -> location = new Tile(3169, 3885, 0);
+            case "Ghosts" -> location = new Tile(1663, 10023, 0);
+            case "Revenants" -> location = new Tile(3255, 10187, 0);
+            case "Scorpions" -> location = new Tile(3299, 3300, 0);
+            case "Lava Dragons" -> location = new Tile(3202, 3857, 0);
+            case "Green Dragons" -> location = new Tile(3343, 3664, 0);
+            case "Magic Axes" -> location = new Tile(3190, 3960, 0);
+            case "Pirates" -> location = new Tile(3041, 3958, 0);
+            case "Rogues" -> location = new Tile(3292, 3940, 0);
+            case "Black Knights" -> location = new Tile(3022, 3513, 0);
+            case "Waterfiends" -> location = new Tile(1760, 5358, 0);
+            case "Hydras" -> location = new Tile(1311, 10266, 0);
+            case "Callisto" -> location = new Tile(3293, 3847, 0);
+            case "Vetion" -> location = new Tile(3222, 3791, 0);
+            case "Venenatis" -> location = new Tile(3316, 3795, 0);
+        }
+        return location;
     }
 
     @Override

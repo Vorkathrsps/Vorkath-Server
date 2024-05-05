@@ -11,7 +11,6 @@ public enum HitMark {
      */
     MISS(12, 13, -1),
     IRONMAN_BLOCKED(1, -1, -1),
-
     HIT(16, 17, 43),
     POISON(65, 66, 2),
     DISEASE(3, -1, -1),

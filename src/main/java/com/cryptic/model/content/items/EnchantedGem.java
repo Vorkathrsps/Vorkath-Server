@@ -2,9 +2,11 @@ package com.cryptic.model.content.items;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
+import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
+import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -36,6 +38,11 @@ public class EnchantedGem extends PacketInteraction {
                 var assignment = slayerTask.getCurrentAssignment(player);
                 if (assignment == null) {
                     player.message(Color.BLUE.wrap("You currently do not have an active Slayer Task."));
+                    return true;
+                }
+                if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYERS_NODE)) {
+                    var location = assignment.getLocation();
+                    if (location != null) Teleports.basicTeleport(player, location);
                     return true;
                 }
                 var amount = assignment.getRemainingTaskAmount(player);

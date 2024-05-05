@@ -31,7 +31,7 @@ public class InstancedArea {
      * The areas for this instanced area.
      * When a player leaves these areas they are removed from the instance.
      */
-    private final List<Area> areas = Lists.newArrayList();
+    public final List<Area> areas = Lists.newArrayList();
 
     /**
      * The {@link Player}s contained in this instance.

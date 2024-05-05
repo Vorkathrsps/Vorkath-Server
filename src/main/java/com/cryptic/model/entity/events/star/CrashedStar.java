@@ -160,7 +160,6 @@ public class CrashedStar extends GameObject {
             Item bloodMoney = new Item(ItemIdentifiers.BLOOD_MONEY, 150);
             player.getInventory().addOrDrop(stardust);
             player.getInventory().addOrDrop(bloodMoney);
-            System.out.println("yes");
             player.skills().addXp(Skills.MINING, assignedXpRate);
         }
     }

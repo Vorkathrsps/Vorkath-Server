@@ -68,11 +68,9 @@ public class Poison {
 
                     // Grab value. More than 0 means we're poisoned for X ticks, lower than X means we're immune.
                     var poisonTicks = player.<Integer>getAttribOr(AttributeKey.POISON_TICKS, 0);
-                    Entity poisoneBy = player; // TODO add poisonedBy attrib, default to self player
 
                     if (poisonTicks > 0) {
-                        player.hit(poisoneBy, Math.min(20, determineHit(poisonTicks)), HitMark.POISON);
-                        //player.hit(new PoisonOrigin(), Math.min(20, determineHit(poisonTicks)), Hitsplat.POISON_HITSPLAT);
+                        player.hit(player, Math.min(20, determineHit(poisonTicks)), HitMark.POISON);
                         player.putAttrib(AttributeKey.POISON_TICKS, poisonTicks - 1); // reduce as normal
                     } else if (poisonTicks < 0) {
                         player.putAttrib(AttributeKey.POISON_TICKS, poisonTicks + 1); // increment it back to 0 from negative (from being immune)
@@ -84,7 +82,6 @@ public class Poison {
 
                     if (poisonTicks > 0) {
                         npc.hit(null, Math.min(20, determineHit(poisonTicks)), HitMark.POISON);
-                        //npc.hit(npc, Math.min(20, determineHit(poisonTicks)), Hitsplat.POISON_HITSPLAT);
                         npc.putAttrib(AttributeKey.POISON_TICKS, poisonTicks - 1);
                     } else if (poisonTicks < 0) {
                         npc.putAttrib(AttributeKey.POISON_TICKS, poisonTicks + 1);

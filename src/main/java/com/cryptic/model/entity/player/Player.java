@@ -49,8 +49,11 @@ import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.Skillable;
 import com.cryptic.model.content.skill.impl.farming.Farming;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
+import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
+import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.skill.perks.SkillingItems;
 import com.cryptic.model.content.tasks.TaskMasterManager;
 import com.cryptic.model.content.teleport.Teleports;
@@ -83,6 +86,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
+import com.cryptic.model.entity.events.star.StarEvent;
 import com.cryptic.model.entity.healthbar.StaticHealthBarUpdate;
 import com.cryptic.model.entity.masks.Appearance;
 import com.cryptic.model.entity.masks.Flag;
@@ -400,6 +404,10 @@ public class Player extends Entity {
             percent += 0.075;
         }
 
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.PET_SMART) && this.getPetEntity().entity != null) {
+            percent += 0.05;
+        }
+
         return percent;
     }
 
@@ -483,21 +491,32 @@ public class Player extends Entity {
         player.getPacketSender().sendString(73015, "Name: " + player.getUsername());
     }
 
-    public void updateServerInformation(Player player) {
+    void updateServerInformation(Player player) {
         LocalDateTime now = LocalDateTime.now();
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
-        long risked = ItemsKeptOnDeath.getLostItemsValue();
-        String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+        var assignment = slayerTask.getCurrentAssignment(player);
         player.getPacketSender().sendString(80055, GameServer.settings().getName() + " Information");
         player.getPacketSender().sendString(80059, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
         player.getPacketSender().sendString(80060, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
         player.getPacketSender().sendString(80061, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
         player.getPacketSender().sendString(80062, "Players In Wild: " + "@whi@" + World.getWorld().getPlayersInWild());
-        //player.getPacketSender().sendString(80064, "Total Risk: " + "@whi@" + formatted);
         player.getPacketSender().sendString(80063, "Drop Rate: " + "@whi@" + Utils.formatpercent(player.getDropRateBonus()));
         player.getPacketSender().sendString(80064, "Tournament: " + "@whi@" + QuestTabUtils.getFormattedTournamentTime());
         player.getPacketSender().sendString(80065, "Wild Activity: " + "@whi@" + WildernessActivityManager.getSingleton().getActivityDescription());
         player.getPacketSender().sendString(80066, "Wilderness Boss: " + "@whi@" + minutesTillWildyBoss + " Minutes");
+        var crashedStar = StarEvent.getInstance();
+        if (StarEvent.currentSpawnPos == null) {
+            player.getPacketSender().sendString(80067, "Crashed Star: @whi@N/A");
+        } else {
+            player.getPacketSender().sendString(80067, "Crashed Star: @whi@" + crashedStar.spawnLocation(StarEvent.currentSpawnPos));
+        }
+        if (assignment != null) {
+            var amount = assignment.getRemainingTaskAmount(player);
+            player.getPacketSender().sendString(80068, "Slayer Task: @whi@" + amount + " " + assignment.getTaskName());
+        } else {
+            player.getPacketSender().sendString(80068, "Slayer Task: @whi@N/A");
+        }
     }
 
     public void healPlayer() {

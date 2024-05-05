@@ -18,6 +18,7 @@ public class BansheeCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!isReachable()) return true;
         entity.animate(entity.attackAnimation());
 
         Player player = (Player) target;

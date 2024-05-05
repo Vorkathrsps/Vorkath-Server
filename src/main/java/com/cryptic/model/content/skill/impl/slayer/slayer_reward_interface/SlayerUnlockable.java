@@ -7,11 +7,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.cryptic.model.content.treasure.TreasureRewardCaskets.MASTER_CASKET;
-import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -52,7 +47,10 @@ public enum SlayerUnlockable {
     WEAK_SPOT(SlayerConstants.WEAK_SPOT, new Item(DRAGON_CLAWS), 150, "Weak spot", "10% Increased accuracy whilst fighting<br>against monsters on a Slayer task." + "<br><col=ca0d0d>(150 points)"),
 
     STRONK(SlayerConstants.STRONK, new Item(STRENGTH_CAPET), 250, "Too Stronk", "1-5 Extra max hits whilst fighting against<br>monsters on a Slayer task.<br><col=ca0d0d>(250 points)"),
-    REVVED_UP(SlayerConstants.REVVED_UP, new Item(REVENANT_ETHER, 5000), 150, "Revved Up!", "Learn the ability to recieve Revenants<br>as a Slayer task.<br><col=ca0d0d>(150 points)");
+    REVVED_UP(SlayerConstants.REVVED_UP, new Item(REVENANT_ETHER, 5000), 150, "Revved Up!", "Learn the ability to recieve Revenants<br>as a Slayer task.<br><col=ca0d0d>(150 points)"),
+    PET_SMART(SlayerConstants.PET_SMART, new Item(TZREKZUK, 1), 4000, "Pet Smart", "Learn the ability for your pets to include<br>an extra 5% Drop rate.<br><col=ca0d0d>(4000 points)"),
+    SPARE_CHANGE(SlayerConstants.SPARE_CHANGE, new Item(COINS_995, 10_000), 1250, "SPARE CHANGE!", "Learn the ability to receive bonus Coins<br>upon completing your Slayer task.<br><col=ca0d0d>(1250 points)"),
+    SKIPPY(SlayerConstants.SKIPPY, new Item(RUN, 1), 5_000, "Skippy", "Learn the ability to cancel your Slayer tasks<br>without having to pay the fee.<br><col=ca0d0d>(5000 points)");
 
     private final int buttonId;
     private final Item item;

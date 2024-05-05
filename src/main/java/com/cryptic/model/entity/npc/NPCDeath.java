@@ -13,6 +13,7 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
+import com.cryptic.model.content.skill.impl.slayer.superior_slayer.SuperiorSlayer;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -473,6 +474,7 @@ public class NPCDeath {
 
             if (killer != null) {
 
+                SuperiorSlayer.trySpawn(killer, slayerTask, npc);
                 slayerTask.handleSlayerDeath(killer, npc);
 
                 if (WildernessArea.isInWilderness(killer)) {

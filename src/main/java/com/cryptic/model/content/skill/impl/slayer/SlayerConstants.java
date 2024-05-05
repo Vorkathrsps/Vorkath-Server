@@ -28,9 +28,9 @@ public class SlayerConstants {
     public final static int WEAK_SPOT = 63424;
     public final static int STRONK = 63425;
     public final static int REVVED_UP = 63426;
-    public final static int ELECTION_DAY = 63427;
-    public final static int WHOS_KEYS_ARE_THESE = 63428;
-    public final static int NULL = 63429;
+    public final static int PET_SMART = 63427;
+    public final static int SPARE_CHANGE = 63428;
+    public final static int SKIPPY = 63429;
     public final static int DIGGING_FOR_TREASURE = 63430;
 
     public final static int ADAMIND_SOME_MORE = 64306;
@@ -58,6 +58,5 @@ public class SlayerConstants {
     public final static int LAVA = 64328;
     public final static int WORLD_BOSSILONGER = 64329;
     public final static int GOD_WAR = 64330;
-
 
 }

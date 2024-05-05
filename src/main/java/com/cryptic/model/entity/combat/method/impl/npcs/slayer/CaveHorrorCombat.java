@@ -21,7 +21,7 @@ public class CaveHorrorCombat extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(1)) return false;
+        if (!isReachable()) return true;
         Player player = (Player) target;
         if (player.getEquipment().getId(EquipSlot.AMULET) != 8923) {
             entity.animate(4237);

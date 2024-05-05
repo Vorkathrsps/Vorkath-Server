@@ -104,6 +104,7 @@ public class BlueMoonNPC extends NPC {
                 if (hit.isAccurate() && hit.getDamage() > 0 && player.tile().inBounds(this.instance.getCircleNpcs()[currentIndex].bounds())) {
                     hit.setDamage(hit.getDamage() / 2);
                 }
+                this.healHit(this, hit.getDamage() / 2);
             });
     }
 

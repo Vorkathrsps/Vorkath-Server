@@ -28,7 +28,7 @@ public class Pickpocketing extends PacketInteraction {
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if (option == 2) {
-            NpcDefinition npcDef = World.getWorld().definitions().get(NpcDefinition.class, npc.id());
+            NpcDefinition npcDef = NpcDefinition.cached.get(npc.id());
             for (PickPocket pickpocket : PickPocket.values()) {
                 if (npcDef.name.equalsIgnoreCase(pickpocket.name().replace("_", " ")) ||
                     npcDef.name.toLowerCase().contains(pickpocket.name().toLowerCase())) {

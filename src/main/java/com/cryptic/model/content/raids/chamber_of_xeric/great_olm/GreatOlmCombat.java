@@ -60,10 +60,6 @@ public class GreatOlmCombat extends CommonCombatMethod {
     private static final Projectile FLAME_WALL_PROJECTILE_2 = new Projectile(1348, 0, 0, 0, 30, 0, 16, 0);
 
     private static final Projectile SIPHON_PROJECTILE = new Projectile(1355, 100, 0, 30, 100, 0, 16, 0);
-    private static final Projectile MAGIC_SPHERE = new Projectile(1341, 80, 43, 30, 150, 0, 16, 192);
-    private static final Projectile RANGED_SPHERE = new Projectile(1343, 80, 43, 30, 150, 0, 16, 192);
-    private static final Projectile MELEE_SPHERE = new Projectile(1345, 80, 43, 30, 150, 0, 16, 192);
-
     AtomicBoolean turning = new AtomicBoolean();
 
     /**

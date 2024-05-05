@@ -4,15 +4,12 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatConstants;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
@@ -25,9 +22,11 @@ public class BasicDragonCombat extends CommonCombatMethod {
         switch (random) {
             case 0, 1 -> {
                 if (isReachable()) basicAttack();
-                else breathFire();
+                else if (isReachable()) breathFire();
             }
-            case 2, 3 -> breathFire();
+            case 2, 3 -> {
+                if (isReachable()) breathFire();
+            }
         }
         return true;
     }

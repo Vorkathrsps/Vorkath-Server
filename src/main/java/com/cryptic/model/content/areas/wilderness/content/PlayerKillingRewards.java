@@ -164,12 +164,6 @@ public class PlayerKillingRewards {
                     killer.getRisk().reward();
                 }
 
-                //1 in 35 chance to receive a blood money casket
-/*                if(World.getWorld().rollDie(35,1)) {
-                    killer.inventory().addOrBank(new Item(BLOOD_MONEY_CASKET));
-                    killer.message(Color.PURPLE.wrap("You've found a blood money casket searching the corpse of "+target.getUsername()+"."));
-                }*/
-
                 //1 in 10 chance to receive a mystery box
                 if(World.getWorld().rollDie(10,1)) {
                     killer.inventory().addOrBank(new Item(MYSTERY_BOX));
@@ -181,15 +175,6 @@ public class PlayerKillingRewards {
                     killer.inventory().addOrBank(new Item(VESTAS_LONGSWORD));
                     killer.message(Color.PURPLE.wrap("You've found a epic pet mystery box searching the corpse of "+target.getUsername()+"."));
                     World.getWorld().sendWorldMessage("<img=2010><img=2013>" + killer.getUsername() + " " + "found a epic pet mystery box searching the corpse of "+target.getUsername()+".");
-                }
-
-                var whosKeysAreThese = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WHOS_KEYS_ARE_THESE);
-
-                //1 in 250 chance to receive a key of drops
-                if(whosKeysAreThese && World.getWorld().rollDie(250,1)) {
-                    killer.inventory().addOrBank(new Item(DONATOR_MYSTERY_BOX));
-                    killer.message(Color.PURPLE.wrap("You've found a key of drops searching the corpse of "+target.getUsername()+"."));
-                    World.getWorld().sendWorldMessage("<img=2010><img=2013>" + killer.getUsername() + " " + "found a "+Color.BLUE.wrap("key of drops")+" searching the corpse of "+target.getUsername()+".");
                 }
             }
         } catch (Exception e) {

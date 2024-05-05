@@ -5,6 +5,7 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
+import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -61,6 +62,7 @@ public class SlayerTask {
     final int[] emblems = new int[]{ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5};
     final int[] pvp_equipment = new int[]{VESTAS_LONGSWORD_BH, STATIUSS_WARHAMMER_BH, VESTAS_SPEAR_BH, ZURIELS_STAFF_BH};
     final int[] sigils = new int[]{SIGIL_OF_THE_FERAL_FIGHTER_26075, SIGIL_OF_THE_MENACING_MAGE_26078, SIGIL_OF_THE_RUTHLESS_RANGER_26072, SIGIL_OF_DEFT_STRIKES_26012, SIGIL_OF_THE_METICULOUS_MAGE_26003, SIGIL_OF_CONSISTENCY_25994, SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, SIGIL_OF_RESISTANCE_28490, SIGIL_OF_PRECISION_28514, SIGIL_OF_FORTIFICATION_26006, SIGIL_OF_STAMINA_26042, SIGIL_OF_THE_ALCHEMANIAC_28484, SIGIL_OF_EXAGGERATION_26057, SIGIL_OF_DEVOTION_26099, SIGIL_OF_LAST_RECALL_26144, SIGIL_OF_REMOTE_STORAGE_26141, SIGIL_OF_THE_NINJA_28526, SIGIL_OF_THE_INFERNAL_SMITH_28505};
+    final int[] wildernessBossUids = new int[]{57, 58, 60};
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
             Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
@@ -156,6 +158,13 @@ public class SlayerTask {
     }
 
     public void cancelSlayerTask(Player player, boolean isBlocking, boolean isCoins) {
+        if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SKIPPY)) {
+            player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
+            player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
+            player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
+            player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
+            return;
+        }
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         if (!isCoins && slayerPoints < 30) {
             player.message(Color.RED.wrap("You do not have enough coins to do this."));
@@ -180,6 +189,15 @@ public class SlayerTask {
     }
 
     public void sendCancelTaskDialouge(@Nonnull Player player) {
+        if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SKIPPY)) {
+            SlayerTask slayer = World.getWorld().getSlayerTasks();
+            slayer.cancelSlayerTask(player, false, true);
+            slayer.displayCurrentAssignment(player);
+            player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
+            player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
+            player.message("You have successfully cancelled your task.");
+            return;
+        }
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -265,13 +283,19 @@ public class SlayerTask {
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
                 slayerPoints += increment;
                 player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints);
-                player.getInventory().addOrDrop(new Item(995, 1_000_000));
+                rewardCoins(player);
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);
                 return;
             }
         }
+    }
+
+    private static void rewardCoins(Player player) {
+        var coinAmount = 1_000_000;
+        if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SPARE_CHANGE)) coinAmount *= 1.40;
+        player.getInventory().addOrDrop(new Item(995, coinAmount));
     }
 
     void isSlayerPerkEnabled(final Player player, final NPC npc, HashMap<Integer, String> slayerPerks) {
@@ -331,8 +355,9 @@ public class SlayerTask {
     }
 
     public boolean hasTaskRequirements(@Nonnull Player player, SlayerTask task) {
-        System.out.println(task.combatReq);
         if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))) return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid())) return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 60) return false;
         return true;
     }
 
@@ -485,15 +510,13 @@ public class SlayerTask {
 
     int calculateLarrans(int combatLevel) {
         int probability;
-        if (combatLevel > 0 && combatLevel <= 80) {
-            double result = 100.0 / (310 * Math.pow((80 - combatLevel), 2));
-            probability = (int) (100 / Math.floor(result) + 100);
+        if (combatLevel >= 1 && combatLevel <= 80) {
+            probability = (int) (1972.0 / combatLevel);
         } else if (combatLevel > 80 && combatLevel <= 350) {
-            probability = (int) (100 / Math.floor(-527 * combatLevel) + 115);
-        } else if (combatLevel > 350) {
-            probability = 150;
+            probability = (int) (99 - (combatLevel - 80) / 3.0);
+            probability = Math.max(probability, 50);
         } else {
-            probability = 0;
+            probability = 50;
         }
         return probability;
     }

@@ -43,7 +43,6 @@ public class NpcDropTable {
         Collections.shuffle(temp);
         for (int i = 0; i < this.rolls; i++) {
             if (!temp.isEmpty()) {
-                System.out.println(rateBonus);
                 for (var drop : temp) {
                     if (World.getWorld().random().nextInt((int) Math.ceil(drop.getChance() * rateBonus)) == 1) {
                         int minimum = Math.max(drop.getMinimumAmount(), 1);

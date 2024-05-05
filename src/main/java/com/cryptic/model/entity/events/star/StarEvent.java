@@ -22,7 +22,7 @@ public class StarEvent {
         new Tile(3090, 3962), // Mage bank
         new Tile(2968, 3857) // 44s
     };
-    private static Tile currentSpawnPos;
+    public static Tile currentSpawnPos;
 
     private SecureRandom secureRandom = new SecureRandom();
 
@@ -66,7 +66,7 @@ public class StarEvent {
         } else if (tile.equals(POSSIBLE_SPAWNS[2])) {
             return "::44s";
         }
-        return "Nothing";
+        return "N/A";
     }
 
     public void terminateActiveStar() {

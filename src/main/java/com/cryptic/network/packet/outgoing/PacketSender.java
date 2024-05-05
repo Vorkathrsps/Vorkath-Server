@@ -1,7 +1,6 @@
 package com.cryptic.network.packet.outgoing;
 
 import com.cryptic.GameConstants;
-import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -14,8 +13,6 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.region.Region;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.packet.*;
 import com.cryptic.network.packet.outgoing.message.ComponentVisibility;
 import lombok.Getter;
@@ -23,11 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * This class manages making the packets that will be sent (when called upon) onto

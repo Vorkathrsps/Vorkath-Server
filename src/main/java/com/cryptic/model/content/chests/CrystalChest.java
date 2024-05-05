@@ -1,10 +1,12 @@
 package com.cryptic.model.content.chests;
 
+import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import java.util.List;
 
@@ -73,6 +75,13 @@ public class CrystalChest extends PacketInteraction {
                     player.animate(832);
                     Chain.noCtx().runFn(1, () -> {
                         player.varps().varbit(9296, 1);
+                        if (Utils.rollDie(tableOne.getChance(), 1)) {
+
+                        } else if (Utils.rollDie(tableTwo.getChance(), 1)) {
+
+                        } else if (Utils.rollDie(tableThree.getChance(), 1)) {
+
+                        }
                         player.getInventory().remove(ENHANCED_CRYSTAL_KEY);
                     }).then(2, () -> {
                         player.varps().varbit(9296, 0);

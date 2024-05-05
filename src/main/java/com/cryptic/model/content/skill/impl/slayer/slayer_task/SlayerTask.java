@@ -265,6 +265,7 @@ public class SlayerTask {
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
                 slayerPoints += increment;
                 player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints);
+                player.getInventory().addOrDrop(new Item(995, 1_000_000));
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);

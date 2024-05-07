@@ -18,7 +18,7 @@ public class Inquisitor implements DamageModifyingListener {
             if (player.getCombat().getFightType().getAttackType() == AttackType.CRUSH) {
                 if (player.getEquipment().containsAll(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT)) {
                     modifier += 1.01F;
-                    return modifier;
+                    return (int) modifier;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.HEAD, INQUISITORS_GREAT_HELM)) {
                     modifier += 1.005F;
@@ -30,7 +30,7 @@ public class Inquisitor implements DamageModifyingListener {
                     modifier += 1.005F;
                 }
                 modifier += modifier;
-                return modifier;
+                return (int) modifier;
             }
         }
         return 0;

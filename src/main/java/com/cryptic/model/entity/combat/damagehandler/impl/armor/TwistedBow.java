@@ -21,7 +21,7 @@ public class TwistedBow implements DamageModifyingListener {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
             if (target instanceof NPC npc) {
-                if (combatType == CombatType.RANGED) {
+                if (CombatType.RANGED.equals(combatType)) {
                     if (equipment.contains(TWISTED_BOW)) {
                         int magicLevel;
                         float bonus = 1F;
@@ -41,7 +41,7 @@ public class TwistedBow implements DamageModifyingListener {
 
                             var modifier = accuracy.modifier();
                             modifier += bonus;
-                            return modifier;
+                            return (int) modifier;
                         } else {
                             logger.log(Level.WARN, "[DamageHandler][" + getClass().getName() + "]" + " NPC CombatInfo Null For: ["  + npc.getMobName() + "] ID: [" + npc.getId() + "]");
                         }

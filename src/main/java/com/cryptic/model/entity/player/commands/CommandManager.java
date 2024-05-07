@@ -697,11 +697,14 @@ public class CommandManager {
             p.forceChat("Npc Varbit: " + String.valueOf(varbit));
         });
 
+        dev("spawnxamphur", (p, c, s) ->
+            {
+                ClaimDonationCommand.spawnDonatorBoss();
+            });
+
         dev("cc", (p, c, s) ->
         {
-            int id = Integer.parseInt(s[1]);
-            int varbit = NpcDefinition.getVarbit(id);
-            p.forceChat("Npc Varbit: " + String.valueOf(varbit));
+            ClaimDonationCommand.totalDonated = 200;
         /*    List<Player> player = new ArrayList<>();
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);

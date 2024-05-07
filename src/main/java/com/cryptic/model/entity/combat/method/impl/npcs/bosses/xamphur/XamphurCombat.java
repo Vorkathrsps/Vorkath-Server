@@ -10,9 +10,12 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ItemDrops;
+import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
+import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -138,7 +141,7 @@ public class XamphurCombat extends CommonCombatMethod {
     final void buildMarksOfDarknessTiles() {
         for (int index = 0; index < 16; index++) {
             var randomTile = World.getWorld().randomTileAround(this.entity.tile(), 6);
-            if (randomTile.allowObjectPlacement() && MovementQueue.dumbReachable(randomTile.getX(), randomTile.getY(), entity.tile())) {
+            if (randomTile.allowObjectPlacement() && !RegionManager.zarosBlock(randomTile)) {
                 tiles.add(randomTile);
             }
         }

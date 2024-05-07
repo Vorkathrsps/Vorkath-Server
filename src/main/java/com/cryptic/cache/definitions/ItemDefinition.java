@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import static com.cryptic.utility.CustomItemIdentifiers.KORASI_SWORD;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -160,6 +161,10 @@ public class ItemDefinition implements Definition {
             case DONATOR_TICKET -> {
                 name = "Donator Ticket";
                 stackable = 1;
+            }
+            case KORASI_SWORD -> {
+                name = "Korasi's Sword";
+                category = 21;
             }
         }
 

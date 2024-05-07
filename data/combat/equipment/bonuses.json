@@ -83893,5 +83893,17 @@
   "29428": {
     "name": "Chef's notes",
     "weight": 0.003
+  },
+  "32001": {
+    "name": "Korasi's Sword",
+    "weight": 0.453,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "aslash": 82,
+      "str": 82,
+      "aspeed": 4
+    },
+    "ge_limit": 70
   }
 }

@@ -20,6 +20,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.timers.TimerKey;
 
@@ -61,6 +62,7 @@ public enum CombatSpecial {
     VOIDWAKER(new int[]{ItemIdentifiers.VOIDWAKER}, 50, 1.0, 1.0, new VoidWaker(), WeaponType.LONGSWORD),
     CORRUPTED_VOIDWAKER(new int[]{ItemIdentifiers.CORRUPTED_VOIDWAKER}, 50, 1.0, 1.0, new VoidWaker(), WeaponType.LONGSWORD),
     CORRUPTED_ARMADYLGODSWORD(new int[]{ItemIdentifiers.CORRUPTED_ARMADYL_GODSWORD, 20593}, 50, 1.25D * 1.10F, 1.50F, new ArmadylGodsword(), WeaponType.TWOHANDED),
+    KORASI_SWORD(new int[]{CustomItemIdentifiers.KORASI_SWORD}, 50, 1, 1, new Korasi(), WeaponType.LONGSWORD),
 
     DRAGON_BATTLEAXE(new int[]{ItemIdentifiers.DRAGON_BATTLEAXE}, 100, 1.0, 1.0, null, WeaponType.AXE),
     BARRELCHEST_ANCHOR(new int[]{ItemIdentifiers.BARRELCHEST_ANCHOR}, 50, 1.0, 1.10F, new BarrelchestAnchor(), WeaponType.MACE),

@@ -63,7 +63,7 @@ public enum PlayerRights {
     }
 
     public boolean isStaffMember(Player player) {
-        return player.getPlayerRights().ordinal() >= MODERATOR.ordinal();
+        return player.getPlayerRights().ordinal() >= SUPPORT.ordinal();
     }
 
     /** Gets the crown display. */

@@ -405,9 +405,9 @@ public class SlayerTask {
     }
 
     void rollForPvpEquipment(Player killer, NPC npc) {
-        var cb = npc.def().combatLevel;
-        var chance = calculatePvpEquipment(cb);
+        var chance = calculatePvpEquipment(npc);
         var random = Utils.randomElement(pvp_equipment);
+        chance *= 2;
         if (Utils.rollDie(chance, 1)) {
             GroundItemHandler.createGroundItem(new GroundItem(new Item(random), npc.tile(), killer));
         }
@@ -495,18 +495,13 @@ public class SlayerTask {
         return World.getWorld().rollDie(chance, 1);
     }
 
-    int calculatePvpEquipment(int monsterLevel) {
-        int damage;
-        if (monsterLevel >= 1 && monsterLevel <= 50) {
-            damage = (int) Math.ceil((50 - monsterLevel) * (monsterLevel + Math.floor((50 - monsterLevel) / 5.0)) / 5.0);
-        } else if (monsterLevel > 50 && monsterLevel <= 150) {
-            damage = (int) Math.ceil(1.0 / Math.ceil(337.5 - monsterLevel / 1.75));
-        } else if (monsterLevel > 150) {
-            damage = 175;
-        } else {
-            throw new IllegalArgumentException("Invalid monster level");
-        }
-        return damage;
+    int calculatePvpEquipment(NPC npc) {
+        var combatLevel = npc.def().combatLevel;
+        int chance;
+        if (combatLevel <= 50) chance = 1000;
+        else if (combatLevel >= 150) chance = 500;
+        else chance = 1000;
+        return chance;
     }
 
     int calculateLarrans(int combatLevel) {

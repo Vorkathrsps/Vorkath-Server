@@ -7,6 +7,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -108,23 +109,25 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public void processAccuracy(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
-        if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return;
+    public double processAccuracy(Player player, Entity target, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
+        if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return boost;
         Combat combat = player.getCombat();
-        if (combat == null) return;
+        if (combat == null) return boost;
         CombatType combatType = combat.getCombatType();
-        if (combatType == null) return;
+        if (combatType == null) return boost;
         Entity combatTarget = combat.getTarget();
-        if (combatTarget instanceof Player) return;
+        if (combatTarget instanceof Player) return boost;
         for (SigilData data : SigilData.values()) {
             for (AbstractSigil sigil : handler) {
                 if (sigil == null) continue;
                 if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
                     if (sigil.validateCombatType(player))
-                        sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                        boost += sigil.accuracyModification(player, target, accuracy);
                 }
             }
         }
+        return boost;
     }
 
     @Override

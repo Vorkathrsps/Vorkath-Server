@@ -44,7 +44,7 @@ public class DragonHunterLance implements DamageModifyingListener {
                         if (FormulaUtils.isDragon(npc)) {
                             var modifier = accuracy.modifier();
                             modifier += 1.20;
-                            return modifier;
+                            return (int) modifier;
                         }
                     }
                 }

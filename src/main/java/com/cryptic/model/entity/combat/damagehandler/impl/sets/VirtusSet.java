@@ -75,7 +75,7 @@ public class VirtusSet implements DamageModifyingListener {
                     for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
                             modifier += 0.010F;
-                            return modifier;
+                            return (int) modifier;
                         }
                     }
                 }

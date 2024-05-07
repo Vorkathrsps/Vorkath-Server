@@ -29,7 +29,7 @@ public class TumekensShadow implements DamageModifyingListener {
                         bonus = attackerBonus.mage * 3;
                         bonus = Math.min(bonus, 100);
                         modifier += bonus;
-                        return modifier;
+                        return (int) modifier;
                     }
 
                 }

@@ -15,18 +15,18 @@ public class VoidEquipment implements DamageModifyingListener {
             if (combatType == CombatType.MAGIC) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic(player)) {
                     modifier += 1.45F;
-                    return modifier;
+                    return (int) modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentBaseMagic(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic(player)) {
                     modifier += 1.70F;
-                    return modifier;
+                    return (int) modifier;
                 }
             } else {
                 if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
                     modifier += 1.10F;
-                    return modifier;
+                    return (int) modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
                     modifier += 1.125F;
-                    return modifier;
+                    return (int) modifier;
                 }
             }
         }

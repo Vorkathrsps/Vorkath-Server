@@ -15,7 +15,7 @@ public class ObsidianArmor implements DamageModifyingListener {
                 var modifier = accuracy.modifier();
                 if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
                     modifier += 1.10F;
-                    return modifier;
+                    return (int) modifier;
                 }
             }
         }

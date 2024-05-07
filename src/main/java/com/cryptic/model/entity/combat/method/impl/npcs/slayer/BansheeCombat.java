@@ -3,6 +3,8 @@ package com.cryptic.model.entity.combat.method.impl.npcs.slayer;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -23,14 +25,14 @@ public class BansheeCombat extends CommonCombatMethod {
 
         Player player = (Player) target;
 
-        if(!player.getEquipment().contains(ItemIdentifiers.EARMUFFS) && !player.getEquipment().wearingSlayerHelm()) {
-            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) + 6, CombatType.MELEE).submit();
+        if(!player.getEquipment().contains(ItemIdentifiers.EARMUFFS) && !FormulaUtils.hasSlayerHelmet(player) && !FormulaUtils.hasSlayerHelmetImbued(player)) {
+            new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
             for (int skill : DRAIN) {
                 player.getSkills().alterSkill(skill, -5);
             }
             player.message("The banshee's deafening scream drains your stats!");
         } else {
-            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
+            new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
         }
         return true;
     }

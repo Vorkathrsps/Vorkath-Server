@@ -16,7 +16,7 @@ public class ZurielStaff implements DamageModifyingListener {
                 var modifier = accuracy.modifier();
                 if (player.getSpellbook().equals(MagicSpellbook.ANCIENTS) && FormulaUtils.hasZurielStaff(player)) {
                     modifier += 1.10;
-                    return modifier;
+                    return (int) modifier;
                 }
             }
         }

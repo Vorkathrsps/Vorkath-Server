@@ -19,7 +19,7 @@ public class VestaLongsword implements DamageModifyingListener {
                     var modifier = accuracy.modifier();
                     if (player.isSpecialActivated()) {
                         modifier += 1.25F;
-                        return modifier;
+                        return (int) modifier;
                     }
                 }
             }

@@ -118,7 +118,7 @@ public class MeleeMaxHitFormula {
             otherBonus *= (mult / 100);
         }
 
-        var wearingAnyBlackMask = FormulaUtils.wearingBlackMask(player) || FormulaUtils.wearingBlackMaskImbued(player) || player.getEquipment().wearingSlayerHelm();
+        var wearingAnyBlackMask = FormulaUtils.wearingBlackMask(player) || FormulaUtils.wearingBlackMaskImbued(player) || FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.hasSlayerHelmetImbued(player);
         SlayerTask slayerTask = World.getWorld().getSlayerTasks();
         var assignment = slayerTask.getCurrentAssignment(player);
         if (wearingAnyBlackMask && target != null && target.isNpc() && includeNpcMax) {

@@ -1,0 +1,140 @@
+npcId:
+  - 10951
+  - 10953
+  - 10955
+petItem: null
+petRarity: 2000
+alwaysDrops:
+  - item: COINS_995
+    minimumAmount: 575000
+    maximumAmount: 2500000
+    chance: 1
+    rareDrop: false
+    sendToBank: false
+  - item: DONATOR_TICKET
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 1
+    rareDrop: false
+    sendToBank: false
+drops:
+  - item: BLACK_PARTYHAT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1000
+    rareDrop: true
+    sendToBank: false
+  - item: RAINBOW_PARTYHAT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1000
+    rareDrop: true
+    sendToBank: false
+  - item: INFERNAL_CAPE
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 135
+    rareDrop: true
+    sendToBank: false
+  - item: FEROCIOUS_GLOVES
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 100
+    rareDrop: true
+    sendToBank: false
+  - item: DONATOR_TICKET
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: AMULET_OF_FURY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: BERSERKER_RING
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 5
+    rareDrop: false
+    sendToBank: false
+  - item: SEERS_RING
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 5
+    rareDrop: false
+    sendToBank: false
+  - item: ARCHERS_RING
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 5
+    rareDrop: false
+    sendToBank: false
+  - item: OCCULT_NECKLACE
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: SEERS_RING
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: CORRUPTED_DRAGON_CLAWS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: CORRUPTED_ARMADYL_GODSWORD
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: CORRUPTED_VOIDWAKER
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: CORRUPTED_TUMEKENS_SHADOW
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: CORRUPTED_SCYTHE_OF_VITUR
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: CORRUPTED_TWISTED_BOW
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: DEXTEROUS_PRAYER_SCROLL
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 250
+    rareDrop: true
+    sendToBank: false
+  - item: ARCANE_PRAYER_SCROLL
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 250
+    rareDrop: true
+    sendToBank: false
+  - item: BANKERS_NOTE
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 500
+    rareDrop: true
+    sendToBank: false

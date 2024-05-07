@@ -3,9 +3,7 @@ package com.cryptic.model.content.sigils.combat;
 import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -49,8 +47,8 @@ public class Resistance extends AbstractSigil {
     }
 
     @Override
-    protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
-
+    protected double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) {
+        return 0;
     }
 
     @Override

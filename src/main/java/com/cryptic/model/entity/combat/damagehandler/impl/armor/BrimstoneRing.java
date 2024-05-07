@@ -20,7 +20,7 @@ public class BrimstoneRing implements DamageModifyingListener {
                         player.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
                         var modifier = accuracy.modifier();
                         modifier += 1.10F;
-                        return modifier;
+                        return (int) modifier;
                     }
                 }
             }

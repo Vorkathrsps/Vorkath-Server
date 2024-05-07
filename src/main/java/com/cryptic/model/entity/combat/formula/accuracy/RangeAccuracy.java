@@ -42,8 +42,8 @@ public class RangeAccuracy implements AbstractAccuracy {
     }
 
     @Override
-    public int modifier() {
-        return this.modifier;
+    public double modifier() {
+        return this.attacker() instanceof Player player ? player.sigil.processAccuracy(player, this.defender(), this) + modifier : modifier;
     }
 
     @Override

@@ -16,8 +16,8 @@ public class CrystalSet implements DamageModifyingListener {
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         var modifier = accuracy.modifier();
         if (entity instanceof Player player) {
-            if (combatType == CombatType.RANGED) {
-                if ((FormulaUtils.hasBowOfFaerdhenin(player)) || (FormulaUtils.hasCrystalBow(player))) {
+            if (CombatType.RANGED.equals(combatType)) {
+                if ((FormulaUtils.hasBowOfFaerdhenin(player) || FormulaUtils.hasCrystalBow(player))) {
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || player.getEquipment().contains(CRYSTAL_HELM_27705) || player.getEquipment().contains(CRYSTAL_HELM_27717) || player.getEquipment().contains(CRYSTAL_HELM_27729) || player.getEquipment().contains(CRYSTAL_HELM_27741) || player.getEquipment().contains(CRYSTAL_HELM_27753) || player.getEquipment().contains(CRYSTAL_HELM_27765) || player.getEquipment().contains(CRYSTAL_HELM_27777)) {
                         modifier += Utils.calculateIntMath(5.0D);
                     }
@@ -27,7 +27,8 @@ public class CrystalSet implements DamageModifyingListener {
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().contains(CRYSTAL_LEGS_27701) || player.getEquipment().contains(CRYSTAL_LEGS_27713) || player.getEquipment().contains(CRYSTAL_LEGS_27725) || player.getEquipment().contains(CRYSTAL_LEGS_27737) || player.getEquipment().contains(CRYSTAL_LEGS_27749) || player.getEquipment().contains(CRYSTAL_LEGS_27761) || player.getEquipment().contains(CRYSTAL_LEGS_27773)) {
                         modifier += Utils.calculateIntMath(10.0D);
                     }
-                    return modifier;
+                    System.out.println(modifier);
+                    return (int) modifier;
                 }
             }
         }

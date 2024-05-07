@@ -42,8 +42,8 @@ public final class MagicAccuracy implements AbstractAccuracy {
     }
 
     @Override
-    public int modifier() {
-        return this.modifier;
+    public double modifier() {
+        return this.attacker() instanceof Player player ? player.sigil.processAccuracy(player, this.defender(), this) + modifier : modifier;
     }
 
     @Override
@@ -77,8 +77,6 @@ public final class MagicAccuracy implements AbstractAccuracy {
             else if (Prayers.usingPrayer(player, MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
             else if (Prayers.usingPrayer(player, AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
         }
-
-        System.out.println(prayerBonus);
         return prayerBonus;
     }
 

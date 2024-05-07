@@ -22,7 +22,7 @@ public interface AbstractAccuracy {
 
     CombatType getCombatType();
 
-    int modifier();
+    double modifier();
 
     int getEquipmentBonusForAttacker();
 
@@ -69,7 +69,7 @@ public interface AbstractAccuracy {
 
         if (Hit.isDebugAccuracy()) {
             sendDebugPrints(chance, attackRoll, defenceRoll);
-            //logger.debug("[Combat Type]: {} [Modifier]: {} [Equipment Bonus Attacker]: {} [Equipment Bonus Defender]: {} [Offensive Skill Level Attacker]: {} [Defensive SKill Level Defender]: {} [Prayer Bonus Attacker]: {} [Prayer Bonus Defender]: {} [Offensive Style Bonus]: {} [Defensive Style Bonus]: {} [Attack Roll]: {} [Defence Roll]: {}", this.getCombatType(), this.modifier(), this.getEquipmentBonusForAttacker(), this.getEquipmentBonusForDefender(), this.getOffensiveSkillLevelAttacker(), this.getDefensiveSKillLevelDefender(), this.getPrayerBonusAttacker(), this.getPrayerBonusDefender(), this.getOffensiveStyleBonus(), this.getDefensiveStyleBonus(), this.getAttackRoll(), this.getDefenceRoll());
+            logger.debug("[Combat Type]: {} [Modifier]: {} [Equipment Bonus Attacker]: {} [Equipment Bonus Defender]: {} [Offensive Skill Level Attacker]: {} [Defensive SKill Level Defender]: {} [Prayer Bonus Attacker]: {} [Prayer Bonus Defender]: {} [Offensive Style Bonus]: {} [Defensive Style Bonus]: {} [Attack Roll]: {} [Defence Roll]: {}", this.getCombatType(), this.modifier(), this.getEquipmentBonusForAttacker(), this.getEquipmentBonusForDefender(), this.getOffensiveSkillLevelAttacker(), this.getDefensiveSKillLevelDefender(), this.getPrayerBonusAttacker(), this.getPrayerBonusDefender(), this.getOffensiveStyleBonus(), this.getDefensiveStyleBonus(), this.getAttackRoll(), this.getDefenceRoll());
         }
 
         return chance > selectedChance;
@@ -84,7 +84,7 @@ public interface AbstractAccuracy {
         int effectiveAttack = attackLevel + this.getEffectiveLevel();
         int equipmentBonus = this.getEquipmentBonusForAttacker();
         int attackRoll = effectiveAttack * (equipmentBonus + 64);
-        if (modification > 0) attackRoll *= modification;
+        if (modification > 0.0D) attackRoll *= modification;
         return attackRoll;
     }
 

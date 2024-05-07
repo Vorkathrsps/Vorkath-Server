@@ -46,7 +46,7 @@ public class DragonHunterCrossbow implements DamageModifyingListener {
                         } else {
                             modifier += 1.30;
                         }
-                        return modifier;
+                        return (int) modifier;
                     }
                 }
             }

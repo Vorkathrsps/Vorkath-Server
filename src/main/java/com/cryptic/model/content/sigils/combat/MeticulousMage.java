@@ -4,9 +4,7 @@ import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 
@@ -42,8 +40,8 @@ public class MeticulousMage extends AbstractSigil {
     }
 
     @Override
-    protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
-        if (!attuned(player)) return;
+    protected double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) {
+        if (!attuned(player)) return 0;
         var boost = 1.20;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> boost = 1.21;
@@ -54,7 +52,7 @@ public class MeticulousMage extends AbstractSigil {
             case ONYX_MEMBER -> boost = 1.26;
             case ZENYTE_MEMBER -> boost = 1.27;
         }
-        magicAccuracy.modifier += boost;
+        return boost;
     }
 
     @Override

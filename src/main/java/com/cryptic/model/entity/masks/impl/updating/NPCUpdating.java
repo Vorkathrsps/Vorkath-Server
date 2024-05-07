@@ -55,10 +55,10 @@ public class NPCUpdating {
                 }
                 if (!npc.hidden() && !npc.isTeleportJump() && !npc.isNeedsPlacement() && tile.isViewableFrom(npc.tile()) && npc.isRegistered()) {
                     updateMovement(npc, packet);
-                    npc.inViewport(true);
                     if (npc.getUpdateFlag().isUpdateRequired()) {
                         appendUpdates(npc, player, update, false);
                     }
+                    npc.inViewport(true);
                 } else {
                     iterator.remove();
                     packet.putBits(1, 1).putBits(2, 3);
@@ -70,10 +70,10 @@ public class NPCUpdating {
                     if (npc.isRegistered() && tile.isViewableFrom(npc.tile())) {
                         npcs.add(npc);
                         addNPC(player, npc, packet, npc.isTeleportJump());
-                        npc.inViewport(true);
                         if ((npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
                             appendUpdates(npc, player, update, true);
                         }
+                        npc.inViewport(true);
                     }
                 }
             }

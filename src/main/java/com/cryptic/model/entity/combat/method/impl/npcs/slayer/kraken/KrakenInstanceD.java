@@ -66,8 +66,8 @@ public class KrakenInstanceD extends Dialogue {
                 for (Tile tile : KrakenBoss.TENT_TILES) {
                     NPC tentacle = new NPC(KrakenBoss.TENTACLE_WHIRLPOOL, new Tile(tile.getX(), tile.getY(), instance.getzLevel()));
                     // tent Should respawn, if killed before boss is dead.
-                    World.getWorld().registerNpc(tentacle);
                     instance.addNpc(tentacle);
+                    tentacle.spawn(false);
                     tentacle.putAttrib(AttributeKey.BOSS_OWNER, kraken);
 
                     List<NPC> list = kraken.getAttribOr(AttributeKey.MINION_LIST, new ArrayList<NPC>());

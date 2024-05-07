@@ -3209,10 +3209,11 @@
     "slayerxp": 255,
     "slayerlvl": 87,
     "stats": {
-      "magic": 270,
+      "magic": 1,
       "hitpoints": 255
     },
     "bonuses": {
+      "magicstrength": 50,
       "magicdefence": 130,
       "rangeddefence": 300
     },

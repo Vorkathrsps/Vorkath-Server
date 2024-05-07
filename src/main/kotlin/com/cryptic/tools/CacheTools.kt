@@ -9,6 +9,7 @@ import dev.openrune.cache.tools.tasks.CacheTask
 import dev.openrune.cache.tools.tasks.TaskType
 import dev.openrune.cache.tools.tasks.impl.PackMaps
 import dev.openrune.cache.tools.tasks.impl.PackModels
+import dev.openrune.cache.tools.tasks.impl.PackSprites
 import dev.openrune.cache.tools.tasks.impl.RemoveXteas
 import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.cache.tools.tasks.impl.defs.PackMode
@@ -35,6 +36,7 @@ fun main(args : Array<String>) {
     val settings = ServerSettingsManager.settings
 
     val tasks : Array<CacheTask> = arrayOf(
+        PackSprites(spritesDirectory = settings.getRawCacheLocation("osrs_sprites/")),
         PackSpritesCustom(settings.getRawCacheLocation("sprites/")),
         PackDats(settings.getRawCacheLocation("dats/")),
         PackModels(settings.getRawCacheLocation("models/")),

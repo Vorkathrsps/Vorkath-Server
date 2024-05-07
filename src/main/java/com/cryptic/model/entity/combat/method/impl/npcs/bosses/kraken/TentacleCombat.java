@@ -22,7 +22,7 @@ public class TentacleCombat extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
         var tentacle = (NPC) entity;
-        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.block();
+        if (hit.getCombatType() != CombatType.MAGIC) hit.block();
         if (player.getKrakenInstance() == null) return;
         if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) return;
         if (!player.getKrakenInstance().getNonAwakenedTentacles().contains(tentacle)) return;

@@ -33,7 +33,7 @@ public class NpcDropTable {
 
     public List<Item> getDrops(Player player) {
         List<Item> list = new ArrayList<>();
-        if (!alwaysDrops.isEmpty()) {
+        if (alwaysDrops != null && !alwaysDrops.isEmpty()) {
             for (var drops : alwaysDrops) {
                 list.add(new Item(ItemRepository.getItemId(drops.getItem()), World.getWorld().random(Math.max(drops.getMinimumAmount(), 1), Math.max(drops.getMaximumAmount(), 1))));
             }

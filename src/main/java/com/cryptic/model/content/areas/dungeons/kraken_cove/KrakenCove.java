@@ -53,8 +53,8 @@ public class KrakenCove extends PacketInteraction {
                     return true;
                 }*/
                 var krakenInstance = new KrakenInstance(player, KrakenState.ALIVE);
-                player.setKrakenInstance(krakenInstance);
                 krakenInstance.build();
+                return true;
             }
             if (obj.getId() == CREVICE_538) {
                 if (player.getInstancedArea() != null) {
@@ -63,14 +63,14 @@ public class KrakenCove extends PacketInteraction {
                         protected void start(Object... parameters) {
                             SlayerTask slayerTask = World.getWorld().getSlayerTasks();
                             var assignment = slayerTask.getCurrentAssignment(player);
-                            if (assignment != null && !ArrayUtils.contains(assignment.getNpcs(), 494)) {
+                          /*  if (assignment != null && !ArrayUtils.contains(assignment.getNpcs(), 494)) {
                                 player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
                                 return;
                             }
                             if (assignment == null) {
                                 player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
                                 return;
-                            }
+                            }*/
                             send(DialogueType.OPTION, "Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
                             setPhase(0);
                         }

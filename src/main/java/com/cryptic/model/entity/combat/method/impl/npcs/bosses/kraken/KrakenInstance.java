@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -45,22 +46,20 @@ public class KrakenInstance extends KrakenArea {
         for (var n : npcs) {
             if (n.id() == 5534) {
                 nonAwakenedTentacles.add(n);
+                n.setInstancedArea(this);
                 n.setCombatMethod(new TentacleCombat());
-                n.setInstancedArea(this);
+                n.noRetaliation(true);
                 n.spawn(false);
-                n.noRetaliation(true);
-            } else {
-                n.setCombatMethod(new KrakenBossCombat());
-                n.setInstancedArea(this);
-                n.spawn(true);
-                n.noRetaliation(true);
+                continue;
             }
+            n.setInstancedArea(this);
+            n.setCombatMethod(new KrakenBossCombat());
+            n.noRetaliation(true);
+            n.spawn(true);
         }
-        this.create();
-    }
 
-    public void create() {
         owner.setInstancedArea(this);
+        owner.setKrakenInstance(this);
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
     }
 

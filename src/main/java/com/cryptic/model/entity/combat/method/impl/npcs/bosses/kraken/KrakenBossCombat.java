@@ -15,9 +15,10 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter
+@Getter
 public class KrakenBossCombat extends CommonCombatMethod {
-    @Getter
-    @Setter
+
     boolean awakened = false;
 
     @Override
@@ -43,7 +44,7 @@ public class KrakenBossCombat extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
         var kraken = (NPC) entity;
-        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.block();
+        if (hit.getCombatType() != CombatType.MAGIC) hit.block();
         if (player.getKrakenInstance() == null) return;
         if (this.isAwakened()) return;
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.block();

@@ -2,6 +2,8 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatSpecial;
+import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -23,11 +25,15 @@ public class Korasi extends CommonCombatMethod {
         entity.sendPrivateSound(6182, 30);
         if (isDummy) hitDamage = maxHit * 1.5;
         int finalDamage = (int) Math.floor(hitDamage);
-        entity.submitAccurateHit(target, 1, finalDamage, this)
-            .postDamage(d -> {
-                if (target instanceof Player) {
-                    if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) d.setDamage(d.getDamage() / 2);
-                }
+        new Hit(entity, target, 1, CombatType.MAGIC)
+            .checkAccuracy(false)
+            .setDamage(finalDamage)
+            .submit()
+            .postDamage(hit -> {
+                hit.setAccurate(true);
+                hit.setDamage(finalDamage);
+                if (target instanceof Player)
+                    if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) hit.setDamage(hit.getDamage() / 2);
             });
         CombatSpecial.drain(entity, CombatSpecial.KORASI_SWORD.getDrainAmount());
         return true;

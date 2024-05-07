@@ -144,7 +144,7 @@ public final class Equipment extends ItemContainer {
 
     public static boolean wearingAvasEffect(Player player) {
         Item cape = player.getEquipment().get(EquipSlot.CAPE);
-        return cape != null && player.getEquipment().containsAny(10498, 10499, 13337, 9756, 9757, RANGING_CAPE, RANGING_CAPET, 22109, 21898, MASORI_ASSEMBLER, MASORI_ASSEMBLER_L, MASORI_ASSEMBLER_MAX_CAPE);
+        return cape != null && player.getEquipment().containsAny(10498, 10499, 13337, 9756, 9757, RANGING_CAPE, RANGING_CAPET, 22109, 21898, MASORI_ASSEMBLER, MASORI_ASSEMBLER_L, MASORI_ASSEMBLER_MAX_CAPE, MASORI_ASSEMBLER_MAX_CAPE_L, BLESSED_DIZANAS_QUIVER, DIZANAS_QUIVER, DIZANAS_QUIVER_L, BLESSED_DIZANAS_QUIVER_L, 28902, 28906);
     }
 
     public static boolean fullFremennik(Player player) {

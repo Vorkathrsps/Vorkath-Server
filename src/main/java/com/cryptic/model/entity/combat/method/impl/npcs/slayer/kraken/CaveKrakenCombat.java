@@ -18,7 +18,7 @@ public class CaveKrakenCombat extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
         var kraken = (NPC) entity;
-        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.block();
+        if (hit.getCombatType() != CombatType.MAGIC) hit.block();
         if (kraken.id() == NpcIdentifiers.CAVE_KRAKEN) return;
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.block();
         hit.postDamage(h -> {

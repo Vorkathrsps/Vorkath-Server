@@ -9,7 +9,7 @@ import com.cryptic.model.entity.player.Player;
 
 public class ObsidianArmor implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         if (entity instanceof Player player) {
             if (combatType == CombatType.MELEE) {
                 var modifier = accuracy.modifier();

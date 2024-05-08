@@ -11,21 +11,21 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 
 public class WildernessWeapon implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
                 if (combatType == CombatType.MAGIC) {
-                    if (FormulaUtils.hasMagicWildernessWeapon(player)) {
-                        var modifier = accuracy.modifier();
+                    if (FormulaUtils.hasMagicWildernessWeapon(player) || FormulaUtils.hasMeleeWildernessWeapon(player) || FormulaUtils.hasRangedWildernessWeapon(player)) {
                         if (WildernessArea.inWilderness(npc.tile())) {
-                            modifier += 1.50;
-                            return (int) modifier;
+                            boost = 1.50D;
+                            return boost;
                         }
                     }
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

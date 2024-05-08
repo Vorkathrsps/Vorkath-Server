@@ -16,8 +16,8 @@ public class TwistedBow implements DamageModifyingListener {
     private static final Logger logger = LogManager.getLogger(TwistedBow.class);
 
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
-        double bonus = 1.0D;
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double bonus = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
@@ -38,11 +38,11 @@ public class TwistedBow implements DamageModifyingListener {
                         if (bonus > 2.4F) {
                             bonus = 2.4F;
                         }
-                        return (int) bonus;
+                        return bonus;
                     }
                 }
             }
         }
-        return 0;
+        return bonus;
     }
 }

@@ -15,7 +15,7 @@ public class AmuletOfBloodFury implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         int damage = hit.getDamage();
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
+            final Entity target = player.getCombat().getTarget();
             if (checkCombatType(combatType, target)) return false;
             if (player.getEquipment().contains(AMULET_OF_BLOOD_FURY)) {
                 if (checkConditions(hit, damage)) return false;
@@ -37,8 +37,8 @@ public class AmuletOfBloodFury implements DamageModifyingListener {
     private static boolean checkConditions(Hit hit, int damage) {
         if (hit.isAccurate() && damage == 0) return true;
         if (!hit.isAccurate()) return true;
-        if (!World.getWorld().rollDie(20, 1)) return true;
-        return damage == 0;
+        final int randomRoll = World.getWorld().random().nextInt(100);
+        return randomRoll > 20;
     }
 }
 

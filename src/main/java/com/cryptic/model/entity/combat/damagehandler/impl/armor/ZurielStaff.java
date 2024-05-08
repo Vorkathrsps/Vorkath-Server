@@ -10,16 +10,16 @@ import com.cryptic.model.entity.player.Player;
 
 public class ZurielStaff implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             if (combatType == CombatType.MAGIC) {
-                var modifier = accuracy.modifier();
                 if (player.getSpellbook().equals(MagicSpellbook.ANCIENTS) && FormulaUtils.hasZurielStaff(player)) {
-                    modifier += 1.10;
-                    return (int) modifier;
+                    boost = 1.10D;
+                    return boost;
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

@@ -11,7 +11,7 @@ import static com.cryptic.utility.ItemIdentifiers.DRAGON_MACE_BH;
 public class DragonMace implements DamageModifyingListener {
 
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         var attacker = (Player) entity;
         if ((attacker.getEquipment().contains(DRAGON_MACE_BH) && attacker.isSpecialActivated())) {
             //meleeAccuracy.getGearDefenceBonus(true);

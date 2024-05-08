@@ -47,40 +47,40 @@ public class VirtusSet implements DamageModifyingListener {
     }
 
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (combatType != null) {
             if (!(entity instanceof Player player) || !combatType.isMagic()) {
-                return 0;
+                return boost;
             }
 
             if (!FormulaUtils.wearingFullVirtus(player)) {
-                return 0;
+                return boost;
             }
 
             if (player.getCombat().getCastSpell() == null) {
-                return 0;
+                return boost;
             }
 
             final Entity target = accuracy.defender();
 
             if (target == null) {
-                return 0;
+                return boost;
             }
 
             boolean isFrozen = target.frozen();
 
             if (FormulaUtils.wearingFullVirtus(player)) {
                 if (isFrozen) {
-                    var modifier = accuracy.modifier();
                     for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
-                            modifier += 0.010F;
-                            return (int) modifier;
+                            boost = 1.010D;
+                            return boost;
                         }
                     }
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

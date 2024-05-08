@@ -12,25 +12,33 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class SalveAmulet implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
             if (target instanceof NPC npc) {
-                int boost;
-                if (equipment.containsAny(SALVE_AMULETEI, SALVE_AMULET_E, SALVE_AMULETEI_25278, SALVE_AMULETEI_26782, SALVE_AMULETI_25250, SALVE_AMULETI_26763)) {
-                    if (FormulaUtils.isUndead(npc)) {
-                        boost = 20;
+                if (!FormulaUtils.isUndead(npc)) return boost;
+                if (equipment.containsAny(SALVE_AMULET_E) && !CombatType.RANGED.equals(player.getCombat().getCombatType()) && !CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
+                    boost = 1.20D;
+                    return boost;
+                }
+                if (equipment.containsAny(SALVE_AMULETEI, SALVE_AMULETEI_25278, SALVE_AMULETEI_26782)) {
+                    boost = 1.20D;
+                    return boost;
+                } else if (equipment.containsAny(SALVE_AMULETI, SALVE_AMULETI_25250, SALVE_AMULETI_26763)) {
+                    if (CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
+                        boost = 1.15D;
                         return boost;
                     }
-                } else if (equipment.contains(SALVE_AMULET)) {
-                    if (FormulaUtils.isUndead(npc)) {
-                        boost = 15;
-                        return boost;
-                    }
+                    boost = 1.167D;
+                    return boost;
+                } else if (equipment.contains(SALVE_AMULET) && !CombatType.RANGED.equals(player.getCombat().getCombatType()) && !CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
+                    boost = 1.15D;
+                    return boost;
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

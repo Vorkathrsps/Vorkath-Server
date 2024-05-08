@@ -17,7 +17,7 @@ public class DamageModifyingHandler {
     public void triggerEffectForAttacker(Entity entity, CombatType type, Hit hit) {
         ability.prepareDamageEffectForAttacker(entity, type, hit);
     }
-    public int getAccuracyModification(Entity entity, CombatType type, AbstractAccuracy accuracy) {
+    public double getAccuracyModification(Entity entity, CombatType type, AbstractAccuracy accuracy) {
         return ability.prepareAccuracyModification(entity, type, accuracy);
     }
 }

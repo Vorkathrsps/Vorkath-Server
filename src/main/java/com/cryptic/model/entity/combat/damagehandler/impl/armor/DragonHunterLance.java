@@ -35,21 +35,21 @@ public class DragonHunterLance implements DamageModifyingListener {
     }
 
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (CombatType.MELEE.equals(player.getCombat().getCombatType())) {
                 if (target instanceof NPC npc) {
                     if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
                         if (FormulaUtils.isDragon(npc)) {
-                            var modifier = accuracy.modifier();
-                            modifier += 1.20;
-                            return (int) modifier;
+                            boost = 1.20D;
+                            return boost;
                         }
                     }
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

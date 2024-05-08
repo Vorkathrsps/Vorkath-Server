@@ -9,27 +9,28 @@ import com.cryptic.model.entity.player.Player;
 
 public class VoidEquipment implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             var modifier = accuracy.modifier();
             if (combatType == CombatType.MAGIC) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic(player)) {
-                    modifier += 1.45F;
+                    boost = 1.45D;
                     return (int) modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentBaseMagic(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic(player)) {
-                    modifier += 1.70F;
-                    return (int) modifier;
+                    boost = 1.70D;
+                    return boost;
                 }
             } else {
                 if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
-                    modifier += 1.10F;
+                    boost = 1.10D;
                     return (int) modifier;
                 } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
-                    modifier += 1.125F;
-                    return (int) modifier;
+                    boost = 1.125D;
+                    return boost;
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

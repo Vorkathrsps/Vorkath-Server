@@ -12,8 +12,7 @@ public interface DamageModifyingListener {
     default boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
     }
-
-    default int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
-        return 0;
+    default double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        return 1.0D;
     }
 }

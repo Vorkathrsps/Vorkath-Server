@@ -69,7 +69,7 @@ public interface AbstractAccuracy {
 
         if (Hit.isDebugAccuracy()) {
             sendDebugPrints(chance, attackRoll, defenceRoll);
-            logger.debug("[Combat Type]: {} [Modifier]: {} [Equipment Bonus Attacker]: {} [Equipment Bonus Defender]: {} [Offensive Skill Level Attacker]: {} [Defensive SKill Level Defender]: {} [Prayer Bonus Attacker]: {} [Prayer Bonus Defender]: {} [Offensive Style Bonus]: {} [Defensive Style Bonus]: {} [Attack Roll]: {} [Defence Roll]: {}", this.getCombatType(), this.modifier(), this.getEquipmentBonusForAttacker(), this.getEquipmentBonusForDefender(), this.getOffensiveSkillLevelAttacker(), this.getDefensiveSKillLevelDefender(), this.getPrayerBonusAttacker(), this.getPrayerBonusDefender(), this.getOffensiveStyleBonus(), this.getDefensiveStyleBonus(), this.getAttackRoll(), this.getDefenceRoll());
+           // logger.debug("[Combat Type]: {} [Modifier]: {} [Equipment Bonus Attacker]: {} [Equipment Bonus Defender]: {} [Offensive Skill Level Attacker]: {} [Defensive SKill Level Defender]: {} [Prayer Bonus Attacker]: {} [Prayer Bonus Defender]: {} [Offensive Style Bonus]: {} [Defensive Style Bonus]: {} [Attack Roll]: {} [Defence Roll]: {}", this.getCombatType(), this.modifier(), this.getEquipmentBonusForAttacker(), this.getEquipmentBonusForDefender(), this.getOffensiveSkillLevelAttacker(), this.getDefensiveSKillLevelDefender(), this.getPrayerBonusAttacker(), this.getPrayerBonusDefender(), this.getOffensiveStyleBonus(), this.getDefensiveStyleBonus(), this.getAttackRoll(), this.getDefenceRoll());
         }
 
         return chance > selectedChance;
@@ -81,11 +81,13 @@ public interface AbstractAccuracy {
         int attackLevel = this.getOffensiveSkillLevelAttacker();
         attackLevel *= prayerBonus;
         attackLevel += this.getOffensiveStyleBonus();
-        attackLevel += this.getSpecificBonus();
         attackLevel += 8;
         int effectiveAttack = attackLevel;
         int equipmentBonus = this.getEquipmentBonusForAttacker();
         int attackRoll = effectiveAttack * (equipmentBonus + 64);
+        if (this.getSpecificBonus() > 0.0D) {
+            attackRoll = (int) (attackRoll * this.getSpecificBonus());
+        }
         if (modification > 0.0D) attackRoll *= modification;
         return attackRoll;
     }
@@ -103,12 +105,10 @@ public interface AbstractAccuracy {
         return effectiveDefence * (equipmentBonus + 64);
     }
 
-    default int getSpecificBonus() {
-        int bonus = 0;
+    default double getSpecificBonus() {
+        double bonus = 1.0D;
         if (this.attacker() instanceof Player player) {
-            int modification = this.handler.getAccuracyModification(player, this.getCombatType(), this);
-            bonus = modification + bonus;
-            System.out.println(bonus);
+            bonus = this.handler.getAccuracyModification(player, this.getCombatType(), this);
             return bonus;
         }
         return bonus;

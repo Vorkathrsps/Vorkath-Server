@@ -91,8 +91,8 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
     }
 
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
-        int modification = 0;
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double modification = 0;
         for (DamageModifyingListener listener : accuracyModificationListeners) {
             if (listener.prepareAccuracyModification(entity, combatType, accuracy) <= 0) continue;
             modification += listener.prepareAccuracyModification(entity, combatType, accuracy);

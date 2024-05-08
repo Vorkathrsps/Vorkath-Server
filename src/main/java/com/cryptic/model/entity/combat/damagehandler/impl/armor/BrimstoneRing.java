@@ -12,19 +12,19 @@ import static com.cryptic.utility.ItemIdentifiers.BRIMSTONE_RING;
 
 public class BrimstoneRing implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             if (player.getEquipment().contains(BRIMSTONE_RING)) {
                 if (combatType == CombatType.MAGIC) {
                     if (Utils.rollDice(25)) {
                         player.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
-                        var modifier = accuracy.modifier();
-                        modifier += 1.10F;
-                        return (int) modifier;
+                        boost = 1.10D;
+                        return boost;
                     }
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

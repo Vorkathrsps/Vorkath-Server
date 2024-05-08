@@ -15,7 +15,8 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class SlayerHelmets implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
@@ -26,22 +27,22 @@ public class SlayerHelmets implements DamageModifyingListener {
                     if (ArrayUtils.contains(assignment.getNpcs(), npc.id())) {
                         var modifier = accuracy.modifier();
                         if (equipment.contains(SLAYER_HELMET)) {
-                            modifier += 1.15F;
+                            boost = 1.15D;
                             return (int) modifier;
                         } else if (equipment.contains(SLAYER_HELMET_I)) {
-                            modifier += 1.18F;
+                            boost = 1.18D;
                             return (int) modifier;
                         } else if (equipment.contains(BLACK_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.RED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                            modifier += 1.20F;
+                            boost = 1.20D;
                             return (int) modifier;
                         } else if (equipment.contains(TWISTED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                            modifier += 1.25F;
-                            return (int) modifier;
+                            boost = 1.25D;
+                            return boost;
                         }
                     }
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

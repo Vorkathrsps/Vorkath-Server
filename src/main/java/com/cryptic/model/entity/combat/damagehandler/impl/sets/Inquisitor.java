@@ -12,27 +12,27 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class Inquisitor implements DamageModifyingListener {
     @Override
-    public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+    public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
-            var modifier = accuracy.modifier();
             if (player.getCombat().getFightType().getAttackType() == AttackType.CRUSH) {
                 if (player.getEquipment().containsAll(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT)) {
-                    modifier += 1.01F;
-                    return (int) modifier;
+                    boost = 1.01D;
+                    return boost;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.HEAD, INQUISITORS_GREAT_HELM)) {
-                    modifier += 1.005F;
+                    boost = 1.005D;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.BODY, INQUISITORS_HAUBERK)) {
-                    modifier += 1.005F;
+                    boost = 1.005D;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.LEGS, INQUISITORS_PLATESKIRT)) {
-                    modifier += 1.005F;
+                    boost = 1.005D;
                 }
-                modifier += modifier;
-                return (int) modifier;
+                boost += boost;
+                return boost;
             }
         }
-        return 0;
+        return boost;
     }
 }

@@ -16,7 +16,8 @@ public class BrimstoneRing implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            if (!player.getEquipment().contains(BRIMSTONE_RING) && !CombatType.MAGIC.equals(combatType)) return boost;
+            if (!player.getEquipment().contains(BRIMSTONE_RING)) return boost;
+            if (!CombatType.MAGIC.equals(combatType)) return boost;
             final int randomRoll = World.getWorld().random().nextInt(100);
             if (randomRoll < 25) {
                 player.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));

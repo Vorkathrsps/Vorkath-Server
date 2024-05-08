@@ -17,12 +17,14 @@ public class VirtusSet implements DamageModifyingListener {
         12919,
         12911,
         12929);
+
     @Getter
     private final List<Integer> ice_spells = List.of(
         12861,
         12881,
         12871,
         12891);
+
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (combatType != null) {
@@ -49,36 +51,19 @@ public class VirtusSet implements DamageModifyingListener {
     @Override
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
-        if (combatType != null) {
-            if (!(entity instanceof Player player) || !combatType.isMagic()) {
-                return boost;
-            }
-
-            if (!FormulaUtils.wearingFullVirtus(player)) {
-                return boost;
-            }
-
-            if (player.getCombat().getCastSpell() == null) {
-                return boost;
-            }
-
+        if (combatType == null) return boost;
+        if (!CombatType.MAGIC.equals(combatType)) return boost;
+        if (entity instanceof Player player) {
             final Entity target = accuracy.defender();
-
-            if (target == null) {
+            if (target == null) return boost;
+            if (!target.frozen()) return boost;
+            if (!FormulaUtils.wearingFullVirtus(player)) return boost;
+            if (player.getCombat().getAutoCastSpell() == null && player.getCombat().getCastSpell() == null) return boost;
+            for (var s : this.getIce_spells()) {
+                if (player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() != s) continue;
+                if (player.getCombat().getAutoCastSpell() != null && player.getCombat().getAutoCastSpell().spellId() != s) continue;
+                boost = 1.010D;
                 return boost;
-            }
-
-            boolean isFrozen = target.frozen();
-
-            if (FormulaUtils.wearingFullVirtus(player)) {
-                if (isFrozen) {
-                    for (var s : this.getIce_spells()) {
-                        if (player.getCombat().getCastSpell().spellId() == s) {
-                            boost = 1.010D;
-                            return boost;
-                        }
-                    }
-                }
             }
         }
         return boost;

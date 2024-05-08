@@ -37,10 +37,11 @@ public class DragonHunterCrossbow implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
+            final Entity target = player.getCombat().getTarget();
+            if (target == null) return boost;
             if (target instanceof NPC npc) {
-                if (!CombatType.RANGED.equals(player.getCombat().getCombatType()) && !player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B))
-                    return boost;
+                if (!player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) return boost;
+                if (!CombatType.RANGED.equals(player.getCombat().getCombatType())) return boost;
                 if (FormulaUtils.isDragon(npc)) {
                     boost = 1.25D;
                 } else {

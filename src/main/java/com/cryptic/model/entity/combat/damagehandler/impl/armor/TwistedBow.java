@@ -17,32 +17,32 @@ public class TwistedBow implements DamageModifyingListener {
 
     @Override
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
-        double bonus = 0.0D;
+        double boost = 0.0D;
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
+            final Entity target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
+            if (target == null) return boost;
             if (target instanceof NPC npc) {
-                if (CombatType.RANGED.equals(combatType)) {
-                    if (!equipment.contains(TWISTED_BOW)) return 0;
-                    int magicLevel;
-                    if (npc.getCombatInfo() != null) {
-                        if (npc.getCombatInfo().stats != null) {
-                            magicLevel = npc.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : Math.min(npc.getCombatInfo().stats.magic, 250);
-                        } else {
-                            magicLevel = npc.getSkills().getMaxLevel(Skills.MAGIC);
-                        }
-
-                        bonus += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
-                        bonus = (float) Math.floor(bonus / 100);
-
-                        if (bonus > 2.4F) {
-                            bonus = 2.4F;
-                        }
-                        return bonus;
+                if (!CombatType.RANGED.equals(combatType)) return boost;
+                if (!equipment.contains(TWISTED_BOW)) return boost;
+                int magicLevel;
+                if (npc.getCombatInfo() != null) {
+                    if (npc.getCombatInfo().stats != null) {
+                        magicLevel = npc.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : Math.min(npc.getCombatInfo().stats.magic, 250);
+                    } else {
+                        magicLevel = npc.getSkills().getMaxLevel(Skills.MAGIC);
                     }
+
+                    boost += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
+                    boost = (float) Math.floor(boost / 100);
+
+                    if (boost > 2.4F) {
+                        boost = 2.4F;
+                    }
+                    return boost;
                 }
             }
         }
-        return bonus;
+        return boost;
     }
 }

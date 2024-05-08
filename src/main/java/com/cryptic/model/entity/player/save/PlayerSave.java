@@ -475,9 +475,7 @@ PlayerSave {
             player.setInvulnerable(details.infhp);
             if (details.varps != null) {
                 int[] varps = new int[5000];
-                details.varps.forEach((k, v) -> {
-                    varps[k] = v;
-                });
+                details.varps.forEach((k, v) -> varps[k] = v);
                 player.setSessionVarps(varps);
             }
             player.putAttrib(AttributeKey.DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);

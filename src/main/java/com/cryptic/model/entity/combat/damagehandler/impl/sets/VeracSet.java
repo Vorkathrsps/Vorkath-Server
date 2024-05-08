@@ -37,12 +37,11 @@ public class VeracSet implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
             if (player.getCombat().getTarget() != null) {
-                if (CombatType.MELEE.equals(combatType)) {
-                    if (FormulaUtils.wearingFullVerac(player)) {
-                        if (Utils.rollDie(25, 1)) {
-                            hit.ignorePrayer();
-                            return true;
-                        }
+                if (!CombatType.MELEE.equals(combatType)) return false;
+                if (FormulaUtils.wearingFullVerac(player)) {
+                    if (Utils.rollDie(25, 1)) {
+                        hit.ignorePrayer();
+                        return true;
                     }
                 }
             }

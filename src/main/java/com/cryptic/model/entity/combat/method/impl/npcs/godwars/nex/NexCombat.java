@@ -776,10 +776,19 @@ public class NexCombat extends CommonCombatMethod {
                 }
             }
         }
-        if (hit.getSource().isNpc()) {
+        if (Objects.requireNonNull(hit.getSource()).isNpc()) {
             if (nex.soulsplit) {
                 nex.healHit(nex, hit.getDamage());
             }
+        }
+
+        incrementDamageMap(hit, hit.getSource(), target);
+    }
+
+    final void incrementDamageMap(Hit hit, Entity source, Entity target) {
+        if (source instanceof Player player && target instanceof NPC) {
+            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
+            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
         }
     }
 
@@ -824,6 +833,7 @@ public class NexCombat extends CommonCombatMethod {
         }
     }
 
+    Map<Player, Integer> damageMap = new HashMap<>();
     @Override
     public boolean customOnDeath(Hit hit) {
         var nex = (Nex) hit.getTarget();

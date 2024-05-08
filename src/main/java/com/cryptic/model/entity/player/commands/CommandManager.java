@@ -704,8 +704,8 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            ClaimDonationCommand.totalDonated = 200;
-        /*    List<Player> player = new ArrayList<>();
+//            ClaimDonationCommand.totalDonated = 200;
+/*            List<Player> player = new ArrayList<>();
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
             instance.buildParty();*/

@@ -13,8 +13,8 @@ public class DinhBulwark implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         var damage = hit.getDamage();
         if (entity instanceof Player player) {
-            if (!player.getEquipment().contains(ItemIdentifiers.DINHS_BULWARK) && player.getCombat().getFightType().getChildId() != 2)
-                return false;
+            if (!player.getEquipment().contains(ItemIdentifiers.DINHS_BULWARK)) return false;
+            if (player.getCombat().getFightType().getChildId() != 2) return false;
             if (damage > 0) {
                 damage -= damage / 5;
                 damage = (int) Math.floor(damage * CombatConstants.DINHS_BULWARK_REDUCTION);

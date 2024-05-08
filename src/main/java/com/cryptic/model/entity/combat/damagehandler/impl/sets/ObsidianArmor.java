@@ -12,11 +12,10 @@ public class ObsidianArmor implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            if (combatType == CombatType.MELEE) {
-                if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
-                    boost = 1.10D;
-                    return boost;
-                }
+            if (!CombatType.MELEE.equals(combatType)) return boost;
+            if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
+                boost = 1.10D;
+                return boost;
             }
         }
         return boost;

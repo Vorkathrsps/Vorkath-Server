@@ -14,13 +14,22 @@ public class WildernessWeapon implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
-            if (target instanceof NPC npc) {
-                if (FormulaUtils.hasMagicWildernessWeapon(player) || FormulaUtils.hasMeleeWildernessWeapon(player) || FormulaUtils.hasRangedWildernessWeapon(player)) {
-                    if (!WildernessArea.inWilderness(npc.tile())) return boost;
-                    boost = 1.50D;
-                    return boost;
-                }
+            final Entity target = player.getCombat().getTarget();
+            if (target == null) return boost;
+            if (!(target instanceof NPC)) return boost;
+            if (!WildernessArea.inWilderness(target.tile())) return boost;
+            if (CombatType.MAGIC.equals(combatType)) {
+                if (!FormulaUtils.hasMagicWildernessWeapon(player)) return boost;
+                boost = 1.50D;
+                return boost;
+            } else if (CombatType.RANGED.equals(combatType)) {
+                if (!FormulaUtils.hasRangedWildernessWeapon(player)) return boost;
+                boost = 1.50D;
+                return boost;
+            } else if (CombatType.MELEE.equals(combatType)) {
+                if (!FormulaUtils.hasMeleeWildernessWeapon(player)) return boost;
+                boost = 1.50D;
+                return boost;
             }
         }
         return boost;

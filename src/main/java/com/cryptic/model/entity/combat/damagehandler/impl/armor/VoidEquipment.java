@@ -12,7 +12,7 @@ public class VoidEquipment implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            if (combatType == CombatType.MAGIC) {
+            if (CombatType.MAGIC.equals(combatType)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic(player)) {
                     boost = 1.45D;
                     return boost;
@@ -21,12 +21,23 @@ public class VoidEquipment implements DamageModifyingListener {
                     return boost;
                 }
             } else {
-                if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
-                    boost = 1.10D;
-                    return boost;
-                } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
-                    boost = 1.125D;
-                    return boost;
+                if (CombatType.MELEE.equals(combatType)) {
+                    if (FormulaUtils.regularVoidEquipmentBaseMelee(player)) {
+                        boost = 1.10D;
+                        return boost;
+                    } else if (FormulaUtils.eliteVoidEquipmentMelee(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee(player)) {
+                        boost = 1.125D;
+                        return boost;
+                    }
+                }
+                if (CombatType.RANGED.equals(combatType)) {
+                    if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
+                        boost = 1.10D;
+                        return boost;
+                    } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
+                        boost = 1.125D;
+                        return boost;
+                    }
                 }
             }
         }

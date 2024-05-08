@@ -15,7 +15,8 @@ public class VestaLongsword implements DamageModifyingListener {
         double boost = 0.0D;
         if (entity instanceof Player player) {
             var equipment = player.getEquipment();
-            if (!equipment.contains(VESTAS_BLIGHTED_LONGSWORD) && !CombatType.MELEE.equals(combatType)) return boost;
+            if (!equipment.contains(VESTAS_BLIGHTED_LONGSWORD)) return boost;
+            if (!CombatType.MELEE.equals(combatType)) return boost;
             if (player.isSpecialActivated()) {
                 boost = 1.25D;
                 return boost;

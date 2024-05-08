@@ -178,10 +178,8 @@ public class Hit {
 
     public Hit setDamage(int damage) {
         this.damage = damage;
-        if (this.damage > 0) {
-            if (HitMark.POISON.equals(this.hitMark)) this.setHitMark(HitMark.POISON);
-            else this.setHitMark(HitMark.HIT);
-        }
+        if (this.damage > 0) this.accurate = true;
+        else this.block();
         return this;
     }
 

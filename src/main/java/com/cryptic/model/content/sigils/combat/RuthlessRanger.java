@@ -37,16 +37,18 @@ public class RuthlessRanger extends AbstractSigil {
             case ONYX_MEMBER -> damage = 7;
             case ZENYTE_MEMBER -> damage = 8;
         }
-        if (!activate(player)) {
+        if (player.getCombat() == null) return;
+        if (player.getCombat().getCombatType() == null) return;
+        if (!activate(player) && CombatType.RANGED.equals(player.getCombat().getCombatType())) {
             if (Utils.rollDie(10, 1)) {
                 player.animate(9158);
                 player.graphic(1981);
                 player.putAttrib(AttributeKey.RUTHLESS_CRIPPLE, true);
                 AtomicInteger count = new AtomicInteger(6);
-                int d = damage;
+                final int d = damage;
                 Chain.noCtx().repeatingTask(1, cripple -> {
                     count.getAndDecrement();
-                    player.submitHit(target, 0, d, HitMark.CORRUPTION);
+                    new Hit(player, target, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(d).setHitMark(HitMark.CORRUPTION).submit();
                     if (count.get() == 0) {
                         player.clearAttrib(AttributeKey.RUTHLESS_CRIPPLE);
                         cripple.stop();

@@ -6,6 +6,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.player.Player;
 
 public class Consistency extends AbstractSigil {
@@ -28,8 +29,9 @@ public class Consistency extends AbstractSigil {
     protected void damageModification(Player player, Hit hit) {
         if (!attuned(player)) return;
         if (hit.isImmune()) return;
-        hit.setAccurate(true);
-        hit.setDamage(hit.getDamage() + 1);
+        final HitMark previousMark = hit.getHitMark();
+        final int previousDamage = hit.getDamage();
+        hit.checkAccuracy(false).setHitMark(previousMark).setDamage(previousDamage + 1);
     }
 
     @Override

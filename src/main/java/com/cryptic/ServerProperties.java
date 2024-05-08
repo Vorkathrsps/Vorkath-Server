@@ -22,7 +22,7 @@ public final class ServerProperties {
     static final ServerProperties current;
     public static final LocalProperties localProperties;
 
-    public static final boolean IS_LIVE = true;
+    public static final boolean IS_LIVE = false;
 
     static {
         Path filePathLocal = Paths.get("./data/local-properties.json");

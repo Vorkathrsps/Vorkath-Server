@@ -95,10 +95,6 @@ public class ButtonClickPacketListener implements PacketListener {
         if (button == 80017) {
             player.getInterfaceManager().open(80750);
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-            var challengeListText = 80778;
-            for (int i = 0; i < tasks.size(); i++) {
-                player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
-            }
             DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
             player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
             return;

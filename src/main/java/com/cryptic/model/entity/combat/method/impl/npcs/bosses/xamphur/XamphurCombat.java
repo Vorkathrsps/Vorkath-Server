@@ -22,6 +22,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 public class XamphurCombat extends CommonCombatMethod {
     int attackcount = 0;
@@ -67,7 +68,6 @@ public class XamphurCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!this.initiated) return false;
-        if (!ProjectileRoute.hasLineOfSight(entity, target)) return false;
         if (attackcount % 5 == 0) {
             attackcount = 0;
             resetAndShuffleMarks();
@@ -113,7 +113,8 @@ public class XamphurCombat extends CommonCombatMethod {
         int[] taskCount = new int[]{0};
         int[] hitCount = new int[]{0};
         corruption.add(player);
-        Chain.noCtxRepeat().repeatingTask(1, task -> {
+        BooleanSupplier cancel = () -> !corruption.contains(player);
+        Chain.noCtxRepeat().cancelWhen(cancel).repeatingTask(1, task -> {
             if (taskCount[0] >= 50 || !player.hasAttrib(AttributeKey.MARK_OF_DARKNESS)) {
                 removeFromList(player);
                 player.sendPrivateSound(5000);

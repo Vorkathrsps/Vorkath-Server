@@ -7,7 +7,6 @@ import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +14,7 @@ import static com.cryptic.utility.ItemIdentifiers.TWISTED_BOW;
 
 public class TwistedBow implements DamageModifyingListener {
     private static final Logger logger = LogManager.getLogger(TwistedBow.class);
+
     @Override
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double bonus = 1.0D;
@@ -23,29 +23,26 @@ public class TwistedBow implements DamageModifyingListener {
             var equipment = player.getEquipment();
             if (target instanceof NPC npc) {
                 if (CombatType.RANGED.equals(combatType)) {
-                    if (equipment.contains(TWISTED_BOW)) {
-                        int magicLevel;
-                        if (npc.getCombatInfo() != null) {
-                            if (npc.getCombatInfo().stats != null) {
-                                magicLevel = npc.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : Math.min(npc.getCombatInfo().stats.magic, 250);
-                            } else {
-                                magicLevel = npc.getSkills().getMaxLevel(Skills.MAGIC);
-                            }
-
-                            bonus += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
-                            bonus = (float) Math.floor(bonus / 100);
-
-                            if (bonus > 2.4F) {
-                                bonus = 2.4F;
-                            }
-
+                    if (!equipment.contains(TWISTED_BOW)) return 0;
+                    int magicLevel;
+                    if (npc.getCombatInfo() != null) {
+                        if (npc.getCombatInfo().stats != null) {
+                            magicLevel = npc.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : Math.min(npc.getCombatInfo().stats.magic, 250);
                         } else {
-                            logger.log(Level.WARN, "[DamageHandler][" + getClass().getName() + "]" + " NPC CombatInfo Null For: ["  + npc.getMobName() + "] ID: [" + npc.getId() + "]");
+                            magicLevel = npc.getSkills().getMaxLevel(Skills.MAGIC);
                         }
+
+                        bonus += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
+                        bonus = (float) Math.floor(bonus / 100);
+
+                        if (bonus > 2.4F) {
+                            bonus = 2.4F;
+                        }
+                        return (int) bonus;
                     }
                 }
             }
         }
-        return (int) bonus;
+        return 0;
     }
 }

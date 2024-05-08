@@ -1,8 +1,6 @@
 package com.cryptic.model.entity.combat.damagehandler.impl.armor;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
@@ -13,7 +11,6 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 import org.apache.commons.lang.ArrayUtils;
 
-import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class SlayerHelmets implements DamageModifyingListener {

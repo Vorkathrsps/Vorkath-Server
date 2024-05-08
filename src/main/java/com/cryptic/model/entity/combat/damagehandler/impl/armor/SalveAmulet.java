@@ -17,16 +17,16 @@ public class SalveAmulet implements DamageModifyingListener {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
             if (target instanceof NPC npc) {
-                var modifier = accuracy.modifier();
-                if (equipment.containsAny(SALVE_AMULETEI, SALVE_AMULET_E)) {
+                int boost;
+                if (equipment.containsAny(SALVE_AMULETEI, SALVE_AMULET_E, SALVE_AMULETEI_25278, SALVE_AMULETEI_26782, SALVE_AMULETI_25250, SALVE_AMULETI_26763)) {
                     if (FormulaUtils.isUndead(npc)) {
-                        modifier += 1.20;
-                        return (int) modifier;
+                        boost = 20;
+                        return boost;
                     }
                 } else if (equipment.contains(SALVE_AMULET)) {
                     if (FormulaUtils.isUndead(npc)) {
-                        modifier += 1.15;
-                        return (int) modifier;
+                        boost = 15;
+                        return boost;
                     }
                 }
             }

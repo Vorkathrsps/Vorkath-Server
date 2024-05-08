@@ -30,7 +30,7 @@ public class RevenantCombat extends CommonCombatMethod {
         NPC npc = (NPC) entity;
 
         if (npc.hp() < npc.maxHp() / 2) {
-            if (Utils.percentageChance(50)) {
+            if (Utils.rollDie(25, 1)) {
                 npc.graphic(1221);
                 npc.heal(npc.maxHp() / 3);
             }

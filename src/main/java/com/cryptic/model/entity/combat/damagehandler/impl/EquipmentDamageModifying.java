@@ -94,7 +94,7 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
     public int prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         int modification = 0;
         for (DamageModifyingListener listener : accuracyModificationListeners) {
-            if (listener.prepareAccuracyModification(entity, combatType, accuracy) <= 0.0D) continue;
+            if (listener.prepareAccuracyModification(entity, combatType, accuracy) <= 0) continue;
             modification += listener.prepareAccuracyModification(entity, combatType, accuracy);
             logger2.debug("Accuracy Effect {} Modification Effect {}", listener.getClass().getSimpleName(), modification);
         }

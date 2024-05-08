@@ -80,8 +80,10 @@ public interface AbstractAccuracy {
         double prayerBonus = this.getPrayerBonusAttacker();
         int attackLevel = this.getOffensiveSkillLevelAttacker();
         attackLevel *= prayerBonus;
+        attackLevel += this.getOffensiveStyleBonus();
+        attackLevel += this.getSpecificBonus();
         attackLevel += 8;
-        int effectiveAttack = attackLevel + this.getEffectiveLevel();
+        int effectiveAttack = attackLevel;
         int equipmentBonus = this.getEquipmentBonusForAttacker();
         int attackRoll = effectiveAttack * (equipmentBonus + 64);
         if (modification > 0.0D) attackRoll *= modification;
@@ -101,14 +103,15 @@ public interface AbstractAccuracy {
         return effectiveDefence * (equipmentBonus + 64);
     }
 
-    default int getEffectiveLevel() {
-        int style = this.getOffensiveStyleBonus();
+    default int getSpecificBonus() {
+        int bonus = 0;
         if (this.attacker() instanceof Player player) {
             int modification = this.handler.getAccuracyModification(player, this.getCombatType(), this);
-            modification += style;
-            return modification;
+            bonus = modification + bonus;
+            System.out.println(bonus);
+            return bonus;
         }
-        return style;
+        return bonus;
     }
 
     default double getSpecialMultiplier(Player player) {

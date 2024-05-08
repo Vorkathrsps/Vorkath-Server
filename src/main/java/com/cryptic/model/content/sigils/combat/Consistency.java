@@ -27,12 +27,9 @@ public class Consistency extends AbstractSigil {
     @Override
     protected void damageModification(Player player, Hit hit) {
         if (!attuned(player)) return;
-        hit.postDamage(h -> {
-            if (h.isImmune()) return;
-            int damage = h.getDamage() + 1;
-            h.setAccurate(true);
-            h.setDamage(damage);
-        });
+        if (hit.isImmune()) return;
+        hit.setAccurate(true);
+        hit.setDamage(hit.getDamage() + 1);
     }
 
     @Override

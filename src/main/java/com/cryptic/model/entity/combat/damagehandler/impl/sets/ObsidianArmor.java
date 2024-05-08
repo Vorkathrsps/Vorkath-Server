@@ -10,15 +10,15 @@ import com.cryptic.model.entity.player.Player;
 public class ObsidianArmor implements DamageModifyingListener {
     @Override
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
+        double boost = 0.0D;
         if (entity instanceof Player player) {
             if (combatType == CombatType.MELEE) {
-                var modifier = accuracy.modifier();
                 if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
-                    modifier += 1.10F;
-                    return (int) modifier;
+                    boost = 1.10D;
+                    return boost;
                 }
             }
         }
-        return 0;
+        return boost;
     }
 }

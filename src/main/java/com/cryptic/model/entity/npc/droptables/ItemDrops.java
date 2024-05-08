@@ -29,7 +29,8 @@ public class ItemDrops {
 
     public static final int[] BONES = new int[]{ItemIdentifiers.BONES, BURNT_BONES, BAT_BONES, BIG_BONES, BABYDRAGON_BONES, DRAGON_BONES, JOGRE_BONES, ZOGRE_BONES, OURG_BONES, WYVERN_BONES, DAGANNOTH_BONES, LONG_BONE, CURVED_BONE, LAVA_DRAGON_BONES, SUPERIOR_DRAGON_BONES, WYRM_BONES, DRAKE_BONES, HYDRA_BONES};
     public static final int[] ASHES = new int[]{FIENDISH_ASHES, VILE_ASHES, MALICIOUS_ASHES, ABYSSAL_ASHES, INFERNAL_ASHES};
-    public static final int[] ENSOULED_HEADS = new int[]{ENSOULED_ABYSSAL_HEAD, ENSOULED_ABYSSAL_HEAD_13508, ENSOULED_AVIANSIE_HEAD, ENSOULED_BEAR_HEAD, ENSOULED_AVIANSIE_HEAD_13505, ENSOULED_BEAR_HEAD_13463, ENSOULED_BLOODVELD_HEAD, ENSOULED_BLOODVELD_HEAD_13496, ENSOULED_CHAOS_DRUID_HEAD, ENSOULED_CHAOS_DRUID_HEAD_13472, ENSOULED_DAGANNOTH_HEAD, ENSOULED_DAGANNOTH_HEAD_13493, ENSOULED_DEMON_HEAD, ENSOULED_DEMON_HEAD_13502, ENSOULED_DRAGON_HEAD, ENSOULED_DRAGON_HEAD_13511, ENSOULED_ELF_HEAD, ENSOULED_ELF_HEAD_13481, ENSOULED_GIANT_HEAD, ENSOULED_GIANT_HEAD_13475, ENSOULED_GOBLIN_HEAD, ENSOULED_GOBLIN_HEAD_13448,ENSOULED_HELLHOUND_HEAD, ENSOULED_HELLHOUND_HEAD_26997, ENSOULED_DRAGON_HEAD_13511, ENSOULED_DRAGON_HEAD, ENSOULED_IMP_HEAD, ENSOULED_IMP_HEAD_13454, ENSOULED_KALPHITE_HEAD, ENSOULED_KALPHITE_HEAD_13490, ENSOULED_TZHAAR_HEAD, ENSOULED_TZHAAR_HEAD_13499, ENSOULED_UNICORN_HEAD, ENSOULED_UNICORN_HEAD_13466, ENSOULED_SCORPION_HEAD, ENSOULED_SCORPION_HEAD_13460, ENSOULED_OGRE_HEAD, ENSOULED_OGRE_HEAD_13478, ENSOULED_MINOTAUR_HEAD, ENSOULED_MINOTAUR_HEAD_13457, ENSOULED_HORROR_HEAD, ENSOULED_HORROR_HEAD_13487};
+    public static final int[] ENSOULED_HEADS = new int[]{ENSOULED_ABYSSAL_HEAD, ENSOULED_ABYSSAL_HEAD_13508, ENSOULED_AVIANSIE_HEAD, ENSOULED_BEAR_HEAD, ENSOULED_AVIANSIE_HEAD_13505, ENSOULED_BEAR_HEAD_13463, ENSOULED_BLOODVELD_HEAD, ENSOULED_BLOODVELD_HEAD_13496, ENSOULED_CHAOS_DRUID_HEAD, ENSOULED_CHAOS_DRUID_HEAD_13472, ENSOULED_DAGANNOTH_HEAD, ENSOULED_DAGANNOTH_HEAD_13493, ENSOULED_DEMON_HEAD, ENSOULED_DEMON_HEAD_13502, ENSOULED_DRAGON_HEAD, ENSOULED_DRAGON_HEAD_13511, ENSOULED_ELF_HEAD, ENSOULED_ELF_HEAD_13481, ENSOULED_GIANT_HEAD, ENSOULED_GIANT_HEAD_13475, ENSOULED_GOBLIN_HEAD, ENSOULED_GOBLIN_HEAD_13448, ENSOULED_HELLHOUND_HEAD, ENSOULED_HELLHOUND_HEAD_26997, ENSOULED_DRAGON_HEAD_13511, ENSOULED_DRAGON_HEAD, ENSOULED_IMP_HEAD, ENSOULED_IMP_HEAD_13454, ENSOULED_KALPHITE_HEAD, ENSOULED_KALPHITE_HEAD_13490, ENSOULED_TZHAAR_HEAD, ENSOULED_TZHAAR_HEAD_13499, ENSOULED_UNICORN_HEAD, ENSOULED_UNICORN_HEAD_13466, ENSOULED_SCORPION_HEAD, ENSOULED_SCORPION_HEAD_13460, ENSOULED_OGRE_HEAD, ENSOULED_OGRE_HEAD_13478, ENSOULED_MINOTAUR_HEAD, ENSOULED_MINOTAUR_HEAD_13457, ENSOULED_HORROR_HEAD, ENSOULED_HORROR_HEAD_13487};
+
     public void rollTheDropTable(Player player, NPC npc) {
         int npcId = NpcDropRepository.getDropNpcId(npc.getId());
         NpcDropTable table = NpcDropRepository.forNPC(npcId);
@@ -51,9 +52,18 @@ public class ItemDrops {
                     var parsedID = ItemRepository.getItemId(i.getItem());
                     if (isRareDrop(player, npc, i, drop, parsedID)) break;
                 }
+                if (isUsingRingOfWealth(player, drop)) continue;
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
+    }
+
+    private static boolean isUsingRingOfWealth(Player player, Item drop) {
+        if (player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == COINS_995 && !player.getInventory().isFull()) {
+            player.getInventory().add(drop, drop.getAmount());
+            return true;
+        }
+        return false;
     }
 
     private static boolean isMembersNotedDragonhide(Player player, Item drop) {
@@ -87,7 +97,8 @@ public class ItemDrops {
     final boolean isUsingAshSanctifier(final Player player, final Item drop) {
         if (player.getInventory().contains(ASH_SANCTIFIER)) {
             Ashes ash = Ashes.get(drop.getId());
-            if (ash != null && Objects.equal(ash.id, drop.getId())) player.getSkills().addXp(Skill.PRAYER.getId(), ash.experience / 2);
+            if (ash != null && Objects.equal(ash.id, drop.getId()))
+                player.getSkills().addXp(Skill.PRAYER.getId(), ash.experience / 2);
             return true;
         }
         return false;
@@ -97,12 +108,14 @@ public class ItemDrops {
         if (player.hasAttrib(AttributeKey.DEVOTION)) {
             if (ArrayUtils.contains(BONES, drop.getId())) {
                 Bone bone = Bone.get(drop.getId());
-                if (bone != null && Objects.equal(bone.itemId, drop.getId())) player.getSkills().addXp(Skill.PRAYER.getId(), bone.xp * 2.0D);
+                if (bone != null && Objects.equal(bone.itemId, drop.getId()))
+                    player.getSkills().addXp(Skill.PRAYER.getId(), bone.xp * 2.0D);
                 return true;
             }
             if (ArrayUtils.contains(ASHES, drop.getId())) {
                 Ashes ash = Ashes.get(drop.getId());
-                if (ash != null && Objects.equal(ash.id, drop.getId())) player.getSkills().addXp(Skill.PRAYER.getId(), ash.experience * 2.0D);
+                if (ash != null && Objects.equal(ash.id, drop.getId()))
+                    player.getSkills().addXp(Skill.PRAYER.getId(), ash.experience * 2.0D);
                 return true;
             }
         }

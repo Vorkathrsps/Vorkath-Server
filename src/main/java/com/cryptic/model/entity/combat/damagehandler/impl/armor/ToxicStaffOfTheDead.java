@@ -19,7 +19,7 @@ public class ToxicStaffOfTheDead implements DamageModifyingListener {
             if (target instanceof Player enemy) {
                 if (player.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT)) {
                     if (player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
-                        if (enemy.getCombat().getCombatType() == CombatType.MELEE) {
+                        if (CombatType.MELEE.equals(enemy.getCombat().getCombatType())) {
                             if (hit.isAccurate()) {
                                 if (hit.getDamage() > 0) {
                                     int damage = hit.getDamage();

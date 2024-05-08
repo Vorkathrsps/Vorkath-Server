@@ -18,14 +18,15 @@ public class CrystalSet implements DamageModifyingListener {
             if (CombatType.RANGED.equals(combatType)) {
                 if ((FormulaUtils.hasBowOfFaerdhenin(player) || FormulaUtils.hasCrystalBow(player))) {
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || player.getEquipment().contains(CRYSTAL_HELM_27705) || player.getEquipment().contains(CRYSTAL_HELM_27717) || player.getEquipment().contains(CRYSTAL_HELM_27729) || player.getEquipment().contains(CRYSTAL_HELM_27741) || player.getEquipment().contains(CRYSTAL_HELM_27753) || player.getEquipment().contains(CRYSTAL_HELM_27765) || player.getEquipment().contains(CRYSTAL_HELM_27777)) {
-                        boost = 1.05D;
+                        boost += 0.05D;
                     }
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY) || player.getEquipment().contains(CRYSTAL_BODY_27697) || player.getEquipment().contains(CRYSTAL_BODY_27709) || player.getEquipment().contains(CRYSTAL_BODY_27721) || player.getEquipment().contains(CRYSTAL_BODY_27733) || player.getEquipment().contains(CRYSTAL_BODY_27745) || player.getEquipment().contains(CRYSTAL_BODY_27757) || player.getEquipment().contains(CRYSTAL_BODY_27769)) {
-                        boost = 1.15D;
+                        boost += 0.15D;
                     }
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().contains(CRYSTAL_LEGS_27701) || player.getEquipment().contains(CRYSTAL_LEGS_27713) || player.getEquipment().contains(CRYSTAL_LEGS_27725) || player.getEquipment().contains(CRYSTAL_LEGS_27737) || player.getEquipment().contains(CRYSTAL_LEGS_27749) || player.getEquipment().contains(CRYSTAL_LEGS_27761) || player.getEquipment().contains(CRYSTAL_LEGS_27773)) {
-                        boost = 1.10D;
+                        boost += 0.10D;
                     }
+                    boost += 1.0D;
                     return boost;
                 }
             }

@@ -10,7 +10,6 @@ import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.utility.Utils;
 
 import static com.cryptic.utility.ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD;
 

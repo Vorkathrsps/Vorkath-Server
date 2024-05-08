@@ -39,16 +39,14 @@ public class DragonHunterCrossbow implements DamageModifyingListener {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
-                if (CombatType.RANGED.equals(player.getCombat().getCombatType())) {
-                    if (player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) {
-                        if (FormulaUtils.isDragon(npc)) {
-                            boost = 1.25D;
-                        } else {
-                            boost = 1.30D;
-                        }
-                        return boost;
-                    }
+                if (!CombatType.RANGED.equals(player.getCombat().getCombatType()) && !player.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B))
+                    return boost;
+                if (FormulaUtils.isDragon(npc)) {
+                    boost = 1.25D;
+                } else {
+                    boost = 1.30D;
                 }
+                return boost;
             }
         }
         return boost;

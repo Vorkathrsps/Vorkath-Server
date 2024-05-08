@@ -13,12 +13,10 @@ public class ZurielStaff implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            if (combatType == CombatType.MAGIC) {
-                if (player.getSpellbook().equals(MagicSpellbook.ANCIENTS) && FormulaUtils.hasZurielStaff(player)) {
-                    boost = 1.10D;
-                    return boost;
-                }
-            }
+            if (!CombatType.MAGIC.equals(combatType)) return boost;
+            if (!player.getSpellbook().equals(MagicSpellbook.ANCIENTS) && !FormulaUtils.hasZurielStaff(player)) return boost;
+            boost = 1.10D;
+            return boost;
         }
         return boost;
     }

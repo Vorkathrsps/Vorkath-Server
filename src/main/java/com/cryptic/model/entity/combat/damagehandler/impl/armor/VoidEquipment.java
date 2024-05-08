@@ -12,11 +12,10 @@ public class VoidEquipment implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            var modifier = accuracy.modifier();
             if (combatType == CombatType.MAGIC) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic(player)) {
                     boost = 1.45D;
-                    return (int) modifier;
+                    return boost;
                 } else if (FormulaUtils.eliteVoidEquipmentBaseMagic(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic(player)) {
                     boost = 1.70D;
                     return boost;
@@ -24,7 +23,7 @@ public class VoidEquipment implements DamageModifyingListener {
             } else {
                 if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
                     boost = 1.10D;
-                    return (int) modifier;
+                    return boost;
                 } else if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
                     boost = 1.125D;
                     return boost;

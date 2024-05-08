@@ -22,15 +22,12 @@ public class TumekensShadow implements DamageModifyingListener {
             var equipment = player.getEquipment();
             EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
             if (target instanceof NPC) {
-                if (combatType == CombatType.MAGIC) {
-                    if (equipment.containsAny(TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW)) {
-                        if (player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() != 6) return 0;
-                        boost = attackerBonus.mage * 3;
-                        boost = Math.min(boost, 100);
-                        return boost;
-                    }
-
-                }
+                if (!CombatType.MAGIC.equals(combatType)) return boost;
+                if (!equipment.containsAny(TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW)) return boost;
+                if (player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() != 6) return boost;
+                boost = attackerBonus.mage * 3;
+                boost = Math.min(boost, 100);
+                return boost;
             }
         }
         return boost;

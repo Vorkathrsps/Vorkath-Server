@@ -16,13 +16,10 @@ public class WildernessWeapon implements DamageModifyingListener {
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
-                if (combatType == CombatType.MAGIC) {
-                    if (FormulaUtils.hasMagicWildernessWeapon(player) || FormulaUtils.hasMeleeWildernessWeapon(player) || FormulaUtils.hasRangedWildernessWeapon(player)) {
-                        if (WildernessArea.inWilderness(npc.tile())) {
-                            boost = 1.50D;
-                            return boost;
-                        }
-                    }
+                if (FormulaUtils.hasMagicWildernessWeapon(player) || FormulaUtils.hasMeleeWildernessWeapon(player) || FormulaUtils.hasRangedWildernessWeapon(player)) {
+                    if (!WildernessArea.inWilderness(npc.tile())) return boost;
+                    boost = 1.50D;
+                    return boost;
                 }
             }
         }

@@ -17,21 +17,19 @@ public class AmuletOfBloodFury implements DamageModifyingListener {
         if (entity instanceof Player player) {
             final Entity target = player.getCombat().getTarget();
             if (checkCombatType(combatType, target)) return false;
-            if (player.getEquipment().contains(AMULET_OF_BLOOD_FURY)) {
-                if (checkConditions(hit, damage)) return false;
-                int healAmount = damage * 30 / 100;
-                player.heal(healAmount);
-                player.graphic(1542);
-                return true;
-            }
+            if (!player.getEquipment().contains(AMULET_OF_BLOOD_FURY)) return false;
+            if (checkConditions(hit, damage)) return false;
+            int healAmount = damage * 30 / 100;
+            player.heal(healAmount);
+            player.graphic(1542);
+            return true;
         }
         return false;
     }
 
     private static boolean checkCombatType(CombatType combatType, Entity target) {
         if (target == null) return true;
-        if (combatType != CombatType.MELEE) return true;
-        return false;
+        return combatType != CombatType.MELEE;
     }
 
     private static boolean checkConditions(Hit hit, int damage) {

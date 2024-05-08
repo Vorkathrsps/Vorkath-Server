@@ -25,16 +25,15 @@ public class SlayerHelmets implements DamageModifyingListener {
             if (target instanceof NPC npc) {
                 if (assignment != null) {
                     if (ArrayUtils.contains(assignment.getNpcs(), npc.id())) {
-                        var modifier = accuracy.modifier();
                         if (equipment.contains(SLAYER_HELMET)) {
                             boost = 1.15D;
-                            return (int) modifier;
+                            return boost;
                         } else if (equipment.contains(SLAYER_HELMET_I)) {
                             boost = 1.18D;
-                            return (int) modifier;
+                            return boost;
                         } else if (equipment.contains(BLACK_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.RED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
                             boost = 1.20D;
-                            return (int) modifier;
+                            return boost;
                         } else if (equipment.contains(TWISTED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
                             boost = 1.25D;
                             return boost;

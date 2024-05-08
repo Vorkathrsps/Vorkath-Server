@@ -39,15 +39,12 @@ public class DragonHunterLance implements DamageModifyingListener {
         double boost = 0.0D;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
-            if (CombatType.MELEE.equals(player.getCombat().getCombatType())) {
-                if (target instanceof NPC npc) {
-                    if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
-                        if (FormulaUtils.isDragon(npc)) {
-                            boost = 1.20D;
-                            return boost;
-                        }
-                    }
-                }
+            if (target instanceof NPC npc) {
+                if (!CombatType.MELEE.equals(player.getCombat().getCombatType())) return boost;
+                if (!player.getEquipment().contains(DRAGON_HUNTER_LANCE)) return boost;
+                if (!FormulaUtils.isDragon(npc)) return boost;
+                boost = 1.20D;
+                return boost;
             }
         }
         return boost;

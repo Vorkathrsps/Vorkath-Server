@@ -21,15 +21,15 @@ public class Inquisitor implements DamageModifyingListener {
                     return boost;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.HEAD, INQUISITORS_GREAT_HELM)) {
-                    boost = 1.005D;
+                    boost += 0.005D;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.BODY, INQUISITORS_HAUBERK)) {
-                    boost = 1.005D;
+                    boost = 0.005D;
                 }
                 if (player.getEquipment().hasAt(EquipSlot.LEGS, INQUISITORS_PLATESKIRT)) {
-                    boost = 1.005D;
+                    boost = 0.005D;
                 }
-                boost += boost;
+                boost += 1.0D;
                 return boost;
             }
         }

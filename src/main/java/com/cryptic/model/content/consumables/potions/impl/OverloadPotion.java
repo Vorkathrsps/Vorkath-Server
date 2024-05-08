@@ -60,8 +60,6 @@ public class OverloadPotion {
                         player.message(Color.RED.tag() + "Your overload potion has expired.");
                     }
                 }
-
-
             }
         });
     }

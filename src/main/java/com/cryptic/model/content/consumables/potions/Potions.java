@@ -216,8 +216,7 @@ public class Potions {
             return;
         }
 
-        int overloadTicks = player.getAttribOr(AttributeKey.OVERLOAD_POTION, 0);
-        if (potion == Potion.BOTTOMLESS_OVERLOAD_POTION && overloadTicks > 0) {
+        if (potion == Potion.BOTTOMLESS_OVERLOAD_POTION && player.<Boolean>getAttribOr(AttributeKey.OVERLOAD_TASK_RUNNING, false)) {
             player.message(Color.RED.wrap("The overload effect is still running."));
             return;
         }

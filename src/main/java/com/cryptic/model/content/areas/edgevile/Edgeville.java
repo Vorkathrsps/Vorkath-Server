@@ -2,6 +2,7 @@ package com.cryptic.model.content.areas.edgevile;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.World;
+import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.account.ChangeAccountTypeDialogue;
 import com.cryptic.model.content.areas.edgevile.dialogue.*;
 import com.cryptic.model.content.areas.lumbridge.dialogue.Hans;
@@ -41,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ALTAR;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.cryptic.model.items.container.shop.ShopUtility.PKP_SHOP_ID;
 
 /**
  * @author Origin | Zerikoth | PVE
@@ -104,7 +106,8 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
             if (npc.id() == EMBLEM_TRADER) {
-                World.getWorld().shop(17).open(player);
+                player.getPacketSender().sendConfig(1206, 6);
+                World.getWorld().shop(PKP_SHOP_ID).open(player);
                 return true;
             }
             if (npc.id() == IRON_MAN_TUTOR) {
@@ -307,6 +310,8 @@ public class Edgeville extends PacketInteraction {
                     player.hp(Math.max(increase > 0 ? player.getSkills().level(Skills.HITPOINTS) + increase : player.getSkills().level(Skills.HITPOINTS), player.getSkills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
                     player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5)); //Set the players prayer level to fullplayer.putAttrib(AttributeKey.RUN_ENERGY, 100.0);
                     player.setRunningEnergy(100.0, true);
+                    player.clearAttrib(AttributeKey.OVERLOAD_TASK_RUNNING);
+                    player.getPacketSender().sendEffectTimer(0, EffectTimer.OVERLOAD);
                     Poison.cure(player);
                     Venom.cure(2, player);
 

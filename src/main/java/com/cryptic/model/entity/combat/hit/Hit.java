@@ -183,6 +183,14 @@ public class Hit {
         return this;
     }
 
+    public Hit setDamage(int damage, HitMark mark) {
+        this.damage = damage;
+        this.setHitMark(mark);
+        if (this.damage > 0) this.accurate = true;
+        else this.block();
+        return this;
+    }
+
     public void damageModifier(double damageModifier) {
         this.damage += damageModifier;
     }
@@ -258,6 +266,7 @@ public class Hit {
         if (!checkAccuracy) this.accurate = true;
         if (!this.accurate) this.damage = 0;
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
+        if (attacker instanceof Player player) player.sigil.processDamage(player, this);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (this.accurate && this.damage == 0) this.block();
@@ -386,8 +395,7 @@ public class Hit {
         if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.damage >= this.target.hp()) this.damage = this.target.hp();
-        if (this.attacker instanceof Player player)
-            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }

@@ -357,41 +357,49 @@ public class Buttons {
                 }
                 WEAPON_SHOP_BUTTON = 73156;
                 if (button == WEAPON_SHOP_BUTTON) {
+                    player.getPacketSender().sendConfig(1206, 0);
                     World.getWorld().shop(5004).open(player);
                     return;
                 }
                 ARMOR_SHOP_BUTTON = 73157;
                 if (button == ARMOR_SHOP_BUTTON) {
+                    player.getPacketSender().sendConfig(1206, 1);
                     World.getWorld().shop(5003).open(player);
                     return;
                 }
                 MAGIC_SHOP_BUTTON_ID = 73159;
                 if (button == MAGIC_SHOP_BUTTON_ID) {
+                    player.getPacketSender().sendConfig(1206, 3);
                     World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
                     return;
                 }
                 GENERAL_SHOP_BUTTON_ID = 73161;
                 if (button == GENERAL_SHOP_BUTTON_ID) {
+                    player.getPacketSender().sendConfig(1206, 5);
                     World.getWorld().shop(GENERAL_STORE_SHOP_ID).open(player);
                     return;
                 }
                 RANGED_SHOP = 73158;
                 if (button == RANGED_SHOP) {
+                    player.getPacketSender().sendConfig(1206, 2);
                     World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
                     return;
                 }
                 PKP_SHOP = 73162;
                 if (button == PKP_SHOP) {
+                    player.getPacketSender().sendConfig(1206, 6);
                     World.getWorld().shop(PKP_SHOP_ID).open(player);
                     return;
                 }
                 VOTE_SHOP = 73163;
                 if (button == VOTE_SHOP) {
+                    player.getPacketSender().sendConfig(1206, 7);
                     World.getWorld().shop(VOTE_SHOP_ID).open(player);
                     return;
                 }
                 POTION_SHOP = 73160;
                 if (button == POTION_SHOP) {
+                    player.getPacketSender().sendConfig(1206, 4);
                     World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
                     return;
                 }

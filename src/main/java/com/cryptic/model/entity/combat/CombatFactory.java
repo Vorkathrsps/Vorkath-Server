@@ -967,8 +967,6 @@ public class CombatFactory {
             }
         }
 
-        if (attacker instanceof Player player) player.sigil.processDamage(player, hit);
-
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
 

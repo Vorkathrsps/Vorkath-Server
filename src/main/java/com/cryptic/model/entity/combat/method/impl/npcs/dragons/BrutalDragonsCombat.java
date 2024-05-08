@@ -33,10 +33,12 @@ public class BrutalDragonsCombat extends CommonCombatMethod {
         switch (random) {
             case 0, 1 -> {
                 if (isReachable()) basicAttack(npc, target);
-                else breathFire(npc, target);
+                else if (isReachable()) breathFire(npc, target);
             }
             case 2, 3 -> magicAttack(npc, target);
-            case 4, 5 -> breathFire(npc, target);
+            case 4, 5 -> {
+                if (isReachable()) breathFire(npc, target);
+            }
         }
         return true;
     }
@@ -133,6 +135,6 @@ public class BrutalDragonsCombat extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 8;
+        return 1;
     }
 }

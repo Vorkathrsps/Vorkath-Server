@@ -171,39 +171,24 @@ public class WildernessBossEvent {
     int lastEvent = 0;
 
     public void startBossEvent() {
-        // First despawn the npc if existing
         terminateActiveEvent(true);
-
-        if (++lastEvent > EVENT_ROTATION.length - 1)
-            lastEvent = 0;
+        if (++lastEvent > EVENT_ROTATION.length - 1) lastEvent = 0;
         activeEvent = EVENT_ROTATION[lastEvent];
-
-        // Only if it's an actual boss we spawn an NPC.
-        if (activeEvent != BossEvent.NOTHING) {
-            last = LocalDateTime.now();
-            next = LocalDateTime.now().plus((long) (BOSS_EVENT_INTERVAL * 0.6d), ChronoUnit.SECONDS);
-            // see you can see constructors with ctrl+shift+space
-            Tile tile = POSSIBLE_SPAWNS[new SecureRandom().nextInt(POSSIBLE_SPAWNS.length)];
-            currentSpawnPos = tile;
-            ANNOUNCE_5_MIN_TIMER = false;
-
-            NPC boss = new NPC(activeEvent.npc, tile);
-            boss.respawns(false);
-            boss.walkRadius(1);
-            boss.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 1);
-            World.getWorld().registerNpc(boss);
-
-            Utils.sendDiscordInfoLog("The wilderness event boss has been spawned: " + boss.def().name + " at " + tile.toString() + ".");
-
-            //Assign the npc reference.
-            this.activeNpc = Optional.of(boss);
-
-            World.getWorld().sendWorldMessage("<col=6a1a18><img=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
-            World.getWorld().sendWorldMessage("<col=6a1a18>It despawns in 60 minutes. Hurry!");
-
-            // Broadcast it
-            World.getWorld().sendBroadcast("<img=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
-        }
+        last = LocalDateTime.now();
+        next = LocalDateTime.now().plusSeconds((long) (BOSS_EVENT_INTERVAL * 0.6d));
+        Tile tile = POSSIBLE_SPAWNS[World.getWorld().random().nextInt(POSSIBLE_SPAWNS.length - 1)];
+        currentSpawnPos = tile;
+        ANNOUNCE_5_MIN_TIMER = false;
+        NPC boss = new NPC(activeEvent.npc, tile);
+        boss.respawns(false);
+        boss.walkRadius(1);
+        boss.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 1);
+        World.getWorld().registerNpc(boss);
+        Utils.sendDiscordInfoLog("The wilderness event boss has been spawned: " + boss.def().name + " at " + tile.toString() + ".");
+        this.activeNpc = Optional.of(boss);
+        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
+        World.getWorld().sendWorldMessage("<col=6a1a18>It despawns in 60 minutes. Hurry!");
+        World.getWorld().sendBroadcast("<img=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
     }
 
     public void terminateActiveEvent(boolean force) {

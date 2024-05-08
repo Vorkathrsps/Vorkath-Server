@@ -80,6 +80,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             loadPreset(player);
             return true;
         } else if (button == EDIT_BUTTON_ID) {
+            System.out.println("edit button");
             if (isEditNotAllowed(player)) {
                 player.message(Color.RED.wrap("You cannot edit a pre-made preset."));
                 return false;
@@ -110,27 +111,17 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
     void display(Player player, int button) {
         int index = 0;
-
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
         var isCreatedKit = ArrayUtils.contains(createKitButtons, button);
-
         if (isPreMadeKit) index = ArrayUtils.indexOf(preMadeKitButtons, button);
         else if (isCreatedKit) index = ArrayUtils.indexOf(createKitButtons, button);
-
         PresetData[] data = null;
-
         if (isPreMadeKit) data = defaultKits;
         else if (isCreatedKit) data = player.getPresetData();
-
         if (data != null) {
             PresetData kit = data[index];
-
             AttributeKey attributeKey = AttributeKey.CUSTOM_PRESETS;
-
-            if (isPreMadeKit) {
-                attributeKey = kit.getAttribute();
-            }
-
+            if (isPreMadeKit) attributeKey = kit.getAttribute();
             sendStrings(player);
             sendCreatedStrings(player);
             if (kit != null) {
@@ -327,16 +318,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
     void populateInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
         if (player == null || kits == null) return;
-
         inventoryContainer.clear(true);
-
         Item[] itemList = kits.getInventory();
-
         if (itemList == null) {
             itemList = player.getInventory().toArray();
             kits.setInventory(itemList);
         }
-
         inventoryContainer.addAll(itemList);
     }
 
@@ -361,10 +348,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void interruptDialogue(@NotNull Player player) {
-        if (!player.getDialogueManager().isActive() || player.getDialogueManager() == null) {
-            return;
-        }
-
+        if (!player.getDialogueManager().isActive() || player.getDialogueManager() == null) return;
         player.getDialogueManager().remove();
     }
 
@@ -458,10 +442,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void sendSpellbookString(Player player, PresetData kits) {
-        if (player == null || kits == null) {
-            return;
-        }
-
+        if (player == null || kits == null) return;
         player.getPacketSender().sendString(SPELLBOOK_STRING_ID, Utils.capitalizeFirst(kits.getSpellbook().name()));
     }
 

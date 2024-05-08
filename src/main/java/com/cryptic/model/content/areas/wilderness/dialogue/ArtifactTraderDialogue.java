@@ -42,10 +42,10 @@ public class ArtifactTraderDialogue extends Dialogue {
     protected void next() {
         //System.out.println("current phase: "+getPhase());
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I would like to trade my antique emblems.", "I would like to trade in my ancient artifacts.", "Nevermind.");
+            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I would like to trade my Mysterious Emblems.", "I would like to trade in my ancient artifacts.", "Nevermind.");
             setPhase(1);
         } else if (isPhase(1)) {
-            send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "Certainly, let me calculate ", "your total points from your antique emblems.");
+            send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "Certainly, let me calculate ", "your total points from your Mysterious Emblems.");
             setPhase(2);
         } else if (isPhase(2)) {
             send(DialogueType.STATEMENT, "Calculating total value...");
@@ -53,10 +53,10 @@ public class ArtifactTraderDialogue extends Dialogue {
         } else if (isPhase(3)) {
             int totalBM = BountyHunter.exchange(player, false);
             if (totalBM > 0) {
-                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "You will get a total of "+player.<String>getAttribOr(AttributeKey.EMBLEM_WEALTH,"")+"", "for your antique emblems. Do you wish to exchange", "them?");
+                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "You will get a total of "+player.<String>getAttribOr(AttributeKey.EMBLEM_WEALTH,"")+"", "for your Mysterious Emblems. Do you wish to exchange", "them?");
                 setPhase(4);
             } else {
-                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "You do not have any antique emblems.");
+                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "You do not have any Mysterious Emblems.");
                 setPhase(6);
             }
         } else if (isPhase(4)) {
@@ -99,7 +99,7 @@ public class ArtifactTraderDialogue extends Dialogue {
         if (isPhase(1)) {
             if (option == 1) {
                 //Target emblems
-                send(DialogueType.PLAYER_STATEMENT, Expression.CALM_TALK, "I would like to exchange my antique emblems.");
+                send(DialogueType.PLAYER_STATEMENT, Expression.CALM_TALK, "I would like to exchange my Mysterious Emblems.");
                 setPhase(1);
             } else if (option == 2) {
                 //Ancient artifcats
@@ -110,7 +110,7 @@ public class ArtifactTraderDialogue extends Dialogue {
             }
         } else if (isPhase(5)) {
             if (option == 1) {
-                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.HAPPY, "I've traded your antique emblems for " + Utils.format(BountyHunter.exchange(player, true)) + " coins.");
+                send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.HAPPY, "I've traded your Mysterious Emblems for " + Utils.format(BountyHunter.exchange(player, true)) + " coins.");
                 setPhase(6);
             } else if (option == 2) {
                 player.clearAttrib(EMBLEM_WEALTH);

@@ -90,11 +90,11 @@ public class Sigil extends PacketInteraction implements SigilListener {
     @Override
     public void process(Player player, Entity target) {
         if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return;
-        Combat combat = player.getCombat();
+        final Combat combat = player.getCombat();
         if (combat == null) return;
-        CombatType combatType = combat.getCombatType();
+        final CombatType combatType = combat.getCombatType();
         if (combatType == null) return;
-        Entity combatTarget = combat.getTarget();
+        final Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
         for (SigilData data : SigilData.values()) {
             for (AbstractSigil sigil : handler) {
@@ -112,11 +112,11 @@ public class Sigil extends PacketInteraction implements SigilListener {
     public double processAccuracy(Player player, Entity target, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return boost;
-        Combat combat = player.getCombat();
+        final Combat combat = player.getCombat();
         if (combat == null) return boost;
-        CombatType combatType = combat.getCombatType();
+        final CombatType combatType = combat.getCombatType();
         if (combatType == null) return boost;
-        Entity combatTarget = combat.getTarget();
+        final Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return boost;
         for (SigilData data : SigilData.values()) {
             for (AbstractSigil sigil : handler) {

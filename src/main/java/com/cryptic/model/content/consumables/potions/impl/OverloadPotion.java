@@ -28,7 +28,7 @@ public class OverloadPotion {
             @Override
             protected void execute() {
 
-                if (!player.isRegistered() || player.dead() || ticks == 0 || WildernessArea.isInWilderness(player)|| player.getDueling().inDuel()) {
+                if (!player.isRegistered() || player.dead() || ticks == 0 || WildernessArea.isInWilderness(player)|| player.getDueling().inDuel() || !player.hasAttrib(AttributeKey.OVERLOAD_TASK_RUNNING)) {
                     stop();
                     player.healPlayer();
                     player.getSkills().resetStats();
@@ -48,8 +48,6 @@ public class OverloadPotion {
                 }
 
                 if (--ticks > 0) {
-
-                    //System.out.println("Ticks Remaining"+ticks);
 
                     if (ticks == 0) {
                         stop();

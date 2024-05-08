@@ -54,7 +54,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PLAYER_UID;
 public class NPCInteractionHandler implements PacketListener {
 
     private static final int ATTACK_OPTION = 72, OPTION_1 = 155, OPTION_2 = 17, OPTION_3 = 21, OPTION_4 = 18;
-    private final int[] ignore = new int[]{10382, 1306, 6797, 7663, 2822, 2821, 10692, 2980, 1755, 5919, 10631};
+    private final int[] ignore = new int[]{10382, 1306, 6797, 7663, 2822, 2821, 10692, 2980, 1755, 5919, 10631, 308};
 
     @Override
     public void handleMessage(Player player, Packet packet) throws Exception {

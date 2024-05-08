@@ -200,7 +200,6 @@ public class WildernessArea extends Controller {
         player.getPacketSender().sendInteractionOption("Attack", 2, true);
         player.getInterfaceManager().sendOverlay(196);
         refreshWildernessLevel(player);
-        System.out.println("opened on enter");
         player.putAttrib(AttributeKey.INWILD, World.getWorld().cycleCount());
         if (!BountyHunter.PLAYERS_IN_WILD.contains(player)) {
             BountyHunter.PLAYERS_IN_WILD.add(player);
@@ -210,7 +209,6 @@ public class WildernessArea extends Controller {
         player.getRisk().update();
         refreshInterface(player, true);
         player.varps().varbit(Varbit.IN_WILDERNESS, 1);
-        // System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override
@@ -218,7 +216,6 @@ public class WildernessArea extends Controller {
         if (!Skulling.skulled(player)) {
             player.clearAttrib(AttributeKey.SKULL_ENTRIES_TRACKER);
         }
-        System.out.println("leaving wild");
         player.getInterfaceManager().removeOverlay();
         player.getPacketSender().sendInteractionOption("null", 2, true);
         BountyHunter.PLAYERS_IN_WILD.remove(player);

@@ -4,63 +4,31 @@ import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.player.Player;
 
 public class Consistency extends AbstractSigil {
-    @Override
-    protected void onRemove(Player player) {
-
-    }
 
     @Override
-    protected void processMisc(Player player) {
-
-    }
-
-    @Override
-    protected void processCombat(Player player, Entity target) {
-
-    }
-
-    @Override
-    protected void damageModification(Player player, Hit hit) {
+    public void damageModification(Player player, Hit hit) {
+        final Entity target = hit.getTarget();
         if (!attuned(player)) return;
         if (hit.isImmune()) return;
+        if (target == null) return;
+        if (target instanceof Player) return;
         final HitMark previousMark = hit.getHitMark();
         final int previousDamage = hit.getDamage();
-        hit.checkAccuracy(false).setHitMark(previousMark).setDamage(previousDamage + 1);
+        hit.setDamage(previousDamage + 1, previousMark);
     }
 
     @Override
-    protected void skillModification(Player player) {
-
-    }
-
-    @Override
-    protected void resistanceModification(Entity attacker, Entity target, Hit entity) {
-
-    }
-
-    @Override
-    protected double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) {
-        return 0;
-    }
-
-    @Override
-    protected boolean attuned(Player player) {
+    public boolean attuned(Player player) {
         return player.hasAttrib(AttributeKey.CONSISTENCY);
     }
 
     @Override
-    protected boolean activate(Player player) {
-        return false;
-    }
-
-    @Override
-    protected boolean validateCombatType(Player player) {
+    public boolean validateCombatType(Player player) {
         return player.getCombat().getCombatType().equals(CombatType.RANGED) || player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 }

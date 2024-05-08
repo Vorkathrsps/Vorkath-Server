@@ -6,6 +6,7 @@ import com.cryptic.model.items.Item;
 import java.util.ArrayList;
 
 import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
+import static com.cryptic.utility.ItemIdentifiers.COINS_995;
 
 /**
  * It can be given to the Emblem Trader wandering around in the Revenant Caves
@@ -19,12 +20,12 @@ import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
  */
 public enum AncientArtifacts {
     
-    ANCIENT_EMBLEM(21807,147_000),
-    ANCIENT_TOTEM(21810,195_000),
-    ANCIENT_STATUETTE(21813,208_000),
-    ANCIENT_MEDALLION(22299,464_000),
-    ANCIENT_EFFIGY(22302,3_520_000),
-    ANCIENT_RELIC(22305,6_800_000);
+    ANCIENT_EMBLEM(21807,500_000),
+    ANCIENT_TOTEM(21810,1_000_000),
+    ANCIENT_STATUETTE(21813,1_900_000),
+    ANCIENT_MEDALLION(22299,4_000_000),
+    ANCIENT_EFFIGY(22302,8_100_000),
+    ANCIENT_RELIC(22305,15_900_000);
     
     /**
      * The emblem item
@@ -63,30 +64,21 @@ public enum AncientArtifacts {
      */
     public static int exchange(Player player, boolean sell) {
         ArrayList<AncientArtifacts> list = new ArrayList<>();
-        
         for (AncientArtifacts emblem : AncientArtifacts.values()) {
             if (player.inventory().contains(emblem.getItemId())) {
                 list.add(emblem);
             }
         }
-
-        if (list.isEmpty()) {
-            return 0;
-        }
-
+        if (list.isEmpty()) return 0;
         int value = 0;
-
         for (AncientArtifacts emblem : list) {
             int amount = player.inventory().count(emblem.getItemId());
             if (amount > 0) {
                 if (sell) {
-                    if(!player.inventory().contains(emblem.getItemId())) {
-                        return 0;
-                    }
+                    if(!player.inventory().contains(emblem.getItemId())) return 0;
                     player.inventory().remove(emblem.getItemId(), amount);
                     int increase = emblem.getRewardAmount() * amount;
-
-                    player.inventory().addOrDrop(new Item(BLOOD_MONEY, increase));
+                    player.inventory().addOrDrop(new Item(COINS_995, increase));
                 }
                 value += (emblem.getRewardAmount() * amount);
             }

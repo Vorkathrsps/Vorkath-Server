@@ -30,7 +30,10 @@ public abstract class Task {
         "shanomi_shout_task", "SaveTask", "WildernessActivityManagerTask", "WildernessBossEventTask",
         "AddShopStockTask", "VenomTask", "AntifireTask", "TopPkersAnnouncementTask",
         "PoisonTask", "ImplingTask", "repeatingChain", "StarEventTask", "SavePlayerTask",
-        "TournamentLobbyTask", "TournamentCycleTask"
+        "TournamentLobbyTask", "TournamentCycleTask", "afk_zone_spirit_pool_task",
+        "afk_zone_herbiboar_task", "afk_zone_slayer_task", "afk_zone_thieving_task",
+        "afk_zone_smithing_task", "afk_zone_firemaking_task", "afk_zone_woodcutting_task",
+        "afk_zone_crafting_task", "afk_zone_cooking_task"
     };
 
     /** The default key for every task. */

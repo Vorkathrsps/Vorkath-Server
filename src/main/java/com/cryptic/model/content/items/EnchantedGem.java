@@ -6,12 +6,14 @@ import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
+import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.timers.TimerKey;
 
 import static com.cryptic.utility.ItemIdentifiers.ENCHANTED_GEM;
 
@@ -41,9 +43,11 @@ public class EnchantedGem extends PacketInteraction {
                     return true;
                 }
                 if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYERS_NODE)) {
-                    var location = assignment.getLocation();
-                    if (location != null) Teleports.basicTeleport(player, location);
-                    return true;
+                    if (Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
+                        var location = assignment.getLocation(assignment.isWildernessTask(player));
+                        if (location != null) Teleports.basicTeleport(player, location);
+                        return true;
+                    }
                 }
                 var amount = assignment.getRemainingTaskAmount(player);
                 player.message(Color.BLUE.wrap("<img=13><shad=0>Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + amount + "</shad></img>"));

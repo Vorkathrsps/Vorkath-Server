@@ -12,6 +12,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.RSPolygon;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.utility.Varbit;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.OptionalInt;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
 
@@ -52,12 +54,38 @@ public class WildernessArea extends Controller {
     public static boolean isInWilderness(Player player) {
         return inWilderness(player.tile());
     }
-
-    private static final Area WILDERNESS_OVERWORLD = new Area(2946, 3520, 3391, 3967);
-    private static final Area GODWARS_DUNGEON = new Area(3008, 10112, 3071, 10175);
     private static final Area ESCAPE_CAVES = new Area(3328, 10240, 3391, 10303);
-    private static final Area WILDERNESS_SLAYER_CAVES = new Area(3328, 10048, 3455, 10175);
-    private static final Area REVENANT_CAVES = new Area(3136, 10047, 3263, 10303);
+    private static final RSPolygon mainlandWildernessPolygon = new RSPolygon(new int[][]{{2944, 3968}, {2944, 3681},
+        {2947, 3681}, {2947, 3676}, {2944, 3676}, {2944, 3525}, {2994, 3525}, {2997, 3528}, {2998, 3535}, {2999,
+        3536}, {3007, 3546}, {3023, 3546}, {3028, 3537}, {3032, 3529}, {3037, 3525}, {3391, 3525}, {3391, 3968}});
+    private static final RSPolygon dungeonsWildernessPolygon = new RSPolygon(new int[][]{{2944, 9920}, {2944, 10879},
+        {3470, 10879}, {3455, 9990},{3395, 9990}, {3264, 9920}, {3264, 9984}, {3200, 9984}, {3200, 9920}, {3072, 9920}, {3072,
+        9984}, {3008, 9984}, {3008, 9920}});
+    public static final RSPolygon forexEnclavePolygon = new RSPolygon(new int[][]{
+        {3118, 3623},
+        {3118, 3635},
+        {3129, 3644},
+        {3138, 3644},
+        {3138, 3647},
+        {3156, 3647},
+        {3161, 3636},
+        {3161, 3627},
+        {3153, 3627},
+        {3144, 3616},
+        {3140, 3610},
+        {3129, 3610},
+        {3121, 3616}
+    });
+
+    private static boolean rawWithinWilderness(final int x, final int y) {
+        return !forexEnclavePolygon.contains(x, y)
+            && (mainlandWildernessPolygon.contains(x, y)
+            || dungeonsWildernessPolygon.contains(x, y));
+    }
+
+    public static boolean isWithinWilderness(final int x, final int y) {
+        return rawWithinWilderness(x, y);
+    }
 
     public static int getWildernessLevel(Tile tile) {
         final int region = tile.region();
@@ -68,15 +96,16 @@ public class WildernessArea extends Controller {
         if (customWildernessRegions != null && customWildernessRegions.region == tile.region()) {
             return customWildernessRegions.level;
         }
-        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile))
-            return 0;
+
+        if (!isWithinWilderness(x, y)) return 0;
+
         if (ESCAPE_CAVES.containsClosed(tile)) {
             level = 35;
-        } else if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
+        } if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
             level = ((y - 3520) >> 3) + 1;
         } else if (x >= 3008 && x <= 3071 && y >= 10112 && y <= 10175) {
             level = ((y - 9920) >> 3) - 1;
-        } else if (x >= 2944 && x <= 3391 && y >= 9920 && y <= 10879) {
+        } else if (x >= 2944 && x <= 3455 && y >= 9920 && y <= 10879) {
             level = ((y - 9920) >> 3) + 1;
         }
         return level;

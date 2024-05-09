@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -26,8 +27,9 @@ public class Korasi extends CommonCombatMethod {
         if (isDummy) hitDamage = maxHit * 1.5;
         int finalDamage = (int) Math.floor(hitDamage);
         new Hit(entity, target, 1, CombatType.MAGIC)
-            .checkAccuracy(false)
+            .setAccurate(true)
             .setDamage(finalDamage)
+            .setHitMark(HitMark.HIT)
             .submit()
             .postDamage(hit -> {
                 hit.setAccurate(true);

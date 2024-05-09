@@ -698,19 +698,18 @@ public class CommandManager {
         });
 
         dev("spawnxamphur", (p, c, s) ->
-            {
-                ClaimDonationCommand.spawnDonatorBoss();
-            });
+        {
+            ClaimDonationCommand.spawnDonatorBoss();
+        });
 
         dev("cc", (p, c, s) ->
         {
+            // System.out.println(RegionManager.regions.get(p.tile().region()));
 //            ClaimDonationCommand.totalDonated = 200;
-/*            List<Player> player = new ArrayList<>();
+            List<Player> player = new ArrayList<>();
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
-            instance.buildParty();*/
-           /* NightmareInstance instance = new NightmareInstance(p, new ArrayList<>());
-            instance.build();*/
+            instance.buildParty();
         });
 
         dev("cleartask", (p, c, s) ->

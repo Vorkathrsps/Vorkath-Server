@@ -37,7 +37,7 @@ public enum NewTeleData {
     ANCIENT_WYVERNS(new Tile(3609, 10278), "Wyvern Cave", "", SLAYING, MEDIUM),
     KARUULM_SLAYER_DUNGEON(new Tile(1311, 3812), "Karuulm Slayer Dungeon", "", SLAYING, MEDIUM),
     MOSS_LE_HARMLESS_CAVE(new Tile(3826, 9425), "Cave Horrors", "", SLAYING, MEDIUM),
-    WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "", SLAYING, MEDIUM),
+    WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "@red@Dangerous Teleport Level:17 Wilderness", SLAYING, MEDIUM),
     TROLLS(new Tile(2849, 3679),"Troll StrongHold", "", SLAYING, MEDIUM),
 
     //Bossing teleports

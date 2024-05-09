@@ -72,7 +72,7 @@ public class SlayerTask {
         }
     }
 
-    public void getRandomTask(@Nonnull Player player, int slayerMasterId) {
+    public void getRandomTask(@Nonnull final Player player, int slayerMasterId) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment != null) {
             player.message(Color.RED.wrap("You must finish your current assignment."));
@@ -101,7 +101,7 @@ public class SlayerTask {
         player.message(Color.BLUE.wrap("You have been assigned " + task.getTaskName() + " - Amount: " + task.getRemainingTaskAmount(player)));
     }
 
-    private void applyTaskAttributes(@NotNull Player player, int uid, SlayerTask task, int amount, boolean isWildTask) {
+    private void applyTaskAttributes(@NotNull final Player player, int uid, SlayerTask task, int amount, boolean isWildTask) {
         player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, task.taskName);
         player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, task.taskName);
         player.putAttrib(AttributeKey.SLAYER_TASK_UID, uid);
@@ -109,15 +109,15 @@ public class SlayerTask {
         player.putAttrib(AttributeKey.IS_WILDERNESS_TASK, isWildTask);
     }
 
-    public boolean isTaskBlocked(@Nonnull Player player, SlayerTask task) {
+    public boolean isTaskBlocked(@Nonnull final Player player, SlayerTask task) {
         return player.getSlayerRewards().getBlockedSlayerTask().contains(task.uid);
     }
 
-    public void blockTask(@Nonnull Player player, SlayerTask task) {
+    public void blockTask(@Nonnull final Player player, SlayerTask task) {
         player.getSlayerRewards().getBlockedSlayerTask().add(task.uid);
     }
 
-    public void displayCurrentAssignment(@Nonnull Player player) {
+    public void displayCurrentAssignment(@Nonnull final Player player) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment == null) {
             player.message("You currently have no active slayer task.");
@@ -129,7 +129,7 @@ public class SlayerTask {
         player.getPacketSender().sendString(63208, "" + remainingTaskAmount + " x " + name);
     }
 
-    public void sendTaskInformation(@Nonnull Player player) {
+    public void sendTaskInformation(@Nonnull final Player player) {
         SlayerTask slayer = World.getWorld().getSlayerTasks();
         SlayerTask assignment = slayer.getCurrentAssignment(player);
         this.displayCurrentAssignment(player);
@@ -150,15 +150,15 @@ public class SlayerTask {
         }
     }
 
-    public boolean isWildernessTask(@Nonnull Player player) {
+    public boolean isWildernessTask(@Nonnull final Player player) {
         return player.<Boolean>getAttrib(AttributeKey.IS_WILDERNESS_TASK);
     }
 
-    public boolean hasSlayerTask(@Nonnull Player player) {
+    public boolean hasSlayerTask(@Nonnull final Player player) {
         return this.getCurrentAssignment(player) != null;
     }
 
-    public void cancelSlayerTask(Player player, boolean isBlocking, boolean isCoins) {
+    public void cancelSlayerTask(final Player player, boolean isBlocking, boolean isCoins) {
         if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SKIPPY)) {
             player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
             player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
@@ -181,7 +181,7 @@ public class SlayerTask {
         }
     }
 
-    public void clearSlayerTask(Player player) {
+    public void clearSlayerTask(final Player player) {
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
         player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
@@ -189,7 +189,7 @@ public class SlayerTask {
         player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
     }
 
-    public void sendCancelTaskDialouge(@Nonnull Player player) {
+    public void sendCancelTaskDialouge(@Nonnull final Player player) {
         if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SKIPPY)) {
             SlayerTask slayer = World.getWorld().getSlayerTasks();
             slayer.cancelSlayerTask(player, false, true);
@@ -260,7 +260,7 @@ public class SlayerTask {
         });
     }
 
-    public void handleSlayerDeath(Player player, NPC npc) {
+    public void handleSlayerDeath(final Player player, final NPC npc) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         if (assignment != null && this.isLinkedById(player, npc.id())) {
@@ -269,9 +269,9 @@ public class SlayerTask {
             HashMap<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
             boolean inWilderness = WildernessArea.inWilderness(player.tile());
             if (this.isWildernessTask(player) && !inWilderness) return;
-            //if (inWilderness && this.isWildernessTask(player)) {
+            if (inWilderness && this.isWildernessTask(player)) {
                 isSlayerPerkEnabled(player, npc, slayerPerks);
-            //}
+            }
             player.getSlayerKillLog().addKill(npc);
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
             player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
@@ -293,7 +293,7 @@ public class SlayerTask {
         }
     }
 
-    private static void rewardCoins(Player player) {
+    private static void rewardCoins(final Player player) {
         var coinAmount = 1_000_000;
         if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SPARE_CHANGE)) coinAmount *= 1.40;
         player.getInventory().addOrDrop(new Item(995, coinAmount));
@@ -317,13 +317,13 @@ public class SlayerTask {
         }
     }
 
-    void incrementTaskCompletionSpree(Player player) {
+    void incrementTaskCompletionSpree(final Player player) {
         int taskCompletionSpree = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_SPREE, 0) + 1;
         player.putAttrib(AttributeKey.SLAYER_TASK_SPREE, taskCompletionSpree);
         player.putAttrib(AttributeKey.COMPLETED_SLAYER_TASKS, player.<Integer>getAttribOr(AttributeKey.COMPLETED_SLAYER_TASKS, 0) + 1);
     }
 
-    int incrementMemberBonusSlayerPoints(Player player, int slayerPoints) {
+    int incrementMemberBonusSlayerPoints(final Player player, int slayerPoints) {
         switch (player.getMemberRights()) {
             case RUBY_MEMBER, SAPPHIRE_MEMBER -> slayerPoints += 2;
             case EMERALD_MEMBER, DIAMOND_MEMBER -> slayerPoints += 4;
@@ -334,41 +334,41 @@ public class SlayerTask {
         return slayerPoints;
     }
 
-    public int getSlayerTaskCompletionPoints(@Nonnull Player player) {
+    public int getSlayerTaskCompletionPoints(@Nonnull final Player player) {
         return this.isWildernessTask(player) ? 40 : 25;
     }
 
-    public double getSlayerExperience(@Nonnull NPC npc) {
+    public double getSlayerExperience(@Nonnull final NPC npc) {
         return npc.maxHp();
     }
 
-    public boolean isRemoveSlayerTask(Player player) {
+    public boolean isRemoveSlayerTask(final Player player) {
         return this.getRemainingTaskAmount(player) <= 0;
     }
 
-    public int getRemainingTaskAmount(@Nonnull Player player) {
+    public int getRemainingTaskAmount(@Nonnull final Player player) {
         return player.<Integer>getAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
     }
 
-    public SlayerTask getCurrentAssignment(@Nonnull Player player) {
+    public SlayerTask getCurrentAssignment(@Nonnull final Player player) {
         int id = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_UID, -1);
         return id != -1 ? this.cached.get(id) : null;
     }
 
-    public boolean hasTaskRequirements(@Nonnull Player player, SlayerTask task) {
+    public boolean hasTaskRequirements(@Nonnull final Player player, SlayerTask task) {
         if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))) return false;
         if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid())) return false;
         if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47) return false;
         return true;
     }
 
-    public boolean isLinkedById(@Nonnull Player player, int npcId) {
+    public boolean isLinkedById(@Nonnull final Player player, int npcId) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment != null) return ArrayUtils.contains(assignment.npcs, npcId);
         else return false;
     }
 
-    public boolean isExtendable(Player player) {
+    public boolean isExtendable(final Player player) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment != null) return assignment.extendedMin != -1 && assignment.extendedMax != -1;
         else return false;
@@ -381,14 +381,14 @@ public class SlayerTask {
         return World.getWorld().random().nextInt(task.min, adjustedMax);
     }
 
-    int getExtendedTaskAmount(Player player) {
+    int getExtendedTaskAmount(final Player player) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment == null) return -1;
         if (!isExtendable(player)) return -1;
         else return Utils.random(assignment.extendedMin, assignment.extendedMax);
     }
 
-    String getTaskName(Player player) {
+    String getTaskName(final Player player) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         if (assignment == null) return "None";
         else return assignment.taskName;
@@ -404,7 +404,7 @@ public class SlayerTask {
         return weight;
     }
 
-    void rollForPvpEquipment(Player killer, NPC npc) {
+    void rollForPvpEquipment(final Player killer, NPC npc) {
         var chance = calculatePvpEquipment(npc);
         var random = Utils.randomElement(pvp_equipment);
         chance *= 2;
@@ -413,7 +413,7 @@ public class SlayerTask {
         }
     }
 
-    void dropBloodMoney(Player killer, NPC npc) {
+    void dropBloodMoney(final Player killer, NPC npc) {
         int cap = 100;
         switch (killer.getMemberRights()) {
             case RUBY_MEMBER -> cap = 150;
@@ -427,7 +427,7 @@ public class SlayerTask {
         GroundItemHandler.createGroundItem(new GroundItem(new Item(BLOOD_MONEY, Utils.random(1, cap)), npc.tile(), killer));
     }
 
-    void upgradeEmblem(Player killer) {
+    void upgradeEmblem(final Player killer) {
         for (int i = 0; i < emblems.length - 1; i++) {
             if (killer.getInventory().contains(emblems[i])) {
                 int emblemToAdd = emblems[i + 1];
@@ -439,16 +439,15 @@ public class SlayerTask {
     }
 
 
-    void rollForEmblem(Player killer, NPC npc) {
+    void rollForEmblem(final Player killer, final NPC npc) {
         int hp = npc.maxHp();
-        int chance = calculateEmblem(hp);
-        if (rollChance(chance)) {
+        if (rollChance(300)) {
             var randomEmblem = Utils.randomElement(emblems);
             GroundItemHandler.createGroundItem(new GroundItem(new Item(randomEmblem), npc.tile(), killer));
         }
     }
 
-    void rollForLarransKey(Player killer, NPC npc) {
+    void rollForLarransKey(final Player killer, final NPC npc) {
         var def = NpcDefinition.cached.get(npc.id());
         int combatLevel = def.combatLevel;
         int chance = calculateLarrans(combatLevel);
@@ -460,7 +459,7 @@ public class SlayerTask {
         }
     }
 
-    void rollForSigil(Player killer, NPC npc) {
+    void rollForSigil(final Player killer, final NPC npc) {
         int chance = calculateSigilChance(npc);
         if (rollChance(chance)) {
             int id = Utils.randomElement(sigils);
@@ -474,7 +473,7 @@ public class SlayerTask {
         }
     }
 
-    int calculateSigilChance(NPC npc) {
+    int calculateSigilChance(final NPC npc) {
         var combatLevel = npc.def().combatLevel;
         int chance;
         if (combatLevel <= 50) chance = 1000;
@@ -483,7 +482,7 @@ public class SlayerTask {
         return chance;
     }
 
-    int getLarransKeyAmountToDrop(Player killer, int amount) {
+    int getLarransKeyAmountToDrop(final Player killer, int amount) {
         switch (killer.getMemberRights()) {
             case RUBY_MEMBER -> amount += 1;
             case ONYX_MEMBER, ZENYTE_MEMBER -> amount += 2;
@@ -495,7 +494,7 @@ public class SlayerTask {
         return World.getWorld().rollDie(chance, 1);
     }
 
-    int calculatePvpEquipment(NPC npc) {
+    int calculatePvpEquipment(final NPC npc) {
         var combatLevel = npc.def().combatLevel;
         int chance;
         if (combatLevel <= 50) chance = 1000;
@@ -522,17 +521,23 @@ public class SlayerTask {
         return (int) Math.round(Math.abs(result));
     }
 
-    public final Tile getLocation() {
+    public final Tile getLocation(boolean isWildernessTask) {
         Tile location = null;
         switch (this.getTaskName()) {
             case "Rune Dragons" -> location = new Tile(1573, 5074, 0);
             case "Adamant Dragons" -> location = new Tile(1562, 5075, 0);
-            case "Aviansies" -> location = new Tile(2838, 5291, 2);
+            case "Aviansies" -> {
+                if (isWildernessTask) return new Tile(3064, 10126, 0);
+                location = new Tile(2838, 5291, 2);
+            }
             case "Lizardmen" -> location = new Tile(1453, 3694, 0);
             case "Mithril Dragons" -> location = new Tile(1777, 5349, 1);
             case "Tzhaars" -> location = new Tile(2456, 5159, 0);
             case "Kalphites" -> location = new Tile(3499, 9525, 2);
-            case "Ankou" -> location = new Tile(1641, 9995, 0);
+            case "Ankou" -> {
+                if (isWildernessTask) return new Tile(3361, 10078, 0);
+                location = new Tile(1641, 9995, 0);
+            }
             case "Trolls" -> location = new Tile(2849, 3674, 0);
             case "Blue Dragons" -> location = new Tile(2907, 9812, 0);
             case "Fire Giants" -> location = new Tile(2568, 9892, 0);
@@ -558,7 +563,10 @@ public class SlayerTask {
             case "Gargoyles" -> location = new Tile(3444, 3539, 2);
             case "Nechryael" -> location = new Tile(1706, 10081, 0);
             case "Drakes" -> location = new Tile(1313, 10235, 0);
-            case "Abyssal Demons" -> location = new Tile(1676, 10059, 0);
+            case "Abyssal Demons" -> {
+                if (isWildernessTask) return new Tile(3352, 10147, 0);
+                location = new Tile(1676, 10059, 0);
+            }
             case "Cave Krakens" -> location = new Tile(2277, 10003, 0);
             case "Dark Beasts" -> location = new Tile(1991, 4648, 0);
             case "Smoke Devils" -> location = new Tile(2388, 9449, 0);

@@ -155,6 +155,7 @@ public class ItemDefinition implements Definition {
 
         switch (id) {
             case SHIP_TICKET -> {
+                name = "Vote Ticket";
                 stackable = 1;
                 notelink = 0;
             }
@@ -165,6 +166,9 @@ public class ItemDefinition implements Definition {
             case KORASI_SWORD -> {
                 name = "Korasi's Sword";
                 category = 21;
+            }
+            case SCROLL_OF_REDIRECTION -> {
+                name = "Scroll Of Imbuement";
             }
         }
 

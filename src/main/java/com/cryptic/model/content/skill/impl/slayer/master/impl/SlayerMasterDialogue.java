@@ -26,7 +26,7 @@ public class SlayerMasterDialogue extends Dialogue {
                 DialogueManager.npcChat(player, Expression.H, player.getInteractingNpcId(), "You're still hunting " + assignment.getTaskName() + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
             }
         } else {
-            slayer.getRandomTask(player, NpcIdentifiers.NIEVE);
+            slayer.getRandomTask(player, player.getInteractingNpcId());
             assignment = slayer.getCurrentAssignment(player);
             if (assignment == null) return;
             int num = slayer.getRemainingTaskAmount(player);
@@ -34,7 +34,7 @@ public class SlayerMasterDialogue extends Dialogue {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, NpcIdentifiers.NIEVE, Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill " + num + " " + finalAssignment.getTaskName());
+                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill " + num + " " + finalAssignment.getTaskName());
                     setPhase(0);
                 }
 

@@ -49,57 +49,42 @@ public class Teleports {
         }
 
         if (Dueling.in_duel(player)) {
-            if (inform) {
-                player.message("You cannot teleport out of a duel.");
-            }
+            player.message("You cannot teleport out of a duel.");
             return false;
         }
 
         if (player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
-            if(inform) {
-                long millis = player.getTimers().left(TimerKey.SPECIAL_TELEBLOCK) * 600L;
-                player.message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.", TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))));
-            }
+            long millis = player.getTimers().left(TimerKey.SPECIAL_TELEBLOCK) * 600L;
+            player.message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.", TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))));
             return false;
         }
 
         if (player.getTimers().has(TimerKey.TELEBLOCK)) {
-            if (inform) {
-                player.teleblockMessage();
-            }
+            player.teleblockMessage();
             return false;
         }
 
         var capLvl = teletype == TeleportType.ABOVE_20_WILD ? 30 : 20;
         if (WildernessArea.getWildernessLevel(player.tile()) > capLvl && (!player.getPlayerRights().isCommunityManager(player))) {
-
-            if (inform) {
-                player.message("A mysterious force blocks your teleport spell!");
-                player.message("You can't use this teleport after level " + capLvl+ " wilderness.");
-            }
+            player.message("A mysterious force blocks your teleport spell!");
+            player.message("You can't use this teleport after level " + capLvl + " wilderness.");
             return false;
         }
 
-        if (player.jailed()) {
-            if (inform) {
-                player.message("You can't leave the jail yet.");
-            }
+        if (player.jailed() && !player.getPlayerRights().isSupport(player)) {
+            player.message("You can't leave the jail yet.");
             return false;
         }
 
-        //Is our player currently in an active Fight Cave?
         if (player.getMinigame() != null && !player.getMinigame().canTeleportOut()) {
             player.message("You cannot do that right now.");
             return false;
         }
 
-        if (player.getTimers().has(TimerKey.BLOCK_SPEC_AND_TELE) && player.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) == 0) {
-            player.message("<col=804080>Teleport blocked for "+ player.getTimers().asSeconds(TimerKey.BLOCK_SPEC_AND_TELE)+" more secs after using spec at the start of a battle.");
+        if (player.getTimers().has(TimerKey.BLOCK_SPEC_AND_TELE) && player.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0) {
+            player.message("<col=804080>Teleport blocked for " + player.getTimers().asSeconds(TimerKey.BLOCK_SPEC_AND_TELE) + " more secs after using spec at the start of a battle.");
             return false;
         }
-
-        var mage_arena = player.<Boolean>getAttribOr(AttributeKey.MAGEBANK_MAGIC_ONLY,false);
-
 
         if (player.looks().hidden()) {
             player.looks().hide(false);
@@ -163,7 +148,7 @@ public class Teleports {
     public static boolean wildernessTeleportAntiragOk(int x, int z, Player player, boolean preventQuickRespawn) {
         if (WildernessArea.inWilderness(new Tile(x, z))) {
             if (preventQuickRespawn && lastTimeDied(player, GameServer.properties().pkTelesAfterSetupSet)) {
-                player.message("Quick wilderness teleports are off limits %ds <col=FF0000>after death.</col>", (int)Utils.ticksToSeconds(GameServer.properties().pkTelesAfterSetupSet));
+                player.message("Quick wilderness teleports are off limits %ds <col=FF0000>after death.</col>", (int) Utils.ticksToSeconds(GameServer.properties().pkTelesAfterSetupSet));
                 return false;
             }
 
@@ -205,8 +190,9 @@ public class Teleports {
 
     public static void basicTeleport(Player player, Tile tile, int anim, Graphic gfx) {
         //If the player is locked or dead
-        if (player.locked() || player.dead() || player.hp() <= 0)
-            return;
+        if (player.locked() || player.dead() || player.hp() <= 0) return;
+
+        boolean above30Wild = WildernessArea.getWildernessLevel(player.tile()) > 30;
 
         player.getInterfaceManager().close();
 

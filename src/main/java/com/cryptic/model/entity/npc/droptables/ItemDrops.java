@@ -63,6 +63,10 @@ public class ItemDrops {
             player.getInventory().add(drop, drop.getAmount());
             return true;
         }
+        if (player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == BLOOD_MONEY && !player.getInventory().isFull()) {
+            player.getInventory().add(drop, drop.getAmount());
+            return true;
+        }
         return false;
     }
 

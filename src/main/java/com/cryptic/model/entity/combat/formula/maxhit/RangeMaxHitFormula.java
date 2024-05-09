@@ -85,7 +85,8 @@ public class RangeMaxHitFormula {
         SlayerTask slayerTask = World.getWorld().getSlayerTasks();
         var assignment = slayerTask.getCurrentAssignment(player);
         boolean isSlayerMatch = target instanceof NPC npc && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
-        return isSlayerMatch && (FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.hasSlayerHelmetImbued(player)) ? 1.15 : 1;
+        if (!FormulaUtils.hasSlayerHelmet(player) && !FormulaUtils.hasSlayerHelmetImbued(player)) return 1;
+        return isSlayerMatch ? 1.15D : 1D;
     }
 
     private double getEquipmentBonus(@NonNull final Player player) {

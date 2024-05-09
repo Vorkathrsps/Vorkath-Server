@@ -1009,10 +1009,12 @@ public class CombatFactory {
                         charges--;
                         player.putAttrib(chargeKey, charges);
                         switch (charges) {
-                            case 2000, 1500, 1000, 500, 250, 100 -> player.message(Color.BLUE.wrap("Your starter weapon has " + charges + " remaining charges."));
+                            case 2000, 1500, 1000, 500, 250, 100 ->
+                                player.message(Color.BLUE.wrap("Your starter weapon has " + charges + " remaining charges."));
                             case 0 -> {
                                 player.getEquipment().remove(weaponId);
-                                if (weaponId == 22333 && player.getCombat().getRangedWeapon() != null) player.getCombat().setRangedWeapon(null);
+                                if (weaponId == 22333 && player.getCombat().getRangedWeapon() != null)
+                                    player.getCombat().setRangedWeapon(null);
                                 if (weaponId == 22335) player.getCombat().setPoweredStaffSpell(null);
                                 player.getCombat().reset();
                                 CombatSpecial.updateBar(player);
@@ -1061,7 +1063,7 @@ public class CombatFactory {
 
                 //Dustdevil
                 if (npc.id() == NpcIdentifiers.DUST_DEVIL || npc.id() == NpcIdentifiers.DUST_DEVIL_7249 || npc.id() == NpcIdentifiers.CHOKE_DEVIL) {
-                    if (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm()) {
+                    if (!FormulaUtils.hasSlayerHelmetImbued(attackerAsPlayer) && !FormulaUtils.hasSlayerHelmet(attackerAsPlayer) && attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK) {
                         hit.block();
                         attackerAsPlayer.message("Blinded by the monster's dust, you miss your attack!");
                     }

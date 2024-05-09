@@ -64,9 +64,11 @@ public class SlayerTask {
     final int[] pvp_equipment = new int[]{VESTAS_LONGSWORD_BH, STATIUSS_WARHAMMER_BH, VESTAS_SPEAR_BH, ZURIELS_STAFF_BH};
     final int[] sigils = new int[]{SIGIL_OF_THE_FERAL_FIGHTER_26075, SIGIL_OF_THE_MENACING_MAGE_26078, SIGIL_OF_THE_RUTHLESS_RANGER_26072, SIGIL_OF_DEFT_STRIKES_26012, SIGIL_OF_THE_METICULOUS_MAGE_26003, SIGIL_OF_CONSISTENCY_25994, SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, SIGIL_OF_RESISTANCE_28490, SIGIL_OF_PRECISION_28514, SIGIL_OF_FORTIFICATION_26006, SIGIL_OF_STAMINA_26042, SIGIL_OF_THE_ALCHEMANIAC_28484, SIGIL_OF_EXAGGERATION_26057, SIGIL_OF_DEVOTION_26099, SIGIL_OF_LAST_RECALL_26144, SIGIL_OF_REMOTE_STORAGE_26141, SIGIL_OF_THE_NINJA_28526, SIGIL_OF_THE_INFERNAL_SMITH_28505, SIGIL_OF_PIOUS_PROTECTION_26129, SIGIL_OF_AGGRESSION_26132, SIGIL_OF_THE_TREASURE_HUNTER_26051};
     final int[] wildernessBossUids = new int[]{57, 58, 60};
+
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
-            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
+            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {
+            }.getType();
             cached = gson.fromJson(reader, linkedData);
             logger.info("Loaded {} Slayer Task Information", cached.size());
         }
@@ -356,9 +358,12 @@ public class SlayerTask {
     }
 
     public boolean hasTaskRequirements(@Nonnull final Player player, SlayerTask task) {
-        if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))) return false;
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid())) return false;
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47) return false;
+        if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq)))
+            return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid()))
+            return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47)
+            return false;
         return true;
     }
 
@@ -424,7 +429,12 @@ public class SlayerTask {
             case ONYX_MEMBER -> cap = 400;
             case ZENYTE_MEMBER -> cap = 500;
         }
-        GroundItemHandler.createGroundItem(new GroundItem(new Item(BLOOD_MONEY, Utils.random(1, cap)), npc.tile(), killer));
+        final Item item = new Item(BLOOD_MONEY, Utils.random(1, cap));
+        if (killer.getEquipment().contains(RING_OF_WEALTH_I) && !killer.getInventory().isFull()) {
+            killer.getInventory().add(item, item.getAmount());
+            return;
+        }
+        GroundItemHandler.createGroundItem(new GroundItem(item, npc.tile(), killer));
     }
 
     void upgradeEmblem(final Player killer) {

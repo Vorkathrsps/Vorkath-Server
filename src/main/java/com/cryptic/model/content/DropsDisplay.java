@@ -207,8 +207,11 @@ public class DropsDisplay {
 
 
             if (player.getDropRateBonus() > 0) {
-                var reduction = average * player.getDropRateBonus() / 100D;
-                average -= (int) reduction;
+                if (average > 10) {
+                    final double reduction = player.getDropRateBonus() - 1D;
+                    final double result = reduction * average;
+                    average -= result;
+                }
             }
 
             int colorIndex;

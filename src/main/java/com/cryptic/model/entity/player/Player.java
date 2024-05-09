@@ -377,16 +377,16 @@ public class Player extends Entity {
         return damage;
     }
 
-    public double getDropRateBonus() {
+    public final double getDropRateBonus() {
         var percent = switch (getMemberRights()) {
-            case NONE -> 1.0;
-            case RUBY_MEMBER -> 1.05;
-            case SAPPHIRE_MEMBER -> 1.06;
-            case EMERALD_MEMBER -> 1.07;
-            case DIAMOND_MEMBER -> 1.08;
-            case DRAGONSTONE_MEMBER -> 1.09;
-            case ONYX_MEMBER -> 1.10;
-            case ZENYTE_MEMBER -> 1.15;
+            case NONE -> 0.0;
+            case RUBY_MEMBER -> 0.05;
+            case SAPPHIRE_MEMBER -> 0.06;
+            case EMERALD_MEMBER -> 0.07;
+            case DIAMOND_MEMBER -> 0.08;
+            case DRAGONSTONE_MEMBER -> 0.09;
+            case ONYX_MEMBER -> 0.10;
+            case ZENYTE_MEMBER -> 0.15;
         };
 
         switch (getIronManStatus()) {

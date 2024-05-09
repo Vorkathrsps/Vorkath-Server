@@ -67,7 +67,6 @@ public class Utils {
 
     public static String formatpercent(double decimal) {
         double percentage = (decimal - 1.0) * 100;
-        percentage -= 100;
         return String.format("%.2f%%", percentage);
     }
 

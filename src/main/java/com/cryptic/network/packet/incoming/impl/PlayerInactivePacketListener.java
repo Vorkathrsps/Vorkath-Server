@@ -19,12 +19,14 @@ public class PlayerInactivePacketListener implements PacketListener {
             return;
         }
         // ok afk timer now applies to <10min playtime accs, lets make up a verify on login
-        if (player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutesNewAccounts, TimeUnit.MINUTES) && player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 1000L) {
-            player.requestLogout();
-        }
+        if (!player.hasAttrib(AttributeKey.AFK)) {
+            if (player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutesNewAccounts, TimeUnit.MINUTES) && player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 1000L) {
+                player.requestLogout();
+            }
 
-        if (player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutes, TimeUnit.MINUTES) && !CombatFactory.inCombat(player)) {
-            player.requestLogout();
+            if (player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutes, TimeUnit.MINUTES) && !CombatFactory.inCombat(player)) {
+                player.requestLogout();
+            }
         }
     }
 }

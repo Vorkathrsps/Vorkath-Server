@@ -704,12 +704,14 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            // System.out.println(RegionManager.regions.get(p.tile().region()));
-//            ClaimDonationCommand.totalDonated = 200;
+            ObjectDefinition definition = ObjectDefinition.get(29246);
+            System.out.println(definition.varbit);
+            System.out.println(definition.varp);
+            /*
             List<Player> player = new ArrayList<>();
             player.add(p);
             PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
-            instance.buildParty();
+            instance.buildParty();*/
         });
 
         dev("cleartask", (p, c, s) ->

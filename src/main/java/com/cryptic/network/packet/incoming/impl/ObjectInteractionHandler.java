@@ -201,7 +201,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (name.equalsIgnoreCase("furnace")) {
+                if (name.equalsIgnoreCase("furnace") && object.getId() != 36555) {
                     Arrays.stream(Bar.values()).forEach(b -> player.getPacketSender().sendInterfaceModel(b.getFrame(), 150, b.getBar()));
                     player.getPacketSender().sendChatboxInterface(2400);
                     return;
@@ -222,7 +222,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (name.equalsIgnoreCase("furnace")) {
+                if (name.equalsIgnoreCase("furnace") && object.getId() != 36555) {
                     Arrays.stream(Bar.values()).forEach(b -> player.getPacketSender().sendInterfaceModel(b.getFrame(), 150, b.getBar()));
                     player.getPacketSender().sendChatboxInterface(2400);
                     return;

@@ -557,8 +557,7 @@ public class Utils {
 
     public static float ticksToHours(int tick) {
         int ticksInMillis = tick * 600;
-        float tickToHour = ticksInMillis / 3_600_000f;
-        return tickToHour;
+        return ticksInMillis / 3_600_000f;
     }
 
     public static String convertLongToDateTime(long time) {

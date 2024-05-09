@@ -14,6 +14,7 @@ import com.cryptic.core.task.impl.TickAndStop;
 import com.cryptic.core.task.impl.TickableTask;
 import com.cryptic.model.action.ActionManager;
 import com.cryptic.model.content.EffectTimer;
+import com.cryptic.model.content.areas.edgevile.AFKZoneArea;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
@@ -1904,7 +1905,9 @@ public abstract class Entity {
         if (this instanceof Player player) {
             if (player.hasAttrib(AttributeKey.RECALL_ATTUNE_ACTIVE) && !player.isUsingLastRecall()) {
                 if (player.getInstancedArea() == null) {
-                    player.setLastSavedTile(this.tile.copy());
+                    if (!AFKZoneArea.ROOM.contains(player.tile)) {
+                        player.setLastSavedTile(this.tile.copy());
+                    }
                 }
             }
         }

@@ -59,11 +59,7 @@ public class ItemDrops {
     }
 
     private static boolean isUsingRingOfWealth(Player player, Item drop) {
-        if (player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == COINS_995 && !player.getInventory().isFull()) {
-            player.getInventory().add(drop, drop.getAmount());
-            return true;
-        }
-        if (player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == BLOOD_MONEY && !player.getInventory().isFull()) {
+        if ((player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == COINS_995 && !player.getInventory().isFull()) || (player.getEquipment().contains(RING_OF_WEALTH_I) && drop.getId() == BLOOD_MONEY && !player.getInventory().isFull())) {
             player.getInventory().add(drop, drop.getAmount());
             return true;
         }

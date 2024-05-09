@@ -408,6 +408,10 @@ public class Player extends Entity {
             percent += 0.05;
         }
 
+        if (this.hasAttrib(TREASURE_HUNTER_BOOST)) {
+            percent += 0.05;
+        }
+
         return percent;
     }
 

@@ -180,10 +180,6 @@ public class MeleeMaxHitFormula {
             otherBonus *= 1.10;
         }
 
-        if (FormulaUtils.berserkerNecklace(player) && FormulaUtils.hasObbyWeapon(player)) {
-            otherBonus *= 1.10;
-        }
-
         if (player.getCombat().getFightType().getAttackType() == AttackType.CRUSH) {
             if (player.getEquipment().hasAt(EquipSlot.HEAD, INQUISITORS_GREAT_HELM) || player.getEquipment().hasAt(EquipSlot.BODY, INQUISITORS_HAUBERK) || player.getEquipment().hasAt(EquipSlot.LEGS, INQUISITORS_PLATESKIRT)) {
                 otherBonus *= 1.05;

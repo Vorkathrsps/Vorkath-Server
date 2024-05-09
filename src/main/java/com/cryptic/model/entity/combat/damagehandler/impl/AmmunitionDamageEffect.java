@@ -2,7 +2,7 @@ package com.cryptic.model.entity.combat.damagehandler.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.impl.bolts.*;
+import com.cryptic.model.entity.combat.damagehandler.impl.ammo.*;
 import com.cryptic.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 
 import java.util.ArrayList;

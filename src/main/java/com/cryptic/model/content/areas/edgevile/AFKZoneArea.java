@@ -30,7 +30,6 @@ public class AFKZoneArea extends Controller {
         player.getTimers().cancel(TimerKey.AFK_TIMEOUT);
         player.clearAttrib(AttributeKey.AFK);
         player.stopActions(true);
-
     }
 
     @Override

@@ -266,7 +266,8 @@ public class Hit {
         if (!checkAccuracy) this.accurate = true;
         if (!this.accurate) this.damage = 0;
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
-        if (attacker instanceof Player player) player.sigil.processDamage(player, this);
+        if (((attacker instanceof Player player) && !(target instanceof Player))) player.sigil.processDamage(player, this);
+        if (((attacker instanceof NPC npc) && (target instanceof Player player))) player.sigil.processResistance(npc, player, this);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (this.accurate && this.damage == 0) this.block();

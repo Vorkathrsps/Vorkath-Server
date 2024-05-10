@@ -23,9 +23,9 @@ public class AmuletOfAvarice implements DamageModifyingListener {
             if (target == null) return false;
             if (target instanceof NPC npc) {
                 if (!player.getEquipment().contains(ItemIdentifiers.AMULET_OF_AVARICE)) return false;
+                if (!ArrayUtils.contains(FormulaUtils.isRevenant(), npc.id())) return false;
                 if (((FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.hasSlayerHelmetImbued(player)) && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id())))
                     return false;
-                if (!ArrayUtils.contains(FormulaUtils.isRevenant(), npc.id())) return false;
                 int damage = hit.getDamage();
                 hit.setDamage((int) (damage * 1.20D));
                 return true;
@@ -44,9 +44,9 @@ public class AmuletOfAvarice implements DamageModifyingListener {
             if (target == null) return boost;
             if (target instanceof NPC npc) {
                 if (!player.getEquipment().contains(ItemIdentifiers.AMULET_OF_AVARICE)) return boost;
+                if (!ArrayUtils.contains(FormulaUtils.isRevenant(), npc.id())) return boost;
                 if (((FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.hasSlayerHelmetImbued(player)) && assignment != null && ArrayUtils.contains(assignment.getNpcs(), npc.id())))
                     return boost;
-                if (!ArrayUtils.contains(FormulaUtils.isRevenant(), npc.id())) return boost;
                 boost = 1.20D;
                 return boost;
             }

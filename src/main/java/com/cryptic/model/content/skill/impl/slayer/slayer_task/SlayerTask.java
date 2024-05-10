@@ -99,16 +99,18 @@ public class SlayerTask {
         SlayerTask task = this.cached.get(uid);
         int amount = this.generateRandomTaskAmount(task);
         boolean isWildTask = slayerMasterId == NpcIdentifiers.KRYSTILIA;
-        applyTaskAttributes(player, task.uid, task, amount, isWildTask);
+        boolean isBossTask = slayerMasterId == NpcIdentifiers.KONAR_QUO_MATEN;
+        applyTaskAttributes(player, task.uid, task, amount, isWildTask, isBossTask);
         player.message(Color.BLUE.wrap("You have been assigned " + task.getTaskName() + " - Amount: " + task.getRemainingTaskAmount(player)));
     }
 
-    private void applyTaskAttributes(@NotNull final Player player, int uid, SlayerTask task, int amount, boolean isWildTask) {
+    private void applyTaskAttributes(@NotNull final Player player, int uid, SlayerTask task, int amount, boolean isWildTask, boolean isBossTask) {
         player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, task.taskName);
         player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, task.taskName);
         player.putAttrib(AttributeKey.SLAYER_TASK_UID, uid);
         player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, amount);
         player.putAttrib(AttributeKey.IS_WILDERNESS_TASK, isWildTask);
+        player.putAttrib(AttributeKey.IS_BOSS_SLAYER_TASK, isBossTask);
     }
 
     public boolean isTaskBlocked(@Nonnull final Player player, SlayerTask task) {
@@ -156,6 +158,10 @@ public class SlayerTask {
         return player.<Boolean>getAttrib(AttributeKey.IS_WILDERNESS_TASK);
     }
 
+    public boolean isBossTask(@Nonnull final Player player) {
+        return player.<Boolean>getAttrib(AttributeKey.IS_BOSS_SLAYER_TASK);
+    }
+
     public boolean hasSlayerTask(@Nonnull final Player player) {
         return this.getCurrentAssignment(player) != null;
     }
@@ -166,6 +172,7 @@ public class SlayerTask {
             player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
             player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
             player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
+            player.clearAttrib(AttributeKey.IS_BOSS_SLAYER_TASK);
             return;
         }
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
@@ -178,6 +185,7 @@ public class SlayerTask {
         player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
         player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
         player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
+        player.clearAttrib(AttributeKey.IS_BOSS_SLAYER_TASK);
         if (!isCoins) {
             player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints - decrement);
         }
@@ -447,7 +455,6 @@ public class SlayerTask {
             }
         }
     }
-
 
     void rollForEmblem(final Player killer, final NPC npc) {
         int hp = npc.maxHp();

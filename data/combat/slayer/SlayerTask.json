@@ -21,8 +21,7 @@
   {
     "taskName": "Adamant Dragons",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       8030,
@@ -41,8 +40,7 @@
     "taskName": "Aviansies",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       3169,
@@ -79,8 +77,7 @@
   {
     "taskName": "Lizardmen",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       6914,
@@ -107,8 +104,7 @@
   {
     "taskName": "Mithril Dragons",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       2919,
@@ -193,8 +189,7 @@
   {
     "taskName": "Vampyres",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       3137,
@@ -407,8 +402,8 @@
     "taskName": "Ankou",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
+
     ],
     "npcs": [
       2514,
@@ -434,8 +429,7 @@
   {
     "taskName": "Trolls",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       8470,
@@ -515,8 +509,8 @@
   {
     "taskName": "Blue Dragons",
     "slayerMasters": [
-      6797,
-      8623
+      6797
+
     ],
     "npcs": [
       265,
@@ -556,8 +550,7 @@
     "taskName": "Fire Giants",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       2075,
@@ -585,8 +578,7 @@
   {
     "taskName": "Red Dragons",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       8075,
@@ -637,8 +629,7 @@
   {
     "taskName": "Dagannoths",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       140,
@@ -680,8 +671,7 @@
     "taskName": "Greater Demons",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       2025,
@@ -720,8 +710,7 @@
     "taskName": "Hellhounds",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       104,
@@ -757,8 +746,8 @@
     "taskName": "Black Demons",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
+
     ],
     "npcs": [
       12385,
@@ -803,8 +792,8 @@
     "taskName": "Black Dragons",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
+
     ],
     "npcs": [
       252,
@@ -837,8 +826,8 @@
   {
     "taskName": "Steel Dragons",
     "slayerMasters": [
-      6797,
-      8623
+      6797
+
     ],
     "npcs": [
       139,
@@ -882,8 +871,8 @@
   {
     "taskName": "Basilisks",
     "slayerMasters": [
-      6797,
-      8623
+      6797
+
     ],
     "npcs": [
       122,
@@ -914,8 +903,7 @@
   {
     "taskName": "Brine Rats",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       4501
@@ -933,8 +921,7 @@
     "taskName": "Bloodvelds",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       484,
@@ -1010,8 +997,7 @@
   {
     "taskName": "Aberrant Spectres",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       2,
@@ -1034,8 +1020,7 @@
   {
     "taskName": "Wyrms",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       8610,
@@ -1058,8 +1043,7 @@
     "taskName": "Dust Devils",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       423,
@@ -1078,8 +1062,7 @@
   {
     "taskName": "Wyverns",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       465,
@@ -1103,8 +1086,7 @@
   {
     "taskName": "Kurasks",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       123,
@@ -1125,8 +1107,7 @@
   {
     "taskName": "Gargoyles",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       412,
@@ -1150,8 +1131,7 @@
     "taskName": "Nechryael",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       8,
@@ -1171,8 +1151,7 @@
   {
     "taskName": "Drakes",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       2004,
@@ -1196,8 +1175,7 @@
     "taskName": "Abyssal Demons",
     "slayerMasters": [
       6797,
-      7663,
-      8623
+      7663
     ],
     "npcs": [
       124,
@@ -1229,8 +1207,7 @@
   {
     "taskName": "Cave Krakens",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       492,
@@ -1250,8 +1227,7 @@
   {
     "taskName": "Dark Beasts",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       7250,
@@ -1271,8 +1247,7 @@
   {
     "taskName": "Smoke Devils",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       498,
@@ -1946,8 +1921,7 @@
   {
     "taskName": "Waterfiends",
     "slayerMasters": [
-      6797,
-      8623
+      6797
     ],
     "npcs": [
       2916,
@@ -1965,7 +1939,7 @@
   {
     "taskName": "Hydras",
     "slayerMasters": [
-      8623
+      6797
     ],
     "npcs": [
       8609,
@@ -2146,7 +2120,7 @@
     "max": 125,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 60
+    "uid": 61
   },
   {
     "taskName": "Zombies",
@@ -2374,7 +2348,7 @@
     "max": 125,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 61
+    "uid": 62
   },
   {
     "taskName": "Chaos Druids",
@@ -2396,7 +2370,7 @@
     "max": 90,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 62
+    "uid": 63
   },
   {
     "taskName": "Dark Warriors",
@@ -2417,7 +2391,7 @@
     "max": 125,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 63
+    "uid": 64
   },
   {
     "taskName": "Earth Warriors",
@@ -2435,7 +2409,7 @@
     "max": 125,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 64
+    "uid": 65
   },
   {
     "taskName": "Ice Warriors",
@@ -2454,7 +2428,7 @@
     "max": 150,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 65
+    "uid": 66
   },
   {
     "taskName": "Ice Giants",
@@ -2479,7 +2453,7 @@
     "max": 150,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 66
+    "uid": 67
   },
   {
     "taskName": "Jellies",
@@ -2513,6 +2487,275 @@
     "max": 150,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 67
+    "uid": 68
+  },
+  {
+    "taskName": "General Graardor",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      2215,
+      6494,
+      12444
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 69
+  },
+  {
+    "taskName": "Kree Arra",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      3162,
+      6492,
+      12443
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 70
+  },
+  {
+    "taskName": "K'ril Tsutsaroth",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      3129,
+      6495,
+      12446
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 71
+  },
+  {
+    "taskName": "Commander Zilyana",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      2205,
+      6493,
+      12445
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 72
+  },
+  {
+    "taskName": "King Black Dragon",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      239
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 73
+  },
+  {
+    "taskName": "Cerberus",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      5862,
+      5863,
+      5866
+    ],
+    "combatReq": 120,
+    "slayerReq": 91,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 74
+  },
+  {
+    "taskName": "Corporeal Beast",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      319
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 75
+  },
+  {
+    "taskName": "Zulrah",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      2042,
+      2043,
+      2044
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 76
+  },
+  {
+    "taskName": "Dagannoth Kings",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      2265,
+      2266,
+      2267
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 77
+  },
+  {
+    "taskName": "Vorkath",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      8026,
+      8058,
+      8059,
+      8060,
+      8061,
+      11959
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 78
+  },
+  {
+    "taskName": "Alchemical Hydra",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      8615,
+      8616,
+      8617,
+      8618,
+      8619,
+      8620,
+      8621,
+      8622,
+      8634,
+      11962
+    ],
+    "combatReq": 120,
+    "slayerReq": 95,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 79
+  },
+  {
+    "taskName": "Scurrius",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      7221,
+      7222
+    ],
+    "combatReq": 120,
+    "slayerReq": 1,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 80
+  },
+  {
+    "taskName": "Kraken",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      494,
+      6640,
+      6656
+    ],
+    "combatReq": 120,
+    "slayerReq": 87,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 81
+  },
+  {
+    "taskName": "Thermonuclear Smoke Devil",
+    "slayerMasters": [
+      8623
+    ],
+    "npcs": [
+      499
+    ],
+    "combatReq": 120,
+    "slayerReq": 93,
+    "weight": 1,
+    "min": 5,
+    "max": 15,
+    "extendedMin": 20,
+    "extendedMax": 30,
+    "uid": 82
   }
 ]

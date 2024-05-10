@@ -59,4 +59,9 @@ public class PetVarbits {
     public static final int UNLOCKED_PET_VORKI = 6102;
     public static final int UNLOCKED_PET_SCURRY = 6103;
     public static final int UNLOCKED_PET_PHOENIX = 6104;
+    public static final int UNLOCKED_WISP = 6105;
+    public static final int UNLOCKED_BARON = 6106;
+    public static final int UNLOCKED_VIATHAN = 6107;
+    public static final int UNLOCKED_BUTCH = 6108;
+    public static final int UNLOCKED_MUPHIN = 6109;
 }

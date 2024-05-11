@@ -19,9 +19,9 @@ public class SlayerHelmets implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
-            SlayerTask slayerTask = World.getWorld().getSlayerTasks();
-            var assignment = slayerTask.getCurrentAssignment(player);
+            final Entity target = player.getCombat().getTarget();
+            final SlayerTask slayerTask = World.getWorld().getSlayerTasks();
+            final SlayerTask assignment = slayerTask.getCurrentAssignment(player);
             if (target instanceof NPC npc) {
                 if (assignment != null) {
                     if (ArrayUtils.contains(assignment.getNpcs(), npc.id())) {

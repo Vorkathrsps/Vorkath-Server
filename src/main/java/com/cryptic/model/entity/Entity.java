@@ -26,6 +26,7 @@ import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.healthbar.HealthBarUpdate;
 import com.cryptic.model.entity.masks.*;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -311,6 +312,10 @@ public abstract class Entity {
     public NPC npc() {
         return ((NPC) this);
     }
+
+    @Getter
+    @Setter
+    private TheDukeInstance dukeInstance;
 
     /**
      * a task that runs every 1 game tick. Aka repeatingTask

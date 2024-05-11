@@ -1,38 +1,48 @@
 [
-{
-  "ids": [
-    3023, 3025, 5373, 11990, 11999
-  ],
-  "maxhit": 7,
-  "aggressive": true,
-  "attackspeed": 4,
-  "combattype": "MELEE",
-  "stats": {
-    "hitpoints": 64,
-    "attack": 50,
-    "strength": 58,
-    "defence": 52,
-    "magic": 1,
-    "ranged": 1
-  },
-  "bonuses": {
-    "magicstrength": 0,
-    "rangestrength": 0,
-    "stabdefence": 20,
-    "slashdefence": 17,
-    "crushdefence": 10,
-    "magicdefence": 14,
-    "rangeddefence": 14
-  },
-  "animations": {
-    "attack": 5327,
-    "block": 5328,
-    "death": 5329
-  }
-},
   {
     "ids": [
-      787, 788, 789, 790, 791, 792, 793
+      3023,
+      3025,
+      5373,
+      11990,
+      11999
+    ],
+    "maxhit": 7,
+    "aggressive": true,
+    "attackspeed": 4,
+    "combattype": "MELEE",
+    "stats": {
+      "hitpoints": 64,
+      "attack": 50,
+      "strength": 58,
+      "defence": 52,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "magicstrength": 0,
+      "rangestrength": 0,
+      "stabdefence": 20,
+      "slashdefence": 17,
+      "crushdefence": 10,
+      "magicdefence": 14,
+      "rangeddefence": 14
+    },
+    "animations": {
+      "attack": 5327,
+      "block": 5328,
+      "death": 5329
+    }
+  },
+  {
+    "ids": [
+      787,
+      788,
+      789,
+      790,
+      791,
+      792,
+      793
     ],
     "maxhit": 10,
     "aggressive": true,
@@ -64,7 +74,8 @@
   },
   {
     "ids": [
-      9502, 9503
+      9502,
+      9503
     ],
     "maxhit": 10,
     "aggressive": false,
@@ -96,7 +107,11 @@
   },
   {
     "ids": [
-      10951, 10953, 10954, 10955, 10956
+      10951,
+      10953,
+      10954,
+      10955,
+      10956
     ],
     "maxhit": 10,
     "aggressive": true,
@@ -157,7 +172,45 @@
   },
   {
     "ids": [
-      13013, 13017
+      12167,
+      12166,
+      12191
+    ],
+    "maxhit": 20,
+    "aggressive": true,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 440,
+      "attack": 300,
+      "strength": 345,
+      "defence": 275,
+      "magic": 310,
+      "ranged": 0
+    },
+    "bonuses": {
+      "attack": 200,
+      "strength": 38,
+      "magic": 150,
+      "magicstrength": 32,
+      "rangestrength": 0,
+      "stabdefence": 255,
+      "slashdefence": 65,
+      "crushdefence": 190,
+      "magicdefence": 440,
+      "rangeddefence": 320
+    },
+    "animations": {
+      "death": 10181
+    },
+    "scripts": {
+      "combat": "DukeCombat"
+    }
+  },
+  {
+    "ids": [
+      13013,
+      13017
     ],
     "maxhit": 20,
     "aggressive": true,

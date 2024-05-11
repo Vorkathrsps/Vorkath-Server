@@ -433,7 +433,7 @@ public class Tile implements Cloneable {
         return deltaX <= 14 && deltaX >= -15 && deltaY <= 14 && deltaY >= -15;
     }
 
-    public Tile getSouthwestTile(Entity target) {
+    public static Tile getSouthwestTile(Entity target) {
         int x = target.getX();
         int y = target.getY();
         int z = target.getZ();

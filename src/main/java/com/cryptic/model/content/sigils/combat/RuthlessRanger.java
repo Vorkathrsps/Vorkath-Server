@@ -39,8 +39,12 @@ public class RuthlessRanger extends AbstractSigil {
                 player.putAttrib(AttributeKey.RUTHLESS_CRIPPLE, true);
                 AtomicInteger count = new AtomicInteger(6);
                 final int d = damage;
-                BooleanSupplier cancel = () -> target.dead() || !target.isRegistered();
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, cripple -> {
+                Chain.noCtx().repeatingTask(1, cripple -> {
+                    if (target.dead() || !target.isRegistered()) {
+                        player.clearAttrib(AttributeKey.RUTHLESS_CRIPPLE);
+                        cripple.stop();
+                        return;
+                    }
                     count.getAndDecrement();
                     new Hit(player, target, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(d).setHitMark(HitMark.CORRUPTION).submit();
                     if (count.get() == 0) {

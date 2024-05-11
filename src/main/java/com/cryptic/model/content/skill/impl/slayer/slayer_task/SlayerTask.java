@@ -345,7 +345,7 @@ public class SlayerTask {
     }
 
     public int getSlayerTaskCompletionPoints(@Nonnull final Player player) {
-        return this.isWildernessTask(player) ? 40 : 25;
+        return this.isWildernessTask(player) ? 40 : this.isBossTask(player) ? 30 : 25;
     }
 
     public double getSlayerExperience(@Nonnull final NPC npc) {

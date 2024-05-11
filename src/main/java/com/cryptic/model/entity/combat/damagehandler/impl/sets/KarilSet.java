@@ -21,7 +21,7 @@ public class KarilSet implements DamageModifyingListener {
                     if (FormulaUtils.wearingFullKarils(player)) {
                         if (hit.isAccurate()) {
                             if (Utils.rollDie(25, 1)) {
-                                Entity target = hit.getTarget();
+                                final Entity target = hit.getTarget();
                                 if (target != null) {
                                     if (player.getCombat().getTarget().getSkills() != null) {
                                         if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {

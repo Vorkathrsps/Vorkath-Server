@@ -18,8 +18,8 @@ public class JusticiarSet implements DamageModifyingListener {
             if (!WildernessArea.inWilderness(player.tile())) {
                 if (damage > 0 && Equipment.justiciarSet(player)) {
                     EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
-                    int bonus = attackerBonus.crushdef;
-                    int formula = bonus / 3000;
+                    final int bonus = attackerBonus.crushdef;
+                    final int formula = bonus / 3000;
                     damage = damage - formula;
                     damage = damage - 1;
                     hit.setDamage(damage);

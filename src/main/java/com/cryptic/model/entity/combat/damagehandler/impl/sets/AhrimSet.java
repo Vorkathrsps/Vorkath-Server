@@ -17,7 +17,7 @@ public class AhrimSet implements DamageModifyingListener {
                 if (CombatType.MAGIC.equals(combatType)) {
                     if (FormulaUtils.wearingFullAhrims(player) && FormulaUtils.wearingAmuletOfDamned(player)) {
                         if (Utils.rollDie(25, 1)) {
-                            Entity target = hit.getTarget();
+                            final Entity target = hit.getTarget();
                             if (target != null) {
                                 hit.setDamage((int) (hit.getDamage() * 1.30));
                                 return true;

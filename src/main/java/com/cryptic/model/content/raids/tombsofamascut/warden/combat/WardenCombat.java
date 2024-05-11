@@ -211,6 +211,7 @@ public class WardenCombat extends CommonCombatMethod {
         this.instance.isWardenDead = true;
         NPC warden = (NPC) this.entity;
         warden.animate(-1);
+        warden.stopActions(true);
         Chain.noCtx().runFn(1, () -> {
             warden.transmog(11765, true);
             warden.animate(9691);

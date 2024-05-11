@@ -80,6 +80,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -196,6 +197,7 @@ public class Player extends Entity {
     @Getter
     @Setter
     private TheatreInstance theatreInstance;
+
     @Getter
     @Setter
     private PerilOfMoonInstance perilInstance;

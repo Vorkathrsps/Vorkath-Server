@@ -220,6 +220,10 @@ public class ObjectDefinition implements Definition {
             interactType = 0;
         }
 
+        if (animationId == 10185) {
+            System.out.println("object id: " + id + " varbits: " + varbit + " varps: " + varp);
+        }
+
         cached.put(id, this);
     }
 

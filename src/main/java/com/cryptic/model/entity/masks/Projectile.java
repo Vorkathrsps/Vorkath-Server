@@ -105,6 +105,14 @@ public final class Projectile {
      * @param endHeight
      * @param curve
      */
+
+    public Projectile(Entity start, Tile end, int lockon, int projectileId, int speed, int delay, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
+        this(start.getCentrePosition(),
+            end,
+            lockon,
+            projectileId, speed, delay,
+            startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
+    }
     public Projectile(Tile start, Tile end, int lockon, int projectileId, int speed, int delay, int startHeight, int endHeight, int curve) {
         this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 64, 0);
     }

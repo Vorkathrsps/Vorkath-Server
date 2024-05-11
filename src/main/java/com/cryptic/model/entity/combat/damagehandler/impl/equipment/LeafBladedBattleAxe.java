@@ -16,7 +16,7 @@ public class LeafBladedBattleAxe implements DamageModifyingListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
+            final Entity target = player.getCombat().getTarget();
             if (player.getCombat().getCombatType() == CombatType.MELEE) {
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.LEAFBLADED_BATTLEAXE)) {
                     if (target instanceof NPC npc) {

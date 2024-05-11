@@ -136,6 +136,10 @@ public class NpcDefinition implements Definition {
         inferno = id >= 7677 && id <= 7710;
         roomBoss = name != null && ((id >= 2042 && id <= 2044 || inferno) || gwdRoomNpc);
 
+        if (id == 12198) {
+            System.out.println("varbits: " + varbit + " varp: " + varp + " animations: " + standingAnimation);
+        }
+
         cached.put(id, this);
     }
 

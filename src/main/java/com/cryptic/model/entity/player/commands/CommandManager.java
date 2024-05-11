@@ -27,6 +27,7 @@ import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -704,9 +705,11 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            ObjectDefinition definition = ObjectDefinition.get(29246);
+            /*ObjectDefinition definition = ObjectDefinition.get(29246);
             System.out.println(definition.varbit);
-            System.out.println(definition.varp);
+            System.out.println(definition.varp);*/
+            TheDukeInstance instance = new TheDukeInstance(p);
+            instance.build();
             /*
             List<Player> player = new ArrayList<>();
             player.add(p);

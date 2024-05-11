@@ -19,7 +19,7 @@ public class VeracSet implements DamageModifyingListener {
                     if (CombatType.MELEE.equals(hit.getCombatType())) {
                         if (FormulaUtils.wearingFullVerac(player)) {
                             if (Utils.rollDie(25, 1)) {
-                                int damage = hit.getDamage();
+                                final int damage = hit.getDamage();
                                 hit.setAccurate(true);
                                 hit.setDamage(damage + 1);
                                 hit.getTarget().graphic(1041);

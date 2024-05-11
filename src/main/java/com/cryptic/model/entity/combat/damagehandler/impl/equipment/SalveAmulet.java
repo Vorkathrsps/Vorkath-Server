@@ -7,6 +7,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.container.equipment.Equipment;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -15,8 +16,8 @@ public class SalveAmulet implements DamageModifyingListener {
     public double prepareAccuracyModification(Entity entity, CombatType combatType, AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (entity instanceof Player player) {
-            var target = player.getCombat().getTarget();
-            var equipment = player.getEquipment();
+            final Entity target = player.getCombat().getTarget();
+            final Equipment equipment = player.getEquipment();
             if (target instanceof NPC npc) {
                 if (!FormulaUtils.isUndead(npc)) return boost;
                 if (equipment.containsAny(SALVE_AMULET_E) && !CombatType.RANGED.equals(player.getCombat().getCombatType()) && !CombatType.MAGIC.equals(player.getCombat().getCombatType())) {

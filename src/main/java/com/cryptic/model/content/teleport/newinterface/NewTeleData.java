@@ -41,6 +41,7 @@ public enum NewTeleData {
     TROLLS(new Tile(2849, 3679),"Troll StrongHold", "", SLAYING, MEDIUM),
 
     //Bossing teleports
+    DUKE_SUCELLUS(new Tile(3039, 6426), "Duke Sucellus", "", BOSSING, MEDIUM),
     CALLISTO(new Tile(3267, 3844), "Callisto", "@red@Dangerous Teleport Level:35 Multi-combat Wilderness", BOSSING, MEDIUM),
     CHAOS_FAN(new Tile(2992, 3851), "Chaos Fanatic", "@red@Dangerous Teleport Level:42 Wilderness", BOSSING, MEDIUM),
     CRAZY_ARCH(new Tile(2976, 3694), "Crazy archaeologist", "@red@Dangerous Teleport Level:22 Wilderness", BOSSING, MEDIUM),

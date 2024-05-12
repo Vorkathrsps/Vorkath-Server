@@ -34,7 +34,7 @@ public class ItemDrops {
     public void rollTheDropTable(Player player, NPC npc) {
         int npcId = NpcDropRepository.getDropNpcId(npc.getId());
         NpcDropTable table = NpcDropRepository.forNPC(npcId);
-        var dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061;
+        var dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() == 12192 || npc.id() == 12191 || npc.id() == 12166;
         Tile tile = dropUnderPlayer ? player.tile() : npc.tile();
         if (table != null) {
             List<Item> rewards = table.getDrops(player);

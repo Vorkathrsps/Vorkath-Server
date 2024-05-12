@@ -6,6 +6,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.masks.Projectile;
@@ -15,6 +16,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.chainedwork.Chain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +38,10 @@ public class DukeCombat extends CommonCombatMethod {
                 npc.animate(10179);
             })
             .then(1, () -> npc.transmog(12191, true))
-            .then(1, () -> npc.clearAttrib(AttributeKey.SLEEPING));
+            .then(1, () -> {
+                npc.clearAttrib(AttributeKey.SLEEPING);
+                npc.getCombatInfo().setAggressive(true);
+            });
     }
 
     @Override
@@ -52,23 +57,48 @@ public class DukeCombat extends CommonCombatMethod {
         final TheDukeInstance instance = this.target.getDukeInstance();
         if (instance != null) {
             int count = instance.getAttackCount();
-            switch (count) {
-                case 5 -> instance.setAttackCount(0);
-                case 0,1,2,3 -> sendSlam(instance);
-                case 4 -> {
-                    if (!isEnraged()) {
-                        sendGas(instance);
-                        instance.setAttackCount(instance.getAttackCount() + 1);
-                        return false;
-                    } else {
-                        if (isSendDoubleGas(instance)) return true;
-                        else sendSlam(instance);
-                    }
+            if (isSendMagic(instance)) {
+                sendMagic(instance);
+                return true;
+            }
+            if (count == 5) instance.setAttackCount(0);
+            if (count == 0 || count == 1 || count == 2 || count == 3) sendSlam(instance);
+            if (count == 4) {
+                if (!isEnraged()) {
+                    sendGas(instance);
+                    instance.setAttackCount(instance.getAttackCount() + 1);
+                    return false;
+                } else {
+                    if (isSendDoubleGas(instance)) return true;
+                    else sendSlam(instance);
                 }
             }
             instance.setAttackCount(instance.getAttackCount() + 1);
         }
         return true;
+    }
+
+    private void sendMagic(final TheDukeInstance instance) {
+        final Tile tile = instance.getOwner().getCentrePosition();
+        this.entity.animate(10178);
+        var tileDist = entity.getCentrePosition().transform(3, 3).getChevDistance(tile);
+        var duration = 20 + 70 + (tileDist * 2);
+        duration -= 2;
+        Projectile p = new Projectile(entity.getCentrePosition(), target, 2434, 20, duration, 87, 25, 10, this.entity.getSize(), 32, 2);
+        final int delay = this.entity.executeProjectile(p);
+        new Hit(entity, target, delay + 1, CombatType.MAGIC)
+            .setAccurate(true)
+            .setDamage(World.getWorld().random(1, 60))
+            .setHitMark(HitMark.HIT)
+            .submit()
+            .postDamage(hit -> {
+                hit.setAccurate(true);
+                hit.setDamage(World.getWorld().random(1, 60));
+            });
+    }
+
+    private boolean isSendMagic(TheDukeInstance instance) {
+        return ProjectileRoute.hasLineOfSight(entity, target) && instance.getOwner().getY() <= this.entity.getY() - 3;
     }
 
     private boolean isSendDoubleGas(final TheDukeInstance instance) {
@@ -222,7 +252,7 @@ public class DukeCombat extends CommonCombatMethod {
                     task.stop();
                     return;
                 }
-                if (owner.tile().equals(realTile) || owner.tile().equals(realTile.transform(0, -1)) || owner.tile().equals(realTile.transform(0, 1))) {
+                if (owner.tile().inSqRadius(realTile, 1)) {
                     new Hit(entity, owner, CombatFactory.calcDamageFromType(entity, owner, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy(false).submit();
                 }
                 tick[0]++;

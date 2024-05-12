@@ -206,6 +206,11 @@ public class Potions {
             }
         }
 
+        if (potion == Potion.BOTTOMLESS_RESTORE_POTION && WildernessArea.inWilderness(player.tile())) {
+            player.message(Color.RED.wrap("You can't use this potion in the wilderness."));
+            return;
+        }
+
         if (player.stunned()) {
             player.message("You're currently stunned and cannot use potions.");
             return;

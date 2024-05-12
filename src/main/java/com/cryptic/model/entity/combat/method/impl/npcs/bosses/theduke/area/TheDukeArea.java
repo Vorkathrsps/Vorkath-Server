@@ -25,7 +25,7 @@ public class TheDukeArea extends Controller {
                 if (npc.id() == 12166 || npc.id() == 12191) {
                     if (npc.getZ() != player.getZ()) continue;
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Duke Succellus", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "Duke Sucellus", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
@@ -51,7 +51,7 @@ public class TheDukeArea extends Controller {
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Duke Succellus", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Duke Sucellus", npc.hp());
                         }
                     }
                 }

@@ -93,7 +93,7 @@ public enum CombatSpecial {
     INQUISITORS_MACE(new int[]{ItemIdentifiers.INQUISITORS_MACE}, 50, 1.10, 1.25, new InquisitorsMace(), WeaponType.MACE),
     URSINE_CHAINMACE(new int[]{ItemIdentifiers.URSINE_CHAINMACE}, 50, 1.0, 2.0, new UrsineMace(), WeaponType.MACE),
     DRAGON_WARHAMMER(new int[]{ItemIdentifiers.DRAGON_WARHAMMER, ItemIdentifiers.DRAGON_WARHAMMER_20785}, 50, 1.50D, 1.50F, new DragonWarhammer(), WeaponType.HAMMER),
-    STATIUS_WARHAMMER(new int[]{ItemIdentifiers.STATIUSS_WARHAMMER, ItemIdentifiers.STATIUSS_WARHAMMER_23620}, 35, 1.25D, 1.50F, new StatiusWarhammer(), WeaponType.HAMMER),
+    STATIUS_WARHAMMER(new int[]{ItemIdentifiers.STATIUSS_WARHAMMER, ItemIdentifiers.STATIUSS_WARHAMMER_23620, ItemIdentifiers.STATIUSS_WARHAMMER_BH}, 35, 1.25D, 1.50F, new StatiusWarhammer(), WeaponType.HAMMER),
     DRAGON_CLAWS(new int[]{ItemIdentifiers.DRAGON_CLAWS}, 50, 1.00, 1.00, new DragonClaws(), WeaponType.CLAWS),
     CORRUPTED_DRAGON_CLAWS(new int[]{ItemIdentifiers.CORRUPTED_DRAGON_CLAWS}, 50, 1.00, 1.00, new DragonClaws(), WeaponType.CLAWS),
 
@@ -103,8 +103,8 @@ public enum CombatSpecial {
     DRAGON_SWORD(new int[]{ItemIdentifiers.DRAGON_SWORD}, 40, 1.25D, 1.25F, new DragonSword(), WeaponType.DAGGER),
     DINHS_BULWARK(new int[]{ItemIdentifiers.DINHS_BULWARK}, 50, 1.0, 2.0F, new DinhsBulwark(), WeaponType.DINHS_BULWARK),
     GRANITE_HAMMER(new int[]{ItemIdentifiers.GRANITE_HAMMER}, 60, 1.0, 1.50F, new GraniteHammer(), WeaponType.HAMMER),
-    VESTAS_BLIGHTED_LONGSWORD(new int[]{ItemIdentifiers.VESTAS_BLIGHTED_LONGSWORD}, 25, 1.20D, 2.50F, new VestaLongsword(), WeaponType.LONGSWORD),
-    VESTA_SPEAR(new int[]{ItemIdentifiers.VESTAS_SPEAR}, 50, 1.20D, 1.50F, new VestaSpear(), WeaponType.SPEAR);
+    VESTAS_BLIGHTED_LONGSWORD(new int[]{ItemIdentifiers.VESTAS_BLIGHTED_LONGSWORD, ItemIdentifiers.VESTAS_LONGSWORD_BH}, 25, 1.20D, 2.50F, new VestaLongsword(), WeaponType.LONGSWORD),
+    VESTA_SPEAR(new int[]{ItemIdentifiers.VESTAS_SPEAR, ItemIdentifiers.VESTAS_SPEAR_BH}, 50, 1.20D, 1.50F, new VestaSpear(), WeaponType.SPEAR);
 
     /**
      * The weapon ID's that perform this special when activated.

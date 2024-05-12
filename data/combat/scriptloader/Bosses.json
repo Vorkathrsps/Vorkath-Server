@@ -606,7 +606,7 @@
     "slayerxp": 331,
     "slayerlvl": 1,
     "attackspeed": 4,
-    "aggroradius": 6,
+    "aggroradius": 4,
     "aggressive": true,
     "boss": true,
     "stats": {
@@ -640,7 +640,7 @@
     "slayerxp": 255,
     "slayerlvl": 1,
     "attackspeed": 4,
-    "aggroradius": 9,
+    "aggroradius": 4,
     "aggressive": true,
     "boss": true,
     "stats": {
@@ -675,7 +675,7 @@
     "slayerxp": 331,
     "slayerlvl": 1,
     "attackspeed": 4,
-    "aggroradius": 9,
+    "aggroradius": 4,
     "aggressive": true,
     "boss": true,
     "stats": {

@@ -28,6 +28,9 @@ public class KrakenArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
+                if (npc.getZ() != player.getZ()) {
+                    continue;
+                }
                 if (npc.id() == 494) {
                     if (npc.dead()) {
                         HealthHud.close(player);

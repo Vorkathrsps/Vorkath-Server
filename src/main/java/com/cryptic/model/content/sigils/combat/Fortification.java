@@ -10,14 +10,11 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 
 public class Fortification extends AbstractSigil {
+
     @Override
-    public double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) { //TODO
+    public int modifyEquipment(Player player) {
         if (!attuned(player)) return 0;
-        EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
-        attackerBonus.stab += 30;
-        attackerBonus.slash += 30;
-        attackerBonus.crush += 30;
-        return 0;
+        return 50;
     }
 
     @Override
@@ -27,6 +24,6 @@ public class Fortification extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MELEE);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.MELEE);
     }
 }

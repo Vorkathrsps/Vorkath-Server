@@ -29,6 +29,6 @@ public class Consistency extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.RANGED) || player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.RANGED) || player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 }

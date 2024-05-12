@@ -14,5 +14,6 @@ public interface SigilListener {
     void process(Player player, Entity target);
     double processAccuracy(Player player, Entity target, AbstractAccuracy accuracy);
     void HandleLogin(Player player);
+    int processEquipmentModification(Player player);
 
 }

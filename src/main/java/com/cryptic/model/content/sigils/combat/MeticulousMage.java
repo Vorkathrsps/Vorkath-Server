@@ -11,16 +11,16 @@ public class MeticulousMage extends AbstractSigil {
 
     @Override
     public double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) {
-        if (!attuned(player)) return 0;
-        var boost = 1.20;
+        if (!attuned(player)) return 0D;
+        var boost = 1.20D;
         switch (player.getMemberRights()) {
-            case RUBY_MEMBER -> boost = 1.21;
-            case SAPPHIRE_MEMBER -> boost = 1.22;
-            case EMERALD_MEMBER -> boost = 1.23;
-            case DIAMOND_MEMBER -> boost = 1.24;
-            case DRAGONSTONE_MEMBER -> boost = 1.25;
-            case ONYX_MEMBER -> boost = 1.26;
-            case ZENYTE_MEMBER -> boost = 1.27;
+            case RUBY_MEMBER -> boost = 1.21D;
+            case SAPPHIRE_MEMBER -> boost = 1.22D;
+            case EMERALD_MEMBER -> boost = 1.23D;
+            case DIAMOND_MEMBER -> boost = 1.24D;
+            case DRAGONSTONE_MEMBER -> boost = 1.25D;
+            case ONYX_MEMBER -> boost = 1.26D;
+            case ZENYTE_MEMBER -> boost = 1.27D;
         }
         return boost;
     }
@@ -32,6 +32,6 @@ public class MeticulousMage extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MAGIC);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 }

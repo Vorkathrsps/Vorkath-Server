@@ -6,6 +6,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
@@ -46,7 +47,7 @@ public class FeralFighter extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MELEE);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.MELEE);
     }
 
 }

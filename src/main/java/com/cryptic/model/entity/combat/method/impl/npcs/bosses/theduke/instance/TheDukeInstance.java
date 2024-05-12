@@ -17,18 +17,21 @@ import java.util.Arrays;
 public class TheDukeInstance extends InstancedArea {
 
     final Player owner;
+
     final NPC[] fumes = new NPC[]
         {
             new NPC(12198, new Tile(3035, 6449, this.getzLevel())),
             new NPC(12198, new Tile(3038, 6449, this.getzLevel())),
             new NPC(12198, new Tile(3041, 6449, this.getzLevel()))
         };
+
     final Tile[] tiles =
         {
             new Tile(3036, 6450),
             new Tile(3039, 6450),
             new Tile(3042, 6450)
         };
+
     final Tile entrance = new Tile(3039, 6435, this.getzLevel());
     final NPC boss = new NPC(12166, new Tile(3036, 6452, this.getzLevel()));
     final int[] slamGraphics = new int[]{2440, 2441, 2442, 2443};
@@ -65,7 +68,16 @@ public class TheDukeInstance extends InstancedArea {
             npc.setInstancedArea(this);
             npc.spawn(false);
         }
+        this.setDefaults();
         return this;
+    }
+
+    private void setDefaults() {
+        this.setAttackCount(0);
+        this.setGasCount(0);
+        this.setCurrentTileIndex(0);
+        this.setTwoSent(false);
+        this.setIteratingForward(true);
     }
 
     @Override

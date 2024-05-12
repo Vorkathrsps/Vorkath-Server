@@ -284,7 +284,8 @@ public class SlayerTask {
             }
             player.getSlayerKillLog().addKill(npc);
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
-            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
+            amount = isUsingExpeditiousBracelet(player, amount);
+            decrementTaskAmount(player, amount);
             if (this.isRemoveSlayerTask(player)) {
                 int increment = 0;
                 increment += this.getSlayerTaskCompletionPoints(player);
@@ -294,7 +295,7 @@ public class SlayerTask {
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
                 slayerPoints += increment;
                 player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints);
-                rewardCoins(player);
+                this.rewardCoins(player);
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);
@@ -303,7 +304,20 @@ public class SlayerTask {
         }
     }
 
-    private static void rewardCoins(final Player player) {
+    private void decrementTaskAmount(Player player, int amount) {
+        if (player.getEquipment().contains(BRACELET_OF_SLAUGHTER) && Utils.rollDie(25, 1)) {
+            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount));
+        } else {
+            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, Math.max(0, amount - 1));
+        }
+    }
+
+    private int isUsingExpeditiousBracelet(Player player, int amount) {
+        if (player.getEquipment().contains(EXPEDITIOUS_BRACELET) && Utils.rollDie(25, 1)) amount = amount - 1;
+        return amount;
+    }
+
+    private void rewardCoins(final Player player) {
         var coinAmount = 1_000_000;
         if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SPARE_CHANGE)) coinAmount *= 1.40;
         player.getInventory().addOrDrop(new Item(995, coinAmount));
@@ -420,7 +434,7 @@ public class SlayerTask {
     void rollForPvpEquipment(final Player killer, NPC npc) {
         var chance = calculatePvpEquipment(npc);
         var random = Utils.randomElement(pvp_equipment);
-        chance *= 2;
+        chance *= 3;
         if (Utils.rollDie(chance, 1)) {
             GroundItemHandler.createGroundItem(new GroundItem(new Item(random), npc.tile(), killer));
         }

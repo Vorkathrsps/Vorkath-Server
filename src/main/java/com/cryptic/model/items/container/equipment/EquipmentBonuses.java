@@ -7,6 +7,7 @@ import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.Color;
 import lombok.Data;
 
 import static com.cryptic.utility.ItemIdentifiers.TOXIC_BLOWPIPE;
@@ -46,6 +47,7 @@ public class EquipmentBonuses {
                     if (i == EquipSlot.AMMO && ((weaponID >= 4212 && weaponID <= 4223) || weaponID == TOXIC_BLOWPIPE || weaponID == 28688)) {
                         continue;
                     }
+
                     var equipmentBonuses = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
                     bonuses.stab += equipmentBonuses.getAstab();
                     bonuses.slash += equipmentBonuses.getAslash();
@@ -63,6 +65,12 @@ public class EquipmentBonuses {
                     bonuses.pray += equipmentBonuses.getPrayer();
                 }
             }
+
+            int boost = player.sigil.processEquipmentModification(player);
+            bonuses.stab += boost;
+            bonuses.slash += boost;
+            bonuses.crush += boost;
+
         } else {
             if (entity instanceof NPC npc && npc.getCombatInfo() != null) {
                 NPCCombatInfo.Bonuses i = npc.getCombatInfo().originalBonuses;

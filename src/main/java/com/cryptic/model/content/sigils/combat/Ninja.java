@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.combat;
 import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.Color;
 
 public class Ninja extends AbstractSigil {
     @Override
@@ -18,7 +19,7 @@ public class Ninja extends AbstractSigil {
 
     @Override
     public boolean attuned(Player player) {
-        return player.hasAttrib(AttributeKey.SIGIL_OF_THE_NINJA);
+        return player.getCombat().getCombatType() != null && player.hasAttrib(AttributeKey.SIGIL_OF_THE_NINJA);
     }
 
 }

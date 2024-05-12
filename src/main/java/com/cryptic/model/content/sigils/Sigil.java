@@ -19,6 +19,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -99,6 +100,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         final Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
+        if (combatTarget == null) return;
         for (SigilData data : SigilData.values()) {
             for (AbstractSigil sigil : handler) {
                 if (sigil == null) continue;
@@ -146,6 +148,22 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
+    public int processEquipmentModification(Player player) {
+        int boost = 0;
+        if (player == null) return 0;
+        if (player.getCombat().getTarget() instanceof Player) return 0;
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    boost += sigil.modifyEquipment(player);
+                }
+            }
+        }
+        return boost;
+    }
+
+    @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         var total = player.<Integer>getAttribOr(AttributeKey.TOTAL_SIGILS_ACTIVATED, 0);
         int activationCap = 3;
@@ -162,6 +180,14 @@ public class Sigil extends PacketInteraction implements SigilListener {
                     }
                     if (total == activationCap) {
                         player.message(Color.RED.wrap("You can only have " + activationCap + " sigil's activated at one time."));
+                        return false;
+                    }
+                    if (player.hasAttrib(AttributeKey.NINJA) && data.unattuned == ItemIdentifiers.SIGIL_OF_THE_FERAL_FIGHTER_26075) {
+                        player.message(Color.RED.wrap("<shad=0>Sigil of the Feral Fighter cannot be activated with Sigil of the Ninja."));
+                        return false;
+                    }
+                    if (player.hasAttrib(AttributeKey.FERAL_FIGHTER) && data.unattuned == ItemIdentifiers.SIGIL_OF_THE_NINJA_28526) {
+                        player.message(Color.RED.wrap("<shad=0>Sigil of the Ninja cannot be activated with Sigil of the Feral Fighter."));
                         return false;
                     }
                     total += 1;

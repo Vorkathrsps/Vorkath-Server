@@ -15,7 +15,6 @@ public class Aggression extends AbstractSigil {
             if (!attuned(player)) return;
             int damage = entity.getDamage();
             entity.setDamage((int) (damage * 1.05D));
-            System.out.println("aggression after: " + entity.getDamage());
         }
     }
 

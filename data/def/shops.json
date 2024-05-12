@@ -1666,7 +1666,7 @@
     "currency": "SLAYER_REWARD_POINTS",
     "restock": true,
     "sellType": "NONE",
-    "scroll": 300,
+    "scroll": 0,
     "items": [
       {
         "id": 20996,
@@ -1684,14 +1684,29 @@
         "value": 375
       },
       {
-        "id": 10551,
+        "id": 19675,
         "amount": 1,
         "value": 150
       },
       {
-        "id": 12954,
+        "id": 28810,
         "amount": 1,
         "value": 150
+      },
+      {
+        "id": 13116,
+        "amount": 1,
+        "value": 250
+      },
+      {
+        "id": 25781,
+        "amount": 1,
+        "value": 250
+      },
+      {
+        "id": 25979,
+        "amount": 1,
+        "value": 185
       },
       {
         "id": 25278,
@@ -1699,64 +1714,29 @@
         "value": 250
       },
       {
+        "id": 20724,
+        "amount": 1,
+        "value": 350
+      },
+      {
+        "id": 21177,
+        "amount": 1,
+        "value": 1000
+      },
+      {
+        "id": 21183,
+        "amount": 1,
+        "value": 1000
+      },
+      {
+        "id": 7510,
+        "amount": 1,
+        "value": 150
+      },
+      {
         "id": 12785,
         "amount": 1,
         "value": 500
-      },
-      {
-        "id": 12791,
-        "amount": 1,
-        "value": 125
-      },
-      {
-        "id": 7462,
-        "amount": 1,
-        "value": 150
-      },
-      {
-        "id": 23951,
-        "amount": 1,
-        "value": 125
-      },
-      {
-        "id": 11663,
-        "amount": 1,
-        "value": 250
-      },
-      {
-        "id": 11664,
-        "amount": 1,
-        "value": 250
-      },
-      {
-        "id": 11665,
-        "amount": 1,
-        "value": 250
-      },
-      {
-        "id": 13072,
-        "amount": 1,
-        "value": 500
-      },
-      {
-        "id": 13073,
-        "amount": 1,
-        "value": 500
-      },
-      {
-        "id": 8842,
-        "amount": 1,
-        "value": 500
-      },
-      {
-        "id": 20724,
-        "amount": 1,
-        "value": 750
-      },
-      {
-        "id": 28810,
-        "amount": 1,
-        "value": 150
       },
       {
         "id": 11740,

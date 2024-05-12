@@ -34,14 +34,14 @@ public class GwdLogic {
 
     public static void onServerStart() {
         Optional<NPC> boss = Optional.empty();
-        Area[] areas =  {KreeArraCombat.getENCAMPMENT(), ZilyanaCombat.getENCAMPMENT(), KrilCombat.getENCAMPMENT(), GraardorCombat.getBandosArea()};
+        Area[] areas = {KreeArraCombat.getENCAMPMENT(), ZilyanaCombat.getENCAMPMENT(), KrilCombat.getENCAMPMENT(), GraardorCombat.getBandosArea()};
 
         for (Area a : areas) {
             // Identify the boss
-            for(NPC n : World.getWorld().getNpcs()) {
-                if (n == null)
-                    continue;
-                if(n.tile().inArea(a)) {
+            for (NPC n : World.getWorld().getNpcs()) {
+                if (n == null) continue;
+                if (n.tile() == null) continue;
+                if (n.tile().inArea(a)) {
                     if (GwdLogic.isBoss(n.id())) {// Located boss.
                         boss = Optional.of(n);
                         n.ignoreOccupiedTiles = true;
@@ -49,10 +49,9 @@ public class GwdLogic {
                 }
             }
             if (boss.isPresent()) {
-                // Now identify minions.
                 NPC boss1 = boss.get();
                 ArrayList<NPC> minionList = new ArrayList<>();
-                for(NPC n : World.getWorld().getNpcs()) {
+                for (NPC n : World.getWorld().getNpcs()) {
                     if (n == null)
                         continue;
                     if (n.tile().inArea(a) && !GwdLogic.isBoss(n.id())) {

@@ -20,6 +20,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.utility.ItemIdentifiers;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,6 +86,8 @@ public class DeathResult {
         return this;
     }
 
+    final int[] NEVER_LOST = new int[]{RING_OF_WEALTH_I, OVERLOAD_4_20996, REVITALISATION_4_20960, RUNE_POUCH, RUNE_POUCH_23650, RUNE_POUCH_23650, RUNE_POUCH_27086, RUNE_POUCH_L, DIVINE_RUNE_POUCH, DIVINE_RUNE_POUCH_L, SALVE_AMULET, SALVE_AMULETI,SALVE_AMULET_E,SALVE_AMULETEI,SALVE_AMULETEI_25278,SALVE_AMULETI_25250,SALVE_AMULETI_26763};
+
     public DeathResult processItems(Item[] items) {
         if (isSafeDeath()) return this;
         for (var item : items) {
@@ -121,6 +124,9 @@ public class DeathResult {
                             itemList.add(conversion);
                         }
                         if (item.untradable() && !untradeables.contains(broken)) {
+                            untradeables.add(new Item(item.getId(), item.getAmount()));
+                        }
+                        if (ArrayUtils.contains(NEVER_LOST, item.getId())) {
                             untradeables.add(new Item(item.getId(), item.getAmount()));
                         }
                         break;
@@ -200,6 +206,7 @@ public class DeathResult {
         if (isSafeDeath()) return this;
         player.getEquipment().clear();
         player.getInventory().clear();
+        player.getRunePouch().clear();
         return this;
     }
 

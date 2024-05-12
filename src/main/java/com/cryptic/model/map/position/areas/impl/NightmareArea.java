@@ -41,6 +41,7 @@ public class NightmareArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
+                if (npc.getZ() != player.getZ()) continue;
                 if (npc.id() == 9430 || npc.id() == 9425) {
                     if (npc.dead()) {
                         HealthHud.close(player);

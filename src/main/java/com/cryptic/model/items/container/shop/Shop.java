@@ -393,7 +393,6 @@ public abstract class Shop {
             }
         }
 
-        //Don't refresh the shop for one player, refresh it for all players.
         //refresh(player);
         for (Player player1 : this.players) {
             refresh(player1, false);

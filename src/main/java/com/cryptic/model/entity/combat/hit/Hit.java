@@ -428,6 +428,7 @@ public class Hit {
     }
 
     public Hit block() {
+        if (CombatType.TYPELESS.equals(this.combatType) && this.damage > 0) return this;
         this.setHitMark(HitMark.MISS);
         this.isMaxHit = false;
         this.accurate = false;

@@ -12,26 +12,26 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 
 public class DukeCombat extends CommonCombatMethod {
     boolean isGasSent = false;
-
+    Map<Player, Integer> damageMap = new HashMap<>();
     @Override
     public void init(NPC npc) {
         npc.putAttrib(AttributeKey.SLEEPING, true);
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
         Chain
             .noCtx()
-            .runFn(10, () -> {
+            .runFn(15, () -> {
                 npc.transmog(12166, true);
                 npc.animate(10179);
             })
@@ -42,7 +42,7 @@ public class DukeCombat extends CommonCombatMethod {
     @Override
     public void process(Entity entity, Entity target) {
         double healthAmount = this.entity.hp() * 1.0 / (this.entity.maxHp() * 1.0);
-        if (healthAmount <= 0.30 && !this.entity.hasAttrib(AttributeKey.BARON_ENRAGED))
+        if (healthAmount <= 0.30 && !isEnraged())
             this.entity.putAttrib(AttributeKey.BARON_ENRAGED, true);
     }
 
@@ -52,33 +52,36 @@ public class DukeCombat extends CommonCombatMethod {
         final TheDukeInstance instance = this.target.getDukeInstance();
         if (instance != null) {
             int count = instance.getAttackCount();
-            if (count >= 5) instance.setAttackCount(0);
-            if (count == 0) sendSlam(instance);
-            if (count == 1) sendSlam(instance);
-            if (count == 2) sendSlam(instance);
-            if (count == 3) sendSlam(instance);
-            if (count == 4) {
-                if (isSendDoubleGas(instance)) return true;
-                sendGas(instance);
-                this.entity.getCombat().delayAttack(0);
-                instance.setAttackCount(instance.getAttackCount() + 1);
-                return false;
+            switch (count) {
+                case 5 -> instance.setAttackCount(0);
+                case 0,1,2,3 -> sendSlam(instance);
+                case 4 -> {
+                    if (!isEnraged()) {
+                        sendGas(instance);
+                        instance.setAttackCount(instance.getAttackCount() + 1);
+                        return false;
+                    } else {
+                        if (isSendDoubleGas(instance)) return true;
+                        else sendSlam(instance);
+                    }
+                }
             }
             instance.setAttackCount(instance.getAttackCount() + 1);
         }
         return true;
     }
 
-    private boolean isSendDoubleGas(TheDukeInstance instance) {
+    private boolean isSendDoubleGas(final TheDukeInstance instance) {
         int gasCount = instance.getGasCount();
         if (gasCount >= 2) instance.setTwoSent(true);
-        if (this.entity.hasAttrib(AttributeKey.BARON_ENRAGED) && !instance.isTwoSent()) {
+        if (isEnraged() && !instance.isTwoSent()) {
             sendGas(instance);
             instance.setGasCount(instance.getGasCount() + 1);
             return true;
         } else if (instance.isTwoSent()) {
             instance.setTwoSent(false);
             instance.setGasCount(0);
+            instance.setAttackCount(0);
             instance.setAttackCount(instance.getAttackCount() + 1);
             this.sendSlam(instance);
             return true;
@@ -92,7 +95,7 @@ public class DukeCombat extends CommonCombatMethod {
         final Player owner = instance.getOwner();
         entity.animate(10178);
         Projectile projectile = buildToxicGasProjectile(tile);
-        NPC fume = this.entity.hasAttrib(AttributeKey.BARON_ENRAGED) ? getNpc(instance) : getNpcNonEnraged(instance);
+        NPC fume = isEnraged() ? getNpc(instance) : getNpcNonEnraged(instance);
         checkToxicGasDamage(instance, projectile, fume, owner);
         if (index == instance.getTiles().length - 1) {
             instance.setIteratingForward(false);
@@ -117,7 +120,7 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     @NotNull
-    private Projectile buildToxicGasProjectile(Tile tile) {
+    private Projectile buildToxicGasProjectile(final Tile tile) {
         var tileDist = entity.getCentrePosition().transform(3, 3).getChevDistance(tile);
         var duration = 20 + 70 + (tileDist * 2);
         duration -= 2;
@@ -127,7 +130,7 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     @NotNull
-    private NPC getNpcNonEnraged(TheDukeInstance instance) {
+    private NPC getNpcNonEnraged(final TheDukeInstance instance) {
         final int index = instance.getCurrentTileIndex();
         final NPC fume = instance.getFumes()[index];
         int[] graphics = instance.getGasGraphics();
@@ -153,7 +156,7 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     @NotNull
-    private NPC getNpc(TheDukeInstance instance) {
+    private NPC getNpc(final TheDukeInstance instance) {
         final int index = instance.getCurrentTileIndex();
         final NPC fume = instance.getFumes()[index];
         int[] graphics = instance.getGasGraphics();
@@ -181,8 +184,8 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     @Nullable
-    private NPC getFumeOffset(TheDukeInstance instance, NPC fume, int[] graphics) {
-        if (instance.getGasCount() == 0 && this.entity.hasAttrib(AttributeKey.BARON_ENRAGED)) {
+    private NPC getFumeOffset(final TheDukeInstance instance, NPC fume, int[] graphics) {
+        if (instance.getGasCount() == 0 && isEnraged()) {
             fume.setGraphics(List.of(
                 new Graphic(graphics[0], GraphicHeight.LOW, 120),
                 new Graphic(graphics[1], GraphicHeight.LOW, 180),
@@ -249,15 +252,45 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     private int getToxicGasTick(final TheDukeInstance instance) {
-        return this.entity.hasAttrib(AttributeKey.BARON_ENRAGED) && instance.getGasCount() == 0 ? 15 : instance.getGasCount() == 1 ? 15 : 10;
+        return isEnraged() && instance.getGasCount() == 0 ? 18 : isEnraged() && instance.getGasCount() == 1 ? 10 : 12;
+    }
+
+    private boolean isEnraged() {
+        return this.entity.hasAttrib(AttributeKey.BARON_ENRAGED);
+    }
+
+    final void computeDropTable(NPC npc, ItemDrops drops) {
+        for (var entry : damageMap.entrySet()) {
+            var player = entry.getKey();
+            var damage = entry.getValue();
+            if (player == null || damage < 100) continue;
+            drops.rollTheDropTable(player, npc);
+        }
+    }
+
+    final void incrementDamageMap(Hit hit, Entity source, Entity target) {
+        if (source instanceof Player player && target instanceof NPC) {
+            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
+            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
+        }
+    }
+
+    @Override
+    public void postDamage(Hit hit) {
+        var target = hit.getTarget();
+        var source = hit.getSource();
+        incrementDamageMap(hit, source, target);
     }
 
     @Override
     public boolean customOnDeath(Hit hit) {
         NPC npc = (NPC) entity;
         npc.animate(10181);
+        final ItemDrops drops = new ItemDrops();
         Chain.noCtx().runFn(4, () -> {
+            computeDropTable(npc, drops);
             npc.transmog(12192, false);
+            damageMap.clear();
         });
         return true;
     }

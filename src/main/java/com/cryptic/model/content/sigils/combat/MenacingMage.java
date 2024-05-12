@@ -34,15 +34,13 @@ public class MenacingMage extends AbstractSigil {
         if (player.getCombat() == null) return;
         if (player.getCombat().getCombatType() == null) return;
         if (!activate(player) && CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
-            final int random = World.getWorld().random(100);
-            if (random < 20) {
+            //if (Utils.rollDie(10, 1)) {
                 player.animate(9158);
                 player.graphic(1977);
                 player.putAttrib(AttributeKey.MENACING_CURSE, true);
                 AtomicInteger count = new AtomicInteger(6);
-                int d = damage;
-                BooleanSupplier cancel = () -> target.dead() || !target.isRegistered();
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, curse -> {
+                final int d = damage;
+                Chain.noCtx().repeatingTask(1, curse -> {
                     count.getAndDecrement();
                     new Hit(player, target, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(d).setHitMark(HitMark.CORRUPTION).submit();
                     if (count.get() == 0) {
@@ -51,7 +49,7 @@ public class MenacingMage extends AbstractSigil {
                     }
                 });
             }
-        }
+        //}
     }
 
     @Override
@@ -66,7 +64,7 @@ public class MenacingMage extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return CombatType.MAGIC.equals(player.getCombat().getCombatType());
+        return player.getCombat().getCombatType() != null && CombatType.MAGIC.equals(player.getCombat().getCombatType());
     }
 
 }

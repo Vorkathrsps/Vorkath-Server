@@ -9,30 +9,23 @@ import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentBonuses;
+import com.cryptic.utility.Utils;
 
 public class FormidableFighter extends AbstractSigil {
 
     @Override
-    public void damageModification(Player player, Hit hit) {
-        if (!attuned(player)) return;
-        if (hit.isAccurate()) {
-            final int random = World.getWorld().random(100);
-            if (random < 20) {
-                int damage = hit.getDamage();
-                damage += 5;
-                hit.setDamage(damage);
-            }
-        }
+    public int modifyEquipment(Player player) {
+        if (!attuned(player)) return 0;
+        return 30;
     }
 
     @Override
-    public double accuracyModification(Player player, Entity target, AbstractAccuracy accuracy) { //TODO
-        if (!attuned(player)) return 0;
-        EquipmentBonuses attackerBonus = player.getBonuses().totalBonuses(player, World.getWorld().equipmentInfo());
-        attackerBonus.stab += 30;
-        attackerBonus.slash += 30;
-        attackerBonus.crush += 30;
-        return 0;
+    public void damageModification(Player player, Hit hit) {
+        if (!attuned(player)) return;
+        if (Utils.rollDie(20, 1)) {
+            int damage = hit.getDamage();
+            hit.setDamage(damage + 5);
+        }
     }
 
     @Override
@@ -42,6 +35,6 @@ public class FormidableFighter extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MELEE);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.MELEE);
     }
 }

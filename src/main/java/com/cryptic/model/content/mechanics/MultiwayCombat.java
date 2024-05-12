@@ -24,7 +24,8 @@ public class MultiwayCombat {
 
     private static final List<Area> exclusions = List.of(
         // Rev cave enter holes
-        new Area(3236, 10229, 3248, 10236), new Area(3193, 10051, 3207, 10061));
+        new Area(3236, 10229, 3248, 10236), new Area(3193, 10051, 3207, 10061),
+        new Area(3062, 10140, 3071, 10175, 3), new Area(3047, 10150, 3064, 10174, 3));
 
     private static boolean exclusion(Tile tile) {
         return exclusions.stream().anyMatch(a -> a.contains(tile));
@@ -181,6 +182,7 @@ public class MultiwayCombat {
         6965,
         13210,
         5783,
+        12190,
 
         /* Wildy: (uses 8x8 chunks for some sections as well as chunks) **/
         5789,

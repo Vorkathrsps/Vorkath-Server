@@ -22,6 +22,6 @@ public class Precision extends AbstractSigil {
 
     @Override
     public boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC) || player.getCombat().getCombatType().equals(CombatType.RANGED);
+        return player.getCombat().getCombatType() != null && player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC) || player.getCombat().getCombatType().equals(CombatType.RANGED);
     }
 }

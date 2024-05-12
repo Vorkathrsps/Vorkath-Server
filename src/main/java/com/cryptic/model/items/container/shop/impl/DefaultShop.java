@@ -175,9 +175,12 @@ public final class DefaultShop extends Shop {
     @Override
     public void refresh(Player player, boolean redrawStrings) {
         int startSprite = 82006;
+        boolean isSpriteShop = shopId == 48 || shopId == 350 || shopId == 6 || shopId == 21;
         if (redrawStrings) {
-            for (int index = 0; index < 50; index++) {
-                player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, -2);
+            if (isSpriteShop) {
+                for (int index = 0; index < 50; index++) {
+                    player.getPacketSender().sendInterfaceSpriteChange(startSprite + index, -2);
+                }
             }
             for (int index = 0; index < 50; index++) {
                 player.getPacketSender().sendString(SPRITE_SHOP_STRING_ID + index, "");
@@ -186,7 +189,6 @@ public final class DefaultShop extends Shop {
                 player.getPacketSender().sendString(AMOUNT_STRING_ID + index, "");
             }
         }
-        boolean isSpriteShop = shopId == 48 || shopId == 350 || shopId == 6 || shopId == 21;
         final Item[] items = container.toArray();
         player.getPacketSender().sendInterfaceScrollReset(SHOP_INTERFACE);
         for (int index = 0; index < items.length; index++) {

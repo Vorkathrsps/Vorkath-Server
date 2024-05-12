@@ -80,22 +80,6 @@ public final class Equipment extends ItemContainer {
         return player.getEquipment().hasAt(EquipSlot.AMULET, 12853) || player.getEquipment().hasAt(EquipSlot.AMULET, 12851);
     }
 
-    public static boolean hasBloodFury(Player player) {
-        return player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY);
-    }
-
-    public static boolean fullTorag(Player player) {
-        return player.getEquipment().containsAll(4745, 4747, 4749, 4751);
-    }
-
-    public static boolean fullAhrim(Player player) {
-        return player.getEquipment().containsAll(4708, 4710, 4712, 4714);
-    }
-
-    public static boolean fullKaril(Player player) {
-        return player.getEquipment().containsAll(4732, 4734, 4736, 4738);
-    }
-
     public static boolean hasVerac(Player player) {
         Item helm = player.getEquipment().get(EquipSlot.HEAD);
         Item body = player.getEquipment().get(EquipSlot.BODY);

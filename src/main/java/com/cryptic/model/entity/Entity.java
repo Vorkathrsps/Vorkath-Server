@@ -586,6 +586,7 @@ public abstract class Entity {
     public void sendPrivateSoundByName(String name) {
         sendPrivateSound(SoundDataLoader.getIdByName(name));
     }
+
     public void sendPrivateSound(int id) {
         sendPrivateSound(id, 0);
     }
@@ -992,18 +993,32 @@ public abstract class Entity {
             return;
         }
 
-        // As soon as the hit on us appears, we'll turn around and face the attacker.
-        setEntityInteraction(attacker);
-
-        startEvent(2, () -> {
-            if (attacker.dead() || dead())
-                return;
-            // Override logic
-            getCombat().setTarget(attacker);
-            // this mob needs to hit the attacker, not vice versa
-            this.getCombat().attack(attacker);
-        });
-        //System.out.println(this.getMobName()+" retal to "+attacker.getMobName());
+        if (this instanceof Player) {
+            BooleanSupplier cancel = () ->
+                this.getMovementQueue().isMoving() && this.getCombat().getTarget() == null
+                    || this.getMovementQueue().hasMoved()
+                    || attacker.dead()
+                    || this.dead()
+                    || this.locked()
+                    || this.isMoveLocked()
+                    || this.isMoveLockedDamageOk();
+            Chain.bound(this)
+                .cancelWhen(cancel)
+                .runFn(1, () -> setEntityInteraction(attacker))
+                .then(1, () -> {
+                    this.getCombat().setTarget(attacker);
+                    this.getCombat().attack(attacker);
+                });
+        } else {
+            BooleanSupplier cancel = () -> this.dead();
+            Chain.bound(this)
+                .cancelWhen(cancel)
+                .runFn(1, () -> setEntityInteraction(attacker))
+                .then(1, () -> {
+                    this.getCombat().setTarget(attacker);
+                    this.getCombat().attack(attacker);
+                });
+        }
     }
 
     /**
@@ -2059,11 +2074,15 @@ public abstract class Entity {
     private String forcedChat;
     @Setter
     private boolean fixingDiagonal = false;
-    @Getter public final List<HealthBarUpdate> healthBarQueue = new ArrayList<>();
-    @Getter public int healthBar = 0;
+    @Getter
+    public final List<HealthBarUpdate> healthBarQueue = new ArrayList<>();
+    @Getter
+    public int healthBar = 0;
+
     public void updateHealthBar(HealthBarUpdate update) {
         healthBarQueue.add(update);
     }
+
     @Setter
     @Getter
     private boolean repositioning = false;

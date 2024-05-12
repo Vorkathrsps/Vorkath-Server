@@ -6,6 +6,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.bluemoon.area.BlueMoonArea;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.bluemoon.area.BlueMoonLobbyArea;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusArea;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.area.TheDukeArea;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -39,6 +40,7 @@ public class ControllerManager {
         CONTROLLERS.add(new BlueMoonArea());
         CONTROLLERS.add(new BlueMoonLobbyArea());
         CONTROLLERS.add(new AFKZoneArea());
+        CONTROLLERS.add(new TheDukeArea());
     }
 
     /**

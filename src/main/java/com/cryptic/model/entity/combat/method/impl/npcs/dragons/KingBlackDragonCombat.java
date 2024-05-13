@@ -33,6 +33,10 @@ public class KingBlackDragonCombat extends CommonCombatMethod {
         if (!withinDistance(8)) {
             return false;
         }
+        if (isReachable()) {
+            basicAttack(entity, target);
+            return true;
+        }
         var random = World.getWorld().random().nextInt(0, 7);
         switch (random) {
             case 0, 1 -> {

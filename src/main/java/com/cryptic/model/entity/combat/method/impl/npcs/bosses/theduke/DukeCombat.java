@@ -31,6 +31,7 @@ public class DukeCombat extends CommonCombatMethod {
     public void init(NPC npc) {
         npc.putAttrib(AttributeKey.SLEEPING, true);
         npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        npc.getCombatInfo().aggroradius = 50;
         Chain
             .noCtx()
             .runFn(15, () -> {

@@ -53,15 +53,21 @@ public class CorporealBeastCombat extends CommonCombatMethod {
             magic(corp, player);
             attackCount = 0;
         } else {
-            if (withinDistance(1) && Utils.rollDie(5, 1)) {
-                if (!withinDistance(1)) {
-                    corp.step(player.tile().getX(), player.tile().getY(), MovementQueue.StepType.REGULAR);
-                    corp.waitUntil(withinTile, () -> melee(corp, player)).cancelWhen(nullTarget);
-                } else {
-                    melee(corp, player);
+            var random = World.getWorld().random(6);
+            if (!isReachable() && Utils.rollDie(5, 1)) {
+                corp.step(player.tile().getX(), player.tile().getY(), MovementQueue.StepType.REGULAR);
+                corp.waitUntil(withinTile, () -> melee(corp, player)).cancelWhen(nullTarget);
+            }
+            switch (random) {
+                case 0, 1 -> {
+                    if (isReachable()) melee(corp, player);
+                    else magic(corp, player);
                 }
-            } else {
-                blast(corp, player);
+                case 2, 3 -> {
+                    if (isReachable() && Utils.rollDie(5, 1)) melee(corp, player);
+                    else magic(corp, player);
+                }
+                case 4, 5 -> blast(corp, player);
             }
         }
 
@@ -135,10 +141,6 @@ public class CorporealBeastCombat extends CommonCombatMethod {
         });
     }
 
-    void core(NPC corp, NPC core, Player target) {
-
-    }
-
     void drainStats(Player target) {
         var reduction = Utils.random(3);
         var magicDrain = target.getSkills().level(Skills.MAGIC) - reduction;
@@ -167,7 +169,7 @@ public class CorporealBeastCombat extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 64;
+        return 4;
     }
 
     @Override

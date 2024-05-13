@@ -22,6 +22,7 @@ public class MuspahCombat extends CommonCombatMethod {
     @Override
     public void init(NPC npc) {
         npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 60);
+        npc.getCombatInfo().aggroradius = 50;
         if (npc.id() == NpcIdentifiers.PHANTOM_MUSPAH_12078) {
             npc.putAttrib(AttributeKey.MUSPAH_MELEE, true);
         } else if (npc.id() == NpcIdentifiers.PHANTOM_MUSPAH) {

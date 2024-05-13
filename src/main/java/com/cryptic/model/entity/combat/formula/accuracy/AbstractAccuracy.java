@@ -6,6 +6,7 @@ import com.cryptic.model.entity.combat.damagehandler.DamageModifyingHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageModifying;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.utility.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,8 +68,10 @@ public interface AbstractAccuracy {
         if (attackRoll > defenceRoll) chance = 1D - (defenceRoll + 2D) / (2D * (attackRoll + 1D));
         else chance = attackRoll / (2D * (defenceRoll + 1D));
 
-        if (Hit.isDebugAccuracy()) {
-            sendDebugPrints(chance, attackRoll, defenceRoll);
+        if (this.attacker() instanceof Player player) {
+            if (Hit.isDebugAccuracy() && PlayerRights.OWNER.isOwner(player)) {
+                sendDebugPrints(chance, attackRoll, defenceRoll);
+            }
         }
 
         return chance > selectedChance;

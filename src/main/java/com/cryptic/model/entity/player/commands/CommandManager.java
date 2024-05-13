@@ -25,6 +25,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.muspah.instance.MuspahInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
@@ -703,12 +704,20 @@ public class CommandManager {
             ClaimDonationCommand.spawnDonatorBoss();
         });
 
+        dev("or", (p, c, s) ->
+        {
+            for (var o : p.getMuspahInstance().spikes) {
+                System.out.println("removing: " + o.getId());
+                o.remove();
+            }
+        });
+
         dev("cc", (p, c, s) ->
         {
             /*ObjectDefinition definition = ObjectDefinition.get(29246);
             System.out.println(definition.varbit);
             System.out.println(definition.varp);*/
-            TheDukeInstance instance = new TheDukeInstance(p);
+            MuspahInstance instance = new MuspahInstance(p);
             instance.build();
             /*
             List<Player> player = new ArrayList<>();

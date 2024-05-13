@@ -220,7 +220,7 @@ public class ObjectDefinition implements Definition {
             interactType = 0;
         }
 
-        if (animationId == 10185) {
+        if (animationId == 46695) {
             System.out.println("object id: " + id + " varbits: " + varbit + " varps: " + varp);
         }
 

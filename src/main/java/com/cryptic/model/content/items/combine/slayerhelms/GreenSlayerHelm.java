@@ -11,8 +11,8 @@ public class GreenSlayerHelm extends PacketInteraction {
     int[] items = new int[]{ItemIdentifiers.SLAYER_HELMET, ItemIdentifiers.ENSOULED_KALPHITE_HEAD};
     @Override
     public boolean handleItemOnItemInteraction(Player player, Item use, Item usedWith) {
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.KALPHITE_KHAT)) return false;
         if (!player.getInventory().containsAll(items)) return false;
+        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.KALPHITE_KHAT)) return false;
         if (ArrayUtils.contains(items, use.getId())) {
             if (ArrayUtils.contains(items, usedWith.getId())) {
                 for (var i : items) player.getInventory().remove(i);

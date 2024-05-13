@@ -12,7 +12,7 @@ import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 public class Fortification extends AbstractSigil {
 
     @Override
-    public int modifyEquipment(Player player) {
+    public int modifyDefensiveEquipmentBonuses(Player player) {
         if (!attuned(player)) return 0;
         return 50;
     }

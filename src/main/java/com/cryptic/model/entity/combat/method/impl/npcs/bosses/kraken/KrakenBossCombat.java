@@ -20,6 +20,7 @@ import lombok.Setter;
 public class KrakenBossCombat extends CommonCombatMethod {
 
     boolean awakened = false;
+    boolean transforming = false;
 
     @Override
     public void onRespawn(NPC npc) {
@@ -48,13 +49,15 @@ public class KrakenBossCombat extends CommonCombatMethod {
         if (player.getKrakenInstance() == null) return;
         if (this.isAwakened()) return;
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.block();
-        hit.postDamage(d -> {
+        hit.postDamage(_ -> {
+            if (this.isTransforming()) return;
             if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) {
                 kraken.transmog(494, true);
                 kraken.animate(7135);
                 kraken.setCombatMethod(this);
                 kraken.setInstancedArea(player.getKrakenInstance());
                 player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
+                this.setTransforming(true);
                 Chain.noCtx().runFn(4, () -> {
                     kraken.getCombat().setTarget(player);
                     this.setAwakened(true);

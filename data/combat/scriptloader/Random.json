@@ -209,6 +209,76 @@
   },
   {
     "ids": [
+      12078
+    ],
+    "maxhit": 34,
+    "aggressive": true,
+    "deathlen": 4,
+    "stats": {
+      "hitpoints": 850,
+      "attack": 280,
+      "strength": 280,
+      "defence": 200,
+      "magic": 150,
+      "ranged": 280
+    },
+    "bonuses": {
+      "attack": 393,
+      "strength": 11,
+      "magic": 280,
+      "ranged": 64,
+      "magicstrength": 180,
+      "rangestrength": 6,
+      "stabdefence": 185,
+      "slashdefence": 134,
+      "crushdefence": 120,
+      "magicdefence": 40,
+      "rangeddefence": 261
+    },
+    "animations": {
+      "death": -1
+    },
+    "scripts": {
+      "combat": "MuspahCombat"
+    }
+  },
+  {
+    "ids": [
+      12077
+    ],
+    "maxhit": 61,
+    "aggressive": true,
+    "deathlen": 4,
+    "stats": {
+      "hitpoints": 850,
+      "attack": 280,
+      "strength": 280,
+      "defence": 200,
+      "magic": 150,
+      "ranged": 280
+    },
+    "bonuses": {
+      "attack": 393,
+      "strength": 11,
+      "magic": 280,
+      "ranged": 64,
+      "magicstrength": 180,
+      "rangestrength": 6,
+      "stabdefence": 185,
+      "slashdefence": 134,
+      "crushdefence": 120,
+      "magicdefence": 40,
+      "rangeddefence": 261
+    },
+    "animations": {
+      "death": -1
+    },
+    "scripts": {
+      "combat": "MuspahCombat"
+    }
+  },
+  {
+    "ids": [
       13013,
       13017
     ],

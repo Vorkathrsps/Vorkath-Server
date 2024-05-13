@@ -26,6 +26,7 @@ import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.muspah.instance.MuspahInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.healthbar.HealthBarUpdate;
 import com.cryptic.model.entity.masks.*;
@@ -316,6 +317,10 @@ public abstract class Entity {
     @Getter
     @Setter
     private TheDukeInstance dukeInstance;
+
+    @Getter
+    @Setter
+    private MuspahInstance muspahInstance;
 
     /**
      * a task that runs every 1 game tick. Aka repeatingTask
@@ -1939,11 +1944,6 @@ public abstract class Entity {
         setResetMovementQueue(true);
         setEntityInteraction(null);
 
-        if (this instanceof Player player) {
-            if (!player.getRegions().contains(player.tile().getRegion())) player.addRegion(player.tile().getRegion());
-            player.getMovementQueue().handleRegionChange();
-        }
-
         getMovementQueue().clear();
 
         getMovementQueue().lastFollowX = getMovement().followX = -1;
@@ -1964,6 +1964,11 @@ public abstract class Entity {
                     getInstancedArea().removePlayer(getAsPlayer());
                 }
             }
+        }
+
+        if (this instanceof Player player) {
+            if (!player.getRegions().contains(player.tile().getRegion())) player.addRegion(player.tile().getRegion());
+            player.getMovementQueue().handleRegionChange();
         }
     }
 
@@ -2181,15 +2186,11 @@ public abstract class Entity {
         this.instancedArea = instancedArea;
         if (prev == instancedArea) return;
         if (prev != null && instancedArea == null) {
-            if (isPlayer())
-                prev.removePlayer(getAsPlayer());
-            else
-                prev.removeNpc(npc());
-        } else if (instancedArea != null) {
-            if (isPlayer())
-                instancedArea.addPlayer(getAsPlayer());
-            else
-                instancedArea.addNpc(npc());
+            if (isPlayer()) prev.removePlayer(getAsPlayer());
+            else if (isNpc()) prev.removeNpc(npc());
+        } else {
+            if (isPlayer()) instancedArea.addPlayer(getAsPlayer());
+            else if (isNpc()) instancedArea.addNpc(npc());
         }
     }
 

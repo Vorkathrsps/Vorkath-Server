@@ -1,6 +1,7 @@
 package com.cryptic.network.packet.outgoing;
 
 import com.cryptic.GameConstants;
+import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;

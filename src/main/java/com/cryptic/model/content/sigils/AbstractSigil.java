@@ -1,11 +1,14 @@
 package com.cryptic.model.content.sigils;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 
 public abstract class AbstractSigil {
+
+    public static final int[] ignore = new int[]{NpcIdentifiers.WHIRLPOOL, NpcIdentifiers.WHIRLPOOL_496, NpcIdentifiers.WHIRLPOOL_5534};
     public void onRemove(Player player) {
 
     }
@@ -22,7 +25,11 @@ public abstract class AbstractSigil {
 
     }
 
-    public int modifyEquipment(Player player) {
+    public int modifyOffensiveEquipmentBonuses(Player player) {
+        return 0;
+    }
+
+    public int modifyDefensiveEquipmentBonuses(Player player) {
         return 0;
     }
 

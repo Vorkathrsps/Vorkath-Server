@@ -16,13 +16,13 @@ public class SlayerHelmet extends PacketInteraction {
 
     @Override
     public boolean handleItemOnItemInteraction(Player player, Item use, Item usedWith) {
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYER_HELM)) return false;
-        if (player.getSkills().level(Skills.CRAFTING) < 55) {
-            player.message(Color.RED.wrap("You need a Crafting level of 55 to make this."));
-            return true;
-        }
         boolean isUsedWith = ((Utils.isUsedWith(items, use) || Utils.isUsedWith(items, usedWith)) && (Utils.isUsedWith(masks, use) || Utils.isUsedWith(masks, usedWith)));
         if (isUsedWith) {
+            if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYER_HELM)) return false;
+            if (player.getSkills().level(Skills.CRAFTING) < 55) {
+                player.message(Color.RED.wrap("You need a Crafting level of 55 to make this."));
+                return true;
+            }
             for (var i : items) player.getInventory().remove(i);
             for (var i : masks) player.getInventory().remove(i);
             player.getInventory().add(new Item(ItemIdentifiers.SLAYER_HELMET));

@@ -8,9 +8,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.AbstractAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
@@ -56,7 +53,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public void processResistance(Entity attacker, Entity target, Hit hit) {
+    public void processResistance(final Entity attacker, final Entity target, final Hit hit) {
         if (!(attacker instanceof NPC)) return;
         if (target instanceof Player player) {
             for (SigilData data : SigilData.values()) {
@@ -71,7 +68,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public void processDamage(Player player, Hit hit) {
+    public void processDamage(final Player player, final Hit hit) {
         if (WildernessArea.inWilderness(player.tile())) return;
         Combat combat = player.getCombat();
         if (combat == null) return;
@@ -92,7 +89,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public void process(Player player, Entity target) {
+    public void process(final Player player, final Entity target) {
         if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return;
         final Combat combat = player.getCombat();
         if (combat == null) return;
@@ -114,7 +111,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public double processAccuracy(Player player, Entity target, AbstractAccuracy accuracy) {
+    public double processAccuracy(final Player player, final Entity target, final AbstractAccuracy accuracy) {
         double boost = 0.0D;
         if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return boost;
         final Combat combat = player.getCombat();
@@ -136,7 +133,39 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public void HandleLogin(Player player) {
+    public int processOffensiveEquipmentModification(final Player player) {
+        int boost = 0;
+        if (player == null) return 0;
+        if (player.getCombat().getTarget() instanceof Player) return 0;
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    boost += sigil.modifyOffensiveEquipmentBonuses(player);
+                }
+            }
+        }
+        return boost;
+    }
+
+    @Override
+    public int processDefensiveEquipmentModification(final Player player) {
+        int boost = 0;
+        if (player == null) return 0;
+        if (player.getCombat().getTarget() instanceof Player) return 0;
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    boost += sigil.modifyDefensiveEquipmentBonuses(player);
+                }
+            }
+        }
+        return boost;
+    }
+
+    @Override
+    public void HandleLogin(final Player player) {
         for (SigilData data : SigilData.values()) {
             for (AbstractSigil listener : handler) {
                 if (listener == null) continue;
@@ -145,22 +174,6 @@ public class Sigil extends PacketInteraction implements SigilListener {
                 }
             }
         }
-    }
-
-    @Override
-    public int processEquipmentModification(Player player) {
-        int boost = 0;
-        if (player == null) return 0;
-        if (player.getCombat().getTarget() instanceof Player) return 0;
-        for (SigilData data : SigilData.values()) {
-            for (AbstractSigil sigil : handler) {
-                if (sigil == null) continue;
-                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
-                    boost += sigil.modifyEquipment(player);
-                }
-            }
-        }
-        return boost;
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.cryptic.utility.Utils;
 public class FormidableFighter extends AbstractSigil {
 
     @Override
-    public int modifyEquipment(Player player) {
+    public int modifyOffensiveEquipmentBonuses(Player player) {
         if (!attuned(player)) return 0;
         return 30;
     }

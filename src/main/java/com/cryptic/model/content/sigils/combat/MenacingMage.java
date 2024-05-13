@@ -1,5 +1,6 @@
 package com.cryptic.model.content.sigils.combat;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
@@ -7,9 +8,11 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
@@ -33,23 +36,26 @@ public class MenacingMage extends AbstractSigil {
         if (target instanceof Player) return;
         if (player.getCombat() == null) return;
         if (player.getCombat().getCombatType() == null) return;
-        if (!activate(player) && CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
-            //if (Utils.rollDie(10, 1)) {
-                player.animate(9158);
-                player.graphic(1977);
-                player.putAttrib(AttributeKey.MENACING_CURSE, true);
-                AtomicInteger count = new AtomicInteger(6);
-                final int d = damage;
-                Chain.noCtx().repeatingTask(1, curse -> {
-                    count.getAndDecrement();
-                    new Hit(player, target, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(d).setHitMark(HitMark.CORRUPTION).submit();
-                    if (count.get() == 0) {
-                        player.clearAttrib(AttributeKey.MENACING_CURSE);
-                        curse.stop();
-                    }
-                });
+        if (target instanceof NPC npc) {
+            if (ArrayUtils.contains(ignore, npc.id())) return;
+            if (!activate(player) && CombatType.MAGIC.equals(player.getCombat().getCombatType())) {
+                if (Utils.rollDie(10, 1)) {
+                    player.animate(9158);
+                    player.graphic(1977);
+                    player.putAttrib(AttributeKey.MENACING_CURSE, true);
+                    AtomicInteger count = new AtomicInteger(6);
+                    final int d = damage;
+                    Chain.noCtx().repeatingTask(1, curse -> {
+                        count.getAndDecrement();
+                        new Hit(player, npc, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(d).setHitMark(HitMark.CORRUPTION).submit();
+                        if (count.get() == 0) {
+                            player.clearAttrib(AttributeKey.MENACING_CURSE);
+                            curse.stop();
+                        }
+                    });
+                }
             }
-        //}
+        }
     }
 
     @Override

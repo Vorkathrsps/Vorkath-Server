@@ -7,7 +7,6 @@ import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.utility.Color;
 import lombok.Data;
 
 import static com.cryptic.utility.ItemIdentifiers.TOXIC_BLOWPIPE;
@@ -66,10 +65,16 @@ public class EquipmentBonuses {
                 }
             }
 
-            int boost = player.sigil.processEquipmentModification(player);
-            bonuses.stab += boost;
-            bonuses.slash += boost;
-            bonuses.crush += boost;
+            int attackBoost = player.sigil.processOffensiveEquipmentModification(player);
+            bonuses.stab += attackBoost;
+            bonuses.slash += attackBoost;
+            bonuses.crush += attackBoost;
+
+            int defenseBoost = player.sigil.processDefensiveEquipmentModification(player);
+            bonuses.stabdef += defenseBoost;
+            bonuses.slashdef += defenseBoost;
+            bonuses.crushdef += defenseBoost;
+            bonuses.rangedef += defenseBoost;
 
         } else {
             if (entity instanceof NPC npc && npc.getCombatInfo() != null) {

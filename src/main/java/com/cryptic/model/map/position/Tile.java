@@ -359,6 +359,7 @@ public class Tile implements Cloneable {
         int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
         return new Tile(faceCoordX, faceCoordY);
     }
+
     public Tile getDistanceTo(Tile other) {
         final int deltaX = other.getX() - getX(), deltaY = other.getY() - getY();
         return new Tile(Math.abs(deltaX), Math.abs(deltaY));
@@ -459,7 +460,6 @@ public class Tile implements Cloneable {
         int newY = y - 1;  // Move one tile to the north
         return new Tile(newX, newY, z);
     }
-
 
 
     public double calculateDistance(int x1, int y1, int x2, int y2) {
@@ -1200,12 +1200,10 @@ public class Tile implements Cloneable {
     }
 
     public GameObject getObject(int id, int type, int direction) {
-        return MapObjects.get(t -> {
-            return t.tile().equals(x, y, level)
-                && (id == -1 || t.getId() == id)
-                && (type == -1 || t.getType() == type) // -1 means match any id
-                && (direction == -1 || t.getRotation() == direction);
-        }, new Tile(x, y, level)).orElse(null);
+        return MapObjects.get(t -> t.tile().equals(x, y, level)
+            && (id == -1 || t.getId() == id)
+            && (type == -1 || t.getType() == type) // -1 means match any id
+            && (direction == -1 || t.getRotation() == direction), new Tile(x, y, level)).orElse(null);
     }
 
     public Tile tileToDir(Direction n) {

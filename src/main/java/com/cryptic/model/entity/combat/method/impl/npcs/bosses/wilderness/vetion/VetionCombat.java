@@ -6,6 +6,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -45,7 +46,7 @@ public class VetionCombat extends CommonCombatMethod {
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
         if (player != null) {
-            if (houndList.size() == 0) {
+            if (houndList.isEmpty()) {
                 vetion.message("My hounds! I'll make you pay for that!");
             }
             if (!hasAttacked) {
@@ -62,16 +63,20 @@ public class VetionCombat extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        if (Utils.percentageChance(50)) {
-            magicSwordRaise();
-        } else if (Utils.percentageChance(50)) {
-            magicSwordSlash();
-        } else {
-            if (withinDistance(5)) {
-                doShieldBash();
+        var random = World.getWorld().random(6);
+        switch (random) {
+            case 0, 1 -> {
+                if (isReachable()) doShieldBash();
+                else magicSwordRaise();
+            }
+            case 2, 3 -> {
+                magicSwordSlash();
+            }
+            case 4, 5 -> {
+                if (isReachable() && Utils.rollDie(5, 1)) doShieldBash();
+                else magicSwordRaise();
             }
         }
-
         return true;
     }
 
@@ -84,6 +89,7 @@ public class VetionCombat extends CommonCombatMethod {
     public void doFollowLogic() {
         NPC vetion = (NPC) entity;
         vetion.face(null);
+        vetion.setEntityInteraction(null);
         if (hasAttacked) {
             var t = new Tile(target.tile().getX(), target.tile().getY()).transform(1, 1);
             vetion.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.REGULAR);
@@ -92,7 +98,7 @@ public class VetionCombat extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 10;
+        return 64;
     }
 
     void magicSwordRaise() {
@@ -132,9 +138,9 @@ public class VetionCombat extends CommonCombatMethod {
                                 return;
                             }
                             if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
-                                vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
+                                new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(15, 30)).submit();
                             } else if (player.tile().nextTo(tile)) {
-                                vetion.submitAccurateHit(player, 0, (Utils.random(15, 30) / 2), this);
+                                new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(15, 30) / 2).submit();
                             }
                         })
                         .then(2, () -> {
@@ -184,9 +190,9 @@ public class VetionCombat extends CommonCombatMethod {
                                 return;
                             }
                             if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
-                                new Hit(vetion, target, 0, Utils.random(15, 30), CombatType.MAGIC).checkAccuracy(false).submit();
+                                new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(15, 30)).submit();
                             } else if (player.tile().nextTo(tile)) {
-                                new Hit(vetion, target, 0, Utils.random(15, 30) / 2, CombatType.MAGIC).checkAccuracy(false).submit();
+                                new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(15, 30) / 2).submit();
                             }
                         })
                         .then(2, () -> {
@@ -214,7 +220,7 @@ public class VetionCombat extends CommonCombatMethod {
             for (var t : tiles) {
                 if (t.equals(player.tile())) {
                     if (!player.dead() && !vetion.dead()) {
-                        vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
+                        new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(15, 30)).submit();
                     }
                 }
             }
@@ -352,7 +358,7 @@ public class VetionCombat extends CommonCombatMethod {
                 });
             }
             for (Tile tile : vetionCombat.tiles) {
-                World.getWorld().sendClippedTileGraphic(2236, tile, 0, 0);
+                World.getWorld().sendClippedTileGraphic(1447, tile, 0, 0);
                 World.getWorld().sendClippedTileGraphic(2184, tile, 0, 90);
             }
         }

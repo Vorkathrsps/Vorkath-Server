@@ -9,6 +9,9 @@
     ],
     "maxhit": 7,
     "aggressive": true,
+    "retaliates": true,
+    "unstacked": false,
+    "boss": true,
     "attackspeed": 4,
     "combattype": "MELEE",
     "stats": {

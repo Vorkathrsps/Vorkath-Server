@@ -13,6 +13,8 @@ import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
@@ -52,9 +54,22 @@ public class AlKharidCourse extends PacketInteraction {
 
         Tile tightropeTile = new Tile(3272, 3181, 3);
         if (obj.getId() == TIGHTROPE_14398 && obj.tile().equals(tightropeTile)) {
-            Tile stepTo = new Tile(3272, 3172, 3).transform(0, 0);
-            player.tile().faceObjectTile(obj);
-            pathAcrossTightRope(player, stepTo);
+            player.lockDelayDamage();
+            Chain.noCtx().delay(1, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(0, -10), MovementQueue.StepType.FORCED_WALK);
+                BooleanSupplier wait = () -> player.tile().equals(new Tile(3272, 3172, 3));
+                player.waitUntil(1, wait, () -> {
+                    player.getCombat().reset();
+                    player.setPositionToFace(null);
+                    player.looks().resetRender();
+                    player.stepAbs(player.tile().transform(-1, 0), MovementQueue.StepType.FORCED_WALK);
+                }).then(1, () -> {
+                    player.unlock();
+                    player.getSkills().addXp(Skills.AGILITY, 30.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
+                });
+            });
             return true;
         }
 
@@ -85,8 +100,22 @@ public class AlKharidCourse extends PacketInteraction {
         }
 
         if (obj.getId() == TIGHTROPE_14409) {
-            var stepTo = new Tile(3302, 3186).transform(0,0);
-            sendTightRopeTaskTwo(player, "AlKharidTightrope3Task", stepTo, new Tile(3302, 3186), 15.0);
+            player.lockDelayDamage();
+            Chain.noCtx().delay(1, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(-12, 0), MovementQueue.StepType.FORCED_WALK);
+                BooleanSupplier wait = () -> player.tile().equals(new Tile(3302, 3186, 3));
+                player.waitUntil(1, wait, () -> {
+                    player.getCombat().reset();
+                    player.setPositionToFace(null);
+                    player.looks().resetRender();
+                    player.stepAbs(player.tile().transform(0, 1), MovementQueue.StepType.FORCED_WALK);
+                }).then(1, () -> {
+                    player.unlock();
+                    player.getSkills().addXp(Skills.AGILITY, 30.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
+                });
+            });
             return true;
         }
 
@@ -121,7 +150,7 @@ public class AlKharidCourse extends PacketInteraction {
                 player.agilityWalk(false);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 player.getMovementQueue().clear();
-                player.stepAbs(stepTo, MovementQueue.StepType.FORCED_WALK);
+                player.stepAbs(stepTo.transform(8, 0), MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(tile, () -> {
                 player.looks().resetRender();
                 player.agilityWalk(true);
@@ -187,6 +216,12 @@ public class AlKharidCourse extends PacketInteraction {
 
     private static void forceMoveZipLine(Player player) {
         player.animate(2586);
+        BooleanSupplier wait1 = () -> player.tile().equals(new Tile(3304 + 2, 3163, 1));
+        BooleanSupplier wait2 = () -> player.tile().equals(new Tile(3308, 3163, 1));
+        BooleanSupplier wait3 = () -> player.tile().equals(new Tile(3310, 3163, 1));
+        BooleanSupplier wait4 = () -> player.tile().equals(new Tile(3312, 3163, 1));
+        BooleanSupplier wait5 = () -> player.tile().equals(new Tile(3314, 3163, 1));
+        AtomicReference<ForceMovement> forceMovement = new AtomicReference<>();
         Chain
             .bound(player)
             .name("ZipLineTaskAlKharid")
@@ -195,14 +230,32 @@ public class AlKharidCourse extends PacketInteraction {
                 player.teleport(3304, 3163, 1);
                 player.animate(1601);
             }).then(1, () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(10, 0), 30, 60, 1602, Direction.EAST);
-                player.setForceMovement(forceMovement);
-            }).waitForTile(new Tile(3314, 3163), () -> {
-                player.animate(-1);
-                player.getMovementQueue().step(3315, 3163, MovementQueue.StepType.FORCED_WALK);
-                player.getSkills().addXp(Skills.AGILITY, 40.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
-                player.unlock();
+                forceMovement.set(new ForceMovement(player.tile(), new Tile(2, 0), 0, 30, 1602, Direction.EAST));
+                player.setForceMovement(forceMovement.get());
+                player.waitUntil(1, wait1, () -> {
+                    forceMovement.set(new ForceMovement(player.tile(), new Tile(2, 0), 0, 30, 1602, Direction.EAST));
+                    player.setForceMovement(forceMovement.get());
+                    player.waitUntil(1, wait2, () -> {
+                        forceMovement.set(new ForceMovement(player.tile(), new Tile(2, 0), 0, 30, 1602, Direction.EAST));
+                        player.setForceMovement(forceMovement.get());
+                        player.waitUntil(1, wait3, () -> {
+                            forceMovement.set(new ForceMovement(player.tile(), new Tile(2, 0), 0, 30, 1602, Direction.EAST));
+                            player.setForceMovement(forceMovement.get());
+                            player.waitUntil(1, wait4, () -> {
+                                forceMovement.set(new ForceMovement(player.tile(), new Tile(2, 0), 0, 30, 1602, Direction.EAST));
+                                player.setForceMovement(forceMovement.get());
+                                player.waitUntil(1, wait5, () -> {
+                                    player.animate(-1);
+                                    player.stepAbs(player.tile().transform(1, 0), MovementQueue.StepType.FORCED_WALK);
+                                }).then(1, () -> {
+                                    player.getSkills().addXp(Skills.AGILITY, 40.0);
+                                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
+                                    player.unlock();
+                                });
+                            });
+                        });
+                    });
+                });
             });
     }
 
@@ -211,24 +264,30 @@ public class AlKharidCourse extends PacketInteraction {
         player.lockDelayDamage();
         player.getMovementQueue().clear();
         player.stepAbs(toTile.transform(0, 0), MovementQueue.StepType.FORCED_RUN);
+        BooleanSupplier wait1 = () -> player.tile().equals(new Tile(3266, 3166, 3));
+        BooleanSupplier wait2 = () -> player.tile().equals(obj.tile());
+        BooleanSupplier wait3 = () -> player.tile().equals(new Tile(3283, 3166, 3));
         Chain.bound(player).name("AlKharidCableTask").runFn(1, () -> {
             player.message("You begin an almighty run-up...");
-            player.animate(1995);
-        }).waitForTile(new Tile(3266, 3166), () -> {
-            player.getMovementQueue().clear();
-            player.stepAbs(obj.tile().transform(0, 0), MovementQueue.StepType.FORCED_RUN);
-        }).waitForTile(obj.tile(), () -> {
-            ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(14, 0), 15, 60, 751, Direction.EAST);
-            player.setForceMovement(forceMovement);
-        }).waitForTile(endPos, () -> {
-            player.getSkills().addXp(Skills.AGILITY, 40.0);
-            MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
-            player.unlock();
+            player.waitUntil(2, wait1, () -> {
+                player.getMovementQueue().clear();
+                player.looks().render(1995, 1995, 1995, 1995, 1995, 1995, -1);
+                player.stepAbs(obj.tile().transform(0, 0), MovementQueue.StepType.FORCED_RUN);
+                player.waitUntil(1, wait2, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(14, 0), 20, 60, 751, Direction.EAST);
+                    player.setForceMovement(forceMovement);
+                    player.waitUntil(2, wait3, () -> {
+                        player.looks().resetRender();
+                    }).then(1, () -> {
+                        player.stepAbs(player.tile().transform(1, 0), MovementQueue.StepType.FORCED_WALK);
+                    }).then(1, () -> {
+                        player.getSkills().addXp(Skills.AGILITY, 40.0);
+                        MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
+                        player.unlock();
+                    });
+                });
+            });
         });
-    }
-
-    private void pathAcrossTightRope(Player player, Tile stepTo) {
-        sendTightRopeTaskTwo(player, "WalkToTightRopeTask", stepTo, stepTo, 30.0);
     }
 
 }

@@ -28,34 +28,6 @@ public class HomeArea extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if(option == 1) {
-            if(object.getId() == 14398) {
-                if(object.tile().equals(2037,3621,0)) {
-                    player.lockDelayDamage();
-                    Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
-                        player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                        player.agilityWalk(false);
-                        player.stepAbs(2053, 3621, MovementQueue.StepType.FORCED_WALK);
-                    }).waitForTile(new Tile(2053, 3621), () -> {
-                        player.agilityWalk(true);
-                        player.looks().resetRender();
-                        player.getSkills().addXp(Skills.AGILITY, 17.0);
-                        player.unlock();
-                    });
-                    return true;
-                }
-                player.lockDelayDamage();
-                Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
-                    player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                    player.agilityWalk(false);
-                    player.stepAbs(2037, 3621, MovementQueue.StepType.FORCED_WALK);
-                }).waitForTile(new Tile(2037, 3621), () -> {
-                    player.agilityWalk(true);
-                    player.looks().resetRender();
-                    player.getSkills().addXp(Skills.AGILITY, 17.0);
-                    player.unlock();
-                });
-                return true;
-            }
             if(object.getId() == 23311) {
                 TeleportInterface.open(player);
                 return true;

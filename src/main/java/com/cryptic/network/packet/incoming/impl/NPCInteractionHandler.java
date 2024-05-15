@@ -13,7 +13,7 @@ import com.cryptic.model.content.areas.wilderness.dialogue.PilesDialogue;
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.dialogue.*;
 import com.cryptic.model.content.bank_pin.BankTeller;
 import com.cryptic.model.content.bank_pin.dialogue.BankTellerDialogue;
-import com.cryptic.model.content.items.RockCake;
+import com.cryptic.model.content.items.interactions.RockCake;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.content.skill.impl.hunter.HuntingExpert;

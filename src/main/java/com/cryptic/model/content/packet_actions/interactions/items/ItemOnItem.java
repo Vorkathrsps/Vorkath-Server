@@ -1,11 +1,11 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
 import com.cryptic.model.content.consumables.potions.Potions;
-import com.cryptic.model.content.items.combine.*;
-import com.cryptic.model.content.items.combine.crystal.CrystalAxe;
-import com.cryptic.model.content.items.combine.crystal.CrystalHarpoon;
-import com.cryptic.model.content.items.combine.crystal.CrystalPickaxe;
-import com.cryptic.model.content.items.combine.serpentinehelm.TanzaniteMutagenDialogue;
+import com.cryptic.model.content.items.combinations.*;
+import com.cryptic.model.content.items.combinations.crystal.CrystalAxe;
+import com.cryptic.model.content.items.combinations.crystal.CrystalHarpoon;
+import com.cryptic.model.content.items.combinations.crystal.CrystalPickaxe;
+import com.cryptic.model.content.items.combinations.serpentinehelm.TanzaniteMutagenDialogue;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.herblore.HerbTar;
 import com.cryptic.model.content.skill.impl.herblore.PestleAndMortar;

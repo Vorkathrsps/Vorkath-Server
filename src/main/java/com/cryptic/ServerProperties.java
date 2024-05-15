@@ -21,7 +21,6 @@ public final class ServerProperties {
 
     static final ServerProperties current;
     public static final LocalProperties localProperties;
-
     public static final boolean IS_LIVE = false;
 
     static {

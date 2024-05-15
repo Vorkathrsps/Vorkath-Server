@@ -3,7 +3,7 @@ package com.cryptic.model.content.areas.wilderness.content.larrans_key;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.World;
-import com.cryptic.model.content.items.boxes.CollectionItemHandler;
+import com.cryptic.model.content.items.loot.CollectionItemHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;

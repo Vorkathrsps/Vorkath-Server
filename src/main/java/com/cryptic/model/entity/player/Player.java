@@ -21,8 +21,6 @@ import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.duel.Dueling;
-import com.cryptic.model.content.items.mysterybox.MysteryBoxManager;
-import com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.cryptic.model.content.kill_logs.BossKillLog;
 import com.cryptic.model.content.kill_logs.SlayerKillLog;
 import com.cryptic.model.content.mechanics.BossTimers;
@@ -39,11 +37,11 @@ import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.raids.Raids;
 import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.content.raids.party.RaidsParty;
-import com.cryptic.model.content.raids.theatre.TheatreInstance;
-import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
-import com.cryptic.model.content.raids.theatre.party.RaidParty;
-import com.cryptic.model.content.raids.theatre.stage.RoomState;
-import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
+import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
+import com.cryptic.model.content.raids.theatreofblood.interactions.TheatreInterface;
+import com.cryptic.model.content.raids.theatreofblood.party.RaidParty;
+import com.cryptic.model.content.raids.theatreofblood.stage.RoomState;
+import com.cryptic.model.content.raids.theatreofblood.stage.TheatreStage;
 import com.cryptic.model.content.security.AccountPin;
 import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.Skillable;
@@ -52,7 +50,6 @@ import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
-import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.skill.perks.SkillingItems;
 import com.cryptic.model.content.tasks.TaskMasterManager;
@@ -80,7 +77,6 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
@@ -221,8 +217,6 @@ public class Player extends Entity {
     private PresetData[] presetData = new PresetData[8];
     @Getter
     private final WildernessKeys wildernessKeys = new WildernessKeys();
-    @Getter
-    private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
     @Getter
     @Setter
     public boolean cursed = hasAttrib(NIGHTMARE_CURSE);

@@ -1,6 +1,6 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.model.content.items.RottenPotato;
+import com.cryptic.model.content.items.interactions.RottenPotato;
 import com.cryptic.model.content.skill.impl.slayer.content.BagOfSalt;
 import com.cryptic.model.content.skill.impl.slayer.content.FungicideSpray;
 import com.cryptic.model.content.skill.impl.slayer.content.IceCooler;

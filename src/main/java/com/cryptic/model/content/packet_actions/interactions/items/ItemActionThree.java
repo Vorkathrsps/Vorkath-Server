@@ -1,6 +1,6 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
-import com.cryptic.model.content.items.RockCake;
+import com.cryptic.model.content.items.interactions.RockCake;
 import com.cryptic.model.content.items.teleport.ArdyCape;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerHelm;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerRing;

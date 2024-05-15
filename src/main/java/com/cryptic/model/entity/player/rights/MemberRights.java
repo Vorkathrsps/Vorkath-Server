@@ -162,6 +162,7 @@ public enum MemberRights {
         boolean eliteMemberUnlocked = player.getAttribOr(AttributeKey.ELITE_MEMBER_UNLOCKED, false);
         if (totalAmountPaid >= 100.00 && !eliteMemberUnlocked) {
             player.setMemberRights(MemberRights.EMERALD_MEMBER);
+            player.putAttrib(AttributeKey.ELITE_MEMBER_UNLOCKED, true);
             if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + EMERALD_MEMBER.spriteId + ">Emerald Member</col>!");
         }
 

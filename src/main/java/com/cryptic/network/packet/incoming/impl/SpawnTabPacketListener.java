@@ -1,7 +1,6 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.cache.definitions.ItemDefinition;
-import com.cryptic.model.content.spawn_tab.SpawnTab;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
@@ -60,7 +59,7 @@ public class SpawnTabPacketListener implements PacketListener {
 
         //Spawn item
         if (!spawnX) {
-            SpawnTab.spawn(player, item, 1, toBank);
+
         } else {
             player.setAmountScript("How many "+def.name+" would you like to spawn?", new InputScript() {
 
@@ -71,7 +70,7 @@ public class SpawnTabPacketListener implements PacketListener {
                         player.message("You can't spawn a negative amount or any more than "+Integer.MAX_VALUE+" of a item.");
                         return false;
                     }
-                    SpawnTab.spawn(player, item, amount, toBank);
+
                     return true;
                 }
             });

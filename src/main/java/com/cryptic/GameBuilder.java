@@ -1,13 +1,11 @@
 package com.cryptic;
 
 import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
-import com.cryptic.model.content.items.mysterybox.MysteryBox;
 import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.inter.clan.ClanRepository;
 
 import com.cryptic.model.content.skill.impl.crafting.Crafting;
 import com.cryptic.model.content.skill.impl.fletching.Fletching;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
 import com.cryptic.utility.Utils;
@@ -69,7 +67,6 @@ public class GameBuilder {
         }
         tasks.add(new BloodMoneyPriceLoader());
         tasks.add(TradingPost::init);
-        tasks.add(MysteryBox::load);
         tasks.add(Crafting::load);
         tasks.add(Fletching::load);
         tasks.add(new ShopLoader());

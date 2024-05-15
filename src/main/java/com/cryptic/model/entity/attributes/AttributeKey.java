@@ -1508,6 +1508,7 @@ public enum AttributeKey {
     LARRANS_KEYS_TIER_THREE_USED("larrans_keys_tier3_used", AttribType.INTEGER),
     MBOX_REWARDS_VISIBLE,
     ARMOUR_MYSTERY_BOXES_OPENED("armour_mystery_boxes_opened", AttribType.INTEGER),
+    MYSTERY_BOXES_OPENED("mystery_boxes_opened", AttribType.INTEGER),
     DONATOR_MYSTERY_BOXES_OPENED("donator_mystery_boxes_opened", AttribType.INTEGER),
     PRESENTS_OPENED("presents_opened", AttribType.INTEGER),
     MOLTEN_MYSTERY_BOXES_OPENED("molten_mystery_boxes_opened", AttribType.INTEGER),
@@ -1585,7 +1586,7 @@ public enum AttributeKey {
 
     DUKE_KILLED("duke_sucellus_killed", AttribType.INTEGER),
 
-    DUKE_LOG_CLAIMED;
+    DUKE_LOG_CLAIMED, ENHANCED_CRYSTAL_KEYS_OPENED("enhanced_crystal_keys_opened", AttribType.INTEGER);
 
     private String saveName;
     private AttribType type;

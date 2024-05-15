@@ -132,10 +132,6 @@ public class Buttons {
         boolean onAncients = player.getSpellbook() == MagicSpellbook.ANCIENTS;
         boolean onNormals = player.getSpellbook() == MagicSpellbook.NORMAL;
 
-        if (player.getMysteryBox().onButton(button)) {
-            return;
-        }
-
         switch (button) {
             case 15151 -> {
                 if (WildernessArea.isInWilderness(player)) {

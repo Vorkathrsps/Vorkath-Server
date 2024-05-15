@@ -37,7 +37,7 @@ public class Whitelist {
             return;
         }
         try {
-            long id = Long.valueOf(uid.replaceAll("<@!", "").replaceAll(">", ""));
+            long id = Long.parseLong(uid.replaceAll("<@!", "").replaceAll(">", ""));
             System.err.println("ID to add="+id);
             administrators.add(id);
             writeToFile(admin ? ADMINISTRATORS : MODERATORS, admin ? administrators : moderators);

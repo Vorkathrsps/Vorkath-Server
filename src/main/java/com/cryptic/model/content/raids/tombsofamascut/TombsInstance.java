@@ -2,9 +2,9 @@ package com.cryptic.model.content.raids.tombsofamascut;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
-import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
-import com.cryptic.model.content.raids.theatre.controller.RaidController;
-import com.cryptic.model.content.raids.theatre.party.RaidParty;
+import com.cryptic.model.content.raids.theatreofblood.controller.RaidBuilder;
+import com.cryptic.model.content.raids.theatreofblood.controller.RaidController;
+import com.cryptic.model.content.raids.theatreofblood.party.RaidParty;
 import com.cryptic.model.content.raids.tombsofamascut.warden.builder.KephriPhantomBuilder;
 import com.cryptic.model.content.raids.tombsofamascut.warden.builder.WardenBuilder;
 import com.cryptic.model.content.raids.tombsofamascut.warden.builder.ZebakPhantomBuilder;

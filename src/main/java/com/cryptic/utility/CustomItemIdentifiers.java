@@ -25,4 +25,9 @@ public class CustomItemIdentifiers {
     public static final int KORASI_SWORD = 32001;
     public static final int LUCK_OF_THE_DWARVES = 30011;
     public static final int SEISMIC_WAND = 30010;
+
+    public static final int TWENTY_FIVE_DOLLAR_SCROLL = 2396;
+    public static final int FIFTY_DOLLAR_SCROLL = 607;
+    public static final int ONE_HUNDRED_DOLLAR_SCROLL = 608;
+    public static final int DONATOR_TICKET = 2996;
 }

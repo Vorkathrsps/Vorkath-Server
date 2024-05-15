@@ -811,10 +811,6 @@ public final class PacketSender {
             var tabamounts = player.getBank().tabAmounts.length;
             for (int index = 0; index < tabamounts; index++) {
                 var amount = player.getBank().tabAmounts[index];
-                if (player.getBank().tabAmounts == null) {
-                    out.put(0 >> 8).putShort(0);
-                    continue;
-                }
                 out.put(amount >> 8).putShort(amount & 0xFF);
             }
         }

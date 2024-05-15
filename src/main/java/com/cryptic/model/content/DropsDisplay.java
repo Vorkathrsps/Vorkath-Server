@@ -19,10 +19,14 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+
+import static com.cryptic.model.entity.npc.droptables.ItemDrops.ignored;
+import static com.cryptic.model.entity.npc.droptables.ItemDrops.isSkipped;
 
 /**
  * @author Origin
@@ -179,18 +183,21 @@ public class DropsDisplay {
             return true;
         }
         List<Integer[]> drops = new ArrayList<>();
-        for (ItemDrop item : dropTable.getAlwaysDrops()) {
-            Integer[] drop = new Integer[4];
-            drop[0] = ItemRepository.getItemId(item.getItem());
-            drop[1] = item.getMinimumAmount();
-            drop[2] = item.getMaximumAmount();
-            drop[3] = 1;
-            drops.add(drop);
+        if (dropTable.getAlwaysDrops() != null) {
+            for (ItemDrop item : dropTable.getAlwaysDrops()) {
+                Integer[] drop = new Integer[4];
+                drop[0] = ItemRepository.getItemId(item.getItem());
+                drop[1] = item.getMinimumAmount();
+                drop[2] = item.getMaximumAmount();
+                drop[3] = 1;
+                drops.add(drop);
+            }
         }
 
         for (ItemDrop item : dropTable.getDrops()) {
             Integer[] drop = new Integer[4];
             drop[0] = ItemRepository.getItemId(item.getItem());
+            if (isSkipped(drop[0])) continue;
             drop[1] = item.getMinimumAmount();
             drop[2] = item.getMaximumAmount();
             drop[3] = item.getChance();
@@ -199,8 +206,9 @@ public class DropsDisplay {
 
         for (int index = 0; index < drops.size(); index++) {
             Integer[] drop = drops.get(index);
-
             int itemId = drop[0];
+            if (isSkipped(itemId)) continue;
+
             int minAmount = drop[1];
             int maxAmount = drop[2];
             int average = drop[3];

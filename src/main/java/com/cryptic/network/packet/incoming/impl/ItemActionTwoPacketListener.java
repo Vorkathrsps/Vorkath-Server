@@ -1,7 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
-import com.cryptic.model.content.items.RottenPotato;
+import com.cryptic.model.content.items.interactions.RottenPotato;
 import com.cryptic.model.content.packet_actions.interactions.items.ItemActionTwo;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;

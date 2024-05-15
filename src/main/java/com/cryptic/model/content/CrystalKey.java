@@ -3,16 +3,15 @@ package com.cryptic.model.content;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.World;
+import com.cryptic.model.content.items.loot.CollectionItemHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
-import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.model.content.collection_logs.LogType.KEYS;
 import static com.cryptic.utility.ItemIdentifiers.CRYSTAL_KEY;
@@ -38,18 +37,9 @@ public class CrystalKey extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (object.getId() == 172 && option == 1) {
             if (player.inventory().contains(CRYSTAL_KEY)) {
-                player.inventory().remove(new Item(CRYSTAL_KEY));
-                player.message("You unlock the chest with your key.");
-                player.animate(536);
-                Chain.bound(null).runFn(1, () -> {
-                    GameObject old = new GameObject(172, object.tile(), object.getType(), object.getRotation());
-                    GameObject spawned = new GameObject(173, object.tile(), object.getType(), object.getRotation());
-                    ObjectManager.replace(old, spawned, 2);
-                    int roll = Utils.percentageChance(player.extraItemRollChance()) ? 2 : 1;
-                    for (int i = 0; i < roll; i++) {
-                        reward(player);
-                    }
-                });
+                if (CollectionItemHandler.rollKeyReward(player, ItemIdentifiers.CRYSTAL_KEY)) {
+                    return true;
+                }
             } else {
                 player.message("You need a crystal key to open this chest.");
             }
@@ -62,18 +52,9 @@ public class CrystalKey extends PacketInteraction {
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
         if (object.getId() == 172) {
             if (player.inventory().contains(CRYSTAL_KEY)) {
-                player.inventory().remove(new Item(CRYSTAL_KEY));
-                player.message("You unlock the chest with your key.");
-                player.animate(536);
-                Chain.bound(null).runFn(1, () -> {
-                    GameObject old = new GameObject(172, object.tile(), object.getType(), object.getRotation());
-                    GameObject spawned = new GameObject(173, object.tile(), object.getType(), object.getRotation());
-                    ObjectManager.replace(old, spawned, 2);
-                    int roll = Utils.percentageChance(player.extraItemRollChance()) ? 2 : 1;
-                    for (int i = 0; i < roll; i++) {
-                        reward(player);
-                    }
-                });
+                if (CollectionItemHandler.rollKeyReward(player, ItemIdentifiers.CRYSTAL_KEY)) {
+                    return true;
+                }
             } else {
                 player.message("You need a crystal key to open this chest.");
             }
@@ -108,7 +89,7 @@ public class CrystalKey extends PacketInteraction {
 
     private static void reward(Player player) {
         Item[] rewards = generateReward();
-        
+
         Item drop = null;
 
         for (Item item : rewards) {
@@ -117,9 +98,8 @@ public class CrystalKey extends PacketInteraction {
             drop = item;
         }
 
-        if(drop != null) {
-            //The user box test doesn't yell.
-            if(player.getUsername().equalsIgnoreCase("Box test")) {
+        if (drop != null) {
+            if (player.getUsername().equalsIgnoreCase("Box test")) {
                 return;
             }
             System.out.println(drop);

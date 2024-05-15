@@ -17,10 +17,10 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.Utils;
 import com.google.common.base.Objects;
 import org.apache.commons.lang.ArrayUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.cryptic.model.content.skill.impl.slayer.SlayerConstants.BONE_HUNTER;
@@ -31,7 +31,7 @@ public class ItemDrops {
     public static final int[] BONES = new int[]{ItemIdentifiers.BONES, BURNT_BONES, BAT_BONES, BIG_BONES, BABYDRAGON_BONES, DRAGON_BONES, JOGRE_BONES, ZOGRE_BONES, OURG_BONES, WYVERN_BONES, DAGANNOTH_BONES, LONG_BONE, CURVED_BONE, LAVA_DRAGON_BONES, SUPERIOR_DRAGON_BONES, WYRM_BONES, DRAKE_BONES, HYDRA_BONES};
     public static final int[] ASHES = new int[]{FIENDISH_ASHES, VILE_ASHES, MALICIOUS_ASHES, ABYSSAL_ASHES, INFERNAL_ASHES};
     public static final int[] ENSOULED_HEADS = new int[]{ENSOULED_ABYSSAL_HEAD, ENSOULED_ABYSSAL_HEAD_13508, ENSOULED_AVIANSIE_HEAD, ENSOULED_BEAR_HEAD, ENSOULED_AVIANSIE_HEAD_13505, ENSOULED_BEAR_HEAD_13463, ENSOULED_BLOODVELD_HEAD, ENSOULED_BLOODVELD_HEAD_13496, ENSOULED_CHAOS_DRUID_HEAD, ENSOULED_CHAOS_DRUID_HEAD_13472, ENSOULED_DAGANNOTH_HEAD, ENSOULED_DAGANNOTH_HEAD_13493, ENSOULED_DEMON_HEAD, ENSOULED_DEMON_HEAD_13502, ENSOULED_DRAGON_HEAD, ENSOULED_DRAGON_HEAD_13511, ENSOULED_ELF_HEAD, ENSOULED_ELF_HEAD_13481, ENSOULED_GIANT_HEAD, ENSOULED_GIANT_HEAD_13475, ENSOULED_GOBLIN_HEAD, ENSOULED_GOBLIN_HEAD_13448, ENSOULED_HELLHOUND_HEAD, ENSOULED_HELLHOUND_HEAD_26997, ENSOULED_DRAGON_HEAD_13511, ENSOULED_DRAGON_HEAD, ENSOULED_IMP_HEAD, ENSOULED_IMP_HEAD_13454, ENSOULED_KALPHITE_HEAD, ENSOULED_KALPHITE_HEAD_13490, ENSOULED_TZHAAR_HEAD, ENSOULED_TZHAAR_HEAD_13499, ENSOULED_UNICORN_HEAD, ENSOULED_UNICORN_HEAD_13466, ENSOULED_SCORPION_HEAD, ENSOULED_SCORPION_HEAD_13460, ENSOULED_OGRE_HEAD, ENSOULED_OGRE_HEAD_13478, ENSOULED_MINOTAUR_HEAD, ENSOULED_MINOTAUR_HEAD_13457, ENSOULED_HORROR_HEAD, ENSOULED_HORROR_HEAD_13487};
-
+    public static final int[] ignored = new int[]{ItemIdentifiers.SHIELD_LEFT_HALF, ItemIdentifiers.DRAGON_SPEAR, ItemIdentifiers.LOOP_HALF_OF_KEY, ItemIdentifiers.TOOTH_HALF_OF_KEY, ItemIdentifiers.RUNE_SPEAR, ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586, ItemIdentifiers.SLAYERS_ENCHANTMENT};
     public void rollTheDropTable(Player player, NPC npc) {
         int npcId = NpcDropRepository.getDropNpcId(npc.getId());
         NpcDropTable table = NpcDropRepository.forNPC(npcId);
@@ -43,21 +43,36 @@ public class ItemDrops {
                 LogType.BOSSES.log(player, npc.id(), item);
                 LogType.OTHER.log(player, npc.id(), item);
                 var drop = item.noted() ? item.unnote().note() : item;
-                if (skipLootingBag(player, drop)) continue;
+                if (isSkipped(drop.getId())) continue;
+                if (isSkipLootingBag(player, drop)) continue;
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
                 if (isUsingBoneHunter(player, drop)) drop = drop.note();
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
-                for (var i : table.getDrops()) {
-                    var parsedID = ItemRepository.getItemId(i.getItem());
-                    if (isRareDrop(player, npc, i, drop, parsedID)) break;
-                }
-                if (isUsingRingOfWealth(player, drop)) continue;
+                isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
+                if (isUsingRingOfWealth(player, drop)) continue;
+                rollKeyTable(player, tile);
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
+    }
+
+    void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
+        for (var i : table.getDrops()) {
+            var parsedID = ItemRepository.getItemId(i.getItem());
+            if (isRareDrop(player, npc, i, drop, parsedID)) break;
+        }
+    }
+
+    public static boolean isSkipped(int id) {
+        return ArrayUtils.contains(ignored, id);
+    }
+
+    void rollKeyTable(Player player, Tile tile) {
+        if (Utils.rollDie(500, 1)) GroundItemHandler.createGroundItem(new GroundItem(new Item(CRYSTAL_KEY, 1), tile, player));
+        if (Utils.rollDie(800, 1)) GroundItemHandler.createGroundItem(new GroundItem(new Item(ENHANCED_CRYSTAL_KEY, 1), tile, player));
     }
 
     final boolean isUsingLuckOfTheDwarves(Player player, Item drop) {
@@ -136,7 +151,7 @@ public class ItemDrops {
         return false;
     }
 
-    final boolean skipLootingBag(final Player player, final Item item) {
+    final boolean isSkipLootingBag(final Player player, final Item item) {
         return (player.getInventory().containsAny(ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586) || player.getBank().containsAny(ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586)) && item.getId() == ItemIdentifiers.LOOTING_BAG;
     }
 

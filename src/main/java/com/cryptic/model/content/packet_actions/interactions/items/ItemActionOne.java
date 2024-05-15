@@ -6,7 +6,7 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.consumables.FoodConsumable;
 import com.cryptic.model.content.consumables.potions.Potions;
 import com.cryptic.model.content.duel.DuelRule;
-import com.cryptic.model.content.items.RockCake;
+import com.cryptic.model.content.items.interactions.RockCake;
 import com.cryptic.model.content.items.tools.ItemPacks;
 import com.cryptic.model.content.skill.impl.herblore.Cleaning;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
@@ -178,15 +178,12 @@ public class ItemActionOne {
             return;
         }
 
-        if (player.getMysteryBox().open(item)) {
-            return;
-        }
-
         /* Looting bag. */
         if (id == 11941 || id == 22586) {
             player.getLootingBag().openAndCloseBag(id);
             return;
         }
+
         if (id == RUNE_POUCH) {
             player.getRunePouch().open(RUNE_POUCH);
             player.putAttrib(VIEWING_RUNE_POUCH_I, false);

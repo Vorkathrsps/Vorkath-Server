@@ -1,9 +1,9 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
 import com.cryptic.model.content.consumables.potions.Potions;
-import com.cryptic.model.content.items.combine.EldritchNightmareStaff;
-import com.cryptic.model.content.items.combine.HarmonisedNightmareStaff;
-import com.cryptic.model.content.items.combine.VolatileNightmareStaff;
+import com.cryptic.model.content.items.combinations.EldritchNightmareStaff;
+import com.cryptic.model.content.items.combinations.HarmonisedNightmareStaff;
+import com.cryptic.model.content.items.combinations.VolatileNightmareStaff;
 import com.cryptic.model.content.items.teleport.ArdyCape;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerRing;
 import com.cryptic.model.entity.player.Player;

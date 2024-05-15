@@ -1,6 +1,6 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.model.content.items.RottenPotato;
+import com.cryptic.model.content.items.interactions.RottenPotato;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;

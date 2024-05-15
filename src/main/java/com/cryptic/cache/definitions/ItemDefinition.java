@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 import static com.cryptic.utility.CustomItemIdentifiers.*;
+import static com.cryptic.utility.CustomItemIdentifiers.DONATOR_TICKET;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -44,6 +45,7 @@ public class ItemDefinition implements Definition {
     public Map<Integer, Object> params = new HashMap<>();
     public int resizez;
     public int category;
+    public String description = "null";
     public short[] recol_s;
     public short[] recol_d;
     public String name = "null";
@@ -178,6 +180,9 @@ public class ItemDefinition implements Definition {
                 name = "Seismic Wand";
                 ioptions = new String[]{null, "Wear", null, null, "Drop"};
             }
+            case TWENTY_FIVE_DOLLAR_SCROLL -> name = "$25 Scroll";
+            case FIFTY_DOLLAR_SCROLL -> name = "$50 Scroll";
+            case ONE_HUNDRED_DOLLAR_SCROLL -> name = "$100 Scroll";
         }
 
         if (id == DHAROKS_ARMOUR_SET || id == KARILS_ARMOUR_SET || id == GUTHANS_ARMOUR_SET || id == AHRIMS_ARMOUR_SET || id == VERACS_ARMOUR_SET) {
@@ -199,7 +204,7 @@ public class ItemDefinition implements Definition {
         } else if (opcode == 2) {
             name = stream.readJagexString();
         } else if (opcode == 3) {
-            stream.readJagexString();
+            description = stream.readJagexString();
         } else if (opcode == 4) {
             zoom2d = stream.readUShort();
         } else if (opcode == 5) {

@@ -1,7 +1,7 @@
 package com.cryptic.model.content.raids.tombsofamascut.warden.builder;
 
 import com.cryptic.model.content.instance.InstancedArea;
-import com.cryptic.model.content.raids.theatre.controller.RaidBuilder;
+import com.cryptic.model.content.raids.theatreofblood.controller.RaidBuilder;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.raids.tombsofamascut.warden.npcs.KephriNPC;
 import com.cryptic.model.entity.masks.Direction;

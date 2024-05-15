@@ -1529,14 +1529,12 @@ public class CombatFactory {
         boolean tonzaltics = rangedWeapon.getType() == RangedWeaponType.TONALZTICS;
         boolean ballista = rangedWeapon.getType() == RangedWeaponType.BALLISTA;
 
-        if (!blowpipe && !cryBow && !bowOfFaerdhinen && !starterbow && !crawsBow && !webWeaverBow && !targ_is_dummy) {
+        if (!blowpipe && !cryBow && !bowOfFaerdhinen && !starterbow && !crawsBow && !tonzaltics && !webWeaverBow && !targ_is_dummy) {
 
-            // Determine which slot we are decrementing ammo from.
-            int equipSlot = (chins || darts || knifes || axes || tonzaltics) ? EquipSlot.WEAPON : EquipSlot.AMMO;
+            int equipSlot = chins || darts || knifes || axes ? EquipSlot.WEAPON : EquipSlot.AMMO;
 
             Item ammo = player.getEquipment().get(equipSlot);
 
-            // chins & javelins always lost. darts and ammo slot can be saved!
             boolean remove = (chins || ballista) || Equipment.notAvas(player);
 
             if (remove && ammo != null) {

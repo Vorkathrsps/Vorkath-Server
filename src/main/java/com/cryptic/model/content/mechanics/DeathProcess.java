@@ -7,7 +7,7 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
-import com.cryptic.model.content.raids.theatre.controller.TheatreDeath;
+import com.cryptic.model.content.raids.theatreofblood.controller.TheatreDeath;
 import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 

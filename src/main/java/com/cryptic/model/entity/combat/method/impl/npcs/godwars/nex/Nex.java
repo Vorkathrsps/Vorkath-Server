@@ -104,6 +104,7 @@ public class Nex extends NPC {
                 animate(9179);
                 graphic(2016);
             }).then(3, () -> {
+                this.transmog(11280, false);
                 phase.setStage(PhaseStage.FIVE);
                 getCombat().delayAttack(1);
                 healHit(this, 500);

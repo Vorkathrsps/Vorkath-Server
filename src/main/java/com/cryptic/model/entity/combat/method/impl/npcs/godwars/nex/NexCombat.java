@@ -20,13 +20,10 @@ import com.cryptic.model.entity.masks.impl.tinting.Tinting;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.NPCCombatInfo;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
+import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.items.Item;
-import com.cryptic.model.items.ground.GroundItem;
-import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -47,7 +44,6 @@ import java.util.stream.Collectors;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.BLOOD_REAVER;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NEX_11282;
-import static com.cryptic.model.content.collection_logs.LogType.BOSSES;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 import static com.cryptic.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
@@ -86,7 +82,7 @@ public class NexCombat extends CommonCombatMethod {
     @Getter
     @Setter
     public static AtomicBoolean darknessTickBoolean = new AtomicBoolean(false);
-
+    Map<Player, Integer> damageMap = new HashMap<>();
     @Override
     public void init(NPC npc) {
         npc.clearAttrib(SMOKE_PHASE_INITIATED);
@@ -106,12 +102,12 @@ public class NexCombat extends CommonCombatMethod {
             if (npc.locked()) { // still in setup phase. wait till all minions spawned
                 return;
             }
-            if (World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0) {
+            if (World.getWorld().getPlayers().stream().filter(Objects::nonNull).noneMatch(NEX_AREA::contains)) {
                 ZarosGodwars.clear();
                 t.stop();
             }
         });
-        npc.getCombatInfo().scripts.agro_ = (n, p) -> NEX_AREA.contains(p);
+        npc.getCombatInfo().scripts.agro_ = (_, p) -> NEX_AREA.contains(p);
     }
 
     public int lastAttack;
@@ -122,7 +118,6 @@ public class NexCombat extends CommonCombatMethod {
             return false;
         }
 
-        //Only kneels down during this attack
         if (nex.doingSiphon) {
             return false;
         }
@@ -151,7 +146,7 @@ public class NexCombat extends CommonCombatMethod {
                 } else {
                     smokeRush();
                 }
-               // drag(nex);
+                // drag(nex);
             }
             case TWO -> {
                 if (nex.darkenScreen.get()) {
@@ -316,7 +311,7 @@ public class NexCombat extends CommonCombatMethod {
             nex.forceChat("A siphon will solve this!");
             nex.animate(BLOOD_SIPHON_ANIM);
             nex.doingSiphon = true;
-            int maxMinions = Math.min(9 - nex.bloodReavers.size(), Arrays.stream(nex.closePlayers()).filter(p -> NEX_AREA.contains(p)).toArray().length); // one per player
+            int maxMinions = Math.min(9 - nex.bloodReavers.size(), Arrays.stream(nex.closePlayers()).filter(NEX_AREA::contains).toArray().length); // one per player
             if (maxMinions > 8) {
                 maxMinions = 8;
             }
@@ -785,13 +780,6 @@ public class NexCombat extends CommonCombatMethod {
         incrementDamageMap(hit, hit.getSource(), target);
     }
 
-    final void incrementDamageMap(Hit hit, Entity source, Entity target) {
-        if (source instanceof Player player && target instanceof NPC) {
-            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
-            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
-        }
-    }
-
     @Override
     public void preDefend(Hit hit) {
         if (hit.getTarget().isNpc() && hit.getSource().isPlayer()) {
@@ -833,7 +821,6 @@ public class NexCombat extends CommonCombatMethod {
         }
     }
 
-    Map<Player, Integer> damageMap = new HashMap<>();
     @Override
     public boolean customOnDeath(Hit hit) {
         var nex = (Nex) hit.getTarget();
@@ -881,7 +868,7 @@ public class NexCombat extends CommonCombatMethod {
                 });
                 new GameObject(42967, new Tile(2909, 5202, 0), 10, 1).spawn(); // spawn purple
                 drop();
-                //Respawn nex
+
             }).then(20, ZarosGodwars::startEvent);
         }
         return true;
@@ -903,23 +890,26 @@ public class NexCombat extends CommonCombatMethod {
             var key = e.getKey();
             Player player = (Player) key;
             if (nex.tile().isWithinDistance(player.tile(), 12)) {
-                //Random drop from the table
-                ScalarLootTable table = ScalarLootTable.forNPC(nex.id());
-                if (table != null) {
-
-                    Item reward = table.randomItem(World.getWorld().random());
-                    if (reward != null) {
-
-                        // bosses, find npc ID, find item ID
-                        BOSSES.log(player, nex.id(), reward);
-
-                        GroundItemHandler.createGroundItem(new GroundItem(reward, player.tile(), player));
-
-                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " with display name " + player.getDisplayName() + " got drop item " + reward, "npcdrops");
-                    }
-                }
+                ItemDrops drop = new ItemDrops();
+                drop.rollTheDropTable(player, nex);
             }
         });
+    }
+
+    final void incrementDamageMap(Hit hit, Entity source, Entity target) {
+        if (source instanceof Player player && target instanceof NPC) {
+            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
+            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
+        }
+    }
+
+    final void computeDropTable(NPC npc, ItemDrops drops) {
+        for (var entry : damageMap.entrySet()) {
+            var player = entry.getKey();
+            var damage = entry.getValue();
+            if (player == null || damage < 100) continue;
+            drops.rollTheDropTable(player, npc);
+        }
     }
 
     @Override

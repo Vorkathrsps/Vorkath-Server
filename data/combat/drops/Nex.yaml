@@ -12,6 +12,12 @@ alwaysDrops:
     chance: 1
     rareDrop: false
     sendToBank: false
+  - item: COINS_995
+    minimumAmount: 125000
+    maximumAmount: 175000
+    chance: 1
+    rareDrop: false
+    sendToBank: false
 drops:
   - item: ZARYTE_VAMBRACES
     minimumAmount: 1

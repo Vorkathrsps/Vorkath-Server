@@ -334,7 +334,6 @@ public class DukeCombat extends CommonCombatMethod {
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
         return 64;
-
     }
 
     @Override

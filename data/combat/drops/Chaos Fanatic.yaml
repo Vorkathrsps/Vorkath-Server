@@ -70,7 +70,7 @@ drops:
   chance: 5
   rareDrop: false
   sendToBank: false
-- item: ODIUM_SHARD_1
+- item: ODIUM_WARD
   minimumAmount: 1
   maximumAmount: 1
   chance: 85
@@ -118,7 +118,7 @@ drops:
   chance: 21
   rareDrop: false
   sendToBank: false
-- item: MALEDICTION_SHARD_1
+- item: MALEDICTION_WARD
   minimumAmount: 1
   maximumAmount: 1
   chance: 85

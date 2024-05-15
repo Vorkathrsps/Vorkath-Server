@@ -414,6 +414,10 @@ public class Player extends Entity {
             percent += 0.05;
         }
 
+        if (this.getEquipment().contains(CustomItemIdentifiers.LUCK_OF_THE_DWARVES)) {
+            percent += 0.10;
+        }
+
         return percent;
     }
 

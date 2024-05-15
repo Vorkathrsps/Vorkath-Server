@@ -209,19 +209,6 @@ public class NPCDeath {
                     killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
                 }
 
-                if (npc.id() == ANCIENT_KING_BLACK_DRAGON) {
-                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
-                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
-                    killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-                    if (!npc.ancientSpawn()) {
-                        Chain.bound(null).runFn(30, () -> {
-                            var kingBlackDragon = new NPC(KING_BLACK_DRAGON, npc.spawnTile());
-                            World.getWorld().getNpcs().add(kingBlackDragon);
-                        });
-                    }
-                }
-
                 if (npc.def().name.equalsIgnoreCase("Lizardman shaman")) {
                     killer.getTaskMasterManager().increase(Tasks.LIZARDMAN_SHAMAN);
                 }

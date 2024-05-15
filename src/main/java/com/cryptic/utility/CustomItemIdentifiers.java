@@ -23,4 +23,6 @@ public class CustomItemIdentifiers {
     public static final int TOKHAAR_KAL = 30276;
     public static final int COMP_CAPE = 30000;
     public static final int KORASI_SWORD = 32001;
+    public static final int LUCK_OF_THE_DWARVES = 30011;
+    public static final int SEISMIC_WAND = 30010;
 }

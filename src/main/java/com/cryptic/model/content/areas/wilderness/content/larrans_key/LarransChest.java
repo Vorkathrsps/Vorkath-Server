@@ -3,6 +3,7 @@ package com.cryptic.model.content.areas.wilderness.content.larrans_key;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.World;
+import com.cryptic.model.content.items.boxes.CollectionItemHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -29,7 +30,9 @@ public class LarransChest extends PacketInteraction {
                 return true;
             }
             if (player.inventory().contains(ItemIdentifiers.LARRANS_KEY)) {
-                open(player, ItemIdentifiers.LARRANS_KEY);
+                if (CollectionItemHandler.rollKeyReward(player, ItemIdentifiers.LARRANS_KEY)) {
+                    return true;
+                }
             }
             return true;
         }

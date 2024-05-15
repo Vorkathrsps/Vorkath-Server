@@ -7,11 +7,11 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.CustomNpcIdentifiers;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.utility.Utils;
+import lombok.Getter;
 
 import java.util.Arrays;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.BOSS_POINTS;
-import static com.cryptic.utility.CustomNpcIdentifiers.*;
 
 /**
  * @author Origin | Zerikoth | PVE
@@ -59,12 +59,10 @@ public class BossKillLog {
 
     private static final int STARTING_NAME_LINE = 46321;
 
+    @Getter
     public enum Bosses {
 
         NEX("Nex", 4, AttributeKey.NEX_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.NEX),
-        DERANGED_ARCHAEOLOGIST("Deranged archaeologist",2, AttributeKey.DERANGED_ARCHAEOLOGIST_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.DERANGED_ARCHAEOLOGIST),
-        LAVA_BEAST("Lava beast",1, AttributeKey.LAVA_BEASTS_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.LAVA_BEAST),
-        ELVARG("Elvarg",4, AttributeKey.ELVARGS_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.ELVARG_HARD),
         KREE_ARRA("Kree'Arra",2, AttributeKey.KREE_ARRA_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.KREEARRA),
         COMMANDER_ZILYANA("Commander Zilyana",2, AttributeKey.COMMANDER_ZILYANA_KILLED, 0, STARTING_NAME_LINE + 6, NpcIdentifiers.COMMANDER_ZILYANA),
         GENERAL_GRAARDOR("General Graardor",2, AttributeKey.GENERAL_GRAARDOR_KILLED, 0, STARTING_NAME_LINE + (6 * 2), NpcIdentifiers.GENERAL_GRAARDOR),
@@ -108,20 +106,9 @@ public class BossKillLog {
         ZOMBIES_CHAMPION("Zombies Champion",5, AttributeKey.ZOMBIES_CHAMPIONS_KILLED, 0, STARTING_NAME_LINE + (6 * 40), NpcIdentifiers.ZOMBIES_CHAMPION),
         LIZARDMAN_SHAMAN("Lizardman Shaman",2, AttributeKey.LIZARDMAN_SHAMANS_KILLED, 0, STARTING_NAME_LINE + (6 * 41), NpcIdentifiers.LIZARDMAN_SHAMAN, NpcIdentifiers.LIZARDMAN_SHAMAN_6767),
         BARRELCHEST("Barrelchest",2, AttributeKey.BARRELCHESTS_KILLED,0,STARTING_NAME_LINE + (6 * 42), NpcIdentifiers.BARRELCHEST_6342),
-        ARAGOG("Aragog",5, AttributeKey.KC_ARAGOG,0,STARTING_NAME_LINE + (6 * 43), CustomNpcIdentifiers.ARAGOG),
-        BRUTAL_LAVA_DRAGON("Brutal Lava Dragon",5, AttributeKey.BRUTAL_LAVA_DRAGONS_KILLED, 0, STARTING_NAME_LINE + (6 * 44), BRUTAL_LAVA_DRAGON_FLYING),
-        ANCIENT_BARRELCHEST("Ancient Barrelchest",4, AttributeKey.ANCIENT_BARRELCHESTS_KILLED, 0, STARTING_NAME_LINE + (6 * 50), CustomNpcIdentifiers.ANCIENT_BARRELCHEST),
-        ANCIENT_CHAOS_ELEMENTAL("Ancient Chaos Elemental",4, AttributeKey.ANCIENT_CHAOS_ELEMENTALS_KILLED, 0, STARTING_NAME_LINE + (6 * 51), CustomNpcIdentifiers.ANCIENT_CHAOS_ELEMENTAL),
-        ANCIENT_KING_BLACK_DRAGON("Ancient King Black Dragon",2, AttributeKey.ANCIENT_KING_BLACK_DRAGONS_KILLED, 0, STARTING_NAME_LINE + (6 * 52), CustomNpcIdentifiers.ANCIENT_KING_BLACK_DRAGON),
-        ANCIENT_REVENANT("Ancient Revenants",1, AttributeKey.ANCIENT_REVENANTS_KILLED, 0, STARTING_NAME_LINE + (6 * 53), ANCIENT_REVENANT_DARK_BEAST, ANCIENT_REVENANT_ORK, ANCIENT_REVENANT_CYCLOPS, ANCIENT_REVENANT_DRAGON, ANCIENT_REVENANT_KNIGHT),
-        KERBEROS("Kerberos",1, AttributeKey.KERBEROS_KILLED, 0, STARTING_NAME_LINE + (6 * 54), CustomNpcIdentifiers.KERBEROS),
-        ARACHNE("Arachne",1, AttributeKey.ARACHNE_KILLED, 0, STARTING_NAME_LINE + (6 * 55), CustomNpcIdentifiers.ARACHNE),
-        SKORPIOS("Skorpios",1, AttributeKey.SKORPIOS_KILLED, 0, STARTING_NAME_LINE + (6 * 56), CustomNpcIdentifiers.SKORPIOS),
-        ARTIO("Artio",1, AttributeKey.ARTIO_KILLED, 0, STARTING_NAME_LINE + (6 * 57), CustomNpcIdentifiers.ARTIO),
-        SEREN("Seren",3, AttributeKey.SEREN_KILLED, 0, STARTING_NAME_LINE + (6 * 57), NpcIdentifiers.FRAGMENT_OF_SEREN),
         DEMONIC_GORILLA("Demonic gorillas", 2, AttributeKey.DEMONIC_GORILLAS_KILLED,0, STARTING_NAME_LINE + (6 * 58), NpcIdentifiers.DEMONIC_GORILLA, NpcIdentifiers.DEMONIC_GORILLA_7145, NpcIdentifiers.DEMONIC_GORILLA_7146, NpcIdentifiers.DEMONIC_GORILLA_7147, NpcIdentifiers.DEMONIC_GORILLA_7148, NpcIdentifiers.DEMONIC_GORILLA_7149),
         THE_NIGHTMARE("The nightmare", 15, AttributeKey.THE_NIGHTMARE_KC,0, STARTING_NAME_LINE + (6 * 59), NpcIdentifiers.THE_NIGHTMARE_9430),
-        CORRUPTED_HUNLEFFS("Corrupted Hunleff", 15, AttributeKey.CORRUPTED_HUNLEFFS_KILLED,0, STARTING_NAME_LINE + (6 * 59), NpcIdentifiers.CORRUPTED_HUNLLEF, NpcIdentifiers.CORRUPTED_HUNLLEF_9036, NpcIdentifiers.CORRUPTED_HUNLLEF_9037)
+        DUKE_SUCELLUS("Duke Sucellus", 5, AttributeKey.DUKE_KILLED,0, STARTING_NAME_LINE + (6 * 60), 12166, 12167, 12191, 12192, 12193, 12194, 12195, 12196)
         ;
 
         private final String name;
@@ -140,29 +127,6 @@ public class BossKillLog {
             this.npcs = npcs;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public int getPoints() {
-            return points;
-        }
-
-        public AttributeKey getKc() {
-            return kc;
-        }
-
-        public int getStreak() {
-            return streak;
-        }
-
-        public int getStartLine() {
-            return startLine;
-        }
-
-        public int[] getNpcs() {
-            return npcs;
-        }
     }
 
     public void openLog() {

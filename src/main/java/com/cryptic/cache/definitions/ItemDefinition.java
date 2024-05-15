@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static com.cryptic.utility.CustomItemIdentifiers.KORASI_SWORD;
+import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -169,6 +169,14 @@ public class ItemDefinition implements Definition {
             }
             case SCROLL_OF_REDIRECTION -> {
                 name = "Scroll Of Imbuement";
+            }
+            case LUCK_OF_THE_DWARVES -> {
+                name = "Luck Of The Dwarves";
+                ioptions = new String[]{null, "Wear", null, null, "Drop"};
+            }
+            case SEISMIC_WAND -> {
+                name = "Seismic Wand";
+                ioptions = new String[]{null, "Wear", null, null, "Drop"};
             }
         }
 

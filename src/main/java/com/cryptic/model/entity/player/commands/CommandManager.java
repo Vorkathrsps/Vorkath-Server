@@ -706,10 +706,7 @@ public class CommandManager {
 
         dev("or", (p, c, s) ->
         {
-            for (var o : p.getMuspahInstance().spikes) {
-                System.out.println("removing: " + o.getId());
-                o.remove();
-            }
+            p.getBossKillLog().openLog();
         });
 
         dev("cc", (p, c, s) ->

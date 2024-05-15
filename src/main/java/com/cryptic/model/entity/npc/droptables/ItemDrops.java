@@ -15,6 +15,7 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import com.google.common.base.Objects;
 import org.apache.commons.lang.ArrayUtils;
@@ -53,12 +54,23 @@ public class ItemDrops {
                     if (isRareDrop(player, npc, i, drop, parsedID)) break;
                 }
                 if (isUsingRingOfWealth(player, drop)) continue;
+                if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
     }
 
-    private static boolean isUsingRingOfWealth(Player player, Item drop) {
+    final boolean isUsingLuckOfTheDwarves(Player player, Item drop) {
+        if (player.getEquipment().contains(CustomItemIdentifiers.LUCK_OF_THE_DWARVES)) {
+            if (!player.getInventory().isFull()) {
+                player.getInventory().add(drop, drop.getAmount());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    final boolean isUsingRingOfWealth(Player player, Item drop) {
         if (player.getEquipment().contains(RING_OF_WEALTH_I) && !player.getInventory().isFull()) {
             if (drop.getId() == COINS_995) {
                 player.getInventory().add(drop, drop.getAmount());
@@ -68,15 +80,15 @@ public class ItemDrops {
         return false;
     }
 
-    private static boolean isMembersNotedDragonhide(Player player, Item drop) {
+    final boolean isMembersNotedDragonhide(Player player, Item drop) {
         return player.getMemberRights().isEliteMemberOrGreater(player) && drop.name().contains("dragonhide");
     }
 
-    private boolean isUsingBoneHunter(Player player, Item drop) {
+    final boolean isUsingBoneHunter(Player player, Item drop) {
         return player.getSlayerRewards().getUnlocks().containsKey(BONE_HUNTER) && ArrayUtils.contains(BONES, drop.getId()) && !isUsingDevotionSigil(player, drop);
     }
 
-    private boolean isUsingSoulBearer(Player player, Item drop) {
+    final boolean isUsingSoulBearer(Player player, Item drop) {
         if (player.getInventory().contains(SOUL_BEARER)) {
             if (ArrayUtils.contains(ENSOULED_HEADS, drop.getId())) {
                 player.getBank().add(drop.getId());
@@ -86,11 +98,11 @@ public class ItemDrops {
         return false;
     }
 
-    private boolean isRareDrop(Player player, NPC npc, ItemDrop i, Item drop, int parsedID) {
+    final boolean isRareDrop(Player player, NPC npc, ItemDrop i, Item drop, int parsedID) {
         if (i.isRareDrop() && drop.getId() == parsedID) {
             var inWild = WildernessArea.inWilderness(player.tile());
             var level = WildernessArea.getWildernessLevel(player.tile());
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a " + drop.name() + " from a " + npc.getMobName() + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
+            World.getWorld().sendWorldMessage("<img=2010> " + Color.YELLOW.wrap("<shad=0>" + player.getUsername() + " has received a " + Color.BURNTORANGE.wrap(drop.name()) + " from a " + Color.BURNTORANGE.wrap(npc.getMobName()) + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
             return true;
         }
         return false;

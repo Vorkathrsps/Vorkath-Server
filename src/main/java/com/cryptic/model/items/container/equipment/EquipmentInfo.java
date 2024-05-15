@@ -268,6 +268,8 @@ public class EquipmentInfo {
                 case TUMEKENS_SHADOW:
                 case CORRUPTED_TUMEKENS_SHADOW:
                     return 9493;
+                case TONALZTICS_OF_RALOS:
+                    return 10923;
                 case 12924: // Toxic blowpipe
                 case TOXIC_BLOWPIPE: // Toxic blowpipe
                     return 5061;

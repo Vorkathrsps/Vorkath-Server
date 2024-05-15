@@ -124,14 +124,16 @@ public class Appearance {
             if (slot == null) continue;
             var equipmentId = slot.getId();
             ItemDefinition def = ItemDefinition.cached.get(equipmentId);
-            if (def.wearPos2 != -1) {
-                if (!skippedSlots.contains(def.wearPos2)) {
-                    skippedSlots.add(def.wearPos2);
+            if (def != null) {
+                if (def.wearPos2 != -1) {
+                    if (!skippedSlots.contains(def.wearPos2)) {
+                        skippedSlots.add(def.wearPos2);
+                    }
                 }
-            }
-            if (def.wearPos3 != -1) {
-                if (!skippedSlots.contains(def.wearPos3)) {
-                    skippedSlots.add(def.wearPos3);
+                if (def.wearPos3 != -1) {
+                    if (!skippedSlots.contains(def.wearPos3)) {
+                        skippedSlots.add(def.wearPos3);
+                    }
                 }
             }
         }

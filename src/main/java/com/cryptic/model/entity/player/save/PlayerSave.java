@@ -427,6 +427,11 @@ PlayerSave {
             player.putAttrib(AttributeKey.ANCIENT_REVENANTS_LOG_CLAIMED, details.ancientRevenantsLogClaimed);
             player.putAttrib(AttributeKey.CHAMBER_OF_SECRETS_LOG_CLAIMED, details.chamberOfSecretsLogClaimed);
             player.putAttrib(AttributeKey.REVENANTS_LOG_CLAIMED, details.revenantsLogClaimed);
+            player.putAttrib(AttributeKey.DUKE_LOG_CLAIMED, details.dukeLogClaimed);
+            player.putAttrib(AttributeKey.KRIL_LOG_CLAIMED, details.krilLogClaimed);
+            player.putAttrib(AttributeKey.NEX_LOG_CLAIMED, details.nexLogClaimed);
+            player.putAttrib(AttributeKey.KREE_ARRA_LOG_CLAIMED, details.kreeLogClaimed);
+            player.putAttrib(AttributeKey.GENERAL_GRAARDOR_LOG_CLAIMED, details.graardorLogClaimed);
             player.putAttrib(AttributeKey.SLAYER_LOG_CLAIMED, details.slayerLogClaimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_1_CLAIMED, details.eventReward1Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_2_CLAIMED, details.eventReward2Claimed);
@@ -679,6 +684,11 @@ PlayerSave {
         private final boolean ancientRevenantsLogClaimed;
         private final boolean chamberOfSecretsLogClaimed;
         private final boolean revenantsLogClaimed;
+        private final boolean dukeLogClaimed;
+        private final boolean krilLogClaimed;
+        private final boolean nexLogClaimed;
+        private final boolean graardorLogClaimed;
+        private final boolean kreeLogClaimed;
         private final boolean slayerLogClaimed;
         private final boolean eventReward1Claimed;
         private final boolean eventReward2Claimed;
@@ -900,6 +910,11 @@ PlayerSave {
             ancientRevenantsLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.ANCIENT_REVENANTS_LOG_CLAIMED, false);
             chamberOfSecretsLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.CHAMBER_OF_SECRETS_LOG_CLAIMED, false);
             revenantsLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.REVENANTS_LOG_CLAIMED, false);
+            dukeLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.DUKE_LOG_CLAIMED, false);
+            krilLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.KRIL_LOG_CLAIMED, false);
+            nexLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.NEX_LOG_CLAIMED, false);
+            kreeLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.KREE_ARRA_LOG_CLAIMED, false);
+            graardorLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.GENERAL_GRAARDOR_LOG_CLAIMED, false);
             slayerLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.SLAYER_LOG_CLAIMED, false);
 
             eventReward1Claimed = Player.getAttribBooleanOr(player, AttributeKey.EVENT_REWARD_1_CLAIMED, false);

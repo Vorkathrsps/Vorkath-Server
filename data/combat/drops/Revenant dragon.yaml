@@ -14,7 +14,7 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 2666
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ANCIENT_EFFIGY
   minimumAmount: 1
@@ -206,7 +206,7 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 5000
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ONYX_BOLT_TIPS
   minimumAmount: 2
@@ -254,24 +254,24 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 444
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ANCIENT_TOTEM
   minimumAmount: 1
   maximumAmount: 1
   chance: 666
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ANCIENT_STATUETTE
   minimumAmount: 1
   maximumAmount: 1
   chance: 1333
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ANCIENT_CRYSTAL
   minimumAmount: 1
   maximumAmount: 1
   chance: 888
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 rolls: 1

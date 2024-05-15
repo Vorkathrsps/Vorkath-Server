@@ -34,7 +34,7 @@ import java.util.*;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 public class RangedCombatMethod extends CommonCombatMethod {
-    public static final int[] immune_to_range = new int[]{NYLOCAS_HAGIOS, NYLOCAS_HAGIOS_8347, NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355, 7145};
+    public static final int[] immune_to_range = new int[]{NYLOCAS_HAGIOS, NYLOCAS_HAGIOS_8347, NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355, 7145, KALPHITE_QUEEN_6500};
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {
@@ -65,6 +65,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             int startHeight = 0;
             int startSpeed = 0;
             int curve = 0;
+            int lengthAdjustment = 0;
             var graphic = -1;
             var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
             var ammoId = player.getEquipment().getId(EquipSlot.AMMO);
@@ -91,14 +92,21 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 }
                 case THROWN -> {
                     if (drawBackKnife != null) {
-                        target.performGraphic(new Graphic(drawBackKnife.gfx, GraphicHeight.HIGH, 0));
+                        GraphicHeight height = drawBackKnife.graphicHeight != null ? drawBackKnife.graphicHeight : GraphicHeight.HIGH;
+                        attacker.performGraphic(new Graphic(drawBackKnife.gfx, height, 0));
                         graphic = drawBackKnife.projectile;
                         startSpeed = drawBackKnife.startSpeed;
                         startHeight = drawBackKnife.startHeight;
                         endHeight = drawBackKnife.endHeight;
                         stepMultiplier = drawBackKnife.stepMultiplier;
-                        curve = 15;
-                        duration = startSpeed + 11 + (stepMultiplier * distance);
+                        if (player.getEquipment().contains(ItemIdentifiers.TONALZTICS_OF_RALOS)) {
+                            curve = 255;
+                            lengthAdjustment = 16;
+                        } else {
+                            curve = 15;
+                            lengthAdjustment = 11;
+                        }
+                        duration = startSpeed + lengthAdjustment + (stepMultiplier * distance);
                     }
                 }
                 case CROSSBOW -> {
@@ -184,11 +192,13 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 final int hitDelay = attacker.executeProjectile(projectile);
                 Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
-                if (sound != null) player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                if (sound != null)
+                    player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
                 checkKarilsSetEffect(target, player, hitDelay, hit);
                 checkVenatorBow(attacker, target, player, hit);
+                checkTonalztics(attacker, target, player, distance, projectile, hitDelay);
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
@@ -208,7 +218,20 @@ public class RangedCombatMethod extends CommonCombatMethod {
         return true;
     }
 
-    private void checkKarilsSetEffect(Entity target, Player player, int hitDelay, Hit hit) {
+    void checkTonalztics(Entity attacker, Entity target, Player player, int distance, Projectile projectile, int hitDelay) {
+        if (player.getEquipment().contains(ItemIdentifiers.TONALZTICS_OF_RALOS)) {
+            int ricochetDuration = (projectile.getSpeed() + 42) + 16 + (distance * 2);
+            target.setGraphics(List.of(
+                new Graphic(2732, GraphicHeight.HIGH, projectile.getSpeed()),
+                new Graphic(2732, GraphicHeight.HIGH, projectile.getSpeed() + 30)
+            ));
+            Projectile p = new Projectile(target, attacker, 2729, projectile.getSpeed() + 42, ricochetDuration, 36, 30, 255, target.getSize(), 2);
+            target.executeProjectile(p);
+            new Hit(entity, target, hitDelay, CombatType.RANGED).checkAccuracy(true).submit();
+        }
+    }
+
+    void checkKarilsSetEffect(Entity target, Player player, int hitDelay, Hit hit) {
         if (FormulaUtils.wearingFullKarils(player) && FormulaUtils.wearingAmuletOfDamned(player)) {
             if (Utils.rollDie(25, 1)) {
                 new Hit(entity, target, hitDelay, CombatType.RANGED).checkAccuracy(false).setDamage(hit.getDamage() / 2).submit();
@@ -216,14 +239,14 @@ public class RangedCombatMethod extends CommonCombatMethod {
         }
     }
 
-    private static void checkVenatorBow(Entity attacker, Entity target, Player player, Hit hit) {
+    void checkVenatorBow(Entity attacker, Entity target, Player player, Hit hit) {
         if (player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) && MultiwayCombat.includes(target.tile())) {
             player.sendPrivateSound(6797);
             hit.postDamage(_ -> sendBouncingArrows(attacker, target));
         }
     }
 
-    private static void sendBouncingArrows(Entity attacker, Entity originalTarget) {
+    void sendBouncingArrows(Entity attacker, Entity originalTarget) {
         final Entity original = originalTarget;
         Area area = original.getCentrePosition().area(original.getSize()).enlarge(2);
         final Region region = original.tile().getRegion();
@@ -269,7 +292,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
     }
 
     @NotNull
-    private static Result getResult(Entity attacker, Entity target, Region region, Area area) {
+    Result getResult(Entity attacker, Entity target, Region region, Area area) {
         Set<Entity> temp = new HashSet<>();
 
         var cached = NpcDefinition.cached;
@@ -294,8 +317,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
     private record Result(Set<Entity> temp, OptionalInt closestToPoint) {
     }
 
-
-    private boolean isImmune(Entity target, Hit hit) {
+    boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_range, npc.id())) {
                 hit.checkAccuracy(false).block().submit();

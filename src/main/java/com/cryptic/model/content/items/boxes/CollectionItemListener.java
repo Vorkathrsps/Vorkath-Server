@@ -5,39 +5,27 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
-import com.cryptic.utility.chainedwork.Chain;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface MysteryBoxListener {
-    @NotNull MysteryBoxItem[] rewards();
+public interface CollectionItemListener {
+    @NotNull CollectionItem[] rewards();
     String name();
     int id();
     boolean isItem(int id);
     AttributeKey key();
     LogType logType();
-    default void openKey(Player player, GameObject object, int oldId, int newId) {
-        player.lock();
+    default void openKey(Player player) {
         player.animate(536);
         player.getInventory().remove(this.id());
         int increment = player.<Integer>getAttribOr(this.key(), 0) + 1;
         Item reward = null;
         reward = getSelectedItem(reward);
-        Chain.bound(null).runFn(1, () -> {
-            if (object != null) {
-                GameObject oldObject = new GameObject(oldId, object.tile(), object.getType(), object.getRotation());
-                GameObject newObject = new GameObject(newId, object.tile(), object.getType(), object.getRotation());
-                ObjectManager.replace(oldObject, newObject, 2);
-            }
-            player.unlock();
-        });
         boolean isRare = false;
         for (var i : rewards()) {
             if (i.isRare && i.id == reward.getId()) {
@@ -51,7 +39,7 @@ public interface MysteryBoxListener {
         String name = reward.name();
         if (reward.noted()) name = reward.unnote().name();
         if (isRare) {
-            World.getWorld().sendWorldMessage("<img=505><shad=0>[<col=" + Color.YELLOW.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + "<shad=0>" + Color.ADAMANTITE.wrap(player.getUsername() + " received a ") + "</shad>" + "<shad=0>" + Color.RAID_PURPLE.wrap(name + "!") + "</shad>");
+            World.getWorld().sendWorldMessage("<img=2010><shad=0>[<col=" + Color.YELLOW.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + "<shad=0>" + Color.YELLOW.wrap(player.getUsername() + " received a ") + "</shad>" + "<shad=0>" + Color.BURNTORANGE.wrap(name + "!") + "</shad>");
             Utils.sendDiscordInfoLog("Player " + player.getUsername() + " received a " + name + " from a " + this.name() + ".", "box_and_tickets");
         }
         player.putAttrib(this.key(), increment);

@@ -6,6 +6,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +89,8 @@ public class RangedData {
         ADAMANT_KNIFE(new int[]{ItemIdentifiers.ADAMANT_KNIFE, ADAMANT_KNIFEP, ADAMANT_KNIFEP_5659}, RangedWeaponType.KNIVES, false),
         RUNE_KNIFE(new int[]{ItemIdentifiers.RUNE_KNIFE, RUNE_KNIFEP, RUNE_KNIFEP_5660, RUNE_KNIFEP_5667}, RangedWeaponType.KNIVES, false),
         DRAGON_KNIFE(new int[]{ItemIdentifiers.DRAGON_KNIFE, DRAGON_KNIFEP, DRAGON_KNIFEP_22808, DRAGON_KNIFEP_22810}, RangedWeaponType.KNIVES, false),
+        TONALZALTICS(new int[]{TONALZTICS_OF_RALOS}, RangedWeaponType.KNIVES, false),
+
 
         BRONZE_THROWNAXE(new int[]{ItemIdentifiers.BRONZE_THROWNAXE}, RangedWeaponType.THROWING_AXES, false),
         IRON_THROWNAXE(new int[]{ItemIdentifiers.IRON_THROWNAXE}, RangedWeaponType.THROWING_AXES, false),
@@ -159,6 +162,7 @@ public class RangedData {
         }
     }
 
+    @Getter
     public enum RangedWeaponType {
         DARTS(3, 5, FightType.THROWING_LONGRANGE, false),
         KNIVES(4, 6, FightType.THROWING_LONGRANGE, false),
@@ -198,21 +202,6 @@ public class RangedData {
             this.ammoRequired = ammoRequired;
         }
 
-        public int getDefaultDistance() {
-            return defaultDistance;
-        }
-
-        public int getLongRangeDistance() {
-            return longRangeDistance;
-        }
-
-        public FightType getLongRangeFightType() {
-            return longRangeFightType;
-        }
-
-        public boolean isAmmoRequired() {
-            return ammoRequired;
-        }
     }
 
 }

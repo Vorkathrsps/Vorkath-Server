@@ -1525,7 +1525,7 @@ public class CombatFactory {
         boolean chins = rangedWeapon == RangedWeapon.CHINCHOMPA;
         boolean axes = rangedWeapon.getType() == RangedWeaponType.THROWING_AXES;
         boolean darts = rangedWeapon.getType() == RangedWeaponType.DARTS;
-        boolean knifes = rangedWeapon.getType() == RangedWeaponType.KNIVES;
+        boolean knifes = rangedWeapon.getType() == RangedWeaponType.KNIVES && !player.getEquipment().contains(TONALZTICS_OF_RALOS);
         boolean ballista = rangedWeapon.getType() == RangedWeaponType.BALLISTA;
 
         if (!blowpipe && !cryBow && !bowOfFaerdhinen && !starterbow && !crawsBow && !webWeaverBow && !targ_is_dummy) {

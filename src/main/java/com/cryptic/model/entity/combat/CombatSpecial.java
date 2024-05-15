@@ -49,7 +49,7 @@ public enum CombatSpecial {
     TOXIC_BLOWPIPE(new int[]{ItemIdentifiers.TOXIC_BLOWPIPE}, 50, 1.50, 1.50, new ToxicBlowpipeSpecialAttack(), WeaponType.THROWN),
     MORRIGANS_THROWING_AXE(new int[]{ItemIdentifiers.MORRIGANS_THROWING_AXE}, 50, 1.20, 1.0, new MorrigansThrowingAxe(), WeaponType.THROWN),
     MORRIGANS_JAVALIN(new int[]{ItemIdentifiers.MORRIGANS_JAVELIN_23619, ItemIdentifiers.MORRIGANS_JAVELIN}, 50, 1.0, 1.0, new MorrigansJavelin(), WeaponType.THROWN),
-
+    TONALZTICK(new int[]{ItemIdentifiers.TONALZTICS_OF_RALOS}, 50, 1.0, 1.0, new Tonalztics(), WeaponType.THROWN),
     //Magic
     STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
     TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),

@@ -83905,5 +83905,14 @@
       "aspeed": 4
     },
     "ge_limit": 70
+  },
+  "30011": {
+    "name": "Luck of the Dwarves",
+    "weight": 0.453,
+    "equipable": true,
+    "equipment": {
+      "slot": 12
+    },
+    "ge_limit": 70
   }
 }

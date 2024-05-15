@@ -1525,13 +1525,14 @@ public class CombatFactory {
         boolean chins = rangedWeapon == RangedWeapon.CHINCHOMPA;
         boolean axes = rangedWeapon.getType() == RangedWeaponType.THROWING_AXES;
         boolean darts = rangedWeapon.getType() == RangedWeaponType.DARTS;
-        boolean knifes = rangedWeapon.getType() == RangedWeaponType.KNIVES && !player.getEquipment().contains(TONALZTICS_OF_RALOS);
+        boolean knifes = rangedWeapon.getType() == RangedWeaponType.KNIVES;
+        boolean tonzaltics = rangedWeapon.getType() == RangedWeaponType.TONALZTICS;
         boolean ballista = rangedWeapon.getType() == RangedWeaponType.BALLISTA;
 
         if (!blowpipe && !cryBow && !bowOfFaerdhinen && !starterbow && !crawsBow && !webWeaverBow && !targ_is_dummy) {
 
             // Determine which slot we are decrementing ammo from.
-            int equipSlot = (chins || darts || knifes || axes) ? EquipSlot.WEAPON : EquipSlot.AMMO;
+            int equipSlot = (chins || darts || knifes || axes || tonzaltics) ? EquipSlot.WEAPON : EquipSlot.AMMO;
 
             Item ammo = player.getEquipment().get(equipSlot);
 

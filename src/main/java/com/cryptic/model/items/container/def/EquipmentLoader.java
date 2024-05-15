@@ -3,9 +3,7 @@ package com.cryptic.model.items.container.def;
 import com.cryptic.model.World;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +19,7 @@ public class EquipmentLoader {
 
     public Int2ObjectOpenHashMap<EquipmentData> loadFromFile(String filePath) throws IOException {
         File file = new File(filePath);
-        return objectMapper.readValue(file, new TypeReference<>() {
-        });
+        return objectMapper.readValue(file, new TypeReference<>() {});
     }
 
     public void loadEquipmentDefinitions(File file) throws IOException {

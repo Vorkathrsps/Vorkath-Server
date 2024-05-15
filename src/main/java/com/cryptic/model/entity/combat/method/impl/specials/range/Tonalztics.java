@@ -5,6 +5,7 @@ import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.ranged.RangedData;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
@@ -70,11 +71,11 @@ public class Tonalztics extends CommonCombatMethod {
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return 6;
+        return entity.getBaseAttackSpeed();
     }
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 5;
+        return RangedData.RangedWeaponType.TONALZTICS.getDefaultDistance();
     }
 }

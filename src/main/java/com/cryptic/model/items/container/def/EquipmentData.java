@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EquipmentData {
+
     private int id;
     private String name;
     private double weight;

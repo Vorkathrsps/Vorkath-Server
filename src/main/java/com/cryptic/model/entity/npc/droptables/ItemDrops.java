@@ -78,8 +78,10 @@ public class ItemDrops {
     final boolean isUsingLuckOfTheDwarves(Player player, Item drop) {
         if (player.getEquipment().contains(CustomItemIdentifiers.LUCK_OF_THE_DWARVES)) {
             if (!player.getInventory().isFull()) {
-                player.getInventory().add(drop, drop.getAmount());
-                return true;
+                if (player.getInventory().hasCapacity(drop)) {
+                    player.getInventory().add(drop, drop.getAmount());
+                    return true;
+                }
             }
         }
         return false;

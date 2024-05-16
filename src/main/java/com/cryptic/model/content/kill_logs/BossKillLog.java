@@ -62,7 +62,7 @@ public class BossKillLog {
     @Getter
     public enum Bosses {
 
-        NEX("Nex", 4, AttributeKey.NEX_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.NEX),
+        NEX("Nex", 4, AttributeKey.NEX_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.NEX, NpcIdentifiers.NEX_11279, NpcIdentifiers.NEX_11280, NpcIdentifiers.NEX_11281, NpcIdentifiers.NEX_11282),
         KREE_ARRA("Kree'Arra",2, AttributeKey.KREE_ARRA_KILLED, 0, STARTING_NAME_LINE, NpcIdentifiers.KREEARRA),
         COMMANDER_ZILYANA("Commander Zilyana",2, AttributeKey.COMMANDER_ZILYANA_KILLED, 0, STARTING_NAME_LINE + 6, NpcIdentifiers.COMMANDER_ZILYANA),
         GENERAL_GRAARDOR("General Graardor",2, AttributeKey.GENERAL_GRAARDOR_KILLED, 0, STARTING_NAME_LINE + (6 * 2), NpcIdentifiers.GENERAL_GRAARDOR),

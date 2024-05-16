@@ -416,6 +416,7 @@ PlayerSave {
             player.putAttrib(AttributeKey.LEGENDARY_MYSTERY_BOX_LOG_CLAIMED, details.legendaryMysteryBoxLogClaimed);
             player.putAttrib(AttributeKey.ZENYTE_MYSTERY_BOX_LOG_CLAIMED, details.zenyteLogClaimed);
             player.putAttrib(AttributeKey.CRYSTAL_KEY_LOG_CLAIMED, details.crystalKeyLogClaimed);
+            player.putAttrib(AttributeKey.ENHANCED_CRYSTAL_KEY_LOG_CLAIMED, details.enhancedCrystalKeyLogClaimed);
             player.putAttrib(AttributeKey.MOLTEN_KEY_LOG_CLAIMED, details.moltenKeyLogClaimed);
             player.putAttrib(AttributeKey.ENCHANTED_KEY_R_LOG_CLAIMED, details.enchantedKeyRLogClaimed);
             player.putAttrib(AttributeKey.ENCHANTED_KEY_P_LOG_CLAIMED, details.enchantedKeyPLogClaimed);
@@ -673,6 +674,7 @@ PlayerSave {
         private final boolean legendaryMysteryBoxLogClaimed;
         private final boolean zenyteLogClaimed;
         private final boolean crystalKeyLogClaimed;
+        private final boolean enhancedCrystalKeyLogClaimed;
         private final boolean moltenKeyLogClaimed;
         private final boolean enchantedKeyRLogClaimed;
         private final boolean enchantedKeyPLogClaimed;
@@ -899,6 +901,7 @@ PlayerSave {
             legendaryMysteryBoxLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.LEGENDARY_MYSTERY_BOX_LOG_CLAIMED, false);
             zenyteLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.ZENYTE_MYSTERY_BOX_LOG_CLAIMED, false);
             crystalKeyLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.CRYSTAL_KEY_LOG_CLAIMED, false);
+            enhancedCrystalKeyLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.ENHANCED_CRYSTAL_KEY_LOG_CLAIMED, false);
             moltenKeyLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.MOLTEN_KEY_LOG_CLAIMED, false);
             enchantedKeyRLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.ENCHANTED_KEY_R_LOG_CLAIMED, false);
             enchantedKeyPLogClaimed = Player.getAttribBooleanOr(player, AttributeKey.ENCHANTED_KEY_P_LOG_CLAIMED, false);

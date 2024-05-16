@@ -314,6 +314,11 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     @Override
+    public void onDeath(Player killer, NPC npc) {
+
+    }
+
+    @Override
     public boolean customOnDeath(Hit hit) {
         NPC npc = (NPC) entity;
         npc.animate(10181);

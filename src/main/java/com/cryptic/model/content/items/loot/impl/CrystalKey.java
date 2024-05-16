@@ -20,7 +20,6 @@ public class CrystalKey implements CollectionItemListener {
                 new CollectionItem(ItemIdentifiers.DRAGONSTONE_BOOTS, 5, -1, true),
                 new CollectionItem(ItemIdentifiers.DRAGONSTONE_GAUNTLETS, 5, -1, true),
                 new CollectionItem(ItemIdentifiers.AMULET_OF_GLORY6, 8, -1, false),
-                new CollectionItem(ItemIdentifiers.ENHANCED_CRYSTAL_KEY, 10, -1, false),
                 new CollectionItem(ItemIdentifiers.AIR_RUNE, 60, 1200, false),
                 new CollectionItem(ItemIdentifiers.WATER_RUNE, 60, 1200, false),
                 new CollectionItem(ItemIdentifiers.EARTH_RUNE, 60, 1200, false),

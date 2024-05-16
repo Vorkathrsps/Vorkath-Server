@@ -12,8 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GENERAL_GRAARDOR_JR;
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.THE_NIGHTMARE_9430;
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -327,7 +326,7 @@ public enum Collection {
         new Item(INQUISITORS_MACE), new Item(INQUISITORS_GREAT_HELM), new Item(INQUISITORS_HAUBERK), new Item(INQUISITORS_PLATESKIRT), new Item(NIGHTMARE_STAFF), new Item(ELDRITCH_ORB), new Item(HARMONISED_ORB), new Item(VOLATILE_ORB)),
 
     // mboxes
-    DONATOR_MYSTERY_BOX(AttributeKey.DONATOR_MYSTERY_BOXES_OPENED, LogType.MYSTERY_BOX, "Mystery Box",
+    DONATOR_MYSTERY_BOX(AttributeKey.MYSTERY_BOXES_OPENED, LogType.MYSTERY_BOX, "Mystery Box",
 
         new int[]
             {
@@ -341,23 +340,53 @@ public enum Collection {
                 new Item(MYSTERY_BOX, 35)
             },
 
+        new Item(BANKERS_NOTE),
+        new Item(BLACK_PARTYHAT),
         new Item(CORRUPTED_TWISTED_BOW),
         new Item(CORRUPTED_TUMEKENS_SHADOW),
-        new Item(CORRUPTED_SCYTHE_OF_VITUR),
         new Item(CORRUPTED_VOIDWAKER),
         new Item(CORRUPTED_ARMADYL_GODSWORD),
         new Item(CORRUPTED_DRAGON_CLAWS),
-        new Item(ARCANE_SPIRIT_SHIELD),
-        new Item(NEITIZNOT_FACEGUARD),
+        new Item(VIRTUS_MASK),
+        new Item(VIRTUS_ROBE_TOP),
+        new Item(VIRTUS_ROBE_BOTTOM),
+        new Item(ULTOR_RING_28307),
+        new Item(MAGUS_RING_28313),
+        new Item(BELLATOR_RING_28316),
+        new Item(VESTAS_LONGSWORD),
         new Item(VESTAS_CHAINBODY),
         new Item(VESTAS_PLATESKIRT),
-        new Item(ARCANE_PRAYER_SCROLL),
-        new Item(DEXTEROUS_PRAYER_SCROLL),
-        new Item(ANCESTRAL_HAT),
-        new Item(ANCESTRAL_ROBE_TOP),
-        new Item(ANCESTRAL_ROBE_BOTTOM),
-        new Item(DRAGON_WARHAMMER),
-        new Item(BANKERS_NOTE)
+        new Item(STATIUSS_WARHAMMER),
+        new Item(STATIUSS_FULL_HELM),
+        new Item(STATIUSS_PLATEBODY),
+        new Item(STATIUSS_PLATELEGS),
+        new Item(ZURIELS_STAFF),
+        new Item(ZURIELS_HOOD),
+        new Item(ZURIELS_ROBE_TOP),
+        new Item(ZURIELS_ROBE_BOTTOM),
+        new Item(MORRIGANS_COIF),
+        new Item(MORRIGANS_LEATHER_BODY),
+        new Item(MORRIGANS_LEATHER_CHAPS),
+        new Item(PRIMORDIAL_BOOTS),
+        new Item(PEGASIAN_BOOTS),
+        new Item(ETERNAL_BOOTS),
+        new Item(TOXIC_STAFF_OF_THE_DEAD),
+        new Item(STAFF_OF_THE_DEAD),
+        new Item(TRIDENT_OF_THE_SEAS),
+        new Item(TRIDENT_OF_THE_SWAMP),
+        new Item(TOXIC_BLOWPIPE),
+        new Item(SERPENTINE_HELM),
+        new Item(BANDOS_CHESTPLATE),
+        new Item(BANDOS_TASSETS),
+        new Item(BANDOS_BOOTS),
+        new Item(ARMADYL_CHESTPLATE),
+        new Item(ARMADYL_CHAINSKIRT),
+        new Item(ARMADYL_GODSWORD),
+        new Item(BANDOS_GODSWORD),
+        new Item(SARADOMIN_GODSWORD),
+        new Item(ZAMORAK_GODSWORD),
+        new Item(ANCIENT_GODSWORD),
+        new Item(ABYSSAL_WHIP)
     ),
 
     CRYSTAL_KEY(AttributeKey.CRYSTAL_KEYS_OPENED, LogType.KEYS, "Crystal key",
@@ -371,10 +400,39 @@ public enum Collection {
 
         new Item[]
             {
-                new Item(ItemIdentifiers.CRYSTAL_KEY + 1, 10)
+                new Item(COINS_995, 10_000_000),
+                new Item(ENHANCED_CRYSTAL_KEY, 20)
             },
         //Drops
-        new Item(ItemIdentifiers.RING_OF_RECOIL + 1), new Item(ItemIdentifiers.GUTHIX_REST4 + 1), new Item(ItemIdentifiers.ANGLERFISH + 1), new Item(ItemIdentifiers.DRAGON_JAVELIN), new Item(ItemIdentifiers.DRAGON_KNIFE), new Item(ItemIdentifiers.DRAGON_DART), new Item(ItemIdentifiers.DRAGON_BOOTS + 1), new Item(ItemIdentifiers.STAMINA_POTION4 + 1), new Item(ItemIdentifiers.DARK_BOW), new Item(ItemIdentifiers.AMULET_OF_FURY), new Item(ItemIdentifiers.MAGES_BOOK), new Item(ItemIdentifiers.MASTER_WAND), new Item(ItemIdentifiers.DRAGONFIRE_SHIELD)),
+        new Item(UNCUT_ONYX),
+        new Item(ENHANCED_CRYSTAL_KEY),
+        new Item(DRAGONSTONE_FULL_HELM),
+        new Item(DRAGONSTONE_PLATEBODY),
+        new Item(DRAGONSTONE_PLATELEGS),
+        new Item(DRAGONSTONE_BOOTS),
+        new Item(DRAGONSTONE_GAUNTLETS),
+        new Item(AMULET_OF_GLORY6)),
+
+    ENHANCED_CRYSTAL_KEY_(AttributeKey.ENHANCED_CRYSTAL_KEYS_OPENED, LogType.KEYS, "Enhanced Crystal key",
+
+        new int[]
+            {
+                ItemIdentifiers.ENHANCED_CRYSTAL_KEY
+            },
+
+        AttributeKey.ENHANCED_CRYSTAL_KEY_LOG_CLAIMED,
+
+        new Item[]
+            {
+                new Item(COINS_995, 10_000_000),
+                new Item(MYSTERY_BOX, 1)
+            },
+        //Drops
+        new Item(CRYSTAL_PICKAXE),
+        new Item(CRYSTAL_AXE),
+        new Item(CRYSTAL_HARPOON),
+        new Item(CRYSTAL_BOW),
+        new Item(AMULET_OF_FURY)),
 
 
     LARRANS_KEY_I(AttributeKey.LARRANS_KEYS_TIER_ONE_USED, LogType.KEYS, "Larran's key",
@@ -433,19 +491,31 @@ public enum Collection {
                 NpcIdentifiers.REVENANT_HOBGOBLIN,
                 NpcIdentifiers.REVENANT_KNIGHT,
                 NpcIdentifiers.REVENANT_ORK,
-                NpcIdentifiers.REVENANT_PYREFIEND
+                NpcIdentifiers.REVENANT_PYREFIEND,
+                REVENANT_MALEDICTUS
             },
 
         AttributeKey.REVENANTS_LOG_CLAIMED,
 
         new Item[]
             {
-                new Item(CRAWS_BOW),
-                new Item(VIGGORAS_CHAINMACE),
-                new Item(THAMMARONS_SCEPTRE)
+                new Item(COINS_995, 50_000_000),
+                new Item(MYSTERY_BOX, 2)
             },
 
-        new Item(VESTAS_SPEAR), new Item(VESTAS_LONGSWORD), new Item(VESTAS_CHAINBODY), new Item(VESTAS_PLATESKIRT), new Item(STATIUSS_WARHAMMER), new Item(STATIUSS_FULL_HELM), new Item(STATIUSS_PLATEBODY), new Item(STATIUSS_PLATELEGS), new Item(ZURIELS_STAFF), new Item(ZURIELS_HOOD), new Item(ZURIELS_ROBE_TOP), new Item(ZURIELS_ROBE_BOTTOM), new Item(MORRIGANS_COIF), new Item(MORRIGANS_LEATHER_BODY), new Item(MORRIGANS_LEATHER_CHAPS), new Item(MORRIGANS_JAVELIN), new Item(MORRIGANS_THROWING_AXE), new Item(VIGGORAS_CHAINMACE), new Item(CRAWS_BOW), new Item(THAMMARONS_SCEPTRE), new Item(AMULET_OF_AVARICE), new Item(BRACELET_OF_ETHEREUM_UNCHARGED), new Item(ANCIENT_RELIC), new Item(ANCIENT_EFFIGY), new Item(ANCIENT_MEDALLION), new Item(ItemIdentifiers.ANCIENT_STATUETTE), new Item(ANCIENT_TOTEM), new Item(ANCIENT_EMBLEM), new Item(REVENANT_CAVE_TELEPORT), new Item(REVENANT_ETHER)
+        new Item(VIGGORAS_CHAINMACE),
+        new Item(CRAWS_BOW),
+        new Item(THAMMARONS_SCEPTRE),
+        new Item(AMULET_OF_AVARICE),
+        new Item(BRACELET_OF_ETHEREUM_UNCHARGED),
+        new Item(ANCIENT_RELIC),
+        new Item(ANCIENT_EFFIGY),
+        new Item(ANCIENT_MEDALLION),
+        new Item(ItemIdentifiers.ANCIENT_STATUETTE),
+        new Item(ANCIENT_TOTEM),
+        new Item(ANCIENT_EMBLEM),
+        new Item(REVENANT_CAVE_TELEPORT),
+        new Item(REVENANT_ETHER)
     ),
 
     SLAYER(null, LogType.OTHER, "Slayer",
@@ -538,7 +608,7 @@ public enum Collection {
                 new Item(MYSTERY_BOX, 5)
             },
 
-        new Item(NEXLING),
+        new Item(ItemIdentifiers.NEXLING),
         new Item(TORVA_FULL_HELM),
         new Item(TORVA_PLATEBODY),
         new Item(TORVA_PLATELEGS),

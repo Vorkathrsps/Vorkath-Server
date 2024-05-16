@@ -636,6 +636,11 @@ public abstract class Entity {
 
         if (isNpc() && hp() <= 0) {
             if (getAsNpc().getCombatMethod() != null && getAsNpc().getCombatMethod().customOnDeath(hit)) {
+                if (hit.getSource() != null) {
+                    if (hit.getSource() instanceof Player player && this instanceof NPC npc) {
+                        player.getBossKillLog().addKill(npc);
+                    }
+                }
                 return;
             }
         }

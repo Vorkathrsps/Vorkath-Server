@@ -1586,7 +1586,7 @@ public enum AttributeKey {
 
     DUKE_KILLED("duke_sucellus_killed", AttribType.INTEGER),
 
-    DUKE_LOG_CLAIMED, ENHANCED_CRYSTAL_KEYS_OPENED("enhanced_crystal_keys_opened", AttribType.INTEGER);
+    DUKE_LOG_CLAIMED, ENHANCED_CRYSTAL_KEYS_OPENED("enhanced_crystal_keys_opened", AttribType.INTEGER), ENHANCED_CRYSTAL_KEY_LOG_CLAIMED;
 
     private String saveName;
     private AttribType type;

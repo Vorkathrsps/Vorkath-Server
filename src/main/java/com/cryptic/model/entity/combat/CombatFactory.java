@@ -2,6 +2,7 @@ package com.cryptic.model.entity.combat;
 
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
@@ -68,6 +69,7 @@ import com.cryptic.utility.Debugs;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -1424,7 +1426,7 @@ public class CombatFactory {
         var wepName = weaponId == -1 ? "" : new Item(weaponId).definition(World.getWorld()).name.toLowerCase();
         var ammoId = player.getEquipment().getId(EquipSlot.AMMO);
         var ammoName = ammoId == -1 ? "" : new Item(ammoId).definition(World.getWorld()).name.toLowerCase();
-        var crystalBow = (weaponId >= 4212 && weaponId <= 4223);
+        var crystalBow = ArrayUtils.contains(RangedWeapon.CRYSTAL_BOW.getWeaponIds(), weaponId);
         var crawsBow = weaponId == ItemIdentifiers.CRAWS_BOW;
         var webWeaver = weaponId == ItemIdentifiers.WEBWEAVER_BOW;
         var bowOfFaerdhinen = FormulaUtils.hasBowOfFaerdhenin(player);
@@ -1432,7 +1434,7 @@ public class CombatFactory {
 
         WeaponType weaponType = player.getCombat().getWeaponType();
 
-        if (!starterBow && !bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName.equals(""))) {
+        if (!starterBow && !bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName.isEmpty())) {
             player.message("There's no ammo left in your quiver.");
             return false;
         }

@@ -24,6 +24,7 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
+import com.cryptic.utility.timers.TimerKey;
 import lombok.Getter;
 
 import java.lang.ref.WeakReference;
@@ -271,6 +272,7 @@ public class Skills {
         boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
         for (GameMode mode : GameMode.values()) {
             if (mode.equals(player.getGameMode())) {
+                if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }

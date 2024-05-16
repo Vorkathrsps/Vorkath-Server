@@ -20,7 +20,7 @@ public enum FishSpotType {
     HARPOON_SHARK(618, 311, "You need a Harpoon to catch these fish.", -1, new ArrayList<>(List.of(Fish.SHARK)), "You start to lure the fish."),
     FLY(623, 309, "You need a Fly Fishing Rod to catch these fish.", 314, new ArrayList<>(List.of(Fish.TROUT, Fish.SALMON, Fish.PIKE)), "You cast out your line...", "You don't have any feathers left."),
     DARK_CRAB(619, 301, "You need a Lobster Pot and Dark Bait to catch these Dark Crabs.", 11940, new ArrayList<>(List.of(Fish.DARK_CRAB)), "You attempt to catch a Dark Crab.", "You don't have any Dark Fishing Bait."),
-    ANGLERGISH(623, 307, "You need a Fishing Rod to bait these fish.", 13431, new ArrayList<>(List.of(Fish.ANGLERFISH, Fish.RAINBOW)), "You cast our your line...", "You don't have any Fishing Bait left."),
+    ANGLERGISH(623, 307, "You need a Fishing Rod to bait these fish.", 13431, new ArrayList<>(List.of(Fish.ANGLERFISH, Fish.RAINBOW_FISH)), "You cast our your line...", "You don't have any Fishing Bait left."),
     INFERNAL_EEL(623, 1585, "You need an Oily Fishing Rod to bait these fish.", 313, new ArrayList<>(List.of(Fish.INFERNAL_EEL)), "You cast out your line...", "You don't have any Fishing Bait left."),
     ;
 

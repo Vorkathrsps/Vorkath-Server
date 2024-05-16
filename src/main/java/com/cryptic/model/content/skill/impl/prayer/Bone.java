@@ -27,13 +27,13 @@ public enum Bone {
 
     public final int itemId;
     public final double xp;
+    public static Bone[] values = values();
 
     Bone(int itemId, double xp) {
         this.itemId = itemId;
         this.xp = xp;
     }
 
-    final static Bone[] values = Bone.values();
     public static Bone get(int itemId) {
         for (Bone bone : values) {
             if (itemId == bone.itemId) {

@@ -34,7 +34,7 @@ public class AchievementButtons {
 
     public static boolean handleButtons(Player player, int buttonId) {
         if(buttonId == 80003 || buttonId == 80053 || buttonId == 80203) {
-            AchievementWidget.open(player, Difficulty.EASY);
+            //AchievementWidget.open(player, Difficulty.EASY);
             return true;
         }
         if (buttonId == 39408) {

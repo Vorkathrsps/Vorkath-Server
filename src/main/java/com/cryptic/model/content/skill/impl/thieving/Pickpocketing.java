@@ -345,6 +345,7 @@ public class Pickpocketing extends PacketInteraction {
         private final String name, identifier;
         public final double exp;
         public final LootTable lootTable;
+        public static PickPocket[] values = values();
 
         PickPocket(int levelReq, double exp, int stunAnimation, int stunSeconds, int stunDamage, int petOdds, String identifier, LootTable lootTable) {
             this.levelReq = levelReq;

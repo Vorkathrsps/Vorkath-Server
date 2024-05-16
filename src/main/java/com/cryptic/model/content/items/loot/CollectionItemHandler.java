@@ -45,7 +45,9 @@ public class CollectionItemHandler {
 
     public static boolean rollBoxReward(Player player, int id) {
         for (CollectionItemListener listener : boxListeners) {
+            System.out.println(listener);
             if (listener.isItem(id)) {
+                System.out.println("is item");
                 listener.openBox(player);
                 return true;
             }

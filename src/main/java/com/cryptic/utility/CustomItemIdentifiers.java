@@ -30,4 +30,7 @@ public class CustomItemIdentifiers {
     public static final int FIFTY_DOLLAR_SCROLL = 607;
     public static final int ONE_HUNDRED_DOLLAR_SCROLL = 608;
     public static final int DONATOR_TICKET = 2996;
+
+    public static final int DOUBLE_DROPS_LAMP = 28409;
+    public static final int DOUBLE_XP_LAMP = 28551;
 }

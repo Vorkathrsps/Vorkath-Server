@@ -25,7 +25,7 @@ public enum EffectTimer {
     DIVINE_SUPER_DEFENCE_POTION(1442),
     DIVINE_SUPER_ATTACK_POTION(1443),
     DIVINE_SUPER_STRENGTH_POTION(1444),
-    DOUBLE_EXP(1771),
+    DOUBLE_EXP(2153),
     ;
 
     EffectTimer(int clientSprite) {

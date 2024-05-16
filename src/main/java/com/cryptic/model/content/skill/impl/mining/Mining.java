@@ -125,7 +125,7 @@ public class Mining extends PacketInteraction {
                     player.message(Color.BLUE.wrap("The rock broke, inside you find a geode!"));
                 }
 
-                if ((rockType != Ore.COAL_ROCK && rockType != Ore.GEM_ROCK) && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
+                if ((rockType != Ore.COAL_ORE && rockType != Ore.GEM_ROCK) && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
                     player.graphic(580, GraphicHeight.HIGH, 0);
                     addBar(player, rockType);
                     return;
@@ -138,35 +138,35 @@ public class Mining extends PacketInteraction {
                 } else {
                     if (player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
                         switch (rockType) {
-                            case COPPER_ROCK, TIN_ROCK -> {
+                            case COPPER_ORE, TIN_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.BRONZE_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case IRON_ROCK -> {
+                            case IRON_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.IRON_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case SILVER_ROCK -> {
+                            case SILVER_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.SILVER_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case COAL_ROCK -> {
+                            case COAL_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.STEEL_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case GOLD_ROCK -> {
+                            case GOLD_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.GOLD_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case MITHRIL -> {
+                            case MITHRIL_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.MITHRIL_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case ADAMANT_ROCK -> {
+                            case ADAMANT_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.ADAMANTITE_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
-                            case RUNE_ROCK -> {
+                            case RUNE_ORE -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.RUNITE_BAR));
                                 player.skills().addXp(Skills.SMITHING, rockType.experience);
                             }
@@ -190,13 +190,13 @@ public class Mining extends PacketInteraction {
                 }
 
                 switch (rockType) {
-                    case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
-                    case COAL_ROCK -> AchievementsManager.activate(player, Achievements.MINING_II, 1);
-                    case ADAMANT_ROCK -> AchievementsManager.activate(player, Achievements.MINING_III, 1);
-                    case RUNE_ROCK -> AchievementsManager.activate(player, Achievements.MINING_IV, 1);
+                    case COPPER_ORE -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
+                    case COAL_ORE -> AchievementsManager.activate(player, Achievements.MINING_II, 1);
+                    case ADAMANT_ORE -> AchievementsManager.activate(player, Achievements.MINING_III, 1);
+                    case RUNE_ORE -> AchievementsManager.activate(player, Achievements.MINING_IV, 1);
                 }
 
-                if (rockType == Ore.RUNE_ROCK) {
+                if (rockType == Ore.RUNE_ORE) {
                     player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
                 }
 
@@ -262,31 +262,31 @@ public class Mining extends PacketInteraction {
 
     private static void addBar(Player player, Ore rock) {
         switch (rock) {
-            case COPPER_ROCK, TIN_ROCK -> {
+            case COPPER_ORE, TIN_ORE -> {
                 player.inventory().add(new Item(2349));
                 player.getSkills().addXp(Skills.SMITHING, 2.5);
             }
-            case IRON_ROCK -> {
+            case IRON_ORE -> {
                 player.inventory().add(new Item(2351));
                 player.getSkills().addXp(Skills.SMITHING, 5.0);
             }
-            case SILVER_ROCK -> {
+            case SILVER_ORE -> {
                 player.inventory().add(new Item(2355));
                 player.getSkills().addXp(Skills.SMITHING, 5.5);
             }
-            case GOLD_ROCK -> {
+            case GOLD_ORE -> {
                 player.inventory().add(new Item(2357));
                 player.getSkills().addXp(Skills.SMITHING, 9.0);
             }
-            case MITHRIL -> {
+            case MITHRIL_ORE -> {
                 player.inventory().add(new Item(2359));
                 player.getSkills().addXp(Skills.SMITHING, 12.0);
             }
-            case ADAMANT_ROCK -> {
+            case ADAMANT_ORE -> {
                 player.inventory().add(new Item(2361));
                 player.getSkills().addXp(Skills.SMITHING, 15.0);
             }
-            case RUNE_ROCK -> {
+            case RUNE_ORE -> {
                 player.inventory().add(new Item(2363));
                 player.getSkills().addXp(Skills.SMITHING, 20.0);
             }

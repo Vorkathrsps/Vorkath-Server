@@ -8,6 +8,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
+import com.cryptic.model.content.items.loot.CollectionItemHandler;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlmCombat;
 import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.content.raids.theatreofblood.boss.verzik.Verzik;
@@ -25,7 +26,6 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.muspah.instance.MuspahInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
@@ -709,16 +709,23 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            /*ObjectDefinition definition = ObjectDefinition.get(29246);
-            System.out.println(definition.varbit);
-            System.out.println(definition.varp);*/
-            MuspahInstance instance = new MuspahInstance(p);
-            instance.build();
-            /*
-            List<Player> player = new ArrayList<>();
-            player.add(p);
-            PerilOfMoonInstance instance = new PerilOfMoonInstance(p, player);
-            instance.buildParty();*/
+            CollectionItemHandler.rollBoxReward(p, 6199);
+            /*  Set<DailyTasks> list = new HashSet<>();
+            List<DailyTasks> possibles = new ArrayList<>(List.of(DailyTasks.values()));
+            for (var task : possibles) {
+                final DailyTasks generated = DailyTasks.generate(p, task);
+                if (generated != null) {
+                    list.add(generated);
+                }
+            }
+            List<String> descriptions = new ArrayList<>();
+            p.message("GENERATING DAILYS...");
+            for (var task : list) {
+                descriptions.add(Color.RED.wrap("<shad=0>" + task.taskDescription + "</shad>"));
+            }
+            for (var description : descriptions) {
+                p.message(description);
+            }*/
         });
 
         dev("cleartask", (p, c, s) ->

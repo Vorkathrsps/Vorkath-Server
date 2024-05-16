@@ -101,7 +101,7 @@ public class ResourceArena extends PacketInteraction {
                             player.animate(pick.get().anim);
 
                             if (internalTimer-- == 0) {
-                                boolean odds = SkillingSuccess.success(player.getSkills().level(Skills.MINING), Ore.RUNE_ROCK.level_req, Ore.RUNE_ROCK, pick.get());
+                                boolean odds = SkillingSuccess.success(player.getSkills().level(Skills.MINING), Ore.RUNE_ORE.level_req, Ore.RUNE_ORE, pick.get());
                                 var roll = World.getWorld().random(100);
                                 //System.out.println("roll = "+roll);
                                 //System.out.println("odds: "+odds);
@@ -110,8 +110,8 @@ public class ResourceArena extends PacketInteraction {
                                     player.message("You manage to mine some runite.");
                                     player.animate(-1);
 
-                                    player.inventory().addOrDrop(new Item(Ore.RUNE_ROCK.item));
-                                    player.getSkills().addXp(Skills.MINING, Ore.RUNE_ROCK.experience);
+                                    player.inventory().addOrDrop(new Item(Ore.RUNE_ORE.item));
+                                    player.getSkills().addXp(Skills.MINING, Ore.RUNE_ORE.experience);
 
                                     //TODO achievement here runite golem
                                     World.getWorld().getNpcs().remove(npc);

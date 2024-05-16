@@ -57,7 +57,7 @@ public enum Cookable {
     PLAIN_PIZZA(35, 143.0, 2287, 2289, 2305, "a plain pizza"),
 
     //Cake
-    ISHCAKE(31, 100.0, 7529, 7530, 7531, "a fishcake"),
+    FISHCAKE(31, 100.0, 7529, 7530, 7531, "a fishcake"),
     CAKE(40, 180.0, 1889, 1891, 1903, "a cake"),
 
     //Random
@@ -76,6 +76,7 @@ public enum Cookable {
     public final String itemname;
     public String plural;
     public int offset = 3;
+    public static Cookable[] values = values();
 
     Cookable(int lvl, double exp, int raw, int cooked, int burnt, String itemname, String plural) {
         this.lvl = lvl;

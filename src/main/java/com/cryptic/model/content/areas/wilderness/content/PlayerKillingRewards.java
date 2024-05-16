@@ -195,11 +195,6 @@ public class PlayerKillingRewards {
         boolean noArm = !wearing_body && !wearing_legs;
         boolean wearingDharok = CombatConstants.wearingDharoksArmour(killer);
 
-        //Edgeville area
-        if (edgevile) {
-            DailyTaskManager.increase(DailyTasks.EDGEVILE_KILLS, killer);
-        }
-
         //Rev cave
         if (revCave) {
             DailyTaskManager.increase(DailyTasks.REV_CAVE_KILLS, killer);

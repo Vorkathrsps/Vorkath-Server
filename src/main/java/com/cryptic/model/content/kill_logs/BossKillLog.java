@@ -82,33 +82,20 @@ public class BossKillLog {
         BARROWS_CHESTS("Barrows Chests",0, AttributeKey.BARROWS_CHESTS_OPENED, 0, STARTING_NAME_LINE + (6 * 16)),
         CORPOREAL_BEAST("Corporeal Beast",5, AttributeKey.CORPOREAL_BEASTS_KILLED, 0, STARTING_NAME_LINE + (6 * 17), NpcIdentifiers.CORPOREAL_BEAST),
         ZULRAH("Zulrah",3, AttributeKey.ZULRAHS_KILLED, 0, STARTING_NAME_LINE + (6 * 18), NpcIdentifiers.ZULRAH, NpcIdentifiers.ZULRAH_2043, NpcIdentifiers.ZULRAH_2044),
-        TEKTON("Tekton",5, AttributeKey.TEKTONS_KILLED, 0, STARTING_NAME_LINE + (6 * 23), NpcIdentifiers.TEKTON_7542),
         TZTOK_JAD("TzTok-Jad",1, AttributeKey.JADS_KILLED, 0, STARTING_NAME_LINE + (6 * 19), NpcIdentifiers.TZTOKJAD),
         TZKAL_ZUK("TzKal-Zuk",5, AttributeKey.KC_TZKAL_ZUK, 0, STARTING_NAME_LINE + (6 * 20), NpcIdentifiers.TZKALZUK),
         KRAKEN("Kraken",1, AttributeKey.KRAKENS_KILLED, 0, STARTING_NAME_LINE + (6 * 21), NpcIdentifiers.KRAKEN),
-        THERMONUCLEAR_SMOKE_DEVIL("Thermonuclear smoke devil",1, AttributeKey.THERMONUCLEAR_SMOKE_DEVILS_KILLED, 0, STARTING_NAME_LINE + (6 * 21), NpcIdentifiers.THERMONUCLEAR_SMOKE_DEVIL),
-        CERBERUS("Cerberus",2, AttributeKey.CERBERUS_KILLED, 0, STARTING_NAME_LINE + (6 * 22), NpcIdentifiers.CERBERUS),
-        ABYSSAL_SIRE("Abyssal Sire",2, AttributeKey.KC_ABYSSALSIRE, 0, STARTING_NAME_LINE + (6 * 23), NpcIdentifiers.ABYSSAL_SIRE),
-        SKOTIZO("Skotizo",5, AttributeKey.SKOTIZOS_KILLED, 0, STARTING_NAME_LINE + (6 * 24), NpcIdentifiers.SKOTIZO),
-        WINTERTODT("Wintertodt",1, AttributeKey.WINTERTODT, 0, STARTING_NAME_LINE + (6 * 25)),
-        OBOR("Obor",1, AttributeKey.OBOR, 0, STARTING_NAME_LINE + (6 * 26), NpcIdentifiers.OBOR),
-        GROTESQUE_GUARDIANS("Grotesque Guaridans",2, AttributeKey.GROTESQUE_GUARDIANS, 0, STARTING_NAME_LINE + (6 * 29), NpcIdentifiers.MIDNIGHT, NpcIdentifiers.NOON),
-        VORKATH("Vorkath",3, AttributeKey.VORKATHS_KILLED, 0, STARTING_NAME_LINE + (6 * 30), NpcIdentifiers.VORKATH_8061),
-        BYROPHYTA("Byrophyta",1, AttributeKey.BYROPHYTA, 0, STARTING_NAME_LINE + (6 * 31), NpcIdentifiers.BRYOPHYTA),
-        CORRUPTED_NECHRYARCH("Corrupted Nechryarch",3, AttributeKey.CORRUPTED_NECHRYARCHS_KILLED, 0, STARTING_NAME_LINE + (6 * 32), CustomNpcIdentifiers.CORRUPTED_NECHRYARCH),
-        ALCHEMICAL_HYDRA("Alchemical Hydra",4, AttributeKey.ALCHY_KILLED, 0, STARTING_NAME_LINE + (6 * 33), NpcIdentifiers.ALCHEMICAL_HYDRA, NpcIdentifiers.ALCHEMICAL_HYDRA_8616, NpcIdentifiers.ALCHEMICAL_HYDRA_8617, NpcIdentifiers.ALCHEMICAL_HYDRA_8618, NpcIdentifiers.ALCHEMICAL_HYDRA_8619, NpcIdentifiers.ALCHEMICAL_HYDRA_8620, NpcIdentifiers.ALCHEMICAL_HYDRA_8621, NpcIdentifiers.ALCHEMICAL_HYDRA_8622),
-        HESPORI("Hespori",2, AttributeKey.HESPORI, 0, STARTING_NAME_LINE + (6 * 34), NpcIdentifiers.HESPORI),
-        MIMIC("Mimic",2, AttributeKey.MIMIC, 0, STARTING_NAME_LINE + (6 * 35), NpcIdentifiers.THE_MIMIC),
-        SARACHNIS("Sarachnis",2, AttributeKey.SARACHNIS, 0, STARTING_NAME_LINE + (6 * 36), NpcIdentifiers.SARACHNIS),
-        ZALCANO("Zalcano",2, AttributeKey.ZALCANO, 0, STARTING_NAME_LINE + (6 * 37), NpcIdentifiers.ZALCANO),
-        THE_GAUNTLET("The Gauntlet",5, AttributeKey.THE_GAUNTLET, 0, STARTING_NAME_LINE + (6 * 38)),
-        THE_CORRUPTED_GAUNTLET("The Corrupted Gauntlet",10, AttributeKey.THE_CORRUPTED_GAUNTLET, 0, STARTING_NAME_LINE + (6 * 39)),
-        ZOMBIES_CHAMPION("Zombies Champion",5, AttributeKey.ZOMBIES_CHAMPIONS_KILLED, 0, STARTING_NAME_LINE + (6 * 40), NpcIdentifiers.ZOMBIES_CHAMPION),
-        LIZARDMAN_SHAMAN("Lizardman Shaman",2, AttributeKey.LIZARDMAN_SHAMANS_KILLED, 0, STARTING_NAME_LINE + (6 * 41), NpcIdentifiers.LIZARDMAN_SHAMAN, NpcIdentifiers.LIZARDMAN_SHAMAN_6767),
-        BARRELCHEST("Barrelchest",2, AttributeKey.BARRELCHESTS_KILLED,0,STARTING_NAME_LINE + (6 * 42), NpcIdentifiers.BARRELCHEST_6342),
-        DEMONIC_GORILLA("Demonic gorillas", 2, AttributeKey.DEMONIC_GORILLAS_KILLED,0, STARTING_NAME_LINE + (6 * 58), NpcIdentifiers.DEMONIC_GORILLA, NpcIdentifiers.DEMONIC_GORILLA_7145, NpcIdentifiers.DEMONIC_GORILLA_7146, NpcIdentifiers.DEMONIC_GORILLA_7147, NpcIdentifiers.DEMONIC_GORILLA_7148, NpcIdentifiers.DEMONIC_GORILLA_7149),
-        THE_NIGHTMARE("The nightmare", 15, AttributeKey.THE_NIGHTMARE_KC,0, STARTING_NAME_LINE + (6 * 59), NpcIdentifiers.THE_NIGHTMARE_9430),
-        DUKE_SUCELLUS("Duke Sucellus", 5, AttributeKey.DUKE_KILLED,0, STARTING_NAME_LINE + (6 * 60), 12166, 12167, 12191, 12192, 12193, 12194, 12195, 12196)
+        THERMONUCLEAR_SMOKE_DEVIL("Thermonuclear smoke devil",1, AttributeKey.THERMONUCLEAR_SMOKE_DEVILS_KILLED, 0, STARTING_NAME_LINE + (6 * 22), NpcIdentifiers.THERMONUCLEAR_SMOKE_DEVIL),
+        CERBERUS("Cerberus",2, AttributeKey.CERBERUS_KILLED, 0, STARTING_NAME_LINE + (6 * 23), NpcIdentifiers.CERBERUS),
+        //ABYSSAL_SIRE("Abyssal Sire",2, AttributeKey.KC_ABYSSALSIRE, 0, STARTING_NAME_LINE + (6 * 23), NpcIdentifiers.ABYSSAL_SIRE),
+        //SKOTIZO("Skotizo",5, AttributeKey.SKOTIZOS_KILLED, 0, STARTING_NAME_LINE + (6 * 24), NpcIdentifiers.SKOTIZO),
+        VORKATH("Vorkath",3, AttributeKey.VORKATHS_KILLED, 0, STARTING_NAME_LINE + (6 * 24), NpcIdentifiers.VORKATH_8061),
+        ALCHEMICAL_HYDRA("Alchemical Hydra",4, AttributeKey.ALCHY_KILLED, 0, STARTING_NAME_LINE + (6 * 25), NpcIdentifiers.ALCHEMICAL_HYDRA, NpcIdentifiers.ALCHEMICAL_HYDRA_8616, NpcIdentifiers.ALCHEMICAL_HYDRA_8617, NpcIdentifiers.ALCHEMICAL_HYDRA_8618, NpcIdentifiers.ALCHEMICAL_HYDRA_8619, NpcIdentifiers.ALCHEMICAL_HYDRA_8620, NpcIdentifiers.ALCHEMICAL_HYDRA_8621, NpcIdentifiers.ALCHEMICAL_HYDRA_8622),
+        LIZARDMAN_SHAMAN("Lizardman Shaman",2, AttributeKey.LIZARDMAN_SHAMANS_KILLED, 0, STARTING_NAME_LINE + (6 * 26), NpcIdentifiers.LIZARDMAN_SHAMAN, NpcIdentifiers.LIZARDMAN_SHAMAN_6767),
+        //BARRELCHEST("Barrelchest",2, AttributeKey.BARRELCHESTS_KILLED,0,STARTING_NAME_LINE + (6 * 42), NpcIdentifiers.BARRELCHEST_6342),
+        DEMONIC_GORILLA("Demonic gorillas", 2, AttributeKey.DEMONIC_GORILLAS_KILLED,0, STARTING_NAME_LINE + (6 * 27), NpcIdentifiers.DEMONIC_GORILLA, NpcIdentifiers.DEMONIC_GORILLA_7145, NpcIdentifiers.DEMONIC_GORILLA_7146, NpcIdentifiers.DEMONIC_GORILLA_7147, NpcIdentifiers.DEMONIC_GORILLA_7148, NpcIdentifiers.DEMONIC_GORILLA_7149),
+        //THE_NIGHTMARE("The nightmare", 15, AttributeKey.THE_NIGHTMARE_KC,0, STARTING_NAME_LINE + (6 * 59), NpcIdentifiers.THE_NIGHTMARE_9430),
+        DUKE_SUCELLUS("Duke Sucellus", 5, AttributeKey.DUKE_KILLED,0, STARTING_NAME_LINE + (6 * 28), 12166, 12167, 12191, 12192, 12193, 12194, 12195, 12196)
         ;
 
         private final String name;
@@ -117,6 +104,7 @@ public class BossKillLog {
         private final int streak;
         private final int startLine;
         private final int[] npcs;
+        public static Bosses[] values = values();
 
         Bosses(String name, int points, AttributeKey kc, int streak, int nameLine, int... npcs) {
             this.name = name;

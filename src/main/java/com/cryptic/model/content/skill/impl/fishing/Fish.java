@@ -13,7 +13,7 @@ public enum Fish {
     HERRING(10, 345, 30.0, "herring", "a", 11800),
     ANCHOVIES(15, 321, 40.0, "anchovies", "some", 10516),
     MACKEREL(16, 345, 20.0, "mackerel", "a", 8260),
-    RAINBOW(38, 10138, 80.0,"rainbow", "a", 7000),
+    RAINBOW_FISH(38, 10138, 80.0,"rainbow fish", "a", 7000),
     TROUT(20, 335, 50.0, "trout", "a", 6180),
     COD(23, 341, 45.0, "cod", "a", 5960),
     PIKE(25, 349, 60.0, "pike", "a", 5079),
@@ -42,6 +42,7 @@ public enum Fish {
     public String fishName;
     public String prefix;
     int petChance;
+    public static Fish[] values = values();
 
     Fish(int lvl, int item, double xp, String fishName, String prefix, int petChance) {
         this.lvl = lvl;

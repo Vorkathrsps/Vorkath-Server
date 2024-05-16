@@ -18,6 +18,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
+import com.cryptic.utility.timers.TimerKey;
 import com.google.common.base.Objects;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -32,10 +33,12 @@ public class ItemDrops {
     public static final int[] ASHES = new int[]{FIENDISH_ASHES, VILE_ASHES, MALICIOUS_ASHES, ABYSSAL_ASHES, INFERNAL_ASHES};
     public static final int[] ENSOULED_HEADS = new int[]{ENSOULED_ABYSSAL_HEAD, ENSOULED_ABYSSAL_HEAD_13508, ENSOULED_AVIANSIE_HEAD, ENSOULED_BEAR_HEAD, ENSOULED_AVIANSIE_HEAD_13505, ENSOULED_BEAR_HEAD_13463, ENSOULED_BLOODVELD_HEAD, ENSOULED_BLOODVELD_HEAD_13496, ENSOULED_CHAOS_DRUID_HEAD, ENSOULED_CHAOS_DRUID_HEAD_13472, ENSOULED_DAGANNOTH_HEAD, ENSOULED_DAGANNOTH_HEAD_13493, ENSOULED_DEMON_HEAD, ENSOULED_DEMON_HEAD_13502, ENSOULED_DRAGON_HEAD, ENSOULED_DRAGON_HEAD_13511, ENSOULED_ELF_HEAD, ENSOULED_ELF_HEAD_13481, ENSOULED_GIANT_HEAD, ENSOULED_GIANT_HEAD_13475, ENSOULED_GOBLIN_HEAD, ENSOULED_GOBLIN_HEAD_13448, ENSOULED_HELLHOUND_HEAD, ENSOULED_HELLHOUND_HEAD_26997, ENSOULED_DRAGON_HEAD_13511, ENSOULED_DRAGON_HEAD, ENSOULED_IMP_HEAD, ENSOULED_IMP_HEAD_13454, ENSOULED_KALPHITE_HEAD, ENSOULED_KALPHITE_HEAD_13490, ENSOULED_TZHAAR_HEAD, ENSOULED_TZHAAR_HEAD_13499, ENSOULED_UNICORN_HEAD, ENSOULED_UNICORN_HEAD_13466, ENSOULED_SCORPION_HEAD, ENSOULED_SCORPION_HEAD_13460, ENSOULED_OGRE_HEAD, ENSOULED_OGRE_HEAD_13478, ENSOULED_MINOTAUR_HEAD, ENSOULED_MINOTAUR_HEAD_13457, ENSOULED_HORROR_HEAD, ENSOULED_HORROR_HEAD_13487};
     public static final int[] ignored = new int[]{ItemIdentifiers.SHIELD_LEFT_HALF, ItemIdentifiers.DRAGON_SPEAR, ItemIdentifiers.LOOP_HALF_OF_KEY, ItemIdentifiers.TOOTH_HALF_OF_KEY, ItemIdentifiers.RUNE_SPEAR, ItemIdentifiers.LOOTING_BAG, ItemIdentifiers.LOOTING_BAG_22586, ItemIdentifiers.SLAYERS_ENCHANTMENT};
+
     public void rollTheDropTable(Player player, NPC npc) {
         int npcId = NpcDropRepository.getDropNpcId(npc.getId());
         NpcDropTable table = NpcDropRepository.forNPC(npcId);
-        var dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() == 12192 || npc.id() == 12191 || npc.id() == 12166;
+        boolean isDoubleDropsEnabled = player.getTimers().has(TimerKey.DOUBLE_DROPS);
+        boolean dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() == 12192 || npc.id() == 12191 || npc.id() == 12166;
         Tile tile = dropUnderPlayer ? player.tile() : npc.tile();
         if (table != null) {
             List<Item> rewards = table.getDrops(player);
@@ -43,6 +46,7 @@ public class ItemDrops {
                 LogType.BOSSES.log(player, npc.id(), item);
                 LogType.OTHER.log(player, npc.id(), item);
                 var drop = item.noted() ? item.unnote().note() : item;
+                this.checkPlayerEventDoubleDrops(isDoubleDropsEnabled, drop);
                 if (isSkipped(drop.getId())) continue;
                 if (isSkipLootingBag(player, drop)) continue;
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
@@ -50,13 +54,17 @@ public class ItemDrops {
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
-                isRareDrop(player, npc, table, drop);
+                this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
-                rollKeyTable(player, tile);
+                this.rollKeyTable(player, tile);
                 GroundItemHandler.createGroundItem(new GroundItem(drop, tile, player));
             }
         }
+    }
+
+    void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {
+        if (isDoubleDropsEnabled) drop.setAmount(drop.getAmount() * 2);
     }
 
     void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
@@ -71,8 +79,10 @@ public class ItemDrops {
     }
 
     void rollKeyTable(Player player, Tile tile) {
-        if (Utils.rollDie(500, 1)) GroundItemHandler.createGroundItem(new GroundItem(new Item(CRYSTAL_KEY, 1), tile, player));
-        if (Utils.rollDie(800, 1)) GroundItemHandler.createGroundItem(new GroundItem(new Item(ENHANCED_CRYSTAL_KEY, 1), tile, player));
+        if (Utils.rollDie(500, 1))
+            GroundItemHandler.createGroundItem(new GroundItem(new Item(CRYSTAL_KEY, 1), tile, player));
+        if (Utils.rollDie(800, 1))
+            GroundItemHandler.createGroundItem(new GroundItem(new Item(ENHANCED_CRYSTAL_KEY, 1), tile, player));
     }
 
     final boolean isUsingLuckOfTheDwarves(Player player, Item drop) {

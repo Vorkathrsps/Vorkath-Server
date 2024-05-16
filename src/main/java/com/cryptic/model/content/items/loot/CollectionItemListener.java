@@ -93,6 +93,7 @@ public interface CollectionItemListener {
             }
         }
         player.putAttrib(this.key(), increment);
+        System.out.println("ye we here?");
         for (Item rolledReward : rewards) {
             if (!WildernessArea.inWilderness(player.tile())) player.getInventory().addOrBank(rolledReward);
             else player.getInventory().addOrDrop(rolledReward);

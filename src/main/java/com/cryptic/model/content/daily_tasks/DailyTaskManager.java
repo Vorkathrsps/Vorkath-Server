@@ -1,6 +1,5 @@
 package com.cryptic.model.content.daily_tasks;
 
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
@@ -46,19 +45,20 @@ public class DailyTaskManager {
         int completionAmt = task.completionAmount;
         log.info("{}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
         completionAmt += extensions.getOrDefault(task, 0);
-        final var progress = (int) (completed * 100 / (double) completionAmt);
+        var progress = (int) (completed * 100 / (double) completionAmt);
         player.getPacketSender().sendString(START_LIST_ID, "<col=ff9040>" + Utils.formatEnum(task.taskName));
         player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%)  " + Utils.format(completed) + "/" + Utils.format(completionAmt));
         player.getPacketSender().sendProgressBar(PROGRESS_BAR_ID, progress);
         var description = task.taskDescription;
         String replacement = description.replaceAll("\\b\\d{1,3}\\b", String.valueOf(completionAmt));
+        replacement = replacement.replaceAll("\n", "<br>");
         player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, replacement);
         var rewards = new ItemContainer(3, ItemContainer.StackPolicy.ALWAYS, new Item[3]);
         rewards.addAll(task.rewards);
         for (int i = 0; i < Math.max(3, rewards.size()); i++) {
             player.getPacketSender().sendItemOnInterface(80768 + i, rewards.get(i));
         }
-
+        player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
         player.putAttrib(DAILY_TASK_SELECTED, task);
     }
 
@@ -107,7 +107,15 @@ public class DailyTaskManager {
             }
             player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
             tasks.clear();
-            var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values()).toList());
+            List<DailyTasks> list = new ArrayList<>();
+            var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values).toList());
+            for (var task : possibles) {
+                final DailyTasks generated = DailyTasks.generate(player, task);
+                if (generated != null) {
+                    list.add(generated);
+                }
+            }
+            System.out.println(list);
             Collections.shuffle(possibles);
             var newtasks = possibles.subList(0, 6); // trim
             tasks.addAll(newtasks);

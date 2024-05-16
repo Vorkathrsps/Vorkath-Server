@@ -102,6 +102,7 @@ public class ItemDefinition implements Definition {
     public boolean pvpAllowed;//this isnt pvp mode lol ik, but have a feeling its possibly fucking with it, if values arent set ? idk
     public boolean consumable;
     public static final Object2IntMap<String> linkedValueMap = new Object2IntOpenHashMap<>();
+
     public int findLinkedValue(String name) {
         var value = linkedValueMap.getOrDefault(name, -1);
         if (value != -1) return value;
@@ -180,6 +181,8 @@ public class ItemDefinition implements Definition {
                 name = "Seismic Wand";
                 ioptions = new String[]{null, "Wear", null, null, "Drop"};
             }
+            case ANCIENT_LAMP -> name = "Double Drops Lamp";
+            case QUEST_LAMP -> name = "Double XP Lamp";
             case TWENTY_FIVE_DOLLAR_SCROLL -> name = "$25 Scroll";
             case FIFTY_DOLLAR_SCROLL -> name = "$50 Scroll";
             case ONE_HUNDRED_DOLLAR_SCROLL -> name = "$100 Scroll";

@@ -8,9 +8,9 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 public class MysteryBox extends PacketInteraction {
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
+        System.out.println("here");
         if (item.getId() == 6199) {
-            CollectionItemHandler.rollBoxReward(player, item.getId());
-            return true;
+            return CollectionItemHandler.rollBoxReward(player, item.getId());
         }
         return false;
     }

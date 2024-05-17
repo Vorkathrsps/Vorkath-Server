@@ -178,7 +178,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_III, 1);
                     AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_IV, 1);
                     killer.getTaskMasterManager().increase(Tasks.REVENANTS);
-                    DailyTaskManager.increase(DailyTasks.REVENANTS, killer);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Alchemical Hydra")) {
@@ -191,7 +190,6 @@ public class NPCDeath {
 
                 if (npc.def().name.equalsIgnoreCase("Corporeal Beast")) {
                     AchievementsManager.activate(killer, Achievements.CORPOREAL_CRITTER, 1);
-                    DailyTaskManager.increase(DailyTasks.CORPOREAL_BEAST, killer);
                     killer.getTaskMasterManager().increase(Tasks.CORPOREAL_BEAST);
                 }
 
@@ -226,17 +224,14 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
                     AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
                     AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
                 }
 
                 if (npc.def().name.contains("Zulrah")) {
                     killer.getTaskMasterManager().increase(Tasks.ZULRAH);
-                    DailyTaskManager.increase(DailyTasks.ZULRAH, killer);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Vorkath")) {
                     killer.getTaskMasterManager().increase(Tasks.VORKATH);
-                    DailyTaskManager.increase(DailyTasks.VORKATH, killer);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Brutal lava dragon") || npc.def().name.equalsIgnoreCase("Skotizo") || npc.def().name.equalsIgnoreCase("Corrupted nechryarch")) {
@@ -260,9 +255,6 @@ public class NPCDeath {
                     killer.getTaskMasterManager().increase(Tasks.GIANT_MOLE);
                 }
 
-                if (npc.def().name.equalsIgnoreCase("Barrelchest")) {
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-                }
             }
 
             if (killer.getMinigame() != null) {
@@ -306,10 +298,6 @@ public class NPCDeath {
                     killer.getTaskMasterManager().increase(Tasks.KRAKEN);
                 }
 
-                case CORRUPTED_NECHRYARCH -> {
-                    DailyTaskManager.increase(DailyTasks.CORRUPTED_NECHRYARCHS, killer);
-                }
-
                 case ADAMANT_DRAGON, ADAMANT_DRAGON_8090, RUNE_DRAGON, RUNE_DRAGON_8031, RUNE_DRAGON_8091 ->
                     AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_IV, 1);
 
@@ -340,7 +328,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.VETION_I, 1);
                     AchievementsManager.activate(killer, Achievements.VETION_II, 1);
                     AchievementsManager.activate(killer, Achievements.VETION_III, 1);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
                 }
 
                 case VENENATIS_6610 -> {
@@ -348,7 +335,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_I, 1);
                     AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_II, 1);
                     AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_III, 1);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
                 }
 
                 case CALLISTO_6609 -> {
@@ -356,7 +342,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_I, 1);
                     AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_II, 1);
                     AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_III, 1);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
                 }
 
                 case ZULRAH, ZULRAH_2043, ZULRAH_2044 -> {
@@ -375,7 +360,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.MAGE_ARENA_II, 1);
                     AchievementsManager.activate(killer, Achievements.MAGE_ARENA_III, 1);
                     AchievementsManager.activate(killer, Achievements.MAGE_ARENA_IV, 1);
-                    DailyTaskManager.increase(DailyTasks.BATTLE_MAGE, killer);
                 }
 
             }
@@ -395,7 +379,6 @@ public class NPCDeath {
                 AchievementsManager.activate(killer, Achievements.BARK_SCORPION_I, 1);
                 AchievementsManager.activate(killer, Achievements.BARK_SCORPION_II, 1);
                 AchievementsManager.activate(killer, Achievements.BARK_SCORPION_III, 1);
-                DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
                 World.getWorld().getNpcs().forEachInArea(new Area(3219, 3248, 10329, 10353), n -> {
                     if (n.id() == SCORPIAS_GUARDIAN) {
                         World.getWorld().unregisterNpc(n);

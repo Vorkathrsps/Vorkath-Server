@@ -12,7 +12,7 @@ public abstract class HealthBarUpdate {
 
     public HealthBarUpdate(int id) {
         this.id = id;
-        this.template = CacheManager.INSTANCE.health(id);
+        this.template = CacheManager.INSTANCE.getHealthBar(id);
     }
 
 }

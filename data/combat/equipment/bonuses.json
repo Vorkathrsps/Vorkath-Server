@@ -83914,5 +83914,156 @@
       "slot": 12
     },
     "ge_limit": 70
+  },
+  "30010": {
+    "name": "Seismic wand",
+    "weight": 0.283,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "amagic": 30,
+      "dslash": 6,
+      "dcrush": 6,
+      "dmagic": 30,
+      "mdmg": 20,
+      "aspeed": 4
+    },
+    "ge_limit": 125
+  },
+  "30015": {
+    "name": "Tectonic Mask",
+    "weight": 2.267,
+    "equipable": true,
+    "equipment": {
+      "slot": 0,
+      "amagic": 10,
+      "arange": -6,
+      "dstab": 14,
+      "dslash": 15,
+      "dcrush": 16,
+      "dmagic": 8,
+      "mdmg": 2
+    }
+  },
+  "30016": {
+    "name": "Tectonic Robe Bottom",
+    "weight": 4.535,
+    "equipable": true,
+    "equipment": {
+      "slot": 7,
+      "amagic": 35,
+      "arange": -14,
+      "dstab": 33,
+      "dslash": 29,
+      "dcrush": 35,
+      "dmagic": 28,
+      "mdmg": 3
+    },
+    "ge_limit": 15
+  },
+  "30017": {
+    "name": "Tectonic Robe Top",
+    "weight": 11.339,
+    "equipable": true,
+    "equipment": {
+      "slot": 4,
+      "amagic": 40,
+      "arange": -10,
+      "dstab": 50,
+      "dslash": 41,
+      "dcrush": 61,
+      "dmagic": 32,
+      "mdmg": 3
+    },
+    "ge_limit": 15
+  },
+  "30018": {
+    "name": "Malevolant Helm",
+    "weight": 2.267,
+    "equipable": true,
+    "equipment": {
+      "slot": 0,
+      "amagic": -8,
+      "arange": -8,
+      "dstab": 70,
+      "dslash": 68,
+      "dcrush": 66,
+      "dmagic": -6,
+      "drange": 62,
+      "str": 9,
+      "prayer": 2
+    }
+  },
+  "30019": {
+    "name": "Malevolant Cuirass",
+    "weight": 4.535,
+    "equipable": true,
+    "equipment": {
+      "slot": 4,
+      "amagic": -20,
+      "arange": -20,
+      "dstab": 122,
+      "dslash": 120,
+      "dcrush": 120,
+      "dmagic": -20,
+      "drange": 152,
+      "str": 7,
+      "prayer": 1
+    },
+    "ge_limit": 15
+  },
+  "30020": {
+    "name": "Malevolant Greaves",
+    "weight": 11.339,
+    "equipable": true,
+    "equipment": {
+      "slot": 7,
+      "amagic": -34,
+      "arange": -15,
+      "dstab": 90,
+      "dslash": 82,
+      "dcrush": 82,
+      "dmagic": -20,
+      "drange": 110,
+      "str": 6,
+      "prayer": 2
+    },
+    "ge_limit": 15
+  },
+  "30021": {
+    "name": "Noxious Scythe",
+    "weight": 3.175,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": true,
+      "astab": 85,
+      "aslash": 135,
+      "acrush": 50,
+      "amagic": -12,
+      "dstab": -4,
+      "dslash": 15,
+      "dcrush": 15,
+      "str": 95,
+      "aspeed": 5
+    }
+  },
+  "30022": {
+    "name": "Noxious Staff",
+    "weight": 1.5,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "astab": 55,
+      "aslash": 70,
+      "amagic": 17,
+      "dslash": 3,
+      "dcrush": 3,
+      "dmagic": 17,
+      "str": 72,
+      "mdmg": 15,
+      "aspeed": 4
+    },
+    "ge_limit": 8
   }
 }

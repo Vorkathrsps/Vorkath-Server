@@ -148,7 +148,6 @@ public class DeathProcess implements TheatreDeath {
                     botDeaths++;
                     player.putAttrib(AttributeKey.BOT_DEATHS, botDeaths);
                     player.message("You now have " + botDeaths + " bot " + Utils.pluralOrNot("death", botDeaths) + ".");
-                    DailyTaskManager.increase(DailyTasks.BOTS, player);
                 }
 
                 NPC barrowsBro = player.getAttribOr(barrowsBroSpawned, null);

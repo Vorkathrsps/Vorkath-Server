@@ -33,4 +33,6 @@ public class CustomItemIdentifiers {
 
     public static final int DOUBLE_DROPS_LAMP = 28409;
     public static final int DOUBLE_XP_LAMP = 28551;
+    public static final int NOXIOUS_STAFF = 30022;
+    public static final int NOXIOUS_SCYTHE = 30021;
 }

@@ -195,33 +195,6 @@ public class PlayerKillingRewards {
         boolean noArm = !wearing_body && !wearing_legs;
         boolean wearingDharok = CombatConstants.wearingDharoksArmour(killer);
 
-        //Rev cave
-        if (revCave) {
-            DailyTaskManager.increase(DailyTasks.REV_CAVE_KILLS, killer);
-        }
-
-        //Deep wilderness
-        if (above30Wild) {
-            DailyTaskManager.increase(DailyTasks.DEEP_WILDERNESS, killer);
-        }
-
-        //Pure
-        if (isPure && edgevile) {
-            DailyTaskManager.increase(DailyTasks.PURE_KILLS, killer);
-        }
-
-        //Zerker
-        if (isZerker && edgevile) {
-            DailyTaskManager.increase(DailyTasks.ZERKER_KILLS, killer);
-        }
-
-        if(noArm) {
-            DailyTaskManager.increase(DailyTasks.NO_ARM, killer);
-        }
-
-        if(wearingDharok) {
-            DailyTaskManager.increase(DailyTasks.DHAROK, killer);
-        }
     }
 
     private static void updateAchievement(Player killer, Player target) {

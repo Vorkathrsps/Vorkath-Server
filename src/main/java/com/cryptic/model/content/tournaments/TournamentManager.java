@@ -782,7 +782,6 @@ public class TournamentManager extends PacketInteraction {
                         player.getTimers().extendOrRegister(TimerKey.TOURNAMENT_FIGHT_IMMUNE, TournamentUtils.FIGHT_IMMUME_TIMER);
                         player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, "00:30");
                         player.getPacketSender().sendInteractionOption("Attack", 2, true);
-                        DailyTaskManager.increase(DailyTasks.TOURNEY_PARTICIPATION, player);
                     }
                     next.checkForNextRoundStart();
                     //logger.info(next.getTypeName() + " tournament has started.");

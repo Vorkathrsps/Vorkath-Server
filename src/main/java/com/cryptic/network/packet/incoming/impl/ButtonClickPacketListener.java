@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_LIST;
 import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_POINTS;
@@ -56,6 +57,7 @@ public class ButtonClickPacketListener implements PacketListener {
 
     public static final int[] ALL = new int[]{2494, 2495, 2496, 2497, 2498, 2482, 2483, 2484, 2485, 2471, 2472, 2473, 2461, 2462, 2458, 24492};
     public static final int[] TELEPORT_BUTTONS = new int[]{13035, 13045, 13053, 13061, 13069, 13079, 13087, 13095, 1164, 1167, 1170, 1174, 1541, 7455, 31674, 30064, 30075, 30083, 30106, 30114, 30138, 30146, 30162, 30170, 30226, 30250, 30258, 30266, 30274, 40305, 40307, 40308, 40309, 40310, 40312, 40316, 40323, 40326, 40334, 40343};
+
     public static void main(String[] args) {
         final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0, (byte) 0, (byte) 101, (byte) -9}));
         int r = packet.readInt();
@@ -94,8 +96,12 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (button == 80017) {
             player.getInterfaceManager().open(80750);
+            DailyTaskManager.onLogin(player);
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-            for (int i = 0; i < tasks.size(); i++) player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
+            for (int i = 0; i < tasks.size(); i++) {
+                player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
+            }
+            System.out.println(tasks);
             DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
             return;
         }

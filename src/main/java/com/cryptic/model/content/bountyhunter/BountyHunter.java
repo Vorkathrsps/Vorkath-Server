@@ -307,10 +307,6 @@ public class BountyHunter {
                     killer.inventory().remove(new Item(emblem.get().getItemId()));
                     killer.inventory().add(new Item(emblem.get().getNextOrLast().getItemId()));
 
-                    boolean tierTen = emblem.get().getNextOrLast().getItemId() == ItemIdentifiers.ANTIQUE_EMBLEM_TIER_10;
-                    if (tierTen) {
-                        DailyTaskManager.increase(DailyTasks.TIER_UPGRADE, killer);
-                    }
                 } else {
                     killer.inventory().addOrBank(new Item(ANTIQUE_EMBLEM_TIER_1));
                 }

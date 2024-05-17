@@ -29,6 +29,7 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 import static com.cryptic.utility.CustomItemIdentifiers.KORASI_SWORD;
+import static com.cryptic.utility.CustomItemIdentifiers.NOXIOUS_SCYTHE;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -247,6 +248,7 @@ public class EquipmentInfo {
                 case SANGUINE_SCYTHE_OF_VITUR:
                 case HOLY_SCYTHE_OF_VITUR:
                 case CORRUPTED_SCYTHE_OF_VITUR:
+                case NOXIOUS_SCYTHE:
                     return 8056;
                 case GHRAZI_RAPIER:
                 case HOLY_GHRAZI_RAPIER:

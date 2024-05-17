@@ -503,7 +503,7 @@
         <dependency>
             <groupId>dev.openrune</groupId>
             <artifactId>filestore</artifactId>
-            <version>1.2.8</version>
+            <version>1.2.13</version>
         </dependency>
 
         <!-- Discord Libs -->

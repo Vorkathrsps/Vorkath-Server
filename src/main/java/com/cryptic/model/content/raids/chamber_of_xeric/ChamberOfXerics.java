@@ -103,8 +103,6 @@ public class ChamberOfXerics extends Raids {
             p.message(String.format("Total points: " + Color.RAID_PURPLE.wrap("%,d") + ", Personal points: " + Color.RAID_PURPLE.wrap("%,d") + " (" + Color.RAID_PURPLE.wrap("%.2f") + "%%)",
                 party.totalPoints(), p.<Integer>getAttribOr(PERSONAL_POINTS, 0), (double) (p.<Integer>getAttribOr(PERSONAL_POINTS, 0) / party.totalPoints()) * 100));
 
-            //Daily raids task
-            DailyTaskManager.increase(DailyTasks.DAILY_RAIDS, p);
 
             //Roll a reward for each individual player
             ChamberOfXericReward.giveRewards(p);

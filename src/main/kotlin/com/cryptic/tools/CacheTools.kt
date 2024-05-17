@@ -13,6 +13,7 @@ import dev.openrune.cache.tools.tasks.impl.PackSprites
 import dev.openrune.cache.tools.tasks.impl.RemoveXteas
 import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.cache.tools.tasks.impl.defs.PackMode
+import dev.openrune.cache.tools.tasks.impl.defs.json.PackItems
 import java.io.File
 
 object CacheTools {
@@ -41,7 +42,8 @@ fun main(args : Array<String>) {
         PackDats(settings.getRawCacheLocation("dats/")),
         PackModels(settings.getRawCacheLocation("models/")),
         PackMaps(settings.getRawCacheLocation("maps/")),
-        PackConfig(PackMode.OBJECTS,settings.getRawCacheLocation("definitions/objects/")),
+        //PackItems(settings.getRawCacheLocation("definitions/items/"))//Old json way but its not gonna be supported long just convert them takes like 10 mins..
+        //PackConfig(PackMode.OBJECTS,settings.getRawCacheLocation("definitions/objects/")),
         PackConfig(PackMode.ITEMS,settings.getRawCacheLocation("definitions/items/")),
     )
 

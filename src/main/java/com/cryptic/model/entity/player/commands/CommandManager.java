@@ -709,7 +709,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            CollectionItemHandler.rollBoxReward(p, 6199);
+            DailyTaskManager.onLogin(p);
             /*  Set<DailyTasks> list = new HashSet<>();
             List<DailyTasks> possibles = new ArrayList<>(List.of(DailyTasks.values()));
             for (var task : possibles) {

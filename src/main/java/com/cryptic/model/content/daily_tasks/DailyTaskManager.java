@@ -94,33 +94,38 @@ public class DailyTaskManager {
 
     public static void onLogin(Player player) {
         var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-        if (tasks == null) {
-            tasks = new ArrayList<>();
-        }
+        if (tasks == null) tasks = new ArrayList<>();
         player.putAttrib(DAILY_TASKS_LIST, tasks);
-        if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth() || tasks.isEmpty()) {
-            player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());
-            for (DailyTasks task : DailyTasks.values()) {
-                player.clearAttrib(task.key);
-                player.clearAttrib(task.completed);
-                player.clearAttrib(task.rewardClaimed);
-            }
-            player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
-            tasks.clear();
-            List<DailyTasks> list = new ArrayList<>();
-            var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values).toList());
-            for (var task : possibles) {
-                final DailyTasks generated = DailyTasks.generate(player, task);
-                if (generated != null) {
-                    list.add(generated);
-                }
-            }
-            System.out.println(list);
-            Collections.shuffle(possibles);
-            var newtasks = possibles.subList(0, 6); // trim
-            tasks.addAll(newtasks);
+        if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth() || tasks.isEmpty() || tasks.contains(null)) {
+            clearTasks(player, tasks);
+            generateNewTasks(player, tasks);
         }
     }//what is the name about pvp mode?
+
+    public static void clearTasks(Player player, ArrayList<DailyTasks> tasks) {
+        player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());
+        for (DailyTasks task : DailyTasks.values()) {
+            player.clearAttrib(task.key);
+            player.clearAttrib(task.completed);
+            player.clearAttrib(task.rewardClaimed);
+        }
+        player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
+        tasks.clear();
+    }
+
+    public static void generateNewTasks(Player player, ArrayList<DailyTasks> tasks) {
+        List<DailyTasks> list = new ArrayList<>();
+        var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values).toList());
+        for (var task : possibles) {
+            final DailyTasks generated = DailyTasks.generate(player, task);
+            if (generated != null) {
+                list.add(generated);
+            }
+        }
+        Collections.shuffle(list);
+        var newtasks = list.subList(0, 6); // trim
+        tasks.addAll(newtasks);
+    }
 
     public static void claimReward(DailyTasks dailyTask, Player player) {
         //Got a be inside the interface to claim

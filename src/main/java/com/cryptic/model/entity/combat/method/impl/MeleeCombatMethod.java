@@ -14,6 +14,7 @@ import com.cryptic.model.map.position.Tile;
 import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_VASILIAS_8356;
+import static com.cryptic.utility.CustomItemIdentifiers.NOXIOUS_SCYTHE;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -96,7 +97,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         if (target.isNpc() && entity instanceof Player player) {
-            if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR, CORRUPTED_SCYTHE_OF_VITUR)) {
+            if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR, CORRUPTED_SCYTHE_OF_VITUR, NOXIOUS_SCYTHE)) {
                 attackWithScythe(target);
                 return true;
             }

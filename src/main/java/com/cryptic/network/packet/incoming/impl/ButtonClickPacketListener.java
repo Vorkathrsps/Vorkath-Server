@@ -95,14 +95,14 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         if (button == 80017) {
-            player.getInterfaceManager().open(80750);
+         /*   player.getInterfaceManager().open(80750);
             DailyTaskManager.onLogin(player);
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             for (int i = 0; i < tasks.size(); i++) {
                 player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
             }
             System.out.println(tasks);
-            DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
+            DailyTaskManager.displayTaskInfo(player, tasks.getFirst());*/
             return;
         }
 

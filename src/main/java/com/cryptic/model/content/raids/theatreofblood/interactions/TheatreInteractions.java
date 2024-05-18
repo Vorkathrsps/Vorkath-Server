@@ -209,41 +209,44 @@ public class TheatreInteractions extends PacketInteraction {
                 return true;
             }
         } else if (id == 33113) {
-            var party = player.getTheatreInstance().getPlayers();
-            if (player.getRoomState().equals(RoomState.INCOMPLETE)) {
-                player.message(Color.RED.wrap("You must complete this room to advance to the next fight."));
-                return true;
-            }
-            if (player.tile().region() == 12613) {
-                for (var p : party) {
-                    if (p == player) {
-                        p.teleport(new Tile(3271, 4448, height));
-                        p.setRoomState(RoomState.INCOMPLETE);
-                        break;
-                    }
+            if (player.getTheatreInstance() != null) {
+                var party = player.getTheatreInstance().getPlayers();
+                if (player.getRoomState().equals(RoomState.INCOMPLETE)) {
+                    player.message(Color.RED.wrap("You must complete this room to advance to the next fight."));
+                    return true;
                 }
-            } else if (player.tile().region() == 13125) {
-                for (var p : party) {
-                    if (p == player) {
-                        p.teleport(new Tile(3300, 4276, height));
-                        p.setRoomState(RoomState.INCOMPLETE);
-                        break;
+                if (player.tile().region() == 12613) {
+                    for (var p : party) {
+                        if (p == player) {
+                            p.teleport(new Tile(3271, 4448, height));
+                            p.setRoomState(RoomState.INCOMPLETE);
+                            break;
+                        }
                     }
-                }
-            } else if (player.tile().region() == 13122) {
-                for (var p : party) {
-                    if (p == player) {
-                        p.teleport(new Tile(3279, 4294, height));
-                        p.setRoomState(RoomState.INCOMPLETE);
-                        break;
+                } else if (player.tile().region() == 13125) {
+                    for (var p : party) {
+                        if (p == player) {
+                            p.teleport(new Tile(3300, 4276, height));
+                            p.setRoomState(RoomState.INCOMPLETE);
+                            break;
+                        }
                     }
-                }
-            } else if (player.tile().region() == 13123) {
-                for (var p : party) {
-                    if (p == player) {
-                        p.teleport(new Tile(3170, 4376, height + 1));
-                        p.setRoomState(RoomState.INCOMPLETE);
-                        break;
+                } else if (player.tile().region() == 13122) {
+                    for (var p : party) {
+                        if (p == player) {
+                            p.teleport(new Tile(3279, 4294, height));
+                            p.setRoomState(RoomState.INCOMPLETE);
+                            break;
+                        }
+                    }
+                    return true;
+                } else if (player.tile().region() == 13123) {
+                    for (var p : party) {
+                        if (p == player) {
+                            p.teleport(new Tile(3170, 4376, height + 1));
+                            p.setRoomState(RoomState.INCOMPLETE);
+                            break;
+                        }
                     }
                 }
             }

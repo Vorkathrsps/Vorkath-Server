@@ -21,7 +21,6 @@ public final class ServerProperties {
 
     static final ServerProperties current;
     public static final LocalProperties localProperties;
-    public static final boolean IS_LIVE = false;
 
     static {
         Path filePathLocal = Paths.get("./data/local-properties.json");
@@ -66,7 +65,7 @@ public final class ServerProperties {
                 logger.info("Server properties file (./data/properties.json) was not found, loaded with default settings.");
             }
             if (!current.overrideGamePort) {
-                if (IS_LIVE) {
+                if (current.live) {
                     current.gamePort = 43594;
                 } else {
                     current.gamePort = 43597;
@@ -106,6 +105,7 @@ public final class ServerProperties {
 
     private ServerProperties(boolean sqlOn, boolean discordLoggingOn) {
         // Default property values. If the server properties file exists, these will be ignored.
+        live = false;
         gameVersion = "6";
         definitionsDirectory = "./data/def/";
         dumpDefinitionsDirectory = "./data/dump/";
@@ -237,6 +237,7 @@ public final class ServerProperties {
      * The current game/client version.
      */
     public final String gameVersion;
+    public final boolean live;
 
     /**
      * The directory of the definition files.

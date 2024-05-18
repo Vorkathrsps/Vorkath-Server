@@ -348,7 +348,7 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 170
-  rareDrop: false
+  rareDrop: true
   sendToBank: false
 - item: ENSOULED_HORROR_HEAD
   minimumAmount: 1

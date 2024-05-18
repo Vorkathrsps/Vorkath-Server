@@ -41,14 +41,13 @@ import com.cryptic.model.entity.player.commands.impl.member.*;
 import com.cryptic.model.entity.player.commands.impl.owner.*;
 import com.cryptic.model.entity.player.commands.impl.players.*;
 import com.cryptic.model.entity.player.commands.impl.staff.admin.*;
-import com.cryptic.model.entity.player.commands.impl.staff.moderator.ModZoneCommand;
-import com.cryptic.model.entity.player.commands.impl.staff.moderator.TeleToMePlayerCommand;
-import com.cryptic.model.entity.player.commands.impl.staff.moderator.UnVanishCommand;
-import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishCommand;
+import com.cryptic.model.entity.player.commands.impl.staff.moderator.*;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.inter.InterfaceConstants;
+import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -214,6 +213,7 @@ public class CommandManager {
         commands.put("teletome", new TeleToMePlayerCommand());
         commands.put("modzone", new ModZoneCommand());
         commands.put("sz", new StaffZoneCommand());
+        commands.put("sim", new SimulateCommand());
 
         /*
          * Admin commands
@@ -989,21 +989,57 @@ public class CommandManager {
             p.getnewteleInterface().drawInterface(88005);
         });
 
-        dev("sim", (p, c, s) ->
-
+        dev("simclear", (p, c, s) ->
         {
-            var kills = Integer.parseInt(s[1]);
-            NpcDropTable table = NpcDropRepository.forNPC(319);
-            List<Item> simulate = table.getDrops(p);
-            simulate.sort((o1, o2) -> {
-                int oo1 = kills / Math.max(1, o1.getAmount());
-                int oo2 = kills / Math.max(1, o2.getAmount());
-                return Integer.compare(oo1, oo2);
+            p.getPacketSender().sendInterface(27200);
+            for (int index = 0; index < 1000; index++) {
+                p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
+            }
+        });
+
+        dev("sim", (p, c, s) ->
+        {
+            var id = Integer.parseInt(s[1]);
+
+            NpcDropTable table = NpcDropRepository.forNPC(id);
+            p.setAmountScript("Enter Amount of Kills", new InputScript() {
+                @Override
+                public boolean handle(Object value) {
+                    int kills = (int) value;
+                    if (kills <= 0) return false;
+                    List<Item> simulate = table.simulate(p, kills);
+
+                    simulate.sort((o1, o2) -> {
+                        int oo1 = kills / Math.max(1, o1.getAmount());
+                        int oo2 = kills / Math.max(1, o2.getAmount());
+                        return Integer.compare(oo1, oo2);
+                    });
+
+                    Map<Integer, Item> mergedItems = new HashMap<>();
+                    for (Item item : simulate) {
+                        int itemId = item.getId();
+                        if (mergedItems.containsKey(itemId)) {
+                            Item existingItem = mergedItems.get(itemId);
+                            existingItem.setAmount(existingItem.getAmount() + item.getAmount());
+                        } else {
+                            mergedItems.put(itemId, item);
+                        }
+                    }
+
+                    List<Item> mergedList = new ArrayList<>(mergedItems.values());
+
+                    p.getPacketSender().sendInterface(27200);
+                    for (int index = 0; index < 500; index++) {
+                        p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
+                    }
+                    for (int index = 0; index < mergedList.size(); index++) {
+                        var item = mergedList.get(index);
+                        p.getPacketSender().sendItemOnInterfaceSlot(27201, item, index);
+                    }
+                    return true;
+                }
             });
 
-            p.getPacketSender().sendInterface(BANK_WIDGET);
-            p.getPacketSender().sendItemOnInterface(InterfaceConstants.WITHDRAW_BANK, simulate);
-            p.getPacketSender().sendBanktabs();
         });
 
         dev("test12", (p, c, s) ->

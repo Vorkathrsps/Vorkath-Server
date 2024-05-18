@@ -190,9 +190,16 @@ public class Player extends Entity {
     @Getter
     @Setter
     private NightmareInstance nightmareInstance;
-    @Getter
-    @Setter
-    private TheatreInstance theatreInstance;
+
+    public TheatreInstance getTheatreInstance() {
+        return theatreInstance;
+    }
+
+    public void setTheatreInstance(TheatreInstance theatreInstance) {
+        this.theatreInstance = theatreInstance;
+    }
+
+    public TheatreInstance theatreInstance;
 
     @Getter
     @Setter
@@ -1623,7 +1630,7 @@ public class Player extends Entity {
     private static void handleOnLogin(Player player) {
         PacketInteractionManager.onLogin(player);
         TournamentManager.onLogin1(player);
-        DailyTaskManager.onLogin(player);
+        //DailyTaskManager.onLogin(player);
         Prayers.onLogin(player);
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);
@@ -2136,7 +2143,7 @@ public class Player extends Entity {
      * @return
      */
     public boolean busy() {
-        return !interfaceManager.isMainClear() || dead() || isNeedsPlacement() || getStatus() != PlayerStatus.NONE;
+        return !interfaceManager.isMainClear() && !interfaceManager.isInterfaceOpen(6960) || dead() || isNeedsPlacement() || getStatus() != PlayerStatus.NONE;
     }
 
     /*

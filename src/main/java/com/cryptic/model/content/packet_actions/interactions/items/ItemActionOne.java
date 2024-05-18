@@ -47,6 +47,7 @@ public class ItemActionOne {
         if (PacketInteractionManager.checkItemInteraction(player, item, 1)) {
             return;
         }
+
         if (TreasureRewardCaskets.openCasket(player, item)) {
             return;
         }

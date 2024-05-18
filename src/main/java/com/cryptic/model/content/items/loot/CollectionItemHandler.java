@@ -1,8 +1,9 @@
 package com.cryptic.model.content.items.loot;
 
-import com.cryptic.model.content.items.loot.impl.CrystalKey;
-import com.cryptic.model.content.items.loot.impl.EnhancedCrystalKey;
-import com.cryptic.model.content.items.loot.impl.LarransKey;
+import com.cryptic.model.content.items.loot.impl.caskets.*;
+import com.cryptic.model.content.items.loot.impl.keys.CrystalKey;
+import com.cryptic.model.content.items.loot.impl.keys.EnhancedCrystalKey;
+import com.cryptic.model.content.items.loot.impl.keys.LarransKey;
 import com.cryptic.model.content.items.loot.impl.MysteryBox;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -11,12 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionItemHandler {
+    private static final List<CollectionItemListener> clueListeners;
     private static final List<CollectionItemListener> boxListeners;
     private static final List<CollectionItemListener> keyListeners;
 
     static {
         boxListeners = initBoxes();
         keyListeners = initKeys();
+        clueListeners = initClues();
+    }
+
+    private static List<CollectionItemListener> initClues() {
+        List<CollectionItemListener> listeners = new ArrayList<>();
+        listeners.add(new BeginnerCasket());
+        listeners.add(new EasyCasket());
+        listeners.add(new MediumCasket());
+        listeners.add(new HardCasket());
+        listeners.add(new EliteCasket());
+        listeners.add(new MasterCasket());
+        return listeners;
     }
 
     private static List<CollectionItemListener> initBoxes() {
@@ -43,11 +57,18 @@ public class CollectionItemHandler {
         return false;
     }
 
+    public static void rollClueScrollReward(Player player, int id) {
+        for (CollectionItemListener listener : clueListeners) {
+            if (listener.isItem(id)) {
+                listener.openClue(player);
+                return;
+            }
+        }
+    }
+
     public static boolean rollBoxReward(Player player, int id) {
         for (CollectionItemListener listener : boxListeners) {
-            System.out.println(listener);
             if (listener.isItem(id)) {
-                System.out.println("is item");
                 listener.openBox(player);
                 return true;
             }

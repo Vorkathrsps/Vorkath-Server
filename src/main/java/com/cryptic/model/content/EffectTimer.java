@@ -15,7 +15,7 @@ public enum EffectTimer {
     DFS(1038),
     CHARGE(1037),
     IMBUED_HEART(1098),
-    DROP_LAMP(1106),
+    DROP_LAMP(2215),
     MONSTER_RESPAWN(1434),
     DIVINE_BASTION_POTION(1437),
     DIVINE_BATTLE_MAGE_POTION(1438),
@@ -25,7 +25,7 @@ public enum EffectTimer {
     DIVINE_SUPER_DEFENCE_POTION(1442),
     DIVINE_SUPER_ATTACK_POTION(1443),
     DIVINE_SUPER_STRENGTH_POTION(1444),
-    DOUBLE_EXP(2153),
+    DOUBLE_EXP(2216),
     ;
 
     EffectTimer(int clientSprite) {

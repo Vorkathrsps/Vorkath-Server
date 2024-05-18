@@ -1,4 +1,4 @@
-package com.cryptic.model.content.items.loot.impl;
+package com.cryptic.model.content.items.loot.impl.keys;
 
 import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.items.loot.CollectionItem;

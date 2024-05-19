@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -106,7 +107,7 @@ public class ScurriusCombat extends CommonCombatMethod {
                 for (var target : this.getPossibleTargets(entity)) {
                     if (target == null) continue;
                     if (target.tile().equals(t)) {
-                        entity.submitAccurateHit(target, 0, Utils.random(5, 13), this);
+                        new Hit(entity, target, 0, CombatType.TYPELESS).checkAccuracy(false).setAccurate(true).setDamage(Utils.random(5, 13)).setHitMark(HitMark.HIT).submit();
                     }
                 }
             });

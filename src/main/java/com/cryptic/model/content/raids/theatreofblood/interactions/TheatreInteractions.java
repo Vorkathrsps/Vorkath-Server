@@ -8,6 +8,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
@@ -32,6 +33,17 @@ public class TheatreInteractions extends PacketInteraction {
         }
         if (player.getTheatreInstance() == null) return false;
         var height = player.getTheatreInstance().getzLevel();
+        if (id == 32741) {
+            if (player.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
+                player.message("<img=13><shad=0>" + Color.RED.wrap("You already have claimed the Dawnbringer.") + "</shad></img>");
+                return true;
+            }
+            if (!player.getInventory().isFull()) {
+                if (player.getTheatreInstance() == null) return true;
+                player.getInventory().add(ItemIdentifiers.DAWNBRINGER);
+                return true;
+            }
+        }
         if (id == 32751) {
             var party = player.getTheatreInstance().getPlayers();
             for (var p : party) {

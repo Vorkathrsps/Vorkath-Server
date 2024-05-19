@@ -9,12 +9,10 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import com.intellij.openapi.util.Comparing;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface CollectionItemListener {
     @NotNull CollectionItem[] rewards();
@@ -36,8 +34,11 @@ public interface CollectionItemListener {
         for (var i : rewards()) totalRarity += i.rarity;
         int randomNumber = World.getWorld().random().nextInt(totalRarity);
         int cumulativeRarity = 0;
+        List<CollectionItem> list = new ArrayList<>(Arrays.asList(rewards()));
+        list.sort(Comparator.comparingInt(k -> k.rarity));
+        list = list.reversed();
         while (!rewardFound) {
-            for (var i : rewards()) {
+            for (var i : list) {
                 cumulativeRarity += i.rarity;
                 if (randomNumber < cumulativeRarity) {
                     if (i.amount == -1) reward = new Item(i.id);
@@ -90,7 +91,6 @@ public interface CollectionItemListener {
                 }
             }
         }
-
         player.putAttrib(this.key(), increment);
         player.clueScrollReward().addAll(rewards);
         player.getPacketSender().sendItemOnInterface(6963, player.clueScrollReward().toArray());

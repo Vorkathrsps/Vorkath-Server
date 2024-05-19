@@ -17,6 +17,7 @@ import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.CustomItemIdentifiers;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.logging.log4j.Level;
@@ -182,6 +183,10 @@ public class DropItemPacketListener implements PacketListener {
         GroundItem groundItem = new GroundItem(item, player.tile(), player);
 
         //When dropping items in the wilderness everyone can instantly pick them up
+        if (player.tile().region() == 12611 && item.getId() == DAWNBRINGER) {
+            groundItem.setState(State.SEEN_BY_EVERYONE);
+        }
+
         if (WildernessArea.isInWilderness(player)) {
             groundItem.setState(State.SEEN_BY_EVERYONE);
         }

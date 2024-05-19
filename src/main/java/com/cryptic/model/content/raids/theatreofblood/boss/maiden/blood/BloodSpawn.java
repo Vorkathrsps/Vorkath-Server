@@ -32,24 +32,23 @@ public class BloodSpawn extends NPC {
         this.getCombat().setAutoRetaliate(false);
     }
 
-    protected boolean verifyDamage() {
+    protected void verifyDamage() {
         Hit hit = player.hit(this, Utils.random(4, 8), 0, null);
         for (var o : this.theatreInstance.bloodObjectList) {
             if (o == null) continue;
             if (o.tile().equals(player.tile())) {
                 hit.submit();
                 addDamage(hit.getDamage());
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     public void heal() {
         Iterator<Integer> iterator = damage.iterator();
         while (iterator.hasNext()) {
             var d = iterator.next();
-            maiden.healHit(this, d);
+            maiden.healHit(null, d);
             iterator.remove();
         }
     }

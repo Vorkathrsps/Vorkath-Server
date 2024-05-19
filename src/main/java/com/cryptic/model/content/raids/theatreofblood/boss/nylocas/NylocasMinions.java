@@ -5,6 +5,9 @@ import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
@@ -57,7 +60,7 @@ public class NylocasMinions extends NPC {
             public boolean prepareAttack(Entity entity, Entity target) {
                 if (!withinDistance(entity, target, 1)) return false;
                 entity.animate(entity.attackAnimation());
-                entity.submitAccurateHit(target, 0, Utils.random(1, entity.getAsNpc().getCombatInfo().maxhit), this);
+                new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(false).setHitMark(HitMark.HIT).setDamage(Utils.random(1, entity.getAsNpc().getCombatInfo().maxhit)).submit();
                 return true;
             }
 
@@ -138,12 +141,12 @@ public class NylocasMinions extends NPC {
     public void die() {
         var target = this.getCombat().getTarget();
         Chain.noCtx().delay(1, () -> {
-            animate(7991);
+            this.animate(this.getCombatInfo().getAnimations().death);
             if (this.tile() != null && this.getCombat().getTarget() != null && this.getCombat().getTarget().tile() != null) {
                 if (target == null) return;
                 if (this.tile().nextTo(target.tile())) {
                     if (this.getCombatInfo() != null) {
-                        this.submitAccurateHit(target, 0, Utils.random(1, this.getCombatInfo().maxhit), null);
+                        new Hit(this, target, 0, CombatType.TYPELESS).checkAccuracy(false).setDamage(World.getWorld().random(1, this.getCombatInfo().maxhit)).setHitMark(HitMark.HIT).submit();
                     }
                 }
             }
@@ -154,7 +157,7 @@ public class NylocasMinions extends NPC {
     }
 
     private void attackClosestAlivePillar() {
-        List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(npc -> !npc.dead() && npc.isRegistered()).toList();
+        List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(npc -> !npc.dead()).toList();
         System.out.println("pillar list: "  + availablePillars.size());
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);

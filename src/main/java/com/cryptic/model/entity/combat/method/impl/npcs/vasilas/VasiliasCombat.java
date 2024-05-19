@@ -2,6 +2,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.vasilas;
 
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -19,20 +20,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class VasiliasCombat extends CommonCombatMethod {
-    private static final Projectile RANGED_PROJECTILE = new Projectile(1560, 70, 20, 51, 56, 10, 16, 96);
-    private static final Projectile MAGIC_PROJECTILE = new Projectile(1580, 70, 20, 51, 56, 10, 16, 96);
     private boolean isTransforming;
     private NylocasSize size;
     private Form[] forms;
     private Queue<Form> transformationsQueue;
     private Form form;
-    private static final Area room = new Area(3290, 4243, 3301, 4254);
+    TheatreInstance theatreInstance;
 
     @Override
     public void init(NPC npc) {
+        this.theatreInstance = npc.getTheatreInstance();
         size = NylocasSize.BOSS;
         form = Form.MELEE;
-        forms = new Form[] {Form.MELEE, Form.RANGED, Form.MAGIC};
+        forms = new Form[]{Form.MELEE, Form.RANGED, Form.MAGIC};
     }
 
     public void transform(NPC npc) {
@@ -74,18 +74,19 @@ public class VasiliasCombat extends CommonCombatMethod {
                         Projectile projectile = new Projectile(nyloTile, p, 1610, 25, duration, 12, 16, 24, entity.getSize(), 48, 0);
                         projectile.send(entity, p);
                         int delay = (int) (projectile.getSpeed() / 20D);
-                        Hit hit = p.hit(mob, World.getWorld().random(0, 70), CombatType.MAGIC).clientDelay(delay).checkAccuracy(true);
-                        hit.submit();
+                        new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                     });
                 }
             }
             case MELEE -> {
                 if (player.isPlayer()) {
-                    if (!withinDistance(1)) return false;
+                    if (!isReachable()) {
+                        transform(this.entity.npc());
+                        return true;
+                    }
                     int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                     mob.animate(animationId);
-                    Hit hit = player.hit(mob, World.getWorld().random(0, 70), 2, CombatType.MELEE).checkAccuracy(true);
-                    hit.submit();
+                    new Hit(entity, target, 0, CombatType.MELEE).checkAccuracy(true).submit();
                 }
             }
             case RANGED -> {
@@ -99,8 +100,7 @@ public class VasiliasCombat extends CommonCombatMethod {
                         Projectile projectile = new Projectile(nyloTile, p, 1561, 39, duration, 8, 16, 16, entity.getSize(), 48, 0);
                         projectile.send(entity, p);
                         int delay = (int) (projectile.getSpeed() / 20D);
-                        Hit hit = p.hit(mob, World.getWorld().random(0, 70), CombatType.RANGED).clientDelay(delay).checkAccuracy(true);
-                        hit.submit();
+                        new Hit(entity, target, delay, CombatType.RANGED).checkAccuracy(true).submit();
                     });
                 }
             }
@@ -143,29 +143,6 @@ public class VasiliasCombat extends CommonCombatMethod {
                         mobTarget.getCombat().reset();
                     }
                 }
-            }
-        }
-    }
-
-    @Override
-    public void onDeath(Player killer, NPC npc) {
-        var party = killer.raidsParty;
-
-        if (party != null) {
-            var currentKills = party.getKills();
-            party.setKills(currentKills + 1);
-
-            //Progress to the next stage
-            if (party.getKills() == 1) {
-                party.setRaidStage(4);
-                party.setKills(0);//Reset kills back to 0
-            }
-
-            int randomPoints = World.getWorld().random(10, 12);
-            for (Player player : party.getMembers()) {
-                var raidsPoints = player.<Integer>getAttribOr(AttributeKey.PERSONAL_POINTS, 0) + randomPoints;
-                player.putAttrib(AttributeKey.PERSONAL_POINTS, raidsPoints);
-                player.message("You now have " + raidsPoints + " points.");
             }
         }
     }

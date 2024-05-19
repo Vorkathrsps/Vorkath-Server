@@ -53,6 +53,6 @@ public enum HitMark {
             if (non_tinted == -1) return tinted;
             return non_tinted;
         }
-        return tinted;
+        return tinted == -1 ? non_tinted : tinted;
     }
 }

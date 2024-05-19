@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import static com.cryptic.utility.CustomItemIdentifiers.SEISMIC_WAND;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class Autocasting {
@@ -78,7 +79,8 @@ public class Autocasting {
             VOLATILE_NIGHTMARE_STAFF,
             ELDRITCH_NIGHTMARE_STAFF,
             TOXIC_STAFF_OF_THE_DEAD,
-            STAFF_OF_THE_DEAD
+            STAFF_OF_THE_DEAD,
+            SEISMIC_WAND
         );
     public static final Set<Integer> MODERN_SPELL_AUTOCAST_STAFFS = Set.of
         (
@@ -103,7 +105,8 @@ public class Autocasting {
             STAFF_OF_LIGHT,
             STAFF_OF_BALANCE,
             VOID_KNIGHT_MACE,
-            HARMONISED_NIGHTMARE_STAFF
+            HARMONISED_NIGHTMARE_STAFF,
+            SEISMIC_WAND
         );
 
     public static final Set<Integer> SPECIAL_AUTOCAST_STAFFS = Set.of(TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, THAMMARONS_SCEPTRE,

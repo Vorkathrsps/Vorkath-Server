@@ -245,26 +245,28 @@ public final class Verzik extends NPC {
             if (player == null) continue;
             if (isInMeleeRange(player)) break;
             if (this.getAttackCount() <= 4) {
-                sendToxicBlast(player);
+                sendToxicBlast();
                 return;
             }
             sendElectricShock();
         }
     }
 
-    public void sendToxicBlast(Player player) {
-        boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
-        if (!lineOfSight) return;
+    public void sendToxicBlast() {
         if (!this.phase.equals(VerzikPhase.TWO)) return;
-        int tileDist = this.tile.distance(player.getCentrePosition());
-        int duration = 21 + 39 + (tileDist);
-        Tile verzikTile = this.tile.center(this.getSize());
-        Tile playerTile = player.getCentrePosition();
-        Projectile projectile = new Projectile(verzikTile, playerTile, 1583, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
-        int delay = (int) (projectile.getSpeed() / 30D);
-        projectile.send(this, playerTile);
-        runToxicBlastTask(player, projectile, delay);
-        World.getWorld().sendClippedTileGraphic(1584, player.tile(), 0, projectile.getSpeed());
+        for (var player : this.theatreInstance.getPlayers()) {
+            boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
+            if (!lineOfSight) return;
+            int tileDist = this.tile.distance(player.getCentrePosition());
+            int duration = 21 + 39 + (tileDist);
+            Tile verzikTile = this.tile.center(this.getSize());
+            Tile playerTile = player.getCentrePosition();
+            Projectile projectile = new Projectile(verzikTile, playerTile, 1583, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
+            int delay = (int) (projectile.getSpeed() / 30D);
+            projectile.send(this, playerTile);
+            runToxicBlastTask(player, projectile, delay);
+            World.getWorld().sendClippedTileGraphic(1584, player.tile(), 0, projectile.getSpeed());
+        }
     }
 
     public void sendKnockBack(Player p) {
@@ -405,11 +407,10 @@ public final class Verzik extends NPC {
 
     private void sendMeleePhaseThree(Player target) {
         this.animate(8123);
-        Hit hit = Hit.builder(this, target, Utils.random(0, 63), 3, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-            hit.block();
-        }
+        System.out.println("here");
+        new Hit(this, target, 0, CombatType.MELEE).checkAccuracy(true).submit().postDamage(hit -> {
+            if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) hit.block();
+        });
     }
 
     private void sendRangePhaseThree() {
@@ -535,9 +536,7 @@ public final class Verzik extends NPC {
     private Player validate() {
         Player target = this.theatreInstance.getRandomTarget();
         this.getCombat().setTarget(target);
-        if (!DumbRoute.withinDistance(this, target, 1)) {
-            return null;
-        }
+        if (!DumbRoute.withinDistance(this, target, 1)) return null;
         return target;
     }
 

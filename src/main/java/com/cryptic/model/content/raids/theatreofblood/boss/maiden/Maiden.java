@@ -171,7 +171,6 @@ public class Maiden extends NPC {
         for (Player player : this.theatreInstance.getPlayers()) {
             theatreInstance.getTheatrePhase().setStage(TheatreStage.TWO);
             player.setRoomState(RoomState.COMPLETE);
-            player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         }
         if (nylo != null) nylo.die();
         players.clear();

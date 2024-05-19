@@ -17,6 +17,7 @@ import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.areas.edgevile.AFKZoneArea;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
+import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.content.raids.tombsofamascut.TombsInstance;
 import com.cryptic.model.content.sound.SoundDataLoader;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -321,6 +322,10 @@ public abstract class Entity {
     @Getter
     @Setter
     private MuspahInstance muspahInstance;
+
+    @Getter
+    @Setter
+    public TheatreInstance theatreInstance;
 
     /**
      * a task that runs every 1 game tick. Aka repeatingTask

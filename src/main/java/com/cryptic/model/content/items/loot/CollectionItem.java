@@ -17,4 +17,14 @@ public class CollectionItem {
         this.amount = amount;
         this.isRare = isRare;
     }
+
+    @Override
+    public String toString() {
+        return "CollectionItem{" +
+            "id=" + id +
+            ", rarity=" + rarity +
+            ", amount=" + amount +
+            ", isRare=" + isRare +
+            '}';
+    }
 }

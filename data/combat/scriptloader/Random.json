@@ -311,5 +311,33 @@
     "scripts": {
       "combat": "BlueMoonCombat"
     }
+  },
+  {
+    "ids": [
+      10821
+    ],
+    "maxhit": 5,
+    "aggressive": false,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 7,
+      "attack": 1,
+      "strength": 1,
+      "defence": 0,
+      "magic": 0,
+      "ranged": 1
+    },
+    "bonuses": {
+      "attack": 0,
+      "magic": 0,
+      "magicstrength": 0,
+      "rangestrength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    }
   }
 ]

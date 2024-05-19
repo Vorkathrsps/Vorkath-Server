@@ -269,8 +269,8 @@ public class TheatreInstance extends InstancedArea {
 
     @Override
     public void dispose() {
-        clear();
         super.dispose();
+        clear();
     }
 
 }

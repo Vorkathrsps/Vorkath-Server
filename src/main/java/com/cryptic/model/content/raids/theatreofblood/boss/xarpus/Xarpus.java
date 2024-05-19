@@ -91,10 +91,11 @@ public class Xarpus extends NPC {
     }
 
     public void sendPoisonPool() {
-        for (var t : theatreInstance.getPlayers()) {
-            if (t == null) continue;
-            var tile = t.tile().copy();
-            this.faceTarget(t);
+        for (var target : theatreInstance.getPlayers()) {
+            if (target == null) continue;
+            if (!players.contains(target)) continue;
+            var tile = target.tile().copy();
+            this.faceTarget(target);
             Chain.noCtx().runFn(1, () -> this.face(null));
             this.animate(8059);
             var tileDist = this.tile().distance(tile);
@@ -193,9 +194,8 @@ public class Xarpus extends NPC {
         for (var p : theatreInstance.getPlayers()) {
             if (p == null) continue;
             p.setRoomState(RoomState.COMPLETE);
-            p.getTheatreInstance().onRoomStateChanged(p.getRoomState());
         }
-        Chain.noCtx().runFn(1, () -> this.animate(8063)).then(3, () -> {
+        Chain.noCtx().delay(1, () -> this.animate(8063)).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         }).then(2, this::clear);
     }

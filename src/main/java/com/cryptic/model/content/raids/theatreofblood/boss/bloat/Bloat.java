@@ -97,7 +97,7 @@ public class Bloat extends NPC {
         }
     }
 
-    protected void fallingLimbs() {
+    protected void buildLimbs() {
         dropCounter++;
 
         int randomStopInterval = Utils.random(7, 14);
@@ -122,6 +122,20 @@ public class Bloat extends NPC {
             this.setDropCounter(0);
         } else {
             graphicTiles.clear();
+        }
+
+        sendLimbs();
+    }
+
+    private void sendLimbs() {
+        for (Player player : this.theatreInstance.getPlayers()) {
+            for (var t : graphicTiles) {
+                if (player.tile().equals(t)) {
+                    Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true);
+                    hit.submit();
+                    player.stun(3);
+                }
+            }
         }
     }
 
@@ -170,31 +184,16 @@ public class Bloat extends NPC {
 
     @Override
     public void combatSequence() {
-        for (Player player : this.theatreInstance.getPlayers()) {
-            if (player == null) continue;
-            if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
-                players.add(player);
-            } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
-                players.remove(player);
-            }
-
-            if (!player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
-                interpolateBloatWalk();
-            }
-
-            if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
-                interpolateBloatWalk();
-                fallingLimbs();
-                swarm();
-            }
-
-            for (var t : graphicTiles) {
-                if (player.tile().equals(t)) {
-                    Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true);
-                    hit.submit();
-                    player.stun(3);
-                }
-            }
+        playerInsideAreaCheck();
+        if (players.isEmpty()) {
+            interpolateBloatWalk();
+            return;
+        }
+        if (!this.isSleeping()) {
+            interpolateBloatWalk();
+            buildLimbs();
+            swarm();
+            return;
         }
 
         var healthAmount = hp() * 1.0 / (maxHp() * 1.0);
@@ -202,11 +201,21 @@ public class Bloat extends NPC {
         setRunning(healthAmount <= 0.6D && healthAmount >= 0.4D);
     }
 
+    private void playerInsideAreaCheck() {
+        for (Player player : this.theatreInstance.getPlayers()) {
+            if (player == null) continue;
+            if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                players.add(player);
+            } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                players.remove(player);
+            }
+        }
+    }
+
     @Override
     public void die() {
         for (Player player : this.theatreInstance.getPlayers()) {
             player.setRoomState(RoomState.COMPLETE);
-            player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         }
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);

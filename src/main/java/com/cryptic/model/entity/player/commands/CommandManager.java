@@ -213,7 +213,7 @@ public class CommandManager {
         commands.put("teletome", new TeleToMePlayerCommand());
         commands.put("modzone", new ModZoneCommand());
         commands.put("sz", new StaffZoneCommand());
-        commands.put("sim", new SimulateCommand());
+        commands.put("simulate", new SimulateCommand());
 
         /*
          * Admin commands

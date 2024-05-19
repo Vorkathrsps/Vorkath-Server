@@ -191,16 +191,6 @@ public class Player extends Entity {
     @Setter
     private NightmareInstance nightmareInstance;
 
-    public TheatreInstance getTheatreInstance() {
-        return theatreInstance;
-    }
-
-    public void setTheatreInstance(TheatreInstance theatreInstance) {
-        this.theatreInstance = theatreInstance;
-    }
-
-    public TheatreInstance theatreInstance;
-
     @Getter
     @Setter
     private PerilOfMoonInstance perilInstance;

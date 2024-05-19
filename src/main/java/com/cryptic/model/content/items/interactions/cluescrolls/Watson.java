@@ -14,9 +14,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.WATSON;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -57,17 +55,9 @@ public class Watson extends PacketInteraction {
 
                         if (isPhase(3)) {
                             if (!player.getInventory().containsAll(CLUES)) {
-                                List<String> invalid = new ArrayList<>();
-                                for (var clue : CLUES) {
-                                    if (!player.getInventory().contains(clue)) {
-                                        ItemDefinition definition = ItemDefinition.cached.get(clue);
-                                        invalid.add(definition.name);
-                                    }
-                                }
+                                List<String> invalid = getStrings(player);
                                 send(DialogueType.NPC_STATEMENT, WATSON, Expression.CALM_TALK, "You are not worthy, " + player.getUsername() + "...");
-                                player.message("<img=13><shad=0>" + Color.RED.wrap(" You do not have all the required clue scrolls to exchange.") + "</shad></img>");
-                                StringBuilder builder = buildString(invalid);
-                                player.message(Color.RED.wrap("<img=13><shad=0>" + builder + "</shad></img>"));
+                                sendMessage(player, invalid);
                                 stop();
                             } else {
                                 for (var clue : CLUES) player.getInventory().remove(clue, 1);
@@ -81,6 +71,24 @@ public class Watson extends PacketInteraction {
             }
         }
         return false;
+    }
+
+    private static void sendMessage(Player player, List<String> invalid) {
+        player.message("<img=13><shad=0>" + Color.RED.wrap(" You do not have all the required clue scrolls to exchange.") + "</shad></img>");
+        StringBuilder builder = buildString(invalid);
+        player.message(Color.RED.wrap("<img=13><shad=0>" + builder + "</shad></img>"));
+    }
+
+    @NotNull
+    private static List<String> getStrings(Player player) {
+        List<String> invalid = new ArrayList<>();
+        for (var clue : CLUES) {
+            if (!player.getInventory().contains(clue)) {
+                ItemDefinition definition = ItemDefinition.cached.get(clue);
+                invalid.add(definition.name);
+            }
+        }
+        return invalid;
     }
 
     @NotNull

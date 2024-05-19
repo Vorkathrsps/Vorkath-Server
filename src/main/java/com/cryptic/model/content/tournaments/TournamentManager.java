@@ -840,6 +840,10 @@ public class TournamentManager extends PacketInteraction {
     }
 
     public static void setNextTournyType() {
+        if (nextEvent != null) {
+            if (nowSec >= nextEvent.toEpochSecond()) // gone past, reset for next
+                nextEvent = null;
+        }
         final ZonedDateTime nextEvent = nextEvent();
         if (nextEvent != null && nextTorn == null) {
 

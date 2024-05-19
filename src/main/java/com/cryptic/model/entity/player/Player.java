@@ -3083,8 +3083,8 @@ public class Player extends Entity {
             this.getMovementQueue().process();
             TargetRoute.afterMovement(this);
             ControllerManager.process(this);
-            this.handleLastRegion();
             this.getCombat().process();
+            this.handleLastRegion();
             Prayers.drainPrayer(this);
             if (queuedAppearanceUpdate()) {
                 this.getUpdateFlag().flag(Flag.APPEARANCE);
@@ -3104,8 +3104,7 @@ public class Player extends Entity {
     private void handleLastRegion() {
         int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
         int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
-        if (lastregion != tile.region() || lastChunk != tile.chunk())
-            MultiwayCombat.refresh(this, lastregion, lastChunk);
+        if (lastregion != tile.region() || lastChunk != tile.chunk()) MultiwayCombat.refresh(this, lastregion, lastChunk);
         this.putAttrib(AttributeKey.LAST_REGION, tile.region());
         this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
     }

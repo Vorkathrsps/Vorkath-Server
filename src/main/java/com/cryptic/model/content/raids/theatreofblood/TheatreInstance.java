@@ -179,6 +179,16 @@ public class TheatreInstance extends InstancedArea {
             member.setTheatreInstance(null);
             member.unlock();
         }
+        for (var o : Lists.newArrayList(pillarObject.iterator())) {
+            if (o != null) {
+                o.remove();
+            }
+        }
+        for (var o : Lists.newArrayList(verzikPillarObjects.iterator())) {
+            if (o != null) {
+                o.remove();
+            }
+        }
         for (var o : Lists.newArrayList(treasureSpawns.iterator())) {
             if (o != null) {
                 o.remove();

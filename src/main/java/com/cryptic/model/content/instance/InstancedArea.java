@@ -11,6 +11,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.region.RegionZData;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
@@ -184,20 +185,44 @@ public class InstancedArea {
 
             GroundItemHandler.sendRemoveGroundItem(gi);
         }
-        for (GameObject gameobj : Lists.newArrayList(gameobjs)) {
-            // shadowrs: must be custom for remove to work in instanceAreas.
-            if (gameobj == null) continue;
-            if (gameobj.linkedTile() != null)
-                gameobj.linkedTile().removeObject(gameobj);
-        }
-        gameobjs.clear();
         regions.forEach(r -> {
             var reg = RegionManager.getRegion(r);
-            if (reg.customZObjectTiles != null)
-                reg.customZObjectTiles.remove(zLevel);
+            if (reg.customZObjectTiles != null) {
+                RegionZData store = reg.customZObjectTiles.remove(zLevel);
+                for (int z = 0; z < 4; z++) {
+                    for (int x = 0; x < 64; x++) {
+                        for (int y = 0; y < 64; y++) {
+                            if (store.tiles != null
+                                && z < store.tiles.length
+                                && store.tiles[z] != null
+                                && x < store.tiles[z].length
+                                && y < store.tiles[z][x].length) {
+                                var t = (Tile) store.tiles[z][x][y];
+                                if (t != null) {
+                                    if (t.gameObjects != null && !t.gameObjects.isEmpty()) {
+                                        new ArrayList<GameObject>(t.gameObjects).forEach(o -> {
+                                            o.setCustom(true);
+                                            if (o.linkedTile() != null)
+                                                o.linkedTile().removeObject(o);
+                                        });
+                                        if (t.gameObjects != null) // required as removeOnRegion^ can nullify the backing field
+                                            t.gameObjects.clear();
+                                    }
+                                    t.gameObjects = null;
+                                }
+                                store.tiles[z][x][y] = null;
+                            }
+                        }
+                    }
+                }
+            }
             reg.recentCachedBaseZData = null;
             reg.recentCachedBaseZLevel = -1;
         });
+        regions.clear();
+        gameobjs.clear();
+        npcs.clear();
+        players.clear();
     }
 
     /**

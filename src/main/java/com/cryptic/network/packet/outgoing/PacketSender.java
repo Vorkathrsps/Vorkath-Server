@@ -1086,6 +1086,7 @@ public final class PacketSender {
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.C);
         out.put(0);
         player.getSession().write(out);
+        object.tile().removeObject(object);
         return this;
     }
 

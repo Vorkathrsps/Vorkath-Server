@@ -50,6 +50,7 @@ public class Maiden extends NPC {
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.getMovementQueue().setBlockMovement(true);
+        this.setHealthBar(2);
     }
 
     public void sequenceTornadoAndBlood() {

@@ -22,8 +22,6 @@ import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.Item;
-import com.cryptic.model.map.object.dwarf_cannon.DwarfCannon;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.route.RouteMisc;
@@ -43,7 +41,6 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.BooleanSupplier;
-import java.util.stream.IntStream;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
@@ -196,7 +193,6 @@ public class Combat {
         }
     }
 
-
     public boolean multiCheck(Player player) {
         boolean targetInMulti = target.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1;
         if (!targetInMulti) {
@@ -276,6 +272,7 @@ public class Combat {
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
             return false;
         }
+
         if (mob instanceof NPC npc && npc.beforeAttack()) return false;
 
         if (!CombatFactory.validTarget(mob, target)) {
@@ -307,14 +304,13 @@ public class Combat {
         try {
             performNewAttack0();
         } catch (Exception e) {
-            // log the combat state
             logger.error("performNewAttack ex on " + mob.getMobName());
             logger.error("perfNewAttack", e);
             String sb = "combat state: " +
                 this;
             logger.error(sb);
             e.printStackTrace();
-            throw e; // send it up the callstack
+            throw e;
         }
     }
 

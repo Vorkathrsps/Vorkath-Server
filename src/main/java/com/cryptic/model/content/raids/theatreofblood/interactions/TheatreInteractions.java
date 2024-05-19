@@ -1,17 +1,25 @@
 package com.cryptic.model.content.raids.theatreofblood.interactions;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.content.raids.theatreofblood.interactions.dialogue.TheatreDialogue;
 import com.cryptic.model.content.raids.theatreofblood.stage.RoomState;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
+import com.cryptic.utility.timers.TimerKey;
 
 import java.util.ArrayList;
+
+import static com.cryptic.model.entity.attributes.AttributeKey.RARE_TOB_REWARD;
+import static com.cryptic.model.entity.attributes.AttributeKey.TOB_LOOT_CHEST;
 
 public class TheatreInteractions extends PacketInteraction {
     @Override
@@ -33,6 +41,46 @@ public class TheatreInteractions extends PacketInteraction {
         }
         if (player.getTheatreInstance() == null) return false;
         var height = player.getTheatreInstance().getzLevel();
+        if (id == 32996) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    send(DialogueType.NPC_STATEMENT, NpcIdentifiers.VYREWATCH, Expression.ANGRY, "Leaving so soon?");
+                    setPhase(0);
+                }
+
+                @Override
+                public void next() {
+                    if (isPhase(0)) {
+                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes", "No");
+                        setPhase(1);
+                    }
+                }
+
+                @Override
+                public void select(int option) {
+                    if (isPhase(1)) {
+                        switch (option) {
+                            case 1 -> {
+                                if (player.getEquipment().contains(ItemIdentifiers.DAWNBRINGER)) {
+                                    player.getEquipment().remove(player.getEquipment().getWeapon());
+                                } else if (player.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
+                                    player.getInventory().remove(ItemIdentifiers.DAWNBRINGER);
+                                }
+                                player.teleport(new Tile(3670, 3219, 0));
+                                player.clearAttrib(TOB_LOOT_CHEST);
+                                player.clearAttrib(RARE_TOB_REWARD);
+                                player.setRaidParty(null);
+                                player.setTheatreInstance(null);
+                                stop();
+                            }
+                            case 2 -> stop();
+                        }
+                    }
+                }
+            });
+            return true;
+        }
         if (id == 32741) {
             if (player.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
                 player.message("<img=13><shad=0>" + Color.RED.wrap("You already have claimed the Dawnbringer.") + "</shad></img>");

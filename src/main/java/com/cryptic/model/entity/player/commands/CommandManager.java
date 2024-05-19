@@ -11,6 +11,7 @@ import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.items.loot.CollectionItemHandler;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlmCombat;
 import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
+import com.cryptic.model.content.raids.theatreofblood.boss.maiden.Maiden;
 import com.cryptic.model.content.raids.theatreofblood.boss.verzik.Verzik;
 import com.cryptic.model.content.raids.theatreofblood.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatreofblood.interactions.TheatreInterface;
@@ -709,7 +710,7 @@ public class CommandManager {
 
         dev("cc", (p, c, s) ->
         {
-            DailyTaskManager.onLogin(p);
+
             /*  Set<DailyTasks> list = new HashSet<>();
             List<DailyTasks> possibles = new ArrayList<>(List.of(DailyTasks.values()));
             for (var task : possibles) {
@@ -791,6 +792,19 @@ public class CommandManager {
             Verzik verzik = new Verzik(NpcIdentifiers.VERZIK_VITUR_8369, new Tile(3166, 4323, theatre.getzLevel()), theatre);
             verzik.setInstancedArea(p.getTheatreInstance());
             verzik.spawn(false);
+        });
+
+        dev("cl2", (p, c, s) ->
+
+        {
+            var theatre = new TheatreInstance(p, new ArrayList<>());
+            p.teleport(new Tile(3172, 4446, theatre.getzLevel()));
+            p.setInstancedArea(theatre);
+            p.setTheatreInstance(theatre);
+            theatre.getPlayers().add(p);
+            Maiden maiden = new Maiden(10814, new Tile(3162, 4444, theatre.getzLevel()), theatre);
+            maiden.setInstancedArea(p.getTheatreInstance());
+            maiden.spawn(false);
         });
 
         dev("b", (p, c, s) ->

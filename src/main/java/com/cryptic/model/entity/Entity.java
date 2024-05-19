@@ -2091,7 +2091,8 @@ public abstract class Entity {
     private boolean fixingDiagonal = false;
     @Getter
     public final List<HealthBarUpdate> healthBarQueue = new ArrayList<>();
-    @Getter
+
+    @Getter @Setter
     public int healthBar = 0;
 
     public void updateHealthBar(HealthBarUpdate update) {

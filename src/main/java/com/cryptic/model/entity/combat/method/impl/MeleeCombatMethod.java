@@ -107,6 +107,11 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         Hit hit = new Hit(entity, target, 0, this);
 
         if (entity instanceof Player player) {
+
+            if (player.getDialogueManager().isActive()) {
+                player.getDialogueManager().interrupt();
+            }
+
             var weapon = player.getEquipment().getWeapon();
             var fightType = player.getCombat().getFightType();
             if (fightType != null) {

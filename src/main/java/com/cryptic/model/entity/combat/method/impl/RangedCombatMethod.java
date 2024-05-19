@@ -51,6 +51,10 @@ public class RangedCombatMethod extends CommonCombatMethod {
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
 
+            if (player.getDialogueManager().isActive()) {
+                player.getDialogueManager().interrupt();
+            }
+
             WeaponType weaponType = player.getCombat().getWeaponType();
 
             if (player.getCombat().getWeaponType() == null) {

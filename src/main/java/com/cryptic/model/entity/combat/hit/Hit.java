@@ -266,8 +266,10 @@ public class Hit {
         if (!checkAccuracy) this.accurate = true;
         if (!this.accurate) this.damage = 0;
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
-        if (((attacker instanceof Player player) && !(target instanceof Player))) player.sigil.processDamage(player, this);
-        if (((attacker instanceof NPC npc) && (target instanceof Player player))) player.sigil.processResistance(npc, player, this);
+        if (((attacker instanceof Player player) && !(target instanceof Player)))
+            player.sigil.processDamage(player, this);
+        if (((attacker instanceof NPC npc) && (target instanceof Player player)))
+            player.sigil.processResistance(npc, player, this);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (this.accurate && this.damage == 0) this.block();
@@ -281,6 +283,7 @@ public class Hit {
         if (combatType == null) return;
         final double hXP = calculateHitpointsExperience(damage);
         final double rmXP = calculateRangedOrMeleeXP(damage);
+        player.getInterfaceManager().closeDialogue();
         switch (style) {
             case MELEE -> {
                 switch (mode) {
@@ -396,7 +399,8 @@ public class Hit {
         if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.damage >= this.target.hp()) this.damage = this.target.hp();
-        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        if (this.attacker instanceof Player player)
+            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }

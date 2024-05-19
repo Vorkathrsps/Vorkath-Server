@@ -24,7 +24,8 @@ public class DialogueManager {
     /**
      * The current dialogue.
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private Dialogue dialogue = null;
 
     public DialogueManager(final Player player) {
@@ -47,6 +48,14 @@ public class DialogueManager {
         }
 
         return false;
+    }
+
+    public void checkRemoval() {
+        if (dialogue != null) {
+            System.out.println("true");
+            dialogue.stop();
+            dialogue = null;
+        }
     }
 
     public void interrupt() {

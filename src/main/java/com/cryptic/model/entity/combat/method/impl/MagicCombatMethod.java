@@ -43,6 +43,11 @@ public class MagicCombatMethod extends CommonCombatMethod {
             }
         }
         if (spell == null) return false;
+
+        if (player.getDialogueManager().isActive()) {
+            player.getDialogueManager().interrupt();
+        }
+
         int spellId = spell.spellId();
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
         boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENTS;

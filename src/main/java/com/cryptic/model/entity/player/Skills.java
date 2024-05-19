@@ -300,6 +300,11 @@ public class Skills {
             }
         }
 
+        if (this.getTotalExperience() >= 2_600_000_000L) {
+            player.getPacketSender().sendFakeXPDrop(skill, amount * multiplier);
+            return false;
+        }
+
         if (isExperienceLocked) {
             player.getPacketSender().sendFakeXPDrop(skill, amount * multiplier);
             return false;
@@ -350,6 +355,8 @@ public class Skills {
             if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
                 World.getWorld().sendWorldMessage("<img=2017> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just maxed out on a " + Color.BLUE.tag() + " " + Utils.gameModeToString(player) + "</col>!");
             }
+
+            sendLeveledUpDialogue(skill, newLevel);
             recalculateCombat();
         }
 
@@ -359,6 +366,43 @@ public class Skills {
         update();
 
         return oldLevel != newLevel;
+    }
+
+    private void sendLeveledUpDialogue(int skill, int newLevel) {
+        if (skill == FARMING) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... options) {
+                    send(DialogueType.ITEM_STATEMENT, new Item(5340), "", "Congratulations! You've just advanced Farming level!", "You have reached level " + newLevel + "!");
+                    setPhase(0);
+                }
+            });
+        } else if (skill == HUNTER) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... options) {
+                    send(DialogueType.ITEM_STATEMENT, new Item(9951), "", "Congratulations! You've just advanced Hunter level!", "You have reached level " + newLevel + "!");
+                    setPhase(0);
+                }
+            });
+        } else {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    player.getPacketSender().sendString(LEVEL_UP[skill][1], "<col=128>Congratulations, you just advanced a " + SKILL_NAMES[skill] + " level!");
+                    player.getPacketSender().sendString(LEVEL_UP[skill][2], "Your " + SKILL_NAMES[skill] + " level is now " + newLevel + ".");
+                    player.getPacketSender().sendChatboxInterface(LEVEL_UP[skill][0]);
+                    setPhase(0);
+                }
+
+                @Override
+                protected void next() {
+                    if (isPhase(0)) {
+                        stop();
+                    }
+                }
+            });
+        }
     }
 
     private void rollSkillingSet(int skill) {
@@ -382,7 +426,7 @@ public class Skills {
         switch (player.getMemberRights()) {
             case RUBY_MEMBER, SAPPHIRE_MEMBER -> chance = 450;
             case DIAMOND_MEMBER, EMERALD_MEMBER -> chance = 400;
-            case DRAGONSTONE_MEMBER,ONYX_MEMBER -> chance = 350;
+            case DRAGONSTONE_MEMBER, ONYX_MEMBER -> chance = 350;
             case ZENYTE_MEMBER -> chance = 300;
         }
         if (Utils.rollDie(chance, 1)) {
@@ -444,10 +488,10 @@ public class Skills {
         {4277, 4278, 4279},
         {4261, 4263, 4264},
         {12122, 12123, 12124},
-        {8267, 4268, 4269},
-        {4267, 4268, 4269},
-        {8267, 4268, 4269},
-        {8267, 4268, 4269}};
+        {8267, 4268, 4269}, //farming
+        {4267, 4268, 4269}, //rc
+        {8267, 4268, 4269}, //construction
+        {8267, 4268, 4269}}; //hunter
 
     /**
      * Checks if the player is maxed in all combat skills.

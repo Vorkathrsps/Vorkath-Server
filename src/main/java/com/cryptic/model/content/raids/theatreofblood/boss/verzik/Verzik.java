@@ -98,6 +98,8 @@ public final class Verzik extends NPC {
     boolean spewingWebs = false;
     Set<Tile> webTileSet = new HashSet<>();
     Set<Tile> activeTiles = new HashSet<>();
+    Set<Tile> clippedTiles = new HashSet<>();
+    List<GameObject> webObjects = new ArrayList<>();
 
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
@@ -107,6 +109,7 @@ public final class Verzik extends NPC {
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.setPhase(VerzikPhase.ONE);
+        this.useSmartPath = true;
     }
 
     public void sendAthanatos() {
@@ -391,23 +394,21 @@ public final class Verzik extends NPC {
         this.getCombat().setTarget(target);
         for (var p : this.theatreInstance.getPlayers()) {
             if (p == null) continue;
-            var tileDist = this.tile.distance(p.tile());
+            var tileDist = this.getCentrePosition().getChevDistance(p.getCentrePosition());
             int duration = (53 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
-            int delay = (int) (projectile.getSpeed() / 30D);
             projectile.send(this, p);
-            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.MAGIC).checkAccuracy(true);
-            hit.submit();
-            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
-                hit.block();
-            }
+            int delay = (int) (projectile.getSpeed() / 25D);
+            new Hit(this, target, delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(hit -> {
+                if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) hit.block();
+            });
             p.graphic(1581, GraphicHeight.LOW, projectile.getSpeed());
         }
     }
 
+
     private void sendMeleePhaseThree(Player target) {
         this.animate(8123);
-        System.out.println("here");
         new Hit(this, target, 0, CombatType.MELEE).checkAccuracy(true).submit().postDamage(hit -> {
             if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) hit.block();
         });
@@ -419,11 +420,11 @@ public final class Verzik extends NPC {
         this.getCombat().setTarget(target);
         for (var p : this.theatreInstance.getPlayers()) {
             if (p == null) continue;
-            var tileDist = this.tile.distance(p.tile());
+            var tileDist = this.getCentrePosition().getChevDistance(p.getCentrePosition());
             int duration = (62 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
-            int delay = (int) (projectile.getSpeed() / 30D);
             projectile.send(this, p);
+            int delay = (int) (projectile.getSpeed() / 25D);
             Hit hit = Hit.builder(this, p, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
             if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
@@ -480,6 +481,7 @@ public final class Verzik extends NPC {
     }
 
     private void sendSequences() {
+        checkMovementReset();
         if (this.getIntervalCount() >= attackSpeed() && this.getIntervals() <= 0 && !this.dead()) {
             this.setIntervalCount(0);
             this.setIntervals(value);
@@ -499,21 +501,33 @@ public final class Verzik extends NPC {
         }
     }
 
+    private void checkMovementReset() {
+        if (!this.spewingWebs && this.getMovement().isMovementBlocked()) {
+            this.getMovement().setBlockMovement(false);
+        }
+    }
+
     private int attackSpeed() {
         return this.phase == VerzikPhase.ONE ? 12 : this.phase == VerzikPhase.TWO ? 4 : this.phase == VerzikPhase.THREE && !this.isAdjustAttackSpeed() ? 7 : 5;
     }
 
     private void sequenceThirdPhase() {
+        var random = World.getWorld().random(1);
         meleeAttackCount++;
         if (meleeAttackCount >= 4) {
             meleeAttackCount = 0;
             Player target = validate();
-            if (target == null) return;
+            if (target == null) {
+                switch (random) {
+                    case 0 -> sendMagicPhaseThree();
+                    case 1 -> sendRangePhaseThree();
+                }
+                return;
+            }
             sendMeleePhaseThree(target);
             return;
         }
         var healthPercentage = (double) hp() / maxHp();
-        var random = World.getWorld().random(1, 2);
        /* if (healthPercentage <= 0.20 && !this.isHasSentChargedShot()) {
             this.forceChat("I'm not finished with you just yet!");
             this.sendChargedShot();
@@ -522,13 +536,9 @@ public final class Verzik extends NPC {
             this.setHasSentChargedShot(true);
             return;
         } */
-
-        if (random == 1) {
-            sendMagicPhaseThree();
-            return;
-        }
-        if (random == 2) {
-            sendRangePhaseThree();
+        switch (random) {
+            case 0 -> sendMagicPhaseThree();
+            case 1 -> sendRangePhaseThree();
         }
     }
 
@@ -539,9 +549,6 @@ public final class Verzik extends NPC {
         if (!DumbRoute.withinDistance(this, target, 1)) return null;
         return target;
     }
-
-    Set<Tile> clippedTiles = new HashSet<>();
-    List<GameObject> webObjects = new ArrayList<>();
 
     public void setClippedTiles() {
         this.getCentrePosition().area(3).forEachPos(t -> {

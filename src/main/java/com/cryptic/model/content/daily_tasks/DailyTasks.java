@@ -19,7 +19,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
-import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -43,6 +42,7 @@ public enum DailyTasks {
         "Daily Woodcutting",
         "Chop 100 magic logs.",
         100,
+        DAILY_WOODCUTTING_NAME, DAILY_WOODCUTTING_DESC,
         WOODCUTTING_DAILY_TASK_COMPLETION_AMOUNT,
         WOODCUTTING_DAILY_TASK_COMPLETED,
         WOODCUTTING_DAILY_TASK_REWARD_CLAIMED,
@@ -82,6 +82,7 @@ public enum DailyTasks {
         "Daily Cooking",
         "Cook 250 Monkfish.",
         250,
+        DAILY_COOKING_NAME, DAILY_COOKING_DESC,
         MONKFISH_DAILY_TASK_COMPLETION_AMOUNT,
         MONKFISH_DAILY_TASK_COMPLETED,
         MONKFISH_DAILY_TASK_REWARD_CLAIMED,
@@ -102,6 +103,7 @@ public enum DailyTasks {
         "Daily Slayer",
         "",
         100,
+        DAILY_SLAYER_NAME, DAILY_SLAYER_DESC,
         SLAYER_DAILY_TASK_COMPLETION_AMOUNT,
         SLAYER_DAILY_TASK_COMPLETED,
         SLAYER_DAILY_TASK_REWARD_CLAIMED,
@@ -131,6 +133,7 @@ public enum DailyTasks {
         "Daily Fishing",
         "",
         100,
+        DAILY_MINING_NAME, DAILY_MINING_DESC,
         MINING_DAILY_COMPLETION_AMOUNT,
         MINING_DAILY_COMPLETED,
         MINING_DAILY_REWARD_CLAIMED,
@@ -173,9 +176,10 @@ public enum DailyTasks {
                 85,
                 87
             ),
-        "Daily Mining",
+        "Daily Fishing",
         "",
         100,
+        DAILY_FISHING_NAME, DAILY_FISHING_DESC,
         FISHING_DAILY_COMPLETION_AMOUNT,
         FISHING_DAILY_COMPLETED,
         FISHING_DAILY_REWARD_CLAIMED,
@@ -211,6 +215,7 @@ public enum DailyTasks {
         "Daily Thieving",
         "",
         100,
+        DAILY_THIEVING_NAME, DAILY_THIEVING_DESC,
         THIEVING_DAILY_COMPLETION_AMOUNT,
         THIEVING_DAILY_COMPLETED,
         THIEVING_DAILY_REWARD_CLAIMED,
@@ -232,7 +237,8 @@ public enum DailyTasks {
         "Daily Prayer",
         "",
         100,
-        PRAYER_DAILY_COMPLETION_AMOUNT,
+        DAILY_BONE_NAME, DAILY_BONE_DESC,
+        PRAYER_DAILY_COMPLETION_AMOUNT, // OH this is ur dynamic value hold on
         PRAYER_DAILY_COMPLETED,
         PRAYER_DAILY_REWARD_CLAIMED,
         TaskCategory.OTHER,
@@ -249,6 +255,7 @@ public enum DailyTasks {
         "Daily Bossing",
         "",
         100,
+        DAILY_BOSS_NAME, DAILY_BOSS_DESC,
         BOSSING_DAILY_COMPLETION_AMOUNT,
         BOSSING_DAILY_COMPLETED,
         BOSSING_DAILY_REWARD_CLAIMED,
@@ -262,120 +269,135 @@ public enum DailyTasks {
         }
     };
 
-    public String taskName;
-    public String taskDescription;
-    public int completionAmount;
-    public final AttributeKey key;
+    public final String taskName;
+    public final String taskDescription;
+    public final int maximumAmt; // TODO replace with intrange or int high, int low
+    public final AttributeKey assignmentName;
+    public final AttributeKey assignmentDesc;
+    public final AttributeKey completionAmt;
     public final AttributeKey completed;
     public final AttributeKey rewardClaimed;
     public final TaskCategory category;
     public final Item[] rewards;
-    public Skill type;
-    public List<Integer> requirements;
+    /**
+     * IDENTIFIER
+     */
+    public final Skill type;
+    public final List<Integer> requirements;
     public static final DailyTasks[] values = values();
 
-    DailyTasks(Skill type, List<Integer> requirements, String taskName, String taskDescription, int completionAmount, AttributeKey key, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
+    DailyTasks(Skill type, List<Integer> requirements, String taskName, String taskDescription, int maximumAmt,      AttributeKey name,
+               AttributeKey desc, AttributeKey completionAmt, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
         this.type = type;
         this.requirements = requirements;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.completionAmount = completionAmount;
-        this.key = key;
+        this.maximumAmt = maximumAmt;
+        this.assignmentName = name;
+        this.assignmentDesc = desc;
+        this.completionAmt = completionAmt;
         this.completed = completed;
         this.rewardClaimed = rewardClaimed;
         this.category = category;
         this.rewards = rewards;
     }
 
-    DailyTasks(String taskName, String taskDescription, int completionAmount, AttributeKey key, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
+    DailyTasks(String taskName, String taskDescription, int maximumAmt,
+               AttributeKey name,
+               AttributeKey desc,
+               AttributeKey completionAmt, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.completionAmount = completionAmount;
-        this.key = key;
+        this.maximumAmt = maximumAmt;
+        this.completionAmt = completionAmt;
         this.completed = completed;
         this.rewardClaimed = rewardClaimed;
         this.category = category;
+        this.type = null;
+        this.requirements = null;
         this.rewards = rewards;
+        this.assignmentName = name;
+        this.assignmentDesc = desc;
     }
 
     public static List<DailyTasks> asList(TaskCategory category) {
         return Arrays.stream(values()).filter(a -> a.category == category).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
     }
 
-    public static DailyTasks generate(Player player, DailyTasks task) {
+    public static DailyTasks verifyCanPerform(Player player, DailyTasks task) {
         if (task.type != null) {
             int highestRequirement = getHighestRequirement(player, task.type);
-            int randomAmount = World.getWorld().random(25, 100);
-            if (task.type.equals(Skill.COOKING)) return findCookingType(task, highestRequirement, randomAmount);
-            if (task.type.equals(Skill.WOODCUTTING)) return findWoodcuttingType(task, highestRequirement, randomAmount);
+            int randomAmount = World.getWorld().random(Math.max(25, task.maximumAmt - 25), task.maximumAmt);
+            if (task.type.equals(Skill.COOKING)) return findCookingType(player, task, highestRequirement, randomAmount);
+            if (task.type.equals(Skill.WOODCUTTING))
+                return findWoodcuttingType(player, task, highestRequirement, randomAmount);
             if (task.type.equals(Skill.SLAYER)) return findSlayerType(player, task);
-            if (task.type.equals(Skill.MINING)) return findMiningType(task, highestRequirement, randomAmount);
-            if (task.type.equals(Skill.FISHING)) return findFishingType(task, highestRequirement, randomAmount);
-            if (task.type.equals(Skill.THIEVING)) return findThievingType(task, highestRequirement, randomAmount);
-            if (task.type.equals(Skill.PRAYER)) return findPrayerType(task, randomAmount);
+            if (task.type.equals(Skill.MINING)) return findMiningType(player, task, highestRequirement, randomAmount);
+            if (task.type.equals(Skill.FISHING)) return findFishingType(player, task, highestRequirement, randomAmount);
+            if (task.type.equals(Skill.THIEVING))
+                return findThievingType(player, task, highestRequirement, randomAmount);
+            if (task.type.equals(Skill.PRAYER)) return findPrayerType(player, task, randomAmount);
         }
-        if (task.equals(DailyTasks.BOSSING)) return findBossType(task);
+        if (task.equals(DailyTasks.BOSSING)) return findBossType(player, task);
         return null;
     }
 
-    public static DailyTasks findBossType(DailyTasks task) {
+    public static DailyTasks findBossType(Player player, DailyTasks task) {
         List<BossKillLog.Bosses> temp = new ArrayList<>(Arrays.asList(BossKillLog.Bosses.values));
-        BossKillLog.Bosses boss = get(temp);
-        int randomAmount = World.getWorld().random(5, 15);
-        task.taskName = "Daily " + Utils.formatEnum(boss.name());
-        task.taskDescription = "Kill " + randomAmount + " " + Utils.formatEnum(boss.name()) + ".";
-        task.completionAmount = randomAmount;
+        BossKillLog.Bosses boss = (BossKillLog.Bosses) get(temp);
+        int randomAmount = World.getWorld().random(5, 15); // leaving for now wont use enuum.max
+        task.completionAmt.set(player, randomAmount); // hereee we go
         return task;
     }
 
-    public static DailyTasks findPrayerType(DailyTasks task, int randomAmount) {
+    public static DailyTasks findPrayerType(Player player, DailyTasks task, int randomAmount) {
         List<Bone> temp = new ArrayList<>(Arrays.asList(Bone.values));
-        Bone bone = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(bone.name());
-        task.taskDescription = "Sacrifice " + randomAmount + " " + Utils.formatEnum(bone.name()) + ".";
-        task.completionAmount = randomAmount;
+        Bone bone = (Bone) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(bone.name()));
+        task.assignmentDesc.set(player, "Sacrifice " + randomAmount + " " + Utils.formatEnum(bone.name()) + ".");
+        task.completionAmt.set(player, randomAmount); // ye follow this syntax and add 2x6 new attribs for the other 6 skill things. ight pce
         return task;
     }
 
-    public static DailyTasks findThievingType(DailyTasks task, int highestRequirement, int randomAmount) {
+    public static DailyTasks findThievingType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Pickpocketing.PickPocket> temp = new ArrayList<>();
         for (var thieving : Pickpocketing.PickPocket.values) {
             if (thieving.levelReq <= highestRequirement) {
                 temp.add(thieving);
             }
         }
-        Pickpocketing.PickPocket thieving = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(thieving.name());
-        task.taskDescription = "Pickpocket " + randomAmount + " " + Utils.formatEnum(thieving.name()) + ".";
-        task.completionAmount = randomAmount;
+        Pickpocketing.PickPocket thieving = (Pickpocketing.PickPocket) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(thieving.name()));
+        task.assignmentDesc.set(player, "Pickpocket " + randomAmount + " " + Utils.formatEnum(thieving.name()) + ".");
+        task.completionAmt.set(player, randomAmount);
         return task;
     }
 
-    public static DailyTasks findFishingType(DailyTasks task, int highestRequirement, int randomAmount) {
+    public static DailyTasks findFishingType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Fish> temp = new ArrayList<>();
         for (var fish : Fish.values) {
             if (fish.lvl <= highestRequirement) {
                 temp.add(fish);
             }
         }
-        Fish fish = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(fish.name());
-        task.taskDescription = "Fish " + randomAmount + " " + Utils.formatEnum(fish.name()) + ".";
-        task.completionAmount = randomAmount;
+        Fish fish = (Fish) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(fish.name()));
+        task.assignmentDesc.set(player, "Fish " + randomAmount + " " + Utils.formatEnum(fish.name()) + ".");
+        task.completionAmt.set(player, randomAmount);
         return task;
     }
 
-    public static DailyTasks findMiningType(DailyTasks task, int highestRequirement, int randomAmount) {
+    public static DailyTasks findMiningType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Ore> temp = new ArrayList<>();
         for (var ore : Ore.values) {
             if (ore.level_req <= highestRequirement) {
                 temp.add(ore);
             }
         }
-        Ore ore = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(ore.name());
-        task.taskDescription = "Mine " + randomAmount + " " + Utils.formatEnum(ore.name()) + ".";
-        task.completionAmount = randomAmount;
+        Ore ore = (Ore) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(ore.name()));
+        task.assignmentDesc.set(player, "Mine " + randomAmount + " " + Utils.formatEnum(ore.name()) + ".");
+        task.completionAmt.set(player, randomAmount);
         return task;
     }
 
@@ -387,15 +409,15 @@ public enum DailyTasks {
             }
         }
 
-        SlayerTask slayerTask = get(temp);
+        SlayerTask slayerTask = (SlayerTask) get(temp);
         final int amount = World.getWorld().random(1, 2);
-        task.taskName = "Daily " + Utils.formatEnum(slayerTask.getTaskName());
-        task.taskDescription = "Complete " + amount + " " + Utils.formatEnum(slayerTask.getTaskName()) + " Slayer Task.";
-        task.completionAmount = amount;
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(slayerTask.getTaskName()));
+        task.assignmentDesc.set(player, "Complete " + amount + " " + Utils.formatEnum(slayerTask.getTaskName()) + " Slayer Task.");
+        task.completionAmt.set(player, amount);
         return task;
     }
 
-    private static DailyTasks findCookingType(DailyTasks task, int highestRequirement, int randomAmount) {
+    private static DailyTasks findCookingType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Cookable> temp = new ArrayList<>();
         for (var cookable : Cookable.values) {
             if (cookable.lvl <= highestRequirement) {
@@ -403,14 +425,23 @@ public enum DailyTasks {
             }
         }
 
-        Cookable cookable = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(cookable.name());
-        task.taskDescription = "Cook " + randomAmount + " " + Utils.formatEnum(cookable.name()) + ".";
-        task.completionAmount = randomAmount;
+        Cookable cookable = (Cookable) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(cookable.name()));
+        task.assignmentDesc.set(player, "Cook " + randomAmount + " " + Utils.formatEnum(cookable.name()) + ".");
+        task.completionAmt.set(player, randomAmount);
         return task;
     }
 
-    private static DailyTasks findWoodcuttingType(DailyTasks task, int highestRequirement, int randomAmount) {
+    /**
+     * Handler for Woodcutting (Enum) Type
+     *
+     * @param player
+     * @param task
+     * @param highestRequirement
+     * @param randomAmount
+     * @return
+     */
+    private static DailyTasks findWoodcuttingType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Trees> temp = new ArrayList<>();
         for (var tree : Trees.values) {
             if (tree.level <= highestRequirement) {
@@ -418,18 +449,33 @@ public enum DailyTasks {
             }
         }
 
-        Trees tree = get(temp);
-        task.taskName = "Daily " + Utils.formatEnum(tree.name());
-        task.taskDescription = "Chop " + randomAmount + " " + tree.name + ".";
-        task.completionAmount = randomAmount;
+        Trees tree = (Trees) get(temp);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(tree.name()));
+        task.assignmentDesc.set(player, "Chop " + randomAmount + " " + tree.name + ".");
+        task.completionAmt.set(player, randomAmount);
         return task;
     }
 
+    /**
+     * Gets highest requirement for task (threshold so you dont exceed task level reqs only
+     * provid the player with what they are eligible to do)
+     *
+     * @param player
+     * @param type
+     * @return
+     */
     public static int getHighestRequirement(Player player, Skill type) {
         List<Integer> list = build(player, type).reversed();
         return list.getFirst();
     }
 
+    /**
+     * Builds task level requirements adds to an arraylist
+     *
+     * @param player
+     * @param type
+     * @return
+     */
     public static List<Integer> build(Player player, Skill type) {
         int level = player.getSkills().level(type.getId());
         List<Integer> temp = new ArrayList<>();
@@ -444,6 +490,13 @@ public enum DailyTasks {
         return temp;
     }
 
+    /**
+     * Returns Enum <T> @Value</T>
+     *
+     * @param temp
+     * @param <T>
+     * @return
+     */
     private static <T> T get(List<T> temp) {
         Collections.shuffle(temp);
         temp = temp.reversed();
@@ -458,8 +511,8 @@ public enum DailyTasks {
         return "DailyTasks{" +
             "taskName='" + taskName + '\'' +
             ", taskDescription='" + taskDescription + '\'' +
-            ", completionAmount=" + completionAmount +
-            ", key=" + key +
+            ", completionAmount=" + maximumAmt +
+            ", key=" + completionAmt +
             ", completed=" + completed +
             ", rewardClaimed=" + rewardClaimed +
             ", category=" + category +

@@ -22,6 +22,11 @@ public class NumberUtils {
         return twoPlaces.format(d);
     }
 
+    /**
+     * normal java numebrformat class not anything rs
+     * @param value
+     * @return
+     */
     public static String formatNumber(long value) {
         return NumberFormat.getInstance().format(value);
     }
@@ -60,6 +65,11 @@ public class NumberUtils {
         return ((byte) value) & 0xff;
     }
 
+    /**
+     * k m b to integer RS
+     * @param s
+     * @return
+     */
     public static int intValue(String s) {
         long value;
         char c = s.toLowerCase().charAt(s.length() - 1);

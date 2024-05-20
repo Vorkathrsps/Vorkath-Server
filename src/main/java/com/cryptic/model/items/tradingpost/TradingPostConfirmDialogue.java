@@ -34,9 +34,9 @@ public class TradingPostConfirmDialogue extends Dialogue {
                     stop();
                     return;
                 }
-                stop();
                 TradingPost.listSale(player, sale, price);
             }
+            stop();
         }
     }
 }

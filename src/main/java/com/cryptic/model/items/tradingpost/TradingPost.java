@@ -3,6 +3,7 @@ package com.cryptic.model.items.tradingpost;
 import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.identifiers.NumberUtils;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
@@ -35,6 +36,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
@@ -439,17 +441,21 @@ public class TradingPost {
         p.getPacketSender().sendMultipleStrings(list);
     }
 
-    public static void openBuyUI(Player p) {
-        p.getInterfaceManager().open(BUY_ID);
+    public static void openBuyUI(Player player) {
+        player.getInterfaceManager().open(BUY_ID);
+        String s = "%s. Inv: %s".formatted(
+            Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
+            Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))));
         ObjectList<Player.TextData> list = ObjectList.of(
-            new Player.TextData("2344",81271),
+            new Player.TextData("My coins",81269),
+            new Player.TextData(s,81271),
             new Player.TextData("127k",81272),
             new Player.TextData("Type username",81273),
             new Player.TextData("Type itemname",81274)
         );
-        p.getPacketSender().sendMultipleStrings(list);
+        player.getPacketSender().sendMultipleStrings(list);
         for (int i = 0; i < 10; i++) { // TODO show what?
-            sendBuyIndex(null, "", "", i, p);
+            sendBuyIndex(null, "", "", i, player);
         }
     }
 
@@ -537,12 +543,16 @@ public class TradingPost {
             p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
                 Math.max(1, p.tradingPostListedAmount - 1));
             p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // quantity
+            if (p.tradingPostListedAmount - 1 < p.inventory().count(p.tradingPostListedItemId))
+                p.message("You can't list more than your are carry of this item.");
             return true;
         }
         if (buttonId == 81832) { // sell tab- quantity plus 1
             p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
                 Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
             p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // quantity
+            if (p.tradingPostListedAmount + 1 > p.inventory().count(p.tradingPostListedItemId))
+                p.message("You can't list more than your are carry of this item.");
             return true;
         }
         if (buttonId == 81833) { //  sell tab- price minus 1
@@ -550,9 +560,10 @@ public class TradingPost {
             p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price
             return true;
         }
-        if (buttonId == 81834) { //  sell tab- price plus 1
-            p.tpListingPrice = Math.min(Integer.MAX_VALUE, p.tpListingPrice + 1);
-            p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price
+        if (buttonId == 81834) { //  sell tab- restore default price
+            var price = p.<Integer>getAttribOr(AttributeKey.TRADING_POST_ORIGINAL_PRICE, p.tradingPostSelectedListing.getPrice());
+            p.tpListingPrice = Math.min(Integer.MAX_VALUE, price);
+            p.getPacketSender().sendString(81830, "" + price); // price
             return true;
         }
         if (buttonId == 81835) { //  sell tab- quantity +1 again
@@ -565,12 +576,16 @@ public class TradingPost {
             p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
                 Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 10));
             p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // quantity
+            if (p.tradingPostListedAmount + 10 > p.inventory().count(p.tradingPostListedItemId))
+                p.message("You can't list more than your are carry of this item.");
             return true;
         }
         if (buttonId == 81837) { //  sell tab- quantity +100
             p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
                 Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 100));
             p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // quantity
+            if (p.tradingPostListedAmount + 100 > p.inventory().count(p.tradingPostListedItemId))
+                p.message("You can't list more than your are carry of this item.");
             return true;
         }
         if (buttonId == 81838) { // sell tab- quantity custom enter
@@ -580,6 +595,16 @@ public class TradingPost {
                 p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // price per item green text
                 return true;
             });
+            return true;
+        }
+        if (buttonId == 81839) { // sell tab- -5% price
+            p.tpListingPrice = Math.max(1, (int) ((double)p.tpListingPrice * 0.95));
+            p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price
+            return true;
+        }
+        if (buttonId == 81842) { // sell tab- +5% price
+            p.tpListingPrice = Math.max(1,  (int) ((double)p.tpListingPrice * 1.05));
+            p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price
             return true;
         }
         if (buttonId == 81840) { // sell tab- guide price
@@ -1121,6 +1146,9 @@ public class TradingPost {
     }
 
     public static void showBuyTabOffers(Player player, List<TradingPostListing> saleMatches) {
+
+        var sumForSale = saleMatches.stream().map(e -> e.getRemaining() * 1L).reduce(0L, (subtotal, element) -> subtotal + element);
+        player.getPacketSender().sendString(81272, Utils.formatPriceKMB(sumForSale));
         for (int i = 0; i < 10; i++) {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
             sendBuyIndex(item == null ? null : item.getSaleItem(),

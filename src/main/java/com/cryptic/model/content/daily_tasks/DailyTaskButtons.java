@@ -83,9 +83,9 @@ public class DailyTaskButtons extends PacketInteraction {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             for (int i = 0; i < 6; i++) {
                 if (selected == tasks.get(i)) {
-                    var toAdd = (int) (selected.completionAmount * .25);
+                    var toAdd = (int) (selected.maximumAmt * .25);
                     var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
-                    var newTotal = selected.completionAmount + extensions.compute(selected, (_, v) -> {
+                    var newTotal = selected.maximumAmt + extensions.compute(selected, (_, v) -> {
                         if (v == null)
                             v = toAdd;
                         else

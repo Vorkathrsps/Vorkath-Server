@@ -27,8 +27,8 @@ public class DailyTaskManager {
         long diffInSeconds = ChronoUnit.SECONDS.between(now, midnight);
         String time = Utils.convertSecondsToDuration(diffInSeconds);
 
-        boolean inProgress = player.<Integer>getAttribOr(task.key, 0) > 0;
-        if (player.<Integer>getAttribOr(task.key, 0) == 0) {
+        boolean inProgress = player.<Integer>getAttribOr(task.completionAmt, 0) > 0;
+        if (player.<Integer>getAttribOr(task.completionAmt, 0) == 0) {
             return "This daily activity has not started yet!";
         } else if (!inProgress) {
             return "Daily activity still in progress!";
@@ -40,9 +40,9 @@ public class DailyTaskManager {
     }
 
     public static void displayTaskInfo(Player player, DailyTasks task) {
-        var completed = player.<Integer>getAttribOr(task.key, 0);
+        var completed = player.<Integer>getAttribOr(task.completionAmt, 0);
         var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
-        int completionAmt = task.completionAmount;
+        int completionAmt = task.maximumAmt;
         log.info("{}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
         completionAmt += extensions.getOrDefault(task, 0);
         var progress = (int) (completed * 100 / (double) completionAmt);
@@ -65,12 +65,12 @@ public class DailyTaskManager {
     public static void increase(DailyTasks dailyTask, Player player) {
         //Can only increase when the task isn't already finished.
         if (dailyTask.canIncrease(player)) {
-            var completionAmount = dailyTask.completionAmount;
+            var completionAmount = dailyTask.maximumAmt;
             var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
             completionAmount += extensions.getOrDefault(dailyTask, 0);
 
-            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.key, 0) + 1;
-            player.putAttrib(dailyTask.key, newCompletedAmt);
+            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.completionAmt, 0) + 1;
+            player.putAttrib(dailyTask.completionAmt, newCompletedAmt);
             player.message(Color.ORANGE.wrap("<img=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
 
             //We have completed the task
@@ -97,30 +97,28 @@ public class DailyTaskManager {
         if (tasks == null) tasks = new ArrayList<>();
         player.putAttrib(DAILY_TASKS_LIST, tasks);
         if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth() || tasks.isEmpty() || tasks.contains(null)) {
-            clearTasks(player, tasks);
+            clearTasks(player);
+            tasks.clear();
             generateNewTasks(player, tasks);
         }
     }//what is the name about pvp mode?
 
-    public static void clearTasks(Player player, ArrayList<DailyTasks> tasks) {
+    public static void clearTasks(Player player) {
         player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());
         for (DailyTasks task : DailyTasks.values()) {
-            player.clearAttrib(task.key);
+            player.clearAttrib(task.completionAmt);
             player.clearAttrib(task.completed);
             player.clearAttrib(task.rewardClaimed);
         }
         player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
-        tasks.clear();
     }
 
     public static void generateNewTasks(Player player, ArrayList<DailyTasks> tasks) {
         List<DailyTasks> list = new ArrayList<>();
         var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values).toList());
         for (var task : possibles) {
-            final DailyTasks generated = DailyTasks.generate(player, task);
-            if (generated != null) {
-                list.add(generated);
-            }
+            final DailyTasks generated = DailyTasks.verifyCanPerform(player, task);
+            if (generated != null) list.add(generated);
         }
         Collections.shuffle(list);
         var newtasks = list.subList(0, 6); // trim

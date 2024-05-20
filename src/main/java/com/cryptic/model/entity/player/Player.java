@@ -20,6 +20,7 @@ import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.kill_logs.BossKillLog;
 import com.cryptic.model.content.kill_logs.SlayerKillLog;
@@ -142,6 +143,7 @@ import io.netty.channel.ChannelFutureListener;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.Level;
@@ -3271,4 +3273,10 @@ public class Player extends Entity {
     @Setter
     Player tournamentOpponent;
 
-}
+    @RequiredArgsConstructor
+    public static class DailyTask {
+        public DailyTasks type;
+        public int completionamt;
+        public String name, desc;
+
+    }}

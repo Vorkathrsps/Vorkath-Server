@@ -69,7 +69,7 @@ public class TradingPost {
     public static boolean TRADING_POST_LISTING_ENABLED = true;
     public static boolean TRADING_POST_VALUE_ENABLED = false;
     public static final boolean TESTING = false;
-    public static final boolean BLOOD_MONEY_CURRENCY = true;
+    public static final boolean BLOOD_MONEY_CURRENCY = false;
 
     public static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
     /**
@@ -83,7 +83,7 @@ public class TradingPost {
      */
     public static List<TradingPostListing> recentTransactions;
 
-    public static List<TradingPostListing> featuredSpots;
+    public static List<String> featuredSpots; // key username
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -251,7 +251,7 @@ public class TradingPost {
                     //System.out.println("recent sales info = " + recentTransactions.size());
                 }
 
-                List<TradingPostListing> featured = new Gson().fromJson(new FileReader("./data/saves/tradingpost/featured.json"), type);
+                List<String> featured = new Gson().fromJson(new FileReader("./data/saves/tradingpost/featured.json"), type);
                 if (featured != null) {
                     featuredSpots.addAll(featured);
                     //System.out.println("featured = " + featured.size());
@@ -327,10 +327,10 @@ public class TradingPost {
         }
         player.getPacketSender().sendMultipleStrings(strings);
         for (int i = 0; i < 5; i++) {
-            var e = i >= featuredSpots.size() ? null : featuredSpots.get(i);
+            var username = i >= featuredSpots.size() ? null : featuredSpots.get(i);
             featureSpotText(player,
-                    e == null ? "Click to purchase" : "Featured spot:",
-                    e == null ? "a featured spot" : e.getSaleItem().unnote().name(),
+                    username == null ? "Click to purchase" : "Featured:",
+                    username == null ? "a featured spot" : Utils.capitalizeFirst(username)+"'s shop",
                     i);
         }
     }
@@ -617,6 +617,7 @@ public class TradingPost {
         if (buttonId == 81380) { // buy -1
             p.tradingPostListedAmount = Math.min(p.tradingPostSelectedListing.getRemaining(), Math.max(1, p.tradingPostListedAmount - 1));
             p.getPacketSender().sendString(81382, "" + p.tradingPostListedAmount);
+            p.getPacketSender().sendString(81386, "Total Cost: " + ((long) p.tradingPostSelectedListing.getPrice() * p.tradingPostListedAmount));
             return true;
         }
         if (buttonId == 81381) { // buy +1
@@ -624,6 +625,7 @@ public class TradingPost {
             if (p.tradingPostListedAmount == p.tradingPostSelectedListing.getRemaining())
                 p.message("There are only %s remaining.", p.tradingPostSelectedListing.getRemaining());
             p.getPacketSender().sendString(81382, "" + p.tradingPostListedAmount);
+            p.getPacketSender().sendString(81386, "Total Cost: " + ((long) p.tradingPostSelectedListing.getPrice() * p.tradingPostListedAmount));
             return true;
         }
         return false;
@@ -644,27 +646,10 @@ public class TradingPost {
             player.tpClickedFeaturedSpotIdx = idx;
             if (idx < featuredSpots.size()) {
 
-                var ft = featuredSpots.get(idx);
-                List<TradingPostListing> list2 = getSalesByUsername(Utils.capitalizeFirst(ft.getSellerName()).toLowerCase());
-                if (list2 == null) {
-                    player.message("<col=ff0000>What are you searching for?");
-                }
-
-                List<TradingPostListing> listDisplay = new ArrayList<>(list2);
-                listDisplay.removeIf(o -> o.getRemaining() == 0);
-
-                /* To sort from highest to lowest. **/
-                listDisplay.sort(Comparator.comparingLong(TradingPostListing::getPrice));
-
-                var item = listDisplay.stream().filter(e -> e.getPrice() == ft.getPrice() && ft.getSaleItem().matchesId(e.getSaleItem().getId())).findFirst().orElse(null);
-
-                if (item == null) {
-                    player.message("Cannot find item");
-                    return;
-                }
-                showBuyConfirmUI(player, item);
+                var shopname = featuredSpots.get(idx);
+                searchByUsername(player, shopname, true);
             } else {
-                openSellUI(player);
+                send(DialogueType.OPTION, "List your shop in a featured spot for 5M coins?", "Yes", "No");
             }
             setPhase(0);
         }
@@ -673,29 +658,20 @@ public class TradingPost {
         protected void select(int option) {
             if (isPhase(0)) {
                 if (option == 1) {
-                    stop();
-                    player.<Integer>setAmountScript("Withdraw how many coins?", i -> {
-                        if (!player.inventory().hasCapacity(new Item(995))) {
-                            player.message("Your inventory is full.");
-                            stop();
-                            return true;
+                    if (player.tpClickedFeaturedSpotIdx != -1 && featuredSpots.size() < 5) {
+                        if (player.inventory().remove(995, 5_000_000)) {
+                            featuredSpots.add(player.getUsername());
+                            player.tpClickedFeaturedSpotIdx = -1;
+                            player.message("Feature spot confirmed.");
+                            TradingPost.open(player);
+                        } else {
+                            player.message("Not enough Coins.");
                         }
-                        long current = player.<Long>getAttribOr(TRADING_POST_COFFER, 0L);
-                        if (current == 0L)
-                            return true;
-                        long toAdd = Long.min(current, 1L * Integer.MAX_VALUE - player.inventory().count(995));
-                        if (player.inventory().add(995, (int) toAdd)) {
-                            player.putAttrib(TRADING_POST_COFFER, Math.max(0, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) - toAdd));
-                            player.message(Utils.formatNumber(toAdd)+" was removed from your coffer, it now holds "+Utils.formatNumber(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L))+" gp.");
-                            sendOverviewTab(player);
-                        }
-                        stop();
-                        return true;
-                    });
-                } else if (option == 2) {
-                    stop();
-                    openCofferAddChat(player);
+                    } else {
+                        player.message("Featured spot taken.");
+                    }
                 }
+                stop();
             }
         }
     }
@@ -1082,48 +1058,7 @@ public class TradingPost {
             }
         }
         if (player.tpClickedFeaturedSpotIdx != -1) {
-            new ConfirmFeaturedSpotPurchase(tpl).begin(player);
-        }
-    }
-
-
-    public static class ConfirmFeaturedSpotPurchase extends Dialogue {
-
-        private final TradingPostListing tpl;
-
-        public ConfirmFeaturedSpotPurchase(TradingPostListing tpl) {
-
-            this.tpl = tpl;
-        }
-
-        @Override
-        protected void start(Object... parameters) {
-            send(DialogueType.OPTION, "Confirm Featured Spot Purchase", "Confirm for 10k BM", "Nevermind (item still listed)");
-            setPhase(0);
-        }
-
-        @Override
-        protected void select(int option) {
-            if (isPhase(0)) {
-                if (option == 1) {
-                    stop();
-                    if (player.tpClickedFeaturedSpotIdx != -1 && featuredSpots.size() < 5) {
-                        if (player.inventory().remove(13307, 10000)) {
-                            featuredSpots.add(tpl);
-                            player.tpClickedFeaturedSpotIdx = -1;
-                            player.message("Feature spot confirmed.");
-                            TradingPost.open(player);
-                        } else {
-                            player.message("Not enough BM.");
-                        }
-                    } else {
-                        player.message("Featured spot taken.");
-                    }
-                } else if (option == 2) {
-                    stop();
-                    TradingPost.open(player);
-                }
-            }
+            // when open?
         }
     }
 
@@ -1422,15 +1357,6 @@ public class TradingPost {
         }
 
         sellerListing.updateListing(selected, amount);
-
-        var ft = featuredSpots.stream().filter(e -> e.getSaleItem().matchesId(selected.getSaleItem().getId()) && selected.getSellerName().equalsIgnoreCase(e.getSellerName()))
-                .findFirst().orElse(null);
-        if (ft != null) {
-            if (ft.getRemaining() == 0) {
-                featuredSpots.remove(ft);
-                log.info("feature sale completed, removing {}", ft);
-            }
-        }
 
         Optional<Player> sel = World.getWorld().getPlayerByName(seller);
 

@@ -8,7 +8,6 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
-import com.cryptic.model.content.items.loot.CollectionItemHandler;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlmCombat;
 import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.content.raids.theatreofblood.boss.maiden.Maiden;
@@ -32,6 +31,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -45,10 +45,7 @@ import com.cryptic.model.entity.player.commands.impl.staff.admin.*;
 import com.cryptic.model.entity.player.commands.impl.staff.moderator.*;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
-import com.cryptic.model.inter.InterfaceConstants;
-import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -74,9 +71,9 @@ import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
+import static com.cryptic.model.content.raids.tombsofamascut.warden.combat.WardenCombat.floorObjects;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
-import static com.cryptic.model.inter.InterfaceConstants.*;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
 
@@ -657,6 +654,49 @@ public class CommandManager {
             for (int index = 14356; index < 14380; index++) {
                 p.varps().varbit(index, 2);
             }
+        });
+
+        dev("c5", (p, c, s) -> {
+                Chain.noCtx().runFn(3, () -> {
+                    final List<Tile> occupiedThunderLocations = new ArrayList<>();
+                    int[] floorRemovalIndex = new int[]{0};
+                    final Tile thunderTile = new Tile(3926, 5157, 1);
+                    final Projectile projectile = new Projectile(2228, 0, 200, 0, 20, 90, 0, 0);
+                    final Tile voidTile = new Tile(3936, 5130, 1);
+                    Chain.noCtxRepeat().repeatingTask(3, _ -> {
+                        int currentRow = (thunderTile.getY() + 8) - (floorRemovalIndex[0] / 4);
+                        for (GameObject object : floorObjects[floorRemovalIndex[0]]) {
+                            final Tile location = object.tile();
+                            if (location.transform(0, 0, 1).getY() == currentRow) {
+                                projectile.send(location, voidTile);
+                            }
+                            object.spawn();
+                        }
+                        floorRemovalIndex[0]++;
+                    });
+
+                    Chain.noCtxRepeat().repeatingTask(5, _ -> {
+                        occupiedThunderLocations.clear();
+                        List<Tile> availableLocations = new ArrayList<>();
+                        for (int y = 0; y <= 8 - (floorRemovalIndex[0] / 4); y++) {
+                            for (int x = 0; x <= 20; x++) {
+                                final Tile loc = thunderTile.transform(x, y, 1);
+                                if (World.getWorld().clipAt(loc) == 0 && !occupiedThunderLocations.contains(loc)) {
+                                    availableLocations.add(loc);
+                                }
+                            }
+                        }
+                        Collections.shuffle(availableLocations);
+                        List<Tile> thunderTiles = availableLocations.subList(0, Math.max(2, (int) (availableLocations.size() * .3)));
+                        thunderTiles.forEach(loc -> {
+                            World.getWorld().sendClippedTileGraphic(1446, loc, 0, 0);
+                            occupiedThunderLocations.add(loc);
+                        });
+                        Chain.noCtx().runFn(2, () -> thunderTiles.forEach(loc -> {
+                            World.getWorld().sendClippedTileGraphic(2197, loc, 0, 0);
+                        }));
+                    });
+                });
         });
 
         dev("c2", (p, c, s) -> {

@@ -969,17 +969,6 @@ public class TradingPost {
             return false;
         }
 
-        for (Item bankItem : GameConstants.BANK_ITEMS) {
-            if (bankItem.note().getId() == itemId) {
-                player.message("This free item cannot be sold.");
-                return false;
-            }
-            if (bankItem.getId() == itemId) {
-                player.message("This free item cannot be sold.");
-                return false;
-            }
-        }
-
         if (offerItem.unnote().definition(World.getWorld()).pvpAllowed) {
             player.message("You can't trade spawnable items.");
             return false;

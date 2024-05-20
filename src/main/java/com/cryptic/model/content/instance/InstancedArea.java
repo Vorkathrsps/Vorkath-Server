@@ -180,9 +180,7 @@ public class InstancedArea {
         });
 
         for (GroundItem gi : GroundItemHandler.getGroundItems()) {
-            if (!inInstanceArea(gi.getTile()))
-                continue;
-
+            if (!inInstanceArea(gi.getTile())) continue;
             GroundItemHandler.sendRemoveGroundItem(gi);
         }
         regions.forEach(r -> {

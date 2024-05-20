@@ -139,7 +139,7 @@ public class TournamentManager extends PacketInteraction {
 
     private static Tournament prevTorn;
 
-    public static String nextTornStartsInMessage() {
+    public static String nextTornStartsInMessage() { // where the fuck did i leave that print
         long difference = timeTillNext();
         if (difference == -1)
             return "Check back at midnight for the next tournament time.";

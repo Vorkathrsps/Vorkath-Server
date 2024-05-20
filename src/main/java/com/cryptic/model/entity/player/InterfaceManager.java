@@ -4,11 +4,14 @@ import com.cryptic.GameConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.items.container.shop.Shop;
+import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.utility.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.PICKING_PVM_STARTER_WEAPON;
 import static com.cryptic.model.entity.attributes.AttributeKey.PICKING_PVP_STARTER_WEAPON;
+import static com.cryptic.model.items.tradingpost.TradingPost.BUY_CONFIRM_UI_ID;
+import static com.cryptic.model.items.tradingpost.TradingPost.BUY_ID;
 
 /**
  * Contains information about the state of interfaces enter in the client.
@@ -163,6 +166,7 @@ public class InterfaceManager {
             sendOverlay(-1);
         }
 
+        var wasopen = main;
         clean(walkable);
 
         if (player.getBankPin().isEnteringPin()) {
@@ -171,9 +175,6 @@ public class InterfaceManager {
 
         //Also close rune pouch
         player.getRunePouch().close();
-        player.putAttrib(AttributeKey.USING_TRADING_POST,false);
-        player.lastTradingPostItemSearch = null;
-        player.lastTradingPostUserSearch = null;
         if(player.getStatus() != PlayerStatus.GAMBLING) {
             player.setStatus(PlayerStatus.NONE);
         }
@@ -187,6 +188,15 @@ public class InterfaceManager {
 
         HealthHud.close(player);
         player.getPacketSender().resetParallelInterfaces();
+        if (wasopen == BUY_CONFIRM_UI_ID) {
+            player.putAttrib(AttributeKey.USING_TRADING_POST,true);
+            player.getInterfaceManager().open(BUY_ID);
+            player.getPacketSender().sendConfig(1406, 1);
+        } else {
+            player.putAttrib(AttributeKey.USING_TRADING_POST,false);
+            player.lastTradingPostItemSearch = null;
+            player.lastTradingPostUserSearch = null;
+        }
     }
 
     public void setSidebar(int tab, int id) {

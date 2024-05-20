@@ -1,11 +1,12 @@
 package com.cryptic.model.entity.player.commands.impl.players;
 
 import com.cryptic.GameEngine;
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.CustomItemIdentifiers;
+import com.everythingrs.vote.Vote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,24 +16,20 @@ public class VoteRewardCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         final String name = player.getUsername().toLowerCase();
-        final String id = parts[1] != null ? parts[1] : "1";
-        final String amount = parts.length == 3 ? parts[2] : "1";
-        final String key = "1xqEgV4QtvySYVIXyXLOm22aNn2TIBoB75ojmAHbvj2slniJbKt7RZVO8vCTFn1rqmcKsCy5";
+        final String key = "EH1jU4frnPjyy4AsvqB9W2I3cvH4VwTpSdVPmallSWGKSPDIlI9PAUC2CWA49Gv319EWci1L";
         GameEngine.getInstance().addSyncTask(() -> {
             try {
-                final com.everythingrs.vote.Vote[] reward = com.everythingrs.vote.Vote.reward(key, name, id, amount);
-                final String message = reward[0].message;
-                if (message != null) {
+                final Vote[] reward = Vote.reward(key, name, "1", "all");
+                if (reward[0].message != null) {
                     player.message(Color.RED.wrap("You do not have any votes to claim."));
                     return;
                 }
-                for (var request : reward) {
-                    final int itemId = request.reward_id;
-                    final int itemAmount = request.give_amount;
-                    final Item item = new Item(itemId, itemAmount);
-                    player.getInventory().addOrBank(item);
+                final Item ticket = new Item(CustomItemIdentifiers.VOTE_TICKET, 1);
+                final Item coins = new Item(995, 500_000);
+                for (int index = 0; index < reward[0].vote_points; index++) {
+                    player.getInventory().addOrBank(coins);
+                    player.getInventory().addOrBank(ticket);
                 }
-                player.getInventory().addOrBank(new Item(995, 500_000));
             } catch (Throwable e) {
                 logger.error("Error During Vote Thread Processing: ", e);
             }

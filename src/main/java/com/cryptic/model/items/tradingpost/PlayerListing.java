@@ -2,6 +2,7 @@ package com.cryptic.model.items.tradingpost;
 
 import com.cryptic.model.entity.player.Player;
 import com.google.common.collect.Lists;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,17 +13,15 @@ public class PlayerListing {
 
     /**
      * items listed by a single player
+     * -- GETTER --
+     *  items listed by a single player
+
      */
+    @Getter
     private final List<TradingPostListing> listedItems = Lists.newLinkedList();
     public static final Map<Map<String, String>, Map<Integer, Integer>> historyMap = new HashMap<>();
     private final Map<String, String> historyTrade = new HashMap<>();
     private final Map<Integer, Integer> historyItems = new HashMap<>();
-    /**
-     * items listed by a single player
-     */
-    public List<TradingPostListing> getListedItems() {
-        return listedItems;
-    }
 
     public boolean submit(TradingPostListing item) {
         if (listedItems.contains(item)){

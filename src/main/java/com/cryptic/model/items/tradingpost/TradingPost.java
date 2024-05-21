@@ -3,6 +3,7 @@ package com.cryptic.model.items.tradingpost;
 import com.cryptic.GameConstants;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.identifiers.NumberUtils;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
@@ -293,7 +294,7 @@ public class TradingPost {
         sendOverviewTab(player);
     }
 
-    private static void sendOfferInventory(Player player, int main) {
+    public static void sendOfferInventory(Player player, int main) {
         player.getInterfaceManager().openInventory(main, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
@@ -560,16 +561,15 @@ public class TradingPost {
             p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // price
             return true;
         }
-        if (buttonId == 81834) { //  sell tab- restore default price
-            var price = p.<Integer>getAttribOr(AttributeKey.TRADING_POST_ORIGINAL_PRICE, p.tradingPostSelectedListing.getPrice());
+        if (buttonId == 81840) { //  sell tab- restore default price whats default price code, its just uh bm=coins?, yes just unrenamed kk
+            var price = p.<Integer>getAttribOr(AttributeKey.TRADING_POST_ORIGINAL_PRICE, ItemDefinition.cached.get(p.tradingPostListedItemId).bm.value());
             p.tpListingPrice = Math.min(Integer.MAX_VALUE, price);
             p.getPacketSender().sendString(81830, "" + price); // price
             return true;
         }
-        if (buttonId == 81835) { //  sell tab- quantity +1 again
-            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
-                Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
-            p.getPacketSender().sendString(81828, "" + p.tradingPostListedAmount); // quantity
+        if (buttonId == 81834) { //  sell tab- quantity +1 again
+            p.tpListingPrice = Math.min(Integer.MAX_VALUE, 1 + p.tpListingPrice);
+            p.getPacketSender().sendString(81830, "" + p.tpListingPrice); // quantity
             return true;
         }
         if (buttonId == 81836) { //  sell tab- quantity +10
@@ -672,7 +672,9 @@ public class TradingPost {
             if (idx < featuredSpots.size()) {
 
                 var shopname = featuredSpots.get(idx);
-                searchByUsername(player, shopname, true);
+                TradingPost.openBuyUI(player);
+                player.getPacketSender().sendConfig(1406, 1);
+                searchByUsername(player, shopname, false);
             } else {
                 send(DialogueType.OPTION, "List your shop in a featured spot for 5M coins?", "Yes", "No");
             }
@@ -684,7 +686,10 @@ public class TradingPost {
             if (isPhase(0)) {
                 if (option == 1) {
                     if (player.tpClickedFeaturedSpotIdx != -1 && featuredSpots.size() < 5) {
-                        if (player.inventory().remove(995, 5_000_000)) {
+                        if (featuredSpots.stream().anyMatch(e -> e.equalsIgnoreCase(player.getUsername()))) {
+                            player.message("You already have a featured spot.");
+                        }
+                        else if (player.inventory().remove(995, 5_000_000)) {
                             featuredSpots.add(player.getUsername());
                             player.tpClickedFeaturedSpotIdx = -1;
                             player.message("Feature spot confirmed.");
@@ -1077,6 +1082,7 @@ public class TradingPost {
                     save(listing);
                     player.message("You've successfully listed your offer to the " + GameServer.settings().getName() + " marketplace!");
                     refreshOverview(player);
+                    openSellUI(player);
                     player.tradingPostListedItemId = -1;
                     player.tradingPostListedAmount = -1;
                 }
@@ -1119,11 +1125,6 @@ public class TradingPost {
         if (username == null)
             return;
 
-        if (player.getUsername().equalsIgnoreCase(username)) {
-            player.getPacketSender().sendMessage("<col=ff0000>You cannot search for your own sales.");
-            return;
-        }
-
         username = Utils.capitalizeFirst(username);
 
         List<TradingPostListing> list = getSalesByUsername(username.toLowerCase());
@@ -1147,7 +1148,7 @@ public class TradingPost {
 
     public static void showBuyTabOffers(Player player, List<TradingPostListing> saleMatches) {
 
-        var sumForSale = saleMatches.stream().map(e -> e.getRemaining() * 1L).reduce(0L, (subtotal, element) -> subtotal + element);
+        var sumForSale = saleMatches == null ? 0L : saleMatches.stream().map(e -> e.getRemaining() * 1L).reduce(0L, (subtotal, element) -> subtotal + element);
         player.getPacketSender().sendString(81272, Utils.formatPriceKMB(sumForSale));
         for (int i = 0; i < 10; i++) {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);

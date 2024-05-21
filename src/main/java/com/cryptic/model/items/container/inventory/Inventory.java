@@ -7,6 +7,7 @@ import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.ItemContainerAdapter;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.items.tradingpost.TradingPost;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -171,7 +172,16 @@ public final class Inventory extends ItemContainer {
         public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
             //Don't queue updating the item, just don't flush the player's packet until the end of
             if (refresh) {
+
                 player.getPacketSender().sendItemOnInterfaceSlot(getWidgetId(), newItem.orElse(null), index);
+                // you get the point - put loads of UI checks here and re-send that specific inventory
+                // osrs does this auto under the hood
+                if (player.getInterfaceManager().isInterfaceOpen(TradingPost.SELL_ID) ||
+                    player.getInterfaceManager().isInterfaceOpen(TradingPost.OVERVIEW)) {
+                    // sell and overview use the @offer@ client container hence need manual re-send
+                    TradingPost.sendOfferInventory(player, TradingPost.SELL_ID);
+                }
+                // buy UI doesnt need a refresh, its the normal inventory
             }
 
         }

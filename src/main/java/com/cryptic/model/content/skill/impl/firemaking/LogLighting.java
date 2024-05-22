@@ -239,14 +239,8 @@ public class LogLighting {
 
     private static void burnComplete(Player player, LightableLog log, Tile finalTargTile, GroundItem spawnedItem) {
         player.message("The fire catches and the logs begin to burn.");
-
-        // Remove the logs
         GroundItemHandler.sendRemoveGroundItem(spawnedItem);
-
-        // Set our three tick timer to catch the fire (like on RS :))
         player.getTimers().register(TimerKey.FIRE_CATCHING, 3);
-
-        // Spawn a fire that dies after a minute and walk away
         GameObject fire = makeFire(player, log.lifetime);
         player.animate(-1);
         player.getMovementQueue().interpolate(finalTargTile, MovementQueue.StepType.FORCED_WALK);
@@ -258,8 +252,7 @@ public class LogLighting {
             if (Utils.rollDie((int) chance, 1)) {
                 player.inventory().add(new Item(PHOENIX));
             }
-            double experience = getExperience(player, log);
-            player.getSkills().addXp(Skills.FIREMAKING, experience);
+            player.getSkills().addXp(Skills.FIREMAKING, log.xp);
             AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
@@ -278,19 +271,6 @@ public class LogLighting {
             }
         }
         return chance;
-    }
-
-    private static double getExperience(Player player, LightableLog log) {
-        double experience = log.xp;
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.FIREMAKING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    experience *= set.experienceBoost;
-                    break;
-                }
-            }
-        }
-        return experience;
     }
 
     public static void onInvitemOnGrounditem(Player player, Item item) {

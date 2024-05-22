@@ -162,8 +162,6 @@ public class RuneConversion extends PacketInteraction {
                             multi++;
                     }
 
-                    multi = isSetBonus(player, multi);
-
                     if (altar == Altar.DEATH) {
                         player.getTaskMasterManager().increase(Tasks.CRAFT_DEATH_RUNES, finalAmount);
                     }
@@ -171,7 +169,6 @@ public class RuneConversion extends PacketInteraction {
                     rollForPet(player, altar);
                     player.inventory().add(new Item(altar.rune, finalAmount * multi), true);
                     double experience = altar.xp * finalAmount;
-                    experience = isBonusExperience(player, experience);
                     player.getSkills().addXp(Skills.RUNECRAFTING, experience);
                     player.putAttrib(AttributeKey.RUNECRAFTING, false);
                     player.unlock();
@@ -202,30 +199,6 @@ public class RuneConversion extends PacketInteraction {
             player.inventory().addOrBank(pet);
             World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rift Guardian Pet!" + "</shad>"));
         }
-    }
-
-    private static double isBonusExperience(Player player, double experience) {
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.RUNECRAFTING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    experience *= set.experienceBoost;
-                    break;
-                }
-             }
-        }
-        return experience;
-    }
-
-    private static int isSetBonus(Player player, int multi) {
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.RUNECRAFTING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    multi *= 3;
-                    break;
-                }
-            }
-        }
-        return multi;
     }
 
     public static Action<Player> action(Player player, Altar altar, int amount) {

@@ -155,8 +155,7 @@ public class Fishing {
                         player.inventory().add(new Item(weCatch.item), true);
                     }
 
-                    double experience = getExperience(weCatch);
-                    player.getSkills().addXp(Skills.FISHING, experience);
+                    player.getSkills().addXp(Skills.FISHING, weCatch.xp);
 
                     DailyTasks.check(player, DailyTasks.FISHING, weCatch.fishName);
 
@@ -191,17 +190,6 @@ public class Fishing {
             player.getInventory().addOrBank(new Item(ItemIdentifiers.HERON));
             World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Heron Pet!" + "</shad>"));
         }
-    }
-
-    private static double getExperience(Fish weCatch) {
-        double experience = weCatch.xp;
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.FISHING)) {
-                experience *= set.experienceBoost;
-                break;
-            }
-        }
-        return experience;
     }
 
     public static NPC createSpot(World world, FishSpot spot, List<PlainTile> possible) {

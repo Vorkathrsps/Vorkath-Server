@@ -177,7 +177,6 @@ public class Mining extends PacketInteraction {
                         player.getBank().add(new Item(rockType.item));
                     } else {
                         Item ore = new Item(rockType.item);
-                        isSetCrashedStarBonus(player, ore);
                         player.getInventory().add(new Item(rockType.item));
                     }
                     player.message("You manage to mine some " + rockType.name + ".");
@@ -185,7 +184,6 @@ public class Mining extends PacketInteraction {
 
                 double experience = rockType.experience;
                 if (!player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
-                    experience = isSetExperienceBonus(player, experience);
                     rollForPet(player, rockType);
                     player.getSkills().addXp(Skills.MINING, experience);
                 }
@@ -214,16 +212,6 @@ public class Mining extends PacketInteraction {
 
     }
 
-    private static void isSetCrashedStarBonus(Player player, Item ore) {
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.MINING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    ore.setAmount(ore.getAmount() * 2);
-                }
-            }
-        }
-    }
-
     private static Item isNoted(Player player, Item gem) {
         for (var set : SkillingSets.VALUES) {
             if (set.getSkillType().equals(Skill.MINING)) {
@@ -249,18 +237,6 @@ public class Mining extends PacketInteraction {
             player.getInventory().add(new Item(ItemIdentifiers.ROCK_GOLEM));
             World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rock Golem Pet!" + "</shad>"));
         }
-    }
-
-    private static double isSetExperienceBonus(Player player, double experience) {
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.MINING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    experience *= set.experienceBoost;
-                    break;
-                }
-            }
-        }
-        return experience;
     }
 
     private static void addBar(Player player, Ore rock) {

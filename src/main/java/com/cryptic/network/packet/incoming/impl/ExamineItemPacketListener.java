@@ -3,6 +3,7 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 
@@ -26,7 +27,10 @@ public class ExamineItemPacketListener implements PacketListener {
             player.sendAccountPinMessage();
             return;
         }
-        ItemDefinition definition = ItemDefinition.cached.get(item);
+
+        Item copy = Item.of(item);
+        if (copy.noted()) copy = copy.unnote();
+        ItemDefinition definition = ItemDefinition.cached.get(copy.getId());
         if (definition != null) {
             player.message(definition.description);
         }

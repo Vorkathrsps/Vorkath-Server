@@ -58,7 +58,7 @@ public enum Collection {
             NpcIdentifiers.DEMONIC_GORILLA_7149
         },
 
-        AttributeKey.DEMONIC_GORILLA_LOG_CLAIMED, new Item[]{new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 1)},
+        AttributeKey.DEMONIC_GORILLA_LOG_CLAIMED, new Item[]{new Item(COINS_995, 25_000_000), new Item(CustomItemIdentifiers.BOX_OF_VALOR, 1)},
         //Drops
         new Item(DRAGON_JAVELIN),
         new Item(MONKEY_TAIL),
@@ -74,7 +74,7 @@ public enum Collection {
         AttributeKey.KING_BLACK_DRAGON_LOG_CLAIMED,
         new Item[]{
             new Item(COINS_995, 25_000_000),
-            new Item(MYSTERY_BOX, 2)
+            new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
         },
         //Drops
         new Item(ItemIdentifiers.PRINCE_BLACK_DRAGON), new Item(KBD_HEADS), new Item(DRAGON_PICKAXE), new Item(DRACONIC_VISAGE)),
@@ -87,7 +87,7 @@ public enum Collection {
         AttributeKey.KRAKEN_LOG_CLAIMED,
         new Item[]{
             new Item(COINS_995, 15_000_000),
-            new Item(MYSTERY_BOX)
+            new Item(CustomItemIdentifiers.BOX_OF_VALOR)
         },
         //Drops
         new Item(ItemIdentifiers.PET_KRAKEN), new Item(ABYSSAL_TENTACLE), new Item(TRIDENT_OF_THE_SEAS), new Item(JAR_OF_DIRT)),
@@ -102,7 +102,7 @@ public enum Collection {
 
         new Item[]
             {
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
         //Drops
         new Item(DRACONIC_VISAGE)),
@@ -118,7 +118,7 @@ public enum Collection {
 
         new Item[]
             {
-                new Item(MYSTERY_BOX, 3)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 3)
             },
         //Drops
         new Item(DRAGON_WARHAMMER)),
@@ -134,7 +134,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 15_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(ItemIdentifiers.SCORPIAS_OFFSPRING),
@@ -152,7 +152,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 15_000_000),
-                new Item(MYSTERY_BOX, 1)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 1)
             },
 
         new Item(ItemIdentifiers.PET_SMOKE_DEVIL), new Item(OCCULT_NECKLACE)),
@@ -169,7 +169,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 25_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(ItemIdentifiers.VENENATIS_SPIDERLING),
@@ -191,7 +191,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 25_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(VETION_JR_13180),
@@ -214,7 +214,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 25_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(PET_GENERAL_GRAARDOR),
@@ -237,7 +237,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 25_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(PET_KREEARRA),
@@ -259,7 +259,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 50_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(ItemIdentifiers.VORKI),
@@ -283,7 +283,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 50_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(PET_SNAKELING),
@@ -313,7 +313,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 10_000_000),
-                new Item(MYSTERY_BOX, 1)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 1)
             },
 
         new Item(ItemIdentifiers.BABY_MOLE),
@@ -330,14 +330,14 @@ public enum Collection {
 
         new int[]
             {
-                MYSTERY_BOX
+                CustomItemIdentifiers.BOX_OF_VALOR
             },
 
         AttributeKey.DONATOR_MYSTERY_BOX_LOG_CLAIMED,
 
         new Item[]
             {
-                new Item(MYSTERY_BOX, 35)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 35)
             },
 
         new Item(BANKERS_NOTE),
@@ -425,7 +425,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 10_000_000),
-                new Item(MYSTERY_BOX, 1)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 1)
             },
         //Drops
         new Item(CRYSTAL_PICKAXE),
@@ -447,7 +447,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 50_000_000),
-                new Item(MYSTERY_BOX, 5)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 5)
             },
 
         new Item(BOW_OF_FAERDHINEN),
@@ -500,7 +500,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 50_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(VIGGORAS_CHAINMACE),
@@ -561,7 +561,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 75_000_000),
-                new Item(MYSTERY_BOX, 5)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 5)
             },
 
         new Item(CRAWLING_HAND_7975), new Item(COCKATRICE_HEAD), new Item(BASILISK_HEAD), new Item(KURASK_HEAD), new Item(ABYSSAL_HEAD), new Item(IMBUED_HEART), new Item(ETERNAL_GEM), new Item(DUST_BATTLESTAFF), new Item(MIST_BATTLESTAFF), new Item(ABYSSAL_WHIP), new Item(GRANITE_MAUL_24225), new Item(LEAFBLADED_SWORD), new Item(LEAFBLADED_BATTLEAXE), new Item(BLACK_MASK), new Item(GRANITE_LONGSWORD), new Item(WYVERN_VISAGE), new Item(DRACONIC_VISAGE),
@@ -580,7 +580,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 25_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(PET_KRIL_TSUTSAROTH),
@@ -605,7 +605,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 50_000_000),
-                new Item(MYSTERY_BOX, 5)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 5)
             },
 
         new Item(ItemIdentifiers.NEXLING),
@@ -636,7 +636,7 @@ public enum Collection {
         new Item[]
             {
                 new Item(COINS_995, 35_000_000),
-                new Item(MYSTERY_BOX, 2)
+                new Item(CustomItemIdentifiers.BOX_OF_VALOR, 2)
             },
 
         new Item(BARON),

@@ -1,8 +1,6 @@
 package com.cryptic.model.entity.events.star;
 
-import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;

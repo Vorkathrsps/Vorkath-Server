@@ -93,8 +93,7 @@ public class Pickpocketing extends PacketInteraction {
                         }
                     }
                     player.inventory().add(item);
-                    double exp = isBonusExperience(pickpocket.exp, player, 1.25);
-                    player.getSkills().addXp(Skills.THIEVING, exp);
+                    player.getSkills().addXp(Skills.THIEVING, pickpocket.exp);
                     DailyTasks.check(player, DailyTasks.THIEVING, pickpocket.name);
                 });
             } else {
@@ -110,22 +109,8 @@ public class Pickpocketing extends PacketInteraction {
         }).then(2, player::unlock);
     }
 
-    private static double isBonusExperience(double pickpocket, Player player, double exp) {
-        double experience = pickpocket;
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.THIEVING)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    experience *= exp;
-                    break;
-                }
-            }
-        }
-        return experience;
-    }
-
     private static void rollForPet(Player player, PickPocket pickpocket) {
-        double chance = isBonusExperience(pickpocket.petOdds, player, 0.85D);
-        if (Utils.rollDie((int) chance, 1)) {
+        if (Utils.rollDie(pickpocket.petOdds, 1)) {
             player.inventory().addOrBank(new Item(ROCKY, 1));
             World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rocky Pet!" + "</shad>"));
         }

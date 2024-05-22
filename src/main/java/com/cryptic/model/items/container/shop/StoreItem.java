@@ -38,6 +38,12 @@ public final class StoreItem extends Item {
     /**
      * Creates a new {@link Item}.
      */
+    public StoreItem(int id, OptionalInt value, Optional<CurrencyType> currency) {
+        super(id);
+        this.value = value;
+        this.currency = currency;
+    }
+
     public StoreItem(int id, int amount, OptionalInt value, Optional<CurrencyType> currency) {
         super(id, amount);
         this.value = value;

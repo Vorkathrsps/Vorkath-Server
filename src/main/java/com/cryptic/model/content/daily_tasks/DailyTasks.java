@@ -130,7 +130,7 @@ public enum DailyTasks {
                 70,
                 92
             ),
-        "Daily Fishing",
+        "Daily Mining",
         100,
         DAILY_MINING_NAME, DAILY_MINING_DESC,
         MINING_DAILY_COMPLETION_AMOUNT,
@@ -279,9 +279,6 @@ public enum DailyTasks {
     public final AttributeKey identifier;
     public final TaskCategory category;
     public final Item[] rewards;
-    /**
-     * IDENTIFIER
-     */
     public final Skill type;
     public final List<Integer> requirements;
     public static final DailyTasks[] values = values();
@@ -421,7 +418,7 @@ public enum DailyTasks {
         return task;
     }
 
-    private static DailyTasks findSlayerType(Player player, DailyTasks task) { //TODO make nieve assign whatever your daily slayer may be
+    private static DailyTasks findSlayerType(Player player, DailyTasks task) {
         List<SlayerTask> temp = new ArrayList<>();
         for (SlayerTask slayerTask : SlayerTask.cached) {
             if (slayerTask.hasTaskRequirements(player, slayerTask)) {
@@ -455,15 +452,6 @@ public enum DailyTasks {
         return task;
     }
 
-    /**
-     * Handler for Woodcutting (Enum) Type
-     *
-     * @param player
-     * @param task
-     * @param highestRequirement
-     * @param randomAmount
-     * @return
-     */
     private static DailyTasks findWoodcuttingType(Player player, DailyTasks task, int highestRequirement, int randomAmount) {
         List<Trees> temp = new ArrayList<>();
         for (var tree : Trees.values) {
@@ -481,26 +469,11 @@ public enum DailyTasks {
         return task;
     }
 
-    /**
-     * Gets highest requirement for task (threshold so you dont exceed task level reqs only
-     * provid the player with what they are eligible to do)
-     *
-     * @param player
-     * @param type
-     * @return
-     */
     public static int getHighestRequirement(Player player, Skill type) {
         List<Integer> list = build(player, type).reversed();
         return list.getFirst();
     }
 
-    /**
-     * Builds task level requirements adds to an arraylist
-     *
-     * @param player
-     * @param type
-     * @return
-     */
     public static List<Integer> build(Player player, Skill type) {
         int level = player.getSkills().level(type.getId());
         List<Integer> temp = new ArrayList<>();
@@ -515,13 +488,6 @@ public enum DailyTasks {
         return temp;
     }
 
-    /**
-     * Returns Enum <T> @Value</T>
-     *
-     * @param temp
-     * @param <T>
-     * @return
-     */
     private static <T> T get(List<T> temp) {
         Collections.shuffle(temp);
         temp = temp.reversed();
@@ -533,13 +499,14 @@ public enum DailyTasks {
         DailyTasks found = task.getTask(player);
         if (found == null) return;
         String dailyTaskIdentifier = found.identifier.get(player);
+        if (dailyTaskIdentifier == null) return;
         if (dailyTaskIdentifier.equalsIgnoreCase(id)) found.increment(player);
     }
 
     public void increment(final Player player) {
         DailyTasks found = getTask(player);
         if (found == null || !found.canIncrease(player)) return;
-        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0) + 10;
+        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0) + 1;
         if (found.canIncrease(player)) {
             found.currentlyCompletedAmount.set(player, points);
             return;
@@ -548,6 +515,7 @@ public enum DailyTasks {
         if (isClaimed == false) {
             found.isRewardClaimed.set(player, true);
             player.getInventory().addOrBank(found.rewards);
+            player.getSkills().addXp(found.type.getId(), 10_000);
             player.message("<img=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
         }
     }

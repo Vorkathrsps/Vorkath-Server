@@ -272,6 +272,8 @@ public class Skills {
         boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
         for (GameMode mode : GameMode.values()) {
             if (mode.equals(player.getGameMode())) {
+                double setBonus = SkillingSets.check(player, skill);
+                amt *= setBonus;
                 if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
@@ -458,14 +460,6 @@ public class Skills {
             case ZENYTE_MEMBER -> 1.20;
             default -> 1.0;
         };
-    }
-
-    private Map<Integer, SkillingSets> getSkillingSets() {
-        Map<Integer, SkillingSets> skillingSets = new HashMap<>();
-        for (SkillingSets skillingSet : SkillingSets.values()) {
-            skillingSets.put(skillingSet.getSkillType().getId(), skillingSet);
-        }
-        return skillingSets;
     }
 
     private static final int[][] LEVEL_UP = {

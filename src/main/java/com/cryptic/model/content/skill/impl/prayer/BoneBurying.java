@@ -61,22 +61,9 @@ public class BoneBurying extends PacketInteraction {
         player.sendPrivateSound(2738, 0);
         var xp = bone.xp / 2;
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
-        xp = isSetExperienceBoost(player, xp);
         player.getSkills().addXp(Skills.PRAYER, xp);
         DailyTasks.check(player, DailyTasks.PRAYER, bone.identifier);
         Chain.bound(player).runFn(1, () -> player.message("You bury the bones."));
-    }
-
-    private static double isSetExperienceBoost(Player player, double xp) {
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.PRAYER)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    xp *= set.experienceBoost;
-                    break;
-                }
-            }
-        }
-        return xp;
     }
 
     private void startBonesOnAltar(Player player, Bone bones, GameObject obj) {
@@ -171,26 +158,18 @@ public class BoneBurying extends PacketInteraction {
 
         player.sendPrivateSound(958, 0);
 
-        double experienece = bones.xp;
-        for (var set : SkillingSets.VALUES) {
-            if (set.getSkillType().equals(Skill.PRAYER)) {
-                if (player.getEquipment().containsAll(set.getSet())) {
-                    experienece *= set.experienceBoost;
-                    break;
-                }
-            }
-        }
+        double experience = bones.xp;
         DailyTasks.check(player, DailyTasks.PRAYER, bones.identifier);
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {
             player.message("The gods are very pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, experienece);
+            player.getSkills().addXp(Skills.PRAYER, experience);
         } else if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, experienece);
+            player.getSkills().addXp(Skills.PRAYER, experience);
         } else {
             player.message("The gods are pleased with your offerings.");
-            player.getSkills().addXp(Skills.PRAYER, experienece);
+            player.getSkills().addXp(Skills.PRAYER, experience);
         }
     }
 

@@ -14,7 +14,8 @@ public class InterfaceConstants {
     public static final int INVENTORY_INTERFACE = 3214;
 
     /**
-     * The action for removing items from the inventory container interface.
+     * The action for removing items from the inventory container interface. p.s misnamed i dont
+     * // think its an action its legit a containerId in the client
      */
     public static final int REMOVE_INVENTORY_ITEM = 3322;
 

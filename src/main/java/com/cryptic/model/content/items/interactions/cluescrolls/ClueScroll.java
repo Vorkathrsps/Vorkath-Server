@@ -12,7 +12,7 @@ public class ClueScroll extends PacketInteraction {
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
-            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_BEGINNER) {
+            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_BEGINNER || item.getId() == ItemIdentifiers.CLUE_GEODE_BEGINNER) {
                 if (player.isPerformingAction()) return true;
                 player.setPerformingAction(true);
                 player.getInventory().remove(item);
@@ -21,7 +21,7 @@ public class ClueScroll extends PacketInteraction {
                 return true;
             }
 
-            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_EASY) {
+            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_EASY || item.getId() == ItemIdentifiers.CLUE_GEODE_EASY) {
                 if (player.isPerformingAction()) return true;
                 player.setPerformingAction(true);
                 player.getInventory().remove(item);
@@ -29,7 +29,7 @@ public class ClueScroll extends PacketInteraction {
                 Chain.noCtx().delay(1, player::clearPerformingAction);
                 return true;
             }
-            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_MEDIUM) {
+            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_MEDIUM || item.getId() == ItemIdentifiers.CLUE_GEODE_MEDIUM) {
                 if (player.isPerformingAction()) return true;
                 player.setPerformingAction(true);
                 player.getInventory().remove(item);
@@ -38,7 +38,7 @@ public class ClueScroll extends PacketInteraction {
                 return true;
             }
 
-            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_HARD) {
+            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_HARD || item.getId() == ItemIdentifiers.CLUE_GEODE_HARD) {
                 if (player.isPerformingAction()) return true;
                 player.setPerformingAction(true);
                 player.getInventory().remove(item);
@@ -47,7 +47,7 @@ public class ClueScroll extends PacketInteraction {
                 return true;
             }
 
-            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_ELITE) {
+            if (item.getId() == ItemIdentifiers.CLUE_SCROLL_ELITE || item.getId() == ItemIdentifiers.CLUE_GEODE_ELITE) {
                 if (player.isPerformingAction()) return true;
                 player.setPerformingAction(true);
                 player.getInventory().remove(item);

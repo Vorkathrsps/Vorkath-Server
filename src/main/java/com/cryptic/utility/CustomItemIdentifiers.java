@@ -35,4 +35,8 @@ public class CustomItemIdentifiers {
     public static final int DOUBLE_XP_LAMP = 28551;
     public static final int NOXIOUS_STAFF = 30022;
     public static final int NOXIOUS_SCYTHE = 30021;
+    public static final int BOX_OF_VALOR = 30026;
+    public static final int COMPLETIONIST_CAPE = 30024;
+    public static final int REVENANT_DROP_RATE_BOOST = 30027;
+    public static final int SLAYER_TASK_PICKER_SCROLL = 30027;
 }

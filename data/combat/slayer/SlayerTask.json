@@ -357,7 +357,7 @@
       11172,
       11173
     ],
-    "combatReq": 50,
+    "combatReq": 100,
     "slayerReq": 1,
     "weight": 6,
     "min": 110,
@@ -746,8 +746,8 @@
     "taskName": "Black Demons",
     "slayerMasters": [
       6797,
-      7663
-
+      7663,
+      7876
     ],
     "npcs": [
       12385,

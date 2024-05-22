@@ -245,6 +245,7 @@ public class ObjectDefinition implements Definition {
 
                 modelIds = (objectTypes);
                 models = (objectModels);
+
             }
         }
         else if (opcode == 2)

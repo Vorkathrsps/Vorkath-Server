@@ -34,11 +34,13 @@ public enum NewTeleData {
     ANCIENT_CAVERN(new Tile(1772, 5366), "Ancient Cavern", "", SLAYING, MEDIUM),
     BRIMHAVEN_DUNGEON(new Tile(2709, 9564), "Brimhaven Dungeon", "", TRAINING, MEDIUM),
     TAVERLY_DUNGEON(new Tile(2884, 9799), "Taverly Dungeon", "", TRAINING, MEDIUM),
+    EDGEVILLE_DUNGEON(new Tile(3132, 9919), "Edgeville Dungeon", "", TRAINING, MEDIUM),
     ANCIENT_WYVERNS(new Tile(3609, 10278), "Wyvern Cave", "", SLAYING, MEDIUM),
     KARUULM_SLAYER_DUNGEON(new Tile(1311, 3812), "Karuulm Slayer Dungeon", "", SLAYING, MEDIUM),
     MOSS_LE_HARMLESS_CAVE(new Tile(3826, 9425), "Cave Horrors", "", SLAYING, MEDIUM),
     WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "@red@Dangerous Teleport Level:17 Wilderness", SLAYING, MEDIUM),
     TROLLS(new Tile(2849, 3679),"Troll StrongHold", "", SLAYING, MEDIUM),
+    DARKMEYER(new Tile(3592, 3358),"Darkmeyer", "", SLAYING, MEDIUM),
 
     //Bossing teleports
     DUKE_SUCELLUS(new Tile(3039, 6426), "Duke Sucellus", "", BOSSING, MEDIUM),

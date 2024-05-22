@@ -9,6 +9,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatreofblood.controller.TheatreDeath;
 import com.cryptic.model.content.tournaments.TournamentManager;
+import com.cryptic.model.entity.LockType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 
 import com.cryptic.model.entity.Entity;
@@ -34,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.RETRIBUTION;

@@ -3,6 +3,7 @@ package com.cryptic.model.content.skill.impl.fishing;
 import com.cryptic.PlainTile;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
@@ -156,6 +157,8 @@ public class Fishing {
 
                     double experience = getExperience(weCatch);
                     player.getSkills().addXp(Skills.FISHING, experience);
+
+                    DailyTasks.check(player, DailyTasks.FISHING, weCatch.fishName);
 
                     switch (weCatch) {
                         case SHRIMP -> AchievementsManager.activate(player, Achievements.FISHING_I, 1);

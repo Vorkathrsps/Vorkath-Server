@@ -1061,7 +1061,7 @@ public abstract class Entity {
         return lock;
     }
 
-    private LockType lock = LockType.NONE;
+    public LockType lock = LockType.NONE;
 
     public boolean locked() {
         return lock != null && lock != LockType.NONE;

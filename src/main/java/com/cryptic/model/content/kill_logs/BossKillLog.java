@@ -1,5 +1,6 @@
 package com.cryptic.model.content.kill_logs;
 
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -49,9 +50,8 @@ public class BossKillLog {
                 var points = player.<Integer>getAttribOr(BOSS_POINTS,0) + boss.points;
                 player.putAttrib(BOSS_POINTS, points);
                 player.message(Color.PURPLE.wrap("<img=2069> You have received +"+boss.points+" boss points, you now have a total of "+Utils.formatNumber(points)+" boss points."));
-
+                DailyTasks.check(player, DailyTasks.BOSSING, boss.name);
                 if(npc.getCombatInfo() == null) return;
-                int deathLength = npc.getCombatInfo().deathlen;
                 break;
             }
         }

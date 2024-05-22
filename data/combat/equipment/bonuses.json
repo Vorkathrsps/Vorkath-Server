@@ -84065,5 +84065,19 @@
       "aspeed": 4
     },
     "ge_limit": 8
+  },
+  "30024": {
+    "name": "Completionist Cape",
+    "weight": 0.453,
+    "equipable": true,
+    "equipment": {
+      "slot": 1,
+      "dstab": 18,
+      "dslash": 18,
+      "dcrush": 18,
+      "dmagic": 18,
+      "drange": 18,
+      "prayer": 8
+    }
   }
 }

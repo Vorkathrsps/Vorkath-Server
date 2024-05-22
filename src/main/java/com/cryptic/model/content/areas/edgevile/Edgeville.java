@@ -14,9 +14,11 @@ import com.cryptic.model.content.tasks.TaskMasterD;
 import com.cryptic.model.content.teleport.OrnateJewelleryBox;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
+import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.ForceMovement;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -38,6 +40,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ALTAR;
@@ -218,6 +221,27 @@ public class Edgeville extends PacketInteraction {
                 player.switchSpellBook(MagicSpellbook.NORMAL);
                 return true;
             }
+
+           /* if (obj.getId() == 23566) {
+                int diffY = player.getY() >= 9969 ? -6 : 6;
+                player.lockDelayDamage();
+                BooleanSupplier atTile = () -> player.tile().nextTo(obj.tile());
+                int offsetX = player.getX() == 3120 ? 0 : 1;
+                player.stepAbs(obj.tile().transform(offsetX, 1), MovementQueue.StepType.FORCED_WALK);
+                player.waitUntil(1, atTile, () -> {
+                    player.animate(742);
+                    Chain.noCtx().delay(1, () -> {
+                        player.looks().render(744, 744, 744, 744, 744, 744, -1);
+                        player.stepAbs(player.tile().transform(0, diffY), MovementQueue.StepType.FORCED_WALK);
+                    }).then(6, () -> {
+                        player.animate(743);
+                    }).then(1, () -> {
+                        player.looks().resetRender();
+                        player.unlock();
+                    });
+                });
+                return true;
+            }*/
 
             if (obj.getId() == LEVER_26761) {
                 int sizeX = obj.definition().sizeX;

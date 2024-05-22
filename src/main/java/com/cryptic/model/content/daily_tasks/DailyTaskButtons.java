@@ -42,7 +42,7 @@ public class DailyTaskButtons extends PacketInteraction {
             if (task > 0)
                 task /= 2;
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-            log.info("{}", task);
+            log.info("btn {} is{}", task, tasks.get(task));
             DailyTaskManager.displayTaskInfo(player, tasks.get(task));
             return true;
         }

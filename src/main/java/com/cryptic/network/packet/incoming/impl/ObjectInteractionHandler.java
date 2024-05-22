@@ -1,6 +1,8 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
+import com.cryptic.model.content.daily_tasks.DailyTaskManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.smithing.Bar;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -18,11 +20,13 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.OPEN_CHEST_3194;
+import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_LIST;
 import static org.apache.logging.log4j.util.Unbox.box;
 
 public class ObjectInteractionHandler implements PacketListener {
@@ -171,6 +175,21 @@ public class ObjectInteractionHandler implements PacketListener {
 
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 1);
 
+                if (name.equalsIgnoreCase("Daily Task Board")) {
+                    player.getInterfaceManager().open(80750);
+                    DailyTaskManager.onLogin(player);
+                    var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+                    for (int i = 0; i < tasks.size(); i++) player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
+                    DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
+                    return;
+                }
+
+                if (name.equalsIgnoreCase("Trading Post")) {
+                    TradingPost.open(player);
+                    player.getPacketSender().sendConfig(1406, 0);
+                    return;
+                }
+
                 if (name.equalsIgnoreCase("anvil")) {
                     if (object.tile().equals(2794, 2793)) {
                         player.smartPathTo(object.tile());
@@ -232,11 +251,6 @@ public class ObjectInteractionHandler implements PacketListener {
             }
             case 3 -> {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 3);
-                if (name.equalsIgnoreCase("Grand Exchange booth")) {
-                    TradingPost.open(player);
-                    player.getPacketSender().sendConfig(1406, 0);
-                    return;
-                }
 
                 if (object.getId() == 31923) {
                     player.animate(new Animation(645));

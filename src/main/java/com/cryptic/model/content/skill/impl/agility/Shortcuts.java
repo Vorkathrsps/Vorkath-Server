@@ -570,9 +570,9 @@ public class Shortcuts extends PacketInteraction {
     }
 
     private static void edge_dungeon_monkeybars(Player player) {
-        if (player.tile().y == 9963) {
+        if (player.tile().y <= 9964) {
             player.teleport(player.tile().transform(0, 7, 0));
-        } else if (player.tile().y == 9970) {
+        } else if (player.tile().y >= 9969) {
             player.teleport(player.tile().transform(0, -7, 0));
         }
     }

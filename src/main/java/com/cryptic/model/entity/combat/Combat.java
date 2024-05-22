@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.LockType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.maxhit.*;
 import com.cryptic.model.entity.combat.hit.HitDamageCache;

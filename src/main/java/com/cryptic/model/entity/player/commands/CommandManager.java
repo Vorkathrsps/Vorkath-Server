@@ -1412,6 +1412,7 @@ public class CommandManager {
         {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             player.putAttrib(DAILY_TASKS_LIST, tasks);
+            Arrays.stream(DailyTasks.values()).forEach(t -> t.currentlyCompletedAmount.set(player, 0));
             tasks.clear();
             DailyTaskManager.onLogin(player);
             player.getInterfaceManager().open(80750);
@@ -1436,7 +1437,7 @@ public class CommandManager {
         {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             tasks.forEach(t -> {
-                if (t.completed.get(player))
+                if (t.currentlyCompletedAmount.get(player))
                     DailyTaskManager.claimReward(t, player);
             });
         });
@@ -1445,7 +1446,7 @@ public class CommandManager {
 
         {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-            player.putAttrib(tasks.get(0).rewardClaimed, false);
+            player.putAttrib(tasks.get(0).isRewardClaimed, false);
         });
 
         dev("rp1", (player, c, s) ->

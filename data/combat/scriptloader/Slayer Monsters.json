@@ -2828,7 +2828,8 @@
   {
     // Cow calf
     "ids": [
-      2792
+      2792,
+      2794
     ],
     "maxhit": 1,
     "slayerxp": 8,

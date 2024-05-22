@@ -45,6 +45,7 @@ fun main(args : Array<String>) {
         //PackItems(settings.getRawCacheLocation("definitions/items/"))//Old json way but its not gonna be supported long just convert them takes like 10 mins..
         //PackConfig(PackMode.OBJECTS,settings.getRawCacheLocation("definitions/objects/")),
         PackConfig(PackMode.ITEMS,settings.getRawCacheLocation("definitions/items/")),
+        PackConfig(PackMode.OBJECTS, settings.getRawCacheLocation("definitions/objects/"))
     )
 
     when(type) {

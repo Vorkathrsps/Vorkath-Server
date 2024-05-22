@@ -493,9 +493,9 @@ public abstract class Shop {
 
         if (item instanceof StoreItem storeItem) {
             int value = storeItem.getShopValue();
-            String message = Color.BLUE.tag() + "The shop will sell this " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");
+            String message = Color.BLUE.tag() + "The shop will sell this " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValueCommas(value) + storeItem.getShopCurrency(this).toString() + ".");
             if (shopId == 47) {
-                message = Color.BLUE.tag() + "The shop will sell x" + item.getAmount() + " " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");//Override message
+                message = Color.BLUE.tag() + "The shop will sell x" + item.getAmount() + " " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValueCommas(value) + storeItem.getShopCurrency(this).toString() + ".");//Override message
             }
             player.message(message);
         }

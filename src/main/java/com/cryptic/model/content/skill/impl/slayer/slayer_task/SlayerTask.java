@@ -4,6 +4,7 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -63,7 +64,7 @@ public class SlayerTask {
     final int[] emblems = new int[]{ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5};
     final int[] pvp_equipment = new int[]{VESTAS_LONGSWORD_BH, STATIUSS_WARHAMMER_BH, VESTAS_SPEAR_BH, ZURIELS_STAFF_BH};
     final int[] sigils = new int[]{SIGIL_OF_THE_FERAL_FIGHTER_26075, SIGIL_OF_THE_MENACING_MAGE_26078, SIGIL_OF_THE_RUTHLESS_RANGER_26072, SIGIL_OF_DEFT_STRIKES_26012, SIGIL_OF_THE_METICULOUS_MAGE_26003, SIGIL_OF_CONSISTENCY_25994, SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, SIGIL_OF_RESISTANCE_28490, SIGIL_OF_PRECISION_28514, SIGIL_OF_FORTIFICATION_26006, SIGIL_OF_STAMINA_26042, SIGIL_OF_THE_ALCHEMANIAC_28484, SIGIL_OF_EXAGGERATION_26057, SIGIL_OF_DEVOTION_26099, SIGIL_OF_LAST_RECALL_26144, SIGIL_OF_REMOTE_STORAGE_26141, SIGIL_OF_THE_NINJA_28526, SIGIL_OF_THE_INFERNAL_SMITH_28505, SIGIL_OF_PIOUS_PROTECTION_26129, SIGIL_OF_AGGRESSION_26132, SIGIL_OF_THE_TREASURE_HUNTER_26051};
-    final int[] wildernessBossUids = new int[]{57, 58, 60};
+    final int[] wildernessBossUids = new int[]{57, 58, 59};
 
     public static void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
@@ -83,8 +84,10 @@ public class SlayerTask {
         }
         ObjectList<Integer> eligibleTasks = new ObjectArrayList<>();
         String previousTask = player.getAttribOr(AttributeKey.PREVIOUS_SLAYER_TASK, "");
+        boolean hasSlayerDailyTask = player.<String>getAttribOr(AttributeKey.SLAYER_IDENTIFIER, "") != null;
         for (SlayerTask task : this.cached) {
             if (hasTaskRequirements(player, task)) {
+                System.out.println("hasrequirements=" + task.taskName + " uid=" + task.getUid());
                 if (task != null && ArrayUtils.contains(task.slayerMasters, slayerMasterId)) {
                     if (!this.isTaskBlocked(player, task)) {
                         if (!Objects.equals(task.taskName, previousTask)) {
@@ -221,7 +224,7 @@ public class SlayerTask {
                 SlayerTask slayer = World.getWorld().getSlayerTasks();
                 if (isPhase(0)) {
                     if (option == 1) {
-                        send(DialogueType.OPTION, "Reset slayer task with BM or Slayer points?", "Coins (1 Million)", "Slayer Points. (30)");
+                        send(DialogueType.OPTION, "Reset slayer task with Coins or Slayer points?", "Coins (500K)", "Slayer Points. (30)");
                         setPhase(1);
                     } else {
                         stop();
@@ -229,7 +232,7 @@ public class SlayerTask {
                 } else if (isPhase(1)) {
                     if (option == 1) {
                         boolean canReset = false;
-                        int resetAmount = 1_000_000;
+                        int resetAmount = 500_000;
                         int bmInInventory = player.inventory().count(COINS_995);
                         if (bmInInventory > 0) {
                             if (bmInInventory >= resetAmount) {
@@ -273,6 +276,8 @@ public class SlayerTask {
     public void handleSlayerDeath(final Player player, final NPC npc) {
         SlayerTask assignment = this.getCurrentAssignment(player);
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
+        String dailyTask = player.<String>getAttribOr(AttributeKey.SLAYER_IDENTIFIER, "");
+        boolean hasSlayerDailyTask = dailyTask != null;
         if (assignment != null && this.isLinkedById(player, npc.id())) {
             double experience = this.getSlayerExperience(npc);
             int amount = this.getRemainingTaskAmount(player);
@@ -287,6 +292,7 @@ public class SlayerTask {
             amount = isUsingExpeditiousBracelet(player, amount);
             decrementTaskAmount(player, amount);
             if (this.isRemoveSlayerTask(player)) {
+                DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
                 int increment = 0;
                 increment += this.getSlayerTaskCompletionPoints(player);
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
@@ -380,11 +386,11 @@ public class SlayerTask {
     }
 
     public boolean hasTaskRequirements(@Nonnull final Player player, SlayerTask task) {
-        if ((task == null || (player.getSkills().combatLevel() < task.combatReq) || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq)))
-            return false;
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid()))
-            return false;
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47)
+        if ((task == null
+            || (player.getSkills().combatLevel() < task.combatReq)
+            || (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq))
+            || (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LIKE_A_BOSS) && ArrayUtils.contains(wildernessBossUids, task.getUid()))
+            || (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVVED_UP) && task.getUid() == 47))
             return false;
         return true;
     }

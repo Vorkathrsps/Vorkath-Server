@@ -102,7 +102,6 @@ public class ButtonClickPacketListener implements PacketListener {
                 player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
             }
             DailyTaskManager.displayTaskInfo(player, tasks.getFirst());
-            System.out.println(Arrays.toString(tasks.stream().map(e -> e.taskName).toArray()));
             return;
         }
 

@@ -4,6 +4,7 @@ import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
@@ -244,6 +245,7 @@ public class Cooking extends PacketInteraction { //TODO add gauntles
 
                     player.message(msg);
                     player.getSkills().addXp(Skills.COOKING, food.exp);
+                    DailyTasks.check(player, DailyTasks.COOKING, food.itemname);
                     //Caskets Money, money, money..
                     if (Utils.rollDie(20, 1)) {
                         player.inventory().addOrDrop(new Item(7956, 1));

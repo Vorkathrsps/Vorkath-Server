@@ -27,12 +27,12 @@ public class DailyTaskManager {
         long diffInSeconds = ChronoUnit.SECONDS.between(now, midnight);
         String time = Utils.convertSecondsToDuration(diffInSeconds);
 
-        boolean inProgress = player.<Integer>getAttribOr(task.completionAmt, 0) > 0;
-        if (player.<Integer>getAttribOr(task.completionAmt, 0) == 0) {
+        boolean inProgress = player.<Integer>getAttribOr(task.totalCompletionAmount, 0) > 0;
+        if (player.<Integer>getAttribOr(task.totalCompletionAmount, 0) == 0) {
             return "This daily activity has not started yet!";
         } else if (!inProgress) {
             return "Daily activity still in progress!";
-        } else if (!player.<Boolean>getAttribOr(task.rewardClaimed, false)) {
+        } else if (!player.<Boolean>getAttribOr(task.isRewardClaimed, false)) {
             return "Claim Reward!";
         } else {
             return "Refresh in: " + time;
@@ -40,16 +40,18 @@ public class DailyTaskManager {
     }
 
     public static void displayTaskInfo(Player player, DailyTasks task) {
-        var completed = player.<Integer>getAttribOr(task.completionAmt, 0);
+        var completed = player.<Integer>getAttribOr(task.currentlyCompletedAmount, 0);
         var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
-        int completionAmt = task.maximumAmt;
-        log.info("{}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
+        int completionAmt = task.totalCompletionAmount.get(player);
+        log.info("extensions {}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
         completionAmt += extensions.getOrDefault(task, 0);
         var progress = (int) (completed * 100 / (double) completionAmt);
         player.getPacketSender().sendString(START_LIST_ID, "<col=ff9040>" + Utils.formatEnum(task.taskName));
         player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%)  " + Utils.format(completed) + "/" + Utils.format(completionAmt));
+        int needed = task.totalCompletionAmount.get(player);
+        if (completed > needed) progress = completed;
         player.getPacketSender().sendProgressBar(PROGRESS_BAR_ID, progress);
-        var description = task.taskDescription;
+        String description = task.assignmentDesc.get(player);
         String replacement = description.replaceAll("\\b\\d{1,3}\\b", String.valueOf(completionAmt));
         replacement = replacement.replaceAll("\n", "<br>");
         player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, replacement);
@@ -69,14 +71,14 @@ public class DailyTaskManager {
             var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
             completionAmount += extensions.getOrDefault(dailyTask, 0);
 
-            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.completionAmt, 0) + 1;
-            player.putAttrib(dailyTask.completionAmt, newCompletedAmt);
+            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.totalCompletionAmount, 0) + 1;
+            player.putAttrib(dailyTask.totalCompletionAmount, newCompletedAmt);
             player.message(Color.ORANGE.wrap("<img=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
 
             //We have completed the task
             if (newCompletedAmt == completionAmount) {
                 int rewardPoints = player.<Integer>getAttribOr(DAILY_TASKS_POINTS, 0);
-                player.putAttrib(dailyTask.completed, true);
+                player.putAttrib(dailyTask.currentlyCompletedAmount, true);
                 rewardPoints += 1;
                 player.putAttrib(DAILY_TASKS_POINTS, rewardPoints);
                 player.getInventory().addOrBank(dailyTask.rewards);
@@ -106,9 +108,9 @@ public class DailyTaskManager {
     public static void clearTasks(Player player) {
         player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());
         for (DailyTasks task : DailyTasks.values()) {
-            player.clearAttrib(task.completionAmt);
-            player.clearAttrib(task.completed);
-            player.clearAttrib(task.rewardClaimed);
+            player.clearAttrib(task.totalCompletionAmount);
+            player.clearAttrib(task.currentlyCompletedAmount);
+            player.clearAttrib(task.isRewardClaimed);
         }
         player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
     }
@@ -132,19 +134,19 @@ public class DailyTaskManager {
         }
 
         //Task isn't completed can't claim rewards
-        if (!player.<Boolean>getAttribOr(dailyTask.completed, false)) {
+        if (!player.<Boolean>getAttribOr(dailyTask.currentlyCompletedAmount, false)) {
             player.message(Color.RED.wrap("You have not completed this daily task yet."));
             return;
         }
 
         //Reward already claimed
-        boolean claimed = player.getAttribOr(dailyTask.rewardClaimed, false);
+        boolean claimed = player.getAttribOr(dailyTask.isRewardClaimed, false);
         if (claimed) {
             player.message("<col=ca0d0d>You've already claimed this daily task. You can complete this task again tomorrow.");
             return;
         }
 
-        player.putAttrib(dailyTask.rewardClaimed, true);
+        player.putAttrib(dailyTask.isRewardClaimed, true);
         player.inventory().addOrBank(dailyTask.rewards);
         player.message("<col=ca0d0d>You have claimed the reward from task: " + dailyTask.taskName + ".");
         player.putAttrib(DAILY_TASKS_POINTS, player.getOrT(DAILY_TASKS_POINTS, 0) + 1);

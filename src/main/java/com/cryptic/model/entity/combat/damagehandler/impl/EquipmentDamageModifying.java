@@ -47,7 +47,8 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
                 new KerisPartisan(),
                 new AmuletOfAvarice(),
                 new BerserkerNecklace(),
-                new Arclight()
+                new Arclight(),
+                new BlisterwoodFlail()
             );
     }
 
@@ -70,7 +71,8 @@ public class EquipmentDamageModifying implements DamageModifyingListener {
                 new DragonMace(),
                 new DragonHunterLance(),
                 new AmuletOfAvarice(),
-                new Arclight()
+                new Arclight(),
+                new BlisterwoodFlail()
             );
     }
 

@@ -3,6 +3,7 @@ package com.cryptic.model.content.skill.impl.woodcutting;
 import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Trees;
@@ -135,6 +136,7 @@ public class Woodcutting extends PacketInteraction {
             var success = success(modifiedLevel, tree, axe);
 
             if (success) {
+                DailyTasks.check(player, DailyTasks.WOODCUTTING, tree.name);
                 if (hasInfernalAxe(player, tree)) return;
                 int[] fellingAxes = {28196, 28199, 28202, 28205, 28208, 28211, 28214, 28217, 28220, 28226};
                 if (player.getInventory().contains(ItemIdentifiers.FORESTERS_RATION)) {

@@ -883,17 +883,12 @@ public final class PacketSender {
     }
 
     public void sendMultipleStrings(List<Player.TextData> stringList) {
-        List<Player.TextData> filtered = stringList.stream().toList();
-
         PacketBuilder out = new PacketBuilder(129, PacketType.VARIABLE_SHORT);
-
-        out.put(filtered.size());
-
-        filtered.forEach(string -> {
+        out.put(stringList.size());
+        for (var string : stringList) {
             out.putString(string.text);
             out.putInt(string.id);
-        });
-
+        }
         player.getSession().write(out);
     }
 

@@ -4,6 +4,7 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.items.loot.CollectionItem;
 import com.cryptic.model.content.items.loot.CollectionItemListener;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import org.jetbrains.annotations.NotNull;
 
@@ -101,7 +102,7 @@ public class MysteryBox implements CollectionItemListener {
 
     @Override
     public int id() {
-        return ItemIdentifiers.MYSTERY_BOX;
+        return CustomItemIdentifiers.BOX_OF_VALOR;
     }
 
     @Override

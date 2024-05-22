@@ -3,6 +3,7 @@ package com.cryptic.model.content.skill.impl.thieving;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -94,6 +95,7 @@ public class Pickpocketing extends PacketInteraction {
                     player.inventory().add(item);
                     double exp = isBonusExperience(pickpocket.exp, player, 1.25);
                     player.getSkills().addXp(Skills.THIEVING, exp);
+                    DailyTasks.check(player, DailyTasks.THIEVING, pickpocket.name);
                 });
             } else {
                 player.runFn(1, () -> {
@@ -101,9 +103,8 @@ public class Pickpocketing extends PacketInteraction {
                     npc.forceChat("What do you think you're doing?");
                     npc.setPositionToFace(player.tile());
                     npc.animate(pickpocket.stunAnimation);
-                    player.hit(null, World.getWorld().random(pickpocket.stunDamage));
-                }).then(1, () -> {
                     player.stun(pickpocket.stunSeconds, true);
+                    player.hit(null, World.getWorld().random(1, pickpocket.stunDamage));
                 });
             }
         }).then(2, player::unlock);
@@ -342,7 +343,7 @@ public class Pickpocketing extends PacketInteraction {
             ));
 
         public final int levelReq, stunAnimation, stunSeconds, stunDamage, petOdds;
-        private final String name, identifier;
+        public final String name, identifier;
         public final double exp;
         public final LootTable lootTable;
         public static PickPocket[] values = values();

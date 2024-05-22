@@ -1037,7 +1037,7 @@ public class Utils {
     /**
      * Formats a number into a string with commas.
      */
-    public static String formatValue(int value) {
+    public static String formatValueCommas(long value) {
         return new DecimalFormat("#, ###").format(value);
     }
 

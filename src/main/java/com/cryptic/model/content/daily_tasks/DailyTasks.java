@@ -13,6 +13,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.Utils;
 
 import java.util.*;
@@ -38,21 +39,20 @@ public enum DailyTasks {
             75,
             90
         ),
-
         "Daily Woodcutting",
-        "Chop 100 magic logs.",
         100,
         DAILY_WOODCUTTING_NAME, DAILY_WOODCUTTING_DESC,
         WOODCUTTING_DAILY_TASK_COMPLETION_AMOUNT,
         WOODCUTTING_DAILY_TASK_COMPLETED,
         WOODCUTTING_DAILY_TASK_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, WOODCUTTING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
     COOKING(Skill.COOKING,
@@ -80,18 +80,18 @@ public enum DailyTasks {
             ),
 
         "Daily Cooking",
-        "Cook 250 Monkfish.",
         250,
         DAILY_COOKING_NAME, DAILY_COOKING_DESC,
         MONKFISH_DAILY_TASK_COMPLETION_AMOUNT,
         MONKFISH_DAILY_TASK_COMPLETED,
         MONKFISH_DAILY_TASK_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)) {
+        TaskCategory.OTHER, COOKING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
@@ -101,19 +101,19 @@ public enum DailyTasks {
                 1
             ),
         "Daily Slayer",
-        "",
         100,
         DAILY_SLAYER_NAME, DAILY_SLAYER_DESC,
         SLAYER_DAILY_TASK_COMPLETION_AMOUNT,
         SLAYER_DAILY_TASK_COMPLETED,
         SLAYER_DAILY_TASK_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, SLAYER_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
@@ -131,19 +131,19 @@ public enum DailyTasks {
                 92
             ),
         "Daily Fishing",
-        "",
         100,
         DAILY_MINING_NAME, DAILY_MINING_DESC,
         MINING_DAILY_COMPLETION_AMOUNT,
         MINING_DAILY_COMPLETED,
         MINING_DAILY_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, MINING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
@@ -177,19 +177,19 @@ public enum DailyTasks {
                 87
             ),
         "Daily Fishing",
-        "",
         100,
         DAILY_FISHING_NAME, DAILY_FISHING_DESC,
         FISHING_DAILY_COMPLETION_AMOUNT,
         FISHING_DAILY_COMPLETED,
         FISHING_DAILY_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, FISHING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
@@ -213,19 +213,19 @@ public enum DailyTasks {
                 90
             ),
         "Daily Thieving",
-        "",
         100,
         DAILY_THIEVING_NAME, DAILY_THIEVING_DESC,
         THIEVING_DAILY_COMPLETION_AMOUNT,
         THIEVING_DAILY_COMPLETED,
         THIEVING_DAILY_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, THIEVING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
@@ -235,48 +235,48 @@ public enum DailyTasks {
                 1
             ),
         "Daily Prayer",
-        "",
         100,
         DAILY_BONE_NAME, DAILY_BONE_DESC,
         PRAYER_DAILY_COMPLETION_AMOUNT, // OH this is ur dynamic value hold on
         PRAYER_DAILY_COMPLETED,
         PRAYER_DAILY_REWARD_CLAIMED,
-        TaskCategory.OTHER,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.OTHER, PRAYER_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     },
 
     BOSSING(
         "Daily Bossing",
-        "",
         100,
         DAILY_BOSS_NAME, DAILY_BOSS_DESC,
         BOSSING_DAILY_COMPLETION_AMOUNT,
         BOSSING_DAILY_COMPLETED,
         BOSSING_DAILY_REWARD_CLAIMED,
-        TaskCategory.PVM,
-        new Item(COINS_995, 500000),
-        new Item(28551, 1)
+        TaskCategory.PVM, BOSSING_IDENTIFIER,
+        new Item(COINS_995, 1_250_000),
+        new Item(Utils.randomElement(new int[]{CustomItemIdentifiers.DOUBLE_DROPS_LAMP, CustomItemIdentifiers.DOUBLE_XP_LAMP}), 1)
     ) {
         @Override
         public boolean canIncrease(Player player) {
-            return !player.<Boolean>getAttribOr(completed, false);
+            int needed = totalCompletionAmount.get(player);
+            return player.<Integer>getAttribOr(currentlyCompletedAmount, -1) < needed;
         }
     };
 
     public final String taskName;
-    public final String taskDescription;
     public final int maximumAmt; // TODO replace with intrange or int high, int low
     public final AttributeKey assignmentName;
     public final AttributeKey assignmentDesc;
-    public final AttributeKey completionAmt;
-    public final AttributeKey completed;
-    public final AttributeKey rewardClaimed;
+    public final AttributeKey totalCompletionAmount;
+    public final AttributeKey currentlyCompletedAmount;
+    public final AttributeKey isRewardClaimed;
+    public final AttributeKey identifier;
     public final TaskCategory category;
     public final Item[] rewards;
     /**
@@ -286,38 +286,38 @@ public enum DailyTasks {
     public final List<Integer> requirements;
     public static final DailyTasks[] values = values();
 
-    DailyTasks(Skill type, List<Integer> requirements, String taskName, String taskDescription, int maximumAmt,      AttributeKey name,
-               AttributeKey desc, AttributeKey completionAmt, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
+    DailyTasks(Skill type, List<Integer> requirements, String taskName, int maximumAmt, AttributeKey name,
+               AttributeKey desc, AttributeKey totalCompletionAmount, AttributeKey currentlyCompletedAmount, AttributeKey isRewardClaimed, TaskCategory category, AttributeKey identifier, Item... rewards) {
         this.type = type;
         this.requirements = requirements;
         this.taskName = taskName;
-        this.taskDescription = taskDescription;
         this.maximumAmt = maximumAmt;
         this.assignmentName = name;
         this.assignmentDesc = desc;
-        this.completionAmt = completionAmt;
-        this.completed = completed;
-        this.rewardClaimed = rewardClaimed;
+        this.totalCompletionAmount = totalCompletionAmount;
+        this.currentlyCompletedAmount = currentlyCompletedAmount;
+        this.isRewardClaimed = isRewardClaimed;
         this.category = category;
+        this.identifier = identifier;
         this.rewards = rewards;
     }
 
-    DailyTasks(String taskName, String taskDescription, int maximumAmt,
+    DailyTasks(String taskName, int maximumAmt,
                AttributeKey name,
                AttributeKey desc,
-               AttributeKey completionAmt, AttributeKey completed, AttributeKey rewardClaimed, TaskCategory category, Item... rewards) {
+               AttributeKey totalCompletionAmount, AttributeKey currentlyCompletedAmount, AttributeKey isRewardClaimed, TaskCategory category, AttributeKey identifier, Item... rewards) {
         this.taskName = taskName;
-        this.taskDescription = taskDescription;
         this.maximumAmt = maximumAmt;
-        this.completionAmt = completionAmt;
-        this.completed = completed;
-        this.rewardClaimed = rewardClaimed;
+        this.totalCompletionAmount = totalCompletionAmount;
+        this.currentlyCompletedAmount = currentlyCompletedAmount;
+        this.isRewardClaimed = isRewardClaimed;
         this.category = category;
         this.type = null;
         this.requirements = null;
         this.rewards = rewards;
         this.assignmentName = name;
         this.assignmentDesc = desc;
+        this.identifier = identifier;
     }
 
     public static List<DailyTasks> asList(TaskCategory category) {
@@ -345,17 +345,31 @@ public enum DailyTasks {
     public static DailyTasks findBossType(Player player, DailyTasks task) {
         List<BossKillLog.Bosses> temp = new ArrayList<>(Arrays.asList(BossKillLog.Bosses.values));
         BossKillLog.Bosses boss = (BossKillLog.Bosses) get(temp);
-        int randomAmount = World.getWorld().random(5, 15); // leaving for now wont use enuum.max
-        task.completionAmt.set(player, randomAmount); // hereee we go
+        int randomAmount = World.getWorld().random(5, 15);
+        task.assignmentName.set(player, "Daily " + Utils.formatEnum(boss.name()));
+        task.assignmentDesc.set(player, "Kill " + randomAmount + " " + Utils.formatEnum(boss.name()) + ".");
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, boss.getName());
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
     public static DailyTasks findPrayerType(Player player, DailyTasks task, int randomAmount) {
-        List<Bone> temp = new ArrayList<>(Arrays.asList(Bone.values));
+        var values = Bone.values;
+        List<Bone> temp = new ArrayList<>();
+        for (var bone : values) {
+            if (bone.name().equalsIgnoreCase(Bone.JOGRE_BONE.name())) continue;
+            if (bone.name().equalsIgnoreCase(Bone.LONG_BONE.name())) continue;
+            if (bone.name().equalsIgnoreCase(Bone.CURVED_BONE.name())) continue;
+            if (bone.name().equalsIgnoreCase(Bone.ZOGRE_BONES.name())) continue;
+            temp.add(bone);
+        }
         Bone bone = (Bone) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(bone.name()));
         task.assignmentDesc.set(player, "Sacrifice " + randomAmount + " " + Utils.formatEnum(bone.name()) + ".");
-        task.completionAmt.set(player, randomAmount); // ye follow this syntax and add 2x6 new attribs for the other 6 skill things. ight pce
+        task.totalCompletionAmount.set(player, randomAmount); // ye follow this syntax and add 2x6 new attribs for the other 6 skill things. ight pce
+        task.identifier.set(player, bone.identifier);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -369,7 +383,9 @@ public enum DailyTasks {
         Pickpocketing.PickPocket thieving = (Pickpocketing.PickPocket) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(thieving.name()));
         task.assignmentDesc.set(player, "Pickpocket " + randomAmount + " " + Utils.formatEnum(thieving.name()) + ".");
-        task.completionAmt.set(player, randomAmount);
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, thieving.identifier);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -383,7 +399,9 @@ public enum DailyTasks {
         Fish fish = (Fish) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(fish.name()));
         task.assignmentDesc.set(player, "Fish " + randomAmount + " " + Utils.formatEnum(fish.name()) + ".");
-        task.completionAmt.set(player, randomAmount);
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, fish.fishName);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -397,7 +415,9 @@ public enum DailyTasks {
         Ore ore = (Ore) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(ore.name()));
         task.assignmentDesc.set(player, "Mine " + randomAmount + " " + Utils.formatEnum(ore.name()) + ".");
-        task.completionAmt.set(player, randomAmount);
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, ore.name);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -410,10 +430,11 @@ public enum DailyTasks {
         }
 
         SlayerTask slayerTask = (SlayerTask) get(temp);
-        final int amount = World.getWorld().random(1, 2);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(slayerTask.getTaskName()));
-        task.assignmentDesc.set(player, "Complete " + amount + " " + Utils.formatEnum(slayerTask.getTaskName()) + " Slayer Task.");
-        task.completionAmt.set(player, amount);
+        task.assignmentDesc.set(player, "Complete " + 1 + " " + Utils.formatEnum(slayerTask.getTaskName()) + " Slayer Task.");
+        task.totalCompletionAmount.set(player, 1);
+        task.identifier.set(player, slayerTask.getTaskName());
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -428,7 +449,9 @@ public enum DailyTasks {
         Cookable cookable = (Cookable) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(cookable.name()));
         task.assignmentDesc.set(player, "Cook " + randomAmount + " " + Utils.formatEnum(cookable.name()) + ".");
-        task.completionAmt.set(player, randomAmount);
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, cookable.itemname);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -452,7 +475,9 @@ public enum DailyTasks {
         Trees tree = (Trees) get(temp);
         task.assignmentName.set(player, "Daily " + Utils.formatEnum(tree.name()));
         task.assignmentDesc.set(player, "Chop " + randomAmount + " " + tree.name + ".");
-        task.completionAmt.set(player, randomAmount);
+        task.totalCompletionAmount.set(player, randomAmount);
+        task.identifier.set(player, tree.name);
+        task.isRewardClaimed.set(player, false);
         return task;
     }
 
@@ -504,17 +529,59 @@ public enum DailyTasks {
         return Utils.randomElement(temp);
     }
 
+    public static void check(final Player player, DailyTasks task, String id) {
+        DailyTasks found = task.getTask(player);
+        if (found == null) return;
+        String dailyTaskIdentifier = found.identifier.get(player);
+        if (dailyTaskIdentifier.equalsIgnoreCase(id)) found.increment(player);
+    }
+
+    public void increment(final Player player) {
+        DailyTasks found = getTask(player);
+        if (found == null || !found.canIncrease(player)) return;
+        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0) + 10;
+        if (found.canIncrease(player)) {
+            found.currentlyCompletedAmount.set(player, points);
+            return;
+        }
+        boolean isClaimed = found.isRewardClaimed.get(player);
+        if (isClaimed == false) {
+            found.isRewardClaimed.set(player, true);
+            player.getInventory().addOrBank(found.rewards);
+            player.message("<img=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
+        }
+    }
+
+    public DailyTasks getTask(final Player player) {
+        var assignments = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+        if (assignments == null) return null;
+        DailyTasks temp = null;
+        if (assignments.contains(this)) temp = validateTask(assignments);
+        return temp;
+    }
+
+    private DailyTasks validateTask(ArrayList<DailyTasks> assignments) {
+        DailyTasks taskToFind = null;
+        for (int index = 0; index < assignments.size(); index++) {
+            taskToFind = assignments.get(index);
+            if (taskToFind == this) {
+                taskToFind = this;
+                break;
+            }
+        }
+        return taskToFind;
+    }
+
     public abstract boolean canIncrease(Player player);
 
     @Override
     public String toString() {
         return "DailyTasks{" +
             "taskName='" + taskName + '\'' +
-            ", taskDescription='" + taskDescription + '\'' +
             ", completionAmount=" + maximumAmt +
-            ", key=" + completionAmt +
-            ", completed=" + completed +
-            ", rewardClaimed=" + rewardClaimed +
+            ", key=" + totalCompletionAmount +
+            ", completed=" + currentlyCompletedAmount +
+            ", rewardClaimed=" + isRewardClaimed +
             ", category=" + category +
             ", rewards=" + Arrays.toString(rewards) +
             ", type=" + type +

@@ -3,6 +3,7 @@ package com.cryptic.model.content.skill.impl.mining;
 import com.cryptic.model.World;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -188,6 +189,8 @@ public class Mining extends PacketInteraction {
                     rollForPet(player, rockType);
                     player.getSkills().addXp(Skills.MINING, experience);
                 }
+
+                DailyTasks.check(player, DailyTasks.MINING, rockType.name);
 
                 switch (rockType) {
                     case COPPER_ORE -> AchievementsManager.activate(player, Achievements.MINING_I, 1);

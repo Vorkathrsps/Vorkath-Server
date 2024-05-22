@@ -4,6 +4,7 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.items.loot.CollectionItem;
 import com.cryptic.model.content.items.loot.CollectionItemListener;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import org.jetbrains.annotations.NotNull;
 
@@ -124,7 +125,8 @@ public class MasterCasket implements CollectionItemListener {
                 new CollectionItem(23339, 1, -1, true),
                 new CollectionItem(23342, 1, -1, true),
                 new CollectionItem(23345, 1, -1, true),
-                new CollectionItem(ItemIdentifiers.RING_OF_3RD_AGE, 1, -1, true)
+                new CollectionItem(ItemIdentifiers.RING_OF_3RD_AGE, 1, -1, true),
+                new CollectionItem(CustomItemIdentifiers.LUCK_OF_THE_DWARVES, 1, -1, true),
             };
     }
 

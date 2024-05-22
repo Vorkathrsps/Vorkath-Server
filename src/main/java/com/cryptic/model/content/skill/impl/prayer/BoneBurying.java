@@ -1,6 +1,7 @@
 package com.cryptic.model.content.skill.impl.prayer;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
@@ -62,6 +63,7 @@ public class BoneBurying extends PacketInteraction {
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
         xp = isSetExperienceBoost(player, xp);
         player.getSkills().addXp(Skills.PRAYER, xp);
+        DailyTasks.check(player, DailyTasks.PRAYER, bone.identifier);
         Chain.bound(player).runFn(1, () -> player.message("You bury the bones."));
     }
 
@@ -178,6 +180,7 @@ public class BoneBurying extends PacketInteraction {
                 }
             }
         }
+        DailyTasks.check(player, DailyTasks.PRAYER, bones.identifier);
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {
             player.message("The gods are very pleased with your offerings.");

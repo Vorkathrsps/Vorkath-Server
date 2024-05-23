@@ -64,13 +64,7 @@ public final class Bootstrap {
         networkBuilder.initialize(port);
         GwdLogic.onServerStart();
         HostBlacklist.loadBlacklist();
-        if (GameServer.properties().enableDidYouKnowMessages) {
-            //TaskManager.submit(new DidYouKnowTask());
-        }
-        if (GameServer.properties().enableWildernessBossEvents && GameServer.properties().pvpMode) {// Events only on PvP.
-            WildernessBossEvent.onServerStart();
-            TopPkers.SINGLETON.init();
-        }
+        WildernessBossEvent.onServerStart();
         TaskManager.submit(new StarEventTask());
         Item.onServerStart();
 

@@ -63,8 +63,8 @@ public class Emotes {
         }
 
         private final int button;
-        public Animation animation;
-        public Graphic graphic;
+        public final Animation animation;
+        public final Graphic graphic;
 
         private static final Map<Integer, EmoteData> emotes = new HashMap<>();
 

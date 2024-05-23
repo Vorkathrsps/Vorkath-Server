@@ -12,8 +12,9 @@ import java.math.BigInteger
 object Rsa {
 
     @JvmStatic
-    fun ByteBuf.toBigInteger(): BigInteger {
+    fun ByteBuf.toBigInteger(): BigInteger? {
         val bytes = ByteBufUtil.getBytes(this, readerIndex(), readableBytes(), false)
+        if(bytes.isEmpty()) return null
         return BigInteger(bytes)
     }
 
@@ -23,8 +24,8 @@ object Rsa {
     }
 
     @JvmStatic
-    fun ByteBuf.rsa(): ByteBuf {
-        return toBigInteger().modPow(NetworkUtils.RSA_EXPONENT, NetworkUtils.RSA_MODULUS).toByteBuf()
+    fun ByteBuf.rsa(): ByteBuf? {
+        return toBigInteger()?.modPow(NetworkUtils.RSA_EXPONENT, NetworkUtils.RSA_MODULUS)?.toByteBuf()
     }
 
 }

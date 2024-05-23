@@ -14,7 +14,7 @@ public final class Triggers {
 
     private final Multimap<Class<? extends PacketListener>, Runnable> triggers  = HashMultimap.create(); //Might end up invoking context idk
 
-    public Triggers(Player player) {
+    public Triggers() {
     }
 
     public void add(Class<? extends PacketListener> clazz, Runnable runnable) {
@@ -26,7 +26,7 @@ public final class Triggers {
     }
 
     public Collection<Runnable> get(Class<? extends PacketListener> clazz) {
-        return Optional.ofNullable(triggers.get(clazz)).orElseGet(() -> create(clazz));
+        return Optional.of(triggers.get(clazz)).orElseGet(() -> create(clazz));
     }
 
     private Collection<Runnable> create(Class<? extends PacketListener> clazz) {

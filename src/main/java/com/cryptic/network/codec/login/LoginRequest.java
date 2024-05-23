@@ -1,6 +1,7 @@
 package com.cryptic.network.codec.login;
 
 import com.cryptic.model.entity.player.Player;
+import lombok.Getter;
 
 /**
  * The login request model. multiple requests for the same player IS ALLOWED - but inner sync code
@@ -9,17 +10,11 @@ import com.cryptic.model.entity.player.Player;
 public final class LoginRequest {
 
     /** The player. */
+    @Getter
     public final Player player;
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public LoginDetailsMessage getMessage() {
-        return message;
-    }
-
     /** The login request message. */
+    @Getter
     public final LoginDetailsMessage message;
 
     private long delayedUntil;

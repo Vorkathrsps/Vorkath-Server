@@ -7,6 +7,6 @@ package com.cryptic.model.entity.player;
 @FunctionalInterface
 public interface InputScript<E> {
 
-    public boolean handle(E value);
+    boolean handle(E value);
 
 }

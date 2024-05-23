@@ -23,6 +23,8 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
 import io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -60,19 +62,35 @@ public class Session {
 
     /**
      * The player I/O operations will be executed for.
+     * -- GETTER --
+     *  Gets the player I/O operations will be executed for.
+     *
+     * @return the player I/O operations.
+
      */
+    @Getter
     private final Player player;
     public ChannelHandlerContext ctx;
 
     /**
      * The current state of this I/O session.
+     * -- GETTER --
+     *  Gets the current state of this I/O session.
+     *
+     *
+     * -- SETTER --
+     *  Sets the value for
+     * .
+     *
+     @return the current state.
+      * @param state the new value to set.
+
      */
+    @Setter
+    @Getter
     private SessionState state = SessionState.CONNETED;
 
-    public LoginDetailsMessage getMsg() {
-        return msg;
-    }
-
+    @Getter
     private LoginDetailsMessage msg;
 
     /**
@@ -128,9 +146,6 @@ public class Session {
         packetsQueue.offer(msg);
     }
 
-    private static final DecimalFormat df = new DecimalFormat("#.##");
-    public static long threshold = 50_500_000;
-
     /**
      * Processes all of the queued messages from the {@link PacketDecoder} by
      * polling the internal queue, and then handling them via the handleInputMessage.
@@ -139,7 +154,7 @@ public class Session {
     public void handleQueuedPackets() {
         int counter = 0;
         while (!packetsQueue.isEmpty() && counter < 100) {
-            Packet packet = packetsQueue.poll();
+            final Packet packet = packetsQueue.poll();
             if (packet == null) break;
             try {
                 int opcode = packet.getOpcode();
@@ -153,7 +168,7 @@ public class Session {
                         player.getPacketSender().sendMessage("<col=ff0000>" + errorMsg);
                     }
                     System.err.println(errorMsg);
-                    continue; // Continue processing other packets
+                    continue;
                 }
 
                 if (GameServer.broadcast != null) player.getPacketSender().sendBroadcast(GameServer.broadcast);
@@ -239,33 +254,6 @@ public class Session {
             return;
 
         channel.flush();
-    }
-
-    /**
-     * Gets the player I/O operations will be executed for.
-     *
-     * @return the player I/O operations.
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * Gets the current state of this I/O session.
-     *
-     * @return the current state.
-     */
-    public SessionState getState() {
-        return state;
-    }
-
-    /**
-     * Sets the value for {@link Session#state}.
-     *
-     * @param state the new value to set.
-     */
-    public void setState(SessionState state) {
-        this.state = state;
     }
 
     @Nullable

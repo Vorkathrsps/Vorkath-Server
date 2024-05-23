@@ -30,7 +30,7 @@ import java.util.List;
  * Created by Bart on 8/1/2015.
  */
 public class LoginWorker implements Runnable {
-    private static final String[] staff = new String[]{"192.168.1.56", "192.168.1.57", "185.142.58.231"};
+
     private static final Logger loginLogs = LogManager.getLogger("LoginLogs");
     private static final Level LOGIN;
 
@@ -40,19 +40,7 @@ public class LoginWorker implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(LoginWorker.class);
 
-    private LoginService service;
-
-    /**
-     * Will show 'sever is being updated' if false. After a Production restart, do ::acceptlogins to
-     * enable.
-     */
-    public static boolean acceptLogins = false;
-
-    /**
-     * only names that can do ::freelogin (login with a PW!!!) .. basically dev only. Way of getting
-     * admin before profile load and you can do a rights=2 check
-     */
-    public static List<String> hardcodeAdmins = Collections.emptyList();
+    private final LoginService service;
 
     public LoginWorker(LoginService service) {
         this.service = service;
@@ -98,8 +86,8 @@ public class LoginWorker implements Runnable {
     }
 
     private void sendCodeAndClose(Channel channel, int response) {
-        if (channel == null || channel.alloc() == null)
-            return;
+        if (channel == null || channel.alloc() == null) return;
+
         ByteBuf buffer = channel.alloc().buffer(Byte.BYTES);
         buffer.writeByte(response);
         channel.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);

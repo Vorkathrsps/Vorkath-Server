@@ -19,7 +19,6 @@ import com.cryptic.model.content.bank_pin.BankPinSettings;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
-import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.kill_logs.BossKillLog;
@@ -38,7 +37,6 @@ import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.raids.Raids;
 import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.content.raids.party.RaidsParty;
-import com.cryptic.model.content.raids.theatreofblood.TheatreInstance;
 import com.cryptic.model.content.raids.theatreofblood.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatreofblood.party.RaidParty;
 import com.cryptic.model.content.raids.theatreofblood.stage.RoomState;
@@ -138,8 +136,6 @@ import com.cryptic.network.packet.outgoing.UnnecessaryPacketDropper;
 import com.cryptic.services.database.transactions.*;
 import com.cryptic.utility.*;
 import com.cryptic.utility.timers.TimerKey;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -164,7 +160,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BooleanSupplier;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
@@ -642,7 +637,7 @@ public class Player extends Entity {
         return triggers;
     }
 
-    private final transient Triggers triggers = new Triggers(this);
+    private final transient Triggers triggers = new Triggers();
 
     private final BossTimers bossTimers = new BossTimers();
 

@@ -5,7 +5,6 @@ import com.cryptic.network.codec.ByteBufUtils;
 import com.cryptic.network.security.*;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -14,11 +13,8 @@ import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigInteger;
 import java.net.InetSocketAddress;
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -69,7 +65,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     /**
      * Sends a response code to the client to notify the user logging in.
      *
-     * @param ctx The context of the channel handler.
+     * @param ctx      The context of the channel handler.
      * @param response The response code to send.
      */
     public static void sendLoginResponse(ChannelHandlerContext ctx, int response) {
@@ -80,6 +76,11 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
+        if (!buffer.isReadable()) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            return;
+        }
+
         switch (state) {
             case LOGIN_REQUEST -> decodeRequest(ctx, buffer);
             case PROOF_OF_WORK -> decodeProofOfWorkResponse(ctx, buffer);
@@ -92,6 +93,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     private void decodeRequest(ChannelHandlerContext ctx, ByteBuf buffer) {
         if (!buffer.isReadable()) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -139,6 +141,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     private void decodeProofOfWorkResponse(ChannelHandlerContext ctx, ByteBuf buffer) {
         if (!buffer.isReadable(2 + 8)) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -153,6 +156,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     private void decodeTypeAndSize(ChannelHandlerContext ctx, ByteBuf buffer) {
         if (!buffer.isReadable(2)) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -171,6 +175,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     private void decodeLogin(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) {
         if (!buffer.isReadable(encryptedLoginBlockSize)) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -198,6 +203,17 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         ByteBuf rsaBuffer = Rsa.rsa(buffer.readSlice(length));
 
+        if (rsaBuffer == null) {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            return;
+        }
+
+        if (!rsaBuffer.isReadable()) {
+            rsaBuffer.release();
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            return;
+        }
+
         int securityId = rsaBuffer.readByte();
 
         if (securityId != 10) {
@@ -215,10 +231,13 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         }
 
         IsaacRandom encryption = new IsaacRandom(serverKeys);
+
         String uid = ByteBufUtils.readString(rsaBuffer);
         String username = Utils.formatText(ByteBufUtils.readString(rsaBuffer));
         String password = ByteBufUtils.readString(rsaBuffer);
         String mac = ByteBufUtils.readString(rsaBuffer);
+
+        rsaBuffer.release();
 
         if (username.isEmpty() || username.length() > 12 || password.length() < 3 || password.length() > 20) {
             sendLoginResponse(ctx, LoginResponses.INVALID_CREDENTIALS_COMBINATION);
@@ -227,7 +246,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         String hostName = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostName();
 
-        if(HostBlacklist.isBlocked(hostName)) {
+        if (HostBlacklist.isBlocked(hostName)) {
             sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }

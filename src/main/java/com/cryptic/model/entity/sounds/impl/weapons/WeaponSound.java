@@ -11,16 +11,17 @@ import java.util.List;
  */
 public enum WeaponSound {
 
-    ABYSSAL_WHIP(Arrays.asList(4151), 1080, 1081),
-    GRANITE_MAUL(Arrays.asList(ItemIdentifiers.GRANITE_MAUL), 1079, -1),
+    ABYSSAL_WHIP(List.of(4151), 1080, 1081),
+    GRANITE_MAUL(List.of(ItemIdentifiers.GRANITE_MAUL), 1079, -1),
     DRAGON_DAGGER(Arrays.asList(5698, 1215), 1, 385),
 
 
 
     ;
 
-    public List<Integer> weaponIds;
-    public int defaultSound, specialSound;
+    public final List<Integer> weaponIds;
+    public final int defaultSound;
+    public final int specialSound;
 
     WeaponSound(List<Integer> weaponIds, int defaultSound, int specialSound) {
         this.weaponIds = weaponIds;

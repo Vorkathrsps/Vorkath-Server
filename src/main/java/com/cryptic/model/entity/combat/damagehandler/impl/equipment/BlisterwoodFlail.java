@@ -22,7 +22,6 @@ public class BlisterwoodFlail implements DamageModifyingListener {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
                 if (ArrayUtils.contains(FormulaUtils.vampyres, npc.id())) {
-                    System.out.println("applying damage");
                     int damage = hit.getDamage();
                     hit.setDamage((int) (damage * 1.25D));
                     return true;
@@ -40,7 +39,6 @@ public class BlisterwoodFlail implements DamageModifyingListener {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
                 if (ArrayUtils.contains(FormulaUtils.vampyres, npc.id())) {
-                    System.out.println("applying accuracy");
                     boost = 1.05D;
                     return boost;
                 }

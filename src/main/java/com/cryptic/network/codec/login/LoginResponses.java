@@ -35,19 +35,17 @@ public final class LoginResponses {
     private static final Logger logger = LogManager.getLogger(LoginResponses.class);
 
     public static int evaluateOnGamethread(Player player) {
-        //logger.info("evaluating final login.");
-        // Done on game thread.
         String host = "";
         if (player.getSession().getChannel() != null) {
             host = ByteBufUtils.getHost(player.getSession().getChannel());
         }
 
         String finalHost = host;
+
         long altCount = World.getWorld().getPlayers().stream().filter(p -> p != null && !p.getPlayerRights().isAdministrator(p) && !p.<Boolean>getAttribOr(IS_BOT, false) && finalHost.equals(p.getHostAddress())).count();
-        if (altCount >= GameServer.properties().maxAlts) {
-            //logger.trace("Maximum number of alts reached for: " +host+" : "+altCount);
-            return LOGIN_CONNECTION_LIMIT;
-        }
+
+        if (altCount >= GameServer.properties().maxAlts) return LOGIN_CONNECTION_LIMIT;
+
         if (World.getWorld().ls.ONLINE.contains(player.getMobName().toUpperCase()) || World.getWorld().getPlayerByName(player.getUsername()).isPresent()) {
             return LOGIN_ACCOUNT_ONLINE;
         }
@@ -61,11 +59,8 @@ public final class LoginResponses {
      * @param msg
      * @return
      */
-    static boolean isLive = false;
-    public static int evaluateAsync(Player player, LoginDetailsMessage msg) {
-        //logger.info("evaluating login.");
-        // Done on networking thread.
 
+    public static int evaluateAsync(Player player, LoginDetailsMessage msg) {
         if (GameServer.boundTime == 0) {// server not on yet
             return UNABLE_TO_CONNECT;
         }

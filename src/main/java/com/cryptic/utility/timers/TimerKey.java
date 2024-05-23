@@ -206,7 +206,7 @@ public enum TimerKey {
      */
     TELEBLOCK_IMMUNITY(50, false),
 
-    SATURATED_HEART, THRALL_RESPAWN_TIMER, AFK_TIMER, AFK_TIMEOUT, INITIATE, DOUBLE_EXPERIENCE;
+    SATURATED_HEART, THRALL_RESPAWN_TIMER, AFK_TIMER, AFK_TIMEOUT, INITIATE, DOUBLE_EXPERIENCE, REVENANT_DROPS_BOOST;
 
     public static final TimerKey[] cachedValues = values();
     private static final Logger logger = LogManager.getLogger(TimerKey.class);

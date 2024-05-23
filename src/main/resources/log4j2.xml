@@ -175,6 +175,11 @@
             <AppenderRef ref="outfile"/>
             <AppenderRef ref="tracefile"/>
         </logger>
+        <logger name="io.netty" level="WARN" additivity="false">
+            <AppenderRef ref="outconsole"/>
+            <AppenderRef ref="outfile"/>
+            <AppenderRef ref="tracefile"/>
+        </logger>
         <logger name="CommandLogs" level="COMMAND">
             <AppenderRef ref="commandfile"/>
             <AppenderRef ref="outconsole"/>

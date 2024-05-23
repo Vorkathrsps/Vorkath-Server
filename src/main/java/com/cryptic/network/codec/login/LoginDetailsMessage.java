@@ -3,6 +3,7 @@ package com.cryptic.network.codec.login;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.security.IsaacRandom;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.Getter;
 
 import java.nio.channels.Channel;
 
@@ -12,6 +13,7 @@ import java.nio.channels.Channel;
  * 
  * @author lare96 <http://github.org/lare96>
  */
+@Getter
 public final class LoginDetailsMessage {
 
     /**
@@ -78,38 +80,6 @@ public final class LoginDetailsMessage {
         this.decryptor = decryptor;
     }
 
-
-    public ChannelHandlerContext getContext() {
-        return context;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getHost() {
-        return host;
-    }
-    
-    public String getMac() {
-        return mac;
-    }
-
-    public String getClientVersion() {
-        return clientVersion;
-    }
-
-    public IsaacRandom getEncryptor() {
-        return encryptor;
-    }
-
-    public IsaacRandom getDecryptor() {
-        return decryptor;
-    }
 
     @Override
     public String toString() {

@@ -324,6 +324,7 @@ public enum DailyTasks {
     public static DailyTasks verifyCanPerform(Player player, DailyTasks task) {
         if (task.type != null) {
             int highestRequirement = getHighestRequirement(player, task.type);
+            if (highestRequirement == 0) return null;
             int randomAmount = World.getWorld().random(Math.max(25, task.maximumAmt - 25), task.maximumAmt);
             if (task.type.equals(Skill.COOKING)) return findCookingType(player, task, highestRequirement, randomAmount);
             if (task.type.equals(Skill.WOODCUTTING))
@@ -471,6 +472,7 @@ public enum DailyTasks {
 
     public static int getHighestRequirement(Player player, Skill type) {
         List<Integer> list = build(player, type).reversed();
+        if (list == null) return 0;
         return list.getFirst();
     }
 

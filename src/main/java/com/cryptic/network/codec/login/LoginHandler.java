@@ -30,7 +30,6 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) throws Exception {
         try {
-            // ignore on socket exception (typically indicated by message starting with read0)
             if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0")) return;
             if(throwable.getMessage() != null && throwable.getMessage().equalsIgnoreCase("Connection reset")) return;
             if (throwable instanceof java.nio.channels.ClosedChannelException) return; // dc
@@ -44,6 +43,7 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
             }
         } catch (Exception e) {
             logger.error("Uncaught server exception!", e);
+            ctx.channel().close();
         }
 
         // don't close on exception, continue

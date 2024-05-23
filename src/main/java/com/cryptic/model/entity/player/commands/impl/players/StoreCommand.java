@@ -8,11 +8,8 @@ public class StoreCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        player.getPacketSender().sendURL("https://valorps.everythingrs.com/services/store");
-        player.message("Opening https://valorps.everythingrs.com/services/store in your web browser...");
-    /*    if(GameServer.properties().promoEnabled) {
-            player.getPaymentPromo().open();
-        }*/
+        player.getPacketSender().sendURL("https://valor-rsps.everythingrs.com/services/store");
+        player.message("Opening https://valor-rsps.everythingrs.com/services/store in your web browser...");
     }
 
     @Override

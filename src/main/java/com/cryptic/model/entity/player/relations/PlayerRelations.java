@@ -2,6 +2,7 @@ package com.cryptic.model.entity.player.relations;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +25,30 @@ public class PlayerRelations {
     /**
      * The player's current friend status, checks if others will be able to see them online.
      */
+    @Getter
     private PrivateChatStatus status = PrivateChatStatus.ON;
 
     /**
      * This map contains the player's friends list.
+     * -- GETTER --
+     *  Gets the player's friend list.
+     *
+     * @return    The player's friends.
+
      */
+    @Getter
     private final List<String> friendList = new ArrayList<>(200);
 
     /**
      * This map contains the player's ignore list.
+     * -- GETTER --
+     *  Gets the player's ignore list.
+     *
+     * @return    The player's ignore list.
+
      */
-    private final List<String> ignoreList = new ArrayList<>(100);
+    @Getter
+    public final List<String> ignoreList = new ArrayList<>(100);
 
     /**
      * The player's current private message index.
@@ -62,26 +76,6 @@ public class PlayerRelations {
     public void setStatus(PrivateChatStatus status) {
         this.status = status;
         broadcastSocialStatusChanged();
-    }
-
-    public PrivateChatStatus getStatus() {
-        return this.status;
-    }
-
-    /**
-     * Gets the player's friend list.
-     * @return    The player's friends.
-     */
-    public List<String> getFriendList() {
-        return friendList;
-    }
-
-    /**
-     * Gets the player's ignore list.
-     * @return    The player's ignore list.
-     */
-    public List<String> getIgnoreList() {
-        return ignoreList;
     }
 
     public void onLogout() {

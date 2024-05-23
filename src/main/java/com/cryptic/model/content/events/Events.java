@@ -8,7 +8,8 @@ public enum Events {
 
     NONE(null, null, null),
     DOUBLE_DROPS(TimerKey.DOUBLE_DROPS, AttributeKey.DOUBLE_DROPS, EffectTimer.DROP_LAMP),
-    DOUBLE_XP(TimerKey.DOUBLE_EXPERIENCE, AttributeKey.DOUBLE_XP, EffectTimer.DOUBLE_EXP);
+    DOUBLE_XP(TimerKey.DOUBLE_EXPERIENCE, AttributeKey.DOUBLE_XP, EffectTimer.DOUBLE_EXP),
+    REVENANT_DROP_BOOST(TimerKey.REVENANT_DROPS_BOOST, AttributeKey.REVENANT_DROP_BOOST, EffectTimer.REVENANT_DROP_RATE);
 
     final TimerKey key;
     final AttributeKey attribute;

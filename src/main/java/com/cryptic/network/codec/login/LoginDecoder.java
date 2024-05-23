@@ -114,7 +114,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         synchronized (ipToDifficulty) {
             ipToDifficulty.put(ip, difficulty + 1);
         }
-        difficulty = 1; //account message seems to be missing somehow now lmfao , the login message where account is still loggged in
+        difficulty = 1;
 
         proofOfWork = ProofOfWork.generate(difficulty);
         byte[] stringBuffer = proofOfWork.getText().getBytes();
@@ -189,9 +189,13 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        // it's all good, anything in logout?
-
+        buffer.markReaderIndex();
         int length = buffer.readUnsignedByte();
+        if (buffer.readableBytes() < length) {
+            buffer.resetReaderIndex();
+            return;
+        }
+
         ByteBuf rsaBuffer = Rsa.rsa(buffer.readSlice(length));
 
         int securityId = rsaBuffer.readByte();

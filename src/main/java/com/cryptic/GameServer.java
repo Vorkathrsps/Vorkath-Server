@@ -177,9 +177,7 @@ public class GameServer {
             ServerSettingsManager.INSTANCE.init();
             CacheTools.INSTANCE.initJs5Server();
             File store = new File(settings().getCacheLocation());
-            if (!store.exists()) {
-                throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
-            }
+            if (!store.exists()) throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
             fileStore = new DataStore(settings().getCacheLocation());
             logger.info(STR."Loaded filestore @ \{settings().getCacheLocation()} successfully.");
             definitions = new DefinitionRepository();
@@ -199,14 +197,8 @@ public class GameServer {
                 PlayerSaves.processSaves();
 
                 for (Player player : World.getWorld().getPlayers()) {
-
                     if (player == null || !player.isRegistered()) continue;
-                    // program quit but there are still active players.
-                    // A save request never got triggered or program got terminated ungraciously.
-
                     player.requestLogout();
-
-                    // DIRECT SAVE, assuming the lowPrio executor has stopped/wont run any more save reqs
                     try {
                         new PlayerSave.SaveDetails(player).parseDetails();
                         System.out.printf("DIRECT SAVE: %s%n", player);

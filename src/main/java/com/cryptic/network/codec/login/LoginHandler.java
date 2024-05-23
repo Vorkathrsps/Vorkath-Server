@@ -40,7 +40,7 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
                 ctx.channel().close();
             } else {
                 logger.error("An exception has been caused in the pipeline: {} {}", ctx, throwable);
-
+                ctx.channel().close();
             }
         } catch (Exception e) {
             logger.error("Uncaught server exception!", e);

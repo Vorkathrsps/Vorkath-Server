@@ -60,7 +60,7 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
         if (player == null) {
             return;
         }
-        if (player.getUsername() == null || player.getUsername().length() == 0) {
+        if (player.getUsername() == null || player.getUsername().isEmpty()) {
             return;
         }
         if (session.getState() != SessionState.LOGGED_IN) {
@@ -91,6 +91,7 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
                 logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
                 ctx.channel().close();
             } else {
+                ctx.channel().close();
                 throwable.printStackTrace();
                 logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
             }

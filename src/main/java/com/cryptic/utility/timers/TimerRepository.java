@@ -1,13 +1,9 @@
 package com.cryptic.utility.timers;
 
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.google.common.base.Stopwatch;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.utility.Indexer;
 import com.cryptic.utility.NpcPerformance;
 
-import java.time.Duration;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

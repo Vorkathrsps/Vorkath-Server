@@ -1668,7 +1668,7 @@ public enum AttributeKey {
     }
 
     public <T> T get(Player player) {
-        return (T) player.getAttrib(this);
+        return player.getAttrib(this);
     }
 
     public <T> Entity set(Entity e, T t) {

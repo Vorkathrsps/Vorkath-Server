@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
  * @author os-scape team
  */
 public final class ChannelPipelineHandler extends ChannelInitializer<Channel> {
-
     @Override
     protected void initChannel(Channel channel) {
         channel.pipeline()
@@ -23,5 +22,4 @@ public final class ChannelPipelineHandler extends ChannelInitializer<Channel> {
             .addLast("encoder", new LoginEncoder())
             .addLast("handler", new SessionHandler());
     }
-
 }

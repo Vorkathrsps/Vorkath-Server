@@ -1,7 +1,9 @@
 package com.cryptic.model.content;
 
 import com.cryptic.model.entity.player.Player;
+import lombok.Getter;
 
+@Getter
 public enum EffectTimer {
 
     VENGEANCE(157),
@@ -26,17 +28,13 @@ public enum EffectTimer {
     DIVINE_SUPER_ATTACK_POTION(1443),
     DIVINE_SUPER_STRENGTH_POTION(1444),
     DOUBLE_EXP(2216),
-    ;
+    REVENANT_DROP_RATE(2217);
 
     EffectTimer(int clientSprite) {
         this.clientSprite = clientSprite;
     }
 
     private final int clientSprite;
-
-    public int getClientSprite() {
-        return clientSprite;
-    }
 
     public static void clearTimers(Player player) {
         player.getPacketSender().sendEffectTimer(0, EffectTimer.VENGEANCE).

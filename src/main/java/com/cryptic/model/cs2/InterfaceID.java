@@ -45,6 +45,8 @@ public final class InterfaceID {
 
     public static final int BLAST_MINE = 598;
 
+    public static final int PRODUCE_ITEM = 270;
+
     public static final int CHAMBERS_OF_XERIC_STORAGE_UNIT_PRIVATE = 271;
 
     public static final int CHAMBERS_OF_XERIC_STORAGE_UNIT_SHARED = 550;

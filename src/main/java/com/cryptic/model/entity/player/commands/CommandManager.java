@@ -284,6 +284,8 @@ public class CommandManager {
         commands.put("unlockprayers", new UnlockPrayersCommands());
         commands.put("saveall", new SaveAllCommand());
         commands.put("slayer", new SlayerActionCommand());
+        commands.put("testmark", new TestCommand());
+        commands.put("producetest", new ProduceItemCommand());
         commands.put("killstreak", new KillstreakCommand());
         commands.put("bmm", new BMMultiplierCommand());
         commands.put("task", new TaskCommand());
@@ -1019,8 +1021,6 @@ public class CommandManager {
         dev("varbit", (p, c, s) -> p.varps().setVarbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
-
-        dev("testMark", (p, c, s) -> GameInterface.DESTROY_ITEM.open(p));
 
         dev("ht2", (p, c, s) ->
 

@@ -18,14 +18,14 @@ public class ResumePauseButtonPacketListener implements PacketListener {
 
         int slot = packet.readShort();
 
-        if (interfaceID == InterfaceID.DIALOG_OPTION) {
+        if (interfaceID == InterfaceID.DIALOG_OPTION || interfaceID == InterfaceID.DESTROY_ITEM) {
+            System.out.println("sfsdfd");
             player.getDialogueManager().select(slot);
         } else {
             if (player.getDialogueManager().isActive()) {
                 player.getDialogueManager().next();
             }
         }
-
 
     }
 }

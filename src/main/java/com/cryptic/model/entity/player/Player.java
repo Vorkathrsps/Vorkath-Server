@@ -240,6 +240,10 @@ public class Player extends Entity {
 
     public DialogueDoubleItemRecord activeDoubleItemRecord;
 
+    public DialogueDestroyItemRecord activeDialogueDestroyItemRecord;
+
+    public DialogueProduceItemItemRecord activeDialogueProduceItemItemRecord;
+
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());

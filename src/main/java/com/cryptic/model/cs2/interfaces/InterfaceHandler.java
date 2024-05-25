@@ -12,7 +12,6 @@ import com.cryptic.model.cs2.impl.equipment.EquipmentTab;
 import com.cryptic.model.cs2.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.model.cs2.impl.inventory.InventoryInterface;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.records.DialogueSingleItemRecord;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +37,8 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.DIALOG_MESSAGE_BOX, new DialogueStatement());
         interfaces.put(InterfaceID.DIALOG_SPRITE, new DialogueItemSingle());
         interfaces.put(InterfaceID.DIALOG_DOUBLE_SPRITE, new DialogueItemDouble());
+        interfaces.put(InterfaceID.DESTROY_ITEM, new DialogueDestroyItem());
+        interfaces.put(InterfaceID.PRODUCE_ITEM, new DialogueProduceItem());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

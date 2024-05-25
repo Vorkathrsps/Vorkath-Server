@@ -1,21 +1,19 @@
 
 package com.cryptic.model.entity.player.commands.impl.dev;
 
-import com.cryptic.interfaces.GameInterface;
-import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 
-public class TestCommand implements Command {
+public class ProduceItemCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                sendItemDestroy(new Item(22675,0),"THING");
+                sendProduceItem("What would you like to make?",2, 1135, 1099,1115,1121);
                 setPhase(0);
             }
 

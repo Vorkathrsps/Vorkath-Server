@@ -67,6 +67,17 @@ public abstract class Dialogue {
     protected void select(int option) {
     }
 
+
+    protected void sendProduceItem(String title, int maxCanMake, int... items) {
+        player.activeDialogueProduceItemItemRecord = new DialogueProduceItemItemRecord(title, maxCanMake, items);
+        GameInterface.PRODUCE_ITEM.open(player);
+    }
+
+    protected void sendItemDestroy(Item item, String note) {
+        player.activeDialogueDestroyItemRecord = new DialogueDestroyItemRecord(item,"Are you sure you want to destroy this item?",note);
+        GameInterface.DESTROY_ITEM.open(player);
+    }
+
     protected void sendNpcChat(String title, int npcId, Expression expression, String... chats) {
         sendNpcChat(title, npcId, expression, true, chats);
     }

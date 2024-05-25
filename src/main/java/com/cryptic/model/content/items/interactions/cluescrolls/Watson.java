@@ -30,25 +30,25 @@ public class Watson extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "Who are you?");
+                        sendPlayerChat(Expression.NODDING_ONE, "Who are you?");
                         setPhase(0);
                     }
                     @Override
                     protected void next() {
                         if (isPhase(0)) {
-                            send(DialogueType.NPC_STATEMENT, WATSON, Expression.CALM_TALK, "I am Watson, The master of clue scrolls.", "I have lived a long life here in Kourend.", "The lands are beautiful here.");
+                            sendNpcChat(WATSON, Expression.CALM_TALK, "I am Watson, The master of clue scrolls.", "I have lived a long life here in Kourend.", "The lands are beautiful here.");
                             setPhase(1);
                             return;
                         }
 
                         if (isPhase(1)) {
-                            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "So what are master clue scrolls anyway?");
+                            sendPlayerChat(Expression.HAPPY, "So what are master clue scrolls anyway?");
                             setPhase(2);
                             return;
                         }
 
                         if (isPhase(2)) {
-                            send(DialogueType.NPC_STATEMENT, WATSON, Expression.CALM_TALK, "That is for you to find out, " + player.getUsername() + ".");
+                            sendNpcChat(WATSON, Expression.CALM_TALK, "That is for you to find out, " + player.getUsername() + ".");
                             setPhase(3);
                             return;
                         }
@@ -56,7 +56,7 @@ public class Watson extends PacketInteraction {
                         if (isPhase(3)) {
                             if (!player.getInventory().containsAll(CLUES)) {
                                 List<String> invalid = getStrings(player);
-                                send(DialogueType.NPC_STATEMENT, WATSON, Expression.CALM_TALK, "You are not worthy, " + player.getUsername() + "...");
+                                sendNpcChat(WATSON, Expression.CALM_TALK, "You are not worthy, " + player.getUsername() + "...");
                                 sendMessage(player, invalid);
                                 stop();
                             } else {

@@ -1,9 +1,11 @@
 package com.cryptic.network.packet.outgoing;
 
 import com.cryptic.GameConstants;
-import com.cryptic.cache.definitions.ObjectDefinition;
+import com.cryptic.interfaces.InterfaceType;
+import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
+import com.cryptic.model.cs2.interfaces.EventConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -16,11 +18,14 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.*;
 import com.cryptic.network.packet.outgoing.message.ComponentVisibility;
+import com.cryptic.utility.WidgetUtil;
+import kotlin.ranges.IntRange;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,15 +56,15 @@ public final class PacketSender {
         if (player != null) {
             if (visible) {
                 if (walkableInterfaceList.contains(interfaceId)) {
-                    player.debug("skip sending walkable, already open "+interfaceId);
+                    player.debug("skip sending walkable, already open " + interfaceId);
                 } else {
                     walkableInterfaceList.add(interfaceId);
                 }
             } else {
                 if (!walkableInterfaceList.contains(interfaceId)) {
-                    player.debug("skip sending walkable, not open "+interfaceId);
+                    player.debug("skip sending walkable, not open " + interfaceId);
                 }
-                walkableInterfaceList.remove((Object)interfaceId); // MUSt BE OBJECT casted otherwise it'll try removing as index
+                walkableInterfaceList.remove((Object) interfaceId); // MUSt BE OBJECT casted otherwise it'll try removing as index
             }
             out.putInt(interfaceId);
             out.put(visible ? 1 : 0);
@@ -560,6 +565,7 @@ public final class PacketSender {
         }
         return this;
     }
+
     public PacketSender setInterClickable(int interfaceId, boolean clickable) {
         PacketBuilder out = new PacketBuilder(2);
         out.putInt(interfaceId);
@@ -609,7 +615,190 @@ public final class PacketSender {
     public PacketSender sendInterfaceComponentMoval(int x, int y, int id) {
         PacketBuilder out = new PacketBuilder(70);
         out.putShort(x).putShort(y).putInt(id);
-        //System.out.println("x "+ x +" y "+ y +" id "+id);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public void sendPane(PaneType pane) {
+        sendPane(pane.getId());
+        player.interfaces.setPane(pane);
+    }
+
+    public PacketSender sendPane(int top) {
+        PacketBuilder out = new PacketBuilder(148);
+        out.putShort(top);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender runClientScriptNew(int id, Object... args) {
+        PacketBuilder out = new PacketBuilder(149, PacketType.VARIABLE_SHORT);
+
+        char[] types = new char[args.length + 1];
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof String) {
+                types[i] = 's';
+            } else if (args[i] instanceof Number) {
+                types[i] = 'i';
+            } else {
+                logger.error("Invalid argument type {} for script {}.", args[i].getClass().getName(), id);
+            }
+        }
+        types[args.length] = 0; // Null terminator for the type array
+
+        List<Byte> args1 = new ArrayList<>();
+        for (int i = args.length - 1; i >= 0; i--) {
+            Object value = args[i];
+            if (value instanceof String) {
+                for (byte b : ((String) value).getBytes()) {
+                    args1.add(b);
+                }
+                args1.add((byte) 0); // Null terminator for strings
+            } else if (value instanceof Number) {
+                int num = ((Number) value).intValue();
+                args1.add((byte) (num >> 24));
+                args1.add((byte) (num >> 16));
+                args1.add((byte) (num >> 8));
+                args1.add((byte) num);
+            }
+        }
+        byte[] bytes = new String(types).getBytes();
+
+        out.writeByteArray(bytes, 0, bytes.length);
+        byte[] argsArray = new byte[args1.size()];
+        for (int i = 0; i < args1.size(); i++) {
+            argsArray[i] = args1.get(i);
+        }
+        out.writeByteArray(argsArray, 0, argsArray.length);
+        out.putInt(id);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendInterfaceOSRS(int interfaceId, int paneChildId, PaneType pane, InterfaceType type) {
+        PacketBuilder out = new PacketBuilder(150);
+        out.putInt((pane.getId() << 16) | paneChildId);
+        out.put(type == InterfaceType.OVERLAY ? (byte) 1 : (byte) 0);
+        out.putShort(interfaceId);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendMoveInterface(int fromPaneId, int fromPaneChildId, int toPaneId, int toPaneChildId) {
+        PacketBuilder out = new PacketBuilder(136);
+        out.putInt((fromPaneId << 16) | fromPaneChildId);
+        out.putInt((toPaneId << 16) | toPaneChildId);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender closeInterfaceOSRS(int interfaceId) {
+        PacketBuilder out = new PacketBuilder(234);
+        out.putInt(interfaceId);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public void setInterfaceEvents(int packed, IntRange range, EventConstants setting) {
+        setEventMessage(packed, range.getFirst(), range.getLast(), setting.getFlag());
+    }
+
+    public void setInterfaceEvents(int interfaceId, int component, IntRange range, EventConstants setting) {
+        setEventMessage((interfaceId << 16) | component, range.getFirst(), range.getLast(), setting.getFlag());
+    }
+
+    public void setInterfaceEvents(int interfaceId, int component, IntRange range, List<EventConstants> settings) {
+        int[] flags = new int[settings.size()];
+        for (int i = 0; i < settings.size(); i++) {
+            flags[i] = settings.get(i).getFlag();
+        }
+
+        int settingsValue = Arrays.stream(flags).reduce((flag1, flag2) -> flag1 | flag2).orElse(0);
+        setEventMessage((interfaceId << 16) | component, range.getFirst(), range.getLast(), settingsValue);
+    }
+
+    public void setInterfaceEvents(int interfaceId, int component, IntRange range, int setting) {
+        setEventMessage((interfaceId << 16) | component, range.getFirst(), range.getLast(), setting);
+    }
+
+    public PacketSender setEventMessage(int hash, int from, int to, int setting) {
+        PacketBuilder out = new PacketBuilder(42);
+        out.putShort(from);
+        out.putInt(setting);
+        out.putShort(to);
+        out.putInt(hash);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setComponentVisability(int packed, boolean hidden) {
+        int interfaceId = WidgetUtil.componentToInterface(packed);
+        int component = WidgetUtil.componentToId(packed);
+
+        return setComponentVisability(interfaceId,component,hidden);
+    }
+
+    public PacketSender setComponentVisability(int parent, int child, boolean hidden) {
+        PacketBuilder out = new PacketBuilder(232);
+        out.putInt((parent << 16) | child);
+        out.put(hidden ? 1: 0 );
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setComponentText(int packed, String text) {
+        int interfaceId = WidgetUtil.componentToInterface(packed);
+        int component = WidgetUtil.componentToId(packed);
+
+        return setComponentText(interfaceId,component,text);
+    }
+
+    public PacketSender setComponentText(int parent, int child, String text) {
+        PacketBuilder out = new PacketBuilder(43, PacketType.VARIABLE_SHORT);
+        out.putInt((parent << 16) | child);
+        out.putString(text);
+        player.getSession().write(out);
+        return this;
+    }
+
+
+
+    public PacketSender setItemMessage(int hash, int item, int amount) {
+        PacketBuilder out = new PacketBuilder(47);
+        out.putInt(amount);
+        out.putShort(item);
+        out.putInt(hash);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setNpcHeadMessage(int hash, int npc) {
+        PacketBuilder out = new PacketBuilder(48);
+        out.putShort(npc);
+        out.putInt(hash);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setPlayerHeadMesssage(int hash) {
+        PacketBuilder out = new PacketBuilder(49);
+        out.putInt(hash);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setAnimMessage(int hash, int anim) {
+        PacketBuilder out = new PacketBuilder(59);
+        out.putInt(anim);
+        out.putInt(hash);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender moveSubMessage(int from, int to) {
+        PacketBuilder out = new PacketBuilder(63);
+        out.putInt(from);
+        out.putInt(to);
         player.getSession().write(out);
         return this;
     }
@@ -664,22 +853,8 @@ public final class PacketSender {
     public PacketSender sendTabs() {
         for (int i = 0; i < GameConstants.SIDEBAR_INTERFACE.length; i++) {
             int tab = GameConstants.SIDEBAR_INTERFACE[i][0];
-            int id = GameConstants.SIDEBAR_INTERFACE[i][1];
-            if (tab == 6) {
-                id = player.getSpellbook().getInterfaceId();
-                if (id == 29999) {
-                    updateTab(2, 0);
-                } else if (id == 838) {
-                    updateTab(1, 0);
-                } else if (id == 938) {
-                    updateTab(0, 0);
-                } else if (id == 839) {
-                    updateTab(3, 0);
-                } else {
-                    logger.error("For some reason, the spellbook interface ID for " + player.getUsername() + " is " + id);
-                }
-            }
-            player.getInterfaceManager().setSidebar(tab, id);
+
+            player.getInterfaceManager().setSidebar(tab, 56000);
         }
         return this;
     }
@@ -755,12 +930,9 @@ public final class PacketSender {
     }
 
     public PacketSender sendEffectTimer(int delay, EffectTimer e) {
-
         PacketBuilder out = new PacketBuilder(54);
-
         out.putShort(delay);
         out.putShort(e.getClientSprite());
-
         player.getSession().write(out);
         return this;
     }
@@ -793,6 +965,57 @@ public final class PacketSender {
         return this;
     }
 
+    public PacketSender sendUpdateInvFull(int inventoryId, Item... items) {
+        PacketBuilder out = new PacketBuilder(204, PacketType.VARIABLE_SHORT);
+        out.putInt(-1);
+        out.putShort(inventoryId);
+        out.putShort(items.length);
+        for (Item item : items) {
+            if (item != null) {
+                out.putShort(item.getId() + 1);
+                if (item.getAmount() < 0 || item.getAmount() >= 255) {
+                    out.put(255).putInt(item.getAmount());
+                } else {
+                    out.put(item.getAmount());
+                }
+            } else {
+                out.putShort(0);
+                out.put(0);
+            }
+        }
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendUpdateInvPartial(int inventoryId, int slot, Item item) {
+        return sendUpdateInvPartial(inventoryId, new int[] {slot}, new Item[] {item});
+    }
+
+    public PacketSender sendUpdateInvPartial(int inventoryId, int[] slots, Item[] items) {
+        PacketBuilder out = new PacketBuilder(205, PacketType.VARIABLE_SHORT);
+        out.putInt(-1);
+        out.putShort(inventoryId);
+        for (int i = 0; i < slots.length; i++) {
+            int slot = slots[i];
+            Item item = items[i];
+
+            out.putSmart1or2(slot);
+            if (item != null && item.getId() != -1) {
+                out.putShort(item.getId() + 1);
+                int amount = item.getAmount();
+                if (amount < 0 || amount >= 255) {
+                    out.put(0).putInt(amount);
+                } else {
+                    out.put(amount);
+                }
+            } else {
+                out.putShort(0);
+            }
+        }
+        player.getSession().write(out);
+        return this;
+    }
+
     public PacketSender sendItemOnInterface(int interfaceId, List<Item> items) {
         PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
         out.putInt(interfaceId).putShort(items.size());
@@ -811,6 +1034,10 @@ public final class PacketSender {
             var tabamounts = player.getBank().tabAmounts.length;
             for (int index = 0; index < tabamounts; index++) {
                 var amount = player.getBank().tabAmounts[index];
+                if (player.getBank().tabAmounts == null) {
+                    out.put(0 >> 8).putShort(0);
+                    continue;
+                }
                 out.put(amount >> 8).putShort(amount & 0xFF);
             }
         }
@@ -883,12 +1110,17 @@ public final class PacketSender {
     }
 
     public void sendMultipleStrings(List<Player.TextData> stringList) {
+        List<Player.TextData> filtered = stringList.stream().toList();
+
         PacketBuilder out = new PacketBuilder(129, PacketType.VARIABLE_SHORT);
-        out.put(stringList.size());
-        for (var string : stringList) {
+
+        out.put(filtered.size());
+
+        filtered.forEach(string -> {
             out.putString(string.text);
             out.putInt(string.id);
-        }
+        });
+
         player.getSession().write(out);
     }
 
@@ -1081,7 +1313,6 @@ public final class PacketSender {
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.C);
         out.put(0);
         player.getSession().write(out);
-        object.tile().removeObject(object);
         return this;
     }
 

@@ -77,7 +77,7 @@ public class IronWinch extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, 5870, Expression.HAPPY, "No adventurers are inside the cave.");
+                    sendNpcChat(5870, Expression.HAPPY, "No adventurers are inside the cave.");
                     setPhase(0);
                 }
 
@@ -92,7 +92,7 @@ public class IronWinch extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, 5870, Expression.HAPPY, count.size() + " adventurer is inside the cave.");
+                    sendNpcChat(5870, Expression.HAPPY, count.size() + " adventurer is inside the cave.");
                     setPhase(0);
                 }
 

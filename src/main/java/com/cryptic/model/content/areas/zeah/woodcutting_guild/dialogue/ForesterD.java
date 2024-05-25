@@ -17,9 +17,9 @@ public class ForesterD extends Dialogue {
         int roll = Utils.random(2);
 
         if(roll == 1) {
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.FORESTER_7238, Expression.NODDING_THREE, "Nice weather we're having today.");
+            sendNpcChat(NpcIdentifiers.FORESTER_7238, Expression.NODDING_THREE, "Nice weather we're having today.");
         } else {
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.FORESTER_7238, Expression.HAPPY, "It's so peaceful here, don't you agree?");
+            sendNpcChat(NpcIdentifiers.FORESTER_7238, Expression.HAPPY, "It's so peaceful here, don't you agree?");
         }
         setPhase(0);
     }

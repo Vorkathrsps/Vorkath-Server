@@ -6,6 +6,9 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.*;
+import com.cryptic.interfaces.Device;
+import com.cryptic.interfaces.DisplayMode;
+import com.cryptic.interfaces.InterfaceSystem;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
@@ -64,6 +67,7 @@ import com.cryptic.model.content.title.TitlePlugin;
 import com.cryptic.model.content.title.req.impl.other.TitleUnlockRequirement;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
+import com.cryptic.model.cs2.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.LockType;
 import com.cryptic.model.entity.NodeType;
@@ -97,12 +101,14 @@ import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.entity.player.save.PlayerSave;
 import com.cryptic.model.entity.player.save.PlayerSaves;
+import com.cryptic.model.entity.player.varps.Varps;
 import com.cryptic.model.inter.clan.Clan;
 import com.cryptic.model.inter.clan.ClanManager;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.dialogue.records.*;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
@@ -158,6 +164,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -217,6 +224,26 @@ public class Player extends Entity {
     @Getter
     @Setter
     public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
+
+    public ConcurrentHashMap<Integer, InterfaceBuilder> activeInterface = new ConcurrentHashMap<>();
+    public InterfaceSystem interfaces = new InterfaceSystem(this);
+    public DisplayMode displayMode = DisplayMode.FIXED;
+    public Device device = Device.DESKTOP;
+    public DialogueNPCRecord activeNpcDialogue;
+    public DialogueOptionRecord activeOptionDialogue;
+
+    public DialoguePlayerRecord activePlayerDialogue;
+
+    public DialogueStatementRecord activeStatementRecord;
+
+    public DialogueSingleItemRecord activeSingleItemRecord;
+
+    public DialogueDoubleItemRecord activeDoubleItemRecord;
+
+    public DialogueDestroyItemRecord activeDialogueDestroyItemRecord;
+
+    public DialogueProduceItemItemRecord activeDialogueProduceItemItemRecord;
+
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -1105,6 +1132,7 @@ public class Player extends Entity {
             uid = Utils.generateUUID();
             this.putAttrib(AttributeKey.PLAYER_UID, uid);
         }
+        this.interfaces.sendGameFrame();
         World.getWorld().ls.ONLINE.add(getMobName().toUpperCase());
         session.setState(SessionState.LOGGED_IN);
         setNeedsPlacement(true);
@@ -1605,8 +1633,8 @@ public class Player extends Entity {
     }
 
     private void setHitMarkVarbits() {
-        this.varps().varbit(14196, 0);
-        this.varps().varbit(10236, 0);
+        this.varps().setVarbit(14196, 0);
+        this.varps().setVarbit(10236, 0);
     }
 
     private static void handleOnLogin(Player player) {
@@ -1625,7 +1653,6 @@ public class Player extends Entity {
         relations.setPrivateMessageId(1);
         relations.onLogin();
         getMovementQueue().clear();
-        varps.syncNonzero();
         packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).updateSpecialAttackOrb().sendRunStatus().sendRunEnergy((int) energy);
         Prayers.closeAllPrayers(this);
         setHeadHint(-1);
@@ -2826,7 +2853,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, new Item(item), "", message);
+                sendItemStatement(new Item(item), "", message);
                 setPhase(0);
             }
 
@@ -2843,7 +2870,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(item), new Item(item2), "", message);
+                sendItemStatement(new Item(item), new Item(item2), "", message);
                 setPhase(0);
             }
 
@@ -2873,18 +2900,18 @@ public class Player extends Entity {
         });
     }
 
-    public void confirmDialogue(Object[] params, String title, String optionOne, String optionTwo, Runnable runnable) {
+    public void confirmDialogue(String[] params, String title, String optionOne, String optionTwo, Runnable runnable) {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, params);
+                sendStatement(params);
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, title.isEmpty() ? DEFAULT_OPTION_TITLE : title, optionOne, optionTwo);
+                    sendOption(title.isEmpty() ? DEFAULT_OPTION_TITLE : title, optionOne, optionTwo);
                     setPhase(1);
                 }
             }
@@ -2907,14 +2934,14 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, title);
+                sendStatement(title);
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                     setPhase(1);
                 }
             }
@@ -2950,7 +2977,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, new Item(id), "", message);
+                sendItemStatement(new Item(id), "", message);
                 setPhase(0);
             }
 
@@ -2967,7 +2994,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, new Item(id, amount), "", message);
+                sendItemStatement(new Item(id, amount), "", message);
                 setPhase(0);
             }
 
@@ -2984,7 +3011,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, message);
+                sendStatement(message);
                 setPhase(0);
             }
 
@@ -3001,7 +3028,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, title, opt1, opt2);
+                sendOption(title, opt1, opt2);
                 setPhase(0);
             }
 
@@ -3026,7 +3053,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.DOUBLE_ITEM_STATEMENT, first, second, message);
+                sendItemStatement(first, second, message);
                 setPhase(0);
             }
 
@@ -3045,6 +3072,7 @@ public class Player extends Entity {
             this.action.sequence();
             TaskManager.sequenceForMob(this);
             PacketInteractionManager.onPlayerProcess(this);
+            varps.updateVarps();
             this.getTimers().cycle();
             this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             updateServerInformation(this);

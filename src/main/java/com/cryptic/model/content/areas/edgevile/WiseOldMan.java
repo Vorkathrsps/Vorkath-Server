@@ -40,7 +40,7 @@ public class WiseOldMan extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Open webstore.", "Donator store.", "Nevermind.");
+                sendOption(DEFAULT_OPTION_TITLE, "Open webstore.", "Donator store.", "Nevermind.");
                 setPhase(0);
             }
 

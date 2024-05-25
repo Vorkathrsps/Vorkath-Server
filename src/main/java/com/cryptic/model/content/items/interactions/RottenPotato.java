@@ -73,7 +73,7 @@ public class RottenPotato extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Options for NPC "+ npc.def().name, "Kill NPC.", "Despawn NPC.", "Teleport to me.", "Transmog.", "Replace.");
+                sendOption("Options for NPC "+ npc.def().name, "Kill NPC.", "Despawn NPC.", "Teleport to me.", "Transmog.", "Replace.");
                 setPhase(0);
             }
 
@@ -145,7 +145,7 @@ public class RottenPotato extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Op1", "Set all stats.", "Wipe inventory.", "Setup POH", "Teleport to player", "Spawn aggressive NPC.");
+                sendOption("Op1", "Set all stats.", "Wipe inventory.", "Setup POH", "Teleport to player", "Spawn aggressive NPC.");
                 setPhase(0);
             }
 
@@ -227,7 +227,7 @@ public class RottenPotato extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Op3", "Bank menu", "AMEs for all!", "Teleport to RARE!", "Spawn RARE!");
+                sendOption("Op3", "Bank menu", "AMEs for all!", "Teleport to RARE!", "Spawn RARE!");
                 setPhase(0);
             }
 
@@ -237,7 +237,7 @@ public class RottenPotato extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, "Op3", "Open bank.", "Set PIN to 2468.", "Wipe bank.");
+                            sendOption("Op3", "Open bank.", "Set PIN to 2468.", "Wipe bank.");
                             setPhase(0);
                         }
 
@@ -289,7 +289,7 @@ public class RottenPotato extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Op2", "Keep me logged in.", "Kick me out.", "Kill me.", "Transmogrify me...");
+                sendOption("Op2", "Keep me logged in.", "Kick me out.", "Kill me.", "Transmogrify me...");
                 setPhase(0);
             }
 
@@ -324,7 +324,7 @@ public class RottenPotato extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Delete obj "+name, "Obj on tile count", "Clear object's attributes", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Delete obj "+name, "Obj on tile count", "Clear object's attributes", "Nevermind");
                 setPhase(0);
             }
 

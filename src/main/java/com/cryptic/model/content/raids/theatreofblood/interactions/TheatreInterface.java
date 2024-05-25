@@ -274,7 +274,7 @@ public class TheatreInterface extends RaidParty {
             member.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, getOwner().getUsername() + " has invited you to join their party.", "Accept", "Decline");
+                    sendOption(getOwner().getUsername() + " has invited you to join their party.", "Accept", "Decline");
                     setPhase(0);
                 }
 

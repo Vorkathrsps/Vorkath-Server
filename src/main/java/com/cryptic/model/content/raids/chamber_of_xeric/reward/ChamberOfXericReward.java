@@ -87,12 +87,12 @@ public class ChamberOfXericReward {
         }
 
         if (secureRandom.nextFloat() >= chance) {
-            player.varps().varbit(Varbit.RAIDS_CHEST, 3);
+            player.varps().setVarbit(Varbit.RAIDS_CHEST, 3);
             boolean added = player.getRaidRewards().add(rollUnique);
             OTHER.log(player, RAIDS_KEY, rollUnique);
             Utils.sendDiscordInfoLog("Rare drop: " + player.getUsername() + " Has just received " + rollUnique.unnote().name() + " from Chambers of Xeric! Party Points: " + Utils.formatNumber(personalPoints) + " [debug: added=" + added + "]", "raids");
         } else {
-            player.varps().varbit(Varbit.RAIDS_CHEST, 1);
+            player.varps().setVarbit(Varbit.RAIDS_CHEST, 1);
             player.getRaidRewards().add(rollRegular);
             Utils.sendDiscordInfoLog("Regular Drop: " + player.getUsername() + " Has just received " + rollRegular.unnote().name() + " from Chambers of Xeric! Personal Points: " + Utils.formatNumber(personalPoints), "raids");
         }

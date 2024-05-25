@@ -98,7 +98,7 @@ public class MaxCape extends PacketInteraction {
 
         @Override
         protected void start(Object... parameters) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Teleport to slayer task.", "Nevermind.");
+            sendOption(DEFAULT_OPTION_TITLE, "Teleport to slayer task.", "Nevermind.");
             setPhase(0);
         }
 

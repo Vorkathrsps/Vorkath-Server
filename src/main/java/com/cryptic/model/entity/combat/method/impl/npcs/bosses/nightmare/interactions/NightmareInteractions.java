@@ -25,14 +25,14 @@ public class NightmareInteractions extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.STATEMENT, "You are about to begin an encounter with the Nightmare.", "Dying during this encounter will not be considered a safe death.", "Are you sure you wish to begin?");
+                        sendStatement("You are about to begin an encounter with the Nightmare.", "Dying during this encounter will not be considered a safe death.", "Are you sure you wish to begin?");
                         setPhase(0);
                     }
 
                     @Override
                     protected void next() {
                         if (isPhase(0)) {
-                            send(DialogueType.OPTION, "Are you sure you wish to begin?", "Yes", "No");
+                            sendOption("Are you sure you wish to begin?", "Yes", "No");
                             setPhase(1);
                         }
                     }
@@ -57,7 +57,7 @@ public class NightmareInteractions extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Would you like to join an active instance?", "Yes", "No");
+                        sendOption("Would you like to join an active instance?", "Yes", "No");
                         setPhase(0);
                     }
 

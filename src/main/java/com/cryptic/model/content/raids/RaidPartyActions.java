@@ -153,7 +153,7 @@ public class RaidPartyActions extends PacketInteraction {
         target.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, p.getUsername() + " has invited you to join their party.", "Accept", "Decline");
+                sendOption(p.getUsername() + " has invited you to join their party.", "Accept", "Decline");
                 setPhase(0);
             }
 

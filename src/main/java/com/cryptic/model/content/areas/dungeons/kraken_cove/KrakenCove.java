@@ -71,7 +71,7 @@ public class KrakenCove extends PacketInteraction {
                                 player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
                                 return;
                             }*/
-                            send(DialogueType.OPTION, "Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
+                            sendOption("Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
                             setPhase(0);
                         }
 

@@ -108,8 +108,8 @@ public class BlueMoonArea extends Controller {
         if (object.getId() == 52993) {
             if (option == 1) {
                 player.animate(811);
-                instance.getOwner().varps().varbit(9856, 0);
-                for (var p : instance.getPlayers()) p.varps().varbit(9856, 0);
+                instance.getOwner().varps().setVarbit(9856, 0);
+                for (var p : instance.getPlayers()) p.varps().setVarbit(9856, 0);
                 for (var o : Lists.newArrayList(instance.getBraziers().iterator())) {
                     if (o != object) continue;
                     o.attribs().clear();
@@ -119,8 +119,8 @@ public class BlueMoonArea extends Controller {
         } else if (object.getId() == 52992) {
             if (option == 1) {
                 player.animate(811);
-                instance.getOwner().varps().varbit(9855, 0);
-                for (var p : instance.getPlayers()) p.varps().varbit(9855, 0);
+                instance.getOwner().varps().setVarbit(9855, 0);
+                for (var p : instance.getPlayers()) p.varps().setVarbit(9855, 0);
                 for (var o : Lists.newArrayList(instance.getBraziers().iterator())) {
                     if (o != object) continue;
                     o.attribs().clear();

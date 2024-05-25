@@ -74,14 +74,14 @@ public class SlayerTower extends PacketInteraction {
                         player.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... parameters) {
-                                send(DialogueType.STATEMENT, "A foul stench seems to be seeping down from the floor above...", "it could be dangerous up there without a nosepeg.");
+                                sendStatement("A foul stench seems to be seeping down from the floor above...", "it could be dangerous up there without a nosepeg.");
                                 setPhase(0);
                             }
 
                             @Override
                             public void next() {
                                 if (getPhase() == 0) {
-                                    send(DialogueType.OPTION, "Go up anyway?", "Yes.", "No.");
+                                    sendOption("Go up anyway?", "Yes.", "No.");
                                     setPhase(1);
                                 }
                             }

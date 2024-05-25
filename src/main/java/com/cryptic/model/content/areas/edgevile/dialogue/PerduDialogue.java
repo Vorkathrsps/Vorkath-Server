@@ -11,14 +11,14 @@ public class PerduDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Repair broken items.", "Automatically repair on death.", "Disable automatic repair on death.", "Nevermind.");
+        sendOption(DEFAULT_OPTION_TITLE, "Repair broken items.", "Automatically repair on death.", "Disable automatic repair on death.", "Nevermind.");
         setPhase(0);
     }
 
     @Override
     public void next() {
         if (isPhase(2)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Repair the items.", "No thanks.");
+            sendOption(DEFAULT_OPTION_TITLE, "Repair the items.", "No thanks.");
             setPhase(3);
         } else if (isPhase(4)) {
             stop();
@@ -31,10 +31,10 @@ public class PerduDialogue extends Dialogue {
             if (option == 1) {
                 int cost = -1;
                 if(cost > 0) {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.HAPPY, "It will cost you " + Color.RED.tag() + "" + Utils.insertCommasToNumber(Integer.toString(cost)) + "</col> BM to fix your", "broken items.");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.HAPPY, "It will cost you " + Color.RED.tag() + "" + Utils.insertCommasToNumber(Integer.toString(cost)) + "</col> BM to fix your", "broken items.");
                     setPhase(2);
                 } else {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.NOT_INTERESTED, "You do not have any broken items.");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.NOT_INTERESTED, "You do not have any broken items.");
                     setPhase(4);
                 }
             } else if (option == 2) {

@@ -79,6 +79,10 @@ public class GameServer {
         return fileStore;
     }
 
+    public static CacheManager getCacheManager() {
+        return CacheManager.INSTANCE;
+    }
+
     static {
         Thread.currentThread().setName(""+GameServer.settings().getName()+"InitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");

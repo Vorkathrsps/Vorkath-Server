@@ -40,12 +40,12 @@ public final class ChangeRecoveryDelayDialogue extends Dialogue {
     }
 
     private void sendInvalid(String type) {
-        send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT, "The recovery delay cannot be " + type + ".");
+        sendNpcChat(npcId, Expression.DEFAULT, "The recovery delay cannot be " + type + ".");
         setPhase(1);
     }
 
     private void sendMainMenu() {
-        send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT, "How long would you like the recovery delay to be?");
+        sendNpcChat(npcId, Expression.DEFAULT, "How long would you like the recovery delay to be?");
         setPhase(0);
     }
 }

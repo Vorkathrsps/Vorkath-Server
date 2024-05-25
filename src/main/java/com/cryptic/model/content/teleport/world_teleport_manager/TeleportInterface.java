@@ -202,14 +202,14 @@ public class TeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "This location is dangerous, would you like to proceed?");
+                sendStatement("This location is dangerous, would you like to proceed?");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                     setPhase(1);
                 }
             }
@@ -276,14 +276,14 @@ public class TeleportInterface {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.STATEMENT, "This location is dangerous, would you like to proceed?");
+                    sendStatement("This location is dangerous, would you like to proceed?");
                     setPhase(0);
                 }
 
                 @Override
                 protected void next() {
                     if (isPhase(0)) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                        sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                         setPhase(1);
                     }
                 }
@@ -329,7 +329,7 @@ public class TeleportInterface {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Armadyl", "Bandos", "Saradomin", "Zamorak");
+                    sendOption(DEFAULT_OPTION_TITLE, "Armadyl", "Bandos", "Saradomin", "Zamorak");
                     setPhase(0);
                 }
 
@@ -370,7 +370,7 @@ public class TeleportInterface {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Catherby Fishing Area", "Fishing Guild", "Nevermind");
+                    sendOption(DEFAULT_OPTION_TITLE, "Catherby Fishing Area", "Fishing Guild", "Nevermind");
                     setPhase(0);
                 }
 
@@ -401,7 +401,7 @@ public class TeleportInterface {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Essence Mining", "Varrock Mining Area", "Desert Mining Area", "Mining Guild", "Nevermind");
+                    sendOption(DEFAULT_OPTION_TITLE, "Essence Mining", "Varrock Mining Area", "Desert Mining Area", "Mining Guild", "Nevermind");
                     setPhase(0);
                 }
 
@@ -444,7 +444,7 @@ public class TeleportInterface {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Camelot Trees", "Woodcutting Guild", "Nevermind");
+                    sendOption(DEFAULT_OPTION_TITLE, "Camelot Trees", "Woodcutting Guild", "Nevermind");
                     setPhase(0);
                 }
 

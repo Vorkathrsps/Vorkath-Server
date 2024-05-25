@@ -20,7 +20,7 @@ public class IncorrectBankPinDialogue extends Dialogue {
     @Override
     protected void start(Object... parameters) {
         setPhase(0);
-        send(DialogueType.STATEMENT, "<col=ca0d0d>That number was incorrect.", "Please try again.");
+        sendStatement("<col=ca0d0d>That number was incorrect.", "Please try again.");
     }
 
     @Override

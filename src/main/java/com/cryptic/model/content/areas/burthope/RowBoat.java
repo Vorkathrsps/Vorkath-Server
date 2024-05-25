@@ -21,7 +21,7 @@ public class RowBoat extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Do you want to leave the island?", "Yes", "No");
+                        sendOption("Do you want to leave the island?", "Yes", "No");
                         setPhase(0);
                     }
 

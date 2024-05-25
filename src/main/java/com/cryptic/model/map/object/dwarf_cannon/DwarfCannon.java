@@ -124,10 +124,7 @@ public class DwarfCannon extends OwnedObject {
                     getOwner().inventory().remove(balls, needed);
                     getOwner()
                         .message(
-                            "You load the cannon with "
-                                + (needed == 1 ? "one" : needed)
-                                + " cannonball"
-                                + ((needed > 1) ? "s." : "."));
+                           "You load the cannon with " + (needed == 1 ? "one" : needed) + " cannonball " + ((needed > 1) ? "s." : "."));
                     setAmmo(getAmmo() + needed);
                 }
 

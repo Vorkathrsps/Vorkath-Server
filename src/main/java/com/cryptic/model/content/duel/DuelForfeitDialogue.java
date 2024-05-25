@@ -8,14 +8,14 @@ public class DuelForfeitDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.STATEMENT, "Are you sure you wish to forfeit?");
+        sendStatement("Are you sure you wish to forfeit?");
         setPhase(0);
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes", "No");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes", "No");
             setPhase(1);
         }
     }

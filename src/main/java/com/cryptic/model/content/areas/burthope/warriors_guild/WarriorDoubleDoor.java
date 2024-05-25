@@ -84,7 +84,7 @@ public class WarriorDoubleDoor extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.ITEM_STATEMENT, new Item(WARRIOR_GUILD_TOKEN, 100), "", "You don't have enough Warrior Guild Tokens to enter the", "cyclopes enclosure yet, collect at least 100 then come back.");
+                        sendItemStatement(new Item(WARRIOR_GUILD_TOKEN, 100), "", "You don't have enough Warrior Guild Tokens to enter the", "cyclopes enclosure yet, collect at least 100 then come back.");
                         setPhase(0);
                     }
 

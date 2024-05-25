@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -42,14 +41,14 @@ public class KrakenTentacle extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.STATEMENT, "<col=7f0000>Warning!</col>", "Reverting the tentacle to a whip does NOT return the kraken tentacle, only the whip. Are you sure?");
+                        sendStatement("<col=7f0000>Warning!</col>", "Reverting the tentacle to a whip does NOT return the kraken tentacle, only the whip. Are you sure?");
                         setPhase(0);
                     }
 
                     @Override
                     protected void next() {
                         if (isPhase(0)) {
-                            send(DialogueType.OPTION, "Are you sure you wish to do this?", "Yes, revert the tentacle to a abyssal whip.", "No, I'll keep my tentacle.");
+                            sendOption("Are you sure you wish to do this?", "Yes, revert the tentacle to a abyssal whip.", "No, I'll keep my tentacle.");
                             setPhase(1);
                         }
                     }
@@ -82,14 +81,14 @@ public class KrakenTentacle extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "<col=7f0000>Warning!</col>", "The tentacle will gradually consume your whip and destroy it. You", "won't be able to get the whip out again.", "The combined item is not tradeable.");
+                sendStatement("<col=7f0000>Warning!</col>", "The tentacle will gradually consume your whip and destroy it. You", "won't be able to get the whip out again.", "The combined item is not tradeable.");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, "Are you sure you wish to do this?", "Yes, let the tentacle consume the whip.", "No, I'll keep my whip.");
+                    sendOption("Are you sure you wish to do this?", "Yes, let the tentacle consume the whip.", "No, I'll keep my whip.");
                     setPhase(1);
                 }
             }

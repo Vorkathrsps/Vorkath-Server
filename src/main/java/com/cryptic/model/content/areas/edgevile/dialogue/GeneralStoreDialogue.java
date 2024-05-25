@@ -12,14 +12,14 @@ public class GeneralStoreDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Can I help you at all?");
+        sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Can I help you at all?");
         setPhase(0);
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes please. What are you selling?", "No thanks.");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes please. What are you selling?", "No thanks.");
             setPhase(1);
         }
     }

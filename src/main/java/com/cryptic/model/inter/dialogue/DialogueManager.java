@@ -24,8 +24,7 @@ public class DialogueManager {
     /**
      * The current dialogue.
      */
-    @Getter
-    @Setter
+    @Getter @Setter
     private Dialogue dialogue = null;
 
     public DialogueManager(final Player player) {
@@ -48,14 +47,6 @@ public class DialogueManager {
         }
 
         return false;
-    }
-
-    public void checkRemoval() {
-        if (dialogue != null) {
-            System.out.println("true");
-            dialogue.stop();
-            dialogue = null;
-        }
     }
 
     public void interrupt() {
@@ -119,11 +110,11 @@ public class DialogueManager {
         start(dialogue, 0);
     }
 
-    public static void sendStatement(Player player, Object... strings) {
+    public static void sendStatement(Player player, String... strings) {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, strings);
+                sendStatement(strings);
                 setPhase(0);
             }
 
@@ -137,13 +128,14 @@ public class DialogueManager {
     }
 
     public static void npcChat(Player player, Expression expression, int id, String... strings) {
+        npcChat("null",player,expression,id,strings);
+    }
+
+    public static void npcChat(String title,Player player, Expression expression, int id, String... strings) {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                Deque<Object> objs = new LinkedList<>(Arrays.asList(strings));
-                objs.addFirst(expression);
-                objs.addFirst(id);
-                send(DialogueType.NPC_STATEMENT, Iterables.toArray(objs, Object.class));
+                sendNpcChat(title,id, expression, strings);
                 setPhase(0);
             }
 

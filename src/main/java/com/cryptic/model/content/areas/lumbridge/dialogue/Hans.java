@@ -13,7 +13,7 @@ public class Hans extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.STATEMENT,"Your current play time is: "+getTime());
+        sendStatement("Your current play time is: "+getTime());
         setPhase(0);
     }
 

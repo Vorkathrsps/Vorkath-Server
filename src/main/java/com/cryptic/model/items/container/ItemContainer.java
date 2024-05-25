@@ -616,7 +616,7 @@ public class ItemContainer implements Iterable<Item> {
     public final int getSlot(int id) {
         for (int index = 0; index < items.length; index++) {
             if (items[index] != null && items[index].getId() == id) {
-                        return index;
+                return index;
             }
         }
         return -1;
@@ -937,6 +937,11 @@ public class ItemContainer implements Iterable<Item> {
      */
     public void refresh(Player player, int widget) {
         player.getPacketSender().sendItemOnInterface(widget, items);
+        onRefresh();
+    }
+
+    public void refreshInventory(Player player, int invID) {
+        player.getPacketSender().sendUpdateInvFull(invID, items);
         onRefresh();
     }
 
@@ -1515,29 +1520,29 @@ public class ItemContainer implements Iterable<Item> {
     }
 
     /**
-         * from oss
-         */
-        public record Result(int requested, int completed, int... effectedSlots) {
+     * from oss
+     */
+    public record Result(int requested, int completed, int... effectedSlots) {
 
         public boolean success() {
-                return completed == requested;
-            }
-
-            public boolean failed() {
-                if (GameServer.properties().debugMode) {
-                    System.out.println(requested + "vs " + completed + "");
-                }
-                return !success();
-            }
-
-            @Override
-            public String toString() {
-                return "Result{" +
-                    "requested=" + requested +
-                    ", completed=" + completed +
-                    ", effectedSlots=" + Arrays.toString(effectedSlots) +
-                    ", success()=" + success() +
-                    '}';
-            }
+            return completed == requested;
         }
+
+        public boolean failed() {
+            if (GameServer.properties().debugMode) {
+                System.out.println(requested + "vs " + completed + "");
+            }
+            return !success();
+        }
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                "requested=" + requested +
+                ", completed=" + completed +
+                ", effectedSlots=" + Arrays.toString(effectedSlots) +
+                ", success()=" + success() +
+                '}';
+        }
+    }
 }

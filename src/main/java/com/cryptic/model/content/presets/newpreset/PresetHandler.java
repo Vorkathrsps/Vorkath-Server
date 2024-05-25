@@ -143,14 +143,14 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "Would You Like To Create A Preset?");
+                sendStatement("Would You Like To Create A Preset?");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes", "No");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes", "No");
                     setPhase(1);
                 }
             }
@@ -187,14 +187,14 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, new Item(RUNE_ARMOUR_SET_LG), "Purchase A Preset", "Would you like to purchase this preset?", "");
+                sendItemStatement(new Item(RUNE_ARMOUR_SET_LG), "Purchase A Preset", "Would you like to purchase this preset?", "");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes", "No");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes", "No");
                     setPhase(1);
                 }
             }

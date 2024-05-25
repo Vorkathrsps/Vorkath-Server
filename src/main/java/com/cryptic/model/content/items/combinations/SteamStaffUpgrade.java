@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -34,14 +33,14 @@ public class SteamStaffUpgrade extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(KIT), new Item(raw.get(finalI)), "", "Do you want to apply this upgrade to your " + name + ".");
+                        sendItemStatement(new Item(KIT), new Item(raw.get(finalI)), "", "Do you want to apply this upgrade to your " + name + ".");
                         setPhase(0);
                     }
 
                     @Override
                     protected void next() {
                         if (isPhase(0)) {
-                            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes, apply the upgrade.", "Never mind.");
+                            sendOption(DEFAULT_OPTION_TITLE, "Yes, apply the upgrade.", "Never mind.");
                             setPhase(1);
                         } else if (isPhase(2)) {
                             stop();
@@ -55,7 +54,7 @@ public class SteamStaffUpgrade extends PacketInteraction {
                                 if (player.inventory().containsAll(KIT, raw.get(finalI))) {
                                     if (player.inventory().remove(new Item(KIT), true) && player.inventory().remove(new Item(raw.get(finalI)), true)) {
                                         player.inventory().add(new Item(result.get(finalI)), true);
-                                        send(DialogueType.ITEM_STATEMENT, result.get(finalI), "", "You apply the upgrade to obtain the cosmetic version.");
+                                        sendItemStatement(new Item(result.get(finalI)), "", "You apply the upgrade to obtain the cosmetic version.");
                                         setPhase(2);
                                     }
                                 }
@@ -81,14 +80,14 @@ public class SteamStaffUpgrade extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(result.get(r)), new Item(KIT), "Do you want to revert the item to its normal form", "and get the kit back?");
+                            sendItemStatement(new Item(result.get(r)), new Item(KIT), "Do you want to revert the item to its normal form", "and get the kit back?");
                             setPhase(0);
                         }
 
                         @Override
                         protected void next() {
                             if (isPhase(0)) {
-                                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                                sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                                 setPhase(1);
                             }
                         }

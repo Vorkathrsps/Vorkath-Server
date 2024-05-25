@@ -20,7 +20,7 @@ public class SecurityAdvisorDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Set Account PIN", "Change Account PIN", "Remove Account PIN", "Nevermind");
+        sendOption(DEFAULT_OPTION_TITLE, "Set Account PIN", "Change Account PIN", "Remove Account PIN", "Nevermind");
         setPhase(0);
     }
 
@@ -41,11 +41,11 @@ public class SecurityAdvisorDialogue extends Dialogue {
                 var pin = player.<Integer>getAttribOr(AttributeKey.ACCOUNT_PIN, 0);
                 String pinToString = Integer.toString(pin);
                 if (pinToString.length() == 5) {
-                    send(DialogueType.NPC_STATEMENT, SECURITY_GUARD, Expression.HAPPY, "You already have an account pin.");
+                    sendNpcChat(SECURITY_GUARD, Expression.HAPPY, "You already have an account pin.");
                     setPhase(2);
                     return;
                 }
-                send(DialogueType.PLAYER_STATEMENT, Expression.ANNOYED, "I would like to setup an Account PIN.");
+                sendPlayerChat(Expression.ANNOYED, "I would like to setup an Account PIN.");
                 setPhase(1);
             }
             if (option == 2) {
@@ -53,7 +53,7 @@ public class SecurityAdvisorDialogue extends Dialogue {
                 var pin = player.<Integer>getAttribOr(AttributeKey.ACCOUNT_PIN, 0);
                 String pinToString = Integer.toString(pin);
                 if (pinToString.length() != 5) {
-                    send(DialogueType.NPC_STATEMENT, SECURITY_GUARD, Expression.HAPPY, "You have to setup an account pin first.");
+                    sendNpcChat(SECURITY_GUARD, Expression.HAPPY, "You have to setup an account pin first.");
                     setPhase(2);
                     return;
                 }
@@ -62,7 +62,7 @@ public class SecurityAdvisorDialogue extends Dialogue {
                 var pin = player.<Integer>getAttribOr(AttributeKey.ACCOUNT_PIN, 0);
                 String pinToString = Integer.toString(pin);
                 if (pinToString.length() != 5) {
-                    send(DialogueType.NPC_STATEMENT, SECURITY_GUARD, Expression.HAPPY, "You have to setup an account pin first.");
+                    sendNpcChat(SECURITY_GUARD, Expression.HAPPY, "You have to setup an account pin first.");
                     setPhase(2);
                     return;
                 }

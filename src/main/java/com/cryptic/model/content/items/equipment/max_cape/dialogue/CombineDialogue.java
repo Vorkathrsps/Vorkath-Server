@@ -48,14 +48,14 @@ public class CombineDialogue extends Dialogue {
         int src = player.getAttribOr(AttributeKey.ITEM_ID,-1);
         String name = new Item(src).name();
 
-        send(DialogueType.ITEM_STATEMENT, new Item(NORMAL_MAXCAPE), "", "Are you sure you want to combine the Max Cape and a", "" + name + "? This combines the stats together and", "cannot be undone. You <col=FF0000>will lose</col> your " + name + ".");
+        sendItemStatement(new Item(NORMAL_MAXCAPE), "", "Are you sure you want to combine the Max Cape and a", "" + name + "? This combines the stats together and", "cannot be undone. You <col=FF0000>will lose</col> your " + name + ".");
         setPhase(0);
     }
 
     @Override
     protected void next() {
         if (getPhase() == 0) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Proceed with infusion.", "Never mind.");
+            sendOption(DEFAULT_OPTION_TITLE, "Proceed with infusion.", "Never mind.");
             setPhase(1);
         }
     }
@@ -80,7 +80,7 @@ public class CombineDialogue extends Dialogue {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.ITEM_STATEMENT, new Item(combo[0]), "", "You fuse the items together to produce a new Max Cape" + extra + ".");
+                            sendItemStatement(new Item(combo[0]), "", "You fuse the items together to produce a new Max Cape" + extra + ".");
                             setPhase(0);
                         }
 

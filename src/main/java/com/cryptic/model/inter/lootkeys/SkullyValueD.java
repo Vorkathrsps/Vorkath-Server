@@ -1,7 +1,7 @@
 package com.cryptic.model.inter.lootkeys;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.utility.Utils;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.SKULLY;
@@ -15,10 +15,10 @@ public class SkullyValueD extends Dialogue {
         int keysLooted = player.<Integer>getAttribOr(LOOT_KEYS_LOOTED, 0);
         if(keysLooted >= 1) {
             long totalLootKeysValue = player.<Long>getAttribOr(TOTAL_LOOT_KEYS_VALUE, 0D);
-            send(DialogueType.NPC_STATEMENT, SKULLY, 554, "You've claimed "+keysLooted+" keys, containing loot worth about "+ Utils.formatRunescapeStyle(totalLootKeysValue)+"gp.");
+            sendNpcChat(SKULLY, Expression.NODDING_ONE, "You've claimed "+keysLooted+" keys, containing loot worth about "+ Utils.formatRunescapeStyle(totalLootKeysValue)+"gp.");
             setPhase(0);
         } else {
-            send(DialogueType.NPC_STATEMENT, SKULLY, 554, "Well, seeing as you haven't claimed a key yet, I reckon", "you've claimed a total of 0gp worth of loot.");
+            sendNpcChat(SKULLY, Expression.NODDING_ONE, "Well, seeing as you haven't claimed a key yet, I reckon", "you've claimed a total of 0gp worth of loot.");
             setPhase(0);
         }
     }

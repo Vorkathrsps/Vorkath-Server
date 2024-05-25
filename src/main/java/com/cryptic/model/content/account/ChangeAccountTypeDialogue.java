@@ -4,7 +4,6 @@ import com.cryptic.GameServer;
 import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
@@ -14,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * @author Origin | May, 30, 2021, 12:11
- * 
+ *
  */
 public class ChangeAccountTypeDialogue extends Dialogue {
 
@@ -27,20 +26,20 @@ public class ChangeAccountTypeDialogue extends Dialogue {
             return;
         }
         setPhase(0);
-        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Would you like to change your account type to", (player.getGameMode() == GameMode.TRAINED_ACCOUNT));
+        sendNpcChat("Would you like to change your account type to",player.getInteractingNpcId(), Expression.DEFAULT, String.valueOf((player.getGameMode() == GameMode.TRAINED_ACCOUNT)));
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
             setPhase(1);
         }
         if (isPhase(3)) {
             if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No, I don't want to lose my levels!");
+                sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No, I don't want to lose my levels!");
             } else {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
+                sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
             }
             setPhase(4);
         }
@@ -52,9 +51,9 @@ public class ChangeAccountTypeDialogue extends Dialogue {
             setPhase(2);
             if (option == 1) {
                 if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels and", "any Hall of Fame entries you have will be reset.");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels and", "any Hall of Fame entries you have will be reset.");
                 } else {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
                 }
                 setPhase(3);
             } else {
@@ -72,34 +71,34 @@ public class ChangeAccountTypeDialogue extends Dialogue {
                 /*if (accountType == GameMode.INSTANT_PKER) {
                     player.getPresetManager().open();
                 }*/
-                    Item[] training_equipment = {
-                        new Item(ItemIdentifiers.BRONZE_ARROW, 10_000),
-                        new Item(ItemIdentifiers.IRON_KNIFE, 10_000),
-                        new Item(ItemIdentifiers.AIR_RUNE, 10_000),
-                        new Item(ItemIdentifiers.MIND_RUNE, 10_000),
-                        new Item(ItemIdentifiers.CHAOS_RUNE, 10_000),
-                        new Item(ItemIdentifiers.WATER_RUNE, 10_000),
-                        new Item(ItemIdentifiers.EARTH_RUNE, 10_000),
-                        new Item(ItemIdentifiers.FIRE_RUNE, 10_000),
-                        new Item(ItemIdentifiers.STAFF_OF_AIR, 1),
-                        new Item(ItemIdentifiers.SHORTBOW, 1),
-                        new Item(ItemIdentifiers.IRON_SCIMITAR, 1),
-                        new Item(ItemIdentifiers.IRON_FULL_HELM, 1),
-                        new Item(ItemIdentifiers.IRON_PLATEBODY, 1),
-                        new Item(ItemIdentifiers.IRON_PLATELEGS, 1),
-                        new Item(ItemIdentifiers.CLIMBING_BOOTS, 1),
-                        new Item(ItemIdentifiers.BLUE_WIZARD_HAT, 1),
-                        new Item(ItemIdentifiers.BLUE_WIZARD_ROBE, 1),
-                        new Item(ItemIdentifiers.BLUE_SKIRT, 1),
-                        new Item(ItemIdentifiers.LEATHER_BODY, 1),
-                        new Item(ItemIdentifiers.LEATHER_CHAPS, 1),
-                    };
-                    player.getInventory().addAll(training_equipment);
-                    player.message("You have been given some training equipment.");
-                }
-                player.message("You can also spawn items with the spawn tab in the bottom right.");
+                Item[] training_equipment = {
+                    new Item(ItemIdentifiers.BRONZE_ARROW, 10_000),
+                    new Item(ItemIdentifiers.IRON_KNIFE, 10_000),
+                    new Item(ItemIdentifiers.AIR_RUNE, 10_000),
+                    new Item(ItemIdentifiers.MIND_RUNE, 10_000),
+                    new Item(ItemIdentifiers.CHAOS_RUNE, 10_000),
+                    new Item(ItemIdentifiers.WATER_RUNE, 10_000),
+                    new Item(ItemIdentifiers.EARTH_RUNE, 10_000),
+                    new Item(ItemIdentifiers.FIRE_RUNE, 10_000),
+                    new Item(ItemIdentifiers.STAFF_OF_AIR, 1),
+                    new Item(ItemIdentifiers.SHORTBOW, 1),
+                    new Item(ItemIdentifiers.IRON_SCIMITAR, 1),
+                    new Item(ItemIdentifiers.IRON_FULL_HELM, 1),
+                    new Item(ItemIdentifiers.IRON_PLATEBODY, 1),
+                    new Item(ItemIdentifiers.IRON_PLATELEGS, 1),
+                    new Item(ItemIdentifiers.CLIMBING_BOOTS, 1),
+                    new Item(ItemIdentifiers.BLUE_WIZARD_HAT, 1),
+                    new Item(ItemIdentifiers.BLUE_WIZARD_ROBE, 1),
+                    new Item(ItemIdentifiers.BLUE_SKIRT, 1),
+                    new Item(ItemIdentifiers.LEATHER_BODY, 1),
+                    new Item(ItemIdentifiers.LEATHER_CHAPS, 1),
+                };
+                player.getInventory().addAll(training_equipment);
+                player.message("You have been given some training equipment.");
             }
-            stop();
+            player.message("You can also spawn items with the spawn tab in the bottom right.");
         }
+        stop();
+    }
 
 }

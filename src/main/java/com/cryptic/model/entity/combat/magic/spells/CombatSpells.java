@@ -12,7 +12,6 @@ import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.timers.TimerKey;
@@ -2070,7 +2069,7 @@ public enum CombatSpells {
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
             boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
-            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
+            if (spellSack && onAncientsSpellbook && player.varps().getVarbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2327,7 +2326,7 @@ public enum CombatSpells {
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
             boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
-            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
+            if (spellSack && onAncientsSpellbook && player.varps().getVarbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2579,7 +2578,7 @@ public enum CombatSpells {
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
             boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
-            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
+            if (spellSack && onAncientsSpellbook && player.varps().getVarbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2828,7 +2827,7 @@ public enum CombatSpells {
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
             boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
-            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
+            if (spellSack && onAncientsSpellbook && player.varps().getVarbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(

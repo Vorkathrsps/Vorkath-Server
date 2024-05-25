@@ -2,7 +2,7 @@ package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
-import com.cryptic.model.content.packet_actions.interactions.items.ItemActionFour;
+import com.cryptic.model.content.packet_actions.interactions.items.ItemActionTwo;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -17,7 +17,6 @@ import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.CustomItemIdentifiers;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.logging.log4j.Level;
@@ -38,6 +37,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Origin | 2 augustus. 2019 : 15:05
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
+@Deprecated(forRemoval = true)
 public class DropItemPacketListener implements PacketListener {
 
     private static final Logger playerDropLogs = LogManager.getLogger("PlayerDropLogs");
@@ -120,10 +120,6 @@ public class DropItemPacketListener implements PacketListener {
                         return;
                     }
 
-                    if (ItemActionFour.click(player, item)) {
-                        return;
-                    }
-
                     ItemDefinition def = item.definition(World.getWorld());
                     //System.out.println(Arrays.toString(def.ioptions));
                     //System.out.println(Arrays.toString(def.options));
@@ -183,10 +179,6 @@ public class DropItemPacketListener implements PacketListener {
         GroundItem groundItem = new GroundItem(item, player.tile(), player);
 
         //When dropping items in the wilderness everyone can instantly pick them up
-        if (player.tile().region() == 12611 && item.getId() == DAWNBRINGER) {
-            groundItem.setState(State.SEEN_BY_EVERYONE);
-        }
-
         if (WildernessArea.isInWilderness(player)) {
             groundItem.setState(State.SEEN_BY_EVERYONE);
         }

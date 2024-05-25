@@ -17,8 +17,8 @@ public final class PacketBuilder implements AutoCloseable {
      * An array of the bit masks used for writing bits.
      */
     public static final int[] BIT_MASK = {0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff,
-            0x7fff, 0xffff, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff,
-            0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1};
+        0x7fff, 0xffff, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff,
+        0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1};
     /**
      * The packet id.
      */
@@ -453,6 +453,15 @@ public final class PacketBuilder implements AutoCloseable {
      */
     public PacketBuilder putLong(long value, ByteOrder order) {
         putLong(value, ValueType.STANDARD, order);
+        return this;
+    }
+
+    public PacketBuilder putSmart1or2(int value) {
+        if (value > Byte.MAX_VALUE) {
+            putShort(value);
+        } else {
+            put(value);
+        }
         return this;
     }
 

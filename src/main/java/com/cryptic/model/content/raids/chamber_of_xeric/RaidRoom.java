@@ -109,7 +109,7 @@ public class RaidRoom extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.NPC_STATEMENT, VERZIK_VITUR_8369, Expression.CALM_TALK, "Now that was quite the show! I haven't been that", "entertained in a long time.");
+                        sendNpcChat(VERZIK_VITUR_8369, Expression.CALM_TALK, "Now that was quite the show! I haven't been that", "entertained in a long time.");
                         setPhase(0);
                     }
 

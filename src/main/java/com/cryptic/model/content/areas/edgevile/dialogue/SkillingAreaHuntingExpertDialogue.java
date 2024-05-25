@@ -15,7 +15,7 @@ public class SkillingAreaHuntingExpertDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Crimson swifts (levels 1-19)", "Tropical wagtails. (levels 19-53)", "Copper long tails and grey chinchompas (levels 9-53)", "Red chinchompas (levels 63-73", "Black chinchompa ("+ Color.RED.tag()+"Dangerous</col>) (level 73+)");
+        sendOption(DEFAULT_OPTION_TITLE, "Crimson swifts (levels 1-19)", "Tropical wagtails. (levels 19-53)", "Copper long tails and grey chinchompas (levels 9-53)", "Red chinchompas (levels 63-73", "Black chinchompa ("+ Color.RED.tag()+"Dangerous</col>) (level 73+)");
         setPhase(0);
     }
 

@@ -1,5 +1,6 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.bountyhunter.dialogue.TeleportToTargetScrollD;
 import com.cryptic.model.content.collection_logs.LogType;
@@ -33,6 +34,8 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
+import dev.openrune.cache.CacheManager;
+import dev.openrune.cache.filestore.definition.data.ItemType;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.VIEWING_RUNE_POUCH_I;
 import static com.cryptic.utility.CustomItemIdentifiers.VENGEANCE_SKULL;
@@ -42,12 +45,20 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class ItemActionOne {
 
     public static void click(Player player, Item item) {
-        int id = item.getId();
+        final int id = item.getId();
+        final int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
+        if (slot == -1) {
+            return;
+        }
+
+        ItemType definition = CacheManager.INSTANCE.getItem(id);
+        if (definition.getInterfaceOptions().get(0) == null) {
+            return;
+        }
 
         if (PacketInteractionManager.checkItemInteraction(player, item, 1)) {
             return;
         }
-
         if (TreasureRewardCaskets.openCasket(player, item)) {
             return;
         }
@@ -179,12 +190,12 @@ public class ItemActionOne {
             return;
         }
 
+
         /* Looting bag. */
         if (id == 11941 || id == 22586) {
             player.getLootingBag().openAndCloseBag(id);
             return;
         }
-
         if (id == RUNE_POUCH) {
             player.getRunePouch().open(RUNE_POUCH);
             player.putAttrib(VIEWING_RUNE_POUCH_I, false);

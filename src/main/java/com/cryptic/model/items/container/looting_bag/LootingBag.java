@@ -171,7 +171,7 @@ public class LootingBag extends ItemContainer {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... options) {
-                send(DialogueType.OPTION, "When using items on the bag...", "... ask how many to store.", "... always store as many as possible.");
+                sendOption("When using items on the bag...", "... ask how many to store.", "... always store as many as possible.");
                 setPhase(0);
             }
 
@@ -207,7 +207,7 @@ public class LootingBag extends ItemContainer {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.OPTION, "How many do you want to deposit?", "One", "Both");
+                    sendOption("How many do you want to deposit?", "One", "Both");
                     setPhase(0);
                 }
 
@@ -236,7 +236,7 @@ public class LootingBag extends ItemContainer {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.OPTION, "How many do you want to deposit?", "One", "Two", "All");
+                    sendOption("How many do you want to deposit?", "One", "Two", "All");
                     setPhase(0);
                 }
 
@@ -272,7 +272,7 @@ public class LootingBag extends ItemContainer {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.OPTION, "How many do you want to deposit?", "One", "All", "X");
+                    sendOption("How many do you want to deposit?", "One", "All", "X");
                     setPhase(0);
                 }
 
@@ -331,7 +331,7 @@ public class LootingBag extends ItemContainer {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.OPTION, "How many do you want to deposit?", "One", "Five", "All", "X");
+                    sendOption("How many do you want to deposit?", "One", "Five", "All", "X");
                     setPhase(0);
                 }
 

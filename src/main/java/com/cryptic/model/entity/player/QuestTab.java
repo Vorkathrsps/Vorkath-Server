@@ -323,7 +323,7 @@ public final class QuestTab {
             case 12752 -> player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "View Monster Drops.", "Open Collection Log.", "Open Boss Kill Log.", "Nevermind.");
+                    sendOption(DEFAULT_OPTION_TITLE, "View Monster Drops.", "Open Collection Log.", "Open Boss Kill Log.", "Nevermind.");
                     setPhase(0);
                 }
 

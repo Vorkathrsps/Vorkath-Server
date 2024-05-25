@@ -39,7 +39,7 @@ public class MageBank extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.STATEMENT, "You step into the pool of sparkling water. You feel energy rush", "through your veins.");
+                    sendStatement("You step into the pool of sparkling water. You feel energy rush", "through your veins.");
                     setPhase(0);
                 }
 
@@ -70,7 +70,7 @@ public class MageBank extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.STATEMENT, "You step into the pool of sparkling water. You feel energy rush", "through your veins.");
+                    sendStatement("You step into the pool of sparkling water. You feel energy rush", "through your veins.");
                     setPhase(0);
                 }
 

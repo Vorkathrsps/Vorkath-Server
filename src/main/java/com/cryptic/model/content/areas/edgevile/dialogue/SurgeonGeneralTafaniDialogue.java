@@ -16,14 +16,14 @@ public class SurgeonGeneralTafaniDialogue extends Dialogue {
     @Override
     protected void start(Object... parameters) {
         setPhase(0);
-        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Would you like me to heal you?");
+        sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Would you like me to heal you?");
 
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
             setPhase(1);
         }
     }

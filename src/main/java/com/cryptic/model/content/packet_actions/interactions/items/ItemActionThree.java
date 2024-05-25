@@ -9,6 +9,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import com.cryptic.utility.Color;
+import dev.openrune.cache.CacheManager;
+import dev.openrune.cache.filestore.definition.data.ItemType;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -19,7 +21,16 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class ItemActionThree {
 
     public static void click(Player player, Item item) {
-        int id = item.getId();
+        final int id = item.getId();
+        final int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
+        if (slot == -1) {
+            return;
+        }
+
+        ItemType definition = CacheManager.INSTANCE.getItem(id);
+        if (definition.getInterfaceOptions().get(2) == null) {
+            return;
+        }
 
         if (PacketInteractionManager.checkItemInteraction(player, item, 3)) {
             return;

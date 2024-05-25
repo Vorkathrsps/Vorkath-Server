@@ -4,7 +4,6 @@ import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -34,7 +33,7 @@ public class ArdyCape {
         }
     }
 
-    public static void onItemOption2(Player player, Item item) {
+    public static void onItemOption4(Player player, Item item) {
         if(item.getId() == ARDY_CLOAK_4) {
             if (Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                 Teleports.basicTeleport(player, ARDY_FARM, 3872, new Graphic(1237, GraphicHeight.HIGH));
@@ -46,7 +45,7 @@ public class ArdyCape {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Kandarin Monastery", "Ardougne Farm");
+                sendOption(DEFAULT_OPTION_TITLE, "Kandarin Monastery", "Ardougne Farm");
                 setPhase(0);
             }
 

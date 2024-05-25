@@ -1,13 +1,10 @@
 package com.cryptic.model.inter.dialogue;
 
-import com.cryptic.cache.definitions.ItemDefinition;
-import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.model.World;
-import com.cryptic.model.content.areas.burthope.rogues_den.dialogue.EmeraldBenedict;
-import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.inter.dialogue.records.*;
 import com.cryptic.model.items.Item;
 
 /**
@@ -70,149 +67,82 @@ public abstract class Dialogue {
     protected void select(int option) {
     }
 
-    /**
-     * Sends a dialogue to the player
-     *
-     * @param type       The type of dialogue to send
-     * @param parameters The parameters for the dialogue
-     */
-    protected void send(DialogueType type, Object... parameters) {
-        if (type == DialogueType.OPTION) { //Re did option widget looked @ Jasons code for swords
-            if (parameters.length < 3 || parameters.length > 6) {
-                return;
-            }
-            int frame = parameters.length == 3 ? 2460 : parameters.length == 4 ? 2470 : parameters.length == 5 ? 2481 : 2493;
-            int middle_swords_frame = frame + 3 + parameters.length - 1;
-            int wide_swords_frame = parameters.length == 3 ? frame + 8 : parameters.length == 4 ? frame + 9 : parameters.length == 5 ? frame + 8 : frame + 9;
 
-            //Send title first
-            player.getPacketSender().sendString(frame, parameters[0] != null ? (String) parameters[0] : DEFAULT_OPTION_TITLE);
+    protected void sendProduceItem(String title, int total, int lastAmt, int... items) {
+        player.activeDialogueProduceItemItemRecord = new DialogueProduceItemItemRecord(title, total,lastAmt, items);
+        GameInterface.PRODUCE_ITEM.open(player);
+    }
 
-            //Set text frames
-            for (int index = 0; index < parameters.length; index++) {
-                player.getPacketSender().sendString(frame + index, (String) parameters[index]);
-            }
+    protected void sendItemDestroy(Item item, String note) {
+        player.activeDialogueDestroyItemRecord = new DialogueDestroyItemRecord(item,"Are you sure you want to destroy this item?",note);
+        GameInterface.DESTROY_ITEM.open(player);
+    }
 
-            //Always hide the middle swords OSRS uses the wide once
-            player.getPacketSender().sendInterfaceDisplayState(middle_swords_frame, true);
+    protected void sendNpcChat(String title, int npcId, Expression expression, String... chats) {
+        sendNpcChat(title, npcId, expression, true, chats);
+    }
 
-            //Show wide swords ;)
-            player.getPacketSender().sendInterfaceDisplayState(wide_swords_frame, false);
+    protected void sendNpcChat(int npcId, Expression expression, String... chats) {
+        sendNpcChat("", npcId, expression, true, chats);
+    }
 
-            player.getPacketSender().sendChatboxInterface(frame - 1);
-        } else if (type == DialogueType.ITEM_STATEMENT) {
-            var item = (Item) parameters[0];
-            player.getPacketSender().sendString(4902, (String) parameters[2]);
-            player.getPacketSender().sendInterfaceModel(4901, 300, item);
-            player.getPacketSender().sendChatboxInterface(4900);
-        } else if (type == DialogueType.DOUBLE_ITEM_STATEMENT) {
-            if (parameters.length == 3) {
-                player.getPacketSender().sendString(6232, (String) parameters[2]);
-                player.getPacketSender().sendString(6233, "");
-                Item firstItem = (Item) parameters[0];
-                Item secondItem = (Item) parameters[1];
-                player.getPacketSender().sendInterfaceModel(6235, 500, firstItem);
-                player.getPacketSender().sendInterfaceModel(6236, 500, secondItem);
-                player.getPacketSender().sendChatboxInterface(6231);
-            } else if (parameters.length == 4) {
-                player.getPacketSender().sendString(6232, (String) parameters[2]);
-                player.getPacketSender().sendString(6233, (String) parameters[3]);
-                Item firstItem = (Item) parameters[0];
-                Item secondItem = (Item) parameters[1];
-                player.getPacketSender().sendItemOnInterface(37850, firstItem);
-                player.getPacketSender().sendItemOnInterface(37851, secondItem);
-                player.getPacketSender().sendInterfaceModel(6235, 125, -1);
-                player.getPacketSender().sendInterfaceModel(6236, 125, -1);
-                player.getPacketSender().sendChatboxInterface(6231);
-            }
-        } else if (type == DialogueType.NPC_STATEMENT) {
-            if (parameters == null || parameters.length == 0 || parameters.length > 6) {
-                throw new IllegalArgumentException("Messages cannot be null and must contain between 1 and 6 elements.");
-            }
-            NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, (Integer) parameters[0]);
-            if (parameters.length == 3) {
-                player.getPacketSender().sendString(4884, def.name);
-                player.getPacketSender().sendString(4885, (String) parameters[2]);
-                player.getPacketSender().sendInterfaceAnimation(4883, ((Expression) parameters[1]).getAnimation());
-                player.getPacketSender().sendNpcHeadOnInterface((Integer) parameters[0], 4883);
-                player.getPacketSender().sendChatboxInterface(4882);
-            } else if (parameters.length == 4) {
-                player.getPacketSender().sendString(4889, def.name);
-                player.getPacketSender().sendString(4890, (String) parameters[2]);
-                player.getPacketSender().sendString(4891, (String) parameters[3]);
-                player.getPacketSender().sendInterfaceAnimation(4888, ((Expression) parameters[1]).getAnimation());
-                player.getPacketSender().sendNpcHeadOnInterface((Integer) parameters[0], 4888);
-                player.getPacketSender().sendChatboxInterface(4887);
-            } else if (parameters.length == 5) {
-                player.getPacketSender().sendString(4895, def.name);
-                player.getPacketSender().sendString(4896, (String) parameters[2]);
-                player.getPacketSender().sendString(4897, (String) parameters[3]);
-                player.getPacketSender().sendString(4898, (String) parameters[4]);
-                player.getPacketSender().sendInterfaceAnimation(4894, ((Expression) parameters[1]).getAnimation());
-                player.getPacketSender().sendNpcHeadOnInterface((Integer) parameters[0], 4894);
-                player.getPacketSender().sendChatboxInterface(4893);
-            } else if (parameters.length == 6) {
-                player.getPacketSender().sendString(4902, def.name);
-                player.getPacketSender().sendString(4903, (String) parameters[2]);
-                player.getPacketSender().sendString(4904, (String) parameters[3]);
-                player.getPacketSender().sendString(4905, (String) parameters[4]);
-                player.getPacketSender().sendString(4906, (String) parameters[5]);
-                player.getPacketSender().sendInterfaceAnimation(4901, ((Expression) parameters[1]).getAnimation());
-                player.getPacketSender().sendNpcHeadOnInterface((Integer) parameters[0], 4901);
-                player.getPacketSender().sendChatboxInterface(4900);
-            }
-        } else if (type == DialogueType.PLAYER_STATEMENT) {
-            if (parameters.length == 2) {
-                player.getPacketSender().sendString(970, player.getUsername());
-                player.getPacketSender().sendString(971, (String) parameters[1]);
-                player.getPacketSender().sendInterfaceAnimation(969, ((Expression) parameters[0]).getAnimation());
-                player.getPacketSender().sendPlayerHeadOnInterface(969);
-                player.getPacketSender().sendChatboxInterface(968);
-            } else if (parameters.length == 3) {
-                player.getPacketSender().sendString(975, player.getUsername());
-                player.getPacketSender().sendString(976, (String) parameters[1]);
-                player.getPacketSender().sendString(977, (String) parameters[2]);
-                player.getPacketSender().sendInterfaceAnimation(974, ((Expression) parameters[0]).getAnimation());
-                player.getPacketSender().sendPlayerHeadOnInterface(974);
-                player.getPacketSender().sendChatboxInterface(973);
-            } else if (parameters.length == 4) {
-                player.getPacketSender().sendString(981, player.getUsername());
-                player.getPacketSender().sendString(982, (String) parameters[1]);
-                player.getPacketSender().sendString(983, (String) parameters[2]);
-                player.getPacketSender().sendString(984, (String) parameters[3]);
-                player.getPacketSender().sendInterfaceAnimation(980, ((Expression) parameters[0]).getAnimation());
-                player.getPacketSender().sendPlayerHeadOnInterface(980);
-                player.getPacketSender().sendChatboxInterface(979);
-            } else if (parameters.length == 5) {
-                player.getPacketSender().sendString(988, player.getUsername());
-                player.getPacketSender().sendString(989, (String) parameters[1]);
-                player.getPacketSender().sendString(990, (String) parameters[2]);
-                player.getPacketSender().sendString(991, (String) parameters[3]);
-                player.getPacketSender().sendString(992, (String) parameters[4]);
-                player.getPacketSender().sendInterfaceAnimation(987, ((Expression) parameters[0]).getAnimation());
-                player.getPacketSender().sendPlayerHeadOnInterface(987);
-                player.getPacketSender().sendChatboxInterface(986);
-            } else {
-                throw new IllegalArgumentException("Invalid Arguments");
-            }
-        } else if (type == DialogueType.STATEMENT) {
-            if (parameters == null || parameters.length == 0 || parameters.length > 5) {
-                throw new IllegalArgumentException("Messages cannot be null and must contain between 1 and 5 elements.");
-            }
+    protected void sendNpcChat(int npcId, Expression expression, boolean continueButton, String... chats) {
+        sendNpcChat("", npcId, expression, continueButton, chats);
+    }
 
-            int frame = parameters.length == 1 ? 357 : parameters.length == 2 ? 360 : parameters.length == 3 ? 364 : parameters.length == 4 ? 369 : parameters.length == 5 ? 375 : 0;
+    protected void sendNpcChat(String title, int npcId, Expression expression, boolean continueButton, String... chats) {
+        player.activeNpcDialogue = new DialogueNPCRecord(npcId, title, chats, expression, continueButton);
+        GameInterface.DIALOGUE_NPC.open(player);
+    }
 
-            if (frame == 0) {
-                return;
-            }
-            for (int index = 0; index < parameters.length; index++) {
-                player.getPacketSender().sendString(frame + index, (String) parameters[index]);
-            }
-            player.getPacketSender().sendChatboxInterface(frame - 1);
-            player.putAttrib(AttributeKey.INTERACTION_OPTION, 1);
-        } else {
-            throw new InternalError();
-        }
+    protected void sendOption(String title, String... options) {
+        player.activeOptionDialogue = new DialogueOptionRecord(title, options);
+        GameInterface.DIALOGUE_OPTIONS.open(player);
+    }
+
+    protected void sendPlayerChat(String title, Expression expression, String... chats) {
+        sendPlayerChat(title, expression, true, chats);
+    }
+
+    protected void sendPlayerChat(Expression expression, String... chats) {
+        sendPlayerChat("", expression, true, chats);
+    }
+
+    protected void sendPlayerChat(Expression expression, boolean continueButton, String... chats) {
+        sendPlayerChat("", expression, continueButton, chats);
+    }
+
+    protected void sendPlayerChat(String title, Expression expression, boolean continueButton, String... chats) {
+        player.activePlayerDialogue = new DialoguePlayerRecord(title, chats, expression, continueButton);
+        GameInterface.DIALOGUE_PLAYER.open(player);
+    }
+
+    protected void sendStatement(String... chats) {
+        sendStatement(true, chats);
+    }
+
+    protected void sendStatement(boolean continueButton, String... chats) {
+        player.activeStatementRecord = new DialogueStatementRecord(chats, continueButton);
+        GameInterface.DIALOGUE_STATEMENT.open(player);
+    }
+
+
+    protected void sendItemStatement(Item item, String... chats) {
+        sendItemStatement(item,true,chats);
+    }
+
+    protected void sendItemStatement(Item item, boolean continueButton,String... chats) {
+        player.activeSingleItemRecord = new DialogueSingleItemRecord(item,chats,continueButton);
+        GameInterface.DIALOGUE_ITEM_SINGLE.open(player);
+    }
+
+    protected void sendItemStatement(Item firstItem, Item secondItem,String... chats) {
+        sendItemStatement(firstItem,secondItem,true,chats);
+    }
+
+    protected void sendItemStatement(Item firstItem,Item secondItem, boolean continueButton,String... chats) {
+        player.activeDoubleItemRecord = new DialogueDoubleItemRecord(firstItem,secondItem,chats,continueButton);
+        GameInterface.DIALOGUE_ITEM_DOUBLE.open(player);
     }
 
     /**

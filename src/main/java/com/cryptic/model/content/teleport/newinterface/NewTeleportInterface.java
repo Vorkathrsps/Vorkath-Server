@@ -43,7 +43,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Confirm teleport to " + thespecificteleport.text + " ?", "Yes", "Cancel");
+                sendOption("Confirm teleport to " + thespecificteleport.text + " ?", "Yes", "Cancel");
                 setPhase(0);
             }
 
@@ -67,14 +67,14 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "This location is dangerous, would you like to proceed?");
+                sendStatement("This location is dangerous, would you like to proceed?");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                     setPhase(1);
                 }
             }
@@ -105,7 +105,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Armadyl", "Bandos", "Saradomin", "Zamorak");
+                sendOption(DEFAULT_OPTION_TITLE, "Armadyl", "Bandos", "Saradomin", "Zamorak");
                 setPhase(0);
             }
 
@@ -144,7 +144,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Catherby Fishing Area", "Fishing Guild", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Catherby Fishing Area", "Fishing Guild", "Nevermind");
                 setPhase(0);
             }
 
@@ -173,7 +173,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Air Altar", "Mind Altar", "Water Altar", "Earth Altar", "Next Page");
+                sendOption(DEFAULT_OPTION_TITLE, "Air Altar", "Mind Altar", "Water Altar", "Earth Altar", "Next Page");
                 setPhase(0);
             }
 
@@ -206,7 +206,7 @@ NewTeleportInterface {
                         Teleports.basicTeleport(player, new Tile(2655, 4830));
                     } else if (option == 5) {
                         setPhase(1);
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Fire Altar", "Body Altar", "Cosmic Altar", "Chaos Altar", "Next Page");
+                        sendOption(DEFAULT_OPTION_TITLE, "Fire Altar", "Body Altar", "Cosmic Altar", "Chaos Altar", "Next Page");
                     }
                 } else if (phase == 1) {
                     if (option == 1) {
@@ -235,7 +235,7 @@ NewTeleportInterface {
                         Teleports.basicTeleport(player, new Tile(2281, 4837));
                     } else if (option == 5) {
                         setPhase(2);
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Nature Altar", "Law Altar", "Death Altar", "Blood Altar", "Nevermind");
+                        sendOption(DEFAULT_OPTION_TITLE, "Nature Altar", "Law Altar", "Death Altar", "Blood Altar", "Nevermind");
                     }
                 } else if (phase == 2) {
                     if (option == 1) {
@@ -274,7 +274,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Draynor Rooftop Area", "Al-Kharid Rooftop Area", "Varrock Rooftop Area", "Canifis Rooftop Area", "Next Page");
+                sendOption(DEFAULT_OPTION_TITLE, "Draynor Rooftop Area", "Al-Kharid Rooftop Area", "Varrock Rooftop Area", "Canifis Rooftop Area", "Next Page");
                 setPhase(0);
             }
 
@@ -307,7 +307,7 @@ NewTeleportInterface {
                         Teleports.basicTeleport(player, new Tile(3505, 3487));
                     } else if (option == 5) {
                         setPhase(1);
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Falador Rooftop Area", "Seers' Rooftop Area", "Relleka Rooftop Area", "Ardougne Rooftop Area", "Nevermind");
+                        sendOption(DEFAULT_OPTION_TITLE, "Falador Rooftop Area", "Seers' Rooftop Area", "Relleka Rooftop Area", "Ardougne Rooftop Area", "Nevermind");
                     }
                 } else if (phase == 1) {
                     if (option == 1) {
@@ -346,7 +346,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Essence Mining", "Varrock Mining Area", "Desert Mining Area", "Mining Guild", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Essence Mining", "Varrock Mining Area", "Desert Mining Area", "Mining Guild", "Nevermind");
                 setPhase(0);
             }
 
@@ -387,7 +387,7 @@ NewTeleportInterface {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Camelot Trees", "Woodcutting Guild", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Camelot Trees", "Woodcutting Guild", "Nevermind");
                 setPhase(0);
             }
 

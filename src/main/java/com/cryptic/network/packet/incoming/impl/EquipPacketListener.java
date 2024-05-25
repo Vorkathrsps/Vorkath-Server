@@ -25,7 +25,7 @@ import static com.cryptic.model.items.container.equipment.Equipment.getAudioId;
  *
  * @author relex lawl
  */
-
+@Deprecated(forRemoval = true)
 public class EquipPacketListener implements PacketListener {
 
     @Override

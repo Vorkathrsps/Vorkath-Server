@@ -23,17 +23,17 @@ public class AuburyDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-       send(DialogueType.NPC_STATEMENT, AUBURY, Expression.NODDING_THREE, "Do you want to buy some runes?");
+       sendNpcChat(AUBURY, Expression.NODDING_THREE, "Do you want to buy some runes?");
        setPhase(0);
     }
 
     @Override
     protected void next() {
         if(isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes please!", "Oh, it's a rune shop. No thank you, then.", "Can you teleport me to the Rune Essence?");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes please!", "Oh, it's a rune shop. No thank you, then.", "Can you teleport me to the Rune Essence?");
             setPhase(1);
         } else if(isPhase(2)) {
-            send(DialogueType.NPC_STATEMENT, AUBURY, Expression.NODDING_FIVE, "Well, if you find someone who does want runes, please", "send them my way.");
+            sendNpcChat(AUBURY, Expression.NODDING_FIVE, "Well, if you find someone who does want runes, please", "send them my way.");
             setPhase(3);
         } else if(isPhase(3)) {
             stop();
@@ -47,7 +47,7 @@ public class AuburyDialogue extends Dialogue {
                 World.getWorld().shop(23).open(player);
             }
             if(option == 2) {
-                send(DialogueType.PLAYER_STATEMENT,Expression.HAPPY, "Oh, it's a rune shop. No thank you, then.");
+                sendPlayerChat(Expression.HAPPY, "Oh, it's a rune shop. No thank you, then.");
                 setPhase(2);
             }
             if(option == 3) {

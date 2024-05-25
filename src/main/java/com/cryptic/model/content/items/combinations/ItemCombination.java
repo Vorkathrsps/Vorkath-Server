@@ -1,10 +1,9 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -111,7 +110,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Create Twisted Ancestral?", "Yes, sacrifice the kit.", "No, not right now.");
+                sendOption("Create Twisted Ancestral?", "Yes, sacrifice the kit.", "No, not right now.");
                 setPhase(0);
             }
 
@@ -144,7 +143,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Create Ava's Assembler?", "Yes, sacrifice Vorkath's head.", "No, not right now.");
+                sendOption("Create Ava's Assembler?", "Yes, sacrifice Vorkath's head.", "No, not right now.");
                 setPhase(0);
             }
 
@@ -173,7 +172,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Recolor the Twisted slayer helmet (i)?", "Yes, sacrifice Dark claw.", "No, not right now.");
+                sendOption("Recolor the Twisted slayer helmet (i)?", "Yes, sacrifice Dark claw.", "No, not right now.");
                 setPhase(0);
             }
 
@@ -202,7 +201,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Recolor the Twisted slayer helmet (i)?", "Yes, sacrifice hydra's head.", "No, not right now.");
+                sendOption("Recolor the Twisted slayer helmet (i)?", "Yes, sacrifice hydra's head.", "No, not right now.");
                 setPhase(0);
             }
 
@@ -234,7 +233,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Create the Dragon Platebody?", "Yes", "No");
+                sendOption("Create the Dragon Platebody?", "Yes", "No");
                 setPhase(0);
             }
 
@@ -258,7 +257,7 @@ public class ItemCombination extends PacketInteraction {
                         player.inventory().remove(new Item(DRAGON_METAL_SHARD), true);
                         int slot = player.getAttribOr(AttributeKey.ALT_ITEM_SLOT, -1);
                         player.inventory().add(new Item(21892), slot, true);
-                        send(DialogueType.ITEM_STATEMENT, 21892, "", "You combine the shard, lump and chainbody to create a Dragon Platebody.");
+                        sendItemStatement(new Item(21892), "", "You combine the shard, lump and chainbody to create a Dragon Platebody.");
                         setPhase(1);
                     } else if(option == 2) {
                         stop();
@@ -275,7 +274,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Create the Dragon Kiteshield?", "Yes", "No");
+                sendOption("Create the Dragon Kiteshield?", "Yes", "No");
                 setPhase(0);
             }
 
@@ -299,7 +298,7 @@ public class ItemCombination extends PacketInteraction {
                         player.inventory().remove(new Item(DRAGON_METAL_SHARD), true);
                         int slot = player.getAttribOr(AttributeKey.ALT_ITEM_SLOT, -1);
                         player.inventory().add(new Item(21895), slot, true);
-                        send(DialogueType.ITEM_STATEMENT, 21895, "", "You combine the shard, slice and square shield to create a Dragon Kiteshield.");
+                        sendItemStatement(new Item(21895), "", "You combine the shard, slice and square shield to create a Dragon Kiteshield.");
                         setPhase(1);
                     } else if(option == 2) {
                         stop();
@@ -313,7 +312,7 @@ public class ItemCombination extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Create Guardian Boots?", "Yes, I'd like to merge the core usedWith the boots.", "No, not right now.");
+                sendOption("Create Guardian Boots?", "Yes, I'd like to merge the core usedWith the boots.", "No, not right now.");
                 setPhase(0);
             }
 

@@ -1,12 +1,8 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.model.content.DropsDisplay;
 import com.cryptic.model.inter.clan.ClanManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;

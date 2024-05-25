@@ -17,7 +17,7 @@ public class YellColourCommand implements Command {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... options) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "<col=255>Blue", "<col=ca0d0d>Red", "<col=ffffff>White", "<col=006601>Green", "<col=0>Default");
+                sendOption(DEFAULT_OPTION_TITLE, "<col=255>Blue", "<col=ca0d0d>Red", "<col=ffffff>White", "<col=006601>Green", "<col=0>Default");
                 setPhase(0);
             }
 

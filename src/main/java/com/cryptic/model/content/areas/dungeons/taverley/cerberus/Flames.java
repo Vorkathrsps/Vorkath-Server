@@ -24,7 +24,7 @@ public class Flames extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, "Do you wish to pass through the flames?", "Yes - I know I'll get hurt.", "No way!");
+                            sendOption("Do you wish to pass through the flames?", "Yes - I know I'll get hurt.", "No way!");
                             setPhase(0);
                         }
                         @Override

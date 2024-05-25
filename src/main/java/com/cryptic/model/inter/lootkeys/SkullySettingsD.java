@@ -21,7 +21,7 @@ public class SkullySettingsD extends Dialogue {
         boolean sendValuableItemsToLootKey = player.<Boolean>getAttribOr(SEND_VALUABLES_TO_LOOT_KEYS, false);
         String option3 = sendValuableItemsToLootKey ? "Drop valuables to floor" : "Send valuables to loot key";
 
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, option1, option2, option3, "Change valuable item threshold");
+        sendOption(DEFAULT_OPTION_TITLE, option1, option2, option3, "Change valuable item threshold");
         setPhase(0);
     }
 
@@ -31,7 +31,7 @@ public class SkullySettingsD extends Dialogue {
         if(unlocked) {
             base();
         } else {
-            send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "You do not have access to the loot keys.");
+            sendNpcChat(SKULLY, Expression.DEFAULT, "You do not have access to the loot keys.");
             setPhase(3);
         }
     }
@@ -67,11 +67,11 @@ public class SkullySettingsD extends Dialogue {
             if(option == 1) {
                 boolean lootKeysActive = player.<Boolean>getAttribOr(LOOT_KEYS_ACTIVE, false);
                 if(!lootKeysActive) {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, you'll now get loot keys when you kill another", "person in the Wilderness.");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, you'll now get loot keys when you kill another", "person in the Wilderness.");
                     setPhase(1);
                     player.putAttrib(LOOT_KEYS_ACTIVE, true);
                 } else {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, whenever you kill someone else now, their items will", "go to the floor like normal. Just remember, they could", "have loots keys on them, and they'll still go to your", "inventory!");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, whenever you kill someone else now, their items will", "go to the floor like normal. Just remember, they could", "have loots keys on them, and they'll still go to your", "inventory!");
                     setPhase(1);
                     player.putAttrib(LOOT_KEYS_ACTIVE, false);
                 }
@@ -79,11 +79,11 @@ public class SkullySettingsD extends Dialogue {
             if(option == 2) {
                 boolean lootKeysDropConsumables = player.<Boolean>getAttribOr(LOOT_KEYS_DROP_CONSUMABLES, false);
                 if(!lootKeysDropConsumables) {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, food and potions will now be dropped to the floor", "instead of stored in a loot key.");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, food and potions will now be dropped to the floor", "instead of stored in a loot key.");
                     setPhase(1);
                     player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, true);
                 } else {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, food and potions will now be sent to your loot keys.");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, food and potions will now be sent to your loot keys.");
                     setPhase(1);
                     player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, false);
                 }
@@ -91,11 +91,11 @@ public class SkullySettingsD extends Dialogue {
             if(option == 3) {
                 boolean sendValuableItemsToLootKey = player.<Boolean>getAttribOr(SEND_VALUABLES_TO_LOOT_KEYS, false);
                 if(!sendValuableItemsToLootKey) {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, valuable items will now be sent to your loot keys.");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, valuable items will now be sent to your loot keys.");
                     setPhase(1);
                     player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, true);
                 } else {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Ok, valuable items will now be dropped to the floor", "instead of stored in a loot key.");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Ok, valuable items will now be dropped to the floor", "instead of stored in a loot key.");
                     setPhase(1);
                     player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, false);
                 }
@@ -104,10 +104,10 @@ public class SkullySettingsD extends Dialogue {
                 long lootKeysValuableItemThreshold = player.<Integer>getAttribOr(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 150_000);
                 boolean sendValuableItemsToLootKey = player.<Boolean>getAttribOr(SEND_VALUABLES_TO_LOOT_KEYS, false);
                 if (!sendValuableItemsToLootKey) {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Currently, items worth " + Utils.formatRunescapeStyle(lootKeysValuableItemThreshold) + " gp or more will be", "dropped to the floor. What do you want to change that", "value to?");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Currently, items worth " + Utils.formatRunescapeStyle(lootKeysValuableItemThreshold) + " gp or more will be", "dropped to the floor. What do you want to change that", "value to?");
                     setPhase(2);
                 } else {
-                    send(DialogueType.NPC_STATEMENT, SKULLY, Expression.DEFAULT, "Currently, if you were to have valuable items drop to", "the floor, they'd need to be worth at least "+Utils.formatRunescapeStyle(lootKeysValuableItemThreshold)+" gp.", "What do you want to change that value to?");
+                    sendNpcChat(SKULLY, Expression.DEFAULT, "Currently, if you were to have valuable items drop to", "the floor, they'd need to be worth at least "+Utils.formatRunescapeStyle(lootKeysValuableItemThreshold)+" gp.", "What do you want to change that value to?");
                     setPhase(2);
                 }
             }

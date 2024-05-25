@@ -159,7 +159,7 @@ public class Barrows extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes, I'm not afraid!", "No way");
+                            sendOption(DEFAULT_OPTION_TITLE, "Yes, I'm not afraid!", "No way");
                         }
 
                         @Override
@@ -173,7 +173,7 @@ public class Barrows extends PacketInteraction {
                         protected void select(int option) {
                             if (option == 1) {
                                 if (barrowsBrotherKc(player) < 5) {
-                                    send(DialogueType.STATEMENT, "You must have killed 5 brothers to enter the final crypt!");
+                                    sendStatement("You must have killed 5 brothers to enter the final crypt!");
                                     setPhase(1);
                                 } else {
                                     player.teleport(new Tile(3551, 9699));

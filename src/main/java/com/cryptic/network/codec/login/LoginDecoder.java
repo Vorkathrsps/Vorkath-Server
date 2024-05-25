@@ -24,11 +24,6 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Professor Oak
  */
-/**
- * Attempts to decode a player's login request.
- *
- * @author Professor Oak
- */
 public final class LoginDecoder extends ByteToMessageDecoder {
 
     private static final int INITIAL_POW_DIFFICULTY = 15;

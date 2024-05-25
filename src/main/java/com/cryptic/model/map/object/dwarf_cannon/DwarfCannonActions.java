@@ -198,9 +198,7 @@ public class DwarfCannonActions extends PacketInteraction {
                         if (player.inventory().hasFreeSlots(1) || player.inventory().hasCapacity(new Item(balls))) {
                             if (cannon.getAmmo() > 0) {
                                 player.inventory().add(balls, cannon.getAmmo());
-                                player.message(
-                                    "You unload your cannon and receive Cannonball x "
-                                        + cannon.getAmmo());
+                                player.message("You unload your cannon and receive Cannonball x " + cannon.getAmmo());
                                 cannon.setAmmo(0);
                                 cannon.setStage(CannonStage.FURNACE, false);
                             }

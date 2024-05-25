@@ -3,9 +3,11 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.GameServer;
 import com.cryptic.annotate.Init;
 import com.cryptic.core.task.Task;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.skill.impl.mining.Pickaxe;
+import com.cryptic.model.cs2.interfaces.InterfaceHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -108,6 +110,8 @@ public class MovementPacketListener implements PacketListener {
         if (player.getDialogueManager().isActive()) {
             player.getDialogueManager().interrupt();
         }
+
+        InterfaceHandler.closeModals(player);
 
         player.getInterfaceManager().closeDialogue();
 

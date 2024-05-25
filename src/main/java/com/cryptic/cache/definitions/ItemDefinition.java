@@ -102,7 +102,6 @@ public class ItemDefinition implements Definition {
     public boolean pvpAllowed;//this isnt pvp mode lol ik, but have a feeling its possibly fucking with it, if values arent set ? idk
     public boolean consumable;
     public static final Object2IntMap<String> linkedValueMap = new Object2IntOpenHashMap<>();
-
     public int findLinkedValue(String name) {
         var value = linkedValueMap.getOrDefault(name, -1);
         if (value != -1) return value;
@@ -150,12 +149,6 @@ public class ItemDefinition implements Definition {
             ioptions = new String[]{null, "Wield", null, null, "Drop"};
         }
 
-        boolean replace_drop_with_destroy = Arrays.stream(Item.AUTO_KEPT_LIST).anyMatch(auto_kept_id -> auto_kept_id == id);
-
-        if (replace_drop_with_destroy) {
-            ioptions = new String[]{null, null, null, null, "Destroy"};
-        }
-
         switch (id) {
             case SHIP_TICKET -> {
                 name = "Vote Ticket";
@@ -165,6 +158,7 @@ public class ItemDefinition implements Definition {
             case DONATOR_TICKET -> {
                 name = "Donator Ticket";
                 stackable = 1;
+                notelink = 0;
             }
             case KORASI_SWORD -> {
                 name = "Korasi's Sword";
@@ -172,6 +166,7 @@ public class ItemDefinition implements Definition {
             }
             case SCROLL_OF_REDIRECTION -> {
                 name = "Scroll Of Imbuement";
+                notelink = 0;
             }
             case LUCK_OF_THE_DWARVES -> {
                 name = "Luck Of The Dwarves";

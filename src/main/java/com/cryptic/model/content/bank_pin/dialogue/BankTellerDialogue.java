@@ -17,14 +17,14 @@ public final class BankTellerDialogue extends Dialogue {
         npcId = npc.id();
         player.setPositionToFace(npc.tile());
         npc.setPositionToFace(player.tile());
-        send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT, "Good day, how may I help you?");
+        sendNpcChat(npcId, Expression.DEFAULT, "Good day, how may I help you?");
         setPhase(0);
     }
 
     @Override
     protected void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION,
+            sendOption(
                 "Select an option.",
                 "I'd like to access my bank account, please.",
                 "I'd like to check my PIN settings.");

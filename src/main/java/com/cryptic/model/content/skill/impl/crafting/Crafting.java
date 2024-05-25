@@ -111,7 +111,7 @@ public class Crafting extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Fuse your onyx and zenyte shard?", "Yes - fuse them.", "Don't fuse any of my gems!");
+                        sendOption("Fuse your onyx and zenyte shard?", "Yes - fuse them.", "Don't fuse any of my gems!");
                         setPhase(0);
                     }
 
@@ -136,7 +136,7 @@ public class Crafting extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.ITEM_STATEMENT, new Item(ZENYTE_SHARD), "", "You need a <col=000080>cut onyx<col=000000> to fuse with a <col=000080>zenyte shard<col=000000> to<br><col=000000>create an uncut zenyte.");
+                        sendItemStatement(new Item(ZENYTE_SHARD), "", "You need a <col=000080>cut onyx<col=000000> to fuse with a <col=000080>zenyte shard<col=000000> to<br><col=000000>create an uncut zenyte.");
                         setPhase(0);
                     }
 

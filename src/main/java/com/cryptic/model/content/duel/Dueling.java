@@ -693,7 +693,7 @@ public class Dueling {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Whip And DDS", "Whip Only", "Normal Duel", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Whip And DDS", "Whip Only", "Normal Duel", "Nevermind");
                 setPhase(0);
             }
 

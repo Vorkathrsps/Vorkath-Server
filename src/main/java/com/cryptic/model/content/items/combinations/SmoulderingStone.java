@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -75,7 +74,7 @@ public class SmoulderingStone extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(SMOULDERING_STONE), new Item(DRAGON_PICKAXE), "You need level 61 Mining and level 85 Smithing to make an infernal pickaxe.", "");
+                    sendItemStatement(new Item(SMOULDERING_STONE), new Item(DRAGON_PICKAXE), "You need level 61 Mining and level 85 Smithing to make an infernal pickaxe.", "");
                     setPhase(0);
                 }
 
@@ -92,14 +91,14 @@ public class SmoulderingStone extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(SMOULDERING_STONE), new Item(DRAGON_PICKAXE), "Are you sure you wish to convert your dragon pickaxe<br>into an infernal pickaxe? This cannot be reversed.", "Infernal pickaxes are untradable.");
+                sendItemStatement(new Item(SMOULDERING_STONE), new Item(DRAGON_PICKAXE), "Are you sure you wish to convert your dragon pickaxe<br>into an infernal pickaxe? This cannot be reversed.", "Infernal pickaxes are untradable.");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
                     setPhase(1);
                 } else if (isPhase(2)) {
                     stop();
@@ -121,7 +120,7 @@ public class SmoulderingStone extends PacketInteraction {
                         // Apply inv change
                         if (player.inventory().remove(new Item(DRAGON_PICKAXE), true) && player.inventory().remove(new Item(SMOULDERING_STONE), true))
                             player.inventory().add(new Item(INFERNAL_PICKAXE), true);
-                        send(DialogueType.ITEM_STATEMENT, new Item(INFERNAL_PICKAXE), "", "You infuse the smouldering stone into the pickaxe<br>to make an infernal pickaxe.");
+                        sendItemStatement(new Item(INFERNAL_PICKAXE), "", "You infuse the smouldering stone into the pickaxe<br>to make an infernal pickaxe.");
                         setPhase(2);
                     } else if (option == 2) {
                         stop();
@@ -137,7 +136,7 @@ public class SmoulderingStone extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(SMOULDERING_STONE), new Item(DRAGON_AXE), "You need level 61 Woodcutting and level 85 Firemaking to make an infernal axe.", "");
+                    sendItemStatement(new Item(SMOULDERING_STONE), new Item(DRAGON_AXE), "You need level 61 Woodcutting and level 85 Firemaking to make an infernal axe.", "");
                     setPhase(0);
                 }
 
@@ -153,14 +152,14 @@ public class SmoulderingStone extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(SMOULDERING_STONE), new Item(DRAGON_AXE), "Are you sure you wish to convert your dragon axe<br>into an infernal axe? This cannot be reversed.", "Infernal axes are untradable.");
+                sendItemStatement(new Item(SMOULDERING_STONE), new Item(DRAGON_AXE), "Are you sure you wish to convert your dragon axe<br>into an infernal axe? This cannot be reversed.", "Infernal axes are untradable.");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
                     setPhase(1);
                 } else if (isPhase(2)) {
                     stop();
@@ -183,7 +182,7 @@ public class SmoulderingStone extends PacketInteraction {
                         if (player.inventory().remove(new Item(DRAGON_AXE), true) && player.inventory().remove(new Item(SMOULDERING_STONE), true))
                             player.inventory().add(new Item(INFERNAL_AXE), true);
 
-                        send(DialogueType.ITEM_STATEMENT, new Item(INFERNAL_AXE), "", "You infuse the smouldering stone into the axe<br>to make an infernal pickaxe.");
+                        sendItemStatement(new Item(INFERNAL_AXE), "", "You infuse the smouldering stone into the axe<br>to make an infernal pickaxe.");
                         setPhase(2);
                     } else if (option == 2) {
                         stop();
@@ -203,7 +202,7 @@ public class SmoulderingStone extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(item1), new Item(item2), "You need level 60 Runecrafting and Magic to create " + resultName + "", "");
+                    sendItemStatement(new Item(item1), new Item(item2), "You need level 60 Runecrafting and Magic to create " + resultName + "", "");
                     setPhase(0);
                 }
 
@@ -220,14 +219,14 @@ public class SmoulderingStone extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(item1), new Item(item2), "Are you sure you wish to infuse the " + item1Name + " and<br>"+ item2Name + " to create " + resultName + "?<br>This can not be reversed.", "");
+                sendItemStatement(new Item(item1), new Item(item2), "Are you sure you wish to infuse the " + item1Name + " and<br>"+ item2Name + " to create " + resultName + "?<br>This can not be reversed.", "");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Proceed with the infusion.", "Cancel.");
                     setPhase(1);
                 } else if (isPhase(2)) {
                     stop();

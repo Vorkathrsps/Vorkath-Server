@@ -4,6 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -283,6 +284,8 @@ public class CommandManager {
         commands.put("unlockprayers", new UnlockPrayersCommands());
         commands.put("saveall", new SaveAllCommand());
         commands.put("slayer", new SlayerActionCommand());
+        commands.put("testmark", new TestCommand());
+        commands.put("ptt", new ProduceItemCommand());
         commands.put("killstreak", new KillstreakCommand());
         commands.put("bmm", new BMMultiplierCommand());
         commands.put("task", new TaskCommand());
@@ -435,7 +438,7 @@ public class CommandManager {
             p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.varps().varbit(14196, 1);
+            p.varps().setVarbit(14196, 1);
             p.hit(null, 1);
         });
         dev("hit2", (p, c, s) -> {
@@ -652,7 +655,7 @@ public class CommandManager {
         dev("c3", (p, c, s) -> {
             //if chest is empty varbit value is 4
             for (int index = 14356; index < 14380; index++) {
-                p.varps().varbit(index, 2);
+                p.varps().setVarbit(index, 2);
             }
         });
 
@@ -1014,11 +1017,7 @@ public class CommandManager {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
 
-        dev("varbit", (p, c, s) -> p.varps().
-
-            varbit(Integer.parseInt(s[1]), Integer.
-
-                parseInt(s[2])));
+        dev("varbit", (p, c, s) -> p.varps().setVarbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
 

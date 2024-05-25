@@ -20,14 +20,14 @@ public class TornPrayerScroll extends PacketInteraction {
 
         @Override
         protected void start(Object... parameters) {
-            send(DialogueType.ITEM_STATEMENT,new Item(TORN_PRAYER_SCROLL), "", "You can make out some faded words on the ancient", "parchment. It appears to be an archaic invocation of the", "gods! Would you like to absorb its power?");
+            sendItemStatement(new Item(TORN_PRAYER_SCROLL), "", "You can make out some faded words on the ancient", "parchment. It appears to be an archaic invocation of the", "gods! Would you like to absorb its power?");
             setPhase(0);
         }
 
         @Override
         protected void next() {
             if(isPhase(0)) {
-                send(DialogueType.OPTION, "This will consume the scroll.", "Learn to Preserve", "Cancel");
+                sendOption("This will consume the scroll.", "Learn to Preserve", "Cancel");
                 setPhase(1);
             }
             if(isPhase(2)) {
@@ -46,7 +46,7 @@ public class TornPrayerScroll extends PacketInteraction {
                     player.inventory().remove(new Item(TORN_PRAYER_SCROLL),true);
                     player.putAttrib(PRESERVE,true);
                     player.getPacketSender().sendConfig(708, 1);
-                    send(DialogueType.ITEM_STATEMENT,new Item(TORN_PRAYER_SCROLL), "", "You study the scroll and learn a new prayer: "+ Color.DARK_RED.wrap("Preserve"));
+                    sendItemStatement(new Item(TORN_PRAYER_SCROLL), "", "You study the scroll and learn a new prayer: "+ Color.DARK_RED.wrap("Preserve"));
                     setPhase(2);
                 }
                 if(option == 2) {

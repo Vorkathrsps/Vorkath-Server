@@ -5,6 +5,8 @@ import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.items.equipment.max_cape.MaxCape;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
+import com.cryptic.model.cs2.InventoryID;
+import com.cryptic.model.cs2.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -73,11 +75,27 @@ public final class Equipment extends ItemContainer {
     public Equipment(Player player) {
         super(SIZE, StackPolicy.STANDARD);
         this.player = player;
-        addListener(new EquipmentListener());
+        addListener(new EquipmentListener(player));
     }
 
     public static boolean hasAmmyOfDamned(Player player) {
         return player.getEquipment().hasAt(EquipSlot.AMULET, 12853) || player.getEquipment().hasAt(EquipSlot.AMULET, 12851);
+    }
+
+    public static boolean hasBloodFury(Player player) {
+        return player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY);
+    }
+
+    public static boolean fullTorag(Player player) {
+        return player.getEquipment().containsAll(4745, 4747, 4749, 4751);
+    }
+
+    public static boolean fullAhrim(Player player) {
+        return player.getEquipment().containsAll(4708, 4710, 4712, 4714);
+    }
+
+    public static boolean fullKaril(Player player) {
+        return player.getEquipment().containsAll(4732, 4734, 4736, 4738);
     }
 
     public static boolean hasVerac(Player player) {
@@ -128,7 +146,7 @@ public final class Equipment extends ItemContainer {
 
     public static boolean wearingAvasEffect(Player player) {
         Item cape = player.getEquipment().get(EquipSlot.CAPE);
-        return cape != null && player.getEquipment().containsAny(10498, 10499, 13337, 9756, 9757, RANGING_CAPE, RANGING_CAPET, 22109, 21898, MASORI_ASSEMBLER, MASORI_ASSEMBLER_L, MASORI_ASSEMBLER_MAX_CAPE, MASORI_ASSEMBLER_MAX_CAPE_L, BLESSED_DIZANAS_QUIVER, DIZANAS_QUIVER, DIZANAS_QUIVER_L, BLESSED_DIZANAS_QUIVER_L, 28902, 28906);
+        return cape != null && player.getEquipment().containsAny(10498, 10499, 13337, 9756, 9757, RANGING_CAPE, RANGING_CAPET, 22109, 21898, MASORI_ASSEMBLER, MASORI_ASSEMBLER_L, MASORI_ASSEMBLER_MAX_CAPE);
     }
 
     public static boolean fullFremennik(Player player) {
@@ -197,7 +215,7 @@ public final class Equipment extends ItemContainer {
     private final int[] GRACEFUL_ITEMS = new int[]{11850, 11852, 11854, 11856, 11858, 11860};
 
     public boolean wearsFullGraceful() {
-        return player.getEquipment().containsAll(GRACEFUL_ITEMS);
+        return player.getEquipment().hasAllArr(GRACEFUL_ITEMS);
     }
 
     private final List<Integer> MAX_CAPES = Arrays.asList(
@@ -581,6 +599,7 @@ public final class Equipment extends ItemContainer {
 
         player.getCombat().setTarget(null);
         player.setEntityInteraction(null);
+        WeaponInformationInterface.updateWeaponInfo(player);
         return true;
     }
 
@@ -633,6 +652,7 @@ public final class Equipment extends ItemContainer {
 
         player.getEquipment().remove(new Item(unequip.getId(), unequip.getAmount()), true);
 
+
         player.getUpdateFlag().flag(Flag.APPEARANCE);
 
         if (unequip.getId() == ItemIdentifiers.AMULET_OF_AVARICE) {
@@ -656,6 +676,7 @@ public final class Equipment extends ItemContainer {
 
         WeaponInterfaces.updateWeaponInterface(player);
 
+        WeaponInformationInterface.updateWeaponInfo(player);
         CombatSpecial.updateBar(player);
         player.setSpecialActivated(false);
 
@@ -770,17 +791,8 @@ public final class Equipment extends ItemContainer {
      */
     public void sync() {
         player.looks().resetRender();
-        refresh(player, InterfaceConstants.EQUIPMENT_DISPLAY_ID);
+        refreshInventory(player, InventoryID.EQUIPMENT);
         player.getCombat().setRangedWeapon(null);
-    }
-
-    /**
-     * Forces a refresh of {@code Equipment} items to the {@code
-     * EQUIPMENT_DISPLAY_ID} widget.
-     */
-    @Override
-    public void refresh(Player player, int widget) {
-        player.getPacketSender().sendItemOnInterface(widget, toArray());
     }
 
     @Override
@@ -811,37 +823,38 @@ public final class Equipment extends ItemContainer {
      */
     private final class EquipmentListener extends ItemContainerAdapter {
 
-        /**
-         * Creates a new {@link EquipmentListener}.
-         */
-        EquipmentListener() {
+
+        /** Creates a new {@link EquipmentListener}. */
+        EquipmentListener(Player player) {
             super(player);
         }
 
         @Override
+        public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
+            //Don't queue updating the item, just don't flush the player's packet until the end of
+            if (refresh) {
+                player.getPacketSender().sendUpdateInvPartial(getInventoryId(), index, newItem.orElse(null));
+            }
+
+        }
+
+        @Override
         public int getWidgetId() {
-            return InterfaceConstants.EQUIPMENT_DISPLAY_ID;
+            return InterfaceConstants.EQUIPMENT_SCREEN_INTERFACE_ID;
+        }
+
+        @Override
+        public int getInventoryId() {
+            return InventoryID.EQUIPMENT;
         }
 
         @Override
         public String getCapacityExceededMsg() {
-            throw new IllegalStateException(EXCEPTION_MESSAGE);
+            return "";
         }
 
-        @Override
-        public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
-            if (oldItem.equals(newItem))
-                return;
-
-            if (refresh) {
-                sendItemsToWidget(container);
-            }
-        }
-
-        @Override
-        public void bulkItemsUpdated(ItemContainer container) {
-            sendItemsToWidget(container);
-        }
     }
+
+
 
 }

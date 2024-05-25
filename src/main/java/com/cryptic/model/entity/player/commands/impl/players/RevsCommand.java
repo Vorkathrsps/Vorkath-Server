@@ -20,7 +20,7 @@ public class RevsCommand implements Command {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Level 17 entrance.", "Level 39 entrance.");
+                sendOption(DEFAULT_OPTION_TITLE, "Level 17 entrance.", "Level 39 entrance.");
                 setPhase(1);
             }
 

@@ -21,13 +21,13 @@ public class BobBarter extends Dialogue {
     protected void start(Object... parameters) {
         int interaction = player.getAttrib(AttributeKey.INTERACTION_OPTION);
         if (interaction == 1) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Hello, chum, fancy buyin' some designer jewellery?", "They've come all the way from Ardougne! Most pukka!");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Hello, chum, fancy buyin' some designer jewellery?", "They've come all the way from Ardougne! Most pukka!");
             setPhase(0);
         } else if (interaction == 2) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Can you show me the prices for herbs and potions?");
+            sendPlayerChat(Expression.HAPPY, "Can you show me the prices for herbs and potions?");
             setPhase(15);
         } else if (interaction == 3) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Can you decant things for me?");
+            sendPlayerChat(Expression.HAPPY, "Can you decant things for me?");
             setPhase(14);
         }
     }
@@ -35,62 +35,62 @@ public class BobBarter extends Dialogue {
     @Override
     protected void next() {
         if (isPhase(0)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Erm, no. I'm all set, thanks.");
+            sendPlayerChat(Expression.HAPPY, "Erm, no. I'm all set, thanks.");
             setPhase(1);
         } else if (isPhase(1)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Okay, chum, so what can I do for you?", "I can tell you the very latest herb & potion prices,", "or perhaps I could help you decant your potions.");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Okay, chum, so what can I do for you?", "I can tell you the very latest herb & potion prices,", "or perhaps I could help you decant your potions.");
             setPhase(2);
         } else if (isPhase(2)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Who are you?", "Can you show me the prices for herbs and potions?", "Can you decant things for me?", "I'll leave you to it.");
+            sendOption(DEFAULT_OPTION_TITLE, "Who are you?", "Can you show me the prices for herbs and potions?", "Can you decant things for me?", "I'll leave you to it.");
             setPhase(3);
         } else if (isPhase(4)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Why I'm Bob! Your friendly seller of smashin' goods!");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Why I'm Bob! Your friendly seller of smashin' goods!");
             setPhase(5);
         } else if (isPhase(5)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "So what do you have to sell?");
+            sendPlayerChat(Expression.HAPPY, "So what do you have to sell?");
             setPhase(6);
         } else if (isPhase(6)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Oh, not much at the moment. Cuz, ya know, business being", "so well and cushie.");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Oh, not much at the moment. Cuz, ya know, business being", "so well and cushie.");
             setPhase(7);
         } else if (isPhase(7)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "You don't really look like you're being so successful.");
+            sendPlayerChat(Expression.HAPPY, "You don't really look like you're being so successful.");
             setPhase(8);
         } else if (isPhase(8)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "You plonka! It's all a show, innit!", "If I let people knows I'm in good business they'll want a", "share of the moolah!");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "You plonka! It's all a show, innit!", "If I let people knows I'm in good business they'll want a", "share of the moolah!");
             setPhase(9);
         } else if (isPhase(9)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "You conveniently have a response for everything.");
+            sendPlayerChat(Expression.HAPPY, "You conveniently have a response for everything.");
             setPhase(10);
         } else if (isPhase(10)) {
             if (player.looks().female()) {
-                send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "That's the Ardougne way, my darlin'.");
+                sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "That's the Ardougne way, my darlin'.");
                 setPhase(11);
             } else {
-                send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "That's the Ardougne way, my good sir.");
+                sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "That's the Ardougne way, my good sir.");
                 setPhase(11);
             }
         } else if (isPhase(11)) {
             stop();
         } else if (isPhase(12)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Sorry, that feature is currently unavailable.");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Sorry, that feature is currently unavailable.");
             setPhase(13);
         } else if (isPhase(13)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "I'll leave you to it.");
+            sendPlayerChat(Expression.HAPPY, "I'll leave you to it.");
             setPhase(11);
         } else if (isPhase(14)) {
             if (!canDecant(player)) {
-                send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "I don't think you've got anything that I can combine!");
+                sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "I don't think you've got anything that I can combine!");
                 setPhase(11);
             } else {
                 decant(player);
-                send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "There, all done!");
+                sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "There, all done!");
                 setPhase(11);
             }
         } else if (isPhase(15)) {
-            send(DialogueType.NPC_STATEMENT, BOB_BARTER, Expression.CALM_TALK, "Sorry, that feature is currently unavailable.");
+            sendNpcChat(BOB_BARTER, Expression.CALM_TALK, "Sorry, that feature is currently unavailable.");
             setPhase(16);
         } else if (isPhase(16)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "I'll leave you to it.");
+            sendPlayerChat(Expression.HAPPY, "I'll leave you to it.");
             setPhase(11);
         }
     }
@@ -99,16 +99,16 @@ public class BobBarter extends Dialogue {
     protected void select(int option) {
         if (isPhase(3)) {
             if (option == 1) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Who are you?");
+                sendPlayerChat(Expression.HAPPY, "Who are you?");
                 setPhase(4);
             } else if (option == 2) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Can you show me the prices for herbs and potions?");
+                sendPlayerChat(Expression.HAPPY, "Can you show me the prices for herbs and potions?");
                 setPhase(12);
             } else if (option == 3) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Can you decant things for me?");
+                sendPlayerChat(Expression.HAPPY, "Can you decant things for me?");
                 setPhase(14);
             } else if (option == 4) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "I'll leave you to it.");
+                sendPlayerChat(Expression.HAPPY, "I'll leave you to it.");
                 setPhase(11);
             }
         }

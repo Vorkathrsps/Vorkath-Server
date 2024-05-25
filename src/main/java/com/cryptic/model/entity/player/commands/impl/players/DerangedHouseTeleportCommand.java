@@ -20,14 +20,14 @@ public class DerangedHouseTeleportCommand implements Command {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "This teleport will send you to a dangerous area.", "Do you wish to continue?");
+                sendStatement("This teleport will send you to a dangerous area.", "Do you wish to continue?");
                 setPhase(1);
             }
 
             @Override
             protected void next() {
                 if (isPhase(1)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                     setPhase(2);
                 }
             }

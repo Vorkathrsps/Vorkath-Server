@@ -82,7 +82,7 @@ public class BagFullOfGems extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                        sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                         setPhase(0);
                     }
 

@@ -31,7 +31,7 @@ public class Portcullis extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Do you wish to leave?", "Yes, I'm scared.", "Nah, I'll stay.");
+                sendOption("Do you wish to leave?", "Yes, I'm scared.", "Nah, I'll stay.");
                 setPhase(0);
             }
             @Override

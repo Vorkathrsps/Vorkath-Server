@@ -40,7 +40,7 @@ public class ZulAndra extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Return to Zulrah's shrine?", "Yes.", "No.");
+                        sendOption("Return to Zulrah's shrine?", "Yes.", "No.");
                         setPhase(0);
                     }
 
@@ -65,7 +65,7 @@ public class ZulAndra extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Return to Zulrah's shrine?", "Yes.", "No.");
+                        sendOption("Return to Zulrah's shrine?", "Yes.", "No.");
                         setPhase(0);
                     }
 
@@ -151,7 +151,7 @@ public class ZulAndra extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.PRIESTESS_ZULGWENWYNIG_2033, Expression.DEFAULT, "I'm afraid I don't have anything for you to collect. If I", "had any of your items, but you died before collecting", "them from me, I'd lose them.");
+                        sendNpcChat(NpcIdentifiers.PRIESTESS_ZULGWENWYNIG_2033, Expression.DEFAULT, "I'm afraid I don't have anything for you to collect. If I", "had any of your items, but you died before collecting", "them from me, I'd lose them.");
                     }
                 });
             }

@@ -1,7 +1,6 @@
 package com.cryptic.model.content.items.combinations.crystal;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
@@ -17,7 +16,7 @@ public class CrystalPickaxe extends Dialogue {
                 player.inventory().remove(ItemIdentifiers.CRYSTAL_SHARD, 120);
                 player.inventory().add(new Item(ItemIdentifiers.CRYSTAL_PICKAXE, 1));
             }).then(1, () -> {
-                send(DialogueType.ITEM_STATEMENT, new Item(ItemIdentifiers.CRYSTAL_PICKAXE), "", "You create a crystal pickaxe.");
+                sendItemStatement(new Item(ItemIdentifiers.CRYSTAL_PICKAXE), "", "You create a crystal pickaxe.");
             }).then(1, () -> player.unlock());
         }
     }

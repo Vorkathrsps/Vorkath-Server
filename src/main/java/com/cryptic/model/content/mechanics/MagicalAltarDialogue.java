@@ -11,7 +11,7 @@ public class MagicalAltarDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Normal Spellbook", "Ancient Spellbook.", "Lunar Spellbook.", "Cancel");
+        sendOption(DEFAULT_OPTION_TITLE, "Normal Spellbook", "Ancient Spellbook.", "Lunar Spellbook.", "Cancel");
         setPhase(1);
     }
 

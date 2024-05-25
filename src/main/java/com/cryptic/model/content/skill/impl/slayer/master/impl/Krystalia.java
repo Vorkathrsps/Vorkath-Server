@@ -68,14 +68,14 @@ public class Krystalia extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "You're still hunting " + Slayer.taskName(player.slayerTaskId()) + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
+                    sendNpcChat(KRYSTILIA, Expression.HAPPY, "You're still hunting " + Slayer.taskName(player.slayerTaskId()) + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
                     setPhase(0);
                 }
 
                 @Override
                 protected void next() {
                     if (isPhase(0)) {
-                        send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "Come back to me when you've completed your task", "for a new one.");
+                        sendNpcChat(KRYSTILIA, Expression.HAPPY, "Come back to me when you've completed your task", "for a new one.");
                         setPhase(1);
                     } else if (isPhase(1)) {
                         stop();
@@ -91,7 +91,7 @@ public class Krystalia extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "Ok, great. Your new task is to kill " + num + " " + Slayer.taskName(task.uid) + ".");
+                sendNpcChat(KRYSTILIA, Expression.HAPPY, "Ok, great. Your new task is to kill " + num + " " + Slayer.taskName(task.uid) + ".");
                 setPhase(0);
             }
 
@@ -108,7 +108,7 @@ public class Krystalia extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I'd like a boss task, please.", "I'd like a regular task, please.", "Nothing");
+                sendOption(DEFAULT_OPTION_TITLE, "I'd like a boss task, please.", "I'd like a regular task, please.", "Nothing");
                 setPhase(0);
             }
 
@@ -133,7 +133,7 @@ public class Krystalia extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I'd like a boss task, please.", "I'd like a regular task, please.", "Can you cancel my current task for blood money?", "Nothing");
+                sendOption(DEFAULT_OPTION_TITLE, "I'd like a boss task, please.", "I'd like a regular task, please.", "Can you cancel my current task for blood money?", "Nothing");
                 setPhase(0);
             }
 
@@ -166,25 +166,25 @@ public class Krystalia extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "I'd like to cancel my current slayer task with", "blood money.");
+                sendPlayerChat(Expression.HAPPY, "I'd like to cancel my current slayer task with", "blood money.");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "Certainly, just as a reminder, the fee is " + BM_CANCEL_FEE + " blood money.", "This action is irreversible.");
+                    sendNpcChat(KRYSTILIA, Expression.HAPPY, "Certainly, just as a reminder, the fee is " + BM_CANCEL_FEE + " blood money.", "This action is irreversible.");
                     setPhase(1);
                 } else if (isPhase(1)) {
-                    send(DialogueType.OPTION, "Cancel current slayer task?", "Yes, pay the " + BM_CANCEL_FEE + " blood money cancel fee.", "Nevermind, I'll keep my money.");
+                    sendOption("Cancel current slayer task?", "Yes, pay the " + BM_CANCEL_FEE + " blood money cancel fee.", "Nevermind, I'll keep my money.");
                     setPhase(2);
                 } else if (isPhase(3)) {
-                    send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "There you go. Your current slayer task has been cleared.", "Come speak to me when you're ready for a new one.");
+                    sendNpcChat(KRYSTILIA, Expression.HAPPY, "There you go. Your current slayer task has been cleared.", "Come speak to me when you're ready for a new one.");
                     setPhase(4);
                 } else if (isPhase(4)) {
                     stop();
                 } else if (isPhase(5)) {
-                    send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "Come speak to me when you have enough blood money.");
+                    sendNpcChat(KRYSTILIA, Expression.HAPPY, "Come speak to me when you have enough blood money.");
                     setPhase(4);
                 }
             }
@@ -199,10 +199,10 @@ public class Krystalia extends PacketInteraction {
                             player.putAttrib(AttributeKey.SLAYER_TASK_SPREE, 0);
                             player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
                             player.getInventory().remove(new Item(13307, BM_CANCEL_FEE), true);
-                            send(DialogueType.ITEM_STATEMENT, new Item(13307,2500), "", "You hand over the blood money to Krystilia.", "She swiftly takes the money and performs her service.");
+                            sendItemStatement(new Item(13307,2500), "", "You hand over the blood money to Krystilia.", "She swiftly takes the money and performs her service.");
                             setPhase(3);
                         } else {
-                            send(DialogueType.NPC_STATEMENT, KRYSTILIA, Expression.HAPPY, "Sorry, but it appears you do not have enough blood money", "to cover the cancellation fee.");
+                            sendNpcChat(KRYSTILIA, Expression.HAPPY, "Sorry, but it appears you do not have enough blood money", "to cover the cancellation fee.");
                             setPhase(5);
                         }
                     } else if (option == 2) {

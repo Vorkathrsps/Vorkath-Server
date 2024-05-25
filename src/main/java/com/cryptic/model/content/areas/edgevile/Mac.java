@@ -57,7 +57,7 @@ public class Mac extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Can I buy a 'Mac's cape'?", "Why are you so dirty?", "Bye.");
+                sendOption(DEFAULT_OPTION_TITLE, "Can I buy a 'Mac's cape'?", "Why are you so dirty?", "Bye.");
                 setPhase(0);
             }
 
@@ -70,7 +70,7 @@ public class Mac extends PacketInteraction {
 
                     onSuccess(player);
                 } else if(isPhase(2)) {
-                    send(DialogueType.NPC_STATEMENT,MAC, HAPPY, "Well, better get to it then.");
+                    sendNpcChat(MAC, HAPPY, "Well, better get to it then.");
                     setPhase(3);
                 } else if (isPhase(3)) {
                     stop();
@@ -81,15 +81,15 @@ public class Mac extends PacketInteraction {
             protected void select(int option) {
                 if(isPhase(0)) {
                     if(option == 1) {
-                        send(DialogueType.PLAYER_STATEMENT, HAPPY, "Yes, I'd like to buy a cape.");
+                        sendPlayerChat(HAPPY, "Yes, I'd like to buy a cape.");
                         setPhase(1);
                     }
                     if(option == 2) {
-                        send(DialogueType.PLAYER_STATEMENT, HAPPY, "No thanks, I have more training to do.");
+                        sendPlayerChat(HAPPY, "No thanks, I have more training to do.");
                         setPhase(2);
                     }
                     if(option == 3) {
-                        send(DialogueType.PLAYER_STATEMENT, HAPPY, "Bye.");
+                        sendPlayerChat(HAPPY, "Bye.");
                         setPhase(3);
                     }
                 }
@@ -103,14 +103,14 @@ public class Mac extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.NPC_STATEMENT,MAC, HAPPY, "Hmm... very well. You seem like a suitable adventurer", "to wear my cape. However, this is not a cheap cape.", "To purchase one of my crafted signature capes", "it'll cost ye "+ Utils.formatNumber(amount)+" "+currency+".");
+                sendNpcChat(MAC, HAPPY, "Hmm... very well. You seem like a suitable adventurer", "to wear my cape. However, this is not a cheap cape.", "To purchase one of my crafted signature capes", "it'll cost ye "+ Utils.formatNumber(amount)+" "+currency+".");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if(isPhase(0)) {
-                    send(DialogueType.OPTION, "Pay Mac the fee?", "Yes, I understand. Take my BM.", "On second thought, I don't think I can afford that.");
+                    sendOption("Pay Mac the fee?", "Yes, I understand. Take my BM.", "On second thought, I don't think I can afford that.");
                     setPhase(1);
                 } else if(isPhase(2)) {
                     var canAfford = false;
@@ -125,16 +125,16 @@ public class Mac extends PacketInteraction {
                     if (canAfford) {
                         player.inventory().addOrDrop(new Item(MAXCAPE));
                         player.inventory().addOrDrop(new Item(MAXHOOD));
-                        send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(MAXCAPE), new Item(MAXHOOD), "Mac carefully removes a cape and hood from his bag.", "The cape is heavy and made from fine cloth.");
+                        sendItemStatement(new Item(MAXCAPE), new Item(MAXHOOD), "Mac carefully removes a cape and hood from his bag.", "The cape is heavy and made from fine cloth.");
                         setPhase(4);
                     } else {
-                        send(DialogueType.NPC_STATEMENT,MAC, HAPPY, "Sorry, but it appears as if you do not have enough", ""+currency+" to afford this cape.");
+                        sendNpcChat(MAC, HAPPY, "Sorry, but it appears as if you do not have enough", ""+currency+" to afford this cape.");
                         setPhase(3);
                     }
                 } else if (isPhase(3)) {
                     stop();
                 } else if (isPhase(4)) {
-                    send(DialogueType.NPC_STATEMENT,MAC, HAPPY, "Here you are. Hold onto it dearly as these capes", "are not easy to make.");
+                    sendNpcChat(MAC, HAPPY, "Here you are. Hold onto it dearly as these capes", "are not easy to make.");
                     setPhase(3);
                 }
             }
@@ -144,11 +144,11 @@ public class Mac extends PacketInteraction {
                 String currency = GameServer.properties().pvpMode ? "bm" : "coins";
                 if(isPhase(1)) {
                     if(option == 1) {
-                        send(DialogueType.PLAYER_STATEMENT, HAPPY, "Yes, I understand. Take my "+currency+".");
+                        sendPlayerChat(HAPPY, "Yes, I understand. Take my "+currency+".");
                         setPhase(2);
                     }
                     if(option == 2) {
-                        send(DialogueType.PLAYER_STATEMENT, HAPPY, "On second thought, I don't think I can afford that.");
+                        sendPlayerChat(HAPPY, "On second thought, I don't think I can afford that.");
                         setPhase(3);
                     }
                 }

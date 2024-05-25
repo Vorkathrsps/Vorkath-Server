@@ -22,7 +22,7 @@ public class PresetEditDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, "Select option", "Change name", "Copy current setup", "Delete preset", "Cancel");
+        sendOption("Select option", "Change name", "Copy current setup", "Delete preset", "Cancel");
         setPhase(0);
     }
 

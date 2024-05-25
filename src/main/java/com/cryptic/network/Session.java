@@ -63,10 +63,9 @@ public class Session {
     /**
      * The player I/O operations will be executed for.
      * -- GETTER --
-     *  Gets the player I/O operations will be executed for.
+     * Gets the player I/O operations will be executed for.
      *
      * @return the player I/O operations.
-
      */
     @Getter
     private final Player player;
@@ -75,16 +74,15 @@ public class Session {
     /**
      * The current state of this I/O session.
      * -- GETTER --
-     *  Gets the current state of this I/O session.
-     *
-     *
+     * Gets the current state of this I/O session.
+     * <p>
+     * <p>
      * -- SETTER --
-     *  Sets the value for
+     * Sets the value for
      * .
      *
-     @return the current state.
-      * @param state the new value to set.
-
+     * @return the current state.
+     * @param state the new value to set.
      */
     @Setter
     @Getter
@@ -153,6 +151,7 @@ public class Session {
      */
     public void handleQueuedPackets() {
         int counter = 0;
+
         while (!packetsQueue.isEmpty() && counter < 100) {
             final Packet packet = packetsQueue.poll();
             if (packet == null) break;

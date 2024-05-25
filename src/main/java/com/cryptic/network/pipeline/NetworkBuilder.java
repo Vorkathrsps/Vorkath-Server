@@ -47,6 +47,7 @@ public final class NetworkBuilder {
      * @throws Exception if any issues occur while starting the network.
      */
     public void initialize(final int port) throws Exception {
+        System.setProperty("org.jboss.netty.epollBugWorkaround", "true");
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> logger.error("Uncaught server exception in thread {}!", t, e));
         TimerKey.verifyIntegrity();
         final boolean epoll = Epoll.isAvailable();

@@ -5,6 +5,8 @@ import com.cryptic.network.codec.ByteBufUtils;
 import com.cryptic.network.security.*;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -68,16 +70,41 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * @param ctx      The context of the channel handler.
      * @param response The response code to send.
      */
-    public static void sendLoginResponse(ChannelHandlerContext ctx, int response) {
+    public static void sendLoginResponse(final ChannelHandlerContext ctx, final int response) {
+        if (ctx == null) return;
+
+        final Channel channel = ctx.channel();
+
+        if (channel == null) {
+            ctx.close();
+            return;
+        }
+
+        final boolean removed = ctx.isRemoved();
+
+        if (removed) return;
+
         ByteBuf buffer = ctx.alloc().buffer(Byte.BYTES);
-        buffer.writeByte(response);
-        ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
+
+        if (buffer.isWritable()) {
+            buffer.writeByte(response);
+            ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
+        }
     }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
+        if (ctx == null) return;
+
         if (!buffer.isReadable()) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            ctx.close();
+            return;
+        }
+
+        final boolean removed = ctx.isRemoved();
+
+        if (removed) {
+            logger.debug("removed cxt - decode");
             return;
         }
 
@@ -92,14 +119,22 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     private ProofOfWork proofOfWork;
 
     private void decodeRequest(ChannelHandlerContext ctx, ByteBuf buffer) {
+        if (ctx == null) return;
+
         if (!buffer.isReadable()) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            ctx.close();
             return;
         }
 
-        int request = buffer.readUnsignedByte();
-        if (request != NetworkUtils.LOGIN_REQUEST_OPCODE) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
+        final boolean removed = ctx.isRemoved();
+        if (removed) {
+            return;
+        }
+
+        int loginOpcode = buffer.readUnsignedByte();
+
+        if (loginOpcode != NetworkUtils.LOGIN_REQUEST_OPCODE) {
+            ctx.close();
             return;
         }
 
@@ -113,10 +148,10 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         if (difficulty == 0) {
             difficulty = INITIAL_POW_DIFFICULTY;
         }
+
         synchronized (ipToDifficulty) {
             ipToDifficulty.put(ip, difficulty + 1);
         }
-        difficulty = 1;
 
         proofOfWork = ProofOfWork.generate(difficulty);
         byte[] stringBuffer = proofOfWork.getText().getBytes();
@@ -140,27 +175,41 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     }
 
     private void decodeProofOfWorkResponse(ChannelHandlerContext ctx, ByteBuf buffer) {
-        if (!buffer.isReadable(2 + 8)) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+        if (ctx == null) return;
+
+        if (!buffer.isReadable(3 + 8)) {
+            ctx.close();
+            return;
+        }
+
+        int op = buffer.readByte();
+
+        if (op != 19) {
+            ctx.close();
             return;
         }
 
         int size = buffer.readUnsignedShort();
+
         long nonce = buffer.readLong();
+
         if (proofOfWork.validate(nonce)) {
             state = LoginDecoderState.LOGIN_TYPE_AND_SIZE;
         } else {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            ctx.close();
         }
     }
 
     private void decodeTypeAndSize(ChannelHandlerContext ctx, ByteBuf buffer) {
+        if (ctx == null) return;
+
         if (!buffer.isReadable(2)) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            ctx.close();
             return;
         }
 
         int connectionType = buffer.readUnsignedByte();
+
         if (connectionType != NetworkUtils.NEW_CONNECTION_OPCODE
             && connectionType != NetworkUtils.RECONNECTION_OPCODE) {
             //logger.error("Session rejected for bad connection type id: {}", box(connectionType));
@@ -168,28 +217,41 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
+        logger.debug("session accepted");
+
         encryptedLoginBlockSize = buffer.readUnsignedByte();
 
         state = LoginDecoderState.LOGIN;
     }
 
     private void decodeLogin(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) {
+        if (ctx == null) return;
+
         if (!buffer.isReadable(encryptedLoginBlockSize)) {
-            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
-        // obviously adjust the indentation below:
+        if (buffer.readerIndex() > buffer.writerIndex()) {
+            buffer.skipBytes(buffer.readableBytes());
+            ctx.close();
+            return;
+        }
+
+        final boolean removed = ctx.isRemoved();
+        if (removed) {
+            return;
+        }
+
         int magicId = buffer.readUnsignedByte();
+
         if (magicId != 0xFF) {
-            //logger.error(String.format("[host= %s] [magic= %d] was rejected for the wrong magic value.", ctx.channel().remoteAddress(), magicId));
             sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
         int memory = buffer.readByte();
+
         if (memory != 0 && memory != 1) {
-            //logger.error("[host={}] was rejected for having the memory setting.", ctx.channel().remoteAddress());
             sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
@@ -213,6 +275,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
+
 
         int securityId = rsaBuffer.readByte();
 

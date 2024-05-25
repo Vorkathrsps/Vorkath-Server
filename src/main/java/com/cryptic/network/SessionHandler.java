@@ -3,12 +3,10 @@ package com.cryptic.network;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.codec.login.LoginDetailsMessage;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.ReadTimeoutException;
-import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +28,17 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         final Channel channel = ctx.channel();
+
+        if (channel == null) return;
+
         if (!channel.isActive()) return;
-        if (msg instanceof LoginDetailsMessage) {
-            ctx.channel().attr(NetworkUtils.SESSION_KEY).setIfAbsent(new Session(ctx.channel()));
-            Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
-            session.finalizeLogin((LoginDetailsMessage) msg);
+
+        if (msg instanceof LoginDetailsMessage message) {
+            if (!message.getHost().isEmpty()) {
+                ctx.channel().attr(NetworkUtils.SESSION_KEY).setIfAbsent(new Session(ctx.channel()));
+                Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
+                session.finalizeLogin(message);
+            }
         }
     }
 
@@ -43,6 +47,7 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
         final Channel channel = ctx.channel();
         if (!channel.isActive()) return;
         if (channel.isWritable()) {
+            logger.debug("writing to session writability changed");
             Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
             if (session != null) {
                 session.flushQueuedPackets();
@@ -74,24 +79,28 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
             final Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
             // ignore on traditional socket exception (typically indicated by message starting with read0 but may change..)
             if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0")) {
+                logger.error("Stack 1", throwable);
                 return;
             }
 
             if (throwable instanceof SocketException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("throwConnectionReset")) {
+              //  logger.error("Stack 2", throwable);
                 return;
             }
             if (throwable instanceof IOException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("writev0")) {
+              //  logger.error("Stack 3", throwable);
                 return;
             }
             if (throwable instanceof ReadTimeoutException) {
-                logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
-                ctx.channel().close();
+              //  logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
+                ctx.close();
             } else {
                 logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
-                ctx.channel().close();
+                ctx.close();
             }
         } catch (Exception e) {
             logger.error("Uncaught server exception!", e);
+            ctx.close();
         }
     }
 

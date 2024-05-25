@@ -44,12 +44,15 @@ public final class PacketDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
         final Channel channel = ctx.channel();
+
         if (!channel.isActive()) return;
 
         final Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
+
         if (session == null) return;
 
         final Player player = session.getPlayer();
+
         if (player == null) return;
 
         if (state == State.OPCODE) {

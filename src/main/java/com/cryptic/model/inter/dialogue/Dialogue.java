@@ -68,8 +68,8 @@ public abstract class Dialogue {
     }
 
 
-    protected void sendProduceItem(String title, int maxCanMake, int... items) {
-        player.activeDialogueProduceItemItemRecord = new DialogueProduceItemItemRecord(title, maxCanMake, items);
+    protected void sendProduceItem(String title, int total, int lastAmt, int... items) {
+        player.activeDialogueProduceItemItemRecord = new DialogueProduceItemItemRecord(title, total,lastAmt, items);
         GameInterface.PRODUCE_ITEM.open(player);
     }
 

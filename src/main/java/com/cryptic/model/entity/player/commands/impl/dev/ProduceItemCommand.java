@@ -13,7 +13,7 @@ public class ProduceItemCommand implements Command {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                sendProduceItem("What would you like to make?",2, 1135, 1099,1115,1121);
+                sendProduceItem("What would you like to make?",20, 3,1135, 1099,1115,1121);
                 setPhase(0);
             }
 

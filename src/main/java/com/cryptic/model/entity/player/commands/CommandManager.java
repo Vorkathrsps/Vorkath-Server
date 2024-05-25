@@ -285,7 +285,7 @@ public class CommandManager {
         commands.put("saveall", new SaveAllCommand());
         commands.put("slayer", new SlayerActionCommand());
         commands.put("testmark", new TestCommand());
-        commands.put("producetest", new ProduceItemCommand());
+        commands.put("ptt", new ProduceItemCommand());
         commands.put("killstreak", new KillstreakCommand());
         commands.put("bmm", new BMMultiplierCommand());
         commands.put("task", new TaskCommand());

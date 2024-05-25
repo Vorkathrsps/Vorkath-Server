@@ -40,6 +40,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     DIALOGUE_ITEM_SINGLE(InterfaceID.DIALOG_SPRITE,InterfacePosition.DIALOGUE),
     DIALOGUE_ITEM_DOUBLE(InterfaceID.DIALOG_DOUBLE_SPRITE,InterfacePosition.DIALOGUE),
     DECANTING(582,InterfacePosition.DIALOGUE),
+    DESTROY_ITEM(InterfaceID.DESTROY_ITEM, InterfacePosition.DIALOGUE),
     KOUREND_FAVOUR_TAB(245, InterfacePosition.SIDE_QUEST),
     ACHIEVEMENT_DIARY_TAB(259, InterfacePosition.SIDE_QUEST),
     QUEST_LIST_INTERFACE(399, InterfacePosition.SIDE_QUEST),

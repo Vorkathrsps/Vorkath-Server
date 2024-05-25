@@ -4,6 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -1018,6 +1019,8 @@ public class CommandManager {
         dev("varbit", (p, c, s) -> p.varps().setVarbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
+
+        dev("testMark", (p, c, s) -> GameInterface.DESTROY_ITEM.open(p));
 
         dev("ht2", (p, c, s) ->
 

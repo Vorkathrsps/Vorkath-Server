@@ -1,7 +1,10 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
 import com.cryptic.model.content.consumables.potions.Potions;
-import com.cryptic.model.content.items.combinations.*;
+import com.cryptic.model.content.items.combinations.BowOfFaerdhenin;
+import com.cryptic.model.content.items.combinations.EldritchNightmareStaff;
+import com.cryptic.model.content.items.combinations.HarmonisedNightmareStaff;
+import com.cryptic.model.content.items.combinations.VolatileNightmareStaff;
 import com.cryptic.model.content.items.combinations.crystal.CrystalAxe;
 import com.cryptic.model.content.items.combinations.crystal.CrystalHarpoon;
 import com.cryptic.model.content.items.combinations.crystal.CrystalPickaxe;

@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
@@ -35,7 +34,7 @@ public class DragonSquare extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.ITEM_STATEMENT, FULL, "", "You forge the shield halves together to complete it.");
+                        sendItemStatement(new Item(FULL), "", "You forge the shield halves together to complete it.");
                         setPhase(0);
                     }
 
@@ -51,7 +50,7 @@ public class DragonSquare extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(LEFT), new Item(RIGHT), "You need both the left and right shield halves to forge a square shield.", "");
+                    sendItemStatement(new Item(LEFT), new Item(RIGHT), "You need both the left and right shield halves to forge a square shield.", "");
                     setPhase(0);
                 }
 

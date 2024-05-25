@@ -31,7 +31,7 @@ public class VoteManager extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Select an Option", "View Vote Rewards", "Open Vote URL", "Claim Vote");
+                        sendOption("Select an Option", "View Vote Rewards", "Open Vote URL", "Claim Vote");
                     }
 
                     @Override

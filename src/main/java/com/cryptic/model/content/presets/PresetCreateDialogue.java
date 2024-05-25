@@ -20,14 +20,14 @@ public class PresetCreateDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.STATEMENT, "That preset slot is empty. Create a new one in its place?");
+        sendStatement("That preset slot is empty. Create a new one in its place?");
         setPhase(0);
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, "Select option", "Yes", "Cancel");
+            sendOption("Select option", "Yes", "Cancel");
             setPhase(1);
         }
     }

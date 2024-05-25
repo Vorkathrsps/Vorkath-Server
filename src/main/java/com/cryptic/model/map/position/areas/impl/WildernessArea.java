@@ -237,7 +237,7 @@ public class WildernessArea extends Controller {
         player.getCombat().getDamageMap().clear();
         player.getRisk().update();
         refreshInterface(player, true);
-        player.varps().varbit(Varbit.IN_WILDERNESS, 1);
+        player.varps().setVarbit(Varbit.IN_WILDERNESS, 1);
     }
 
     @Override
@@ -252,7 +252,7 @@ public class WildernessArea extends Controller {
         player.clearAttrib(AttributeKey.INWILD);
         player.clearAttrib(AttributeKey.PVP_WILDY_AGGRESSION_TRACKER);
         player.clearAttrib(AttributeKey.PLAYER_KILLS_WITHOUT_LEAVING_WILD);
-        player.varps().varbit(Varbit.IN_WILDERNESS, 0);
+        player.varps().setVarbit(Varbit.IN_WILDERNESS, 0);
         if (player.frozen()) {
             player.getTimers().cancel(TimerKey.FROZEN);
         }

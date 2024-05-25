@@ -46,7 +46,7 @@ public class Ladders extends PacketInteraction {
                     case "Climb" -> player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Up.", "Down.");
+                            sendOption(DEFAULT_OPTION_TITLE, "Up.", "Down.");
                             setPhase(0);
                         }
 

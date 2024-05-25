@@ -80,6 +80,10 @@ public class GameServer {
         return fileStore;
     }
 
+    public static CacheManager getCacheManager() {
+        return CacheManager.INSTANCE;
+    }
+
     static {
         Thread.currentThread().setName(""+GameServer.settings().getName()+"InitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
@@ -131,7 +135,7 @@ public class GameServer {
      */
     public static long startTime;
 
-     /**
+    /**
      * The server's bound time
      */
     public static long boundTime;
@@ -177,7 +181,9 @@ public class GameServer {
             ServerSettingsManager.INSTANCE.init();
             CacheTools.INSTANCE.initJs5Server();
             File store = new File(settings().getCacheLocation());
-            if (!store.exists()) throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
+            if (!store.exists()) {
+                throw new FileNotFoundException(STR."Cannot load data store from \{store.getAbsolutePath()}, aborting.");
+            }
             fileStore = new DataStore(settings().getCacheLocation());
             logger.info(STR."Loaded filestore @ \{settings().getCacheLocation()} successfully.");
             definitions = new DefinitionRepository();
@@ -197,8 +203,14 @@ public class GameServer {
                 PlayerSaves.processSaves();
 
                 for (Player player : World.getWorld().getPlayers()) {
+
                     if (player == null || !player.isRegistered()) continue;
+                    // program quit but there are still active players.
+                    // A save request never got triggered or program got terminated ungraciously.
+
                     player.requestLogout();
+
+                    // DIRECT SAVE, assuming the lowPrio executor has stopped/wont run any more save reqs
                     try {
                         new PlayerSave.SaveDetails(player).parseDetails();
                         System.out.printf("DIRECT SAVE: %s%n", player);

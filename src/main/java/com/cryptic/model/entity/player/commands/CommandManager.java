@@ -435,7 +435,7 @@ public class CommandManager {
             p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.varps().varbit(14196, 1);
+            p.varps().setVarbit(14196, 1);
             p.hit(null, 1);
         });
         dev("hit2", (p, c, s) -> {
@@ -652,7 +652,7 @@ public class CommandManager {
         dev("c3", (p, c, s) -> {
             //if chest is empty varbit value is 4
             for (int index = 14356; index < 14380; index++) {
-                p.varps().varbit(index, 2);
+                p.varps().setVarbit(index, 2);
             }
         });
 
@@ -1015,11 +1015,7 @@ public class CommandManager {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
 
-        dev("varbit", (p, c, s) -> p.varps().
-
-            varbit(Integer.parseInt(s[1]), Integer.
-
-                parseInt(s[2])));
+        dev("varbit", (p, c, s) -> p.varps().setVarbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) -> CommandManager.attempt(p, "oa 8280 34570"));
 

@@ -2,7 +2,6 @@ package com.cryptic.model.content.items.combinations;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 
@@ -17,10 +16,10 @@ public class BowOfFaerdhenin extends Dialogue {
                 player.inventory().remove(new Item(BOW_OF_FAERDHINEN, 1));
                 player.inventory().remove(new Item(CRYSTAL_OF_IORWERTH, 1));
                 player.inventory().add(new Item(BOW_OF_FAERDHINEN_C_25886, 1));
-                send(DialogueType.ITEM_STATEMENT, new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
+                sendItemStatement(new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
                 setPhase(1);
             } else {
-                send(DialogueType.OPTION, "Add the crystal of iowerth to the bow?", "Yes.", "Yes, and don't ask again.", "No.");
+                sendOption("Add the crystal of iowerth to the bow?", "Yes.", "Yes, and don't ask again.", "No.");
                 setPhase(0);
             }
         }
@@ -44,7 +43,7 @@ public class BowOfFaerdhenin extends Dialogue {
                 player.inventory().remove(new Item(BOW_OF_FAERDHINEN, 1));
                 player.inventory().remove(new Item(CRYSTAL_OF_IORWERTH, 1));
                 player.inventory().add(new Item(BOW_OF_FAERDHINEN_C_25886, 1));
-                send(DialogueType.ITEM_STATEMENT, new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
+                sendItemStatement(new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
                 setPhase(1);
             } else if(option == 2) {
                 if(!player.inventory().contains(BOW_OF_FAERDHINEN, CRYSTAL_OF_IORWERTH)) {
@@ -55,7 +54,7 @@ public class BowOfFaerdhenin extends Dialogue {
                 player.inventory().remove(new Item(CRYSTAL_OF_IORWERTH, 1));
                 player.inventory().add(new Item(BOW_OF_FAERDHINEN_C_25886, 1));
                 player.putAttrib(AttributeKey.BOW_OF_FAERDHENIN_QUESTION, true);
-                send(DialogueType.ITEM_STATEMENT, new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
+                sendItemStatement(new Item(BOW_OF_FAERDHINEN_C_25886), "", "You add the crystal to the bow of faerdhenin.");
                 setPhase(1);
             } else if(option == 3) {
                 stop();

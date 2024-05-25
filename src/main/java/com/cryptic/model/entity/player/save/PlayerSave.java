@@ -66,8 +66,7 @@ import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
  * @author Origin | 28 feb. 2019 : 12:16:21
  * @see <a href="https://www.rune-server.ee/members/_Patrick_/">Rune-Server profile</a>
  */
-public class
-PlayerSave {
+public class PlayerSave {
 
     /**
      * SUPER IMPORTANT INFO: Player class needs to have default values set for any objects (or variables) that could be null that it tries to access on login to prevent NPEs thrown when loading a Player from PlayerSave.
@@ -479,11 +478,7 @@ PlayerSave {
             player.putAttrib(AttributeKey.EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
             player.setInvulnerable(details.infhp);
-            if (details.varps != null) {
-                int[] varps = new int[5000];
-                details.varps.forEach((k, v) -> varps[k] = v);
-                player.setSessionVarps(varps);
-            }
+            details.varps.forEach((k, v) -> player.varps().setVarp(k, v));
             player.putAttrib(AttributeKey.DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(AttributeKey.DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
 
@@ -557,7 +552,7 @@ PlayerSave {
         private final boolean sponsorMemberUnlocked;
 
         public boolean infhp;
-        private final HashMap<Integer, Integer> varps;
+        private final HashMap<Integer, Integer> varps = new HashMap<>();
 
         //Skills
         private final double[] saved_tornament_xp;
@@ -965,13 +960,12 @@ PlayerSave {
             eventReward43Claimed = Player.getAttribBooleanOr(player, AttributeKey.EVENT_REWARD_43_CLAIMED, false);
             eventReward44Claimed = Player.getAttribBooleanOr(player, AttributeKey.EVENT_REWARD_44_CLAIMED, false);
             infhp = player.isInvulnerable();
-            varps = new HashMap<>() {
-                {
-                    for (Varp v : Varp.SYNCED_VARPS) {
-                        put(v.id(), player.sessionVarps()[v.id()]);
-                    }
+            for (int i = 0; i < player.varps().varps.length; i++) {
+                int value = player.varps().varps[i];
+                if (value != 0) {
+                    varps.put(i, value);
                 }
-            };
+            }
             dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
             dailyTasksExtensions = player.getOrT(AttributeKey.DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
             allAttribs = ARGS_SERIALIZER.apply(player);

@@ -1,7 +1,6 @@
 package com.cryptic.model.content.items.combinations.crystal;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
@@ -16,7 +15,7 @@ public class CrystalBody extends Dialogue {
                 player.inventory().remove(ItemIdentifiers.CRYSTAL_SHARD, 150);
                 player.inventory().add(new Item(ItemIdentifiers.CRYSTAL_BODY, 1));
             }).then(1, () -> {
-                send(DialogueType.ITEM_STATEMENT, new Item(ItemIdentifiers.CRYSTAL_BODY), "", "You create a crystal body.");
+                sendItemStatement(new Item(ItemIdentifiers.CRYSTAL_BODY), "", "You create a crystal body.");
             }).then(1, () -> player.unlock());
         }
     }

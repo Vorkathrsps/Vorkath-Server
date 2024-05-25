@@ -41,7 +41,7 @@ public class ResourceArena extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Banknote "+player.inventory().count(original) + " "+new Item(original).name(), "Yes - "+player.inventory().count(original) * 50 + " "+name, "Cancel");
+                sendOption("Banknote "+player.inventory().count(original) + " "+new Item(original).name(), "Yes - "+player.inventory().count(original) * 50 + " "+name, "Cancel");
                 setPhase(0);
             }
 
@@ -61,7 +61,7 @@ public class ResourceArena extends PacketInteraction {
                         player.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... options) {
-                                send(DialogueType.ITEM_STATEMENT, new Item(original), "", "Piles converts your items to banknotes.");
+                                sendItemStatement(new Item(original), "", "Piles converts your items to banknotes.");
                                 setPhase(0);
                             }
 
@@ -163,7 +163,7 @@ public class ResourceArena extends PacketInteraction {
                         player.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... parameters) {
-                                send(DialogueType.OPTION, "Pay "+amount+" "+name+" to enter?", "Yes", "No");
+                                sendOption("Pay "+amount+" "+name+" to enter?", "Yes", "No");
                                 setPhase(0);
                             }
 

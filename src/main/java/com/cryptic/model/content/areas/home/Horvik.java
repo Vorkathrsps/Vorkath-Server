@@ -51,14 +51,14 @@ public class Horvik extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, item, "", "Convert your " + item.name() + " for " + NumberUtils.formatNumber(price) + " " + currencyName + "?");
+                sendItemStatement(item, "", "Convert your " + item.name() + " for " + NumberUtils.formatNumber(price) + " " + currencyName + "?");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if(isPhase(0)) {
-                    send(DialogueType.OPTION, "Are you sure you want to do this?", "Yes", "No");
+                    sendOption("Are you sure you want to do this?", "Yes", "No");
                     setPhase(1);
                 } else if(isPhase(2)) {
                     stop();

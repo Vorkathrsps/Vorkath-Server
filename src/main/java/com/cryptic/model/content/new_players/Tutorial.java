@@ -30,7 +30,7 @@ public class Tutorial extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Welcome to " + GameServer.settings().getName() + "!", "Let's start off by picking your game mode...");
+        sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Welcome to " + GameServer.settings().getName() + "!", "Let's start off by picking your game mode...");
         setPhase(1);
     }
 
@@ -47,29 +47,29 @@ public class Tutorial extends Dialogue {
                 setPhase(2);
             });
         } else if (getPhase() == 5) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Confirm", "Cancel");
+            sendOption(DEFAULT_OPTION_TITLE, "Confirm", "Cancel");
             setPhase(6);
         } else if (isPhase(7)) {
             player.teleport(new Tile(3092, 3495));
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "To start off you should ::vote for starter money.", "Every first week of the month you get double points.", "You can sell the vote tickets in the trading post for around", "40-50K blood money. You also get a double drops lamp");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "To start off you should ::vote for starter money.", "Every first week of the month you get double points.", "You can sell the vote tickets in the trading post for around", "40-50K blood money. You also get a double drops lamp");
             setPhase(8);
         } else if (isPhase(8)) {
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "which has a 20% chance of doubling your drop", "for 60 minutes.");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "which has a 20% chance of doubling your drop", "for 60 minutes.");
             setPhase(9);
         } else if (isPhase(9)) {
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "After that there are two very effective ways to make money", "early on. Slayer and revenants both are " + Color.RED.wrap("(dangerous)") + ".", "Both money makers are in the wilderness.");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "After that there are two very effective ways to make money", "early on. Slayer and revenants both are " + Color.RED.wrap("(dangerous)") + ".", "Both money makers are in the wilderness.");
             setPhase(10);
         } else if (isPhase(10)) {
             player.teleport(new Tile(3099, 3503));
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "You can find the slayer master here.", "If you would like a full guide for slayer ::slayerguide.", "We offer various perks to make your game experience better.");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "You can find the slayer master here.", "If you would like a full guide for slayer ::slayerguide.", "We offer various perks to make your game experience better.");
             setPhase(11);
         } else if (isPhase(11)) {
             player.teleport(new Tile(3246, 10169));
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "And the revenants can be found here deep in the wilderness.", "You can use the teleporting mage or a quick access", "command for both entrances. ::revs offers to teleport you", "to the level 17 or level 39 entrance.");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "And the revenants can be found here deep in the wilderness.", "You can use the teleporting mage or a quick access", "command for both entrances. ::revs offers to teleport you", "to the level 17 or level 39 entrance.");
             setPhase(12);
         } else if (isPhase(12)) {
             player.teleport(GameServer.settings().getHomeTile());
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "Enjoy your stay here at " + GameServer.settings().getName() + "!");
+            sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "Enjoy your stay here at " + GameServer.settings().getName() + "!");
             setPhase(13);
         } else if (isPhase(13)) {
             stop();
@@ -89,7 +89,7 @@ public class Tutorial extends Dialogue {
             if (AccountSelection.hasCompletedSelection) {
                 accountType = player.getGameMode();
                 //player.getGameMode(GameMode.TRAINED_ACCOUNT);
-                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.DEFAULT, "Are you sure you wish to play as a " + player.getGameMode() + ".?");
+                sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.DEFAULT, "Are you sure you wish to play as a " + player.getGameMode() + ".?");
                 setPhase(5);
             }
         } else if (getPhase() == 6) {
@@ -99,7 +99,7 @@ public class Tutorial extends Dialogue {
                 System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
                 player.getBank().shift();
 
-                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Let me show you how to get started in " + GameServer.settings().getName() + ".");
+                sendNpcChat(NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Let me show you how to get started in " + GameServer.settings().getName() + ".");
                 setPhase(7);
             } else {
                 AccountSelection.open(player);

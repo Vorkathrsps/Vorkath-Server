@@ -117,14 +117,14 @@ public class SlayerPartner {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Invite slayer partner", "Reset slayer partner", "Nevermind");
+                sendOption(DEFAULT_OPTION_TITLE, "Invite slayer partner", "Reset slayer partner", "Nevermind");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(1)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No.");
                     setPhase(2);
                 } else if (isPhase(3)) {
                     String previousPartner = player.getAttribOr(AttributeKey.SLAYER_PARTNER, "None");
@@ -159,7 +159,7 @@ public class SlayerPartner {
                     player.putAttrib(AttributeKey.SLAYER_PARTNER, "None");
                     stop();
                 } else if (isPhase(4)) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Invite slayer partner", "Reset slayer partner", "Nevermind");
+                    sendOption(DEFAULT_OPTION_TITLE, "Invite slayer partner", "Reset slayer partner", "Nevermind");
                     setPhase(0);
                 }
             }
@@ -184,10 +184,10 @@ public class SlayerPartner {
                         String slayerPartner = player.getAttribOr(AttributeKey.SLAYER_PARTNER, "None");
                         boolean hasSlayerParter = !slayerPartner.equalsIgnoreCase("None");
                         if (hasSlayerParter) {
-                            send(DialogueType.STATEMENT, "Would you like to reset your slayer partner?");
+                            sendStatement("Would you like to reset your slayer partner?");
                             setPhase(1);
                         } else {
-                            send(DialogueType.STATEMENT, "You currently have no slayer partner.");
+                            sendStatement("You currently have no slayer partner.");
                             setPhase(4);
                         }
                     } else if (option == 3) {
@@ -195,7 +195,7 @@ public class SlayerPartner {
                     }
                 } else if (isPhase(2)) {
                     if (option == 1) {
-                        send(DialogueType.STATEMENT, "You have reset your slayer partner.");
+                        sendStatement("You have reset your slayer partner.");
                         setPhase(3);
                     } else if (option == 2) {
                         stop();
@@ -239,7 +239,7 @@ public class SlayerPartner {
         requestee.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, requester.getUsername() + " invited you as slayer partner", "Accept.", "Decline.");
+                sendOption(requester.getUsername() + " invited you as slayer partner", "Accept.", "Decline.");
                 setPhase(0);
             }
 
@@ -272,7 +272,7 @@ public class SlayerPartner {
                         requestee.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... parameters) {
-                                send(DialogueType.NPC_STATEMENT,THORODIN_5526, Expression.ANXIOUS, "Excellent, you're doing great. Your new task is to kill", "" + num + " " + Slayer.taskName(task.uid) + ".");
+                                sendNpcChat(THORODIN_5526, Expression.ANXIOUS, "Excellent, you're doing great. Your new task is to kill", "" + num + " " + Slayer.taskName(task.uid) + ".");
                             }
                         });
                         setPhase(1);

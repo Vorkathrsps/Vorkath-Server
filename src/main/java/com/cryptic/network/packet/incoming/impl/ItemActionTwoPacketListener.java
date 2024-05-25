@@ -2,7 +2,7 @@ package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.content.items.interactions.RottenPotato;
-import com.cryptic.model.content.packet_actions.interactions.items.ItemActionTwo;
+import com.cryptic.model.content.packet_actions.interactions.items.ItemActionFour;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
@@ -61,7 +61,7 @@ public class ItemActionTwoPacketListener implements PacketListener {
             player.putAttrib(AttributeKey.ITEM_SLOT, slot);
             player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
             player.putAttrib(AttributeKey.ITEM_ID, used.getId());
-                ItemActionTwo.click(player, used);
+                ItemActionFour.click(player, used);
                 player.getInventory().refresh();
             }
         }

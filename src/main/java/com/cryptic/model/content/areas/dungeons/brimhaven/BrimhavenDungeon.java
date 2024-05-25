@@ -80,7 +80,7 @@ public class BrimhavenDungeon extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, Item.of(item), "", line1);
+                sendItemStatement(Item.of(item), "", line1);
                 setPhase(0);
             }
 
@@ -97,7 +97,7 @@ public class BrimhavenDungeon extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, Item.of(item), "", line1, line2);
+                sendItemStatement(Item.of(item), "", line1, line2);
                 setPhase(0);
             }
 
@@ -114,7 +114,7 @@ public class BrimhavenDungeon extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.ITEM_STATEMENT, Item.of(item), "", line1, line2, line3);
+                sendItemStatement(Item.of(item), "", line1, line2, line3);
                 setPhase(0);
             }
 

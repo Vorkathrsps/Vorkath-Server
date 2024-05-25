@@ -721,7 +721,7 @@ public class TradingPost extends PacketInteraction {
                 player.getPacketSender().sendConfig(1406, 1);
                 searchByUsername(player, shopname, false);
             } else {
-                send(DialogueType.OPTION, "List your shop in a featured spot for 5M coins?", "Yes", "No");
+                sendOption("List your shop in a featured spot for 5M coins?", "Yes", "No");
             }
             setPhase(0);
         }
@@ -755,7 +755,7 @@ public class TradingPost extends PacketInteraction {
 
         @Override
         protected void start(Object... parameters) {
-            send(DialogueType.OPTION, "Edit Coffer", "Withdraw", "Add");
+            sendOption("Edit Coffer", "Withdraw", "Add");
             setPhase(0);
         }
 

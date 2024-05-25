@@ -141,7 +141,7 @@ public class Cooking extends PacketInteraction { //TODO add gauntles
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Dry the meat into sinew.", "Cook the meat");
+                    sendOption(DEFAULT_OPTION_TITLE, "Dry the meat into sinew.", "Cook the meat");
                     setPhase(0);
                 }
 

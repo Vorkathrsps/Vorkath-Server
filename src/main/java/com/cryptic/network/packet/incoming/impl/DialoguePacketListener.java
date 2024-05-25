@@ -4,6 +4,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.IncomingHandler;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Represents a packet used for handling dialogues.
@@ -13,6 +14,7 @@ import com.cryptic.network.packet.incoming.IncomingHandler;
  * @author Professor Oak
  */
 
+@Deprecated(forRemoval = true)
 public class DialoguePacketListener implements PacketListener {
 
     @Override

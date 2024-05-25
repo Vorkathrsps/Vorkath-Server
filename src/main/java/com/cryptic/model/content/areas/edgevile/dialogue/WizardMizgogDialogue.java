@@ -17,7 +17,7 @@ public class WizardMizgogDialogue extends Dialogue {
     @Override
     protected void start(Object... parameters) {
         player.putAttrib(AttributeKey.RUNECRAFTING,true);
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Level 1-9 runecrafting", "Level 14-35 runecrafting", "Level 44-99 runecrafting", "Nevermind.");
+        sendOption(DEFAULT_OPTION_TITLE, "Level 1-9 runecrafting", "Level 14-35 runecrafting", "Level 44-99 runecrafting", "Nevermind.");
         setPhase(0);
     }
 

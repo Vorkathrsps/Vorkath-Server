@@ -276,6 +276,7 @@
     },
     "animations": {
       "attack": 4925,
+      "block": 4927,
       "death": 10017
     },
     "scripts": {

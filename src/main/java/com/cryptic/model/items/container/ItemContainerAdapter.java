@@ -33,13 +33,22 @@ public abstract class ItemContainerAdapter implements ItemContainerListener {
      * widget.
      */
     protected void sendItemsToWidget(ItemContainer container) {
-        container.refresh(player, getWidgetId());
+        int invId = getInventoryId();
+        if (invId != -1) {
+            container.refreshInventory(player, invId);
+        } else {
+            container.refresh(player, getWidgetId());
+        }
     }
 
     /**
      * @return The widget to display items on.
      */
     public abstract int getWidgetId();
+
+    public int getInventoryId() {
+        return -1;
+    }
 
     /**
      * @return The message sent when the {@link ItemContainer} exceeds its capacity.

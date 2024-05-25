@@ -1,6 +1,37 @@
 [
   {
     "ids": [
+      496, 494
+    ],
+    "maxhit": 28,
+    "attackspeed": 4,
+    "aggroradius": 10,
+    "aggressive": false,
+    "boss": true,
+    "slayerxp": 535,
+    "slayerlvl": 87,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "magic": 50,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 300,
+      "magicdefence": 130
+    },
+    "scripts": {
+      "combat": "KrakenBossCombat"
+    }
+  },
+  {
+    "ids": [
       5534, 5535
     ],
     "maxhit": 2,

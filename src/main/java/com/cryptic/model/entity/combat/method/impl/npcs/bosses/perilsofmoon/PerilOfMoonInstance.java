@@ -116,12 +116,12 @@ public class PerilOfMoonInstance extends InstancedArea {
     }
 
     final void setVarps() {
-        this.owner.varps().varbit(9855, 1);
-        this.owner.varps().varbit(9856, 1);
+        this.owner.varps().setVarbit(9855, 1);
+        this.owner.varps().setVarbit(9856, 1);
         for (var entity : this.getPlayers()) {
             if (entity instanceof Player player) {
-                player.varps().varbit(9855, 1);
-                player.varps().varbit(9856, 1);
+                player.varps().setVarbit(9855, 1);
+                player.varps().setVarbit(9856, 1);
             }
         }
     }

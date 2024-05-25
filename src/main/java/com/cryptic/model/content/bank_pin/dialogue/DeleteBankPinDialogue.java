@@ -17,7 +17,7 @@ public class DeleteBankPinDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT, "Are you absolutely sure you wish to delete your bank pin?");
+        sendNpcChat(npcId, Expression.DEFAULT, "Are you absolutely sure you wish to delete your bank pin?");
         setPhase(0);
     }
 
@@ -25,7 +25,7 @@ public class DeleteBankPinDialogue extends Dialogue {
     protected void next() {
         switch (getPhase()) {
             case 0:
-                send(DialogueType.OPTION, "Select an option.",
+                sendOption("Select an option.",
                     "Yes",
                     "No");
                 break;

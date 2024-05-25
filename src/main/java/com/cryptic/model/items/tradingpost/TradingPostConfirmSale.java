@@ -23,7 +23,7 @@ public class TradingPostConfirmSale extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        this.send(DialogueType.OPTION, "Buy offer?",
+        this.sendOption("Buy offer?",
             ("Yes, purchase <col=ff0000>" + amount + "x " + selected.getSaleItem().unnote().name() + "</col> for (<col=ff0000>" + Utils.formatRunescapeStyle(price) + " Blood Money</col>)"),
             "No, I don't want to buy this.");
         setPhase(0);
@@ -34,7 +34,7 @@ public class TradingPostConfirmSale extends Dialogue {
        // System.out.println(getPhase());
         if (isPhase(0)) {
             if (option == 1) {
-                send(DialogueType.OPTION, "Would you like to receive your " + selected.getSaleItem().unnote().name() + " noted?", "Yes.", "No.");
+                sendOption("Would you like to receive your " + selected.getSaleItem().unnote().name() + " noted?", "Yes.", "No.");
                 setPhase(1);
             }
             if (option == 2) {

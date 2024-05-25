@@ -7,7 +7,6 @@ import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -23,7 +22,7 @@ public class SlayerRing {
         player.message(hasTask ? "You're assigned to kill " + name + " only " + amt + " more to go." : "You need something new to hunt.");
     }
 
-    public static boolean onItemOption2(Player player, Item item) {
+    public static boolean onItemOption4(Player player, Item item) {
         if (item.getId() == 15332) {
             check(player);
             return true;
@@ -52,7 +51,7 @@ public class SlayerRing {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Where would you like to teleport to?", "Slayer Tower", "Fremennik Slayer Dungeon", "Stronghold Slayer Cave", "Dark Beasts");
+                sendOption("Where would you like to teleport to?", "Slayer Tower", "Fremennik Slayer Dungeon", "Stronghold Slayer Cave", "Dark Beasts");
                 setPhase(0);
             }
 

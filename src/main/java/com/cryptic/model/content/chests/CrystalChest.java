@@ -19,9 +19,9 @@ public class CrystalChest extends PacketInteraction {
                     player.lock();
                     CollectionItemHandler.rollKeyReward(player, ItemIdentifiers.ENHANCED_CRYSTAL_KEY);
                     Chain.noCtx().runFn(1, () -> {
-                        player.varps().varbit(9296, 1);
+                        player.varps().setVarbit(9296, 1);
                     }).then(1, () -> {
-                        player.varps().varbit(9296, 0);
+                        player.varps().setVarbit(9296, 0);
                         player.unlock();
                     });
                 } else {

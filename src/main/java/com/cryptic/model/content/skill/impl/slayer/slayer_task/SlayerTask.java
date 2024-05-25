@@ -215,7 +215,7 @@ public class SlayerTask {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Would you like to reset your task?", "Yes.", "No.");
+                sendOption("Would you like to reset your task?", "Yes.", "No.");
                 setPhase(0);
             }
 
@@ -224,7 +224,7 @@ public class SlayerTask {
                 SlayerTask slayer = World.getWorld().getSlayerTasks();
                 if (isPhase(0)) {
                     if (option == 1) {
-                        send(DialogueType.OPTION, "Reset slayer task with Coins or Slayer points?", "Coins (500K)", "Slayer Points. (30)");
+                        sendOption("Reset slayer task with Coins or Slayer points?", "Coins (500K)", "Slayer Points. (30)");
                         setPhase(1);
                     } else {
                         stop();

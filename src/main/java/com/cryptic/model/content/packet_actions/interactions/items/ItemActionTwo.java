@@ -1,54 +1,75 @@
 package com.cryptic.model.content.packet_actions.interactions.items;
 
-import com.cryptic.model.content.consumables.potions.Potions;
-import com.cryptic.model.content.items.combinations.EldritchNightmareStaff;
-import com.cryptic.model.content.items.combinations.HarmonisedNightmareStaff;
-import com.cryptic.model.content.items.combinations.VolatileNightmareStaff;
-import com.cryptic.model.content.items.teleport.ArdyCape;
-import com.cryptic.model.content.skill.impl.slayer.content.SlayerRing;
+
+import com.cryptic.cache.definitions.ItemDefinition;
+import com.cryptic.model.World;
+import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatSpecial;
+import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
-import static com.cryptic.utility.ItemIdentifiers.*;
+import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.looting_bag.LootingBag;
+import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.timers.TimerKey;
+import dev.openrune.cache.CacheManager;
+import dev.openrune.cache.filestore.definition.data.ItemType;
+
+import java.util.Arrays;
+
+import static com.cryptic.model.items.container.equipment.Equipment.getAudioId;
 
 /**
  * @author Origin
- * mei 08, 2020
+ * juni 24, 2020
  */
 public class ItemActionTwo {
 
     public static void click(Player player, Item item) {
-        int id = item.getId();
-
-        if (PacketInteractionManager.checkItemInteraction(player, item, 2)) {
+        final int id = item.getId();
+        final int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
+        if (slot == -1) {
             return;
         }
 
-        ArdyCape.onItemOption2(player, item);
-
-        if(Potions.onItemOption2(player, item)) {
+        ItemType definition = CacheManager.INSTANCE.getItem(id);
+        if (definition.getInterfaceOptions().get(1) == null) {
             return;
         }
 
-        if (VolatileNightmareStaff.dismantle(player, item)) {
+        if (definition.getInterfaceOptions().get(1).equalsIgnoreCase("wear") || definition.getInterfaceOptions().get(1).equalsIgnoreCase("wield")) {
+            player.debugMessage("Equip ItemId=" + id + " Slot=" + slot);
+
+            player.getSkills().stopSkillable();
+
+            EquipmentInfo info = World.getWorld().equipmentInfo();
+
+            if (info != null) {
+                if (player.getEquipment().equip(slot)) {
+                    player.sendPrivateSound(getAudioId(item.name()), 0);
+                    player.getBonusInterface().sendBonuses();
+                    player.getCombat().setRangedWeapon(null);
+                    player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                    player.setSpecialActivated(false);
+                    player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
+                    player.getCombat().reset();
+                    CombatSpecial.updateBar(player);
+                    WeaponInterfaces.updateWeaponInterface(player);
+                    player.getInventory().refresh();
+                    player.getEquipment().refresh();
+                    if (player.getEquipment().getWeapon() != null && player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
+                        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                        player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
+                    }
+                }
+            }
             return;
         }
 
-        if (EldritchNightmareStaff.dismantle(player, item)) {
+        if (item.getId() == ItemIdentifiers.LOOTING_BAG || item.getId() == LootingBag.OPEN_LOOTING_BAG) {
+            player.getLootingBag().open();
             return;
-        }
-
-        if (HarmonisedNightmareStaff.dismantle(player, item)) {
-            return;
-        }
-
-        if(SlayerRing.onItemOption2(player, item)) {
-            return;
-        }
-
-        switch (id) {
-            case RUNE_POUCH -> player.getRunePouch().empty();
-            case LOOTING_BAG, LOOTING_BAG_22586 -> player.getLootingBag().setSettings();
         }
     }
 }

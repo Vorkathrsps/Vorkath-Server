@@ -39,7 +39,7 @@ public class MonkeyMadnessObjects extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, "Leave the Gnome Stronghold?", "Yes.", "No.");
+                            sendOption("Leave the Gnome Stronghold?", "Yes.", "No.");
                         }
 
                         @Override

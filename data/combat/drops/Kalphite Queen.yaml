@@ -9,9 +9,9 @@ npcId:
 petItem: null
 petRarity: 2000
 alwaysDrops:
-- item: COINS_995
-  minimumAmount: 25000
-  maximumAmount: 50000
+- item: KQ_HEAD_TATTERED
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false

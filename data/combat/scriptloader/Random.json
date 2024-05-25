@@ -1,51 +1,38 @@
 [
-  {
-    "ids": [
-      3023,
-      3025,
-      5373,
-      11990,
-      11999
-    ],
-    "maxhit": 7,
-    "aggressive": true,
-    "retaliates": true,
-    "unstacked": false,
-    "boss": true,
-    "attackspeed": 4,
-    "combattype": "MELEE",
-    "stats": {
-      "hitpoints": 64,
-      "attack": 50,
-      "strength": 58,
-      "defence": 52,
-      "magic": 1,
-      "ranged": 1
-    },
-    "bonuses": {
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 20,
-      "slashdefence": 17,
-      "crushdefence": 10,
-      "magicdefence": 14,
-      "rangeddefence": 14
-    },
-    "animations": {
-      "attack": 5327,
-      "block": 5328,
-      "death": 5329
-    }
+{
+  "ids": [
+    3023, 3025, 5373, 11990, 11999
+  ],
+  "maxhit": 7,
+  "aggressive": true,
+  "attackspeed": 4,
+  "combattype": "MELEE",
+  "stats": {
+    "hitpoints": 64,
+    "attack": 50,
+    "strength": 58,
+    "defence": 52,
+    "magic": 1,
+    "ranged": 1
   },
+  "bonuses": {
+    "magicstrength": 0,
+    "rangestrength": 0,
+    "stabdefence": 20,
+    "slashdefence": 17,
+    "crushdefence": 10,
+    "magicdefence": 14,
+    "rangeddefence": 14
+  },
+  "animations": {
+    "attack": 5327,
+    "block": 5328,
+    "death": 5329
+  }
+},
   {
     "ids": [
-      787,
-      788,
-      789,
-      790,
-      791,
-      792,
-      793
+      787, 788, 789, 790, 791, 792, 793
     ],
     "maxhit": 10,
     "aggressive": true,
@@ -77,8 +64,7 @@
   },
   {
     "ids": [
-      9502,
-      9503
+      9502, 9503
     ],
     "maxhit": 10,
     "aggressive": false,
@@ -110,11 +96,7 @@
   },
   {
     "ids": [
-      10951,
-      10953,
-      10954,
-      10955,
-      10956
+      10951, 10953, 10954, 10955, 10956
     ],
     "maxhit": 10,
     "aggressive": true,
@@ -175,115 +157,7 @@
   },
   {
     "ids": [
-      12167,
-      12166,
-      12191
-    ],
-    "maxhit": 20,
-    "aggressive": true,
-    "attackspeed": 6,
-    "deathlen": 3,
-    "stats": {
-      "hitpoints": 440,
-      "attack": 300,
-      "strength": 345,
-      "defence": 275,
-      "magic": 310,
-      "ranged": 0
-    },
-    "bonuses": {
-      "attack": 200,
-      "strength": 38,
-      "magic": 150,
-      "magicstrength": 32,
-      "rangestrength": 0,
-      "stabdefence": 255,
-      "slashdefence": 65,
-      "crushdefence": 190,
-      "magicdefence": 440,
-      "rangeddefence": 320
-    },
-    "animations": {
-      "death": 10181
-    },
-    "scripts": {
-      "combat": "DukeCombat"
-    }
-  },
-  {
-    "ids": [
-      12078
-    ],
-    "maxhit": 34,
-    "aggressive": true,
-    "deathlen": 4,
-    "stats": {
-      "hitpoints": 850,
-      "attack": 280,
-      "strength": 280,
-      "defence": 200,
-      "magic": 150,
-      "ranged": 280
-    },
-    "bonuses": {
-      "attack": 393,
-      "strength": 11,
-      "magic": 280,
-      "ranged": 64,
-      "magicstrength": 180,
-      "rangestrength": 6,
-      "stabdefence": 185,
-      "slashdefence": 134,
-      "crushdefence": 120,
-      "magicdefence": 40,
-      "rangeddefence": 261
-    },
-    "animations": {
-      "death": -1
-    },
-    "scripts": {
-      "combat": "MuspahCombat"
-    }
-  },
-  {
-    "ids": [
-      12077
-    ],
-    "maxhit": 61,
-    "aggressive": true,
-    "deathlen": 4,
-    "stats": {
-      "hitpoints": 850,
-      "attack": 280,
-      "strength": 280,
-      "defence": 200,
-      "magic": 150,
-      "ranged": 280
-    },
-    "bonuses": {
-      "attack": 393,
-      "strength": 11,
-      "magic": 280,
-      "ranged": 64,
-      "magicstrength": 180,
-      "rangestrength": 6,
-      "stabdefence": 185,
-      "slashdefence": 134,
-      "crushdefence": 120,
-      "magicdefence": 40,
-      "rangeddefence": 261
-    },
-    "animations": {
-      "death": -1
-    },
-    "scripts": {
-      "combat": "MuspahCombat"
-    }
-  },
-  {
-    "ids": [
-      13013,
-      13017
+      13013, 13017
     ],
     "maxhit": 20,
     "aggressive": true,
@@ -310,174 +184,6 @@
     },
     "scripts": {
       "combat": "BlueMoonCombat"
-    }
-  },
-  {
-    "ids": [
-      10821
-    ],
-    "maxhit": 5,
-    "aggressive": false,
-    "attackspeed": 6,
-    "deathlen": 3,
-    "stats": {
-      "hitpoints": 7,
-      "attack": 1,
-      "strength": 1,
-      "defence": 0,
-      "magic": 0,
-      "ranged": 1
-    },
-    "bonuses": {
-      "attack": 0,
-      "magic": 0,
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "magicdefence": 0,
-      "rangeddefence": 0
-    }
-  },
-  {
-    "ids": [
-      6606
-    ],
-    "maxhit": 18,
-    "aggressive": true,
-    "attackspeed": 4,
-    "deathlen": 3,
-    "stats": {
-      "hitpoints": 165,
-      "attack": 75,
-      "strength": 75,
-      "defence": 55,
-      "magic": 1,
-      "ranged": 1
-    },
-    "bonuses": {
-      "attack": 80,
-      "strength": 76,
-      "magic": 0,
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 106,
-      "slashdefence": 109,
-      "crushdefence": 139,
-      "magicdefence": 0,
-      "rangeddefence": 0
-    }
-  },
-  {
-    "ids": [
-      531
-    ],
-    "maxhit": 2,
-    "aggressive": true,
-    "attackspeed": 4,
-    "deathlen": 3,
-    "stats": {
-      "hitpoints": 17,
-      "attack": 5,
-      "strength": 5,
-      "defence": 5,
-      "magic": 1,
-      "ranged": 1
-    },
-    "bonuses": {
-      "attack": 20,
-      "strength": 16,
-      "magic": 0,
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 96,
-      "slashdefence": 79,
-      "crushdefence": 59,
-      "magicdefence": 0,
-      "rangeddefence": 0
-    },
-    "animations": {
-      "attack": 388,
-      "block": 390,
-      "death": 836
-    }
-  },
-  {
-    "ids": [
-      3909,
-      3908
-    ],
-    "maxhit": 2,
-    "aggressive": false,
-    "attackspeed": 4,
-    "deathlen": 3,
-    "combattype": "MELEE",
-    "stats": {
-      "hitpoints": 20,
-      "attack": 10,
-      "strength": 15,
-      "defence": 10,
-      "magic": 1,
-      "ranged": 1
-    },
-    "bonuses": {
-      "attack": 0,
-      "strength": 0,
-      "magic": 0,
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "magicdefence": 0,
-      "rangeddefence": 0
-    },
-    "animations": {
-      "attack": 4925,
-      "block": 4927,
-      "death": 4929
-    }
-  },
-  {
-    "ids": [
-      9763,
-      9758,
-      9760,
-      9762,
-      9757,
-      9756,
-      9761
-    ],
-    "maxhit": 17,
-    "aggressive": false,
-    "attackspeed": 4,
-    "deathlen": 3,
-    "combattype": "MELEE",
-    "stats": {
-      "hitpoints": 150,
-      "attack": 120,
-      "strength": 160,
-      "defence": 180,
-      "magic": 120,
-      "ranged": 120
-    },
-    "bonuses": {
-      "attack": 0,
-      "strength": 0,
-      "magic": 0,
-      "magicstrength": 0,
-      "rangestrength": 0,
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "magicdefence": 0,
-      "rangeddefence": 0
-    },
-    "animations": {
-      "attack": 8740,
-      "block": -1,
-      "death": 8741
     }
   }
 ]

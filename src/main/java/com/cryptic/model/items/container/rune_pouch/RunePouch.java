@@ -62,7 +62,7 @@ public class RunePouch extends ItemContainer {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Barrage", "Teleblock", "Vengeance");
+                sendOption(DEFAULT_OPTION_TITLE, "Barrage", "Teleblock", "Vengeance");
                 setPhase(0);
             }
 

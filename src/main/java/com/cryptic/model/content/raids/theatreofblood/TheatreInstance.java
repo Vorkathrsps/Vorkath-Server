@@ -267,7 +267,7 @@ public class TheatreInstance extends InstancedArea {
             } else if (player.hasAttrib(RARE_TOB_REWARD)) {
                 type = ChestType.RARE_REWARD;
             }
-            owner.varps().varbit(6450 + index, type.ordinal());
+            owner.varps().setVarbit(6450 + index, type.ordinal());
         }
     }
 

@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static com.cryptic.utility.CustomItemIdentifiers.*;
-import static com.cryptic.utility.CustomItemIdentifiers.DONATOR_TICKET;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -45,10 +43,10 @@ public class ItemDefinition implements Definition {
     public Map<Integer, Object> params = new HashMap<>();
     public int resizez;
     public int category;
-    public String description = "null";
     public short[] recol_s;
     public short[] recol_d;
     public String name = "null";
+    public String desc = "null";
     public int zoom2d = 2000;
     public int yan2d;
     public int zan2d;
@@ -102,7 +100,6 @@ public class ItemDefinition implements Definition {
     public boolean pvpAllowed;//this isnt pvp mode lol ik, but have a feeling its possibly fucking with it, if values arent set ? idk
     public boolean consumable;
     public static final Object2IntMap<String> linkedValueMap = new Object2IntOpenHashMap<>();
-
     public int findLinkedValue(String name) {
         var value = linkedValueMap.getOrDefault(name, -1);
         if (value != -1) return value;
@@ -150,61 +147,24 @@ public class ItemDefinition implements Definition {
             ioptions = new String[]{null, "Wield", null, null, "Drop"};
         }
 
-        boolean replace_drop_with_destroy = Arrays.stream(Item.AUTO_KEPT_LIST).anyMatch(auto_kept_id -> auto_kept_id == id);
-
-        if (replace_drop_with_destroy) {
-            ioptions = new String[]{null, null, null, null, "Destroy"};
-        }
-
         switch (id) {
             case SHIP_TICKET -> {
-                name = "Vote Ticket";
                 stackable = 1;
                 notelink = 0;
             }
             case DONATOR_TICKET -> {
                 name = "Donator Ticket";
                 stackable = 1;
-            }
-            case KORASI_SWORD -> {
-                name = "Korasi's Sword";
-                category = 21;
+                notelink = 0;
             }
             case SCROLL_OF_REDIRECTION -> {
                 name = "Scroll Of Imbuement";
+                notelink = 0;
             }
-            case LUCK_OF_THE_DWARVES -> {
-                name = "Luck Of The Dwarves";
-                ioptions = new String[]{null, "Wear", null, null, "Drop"};
-            }
-            case SEISMIC_WAND -> {
-                name = "Seismic Wand";
-                ioptions = new String[]{null, "Wear", null, null, "Drop"};
-            }
-            case ANCIENT_LAMP -> name = "Double Drops Lamp";
-            case QUEST_LAMP -> name = "Double XP Lamp";
-            case TWENTY_FIVE_DOLLAR_SCROLL -> name = "$25 Scroll";
-            case FIFTY_DOLLAR_SCROLL -> name = "$50 Scroll";
-            case ONE_HUNDRED_DOLLAR_SCROLL -> name = "$100 Scroll";
         }
 
         if (id == DHAROKS_ARMOUR_SET || id == KARILS_ARMOUR_SET || id == GUTHANS_ARMOUR_SET || id == AHRIMS_ARMOUR_SET || id == VERACS_ARMOUR_SET) {
             ioptions = new String[]{null, "Open", null, null, "Drop"};
-        }
-
-        if (id == BANDOS_CHESTPLATE_OR) {
-            System.out.println("chestplate="+this);
-        }
-        if (id == TZKAL_SLAYER_HELMET) {
-            System.out.println("helm="+this);
-        }
-
-        if (id == AHRIMS_ROBETOP) {
-            System.out.println("robetop=" + this);
-        }
-
-        if (id == AHRIMS_ROBESKIRT) {
-            System.out.println("robeskirt=" + this);
         }
 
         //Bounty hunter emblem hardcoding.
@@ -222,7 +182,7 @@ public class ItemDefinition implements Definition {
         } else if (opcode == 2) {
             name = stream.readJagexString();
         } else if (opcode == 3) {
-            description = stream.readJagexString();
+            desc = stream.readJagexString();
         } else if (opcode == 4) {
             zoom2d = stream.readUShort();
         } else if (opcode == 5) {

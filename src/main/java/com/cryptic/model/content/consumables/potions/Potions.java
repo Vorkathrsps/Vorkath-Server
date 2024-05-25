@@ -20,7 +20,6 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.util.*;
 
@@ -79,9 +78,10 @@ public class Potions {
         DIVINE_SUPER_STRENGTH_POTION(-1, -1, -1, false, "divine super strength potion", 23709, 23712, 23715, 23718),
         //RECOVER_SPECIAL(-1, -1, -1, false, "recover special", 15300, 15301, 15302, 15303),
         OVERLOAD_POTION(-1, -1, -1, false, "overload potion", ItemIdentifiers.OVERLOAD_4, ItemIdentifiers.OVERLOAD_3, ItemIdentifiers.OVERLOAD_2, ItemIdentifiers.OVERLOAD_1),
-        BLIGHTED_SUPER_RESTORE(-1, -1, -1, false, "blighted restore potion", ItemIdentifiers.BLIGHTED_SUPER_RESTORE4, ItemIdentifiers.BLIGHTED_SUPER_RESTORE3, ItemIdentifiers.BLIGHTED_SUPER_RESTORE2, ItemIdentifiers.BLIGHTED_SUPER_RESTORE1),
-        BOTTOMLESS_RESTORE_POTION(-1, -1, -1, false, "bottomless restore potion", ItemIdentifiers.REVITALISATION_4_20960),
-        BOTTOMLESS_OVERLOAD_POTION(-1, -1, -1, false, "bottomless overload potion", ItemIdentifiers.OVERLOAD_4_20996);
+        BLIGHTED_SUPER_RESTORE(-1, -1, -1, false, "blighted restore potion", ItemIdentifiers.BLIGHTED_SUPER_RESTORE4, ItemIdentifiers.BLIGHTED_SUPER_RESTORE3, ItemIdentifiers.BLIGHTED_SUPER_RESTORE2, ItemIdentifiers.BLIGHTED_SUPER_RESTORE1)
+
+        // ENUM END . Ids are (4) (3) (2) (1)
+        ;
 
         private final int skill;
         private final int base;
@@ -177,11 +177,11 @@ public class Potions {
             }
         }
 
-        if (potion == Potion.DIVINE_SUPER_COMBAT_POTION || potion == Potion.DIVINE_BASTION_POTION || potion == Potion.DIVINE_RANGING_POTION
+        if(potion == Potion.DIVINE_SUPER_COMBAT_POTION || potion == Potion.DIVINE_BASTION_POTION || potion == Potion.DIVINE_RANGING_POTION
             || potion == Potion.DIVINE_BATTLEMAGE_POTION || potion == Potion.DIVINE_SUPER_ATTACK_POTION || potion == Potion.DIVINE_SUPER_DEFENCE_POTION ||
             potion == Potion.DIVINE_SUPER_STRENGTH_POTION || potion == Potion.DIVINE_MAGIC_POTION) {
-            if (!player.dead()) {
-                if (player.hp() < 11) {
+            if(!player.dead()) {
+                if(player.hp() < 11) {
                     player.message("You need at least 11 hitpoints to drink this potion");
                     return;
                 }
@@ -189,12 +189,12 @@ public class Potions {
         }
 
         if (potion == Potion.OVERLOAD_POTION) {
-            if (player.<Boolean>getAttribOr(AttributeKey.OVERLOAD_TASK_RUNNING, false) && !player.getPlayerRights().isAdministrator(player)) {
+            if(player.<Boolean>getAttribOr(AttributeKey.OVERLOAD_TASK_RUNNING,false) && !player.getPlayerRights().isAdministrator(player)) {
                 player.message(Color.RED.wrap("The overload effect is still running."));
                 return;
             }
 
-            if (!player.dead()) {
+            if(!player.dead()) {
                 if (player.hp() < 51) {
                     player.message("You need at least 51 hitpoints to drink this potion.");
                     return;
@@ -204,11 +204,6 @@ public class Potions {
                 player.message("You can't use this potion in the wilderness.");
                 return;
             }
-        }
-
-        if (potion == Potion.BOTTOMLESS_RESTORE_POTION && WildernessArea.inWilderness(player.tile())) {
-            player.message(Color.RED.wrap("You can't use this potion in the wilderness."));
-            return;
         }
 
         if (player.stunned()) {
@@ -221,16 +216,13 @@ public class Potions {
             return;
         }
 
-        if (potion == Potion.BOTTOMLESS_OVERLOAD_POTION && player.<Boolean>getAttribOr(AttributeKey.OVERLOAD_TASK_RUNNING, false)) {
-            player.message(Color.RED.wrap("The overload effect is still running."));
-            return;
-        }
-
         player.getTimers().register(TimerKey.POTION, 3);
         player.getTimers().register(TimerKey.FOOD, 3);
         int eatAnim;
-        if (player.getEquipment().contains(4084)) eatAnim = 1469;
-        else eatAnim = 829;
+        if (player.getEquipment().contains(4084))
+            eatAnim = 1469;
+        else
+            eatAnim = 829;
 
         player.animate(eatAnim);
 
@@ -250,8 +242,9 @@ public class Potions {
         return (int) (player.getSkills().xpLevel(skill) * amount);
     }
 
+
     private static void deductDose(Player player, Potion potion, int id) {
-        if (potion.isLastDose(id) && (potion != Potion.BOTTOMLESS_RESTORE_POTION && potion != Potion.BOTTOMLESS_OVERLOAD_POTION)) {
+        if (potion.isLastDose(id)) {
             boolean giveEmptyVials = player.getAttribOr(AttributeKey.GIVE_EMPTY_POTION_VIALS, true);
             int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
 
@@ -270,9 +263,7 @@ public class Potions {
             }
         } else {
             int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
-            if ((potion != Potion.BOTTOMLESS_RESTORE_POTION && potion != Potion.BOTTOMLESS_OVERLOAD_POTION)) {
-                player.inventory().set(slot, new Item(potion.nextDose(id)), true);
-            }
+            player.inventory().set(slot, new Item(potion.nextDose(id)), true);
             int left = potion.dosesLeft(id);
 
             //Sipping a potion stops combat
@@ -316,9 +307,9 @@ public class Potions {
             player.getSkills().alterSkill(Skills.STRENGTH, (int) strengthIncrease);
             player.getSkills().replenishSkill(Skills.PRAYER, (int) prayerIncrease);
             player.getSkills().alterSkill(Skills.DEFENCE, (int) -defenceDecrease);
-            player.hit(null, (int) hpDecrease);
+            player.hit(null,(int) hpDecrease);
 
-        } else if (potion == Potion.SUPER_RESTORE || potion == Potion.BOTTOMLESS_RESTORE_POTION) {
+        } else if (potion == Potion.SUPER_RESTORE) {
             for (int i = 0; i < Skills.SKILL_COUNT; i++) {
                 if (i != Skills.HITPOINTS) {
                     double current_flat = player.getSkills().xpLevel(i);
@@ -354,7 +345,7 @@ public class Potions {
                     player.getSkills().replenishSkill(i, (int) restorable);
                 }
             }
-        } else if (potion == Potion.RESTORE_POTION) {
+        }else if (potion == Potion.RESTORE_POTION) {
             for (int i : new int[]{Skills.ATTACK, Skills.DEFENCE, Skills.STRENGTH, Skills.MAGIC, Skills.RANGED}) {
                 if (i != Skills.HITPOINTS && i != Skills.PRAYER) {
                     double current_flat = player.getSkills().xpLevel(i);
@@ -394,7 +385,7 @@ public class Potions {
             if (Venom.venomed(player))
                 Venom.cure(1, player);
             else {
-                if (Poison.poisoned(player))
+                if(Poison.poisoned(player))
                     player.message("It grants you immunity from poison for 90 seconds.");
                 Poison.cureAndImmune(player, 6);
             }
@@ -402,16 +393,16 @@ public class Potions {
             if (Venom.venomed(player))
                 Venom.cure(1, player);
             else {
-                if (Poison.poisoned(player))
+                if(Poison.poisoned(player))
                     player.message("It grants you immunity from poison for six minutes.");
                 Poison.cureAndImmune(player, 23); // Longer immunity is the only difference
             }
         } else if (potion == Potion.ANTIDOTE_PLUS) { // basicaly super super anti poison - doesnt cure venom
-            if (Poison.poisoned(player))
+            if(Poison.poisoned(player))
                 player.message("It grants you immunity from poison for nine minutes.");
             Poison.cureAndImmune(player, 35); // 8 mins 45s
         } else if (potion == Potion.ANTIDOTE_PLUSPLUS) {
-            if (Poison.poisoned(player))
+            if(Poison.poisoned(player))
                 player.message("It grants you immunity from poison for twelve minutes.");
             Poison.cureAndImmune(player, 48); // 12 mins
         } else if (potion == Potion.ANTIVENOM) {
@@ -530,7 +521,7 @@ public class Potions {
                 // Venom turns to poison. doesn't cure poison.
                 Venom.cure(1, player, false);
                 player.message("The tea dilutes the venom.");
-            } else if (Poison.poisoned(player)) {
+            } else if(Poison.poisoned(player)) {
                 player.message("The tea dilutes some of the poison.");
                 Poison.cure(player);
             }
@@ -589,24 +580,14 @@ public class Potions {
             double strChange = 5 + (player.getSkills().xpLevel(Skills.STRENGTH) * 15 / 100.0);
             player.getSkills().alterSkill(Skills.STRENGTH, (int) strChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_SUPER_STRENGTH_POTION);
-        } else if (potion == Potion.BOTTOMLESS_OVERLOAD_POTION) {
-            player.putAttrib(OVERLOAD_POTION, 500);
-            player.getSkills().overloadPlusBoost(Skills.ATTACK);
-            player.getSkills().overloadPlusBoost(Skills.STRENGTH);
-            player.getSkills().overloadPlusBoost(Skills.DEFENCE);
-            player.getSkills().overloadPlusBoost(Skills.RANGED);
-            player.getSkills().overloadPlusBoost(Skills.MAGIC);
-            OverloadPotion.apply(player);
-            int timer = (int) Utils.ticksToSeconds(500);
-            player.getPacketSender().sendEffectTimer(timer, EffectTimer.OVERLOAD);
         } else if (potion == Potion.OVERLOAD_POTION) {
             Chain.bound(null).runFn(1, () -> {
                 for (int i = 0; i < 5; i++) {
                     Chain.bound(null).name("overloadTask").runFn(i * 2, () -> {
                         player.animate(3170);
                         player.graphic(560);
-                        if (!player.getMemberRights().isEliteMemberOrGreater(player)) {
-                            player.hit(null, 10);
+                        if(!player.getMemberRights().isEliteMemberOrGreater(player)) {
+                            player.hit(null,10);
                         }
                     });
                 }
@@ -654,7 +635,7 @@ public class Potions {
      * @param divinePotion the potion in question.
      */
     public static void onDivinePotionEffect(Player player, DivinePotion divinePotion) {
-        player.hit(null, 10);
+        player.hit(null,10);
         player.graphic(560);
         switch (divinePotion) {
             case DIVINE_BASTION_POTION -> {
@@ -737,7 +718,7 @@ public class Potions {
         return false;
     }
 
-    public static boolean onItemOption2(Player player, Item item) {
+    public static boolean onItemOption4(Player player, Item item) {
         for (Potion pot : Potion.values()) {
             for (int id : pot.ids) {
                 if (id == item.getId()) {

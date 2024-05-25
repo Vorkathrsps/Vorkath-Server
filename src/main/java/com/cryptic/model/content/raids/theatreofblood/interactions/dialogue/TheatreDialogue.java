@@ -15,7 +15,7 @@ public class TheatreDialogue extends Dialogue {
                 return;
             }
         }
-        send(DialogueType.OPTION, "Would you like to begin this raid?", "Yes", "No");
+        sendOption("Would you like to begin this raid?", "Yes", "No");
         setPhase(0);
     }
 

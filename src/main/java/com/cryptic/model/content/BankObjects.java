@@ -112,7 +112,7 @@ public class BankObjects extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.OPTION, "Un-note the bank notes?", "Yes", "No");
+                            sendOption("Un-note the bank notes?", "Yes", "No");
                             setPhase(0);
                         }
 
@@ -139,7 +139,7 @@ public class BankObjects extends PacketInteraction {
                                         boolean added = player.inventory().add(new Item(itemid, avail).unnote(), true);
                                         player.debugMessage(String.format("%s, %s", deleted, added));
                                     }
-                                    send(DialogueType.ITEM_STATEMENT, new Item(def.id), "", "The bank exchanges your banknotes for items.");
+                                    sendItemStatement(new Item(def.id), "", "The bank exchanges your banknotes for items.");
                                     setPhase(1);
                                 } else if (option == 2) {
                                     stop();
@@ -180,7 +180,7 @@ public class BankObjects extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, "Note the un-noted items?", "Yes", "No");
+                    sendOption("Note the un-noted items?", "Yes", "No");
                     setPhase(0);
                 }
 
@@ -198,7 +198,7 @@ public class BankObjects extends PacketInteraction {
                             int count = player.inventory().count(itemId);
                             if (player.inventory().remove(new Item(itemId, count), true)) {
                                 player.inventory().add(new Item(def.notelink, count), true);
-                                send(DialogueType.ITEM_STATEMENT, new Item(itemId), "", "You've exchanged " + count + " items for notes.");
+                                sendItemStatement(new Item(itemId), "", "You've exchanged " + count + " items for notes.");
                                 setPhase(1);
                             }
                         } else if (option == 2) {

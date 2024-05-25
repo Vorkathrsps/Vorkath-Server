@@ -11,8 +11,8 @@ public class PurpleSlayerHelm extends PacketInteraction {
     int[] items = new int[]{ItemIdentifiers.SLAYER_HELMET, ItemIdentifiers.DARK_CLAW};
     @Override
     public boolean handleItemOnItemInteraction(Player player, Item use, Item usedWith) {
-        if (!player.getInventory().containsAll(items)) return false;
         if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DARK_MANTLE)) return false;
+        if (!player.getInventory().containsAll(items)) return false;
         if (ArrayUtils.contains(items, use.getId())) {
             if (ArrayUtils.contains(items, usedWith.getId())) {
                 for (var i : items) player.getInventory().remove(i);

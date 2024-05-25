@@ -375,7 +375,7 @@ public class Skills {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.ITEM_STATEMENT, new Item(5340), "", "Congratulations! You've just advanced Farming level!", "You have reached level " + newLevel + "!");
+                    sendItemStatement(new Item(5340), "", "Congratulations! You've just advanced Farming level!", "You have reached level " + newLevel + "!");
                     setPhase(0);
                 }
             });
@@ -383,7 +383,7 @@ public class Skills {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... options) {
-                    send(DialogueType.ITEM_STATEMENT, new Item(9951), "", "Congratulations! You've just advanced Hunter level!", "You have reached level " + newLevel + "!");
+                    sendItemStatement(new Item(9951), "", "Congratulations! You've just advanced Hunter level!", "You have reached level " + newLevel + "!");
                     setPhase(0);
                 }
             });
@@ -933,7 +933,7 @@ public class Skills {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.ITEM_STATEMENT, new Item(itemId), "", "You need " + Skills.SKILL_NAMES[skill] + " level of " + lvlReq + " or higher to " + action + ".");
+                    sendItemStatement(new Item(itemId), "", "You need " + Skills.SKILL_NAMES[skill] + " level of " + lvlReq + " or higher to " + action + ".");
                     setPhase(0);
                 }
 
@@ -954,7 +954,7 @@ public class Skills {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(itemId1), new Item(itemId2), "You need " + Skills.SKILL_NAMES[skill] + " level of " + lvlReq + " or higher to " + action + ".");
+                    sendItemStatement(new Item(itemId1), new Item(itemId2), "You need " + Skills.SKILL_NAMES[skill] + " level of " + lvlReq + " or higher to " + action + ".");
                     setPhase(0);
                 }
 

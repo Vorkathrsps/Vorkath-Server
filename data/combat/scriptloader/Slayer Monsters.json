@@ -2828,8 +2828,7 @@
   {
     // Cow calf
     "ids": [
-      2792,
-      2794
+      2792
     ],
     "maxhit": 1,
     "slayerxp": 8,
@@ -3210,11 +3209,10 @@
     "slayerxp": 255,
     "slayerlvl": 87,
     "stats": {
-      "magic": 1,
+      "magic": 270,
       "hitpoints": 255
     },
     "bonuses": {
-      "magicstrength": 50,
       "magicdefence": 130,
       "rangeddefence": 300
     },

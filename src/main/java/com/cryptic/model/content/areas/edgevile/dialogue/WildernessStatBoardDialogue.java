@@ -16,7 +16,7 @@ public class WildernessStatBoardDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Toggle Kills/Deaths Overlay", "Reset K/D", "Nothing");
+        sendOption(DEFAULT_OPTION_TITLE, "Toggle Kills/Deaths Overlay", "Reset K/D", "Nothing");
         setPhase(0);
     }
 
@@ -27,7 +27,7 @@ public class WildernessStatBoardDialogue extends Dialogue {
                 player.message("We do not yet have this feature.");
                 stop();
             } else if(option == 2) {
-                send(DialogueType.OPTION,"Are you sure you want to do this?", "Yes, reset my K/D and Kill streak for 1,000 BM.", "No.");
+                sendOption("Are you sure you want to do this?", "Yes, reset my K/D and Kill streak for 1,000 BM.", "No.");
                 setPhase(1);
             } else if(option == 3) {
                 stop();

@@ -25,7 +25,7 @@ public class Jail extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Pickaxe", "Give ores");
+                        sendOption(DEFAULT_OPTION_TITLE, "Pickaxe", "Give ores");
                         setPhase(0);
                     }
 
@@ -43,9 +43,9 @@ public class Jail extends PacketInteraction {
                                 // Make sure people can mine their way out.
                                 if (!player.inventory().contains(BRONZE_PICKAXE)) {
                                     player.inventory().add(new Item(BRONZE_PICKAXE,1),true);
-                                    send(DialogueType.ITEM_STATEMENT, new Item(BRONZE_PICKAXE), "", "Irena hands you a pickaxe.");// bronze axe, not a freaking rune pickaxe on eco LOL
+                                    sendItemStatement(new Item(BRONZE_PICKAXE), "", "Irena hands you a pickaxe.");// bronze axe, not a freaking rune pickaxe on eco LOL
                                 } else {
-                                    send(DialogueType.NPC_STATEMENT, IRENA, Expression.HAPPY, "You've got a pickaxe on you!");
+                                    sendNpcChat(IRENA, Expression.HAPPY, "You've got a pickaxe on you!");
                                 }
                                 setPhase(1);
                             }

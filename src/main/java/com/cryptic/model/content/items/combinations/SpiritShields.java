@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -32,7 +31,7 @@ public class SpiritShields extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.ITEM_STATEMENT, new Item(BLESSED_SPIRIT_SHIELD), "", "The spirit shield glows an eerie holy glow.");
+                    sendItemStatement(new Item(BLESSED_SPIRIT_SHIELD), "", "The spirit shield glows an eerie holy glow.");
                     setPhase(0);
                 }
 
@@ -72,7 +71,7 @@ public class SpiritShields extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.ITEM_STATEMENT, new Item(ELYSIAN_SPIRIT_SHIELD), "", "You successfully combine the Elysian sigil with the shield.");
+                            sendItemStatement(new Item(ELYSIAN_SPIRIT_SHIELD), "", "You successfully combine the Elysian sigil with the shield.");
                             setPhase(0);
                         }
 
@@ -107,7 +106,7 @@ public class SpiritShields extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.ITEM_STATEMENT, new Item(ARCANE_SPIRIT_SHIELD), "", "You successfully combine the Arcane sigil with the shield.");
+                            sendItemStatement(new Item(ARCANE_SPIRIT_SHIELD), "", "You successfully combine the Arcane sigil with the shield.");
                             setPhase(0);
                         }
 
@@ -142,7 +141,7 @@ public class SpiritShields extends PacketInteraction {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
-                            send(DialogueType.ITEM_STATEMENT, new Item(SPECTRAL_SPIRIT_SHIELD), "", "You successfully combine the Spectral sigil with the shield.");
+                            sendItemStatement(new Item(SPECTRAL_SPIRIT_SHIELD), "", "You successfully combine the Spectral sigil with the shield.");
                             setPhase(0);
                         }
 

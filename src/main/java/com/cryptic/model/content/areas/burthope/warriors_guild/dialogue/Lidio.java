@@ -15,14 +15,14 @@ public class Lidio extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, LIDIO, Expression.CALM_TALK, "Greetings warrior, how can I fill your stomach today?");
+        sendNpcChat(LIDIO, Expression.CALM_TALK, "Greetings warrior, how can I fill your stomach today?");
         setPhase(0);
     }
 
     @Override
     protected void next() {
         if(isPhase(0)) {
-            send(DialogueType.PLAYER_STATEMENT, Expression.CALM_TALK, "With food preferably.");
+            sendPlayerChat(Expression.CALM_TALK, "With food preferably.");
             setPhase(1);
         } else if(isPhase(1)) {
             stop();

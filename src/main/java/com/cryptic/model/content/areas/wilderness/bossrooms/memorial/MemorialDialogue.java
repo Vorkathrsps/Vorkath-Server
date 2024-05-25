@@ -12,10 +12,10 @@ public class MemorialDialogue extends Dialogue {
     @Override
     protected void start(Object... parameters) {
         if (!player.hasAttrib(AttributeKey.VETION_ENTRY_FEE)) {
-            send(DialogueType.ITEM_STATEMENT,new Item(BLOOD_MONEY, 100000), "", "The base entry fee for these caves is 50,000 blood money,", "would you like too enter?");
+            sendItemStatement(new Item(BLOOD_MONEY, 100000), "", "The base entry fee for these caves is 50,000 blood money,", "would you like too enter?");
             setPhase(0);
         } else {
-            send(DialogueType.ITEM_STATEMENT,new Item(BLOOD_MONEY, 100000), "", "The base entry fee for these caves is 50,000 blood money,", "which you have paid. Killing wilderness bosses will", "reduce the fee by 10,000. You have a 50,000 discount", "towards your next fee.");
+            sendItemStatement(new Item(BLOOD_MONEY, 100000), "", "The base entry fee for these caves is 50,000 blood money,", "which you have paid. Killing wilderness bosses will", "reduce the fee by 10,000. You have a 50,000 discount", "towards your next fee.");
             setPhase(2);
         }
     }
@@ -23,7 +23,7 @@ public class MemorialDialogue extends Dialogue {
     @Override
     protected void next() {
         if(isPhase(0)) {
-            send(DialogueType.OPTION, "Pay 50,000 Blood Money For Entry?", "Yes", "No");
+            sendOption("Pay 50,000 Blood Money For Entry?", "Yes", "No");
             setPhase(1);
         }
         if(isPhase(2)) {

@@ -27,21 +27,21 @@ public final class BankPinSettingsDialogue extends Dialogue {
         if (pinMod != null) {
             long hours = LocalDateTime.now().until(pinMod.getActivationDate(), ChronoUnit.HOURS);
             String remainingStr = hours > 0 ? "<col=ca0d0d>(" + hours + "h left)" : "(under an hour left)";
-            send(DialogueType.OPTION,
+            sendOption(
                 "Select an option.",
                 "Cancel '" + pinMod.getDescription() + "' " + remainingStr,
                 "Nevermind");
             setPhase(4);
         } else {
             if (player.getBankPin().hasPin()) {
-                send(DialogueType.OPTION, "Select an option.",
+                sendOption("Select an option.",
                     "Change your pin",
                     "Delete your pin",
                     "Change your recovery delay",
                     "Nevermind");
                 setPhase(0);
             } else {
-                send(DialogueType.OPTION, "Select an option.",
+                sendOption("Select an option.",
                     "Create a pin",
                     "Nevermind");
                 setPhase(1);
@@ -54,7 +54,7 @@ public final class BankPinSettingsDialogue extends Dialogue {
         switch (getPhase()) {
             case 0:
             case 1:
-                send(DialogueType.OPTION, "Select an option.",
+                sendOption("Select an option.",
                     "4 digits",
                     "5 digits",
                     "6 digits",
@@ -67,7 +67,7 @@ public final class BankPinSettingsDialogue extends Dialogue {
                 }
                 break;
             case 5:
-                send(DialogueType.OPTION,
+                sendOption(
                     "Select an option.",
                     "Yes",
                     "No");
@@ -80,7 +80,7 @@ public final class BankPinSettingsDialogue extends Dialogue {
         switch (getPhase()) {
             case 0:
                 if (option == 1) {
-                    send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT, "How long would you like your new pin to be?");
+                    sendNpcChat(npcId, Expression.DEFAULT, "How long would you like your new pin to be?");
                 } else if (option == 2) {
                     player.getBankPinSettings().deletePin(npcId);
                 } else if (option == 3) {
@@ -91,7 +91,7 @@ public final class BankPinSettingsDialogue extends Dialogue {
                 break;
             case 1:
                 if (option == 1) {
-                    send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT,
+                    sendNpcChat(npcId, Expression.DEFAULT,
                         "How long would you like your pin to be?");
                 } else if (option == 2) {
                     stop();
@@ -115,7 +115,7 @@ public final class BankPinSettingsDialogue extends Dialogue {
                 break;
             case 4:
                 if (option == 1) {
-                    send(DialogueType.NPC_STATEMENT, npcId, Expression.DEFAULT,
+                    sendNpcChat(npcId, Expression.DEFAULT,
                         "Are you sure you would like to cancel '" + pinMod.getDescription() + "'?");
                     setPhase(5);
                 } else if (option == 2) {

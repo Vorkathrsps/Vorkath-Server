@@ -45,14 +45,14 @@ public class TheatreInteractions extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, NpcIdentifiers.VYREWATCH, Expression.ANGRY, "Leaving so soon?");
+                    sendNpcChat(NpcIdentifiers.VYREWATCH, Expression.ANGRY, "Leaving so soon?");
                     setPhase(0);
                 }
 
                 @Override
                 public void next() {
                     if (isPhase(0)) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes", "No");
+                        sendOption(DEFAULT_OPTION_TITLE, "Yes", "No");
                         setPhase(1);
                     }
                 }

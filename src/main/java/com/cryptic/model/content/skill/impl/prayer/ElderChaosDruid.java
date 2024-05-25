@@ -19,7 +19,7 @@ public class ElderChaosDruid extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Un-Note 1", "Un-Note 5", "Un-Note 10", "Un-Note All");
+                sendOption(DEFAULT_OPTION_TITLE, "Un-Note 1", "Un-Note 5", "Un-Note 10", "Un-Note All");
                 setPhase(0);
             }
 
@@ -97,20 +97,20 @@ public class ElderChaosDruid extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, ELDER_CHAOS_DRUID_7995, Expression.CALM_TALK, "Hello. I can convert items to banknotes, for 50 " + name + "", "per item. Just hand me the items you'd like me to", "convert.");
+                    sendNpcChat(ELDER_CHAOS_DRUID_7995, Expression.CALM_TALK, "Hello. I can convert items to banknotes, for 50 " + name + "", "per item. Just hand me the items you'd like me to", "convert.");
                     setPhase(0);
                 }
 
                 @Override
                 protected void next() {
                     if (isPhase(0)) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Who are you?", "Thanks");
+                        sendOption(DEFAULT_OPTION_TITLE, "Who are you?", "Thanks");
                         setPhase(1);
                     } else if (isPhase(2)) {
-                        send(DialogueType.NPC_STATEMENT, ELDER_CHAOS_DRUID_7995, Expression.CALM_TALK, "I'm just a druid, My real name is Yaz. I'm lazy but", "I make money converting your noted bones", "to unnoted bones.");
+                        sendNpcChat(ELDER_CHAOS_DRUID_7995, Expression.CALM_TALK, "I'm just a druid, My real name is Yaz. I'm lazy but", "I make money converting your noted bones", "to unnoted bones.");
                         setPhase(3);
                     } else if (isPhase(3)) {
-                        send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "Thanks");
+                        sendPlayerChat(Expression.NODDING_ONE, "Thanks");
                         setPhase(4);
                     } else if (isPhase(4)) {
                         stop();
@@ -121,11 +121,11 @@ public class ElderChaosDruid extends PacketInteraction {
                 protected void select(int option) {
                     if (isPhase(1)) {
                         if (option == 1) {
-                            send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "Who are you?");
+                            sendPlayerChat(Expression.NODDING_ONE, "Who are you?");
                             setPhase(2);
                         }
                         if (option == 2) {
-                            send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "Thanks");
+                            sendPlayerChat(Expression.NODDING_ONE, "Thanks");
                             setPhase(4);
                         }
                     }

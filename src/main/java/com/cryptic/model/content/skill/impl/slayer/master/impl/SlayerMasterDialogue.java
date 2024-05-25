@@ -34,14 +34,14 @@ public class SlayerMasterDialogue extends Dialogue {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill " + num + " " + finalAssignment.getTaskName());
+                    sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Excellent, you're doing great.", "Your new task is to kill " + num + " " + finalAssignment.getTaskName());
                     setPhase(0);
                 }
 
                 @Override
                 protected void next() {
                     if (isPhase(0)) {
-                        send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Great, thanks!");
+                        sendPlayerChat(Expression.HAPPY, "Great, thanks!");
                         setPhase(1);
                     } else if (isPhase(1)) {
                         stop();
@@ -53,22 +53,22 @@ public class SlayerMasterDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.NODDING_ONE, "'Ello, and what are you after then?");
+        sendNpcChat(player.getInteractingNpcId(), Expression.NODDING_ONE, "'Ello, and what are you after then?");
         setPhase(0);
     }
 
     @Override
     protected void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I need another assignment.", "Have you any rewards for me, or anything to trade?", "Er... Nothing...");
+            sendOption(DEFAULT_OPTION_TITLE, "I need another assignment.", "Have you any rewards for me, or anything to trade?", "Er... Nothing...");
             setPhase(1);
         } else if (isPhase(2)) {
             giveTask(player);
         } else if (isPhase(5)) {
-            send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.NODDING_FIVE, "I have quite a few rewards you can earn, and a wide", "variety of Slayer equipment for sale.");
+            sendNpcChat(player.getInteractingNpcId(), Expression.NODDING_FIVE, "I have quite a few rewards you can earn, and a wide", "variety of Slayer equipment for sale.");
             setPhase(6);
         } else if (isPhase(6)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Look at rewards.", "Look at shop.");
+            sendOption(DEFAULT_OPTION_TITLE, "Look at rewards.", "Look at shop.");
             setPhase(7);
         } else if (isPhase(8)) {
             stop();
@@ -79,13 +79,13 @@ public class SlayerMasterDialogue extends Dialogue {
     protected void select(int option) {
         if (isPhase(1)) {
             if (option == 1) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "I need another assignment.");
+                sendPlayerChat(Expression.HAPPY, "I need another assignment.");
                 setPhase(2);
             } else if (option == 2) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "Have you any rewards for me, or anything to trade?");
+                sendPlayerChat(Expression.NODDING_ONE, "Have you any rewards for me, or anything to trade?");
                 setPhase(5);
             } else if (option == 3) {
-                send(DialogueType.PLAYER_STATEMENT, Expression.HAPPY, "Er... Nothing...");
+                sendPlayerChat(Expression.HAPPY, "Er... Nothing...");
                 setPhase(8);
             }
         } else if (isPhase(7)) {

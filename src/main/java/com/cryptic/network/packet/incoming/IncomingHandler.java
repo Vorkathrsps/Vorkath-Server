@@ -68,6 +68,29 @@ public class IncomingHandler {
     public static final int CUSTOM_CLIENT_REPORT = 160;
     public static final int DISCONNECTED_BY_PACKET = 161;
 
+    public static final int CLOSE_MODAL = 162;
+    public static final int IF_BUTTOND = 163;
+
+    public static final int WINDOW_SETTING = 165;
+
+    public static final int NEXT_DIALOGUE = 167;
+
+    public static final int RESUME_P_COUNTDIALOG = 168;
+
+    public static final int RESUME_P_STRINGDIALOG = 169;
+
+    public static final int RESUME_P_NAMEDDIALOG = 170;
+
+    public static final int RESUME_P_OBJDIALOG = 171;
+
+    public static final int IF_BUTTONT = 172;
+
+    public static final int OPLOCT = 173;
+
+    public static final int OPNPCT = 174;
+
+    public static final int OPOBJT = 175;
+
     public static final int
         OBJECT_FIRST_CLICK_OPCODE = 132,
         OBJECT_SECOND_CLICK_OPCODE = 252,
@@ -140,7 +163,18 @@ public class IncomingHandler {
         //PACKETS[35] = new MagicOnObjectPacketListener();
         PACKETS[237] = new MagicOnItemPacketListener();
         PACKETS[181] = new MagicOnItemPacketListener();
-
+        PACKETS[CLOSE_MODAL] = new CloseModelPacketListener();
+        PACKETS[IF_BUTTOND] = new IfButtonDPacketListener();
+        PACKETS[WINDOW_SETTING] = new WindowSettingsPacketListener();
+        PACKETS[NEXT_DIALOGUE] = new ResumePauseButtonPacketListener();
+        PACKETS[RESUME_P_COUNTDIALOG] = new ResumePCountDialogPacketListener();
+        PACKETS[RESUME_P_STRINGDIALOG] = new ResumePStringDialogPacketListener();
+        PACKETS[RESUME_P_NAMEDDIALOG] = new ResumePNamedDialogPacketListener();
+        PACKETS[RESUME_P_OBJDIALOG] = new ResumePObjDialogPacketListener();
+        PACKETS[IF_BUTTONT] = new IfButtonTPacketListener();
+        PACKETS[OPLOCT] = new OpLocTPacketListener();
+        PACKETS[OPNPCT] = new OpNpcTPacketListener();
+        PACKETS[OPOBJT] = new OpObjTPacketListener();
         PACKETS[145] = new FirstItemContainerActionPacketListener();
         PACKETS[117] = new SecondItemContainerActionPacketListener();
         PACKETS[43] = new ThirdItemContainerActionPacketListener();
@@ -149,7 +183,7 @@ public class IncomingHandler {
         PACKETS[140] = new WithdrawAllButOnePacketListener();
         PACKETS[141] = new ModifiableXPacketListener();
         PACKETS[143] = new ObjectExaminePacketListener();
-
+        PACKETS[152] = new If1ButtonPacketListener();
         PACKETS[153] = new AttackPlayerPacketListener();
         PACKETS[128] = new PlayerOptionOnePacketListener();
 
@@ -449,7 +483,7 @@ public class IncomingHandler {
         PACKET_SIZES[149] = 7;
         PACKET_SIZES[150] = 6;
         PACKET_SIZES[151] = -3;
-        PACKET_SIZES[152] = 1;
+        PACKET_SIZES[152] = 9;
         PACKET_SIZES[153] = 2;
         PACKET_SIZES[154] = -3;
         PACKET_SIZES[155] = 2;
@@ -459,20 +493,20 @@ public class IncomingHandler {
         PACKET_SIZES[159] = -3;
         PACKET_SIZES[160] = -1;
         PACKET_SIZES[161] = 1;
-        PACKET_SIZES[162] = -3;
-        PACKET_SIZES[163] = -3;
+        PACKET_SIZES[CLOSE_MODAL] = 0;
+        PACKET_SIZES[IF_BUTTOND] = 16;
         PACKET_SIZES[164] = -1;
-        PACKET_SIZES[165] = -1;
+        PACKET_SIZES[WINDOW_SETTING] = 5;
         PACKET_SIZES[166] = -3;
-        PACKET_SIZES[167] = -3;
-        PACKET_SIZES[168] = -3;
-        PACKET_SIZES[169] = -3;
-        PACKET_SIZES[170] = -3;
-        PACKET_SIZES[171] = -3;
-        PACKET_SIZES[172] = -3;
-        PACKET_SIZES[173] = -3;
-        PACKET_SIZES[174] = -3;
-        PACKET_SIZES[175] = -3;
+        PACKET_SIZES[NEXT_DIALOGUE] = 6;
+        PACKET_SIZES[RESUME_P_COUNTDIALOG] = 4;
+        PACKET_SIZES[RESUME_P_STRINGDIALOG] = -1;
+        PACKET_SIZES[RESUME_P_NAMEDDIALOG] = -1;
+        PACKET_SIZES[RESUME_P_OBJDIALOG] = 2;
+        PACKET_SIZES[IF_BUTTONT] = 16;
+        PACKET_SIZES[OPLOCT] = 15;
+        PACKET_SIZES[OPNPCT] = 11;
+        PACKET_SIZES[OPOBJT] = 15;
         PACKET_SIZES[176] = -3;
         PACKET_SIZES[177] = 1;
         PACKET_SIZES[178] = -3;

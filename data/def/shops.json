@@ -363,161 +363,161 @@
   {
     "shopId": 1600,
     "name": "Pvp Shop",
-    "noiron": true,
+    "noiron": false,
     "currency": "TARGET_POINTS",
     "restock": true,
     "sellType": "NONE",
     "scroll": 350,
     "items": [
       {
-        "id": 10551,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12954,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 6570,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 22109,
-        "amount": 100,
-        "value": 25
-      },
-      {
-        "id": 19564,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12791,
-        "amount": 100,
-        "value": 10
-      },
-      {
         "id": 11802,
         "amount": 100,
-        "value": 50
+        "value": 10
       },
       {
         "id": 11808,
         "amount": 100,
-        "value": 50
+        "value": 3
       },
       {
         "id": 11806,
         "amount": 100,
-        "value": 50
+        "value": 3
       },
       {
         "id": 11804,
         "amount": 100,
-        "value": 50
+        "value": 3
+      },
+      {
+        "id": 12006,
+        "amount": 100,
+        "value": 3
       },
       {
         "id": 12931,
         "amount": 100,
-        "value": 25
+        "value": 5
       },
       {
         "id": 11832,
         "amount": 100,
-        "value": 50
+        "value": 5
       },
       {
         "id": 11834,
         "amount": 100,
-        "value": 50
+        "value": 5
       },
       {
-        "id": 11828,
+        "id": 10551,
         "amount": 100,
-        "value": 50
+        "value": 2
       },
       {
-        "id": 11830,
+        "id": 12954,
         "amount": 100,
-        "value": 50
+        "value": 2
+      },
+      {
+        "id": 12877,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 12881,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 12883,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 12875,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 12873,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 6570,
+        "amount": 100,
+        "value": 3
+      },
+      {
+        "id": 22109,
+        "amount": 100,
+        "value": 3
+      },
+      {
+        "id": 19564,
+        "amount": 100,
+        "value": 15
+      },
+      {
+        "id": 12791,
+        "amount": 100,
+        "value": 3
       },
       {
         "id": 12846,
         "amount": 100,
-        "value": 50
+        "value": 15
       },
       {
-        "id": 12006,
+        "id": 11826,
+        "amount": 100,
+        "value": 5
+      },
+      {
+        "id": 11828,
+        "amount": 100,
+        "value": 10
+      },
+      {
+        "id": 11830,
         "amount": 100,
         "value": 10
       },
       {
         "id": 11785,
         "amount": 100,
-        "value": 50
+        "value": 10
       },
       {
         "id": 21902,
         "amount": 100,
-        "value": 15
+        "value": 3
       },
       {
         "id": 22296,
         "amount": 100,
+        "value": 3
+      },
+      {
+        "id": 24422,
+        "amount": 100,
+        "value": 10
+      },
+      {
+        "id": 24511,
+        "amount": 100,
         "value": 15
       },
       {
-        "id": 6737,
+        "id": 24514,
         "amount": 100,
-        "value": 10
+        "value": 15
       },
       {
-        "id": 6731,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 6733,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 6735,
+        "id": 24517,
         "amount": 100,
         "value": 5
-      },
-      {
-        "id": 21733,
-        "amount": 100,
-        "value": 15
-      },
-      {
-        "id": 12875,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12873,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12877,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12881,
-        "amount": 100,
-        "value": 10
-      },
-      {
-        "id": 12883,
-        "amount": 100,
-        "value": 10
       },
       {
         "id": 6889,
@@ -527,37 +527,82 @@
       {
         "id": 11924,
         "amount": 100,
-        "value": 10
+        "value": 3
       },
       {
         "id": 11926,
         "amount": 100,
-        "value": 10
+        "value": 3
       },
       {
         "id": 4224,
         "amount": 100,
-        "value": 10
+        "value": 2
       },
       {
         "id": 12829,
         "amount": 100,
+        "value": 1
+      },
+      {
+        "id": 11773,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 11770,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 11771,
+        "amount": 100,
+        "value": 2
+      },
+      {
+        "id": 11772,
+        "amount": 100,
+        "value": 1
+      },
+      {
+        "id": 25975,
+        "amount": 100,
+        "value": 20
+      },
+      {
+        "id": 13239,
+        "amount": 100,
         "value": 5
+      },
+      {
+        "id": 13235,
+        "amount": 100,
+        "value": 5
+      },
+      {
+        "id": 13237,
+        "amount": 100,
+        "value": 5
+      },
+      {
+        "id": 21733,
+        "amount": 100,
+        "value": 3
       },
       {
         "id": 11840,
         "amount": 100,
-        "value": 5
+        "value": 2
       },
       {
         "id": 24225,
         "amount": 100,
-        "value": 5
+        "value": 2
       },
       {
         "id": 11235,
         "amount": 100,
-        "value": 5
+        "value": 2
       },
       {
         "id": 6585,
@@ -567,37 +612,12 @@
       {
         "id": 24780,
         "amount": 100,
-        "value": 15
-      },
-      {
-        "id": 4151,
-        "amount": 100,
         "value": 10
       },
       {
-        "id": 28072,
+        "id": 7510,
         "amount": 100,
-        "value": 25
-      },
-      {
-        "id": 28076,
-        "amount": 100,
-        "value": 25
-      },
-      {
-        "id": 28078,
-        "amount": 100,
-        "value": 25
-      },
-      {
-        "id": 28080,
-        "amount": 100,
-        "value": 25
-      },
-      {
-        "id": 13265,
-        "amount": 100,
-        "value": 10
+        "value": 1
       }
     ]
   },
@@ -1666,7 +1686,7 @@
     "currency": "SLAYER_REWARD_POINTS",
     "restock": true,
     "sellType": "NONE",
-    "scroll": 0,
+    "scroll": 300,
     "items": [
       {
         "id": 20996,
@@ -1684,29 +1704,14 @@
         "value": 375
       },
       {
-        "id": 19675,
+        "id": 10551,
         "amount": 1,
         "value": 150
       },
       {
-        "id": 28810,
+        "id": 12954,
         "amount": 1,
         "value": 150
-      },
-      {
-        "id": 13116,
-        "amount": 1,
-        "value": 250
-      },
-      {
-        "id": 25781,
-        "amount": 1,
-        "value": 250
-      },
-      {
-        "id": 25979,
-        "amount": 1,
-        "value": 185
       },
       {
         "id": 25278,
@@ -1714,39 +1719,74 @@
         "value": 250
       },
       {
-        "id": 20724,
-        "amount": 1,
-        "value": 350
-      },
-      {
-        "id": 21177,
-        "amount": 1,
-        "value": 1000
-      },
-      {
-        "id": 21183,
-        "amount": 1,
-        "value": 1000
-      },
-      {
-        "id": 7510,
-        "amount": 1,
-        "value": 150
-      },
-      {
         "id": 12785,
         "amount": 1,
         "value": 500
       },
       {
-        "id": 11740,
+        "id": 12791,
+        "amount": 1,
+        "value": 125
+      },
+      {
+        "id": 7462,
+        "amount": 1,
+        "value": 150
+      },
+      {
+        "id": 23951,
+        "amount": 1,
+        "value": 125
+      },
+      {
+        "id": 11663,
         "amount": 1,
         "value": 250
       },
       {
-        "id": 24699,
+        "id": 11664,
         "amount": 1,
-        "value": 100
+        "value": 250
+      },
+      {
+        "id": 11665,
+        "amount": 1,
+        "value": 250
+      },
+      {
+        "id": 13072,
+        "amount": 1,
+        "value": 500
+      },
+      {
+        "id": 13073,
+        "amount": 1,
+        "value": 500
+      },
+      {
+        "id": 8842,
+        "amount": 1,
+        "value": 500
+      },
+      {
+        "id": 20724,
+        "amount": 1,
+        "value": 750
+      },
+      {
+        "id": 11773,
+        "amount": 1,
+        "value": 250
+      },
+      {
+        "id": 11770,
+        "amount": 1,
+        "value": 250
+      },
+      {
+        "id": 11771,
+        "amount": 1,
+        "value": 250
       }
     ]
   },
@@ -6352,7 +6392,7 @@
     "restock": true,
     "noiron": false,
     "sellType": "NONE",
-    "scroll": 350,
+    "scroll": 0,
     "items": [
       {
         "id": 23685,

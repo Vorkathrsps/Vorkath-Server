@@ -78,7 +78,7 @@ public class Spinning {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "What would you like to spin?", "Ball of wool (wool)", "Bow string (flax)", "Rope (yak hair)", "Nevermind");
+                sendOption("What would you like to spin?", "Ball of wool (wool)", "Bow string (flax)", "Rope (yak hair)", "Nevermind");
                 setPhase(0);
             }
 

@@ -1,7 +1,6 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -51,7 +50,7 @@ public class DragonEquipmentOrnamentKits extends PacketInteraction {
                         player.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... parameters) {
-                                send(DialogueType.ITEM_STATEMENT, results.get(result), "", "You combine the ornament kit with the "+name+".");
+                                sendItemStatement(new Item(results.get(result)), "", "You combine the ornament kit with the "+name+".");
                                 setPhase(0);
                             }
 

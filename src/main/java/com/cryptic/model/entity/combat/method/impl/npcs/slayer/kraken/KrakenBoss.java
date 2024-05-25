@@ -96,7 +96,7 @@ public class KrakenBoss {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, "Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
+                        sendOption("Leave the instance? You cannot return.", "Yes, I want to leave.", "No, I'm staying for now.");
                     }
 
                     @Override

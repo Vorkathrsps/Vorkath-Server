@@ -330,7 +330,7 @@ public class Party {
         p.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Start raid.", "Nevermind.");
+                sendOption(DEFAULT_OPTION_TITLE, "Start raid.", "Nevermind.");
                 setPhase(0);
             }
 

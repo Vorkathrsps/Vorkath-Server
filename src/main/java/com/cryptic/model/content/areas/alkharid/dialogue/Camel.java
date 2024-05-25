@@ -28,14 +28,14 @@ public class Camel extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Ask the camel about its dung.", "Say something unpleasant.", "Neither - I'm a polite person.");
+                        sendOption(DEFAULT_OPTION_TITLE, "Ask the camel about its dung.", "Say something unpleasant.", "Neither - I'm a polite person.");
                         setPhase(0);
                     }
 
                     @Override
                     protected void next() {
                         if(isPhase(1)) {
-                            send(DialogueType.STATEMENT, "The camel didn't seem to appreciate that question.");
+                            sendStatement("The camel didn't seem to appreciate that question.");
                             setPhase(2);
                         } else if(isPhase(2)) {
                             stop();
@@ -46,10 +46,10 @@ public class Camel extends PacketInteraction {
                     protected void select(int option) {
                         if(isPhase(0)) {
                             if(option == 1) {
-                                send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_THREE, "I'm sorry to bother you, but could", "you spare a little dung?");
+                                sendPlayerChat(Expression.NODDING_THREE, "I'm sorry to bother you, but could", "you spare a little dung?");
                                 setPhase(1);
                             } else if(option == 2) {
-                                send(DialogueType.PLAYER_STATEMENT, Expression.NODDING_ONE, "I wonder if that camel has flees..");
+                                sendPlayerChat(Expression.NODDING_ONE, "I wonder if that camel has flees..");
                                 player.message("The camel spits at you, and you jump back hurriedly.");
                                 setPhase(2);
                             } else if(option == 3) {

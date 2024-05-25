@@ -68,17 +68,17 @@ public class IronManTutor extends Dialogue {
         }
 
         setPhase(0);
-        //send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Would you like to change your account type to", (player.mode() == GameMode.INSTANT_PKER ? GameMode.TRAINED_ACCOUNT.toName() : GameMode.INSTANT_PKER.toName()) + "?");
+        //sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Would you like to change your account type to", (player.mode() == GameMode.INSTANT_PKER ? GameMode.TRAINED_ACCOUNT.toName() : GameMode.INSTANT_PKER.toName()) + "?");
     }
 
     @Override
     public void next() {
         if (isPhase(0)) {
-            send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
+            sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
             setPhase(1);
         }
         if (isPhase(3)) {
-                send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
+                sendOption(DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
             setPhase(4);
         }
     }
@@ -89,9 +89,9 @@ public class IronManTutor extends Dialogue {
             setPhase(2);
             if (option == 1) {
                 if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels you have will be reset.");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels you have will be reset.");
                 } else {
-                    send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
+                    sendNpcChat(player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
                 }
                 setPhase(3);
             } else {

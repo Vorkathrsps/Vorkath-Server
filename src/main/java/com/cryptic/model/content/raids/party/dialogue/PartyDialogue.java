@@ -12,7 +12,7 @@ public class PartyDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Create raiding party", "Nevermind");
+        sendOption(DEFAULT_OPTION_TITLE, "Create raiding party", "Nevermind");
         setPhase(0);
     }
 

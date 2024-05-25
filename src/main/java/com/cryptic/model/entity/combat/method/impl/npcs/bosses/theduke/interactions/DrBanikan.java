@@ -15,7 +15,7 @@ public class DrBanikan extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, "Would you like to fight Duke Sucellus?", "Yes.", "No.");
+                    sendOption("Would you like to fight Duke Sucellus?", "Yes.", "No.");
                     setPhase(0);
                 }
 

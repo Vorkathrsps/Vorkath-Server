@@ -1,4 +1,4 @@
-package com.cryptic.model.content.items.combinations;
+package com.cryptic.model.content.items.combine;
 
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.entity.player.Player;

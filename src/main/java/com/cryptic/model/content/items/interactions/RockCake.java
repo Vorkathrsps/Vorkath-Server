@@ -44,7 +44,7 @@ public class RockCake {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Trade 100 gold for the cake.", "No thanks.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Trade 100 gold for the cake.", "No thanks.");
                 setPhase(0);
                 }
 

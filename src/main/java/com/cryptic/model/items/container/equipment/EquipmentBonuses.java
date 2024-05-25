@@ -46,7 +46,6 @@ public class EquipmentBonuses {
                     if (i == EquipSlot.AMMO && ((weaponID >= 4212 && weaponID <= 4223) || weaponID == TOXIC_BLOWPIPE || weaponID == 28688)) {
                         continue;
                     }
-
                     var equipmentBonuses = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
                     bonuses.stab += equipmentBonuses.getAstab();
                     bonuses.slash += equipmentBonuses.getAslash();
@@ -64,18 +63,6 @@ public class EquipmentBonuses {
                     bonuses.pray += equipmentBonuses.getPrayer();
                 }
             }
-
-            int attackBoost = player.sigil.processOffensiveEquipmentModification(player);
-            bonuses.stab += attackBoost;
-            bonuses.slash += attackBoost;
-            bonuses.crush += attackBoost;
-
-            int defenseBoost = player.sigil.processDefensiveEquipmentModification(player);
-            bonuses.stabdef += defenseBoost;
-            bonuses.slashdef += defenseBoost;
-            bonuses.crushdef += defenseBoost;
-            bonuses.rangedef += defenseBoost;
-
         } else {
             if (entity instanceof NPC npc && npc.getCombatInfo() != null) {
                 NPCCombatInfo.Bonuses i = npc.getCombatInfo().originalBonuses;

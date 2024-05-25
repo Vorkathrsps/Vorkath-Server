@@ -14,7 +14,7 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 3253
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 - item: ANCIENT_EFFIGY
   minimumAmount: 1
@@ -206,7 +206,7 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 6100
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 - item: DRAGONSTONE_BOLT_TIPS
   minimumAmount: 15
@@ -260,24 +260,24 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 542
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 - item: ANCIENT_TOTEM
   minimumAmount: 1
   maximumAmount: 1
   chance: 813
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 - item: ANCIENT_STATUETTE
   minimumAmount: 1
   maximumAmount: 1
   chance: 1626
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 - item: ANCIENT_CRYSTAL
   minimumAmount: 1
   maximumAmount: 1
   chance: 1084
-  rareDrop: true
+  rareDrop: false
   sendToBank: false
 rolls: 1

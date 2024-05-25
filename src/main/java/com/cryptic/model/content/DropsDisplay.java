@@ -276,7 +276,7 @@ public class DropsDisplay {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Search by npc.", "Search by item.", "Nevermind.");
+                    sendOption(DEFAULT_OPTION_TITLE, "Search by npc.", "Search by item.", "Nevermind.");
                     setPhase(0);
                 }
 

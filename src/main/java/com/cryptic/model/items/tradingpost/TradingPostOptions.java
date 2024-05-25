@@ -17,7 +17,7 @@ public class TradingPostOptions extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Claim Sale", /*"Edit Quantity", "Edit Price",*/ "Cancel Listing", "Never mind");
+        sendOption(DEFAULT_OPTION_TITLE, "Claim Sale", /*"Edit Quantity", "Edit Price",*/ "Cancel Listing", "Never mind");
         setPhase(0);
     }
 

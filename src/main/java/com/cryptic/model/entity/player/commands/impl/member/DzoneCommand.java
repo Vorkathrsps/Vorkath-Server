@@ -16,7 +16,7 @@ public class DzoneCommand implements Command {
             return;
         }
         if (Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
-            Teleports.basicTeleport(player, new Tile(2457, 2858));
+            Teleports.basicTeleport(player, new Tile(3810, 2844, 1));
         }
     }
 

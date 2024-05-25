@@ -1362,13 +1362,15 @@ public class Player extends Entity {
         try {
             // If we're logged in and the channel is active, begin with sending a logout message and closing the channel.
             // We use writeAndFlush here because otherwise the message won't be flushed cos of the next unregister() call.
-            if (session.getChannel() != null && session.getChannel().isActive()) {
-                // logoutpacket
-                try {
-                    session.getChannel().writeAndFlush(new PacketBuilder(109).toPacket()).addListener(ChannelFutureListener.CLOSE);
-                } catch (Exception e) {
-                    // Silenced
-                    e.printStackTrace();
+            if (session != null) {
+                if (session.getChannel() != null && session.getChannel().isActive()) {
+                    // logoutpacket
+                    try {
+                        session.getChannel().writeAndFlush(new PacketBuilder(109).toPacket()).addListener(ChannelFutureListener.CLOSE);
+                    } catch (Exception e) {
+                        // Silenced
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (Exception e) {

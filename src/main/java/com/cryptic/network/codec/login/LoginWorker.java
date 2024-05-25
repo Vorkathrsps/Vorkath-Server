@@ -70,8 +70,8 @@ public class LoginWorker implements Runnable {
         final Player player = request.player;
 
         int response = LoginResponses.evaluateAsync(player, request.message);
-        loginLogs.log(
-            LOGIN, "First Login response code for " + player.getUsername() + " is " + response);
+        loginLogs.log(LOGIN, "First Login response code for " + player.getUsername() + " is " + response);
+
         if (response != LoginResponses.LOGIN_SUCCESSFUL) {
             if (player.getSession().getChannel() != null) {
                 sendCodeAndClose(player.getSession().getChannel(), response);
@@ -80,17 +80,28 @@ public class LoginWorker implements Runnable {
         }
 
         Session session = player.getSession();
+
+        if (session == null) return;
+
         Channel channel = session.getChannel();
+
+        if (channel == null) return;
+        if (!channel.isWritable()) return;
+
         LoginDetailsMessage message = request.message;
-        complete(request, player, channel, message);
+
+        if (!message.getHost().isEmpty()) {
+            complete(request, player, channel, message);
+        }
     }
 
     private void sendCodeAndClose(Channel channel, int response) {
         if (channel == null || channel.alloc() == null) return;
-
         ByteBuf buffer = channel.alloc().buffer(Byte.BYTES);
-        buffer.writeByte(response);
-        channel.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
+        if (buffer.isWritable()) {
+            buffer.writeByte(response);
+            channel.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
+        }
     }
 
     private void initForGame(LoginDetailsMessage message, Channel channel) {
@@ -104,28 +115,28 @@ public class LoginWorker implements Runnable {
     private void complete(
         LoginRequest request, Player player, Channel channel, LoginDetailsMessage message) {
         GameEngine.getInstance().addSyncTask(
-                () -> {
-                    int response = LoginResponses.evaluateOnGamethread(player);
-                    ChannelFuture future = player.getSession().sendOkLogin(response);
+            () -> {
+                int response = LoginResponses.evaluateOnGamethread(player);
+                ChannelFuture future = player.getSession().sendOkLogin(response);
 
-                    if (future == null && !player.isBot()) {//TODO test.
-                        player.getSession().ctx.close();
+                if (future == null && !player.isBot()) {//TODO test.
+                    player.getSession().ctx.close();
+                    return;
+                }
+
+                if (response != LoginResponses.LOGIN_SUCCESSFUL) {
+                    if (player.getSession().getChannel() != null) {
+                        sendCodeAndClose(player.getSession().getChannel(), response);
                         return;
                     }
-
-                    if (response != LoginResponses.LOGIN_SUCCESSFUL) {
-                        if (player.getSession().getChannel() != null) {
-                            sendCodeAndClose(player.getSession().getChannel(), response);
-                            return;
-                        }
-                    }
-                    if (!player.isBot())
-                        initForGame(message, channel);
-                    World.getWorld().getPlayers().add(player);
-                    Utils.sendDiscordInfoLog(
-                            STR."```Login successful for player \{request.message.getUsername()} with IP \{request.message.getHost()}```",
-                        "login");
-                    loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
-                });
+                }
+                if (!player.isBot())
+                    initForGame(message, channel);
+                World.getWorld().getPlayers().add(player);
+                Utils.sendDiscordInfoLog(
+                    STR."```Login successful for player \{request.message.getUsername()} with IP \{request.message.getHost()}```",
+                    "login");
+                loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
+            });
     }
 }

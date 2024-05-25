@@ -16,22 +16,26 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        if (ctx == null) return;
+        if (msg == null) return;
         super.channelRead(ctx, msg);
     }
 
     /**
-     *channelUnregistered has no affect here because the last Netty.Handler in the pipeline is {@link SessionHandler#channelUnregistered(ChannelHandlerContext)}
+     * channelUnregistered has no affect here because the last Netty.Handler in the pipeline is {@link SessionHandler#channelUnregistered(ChannelHandlerContext)}
      */
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        if (ctx == null) return;
         super.channelUnregistered(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) throws Exception {
         try {
-            if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0")) return;
-            if(throwable.getMessage() != null && throwable.getMessage().equalsIgnoreCase("Connection reset")) return;
+            if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0"))
+                return;
+            if (throwable.getMessage() != null && throwable.getMessage().equalsIgnoreCase("Connection reset")) return;
             if (throwable instanceof java.nio.channels.ClosedChannelException) return; // dc
 
             if (throwable instanceof ReadTimeoutException) {

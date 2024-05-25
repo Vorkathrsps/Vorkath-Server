@@ -1,0 +1,26 @@
+npcId:
+- 518
+- 519
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BLACK_CAPE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: IRON_BOLTS
+  minimumAmount: 2
+  maximumAmount: 12
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+rolls: 1

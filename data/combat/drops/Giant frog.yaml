@@ -1,0 +1,32 @@
+npcId:
+- 477
+- 8700
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+rolls: 1

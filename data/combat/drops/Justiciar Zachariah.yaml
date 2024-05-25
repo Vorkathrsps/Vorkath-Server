@@ -1,0 +1,21 @@
+npcId:
+- 5977
+- 7858
+- 12449
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: JUSTICIARS_HAND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+rolls: 1

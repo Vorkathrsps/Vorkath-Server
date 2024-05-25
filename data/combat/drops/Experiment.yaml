@@ -1,0 +1,21 @@
+npcId:
+- 1273
+- 1274
+- 1275
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: EXPERIMENT_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,25 @@
+npcId:
+- 1559
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: AIR_RUNE
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: AIR_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+rolls: 1

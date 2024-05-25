@@ -1,0 +1,47 @@
+npcId:
+- 527
+- 528
+- 529
+- 3484
+- 3485
+- 3486
+- 8400
+- 8401
+- 8698
+- 12618
+- 12619
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: GOLDEN_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ZAMORAK_MONK_BOTTOM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_MONK_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

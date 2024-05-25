@@ -1,0 +1,41 @@
+npcId:
+- 866
+- 867
+- 868
+- 869
+- 870
+- 871
+- 873
+- 874
+- 875
+- 876
+- 877
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: OGRE_COFFIN_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ZOGRE_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ZOGRE_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ZOMBIE_CHAMPION_SCROLL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1666
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,161 @@
+npcId:
+- 2097
+- 2137
+- 2138
+- 2139
+- 2140
+- 2141
+- 2142
+- 2235
+- 2236
+- 2463
+- 2464
+- 2465
+- 2466
+- 2467
+- 2468
+- 7270
+- 7271
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: STEEL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_KNIFE
+  minimumAmount: 4
+  maximumAmount: 13
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: IRON_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: IRON_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_SHARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 94
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_BASE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 141
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_MIDDLE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 141
+  rareDrop: false
+  sendToBank: false
+- item: DARK_TOTEM_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 141
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+rolls: 1

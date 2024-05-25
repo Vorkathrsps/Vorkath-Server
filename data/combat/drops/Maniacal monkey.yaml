@@ -1,0 +1,79 @@
+npcId:
+- 6803
+- 7118
+- 7212
+- 7213
+- 7214
+- 7215
+- 7216
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: SMALL_NINJA_MONKEY_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: PRAYER_POTION1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: ROPE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: MAPLE_SHORTBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: OAK_PLANK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: BANANA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_ARROWP_5626
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: ANTIPOISON2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: BASS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

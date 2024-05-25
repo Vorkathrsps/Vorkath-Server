@@ -1,0 +1,100 @@
+npcId:
+- 2173
+- 2174
+- 2175
+- 2176
+- 2177
+- 2178
+- 2179
+- 2186
+- 2187
+- 7679
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: TZHAARKETOM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: TOKTZKETXIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: OBSIDIAN_CAPE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: OBSIDIAN_HELMET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
+  rareDrop: false
+  sendToBank: false
+- item: OBSIDIAN_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
+  rareDrop: false
+  sendToBank: false
+- item: OBSIDIAN_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 666
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 1
+  maximumAmount: 4
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: TOKKUL
+  minimumAmount: 1
+  maximumAmount: 103
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_TZHAAR_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+rolls: 1

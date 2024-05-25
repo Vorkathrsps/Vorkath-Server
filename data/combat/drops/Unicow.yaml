@@ -1,0 +1,31 @@
+npcId:
+- 3601
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: UNICORN_HORN
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: GREEN_SATCHEL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: TEA_FLASK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+rolls: 1

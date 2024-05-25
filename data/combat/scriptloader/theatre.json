@@ -1,0 +1,621 @@
+[
+  {
+    "ids": [
+      8369, 8371
+    ],
+    "aggressive": false,
+    "aggroradius": 30,
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 3250
+    }
+  },
+  {
+    "ids": [
+      8372
+    ],
+    "maxhit": 47,
+    "deathlen": 2,
+    "aggressive": false,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 200,
+      "hitpoints": 3250
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 80,
+      "magic": 80,
+      "rangestrength": 80,
+      "magicstrength": 80,
+      "stabdefence": 100,
+      "slashdefence": 60,
+      "crushdefence": 100,
+      "rangeddefence": 250,
+      "magicdefence": 70
+    }
+  },
+  {
+    "ids": [
+      8370
+    ],
+    "maxhit": 47,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 20,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 80,
+      "magic": 80,
+      "magicstrength": 150,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 20,
+      "magicdefence": 20
+    }
+  },
+  {
+    "ids": [
+      8374
+    ],
+    "maxhit": 63,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 40,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 300,
+      "ranged": 300,
+      "defence": 150,
+      "hitpoints": 3250
+    },
+    "bonuses": {
+      "attack": 80,
+      "strength": 30,
+      "ranged": 80,
+      "magic": 80,
+      "magicstrength": 5,
+      "rangestrength": 5,
+      "stabdefence": 70,
+      "slashdefence": 30,
+      "crushdefence": 70,
+      "rangeddefence": 230,
+      "magicdefence": 100
+    }
+  },
+  {
+    "ids": [
+      8359
+    ],
+    "maxhit": 0,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 250,
+      "strength": 340,
+      "magic": 150,
+      "ranged": 180,
+      "defence": 100,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 150,
+      "ranged": 180,
+      "magic": 0,
+      "stabdefence": 40,
+      "slashdefence": 20,
+      "crushdefence": 40,
+      "rangeddefence": 800,
+      "magicdefence": 600
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
+    "ids": [
+      8379
+    ],
+    "maxhit": 0,
+    "deathlen": 1,
+    "aggressive": true,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 200,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 100,
+      "slashdefence": 60,
+      "crushdefence": 100,
+      "rangeddefence": 70,
+      "magicdefence": 250
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+      "combat": "VerzikPillarCombat"
+    }
+  },
+  {
+    "ids": [
+      8358
+    ],
+    "maxhit": 0,
+    "deathlen": 1,
+    "aggressive": false,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "magic": 0,
+      "ranged": 0,
+      "defence": 0,
+      "hitpoints": 1000
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
+    "ids": [
+      8343
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 8001,
+      "block": -1,
+      "death": 8000
+    }
+  },
+  {
+    "ids": [
+      8340,
+      10767
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 80,
+      "ranged": 50,
+      "defence": 100,
+      "hitpoints": 3400
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
+    "ids": [
+      8342
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "magicstrength": 928,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 8425,
+      "block": -1,
+      "death": 8426
+    }
+  },
+  {
+    "ids": [
+      8344
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "magicstrength": 928,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7992
+    }
+  },
+  {
+    "ids": [
+      8345
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "magicstrength": 928,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 9140,
+      "block": -1,
+      "death": 8426
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      10814
+    ],
+    "maxhit": 36,
+    "deathlen": 3,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 350,
+      "ranged": 350,
+      "defence": 200,
+      "hitpoints": 3500
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 300,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      10815
+    ],
+    "maxhit": 36,
+    "deathlen": 3,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 350,
+      "ranged": 350,
+      "defence": 200,
+      "hitpoints": 2450
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 300,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      10816
+    ],
+    "maxhit": 36,
+    "deathlen": 3,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 350,
+      "ranged": 350,
+      "defence": 200,
+      "hitpoints": 1750
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 300,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      10817
+    ],
+    "maxhit": 36,
+    "deathlen": 3,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 350,
+      "ranged": 350,
+      "defence": 200,
+      "hitpoints": 1050
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 300,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      8352
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 8001,
+      "block": -1,
+      "death": 8000
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      8347
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7992
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      10862
+    ],
+    "maxhit": 11,
+    "aggressive": false,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "magic": 100,
+      "ranged": 100,
+      "hitpoints": 200
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 386,
+      "block": 388,
+      "death": 7991
+    }
+  },
+  {
+    "ids": [
+      8384
+    ],
+    "maxhit": 11,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 50,
+      "ranged": 1,
+      "defence": 50,
+      "hitpoints": 180
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+    }
+  }
+]

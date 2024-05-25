@@ -1,0 +1,26 @@
+npcId:
+- 1475
+- 1476
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHOMPY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: CHOMPY_CHICK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,562 @@
+[
+  //Bosses slayer master
+  {
+    "npcId": 405,
+    "id": 4,
+    "defs": [
+      //Scorpia
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 139
+      },
+      //Lizardman shaman
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 90
+      },
+      //Demonic gorillas
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 99
+      },
+      //Alchemical hydra
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 103
+      },
+      //Corporeal beast
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 98
+      },
+      //Barrows
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 122
+      },
+      //Cerberus
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 124
+      },
+      //Commander Zilyana
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 127
+      },
+      //General Graardor
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 130
+      },
+      //Giant Mole
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 131
+      },
+      //K'ril Tsutsaroth
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 133
+      },
+      //Kalphite Queen
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 134
+      },
+      //King Black Dragon
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 135
+      },
+      //Kraken
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 136
+      },
+      //Kree'Arra
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 137
+      },
+      //Thermonuclear Smoke Devil
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 140
+      },
+      //Vorkath
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 143
+      },
+      //Zulrah
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 144
+      },
+      //Barrelchest
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 119
+      },
+      //Chaos elemental
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 125
+      },
+      //Crazy archaeologist
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 128
+      },
+      //Vet'ion
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 35,
+        "creatureUid": 142
+      },
+      //Venenatis
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 141
+      },
+      //Callisto
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 123
+      },
+      //Chaos fanatic
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 126
+      },
+      //World boss
+      {
+        "weighing": 8,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 145
+      },
+      //Jad
+      {
+        "weighing": 10,
+        "min": 3,
+        "max": 15,
+        "creatureUid": 97
+      }
+    ]
+  },
+  //Normal tasks
+  {
+    "npcId": 6797,
+    "id": 7,
+    "defs": [
+      //Adamant dragons
+      {
+        "weighing": 5,
+        "min": 3,
+        "max": 6,
+        "creatureUid": 108
+      },
+      //Ankou
+      {
+        "weighing": 5,
+        "min": 50,
+        "max": 50,
+        "creatureUid": 79
+      },
+      //Basilisks
+      {
+        "weighing": 5,
+        "min": 110,
+        "max": 170,
+        "creatureUid": 43
+      },
+      //Black demon
+      {
+        "weighing": 9,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 30
+      },
+      //Black dragon
+      {
+        "weighing": 6,
+        "min": 10,
+        "max": 15,
+        "creatureUid": 27
+      },
+      //Bloodveld
+      {
+        "weighing": 9,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 48
+      },
+      //Brine rat
+      {
+        "weighing": 2,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 84
+      },
+      //Bronze dragons
+      {
+        "weighing": 5,
+        "min": 30,
+        "max": 50,
+        "creatureUid": 58
+      },
+      //Dagannoth
+      {
+        "weighing": 8,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 35
+      },
+      //Dark beasts
+      {
+        "weighing": 5,
+        "min": 10,
+        "max": 15,
+        "creatureUid": 66
+      },
+      //Drakes
+      {
+        "weighing": 10,
+        "min": 75,
+        "max": 138,
+        "creatureUid": 118
+      },
+      //Dust devils
+      {
+        "weighing": 6,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 49
+      },
+      //Fire giant
+      {
+        "weighing": 9,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 16
+      },
+      //Fossil Island Wyverns
+      {
+        "weighing": 5,
+        "min": 15,
+        "max": 30,
+        "creatureUid": 106
+      },
+      //Gargoyles
+      {
+        "weighing": 6,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 46
+      },
+      //Greater demon
+      {
+        "weighing": 7,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 29
+      },
+      //Hellhound
+      {
+        "weighing": 8,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 31
+      },
+      //Iron dragon
+      {
+        "weighing": 5,
+        "min": 30,
+        "max": 50,
+        "creatureUid": 40
+      },
+      //Jellies
+      {
+        "weighing": 6,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 50
+      },
+      //Kalphites
+      {
+        "weighing": 9,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 53
+      },
+      //Kurask
+      {
+        "weighing": 3,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 45
+      },
+      //Lizardmen
+      {
+        "weighing": 8,
+        "min": 90,
+        "max": 110,
+        "creatureUid": 90
+      },
+      //Mithril dragons
+      {
+        "weighing": 5,
+        "min": 3,
+        "max": 6,
+        "creatureUid": 93
+      },
+      //Nechryael
+      {
+        "weighing": 7,
+        "min": 110,
+        "max": 110,
+        "creatureUid": 52
+      },
+      //Red dragons
+      {
+        "weighing": 7,
+        "min": 30,
+        "max": 50,
+        "creatureUid": 26
+      },
+      //Rune dragons
+      {
+        "weighing": 7,
+        "min": 3,
+        "max": 6,
+        "creatureUid": 109
+      },
+      //Skeletal Wyverns
+      {
+        "weighing": 5,
+        "min": 5,
+        "max": 12,
+        "creatureUid": 72
+      },
+      //Smoke devils
+      {
+        "weighing": 7,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 95
+      },
+      //Steel Dragons
+      {
+        "weighing": 5,
+        "min": 30,
+        "max": 50,
+        "creatureUid": 60
+      },
+      //Turoth
+      {
+        "weighing": 3,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 36
+      },
+      //Waterfiends
+      {
+        "weighing": 2,
+        "min": 120,
+        "max": 170,
+        "creatureUid": 88
+      },
+      //Wyrm
+      {
+        "weighing": 10,
+        "min": 125,
+        "max": 190,
+        "creatureUid": 117
+      },
+      //Aberrant spectres
+      {
+        "weighing": 6,
+        "min": 120,
+        "max": 185,
+        "creatureUid": 41
+      },
+      //Abyssal demons
+      {
+        "weighing": 9,
+        "min": 120,
+        "max": 185,
+        "creatureUid": 42
+      },
+      //Bandits
+      {
+        "weighing": 4,
+        "min": 75,
+        "max": 125,
+        "creatureUid": 110
+      },
+      //Bears
+      {
+        "weighing": 6,
+        "min": 50,
+        "max": 100,
+        "creatureUid": 13
+      },
+      //Green dragon
+      {
+        "weighing": 4,
+        "min": 60,
+        "max": 100,
+        "creatureUid": 24
+      },
+      //Hill giant
+      {
+        "weighing": 3,
+        "min": 100,
+        "max": 150,
+        "creatureUid": 14
+      },
+      //Ice giant
+      {
+        "weighing": 6,
+        "min": 100,
+        "max": 160,
+        "creatureUid": 15
+      },
+      //Ice warrior
+      {
+        "weighing": 7,
+        "min": 100,
+        "max": 150,
+        "creatureUid": 19
+      },
+      //Lava dragon
+      {
+        "weighing": 3,
+        "min": 35,
+        "max": 60,
+        "creatureUid": 104
+      },
+      //Lesser demon
+      {
+        "weighing": 6,
+        "min": 80,
+        "max": 120,
+        "creatureUid": 28
+      },
+      //Magic axes
+      {
+        "weighing": 7,
+        "min": 70,
+        "max": 125,
+        "creatureUid": 91
+      },
+      //Moss giant
+      {
+        "weighing": 4,
+        "min": 100,
+        "max": 150,
+        "creatureUid": 17
+      },
+      //Pirate
+      {
+        "weighing": 3,
+        "min": 75,
+        "max": 125,
+        "creatureUid": 114
+      },
+      //Revenant
+      {
+        "weighing": 25,
+        "min": 50,
+        "max": 75,
+        "creatureUid": 107
+      },
+      //Rogue
+      {
+        "weighing": 5,
+        "min": 75,
+        "max": 125,
+        "creatureUid": 116
+      },
+      //Scorpion
+      {
+        "weighing": 6,
+        "min": 60,
+        "max": 100,
+        "creatureUid": 7
+      },
+      //Skeleton
+      {
+        "weighing": 5,
+        "min": 60,
+        "max": 100,
+        "creatureUid": 11
+      },
+      //Spider
+      {
+        "weighing": 6,
+        "min": 60,
+        "max": 100,
+        "creatureUid": 4
+      },
+      //Zombie
+      {
+        "weighing": 3,
+        "min": 75,
+        "max": 125,
+        "creatureUid": 10
+      }
+    ]
+  }
+]

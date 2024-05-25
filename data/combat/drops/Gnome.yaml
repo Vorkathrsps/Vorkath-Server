@@ -1,0 +1,60 @@
+npcId:
+- 4233
+- 4234
+- 5130
+- 5132
+- 5309
+- 5968
+- 5969
+- 5970
+- 6094
+- 6095
+- 6096
+- 8848
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COINS_995
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SWAMP_TOAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: KING_WORM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_ORB
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

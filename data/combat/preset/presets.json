@@ -1,0 +1,868 @@
+[
+  {
+    "id": 1,
+    "name": "Main - Melee",
+    "inventory": [
+      {
+        "id": 2436,
+        "amount": 1
+      },
+      {
+        "id": 2440,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 1215,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 557,
+        "amount": 100
+      },
+      {
+        "id": 560,
+        "amount": 50
+      },
+      {
+        "id": 9075,
+        "amount": 80
+      }
+    ],
+    "equipment": [
+      {
+        "id": 10828,
+        "amount": 1
+      },
+      {
+        "id": 4333,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": -1,
+        "amount": 0
+      },
+      {
+        "id": 4587,
+        "amount": 1
+      },
+      {
+        "id": 1127,
+        "amount": 1
+      },
+      {
+        "id": 1201,
+        "amount": 1
+      },
+      {
+        "id": 1079,
+        "amount": 1
+      },
+      {
+        "id": 7462,
+        "amount": 1
+      },
+      {
+        "id": 3105,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 3,
+    "button": 73274,
+    "attribute": "MAIN_MELEE",
+    "cost": 500000
+  },
+  {
+    "id": 2,
+    "name": "Zerker - Melee",
+    "inventory": [
+      {
+        "id": 2436,
+        "amount": 1
+      },
+      {
+        "id": 2440,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 1215,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 557,
+        "amount": 100
+      },
+      {
+        "id": 560,
+        "amount": 50
+      },
+      {
+        "id": 9075,
+        "amount": 80
+      }
+    ],
+    "equipment": [
+      {
+        "id": 3751,
+        "amount": 1
+      },
+      {
+        "id": 4333,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": -1,
+        "amount": 0
+      },
+      {
+        "id": 4587,
+        "amount": 1
+      },
+      {
+        "id": 1127,
+        "amount": 1
+      },
+      {
+        "id": 1201,
+        "amount": 1
+      },
+      {
+        "id": 1079,
+        "amount": 1
+      },
+      {
+        "id": 7462,
+        "amount": 1
+      },
+      {
+        "id": 3105,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 3,
+    "button": 73275,
+    "attribute": "ZERKER_MELEE",
+    "cost": 500000
+  },
+  {
+    "id": 2,
+    "name": "Pure - Melee",
+    "inventory": [
+      {
+        "id": 2436,
+        "amount": 1
+      },
+      {
+        "id": 2440,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 4153,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      }
+    ],
+    "equipment": [
+      {
+        "id": 6109,
+        "amount": 1
+      },
+      {
+        "id": 10499,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": 892,
+        "amount": 100
+      },
+      {
+        "id": 861,
+        "amount": 1
+      },
+      {
+        "id": 6107,
+        "amount": 1
+      },
+      {
+        "id": 2497,
+        "amount": 1
+      },
+      {
+        "id": 7458,
+        "amount": 1
+      },
+      {
+        "id": 3105,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 0,
+    "button": 73276,
+    "attribute": "PURE_MELEE",
+    "cost": 280000
+  },
+  {
+    "id": 2,
+    "name": "MAIN - TRIBRID",
+    "inventory": [
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 10925,
+        "amount": 1
+      },
+      {
+        "id": 12695,
+        "amount": 1
+      },
+      {
+        "id": 22461,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 2503,
+        "amount": 1
+      },
+      {
+        "id": 9185,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 2497,
+        "amount": 1
+      },
+      {
+        "id": 22284,
+        "amount": 1
+      },
+      {
+        "id": 1215,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 555,
+        "amount": 1000
+      },
+      {
+        "id": 560,
+        "amount": 350
+      },
+      {
+        "id": 565,
+        "amount": 300
+      }
+    ],
+    "equipment": [
+      {
+        "id": 10828,
+        "amount": 1
+      },
+      {
+        "id": 2414,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": 9244,
+        "amount": 55
+      },
+      {
+        "id": 4675,
+        "amount": 1
+      },
+      {
+        "id": 4101,
+        "amount": 1
+      },
+      {
+        "id": 3842,
+        "amount": 1
+      },
+      {
+        "id": 4103,
+        "amount": 1
+      },
+      {
+        "id": 7462,
+        "amount": 1
+      },
+      {
+        "id": 4097,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 1,
+    "button": 73277,
+    "attribute": "MAIN_TRIBRID",
+    "cost": 850000
+  },
+  {
+    "id": 2,
+    "name": "ZERKER - TRIBRID",
+    "inventory": [
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 10925,
+        "amount": 1
+      },
+      {
+        "id": 12695,
+        "amount": 1
+      },
+      {
+        "id": 22461,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 2503,
+        "amount": 1
+      },
+      {
+        "id": 9185,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 2497,
+        "amount": 1
+      },
+      {
+        "id": 22284,
+        "amount": 1
+      },
+      {
+        "id": 1215,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 555,
+        "amount": 1000
+      },
+      {
+        "id": 560,
+        "amount": 350
+      },
+      {
+        "id": 565,
+        "amount": 300
+      }
+    ],
+    "equipment": [
+      {
+        "id": 3751,
+        "amount": 1
+      },
+      {
+        "id": 2413,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": 9244,
+        "amount": 55
+      },
+      {
+        "id": 4675,
+        "amount": 1
+      },
+      {
+        "id": 4101,
+        "amount": 1
+      },
+      {
+        "id": 3842,
+        "amount": 1
+      },
+      {
+        "id": 4103,
+        "amount": 1
+      },
+      {
+        "id": 7462,
+        "amount": 1
+      },
+      {
+        "id": 4097,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 1,
+    "button": 73278,
+    "attribute": "ZERKER_TRIBRID",
+    "cost": 850000
+  },
+  {
+    "id": 2,
+    "name": "PURE - TRIBRID",
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 1,
+    "button": 73279,
+    "attribute": "PURE_TRIBRID",
+    "cost": 500000
+  },
+  {
+    "id": 2,
+    "name": "MAIN - HYBRID",
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 1,
+    "button": 73280,
+    "attribute": "MAIN_HYBRID",
+    "cost": 500000
+  },
+  {
+    "id": 2,
+    "name": "ZERKER - HYBRID",
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 1,
+    "button": 73281,
+    "attribute": "ZERKER_HYBRID",
+    "cost": 500000
+  }
+]

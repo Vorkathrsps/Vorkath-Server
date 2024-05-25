@@ -1,0 +1,264 @@
+npcId:
+- 521
+- 522
+- 523
+- 524
+- 1447
+- 4023
+- 4024
+- 4025
+- 4026
+- 4027
+- 4028
+- 4029
+- 4030
+- 4031
+- 4032
+- 4033
+- 4034
+- 4035
+- 4036
+- 4037
+- 4038
+- 4039
+- 4040
+- 4041
+- 4042
+- 4043
+- 4044
+- 4045
+- 4046
+- 4047
+- 4048
+- 4049
+- 4050
+- 4051
+- 4052
+- 6993
+- 6994
+- 6995
+- 6998
+- 7282
+- 7917
+- 7918
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 341
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 682
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1820
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5461
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32768
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 65536
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 87388
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 35
+  maximumAmount: 35
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 55
+  maximumAmount: 55
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: IRON_BOLTS
+  minimumAmount: 2
+  maximumAmount: 12
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: RIGHT_EYE_PATCH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: CHEFS_HAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: IRON_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: IRON_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

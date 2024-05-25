@@ -1,0 +1,62 @@
+[
+  {
+    //Calvarion
+    "ids": [
+      11993
+    ],
+    "maxhit": 17,
+    "deathlen": 5,
+    "aggressive": true,
+    "stats": {
+      "attack": 250,
+      "strength": 250,
+      "magic": 178,
+      "ranged": 1,
+      "defence": 225,
+      "hitpoints": 150
+    },
+    "bonuses": {
+      "stabdefence": 130,
+      "slashdefence": 128,
+      "crushdefence": -10,
+      "rangeddefence": 198,
+      "magicdefence": 211
+    },
+    "animations": {
+      "death": 9979
+    },
+    "scripts": {
+      "combat": "VetionCombat"
+    }
+  },
+  {
+    //Calvarion
+    "ids": [
+      11994
+    ],
+    "maxhit": 17,
+    "deathlen": 5,
+    "aggressive": true,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 278,
+      "ranged": 1,
+      "defence": 325,
+      "hitpoints": 250
+    },
+    "bonuses": {
+      "stabdefence": 30,
+      "slashdefence": 28,
+      "crushdefence": -10,
+      "rangeddefence": 98,
+      "magicdefence": 111
+    },
+    "animations": {
+      "death": 9980
+    },
+    "scripts": {
+      "combat": "VetionCombat"
+    }
+  }
+]

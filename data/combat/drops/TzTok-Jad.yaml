@@ -1,0 +1,14 @@
+npcId:
+- 3127
+- 6506
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: TZREKJAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+rolls: 1

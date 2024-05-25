@@ -1,0 +1,21 @@
+npcId:
+- 5628
+- 5629
+- 5630
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: SNAIL_SHELL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: PERFECT_SNAIL_SHELL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+rolls: 1

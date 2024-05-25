@@ -1,0 +1,25 @@
+npcId:
+- 3016
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 92
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,166 @@
+npcId:
+- 3055
+- 3056
+- 3057
+- 3058
+- 3059
+- 3060
+- 3061
+- 3062
+- 3064
+- 3065
+- 3066
+- 3067
+- 3068
+- 3069
+- 3070
+- 3071
+- 3072
+- 3256
+- 3262
+- 10676
+- 10677
+- 10678
+- 10679
+- 10984
+- 10985
+- 10986
+- 10987
+- 10988
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: IRON_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_MACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ARROW
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 32
+  maximumAmount: 32
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: COOKED_MEAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_MOULD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BEER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BEAR_FUR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FLYER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_EASY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

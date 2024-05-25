@@ -1,0 +1,19 @@
+npcId:
+- 5372
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: ENSOULED_SCORPION_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,50 @@
+npcId:
+- 4210
+- 11608
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: AGILITY_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: ATTACK_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: DEFENCE_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: STRENGTH_POTION4
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1
+  maximumAmount: 1260
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+rolls: 1

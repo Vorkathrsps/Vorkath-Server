@@ -1,0 +1,35 @@
+npcId:
+- 2946
+- 2947
+- 2948
+- 9612
+- 9613
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NAIL_BEAST_NAILS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LONG_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 133
+  rareDrop: false
+  sendToBank: false
+- item: CURVED_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1670
+  rareDrop: false
+  sendToBank: false
+rolls: 1

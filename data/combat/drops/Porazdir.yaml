@@ -1,0 +1,27 @@
+npcId:
+- 7515
+- 7860
+- 12448
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: DEMONS_HEART
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

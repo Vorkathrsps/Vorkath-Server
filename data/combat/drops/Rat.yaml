@@ -1,0 +1,49 @@
+npcId:
+- 1020
+- 1021
+- 1022
+- 2492
+- 2513
+- 2854
+- 2855
+- 4593
+- 4594
+- 4610
+- 4611
+- 4612
+- 4613
+- 4614
+- 4615
+- 4616
+- 4617
+- 4618
+- 10682
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RATS_TAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: RAT_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+rolls: 1

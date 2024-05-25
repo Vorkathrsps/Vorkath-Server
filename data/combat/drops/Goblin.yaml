@@ -1,0 +1,303 @@
+npcId:
+- 655
+- 656
+- 657
+- 658
+- 659
+- 660
+- 661
+- 662
+- 663
+- 664
+- 665
+- 666
+- 667
+- 668
+- 674
+- 677
+- 678
+- 2245
+- 2246
+- 2247
+- 2248
+- 2249
+- 2484
+- 2485
+- 2486
+- 2487
+- 2488
+- 2489
+- 3028
+- 3029
+- 3030
+- 3031
+- 3032
+- 3033
+- 3034
+- 3035
+- 3036
+- 3037
+- 3038
+- 3039
+- 3040
+- 3041
+- 3042
+- 3043
+- 3044
+- 3045
+- 3046
+- 3047
+- 3048
+- 3051
+- 3052
+- 3053
+- 3054
+- 3073
+- 3074
+- 3075
+- 3076
+- 4902
+- 4903
+- 4904
+- 4905
+- 4906
+- 5152
+- 5153
+- 5154
+- 5192
+- 5193
+- 5195
+- 5196
+- 5197
+- 5198
+- 5199
+- 5200
+- 5201
+- 5202
+- 5203
+- 5204
+- 5205
+- 5206
+- 5207
+- 5208
+- 5376
+- 5377
+- 5508
+- 5509
+- 10566
+- 10567
+- 11322
+- 11323
+- 11324
+- 11325
+- 11326
+- 11327
+- 11328
+- 11329
+- 11330
+- 11331
+- 11332
+- 11333
+- 11334
+- 11335
+- 11336
+- 11337
+- 11338
+- 11339
+- 11340
+- 11341
+- 11342
+- 11343
+- 11344
+- 11345
+- 11346
+- 11347
+- 11348
+- 11349
+- 11350
+- 11351
+- 11352
+- 11353
+- 11354
+- 11355
+- 11356
+- 11357
+- 11358
+- 11359
+- 11360
+- 11361
+- 11362
+- 11363
+- 11364
+- 11365
+- 11366
+- 11367
+- 11368
+- 11369
+- 11370
+- 11371
+- 11372
+- 11373
+- 11374
+- 11375
+- 11376
+- 11377
+- 11378
+- 11379
+- 11380
+- 11381
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: HAMMER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: GOBLIN_BOOK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GOBLIN_MAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: CHEFS_HAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BEER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BRASS_NECKLACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: AIR_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_SQ_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: GOBLIN_SKULL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_GOBLIN_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: ECUMENICAL_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_EASY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: GOBLIN_CHAMPION_SCROLL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1666
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BODY_RUNE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_BOLTS
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+rolls: 1

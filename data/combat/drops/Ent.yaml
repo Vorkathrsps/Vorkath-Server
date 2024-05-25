@@ -1,0 +1,50 @@
+npcId:
+- 6594
+- 7234
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: NOTED_LOGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_OAK_LOGS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_WILLOW_LOGS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAPLE_LOGS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_YEW_LOGS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 78
+  rareDrop: false
+  sendToBank: false
+rolls: 1

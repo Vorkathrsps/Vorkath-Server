@@ -1,0 +1,31 @@
+npcId:
+- 3604
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RAW_JUBBLY
+  minimumAmount: 3
+  maximumAmount: 7
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: GOLD_SATCHEL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: TEA_FLASK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+rolls: 1

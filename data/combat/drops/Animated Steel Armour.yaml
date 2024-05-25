@@ -1,0 +1,31 @@
+npcId:
+- 6438
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: WARRIOR_GUILD_TOKEN
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: STEEL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+rolls: 1

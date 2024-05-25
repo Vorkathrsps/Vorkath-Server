@@ -1,0 +1,21 @@
+npcId:
+- 3901
+- 12548
+- 12550
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COPPERS_CRIMSON_COLLAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

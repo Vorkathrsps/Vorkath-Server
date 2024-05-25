@@ -1,0 +1,25 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server" type="Application" factoryName="Application">
+    <classpathModifications>
+      <entry path="C:\Users\2007z\OneDrive\Desktop\Aelous210\functions\functions-1.90.0.jar" />
+    </classpathModifications>
+    <option name="MAIN_CLASS_NAME" value="com.cryptic.GameServer" />
+    <module name="Cryptic-GameServer" />
+    <option name="PROGRAM_PARAMETERS" value="-javaagent" />
+    <option name="VM_PARAMETERS" value="-XX:AutoBoxCacheMax=65535 -noverify -Dio.netty.tryReflectionSetAccessible=true -Xmx12g -Xms4g -XX:TieredStopAtLevel=1 -XX:CompileThreshold=1500 --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.cryptic.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

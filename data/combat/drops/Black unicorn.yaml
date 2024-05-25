@@ -1,0 +1,37 @@
+npcId:
+- 2849
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: UNICORN_HORN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: UNICORN_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_UNICORN_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+rolls: 1

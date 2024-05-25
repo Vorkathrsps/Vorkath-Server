@@ -1,0 +1,1407 @@
+[
+  {
+    // Nex
+    "ids": [
+      11278,
+      11280,
+      11281,
+      11282
+    ],
+    "maxhit": 32,
+    "attackspeed": 4,
+    "aggressive": true,
+    "retaliates": true,
+    "boss": true,
+    "aggroradius": 35,
+    "stats": {
+      "attack": 315,
+      "strength": 200,
+      "defence": 260,
+      "ranged": 350,
+      "magic": 230,
+      "hitpoints": 3400
+    },
+    "bonuses": {
+      "attack": 200,
+      "strength": 20,
+      "magic": 100,
+      "ranged": 150,
+      "stabdefence": 40,
+      "slashdefence": 140,
+      "crushdefence": 60,
+      "rangeddefence": 190,
+      "magicdefence": 300
+    },
+    "animations": {
+      "attack": -1,
+      "block": 9185,
+      "death": 9184
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDNex",
+      "combat": "NexCombat"
+    }
+  },
+  {
+    // Fumus
+    "ids": [
+      11283
+    ],
+    "maxhit": 29,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": true,
+    "boss": true,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "defence": 200,
+      "magic": 200,
+      "ranged": 1,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "stabdefence": 25,
+      "slashdefence": 100,
+      "crushdefence": 100,
+      "rangeddefence": 50,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": 1979,
+      "block": -1,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "FumusCombat"
+    }
+  },
+  {
+    // Umbra
+    "ids": [
+      11284
+    ],
+    "maxhit": 29,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": true,
+    "boss": true,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "defence": 200,
+      "magic": 200,
+      "ranged": 1,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 100,
+      "rangeddefence": 25,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": 1979,
+      "block": -1,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "UmbraCombat"
+    }
+  },
+  {
+    // Cruor
+    "ids": [
+      11285
+    ],
+    "maxhit": 29,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": true,
+    "boss": true,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "defence": 200,
+      "magic": 200,
+      "ranged": 1,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "stabdefence": 100,
+      "slashdefence": 25,
+      "crushdefence": 100,
+      "rangeddefence": 50,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": 1979,
+      "block": -1,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "CruorCombat"
+    }
+  },
+  {
+    // Glacies
+    "ids": [
+      11286
+    ],
+    "maxhit": 29,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": true,
+    "boss": true,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "defence": 200,
+      "magic": 200,
+      "ranged": 1,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 25,
+      "rangeddefence": 50,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": 1979,
+      "block": -1,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "GlaciesCombat"
+    }
+  },
+  {
+    // Blood reaver
+    "ids": [
+      11293,
+      11294
+    ],
+    "maxhit": 20,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": false,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "defence": 100,
+      "magic": 190,
+      "ranged": 1,
+      "hitpoints": 125
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 80,
+      "crushdefence": 120,
+      "rangeddefence": 55,
+      "magicdefence": 300
+    },
+    "animations": {
+      "attack": 9194,
+      "block": 9196,
+      "death": 9192
+    },
+    "scripts": {
+      "combat": "BloodReaverCombat"
+    }
+  },
+  {
+    // Zamorak spiritual warrior
+    "ids": [
+      3159
+    ],
+    "maxhit": 11,
+    "attackspeed": 5,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 100,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 401,
+      "block": 1156,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Spiritual bandos Mage
+    "ids": [
+      2244
+    ],
+    "maxhit": 17,
+    "slayerxp": 106,
+    "slayerlvl": 83,
+    "attackspeed": 5,
+    "aggressive": true,
+    "combattype": "MAGIC",
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 106,
+      "defence": 103,
+      "attack": 1,
+      "strength": 1,
+      "ranged": 1,
+      "magic": 142
+    },
+    "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 35
+    },
+    "animations": {
+      "attack": 4320,
+      "block": 4322,
+      "death": 4321
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "combat": "SpiritualMageCombat",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Bandos spiritual warrior
+    "ids": [
+      2243
+    ],
+    "maxhit": 16,
+    "attackspeed": 5,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 116,
+      "strength": 120,
+      "defence": 100,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 131
+    },
+    "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 5
+    },
+    "animations": {
+      "attack": 4320,
+      "block": 4322,
+      "death": 4321
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Bandos cyclope
+    "ids": [
+      2235,
+      2236
+    ],
+    "maxhit": 12,
+    "attackspeed": 6,
+    "combattype": "MELEE",
+    "aggressive": true,
+    "stats": {
+      "attack": 60,
+      "strength": 70,
+      "defence": 48,
+      "ranged": 1,
+      "magic": 1,
+      "hitpoints": 110
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 4652,
+      "block": 4651,
+      "death": 4653
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Bandos ork
+    "ids": [
+      2237,
+      2238,
+      2239,
+      2240
+    ],
+    "maxhit": 12,
+    "attackspeed": 5,
+    "combattype": "MELEE",
+    "aggressive": true,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 60,
+      "ranged": 1,
+      "magic": 1,
+      "hitpoints": 110
+    },
+    "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "magicdefence": 5,
+      "rangeddefence": 13
+    },
+    "animations": {
+      "attack": 4320,
+      "block": 4322,
+      "death": 4321
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Bandos jogre
+    "ids": [
+      2234
+    ],
+    "maxhit": 7,
+    "attackspeed": 6,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 43,
+      "strength": 43,
+      "defence": 43,
+      "hitpoints": 60,
+      "ranged": 1,
+      "magic": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
+    },
+    "animations": {
+      "attack": 2930,
+      "block": 2937,
+      "death": 2938
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Hellhound
+    "ids": [
+      3133
+    ],
+    "maxhit": 13,
+    "attackspeed": 4,
+    "slayerxp": 116,
+    "slayerlvl": 1,
+    "combattype": "MELEE",
+    "aggressive": true,
+    "stats": {
+      "attack": 105,
+      "strength": 104,
+      "defence": 102,
+      "ranged": 1,
+      "magic": 1,
+      "hitpoints": 116
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
+    },
+    "animations": {
+      "attack": 6581,
+      "block": 6578,
+      "death": 6576
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Gorak
+    "ids": [
+      3141
+    ],
+    "maxhit": 14,
+    "attackspeed": 4,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 130,
+      "strength": 130,
+      "defence": 131,
+      "ranged": 1,
+      "magic": 1,
+      "hitpoints": 112
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
+    },
+    "animations": {
+      "attack": 4300,
+      "block": 4301,
+      "death": 4302
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Bloodveld
+    "ids": [
+      3138,
+      484,
+      485,
+      486,
+      487
+    ],
+    "maxhit": 5,
+    "attackspeed": 4,
+    "aggressive": false,
+    "slayerlvl": 50,
+    "slayerxp": 120,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 80,
+      "strength": 46,
+      "defence": 30,
+      "ranged": 0,
+      "magic": 0,
+      "hitpoints": 134
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 1552,
+      "block": 1550,
+      "death": 1553
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Imp
+    "ids": [
+      3134,
+      5007
+    ],
+    "maxhit": 1,
+    "attackspeed": 4,
+    "aggressive": false,
+    "deathlen": 3,
+    "combattype": "MELEE",
+    "stats": {
+      "hitpoints": 5,
+      "defence": 1,
+      "attack": 1,
+      "strength": 1,
+      "ranged": 1,
+      "magic": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 169,
+      "block": 170,
+      "death": 172
+    },
+    "sounds": {
+      "attack": [
+        534
+      ],
+      "block": [
+        536
+      ],
+      "death": [
+        535
+      ]
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Werewolf
+    "ids": [
+      3135,
+      3136
+    ],
+    "maxhit": 8,
+    "slayerxp": 100,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggressive": true,
+    "deathlen": 3,
+    "combattype": "MELEE",
+    "stats": {
+      "hitpoints": 184,
+      "defence": 70,
+      "attack": 70,
+      "magic": 1,
+      "ranged": 1,
+      "strength": 70
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 6536,
+      "block": 6538,
+      "death": 6537
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Vampire
+    "ids": [
+      3137
+    ],
+    "maxhit": 18,
+    "slayerxp": 40.0,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggressive": true,
+    "deathlen": 3,
+    "combattype": "MELEE",
+    "stats": {
+      "hitpoints": 40,
+      "defence": 55,
+      "strength": 60,
+      "attack": 55,
+      "ranged": 1,
+      "magic": 40
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 1264,
+      "block": 424,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Icefiend
+    "ids": [
+      3140,
+      4813
+    ],
+    "maxhit": 2,
+    "slayerxp": 15,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 15,
+      "attack": 10,
+      "defence": 12,
+      "strength": 10,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 1582,
+      "block": 1581,
+      "death": 1580
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Pyrefiend
+    "ids": [
+      3139
+    ],
+    "maxhit": 4,
+    "slayerxp": 30,
+    "slayerlvl": 45,
+    "attackspeed": 4,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 45,
+      "attack": 52,
+      "defence": 22,
+      "strength": 30,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 10,
+      "slashdefence": 10,
+      "crushdefence": 10,
+      "rangeddefence": 10
+    },
+    "animations": {
+      "attack": 1582,
+      "block": 1581,
+      "death": 1580
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+    }
+  },
+  {
+    // Hammer Goblin
+    "ids": [
+      2246
+    ],
+    "aggressive": true,
+    "maxhit": 1,
+    "slayerxp": 17,
+    "slayerlvl": 1,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 12,
+      "strength": 6,
+      "defence": 13,
+      "hitpoints": 15,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6185,
+      "block": 6183,
+      "death": 6182
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Sward & Axe Goblin
+    "ids": [
+      2245,
+      2249
+    ],
+    "maxhit": 1,
+    "slayerxp": 17,
+    "slayerlvl": 1,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 11,
+      "strength": 6,
+      "defence": 20,
+      "hitpoints": 13,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6185,
+      "block": 6183,
+      "death": 6182
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Spear Goblin
+    "ids": [
+      2248
+    ],
+    "maxhit": 1,
+    "slayerxp": 17,
+    "slayerlvl": 1,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 19,
+      "strength": 6,
+      "defence": 19,
+      "hitpoints": 16,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6188,
+      "block": 6189,
+      "death": 6190
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    //Ogre
+    "ids": [
+      2247
+    ],
+    "maxhit": 1,
+    "slayerxp": 60,
+    "slayerlvl": 1,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 43,
+      "strength": 43,
+      "defence": 43,
+      "hitpoints": 60,
+      "magic": 1,
+      "ranged": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 359,
+      "block": 360,
+      "death": 361
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Hobgoblin (cb 47)
+    "ids": [
+      2241
+    ],
+    "maxhit": 4,
+    "slayerxp": 49,
+    "slayerlvl": 1,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 22,
+      "strength": 24,
+      "defence": 24,
+      "hitpoints": 29,
+      "ranged": 1,
+      "magic": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 164,
+      "block": 165,
+      "death": 167
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Ogre
+    "ids": [
+      2241
+    ],
+    "maxhit": 7,
+    "aggressive": true,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 43,
+      "strength": 43,
+      "defence": 43,
+      "hitpoints": 60
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 164,
+      "block": 165,
+      "death": 167
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+    }
+  },
+  {
+    // Starlight
+    "ids": [
+      2206
+    ],
+    "maxhit": 15,
+    "aggressive": true,
+    "retaliates": false,
+    "combattype": "MELEE",
+    "aggroradius": 50,
+    "stats": {
+      "attack": 120,
+      "strength": 125,
+      "defence": 120,
+      "magic": 125,
+      "hitpoints": 160
+    },
+    "bonuses": {
+      "attack": 60,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 5
+    },
+    "animations": {
+      "attack": 6376,
+      "block": 6375,
+      "death": 6377
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion"
+    }
+  },
+  {
+    // Growler
+    "ids": [
+      2207
+    ],
+    "maxhit": 16,
+    "aggressive": true,
+    "retaliates": false,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 100,
+      "strength": 101,
+      "defence": 120,
+      "ranged": 1,
+      "magic": 150,
+      "hitpoints": 146
+    },
+    "bonuses": {
+      "attack": 10,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 14,
+      "rangeddefence": 5,
+      "magicdefence": 18
+    },
+    "animations": {
+      "block": 7027,
+      "death": 7028
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "GrowlerCombat"
+    }
+  },
+  {
+    // Growler
+    "ids": [
+      2208
+    ],
+    "maxhit": 16,
+    "aggressive": true,
+    "retaliates": false,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 110,
+      "strength": 80,
+      "defence": 130,
+      "ranged": 150,
+      "magic": 180,
+      "hitpoints": 162
+    },
+    "bonuses": {
+      "attack": 10,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 14,
+      "rangeddefence": 5,
+      "magicdefence": 18
+    },
+    "animations": {
+      "attack": 7037,
+      "block": 0,
+      "death": 7034
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "BreeCombat"
+    }
+  },
+  {
+    // Zilyana
+    "ids": [
+      2205
+    ],
+    "maxhit": 31,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "stats": {
+      "attack": 280,
+      "strength": 196,
+      "defence": 300,
+      "ranged": 250,
+      "magic": 300,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 195,
+      "strength": 20,
+      "magic": 200,
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 100,
+      "rangeddefence": 100,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 6967,
+      "block": 6969,
+      "death": 6968
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "ZilyanaCombat"
+    }
+  },
+  {
+    // Knight of Saradomin
+    "ids": [
+      2213
+    ],
+    "maxhit": 12,
+    "aggressive": true,
+    "attackspeed": 6,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 70,
+      "strength": 90,
+      "defence": 82,
+      "magic": 60,
+      "hitpoints": 108
+    },
+    "bonuses": {
+      "attack": 13,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 406,
+      "block": 410,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+    }
+  },
+  {
+    // Knight of Saradomin
+    "ids": [
+      2214
+    ],
+    "maxhit": 12,
+    "aggressive": true,
+    "attackspeed": 6,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 75,
+      "strength": 90,
+      "defence": 82,
+      "magic": 60,
+      "hitpoints": 108
+    },
+    "bonuses": {
+      "attack": 12,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 401,
+      "block": 403,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+    }
+  },
+  {
+    // Saradomin spiritual warrior
+    "ids": [
+      2210
+    ],
+    "maxhit": 13,
+    "aggressive": true,
+    "attackspeed": 5,
+    "combattype": "MELEE",
+    "stats": {
+      "attack": 110,
+      "strength": 106,
+      "defence": 110,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 110
+    },
+    "bonuses": {
+      "attack": 9,
+      "strength": 9,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 5
+    },
+    "animations": {
+      "attack": 386,
+      "block": 410,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+    }
+  },
+  {
+    // Spiritual Mage sara
+    "ids": [
+      2212
+    ],
+    "maxhit": 17,
+    "slayerxp": 85,
+    "slayerlvl": 83,
+    "attackspeed": 4,
+    "aggressive": true,
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 85,
+      "defence": 86,
+      "magic": 160,
+      "attack": 1,
+      "ranged": 1,
+      "strength": 1
+    },
+    "bonuses": {
+      "stabdefence": 8,
+      "slashdefence": 7,
+      "crushdefence": 3,
+      "rangeddefence": 2,
+      "magicdefence": 16
+    },
+    "animations": {
+      "attack": 811,
+      "block": 424,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "SpiritualMageCombat",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+    }
+  },
+  {
+    // Saradomin priest
+    "ids": [
+      2209
+    ],
+    "maxhit": 13,
+    "attackspeed": 5,
+    "aggressive": true,
+    "deathlen": 3,
+    "stats": {
+      "hitpoints": 89,
+      "defence": 120,
+      "magic": 125
+    },
+    "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 5
+    },
+    "animations": {
+      "attack": 811,
+      "block": 424,
+      "death": 836
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "SpiritualMageCombat",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+    }
+  },
+  {
+    // Flight Kilisa
+    "ids": [
+      3165
+    ],
+    "maxhit": 18,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": false,
+    "combattype": "MELEE",
+    "aggroradius": 50,
+    "stats": {
+      "attack": 124,
+      "strength": 118,
+      "defence": 175,
+      "ranged": 169,
+      "magic": 50,
+      "hitpoints": 133
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6957,
+      "block": 6958,
+      "death": 6959
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion"
+    }
+  },
+  {
+    // Wingman Skree
+    "ids": [
+      3163
+    ],
+    "maxhit": 16,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": false,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 80,
+      "strength": 50,
+      "defence": 160,
+      "ranged": 100,
+      "magic": 150,
+      "hitpoints": 121
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6955,
+      "block": 6958,
+      "death": 6959
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "WingmanSkreeCombat"
+    }
+  },
+  {
+    // Flockleader Geerin
+    "ids": [
+      3164
+    ],
+    "maxhit": 25,
+    "attackspeed": 5,
+    "aggressive": true,
+    "retaliates": false,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 80,
+      "strength": 80,
+      "defence": 175,
+      "ranged": 150,
+      "magic": 50,
+      "hitpoints": 132
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6955,
+      "block": 6958,
+      "death": 6959
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "FlockleaderGeerinCombat"
+    }
+  },
+  {
+    // KreeArra
+    "ids": [
+      3162
+    ],
+    "maxhit": 26,
+    "attackspeed": 3,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "aggroradius": 50,
+    "stats": {
+      "attack": 300,
+      "strength": 200,
+      "defence": 260,
+      "ranged": 380,
+      "magic": 200,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 136,
+      "ranged": 120,
+      "strength": 12,
+      "stabdefence": 180,
+      "slashdefence": 180,
+      "crushdefence": 180,
+      "magicdefence": 200,
+      "rangeddefence": 200
+    },
+    "animations": {
+      "attack": 6981,
+      "block": 6980,
+      "death": 6979
+    },
+    "scripts": {
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "KreeArraCombat"
+    }
+  }
+]

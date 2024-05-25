@@ -1,0 +1,40 @@
+npcId:
+- 106
+- 110
+- 116
+- 117
+- 231
+- 2490
+- 2491
+- 3912
+- 10522
+- 10533
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: WOLF_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: WOLF_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

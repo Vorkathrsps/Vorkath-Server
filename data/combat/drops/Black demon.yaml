@@ -1,0 +1,240 @@
+npcId:
+- 240
+- 1432
+- 2048
+- 2049
+- 2050
+- 2051
+- 2052
+- 5874
+- 5875
+- 5876
+- 5877
+- 6357
+- 7242
+- 7243
+- 7874
+- 7875
+- 7876
+- 12385
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: MALICIOUS_ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: SHARK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_HARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_DEMON_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: SLAYERS_ENCHANTMENT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 53
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 29
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 39
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 47
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 59
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 79
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 79
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ADAMANTITE_BAR
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ADAMANTITE_ORE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 499
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 250
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 500
+  maximumAmount: 749
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 500
+  maximumAmount: 999
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+rolls: 1

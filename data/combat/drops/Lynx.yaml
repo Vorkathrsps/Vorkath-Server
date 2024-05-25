@@ -1,0 +1,22 @@
+npcId:
+- 11068
+- 11069
+- 11070
+- 11197
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: CLUE_SCROLL_EASY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+rolls: 1

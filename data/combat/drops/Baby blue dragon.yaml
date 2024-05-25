@@ -1,0 +1,21 @@
+npcId:
+- 241
+- 242
+- 243
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BABYDRAGON_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: BABY_DRAGON_BONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

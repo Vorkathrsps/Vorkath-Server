@@ -1,0 +1,33 @@
+[
+  {
+    "ids": [
+      5534, 5535
+    ],
+    "maxhit": 2,
+    "attackspeed": 4,
+    "aggroradius": 10,
+    "aggressive": false,
+    "boss": false,
+    "slayerxp": 535,
+    "slayerlvl": 87,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 120
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 270,
+      "magicdefence": -5
+    },
+    "scripts": {
+      "combat": "TentacleCombat"
+    }
+  }
+]

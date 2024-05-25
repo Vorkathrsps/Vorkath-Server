@@ -1,0 +1,40 @@
+npcId:
+- 137
+- 244
+- 245
+- 246
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BABYDRAGON_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: TATTERED_MOON_PAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: TATTERED_SUN_PAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: TATTERED_TEMPLE_PAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: GRUBBY_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 26
+  rareDrop: false
+  sendToBank: false
+rolls: 1

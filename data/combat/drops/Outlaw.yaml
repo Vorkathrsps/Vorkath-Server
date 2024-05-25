@@ -1,0 +1,172 @@
+npcId:
+- 4167
+- 4168
+- 4169
+- 4170
+- 4171
+- 4172
+- 4173
+- 4174
+- 4175
+- 4176
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RATS_PAPER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 34
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 56
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 25
+  maximumAmount: 25
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: ROPE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_BAIT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COPPER_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: CABBAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: KNIFE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+rolls: 1

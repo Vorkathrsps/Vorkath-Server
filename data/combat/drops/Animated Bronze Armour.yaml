@@ -1,0 +1,31 @@
+npcId:
+- 2450
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: WARRIOR_GUILD_TOKEN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: BRONZE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+rolls: 1

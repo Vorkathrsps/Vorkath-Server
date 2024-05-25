@@ -1,0 +1,205 @@
+npcId:
+- 510
+- 512
+- 2056
+- 2057
+- 2058
+- 2059
+- 5086
+- 5087
+- 5088
+- 5089
+- 6997
+- 7064
+- 7065
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: AIR_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_RUNE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BODY_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BODY_RUNE
+  minimumAmount: 18
+  maximumAmount: 18
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: COSMIC_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 29
+  maximumAmount: 29
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: WATER_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 42
+  rareDrop: false
+  sendToBank: false
+- item: WIZARD_HAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: LOOTING_BAG
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_ROBE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 36
+  maximumAmount: 36
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+rolls: 1

@@ -1,0 +1,39 @@
+npcId:
+- 1175
+- 2803
+- 3663
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHICKEN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: FEATHER
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+rolls: 1

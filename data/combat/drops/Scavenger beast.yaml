@@ -1,0 +1,86 @@
+npcId:
+- 7548
+- 7549
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ENDARKENED_JUICE
+  minimumAmount: 6
+  maximumAmount: 16
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: STINKHORN_MUSHROOM
+  minimumAmount: 6
+  maximumAmount: 16
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: CICELY
+  minimumAmount: 6
+  maximumAmount: 16
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: MALLIGNUM_ROOT_PLANK
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: FISHING_ROD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: IRON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: IRON_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: BUTTERFLY_NET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: HAMMER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: TINDERBOX
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: LOCKPICK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: CAVE_WORMS
+  minimumAmount: 30
+  maximumAmount: 50
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+rolls: 3

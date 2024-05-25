@@ -1,0 +1,49 @@
+npcId:
+- 7804
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: SWAMP_TAR
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NUMULITE
+  minimumAmount: 5
+  maximumAmount: 14
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_SMALL_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_MEDIUM_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 46
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_LARGE_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 58
+  rareDrop: false
+  sendToBank: false
+- item: UNIDENTIFIED_RARE_FOSSIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 233
+  rareDrop: false
+  sendToBank: false
+rolls: 1

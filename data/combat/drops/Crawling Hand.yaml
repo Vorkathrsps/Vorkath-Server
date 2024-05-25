@@ -1,0 +1,161 @@
+npcId:
+- 448
+- 449
+- 450
+- 451
+- 452
+- 453
+- 454
+- 455
+- 456
+- 457
+- 12249
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 85
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 170
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 341
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
+  rareDrop: false
+  sendToBank: false
+- item: NATURE_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 910
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1365
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: LOOP_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: TOOTH_HALF_OF_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2730
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16384
+  rareDrop: false
+  sendToBank: false
+- item: SHIELD_LEFT_HALF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32768
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 43694
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: LEATHER_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: CRAWLING_HAND_7975
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: PURPLE_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: YELLOW_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: RED_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: TEAL_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: SAPPHIRE_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: EMERALD_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+rolls: 1

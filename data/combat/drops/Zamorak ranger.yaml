@@ -1,0 +1,56 @@
+npcId:
+- 7420
+- 7421
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: WILLOW_SHORTBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: WILLOW_LONGBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_ARROW
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_ARROW
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_BOW_STRING
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+rolls: 1

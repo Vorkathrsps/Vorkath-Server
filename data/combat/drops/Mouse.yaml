@@ -1,0 +1,27 @@
+npcId:
+- 4000
+- 5127
+- 5128
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: CHEESE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 3
+  maximumAmount: 237
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+rolls: 1

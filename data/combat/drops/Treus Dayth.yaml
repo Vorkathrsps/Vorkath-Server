@@ -1,0 +1,14 @@
+npcId:
+- 3616
+- 6359
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: CLUE_SCROLL_BEGINNER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+rolls: 1

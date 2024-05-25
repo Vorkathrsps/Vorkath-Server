@@ -1,0 +1,23 @@
+npcId:
+- 5272
+- 5273
+- 5274
+- 6794
+- 6813
+petItem: null
+petRarity: 2000
+alwaysDrops:
+- item: SMALL_NINJA_MONKEY_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ENSOULED_MONKEY_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+rolls: 1

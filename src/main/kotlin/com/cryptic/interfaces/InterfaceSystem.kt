@@ -1,6 +1,6 @@
 package com.cryptic.interfaces
 
-import com.cryptic.model.cs2.interfaces.EventConstants
+import com.cryptic.model.cs2.impl.weaponinterface.WeaponInformationInterface
 import com.cryptic.model.entity.player.Player
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
@@ -8,21 +8,15 @@ import com.google.common.collect.ImmutableMap
 
 class InterfaceSystem(private val player: Player) {
 
-    private val visible: BiMap<Int, Int> = HashBiMap.create()
+    var visible: BiMap<Int, Int> = HashBiMap.create()
 
     private var pane: PaneType? = null
 
-    private var journal: Journal? = null
-
-    private var frameNotLoaded: Boolean = false
+    private var journal: Journal = Journal.QUEST_TAB
 
     init {
-        journal = Journal.QUEST_TAB
-
         pane = PaneType.FIXED
-        journal = journal ?: Journal.QUEST_TAB
         visible[pane!!.id shl 16] = pane!!.id
-
     }
 
 
@@ -75,71 +69,47 @@ class InterfaceSystem(private val player: Player) {
 
         openInterfaceForMode(player.displayMode)
 
-        if (frameNotLoaded) {
-            frameNotLoaded = true
-            if (player.device == Device.DESKTOP && isResizable() && isSidePanels()) {
-                //player.settings.refreshSetting(Setting.SIDE_PANELS)
-            } else {
-                player.packetSender.sendPane(pane)
-            }
-            InterfacePosition.VALUES.forEach { position ->
-                if (position.gameframeInterfaceId == -1 || position == InterfacePosition.SIDE_RELATIONSHIPS || position == InterfacePosition.SIDE_QUEST || position == InterfacePosition.SIDE_ACCOUNT_MANAGEMENT) {
-                    return@forEach
-                }
-                val gameInter = GameInterface.get(position.gameframeInterfaceId)
+        player.packetSender.sendPane(pane)
 
-                System.out.println("InterfaceID : ${position.gameframeInterfaceId}")
-                sendInterface(position, position.gameframeInterfaceId)
-
+        InterfacePosition.VALUES.forEach { position ->
+            if (position.gameframeInterfaceId == -1 || position == InterfacePosition.SIDE_RELATIONSHIPS || position == InterfacePosition.SIDE_JOURNAL) {
+                return@forEach
             }
 
-            player.packetSender.runClientScriptNew(2494, 1)
-            sendMisc()
-        } else {
-            if (player.device == Device.DESKTOP && player.displayMode == DisplayMode.RESIZABLE_LIST) {
-                //player.settings.refreshSetting(Setting.SIDE_PANELS)
-            } else {
-                sendPane(this.pane!!, pane)
-            }
-            sendMisc()
+            val gameInter = GameInterface.get(position.gameframeInterfaceId)
+            gameInter!!.open(player)
         }
-        openJournal()
+        sendMisc()
+        handleJournalTab()
+        handleJournalTab()
+        handleRelationShipTab()
+    }
 
-        GameInterface.LOGOUT_TAB.open(player)
-        GameInterface.SETTINGS.open(player)
-        GameInterface.COMBAT_TAB.open(player)
-        GameInterface.EMOTE_TAB.open(player)
-        GameInterface.MUSIC_TAB.open(player)
-        GameInterface.INVENTORY_TAB.open(player)
-        GameInterface.EQUIPMENT_TAB.open(player)
-        GameInterface.SKILL_TAB.open(player)
-        GameInterface.PRAYER_TAB.open(player)
-        GameInterface.SPELLBOOK_TAB.open(player)
+    fun handleRelationShipTab(toggleTab: Boolean = false) {
 
-        GameInterface.FRIEND_LIST_TAB.open(player)
-        GameInterface.SIDE_CHANNELS.open(player)
-        GameInterface.ACCOUNT_MANAGEMENT.open(player)
+        if (toggleTab) {
+            player.varps().toggleVarbit(Varbits.FRIEND_FACE_ID_VARBIT)
+        }
 
-        GameInterface.MINIMAP_ORBS.open(player)
-        GameInterface.CHAT.open(player)
+        val isFriendTab = player.varps().getVarbit(Varbits.FRIEND_FACE_ID_VARBIT) == 0
+        val interfaceToOpen = if (isFriendTab) GameInterface.FRIEND_LIST_TAB else GameInterface.IGNORE_LIST_TAB
+
+        interfaceToOpen.open(player)
     }
 
 
-    fun openJournal() {
-        GameInterface.QUEST_TAB.open(player)
+    fun handleJournalTab(newTab: Journal = journal) {
+        GameInterface.JOURNAL_ROOT.open(player)
+        if (newTab != journal) {
+            journal = newTab
+        }
+        player.varps().setVarbit(Varbits.JOURNAL_TAB_INTERFACE,newTab.ordinal)
         when (journal) {
-            Journal.QUEST_TAB -> GameInterface.QUEST_LIST_INTERFACE.open(player)
-            Journal.ACHIEVEMENT_DIARIES -> GameInterface.ACHIEVEMENT_DIARY_TAB.open(player)
-            Journal.KOUREND -> GameInterface.KOUREND_FAVOUR_TAB.open(player)
-            else -> GameInterface.KOUREND_FAVOUR_TAB.open(player)
+            Journal.CHARACTER_SUMMARY -> GameInterface.CHARACTER_SUMMARY.open(player)
+            Journal.QUEST_TAB -> GameInterface.QUEST_LIST.open(player)
+            Journal.ACHIEVEMENT_DIARIES -> GameInterface.ACHIEVEMENT_DIARY.open(player)
         }
     }
-
-    val PLAYER_ATTACK_OPTION = 38
-    val NPC_ATTACK_OPTION = 39
-    val BRIGHTNES_BAR = 23
-    val DISPLAY_MODE = 41
-
 
     fun toggleDisplayInterface(mode: DisplayMode) {
         if (player.displayMode != mode) {
@@ -148,67 +118,10 @@ class InterfaceSystem(private val player: Player) {
             openInterfaceForMode(mode)
             sendGameFrame()
         }
-        updateEvents()
-    }
-
-    fun updateEvents() {
-        player.packetSender.setInterfaceEvents(116,55, 0..21, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,DISPLAY_MODE, 0..21, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,BRIGHTNES_BAR, 0..21, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,84, 1..3, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,82, 1..4, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,81, 1..5, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,69, 0..21, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,PLAYER_ATTACK_OPTION, 1..5, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,NPC_ATTACK_OPTION, 1..4, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,DISPLAY_MODE, 1..3, EventConstants.ClickOp1)
-        player.packetSender.setInterfaceEvents(116,90, 0..21, EventConstants.ClickOp1)
-    }
-
-    fun sendWeaponComponentInformation(player: Player) {
-        val weapon = player.equipment.weapon
-
-        val name: String
-        val panel: Int
-
-        if (weapon?.definition() != null) {
-            val definition = weapon.definition()
-            name = definition.name
-
-            panel = 0.coerceAtLeast(definition.category)//Weapon ID FOR PANEL
-            player.packetSender.setComponentText(593, 2, "Category: ?")
-        } else {
-            name = "Unarmed"
-            panel = 0
-            player.packetSender.setComponentText(593, 2, "Category: Unarmed")
-        }
-
-        player.packetSender.setComponentText(593, 1, name)
-        player.varps().setVarp(357, panel)
     }
 
     private fun sendMisc() {
-
-
-        sendWeaponComponentInformation(player)
-        player.packetSender.setInterfaceEvents(149,0,0 .. 27,
-            listOf(EventConstants.ClickOp2, EventConstants.ClickOp3, EventConstants.ClickOp4, EventConstants.ClickOp6,
-                EventConstants.ClickOp7, EventConstants.ClickOp10, EventConstants.UseOnGroundItem, EventConstants.UseOnNpc, EventConstants.UseOnObject,
-                EventConstants.UseOnPlayer, EventConstants.UseOnInventory, EventConstants.UseOnComponent, EventConstants.DRAG_DEPTH1, EventConstants.DragTargetable,
-                EventConstants.ComponentTargetable)
-        )
-
-        player.packetSender.runClientScriptNew(5840)
-
-        player.packetSender.setInterfaceEvents(399,6,0..20, 14)
-        player.packetSender.setInterfaceEvents(399,7,0..125, 14)
-        player.packetSender.setInterfaceEvents(399,8,0..13, 14)
-        player.packetSender.setInterfaceEvents(399, 3, 0..7, 14)
-        player.packetSender.setComponentText(399, 9, "Completed: 0/154")
-        player.packetSender.setComponentText(399, 10, "Quest Points: 0/290")
-        player.packetSender.setComponentText(712, 1, player.username)
-        player.packetSender.setComponentText(712, 3,player.skills.combatLevel().toString())
-
+        WeaponInformationInterface.updateWeaponInfo(player)
     }
 
     fun getInterfaceComponent(interfaceId: Int): Int {
@@ -286,8 +199,7 @@ class InterfaceSystem(private val player: Player) {
         val contains = containsInterface(position)
         val dialogue = position == InterfacePosition.DIALOGUE
         val pane = if (dialogue) PaneType.RESIZABLE else this.pane
-        val hash =
-            (if (dialogue) PaneType.CHATBOX.id else pane?.id ?: 0) shl 16 or (position?.getComponent(pane) ?: 0)
+        val hash = (if (dialogue) PaneType.CHATBOX.id else pane?.id ?: 0) shl 16 or (position?.getComponent(pane) ?: 0)
         //closeInput()
         var previous: Int? = null
         if (removeFromMap) {
@@ -369,14 +281,11 @@ class InterfaceSystem(private val player: Player) {
 
     fun setJournal(journal: Journal) {
         this.journal = journal
-        //VarCollection.ACTIVE_JOURNAL.update(player)
+        player.varps().setVarbit(8168, journal.ordinal)
         when (journal) {
-            Journal.QUEST_TAB -> GameInterface.QUEST_LIST_INTERFACE.open(player)
-            Journal.ACHIEVEMENT_DIARIES -> GameInterface.ACHIEVEMENT_DIARY_TAB.open(player)
-            Journal.MINIGAMES -> {
-
-            }
-            Journal.KOUREND -> GameInterface.KOUREND_FAVOUR_TAB.open(player)
+            Journal.CHARACTER_SUMMARY -> GameInterface.CHARACTER_SUMMARY.open(player)
+            Journal.QUEST_TAB -> GameInterface.JOURNAL_ROOT.open(player)
+            Journal.ACHIEVEMENT_DIARIES -> GameInterface.ACHIEVEMENT_DIARY.open(player)
         }
     }
 

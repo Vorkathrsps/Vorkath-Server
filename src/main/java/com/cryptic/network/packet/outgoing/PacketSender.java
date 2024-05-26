@@ -552,6 +552,11 @@ public final class PacketSender {
         return this;
     }
 
+    public void sendInterface(final int interfaceId, final int paneComponent, final PaneType pane, final boolean walkable) {
+        sendInterfaceOSRS(interfaceId, paneComponent, pane, InterfaceType.OVERLAY);
+        player.interfaces.getVisible().forcePut(pane.getId() << 16 | paneComponent, interfaceId);
+    }
+
     public PacketSender sendWalkableInterface(int interfaceId) {
         PacketBuilder out = new PacketBuilder(208);
         out.putInt(interfaceId);

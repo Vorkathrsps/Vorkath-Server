@@ -9,6 +9,12 @@ import com.cryptic.model.cs2.impl.emotes.EmoteInterface;
 import com.cryptic.model.cs2.impl.equipment.EquipmentInventory;
 import com.cryptic.model.cs2.impl.equipment.EquipmentStats;
 import com.cryptic.model.cs2.impl.equipment.EquipmentTab;
+import com.cryptic.model.cs2.impl.journal.AchievementTabInterface;
+import com.cryptic.model.cs2.impl.journal.CharacterSummaryInterface;
+import com.cryptic.model.cs2.impl.journal.JournalRootInterface;
+import com.cryptic.model.cs2.impl.journal.QuestListInterface;
+import com.cryptic.model.cs2.impl.social.FriendListInterface;
+import com.cryptic.model.cs2.impl.social.IgnoreListInterface;
 import com.cryptic.model.cs2.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.model.cs2.impl.inventory.InventoryInterface;
 import com.cryptic.model.entity.player.Player;
@@ -24,6 +30,10 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.EMOTES, new EmoteInterface());
         interfaces.put(InterfaceID.LOGOUT_PANEL, new LogoutTab());
         interfaces.put(InterfaceID.SPELLBOOK, new MagicTab());
+        interfaces.put(InterfaceID.CHARACTER_SUMMARY, new CharacterSummaryInterface());
+        interfaces.put(InterfaceID.QUEST_LIST, new QuestListInterface());
+        interfaces.put(InterfaceID.ACHIEVEMENT_DIARY, new AchievementTabInterface());
+        interfaces.put(InterfaceID.QUEST_ROOT, new JournalRootInterface());
         interfaces.put(InterfaceID.MINIMAP, new MinimapOrbs());
         interfaces.put(InterfaceID.PRAYER, new PrayerTab());
         interfaces.put(InterfaceID.FIXED_VIEWPORT, new ViewportFixed());
@@ -40,6 +50,8 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.DIALOG_DOUBLE_SPRITE, new DialogueItemDouble());
         interfaces.put(InterfaceID.DESTROY_ITEM, new DialogueDestroyItem());
         interfaces.put(InterfaceID.PRODUCE_ITEM, new DialogueProduceItem());
+        interfaces.put(InterfaceID.FRIEND_LIST, new FriendListInterface());
+        interfaces.put(InterfaceID.IGNORE_LIST, new IgnoreListInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

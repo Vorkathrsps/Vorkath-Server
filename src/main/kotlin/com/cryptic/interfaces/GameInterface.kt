@@ -19,13 +19,14 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     //Tab Area
     COMBAT_TAB(InterfaceID.COMBAT, InterfacePosition.COMBAT_TAB),
     SKILL_TAB(InterfaceID.SKILLS, InterfacePosition.SIDE_SKILLS),
-    QUEST_TAB(InterfaceID.QUEST_ROOT, InterfacePosition.SIDE_QUEST),
+    JOURNAL_ROOT(InterfaceID.QUEST_ROOT, InterfacePosition.SIDE_JOURNAL),
     INVENTORY_TAB(InterfaceID.INVENTORY, InterfacePosition.SIDE_INVENTORY),
     EQUIPMENT_TAB(InterfaceID.EQUIPMENT, InterfacePosition.SIDE_EQUIPMENT),
     PRAYER_TAB(InterfaceID.PRAYER, InterfacePosition.SIDE_PRAYER),
     SPELLBOOK_TAB(InterfaceID.SPELLBOOK, InterfacePosition.SIDE_SPELLBOOK),
     SIDE_CHANNELS(InterfaceID.CLAN_CHAT, InterfacePosition.SIDE_CHANNELS),
     FRIEND_LIST_TAB(InterfaceID.FRIEND_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
+    IGNORE_LIST_TAB(InterfaceID.IGNORE_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     ACCOUNT_MANAGEMENT(InterfaceID.ACCOUNT_MANAGEMENT, InterfacePosition.SIDE_ACCOUNT_MANAGEMENT),
     LOGOUT_TAB(InterfaceID.LOGOUT_PANEL, InterfacePosition.SIDE_LOGOUT),
     SETTINGS(InterfaceID.SETTINGS_SIDE, InterfacePosition.SIDE_SETTINGS),
@@ -42,10 +43,9 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     DECANTING(582,InterfacePosition.DIALOGUE),
     DESTROY_ITEM(InterfaceID.DESTROY_ITEM, InterfacePosition.DIALOGUE),
     PRODUCE_ITEM(InterfaceID.PRODUCE_ITEM, InterfacePosition.DIALOGUE),
-    KOUREND_FAVOUR_TAB(245, InterfacePosition.SIDE_QUEST),
-    ACHIEVEMENT_DIARY_TAB(259, InterfacePosition.SIDE_QUEST),
-    QUEST_LIST_INTERFACE(399, InterfacePosition.SIDE_QUEST),
-    QUEST_MINIGAME(76, InterfacePosition.SIDE_QUEST),
+    CHARACTER_SUMMARY(InterfaceID.CHARACTER_SUMMARY, InterfacePosition.SIDE_JOURNAL),
+    ACHIEVEMENT_DIARY(InterfaceID.ACHIEVEMENT_DIARY, InterfacePosition.SIDE_JOURNAL),
+    QUEST_LIST(InterfaceID.QUEST_LIST, InterfacePosition.SIDE_JOURNAL),
     EQUIPMENT_INVENTORY(InterfaceID.EQUIPMENT_INVENTORY,InterfacePosition.SINGLE_TAB),
     EQUIPMENT_STATS(InterfaceID.EQUIPMENT_STATS),
     EXPERIENCE_TRACKER(InterfaceID.EXPERIENCE_TRACKER,InterfacePosition.XP_TRACKER),
@@ -69,7 +69,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
 
         fun get(id: Int): GameInterface? {
             val field = VALUES.find { it.id == id }
-            return field!!
+            return field
         }
     }
 

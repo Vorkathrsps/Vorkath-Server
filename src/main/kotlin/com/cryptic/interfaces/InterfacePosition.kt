@@ -3,7 +3,7 @@ package com.cryptic.interfaces
 import com.cryptic.model.cs2.InterfaceID
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 
-enum class InterfacePosition(val resizableComponent: Int, val gameframeInterfaceId: Int, val type: InterfaceType = InterfaceType.OVERLAY) {
+enum class InterfacePosition(val resizableComponent: Int, val gameframeInterfaceId: Int = -1, val type: InterfaceType = InterfaceType.OVERLAY) {
 
     CHATBOX(96, InterfaceID.CHATBOX),
     MINIMAP_ORBS(33, InterfaceID.MINIMAP),
@@ -18,7 +18,7 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
 
     COMBAT_TAB(76, InterfaceID.COMBAT),
     SIDE_SKILLS(77, InterfaceID.SKILLS),
-    SIDE_QUEST(78, InterfaceID.QUEST_ROOT),
+    SIDE_JOURNAL(78, InterfaceID.QUEST_ROOT),
     SIDE_INVENTORY(79, InterfaceID.INVENTORY),
     SIDE_EQUIPMENT(80, InterfaceID.EQUIPMENT),
     SIDE_PRAYER(81, InterfaceID.PRAYER),
@@ -27,15 +27,15 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
     SIDE_RELATIONSHIPS(85, InterfaceID.FRIEND_LIST),
     SIDE_ACCOUNT_MANAGEMENT(84, InterfaceID.ACCOUNT_MANAGEMENT),
     SIDE_LOGOUT(86, InterfaceID.LOGOUT_PANEL),
-    SIDE_SETTINGS(87, 261),
+    SIDE_SETTINGS(87, InterfaceID.SETTINGS_SIDE),
     SIDE_EMOTES(88, InterfaceID.EMOTES),
     SIDE_MUSIC(89, InterfaceID.MUSIC),
 
     MINIGAME_OVERLAY(6), //TODO
     UNKNOWN_OVERLAY(8), //TODO
-    PRIVATE_CHAT(9, 163), //TODO
+    PRIVATE_CHAT(9), //TODO
     MULTI(94),//TODO
-    SKILL_INFORMATION(548, 42);
+    SKILL_INFORMATION(548);
 
     companion object {
         /**

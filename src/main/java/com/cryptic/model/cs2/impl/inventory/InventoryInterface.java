@@ -5,21 +5,46 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.packet_actions.interactions.items.*;
 import com.cryptic.model.cs2.ComponentID;
+import com.cryptic.model.cs2.interfaces.EventConstants;
 import com.cryptic.model.cs2.interfaces.InterfaceBuilder;
 import com.cryptic.model.cs2.interfaces.InterfaceHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.inventory.Inventory;
+import kotlin.ranges.IntRange;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class InventoryInterface extends InterfaceBuilder {
-    public InventoryInterface() {
-//        setEvents(new EventNode(0, 0, 27));
-    }
 
     @Override
     protected GameInterface gameInterface() {
         return GameInterface.INVENTORY_TAB;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+        player.getPacketSender().setInterfaceEvents(149, 0, new IntRange(0, 27),
+            List.of(
+                EventConstants.ClickOp2,
+                EventConstants.ClickOp3,
+                EventConstants.ClickOp4,
+                EventConstants.ClickOp6,
+                EventConstants.ClickOp7,
+                EventConstants.ClickOp10,
+                EventConstants.UseOnGroundItem,
+                EventConstants.UseOnNpc,
+                EventConstants.UseOnObject,
+                EventConstants.UseOnPlayer,
+                EventConstants.UseOnInventory,
+                EventConstants.UseOnComponent,
+                EventConstants.DRAG_DEPTH1,
+                EventConstants.DragTargetable,
+                EventConstants.ComponentTargetable
+            )
+        );
     }
 
     @Override

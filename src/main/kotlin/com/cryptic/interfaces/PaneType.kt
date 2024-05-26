@@ -13,7 +13,13 @@ enum class PaneType(val id: Int, val enumId: Int) {
     ORB_OF_OCULUS(16, -1),
     GAME_SCREEN(80, -1),
     CHATBOX(162, -1),
+    LOADING_CHATBOX(293, -1),
     JOURNAL_TAB_HEADER(629, -1),
+    ADVANCED_SETTINGS(134, -1),
+    CHAT_TAB_HEADER(707, -1),
+    IRON_GROUP_SOCIALS_TAB_HEADER(727, -1),
+    IRON_GROUP_SETTINGS(730, -1),
+    IRON_BANK(724, -1),
     MOBILE(601, 1745);
 
     fun getEnum(): EnumType {

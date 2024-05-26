@@ -281,7 +281,6 @@ public class PresetManager {
 
         //Update current preset
         player.setCurrentPreset(preset);
-        player.getPacketSender().updateSpecialAttackOrb();
     }
 
     private boolean equipment(final Presetable preset) {
@@ -654,7 +653,6 @@ public class PresetManager {
             if (player.getMemberRights().isEliteMemberOrGreater(player)) {
                 player.restoreSpecialAttack(100);
             }
-            player.getPacketSender().updateSpecialAttackOrb();
 
             //Store last preset
             if (player.getCurrentPreset() != null) {

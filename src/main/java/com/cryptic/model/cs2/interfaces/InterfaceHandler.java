@@ -24,6 +24,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.EMOTES, new EmoteInterface());
         interfaces.put(InterfaceID.LOGOUT_PANEL, new LogoutTab());
         interfaces.put(InterfaceID.SPELLBOOK, new MagicTab());
+        interfaces.put(InterfaceID.MINIMAP, new MinimapOrbs());
         interfaces.put(InterfaceID.PRAYER, new PrayerTab());
         interfaces.put(InterfaceID.FIXED_VIEWPORT, new ViewportFixed());
         interfaces.put(InterfaceID.COMBAT,new WeaponInformationInterface());
@@ -48,7 +49,8 @@ public class InterfaceHandler {
     public static void closeModals(Player player) {
         for (InterfaceBuilder inter : player.activeInterface.values()) {
             GameInterface gameInterface = inter.gameInterface();
-            if (gameInterface.getPosition().getType() == InterfaceType.MODAL) {
+            if (gameInterface.getPosition().getType() == InterfaceType.MODAL && !gameInterface.name().contains("VIEWPORT")) {
+                System.out.println("Close: " + gameInterface.name());
                 gameInterface.close(player);
                 inter.close(player);
             }

@@ -41,7 +41,7 @@ public class DialogueProduceItem extends InterfaceBuilder {
         }
 
         player.varps().sendTempVarbit(10670, 1);
-        player.getPacketSender().runClientScriptNew(2046, 0, activeDialogueProduceItemItemRecord.title() + String.join("", nameArray), 3,
+        player.getPacketSender().runClientScriptNew(2046, 0, activeDialogueProduceItemItemRecord.title(), 3,
             itemArray[0], itemArray[1], itemArray[2], itemArray[3], itemArray[4], itemArray[5], itemArray[6], itemArray[7], itemArray[8], itemArray[9], Math.max(2, 1));
 
     }

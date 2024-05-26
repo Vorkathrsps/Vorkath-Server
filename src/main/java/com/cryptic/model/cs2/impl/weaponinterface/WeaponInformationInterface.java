@@ -32,7 +32,6 @@ public class WeaponInformationInterface extends InterfaceBuilder {
 
         player.getPacketSender().setComponentText(593, 1, name);
         player.getPacketSender().setComponentText(593, 2, "Category: " + category);
-        player.varps().setVarp(301, 1);
         player.varps().setVarp(172, 0);
         player.varps().setVarbit(357, varbitValue);
 
@@ -45,6 +44,9 @@ public class WeaponInformationInterface extends InterfaceBuilder {
         if (button == ComponentID.COMBAT_STYLE_ONE) {
             player.varps().setVarp(43, 0);
             player.varps().setVarp(46, 0);
+        }
+        if (button == 38862885) {
+            player.toggleSpecialAttack();
         }
         if (button == ComponentID.COMBAT_STYLE_TWO) {
             player.varps().setVarp(43, 1);

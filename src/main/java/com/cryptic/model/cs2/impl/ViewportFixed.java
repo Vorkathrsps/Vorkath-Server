@@ -26,6 +26,7 @@ public class ViewportFixed extends InterfaceBuilder {
             } else if (button == ComponentID.FIXED_VIEWPORT_MAGIC_TAB) {
                 player.varps().toggleVarp(Varbits.SPELLBOOK_FILTERING);
             }
+
         }
     }
 }

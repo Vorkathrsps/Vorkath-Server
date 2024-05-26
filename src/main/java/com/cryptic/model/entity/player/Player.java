@@ -1613,6 +1613,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
+        setSpecialActivated(false);
         message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName()+ "!");
         handleForcedTeleports();
         applyAttributes();
@@ -1653,7 +1654,7 @@ public class Player extends Entity {
         relations.setPrivateMessageId(1);
         relations.onLogin();
         getMovementQueue().clear();
-        packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).updateSpecialAttackOrb().sendRunStatus().sendRunEnergy((int) energy);
+        packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).sendRunStatus().sendRunEnergy((int) energy);
         Prayers.closeAllPrayers(this);
         setHeadHint(-1);
         skills.update();
@@ -2083,7 +2084,7 @@ public class Player extends Entity {
 
         //Put back special attack
         setSpecialAttackPercentage(100);
-        setSpecialActivated(false);//Disable special attack
+        setSpecialActivated(false);
 
         //No idea why this is here
         getMovementQueue().setBlockMovement(false).clear();
@@ -2144,6 +2145,16 @@ public class Player extends Entity {
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(this);
         getMovementQueue().setBlockMovement(false).clear();
+    }
+
+    public void toggleSpecialAttack() {
+        this.specialActivated = !specialActivated;
+        player().varps().setVarp(301,specialActivated ? 1 : 0);
+    }
+
+    public void setSpecialActivated(boolean specialActivated) {
+        this.specialActivated = specialActivated;
+        player().varps().setVarp(301,specialActivated ? 1 : 0);
     }
 
     /**

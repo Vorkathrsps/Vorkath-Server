@@ -75,6 +75,6 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
 
     fun open(player: Player) = InterfaceHandler.find(this.id)?.open(player) ?: player.interfaces.sendInterface(this)
 
-    fun close(player: Player) = player.packetSender.closeInterfaceOSRS(this.id)
+    fun close(player: Player) = player.packetSender.closeInterfaceOSRS(this.id shl 16)
 
 }

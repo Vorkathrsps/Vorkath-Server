@@ -2124,7 +2124,7 @@ public abstract class Entity {
     private int specialAttackPercentage = 100;
     @Setter
     @Getter
-    private boolean specialActivated;
+    public boolean specialActivated;
     @Setter
     private boolean recoveringSpecialAttack;
     @Getter

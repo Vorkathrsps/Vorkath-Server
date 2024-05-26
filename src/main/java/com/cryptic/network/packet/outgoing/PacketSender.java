@@ -12,12 +12,14 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.player.InfectionType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerInteractingOption;
+import com.cryptic.model.entity.player.Varps;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.*;
 import com.cryptic.network.packet.outgoing.message.ComponentVisibility;
+import com.cryptic.utility.Varbit;
 import com.cryptic.utility.WidgetUtil;
 import kotlin.ranges.IntRange;
 import lombok.Getter;
@@ -528,6 +530,7 @@ public final class PacketSender {
 
     public PacketSender sendRunStatus() {
         boolean running = player.getAttribOr(AttributeKey.IS_RUNNING, false);
+        player.varps().setVarp(173, running ? 1 : 0);
         PacketBuilder out = new PacketBuilder(113);
         out.put(running ? 1 : 0);
         player.getSession().write(out);

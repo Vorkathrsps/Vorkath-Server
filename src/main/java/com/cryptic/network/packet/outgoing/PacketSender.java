@@ -5,6 +5,7 @@ import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
+import com.cryptic.model.cs2.MessageType;
 import com.cryptic.model.cs2.interfaces.EventConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
@@ -396,21 +397,50 @@ public final class PacketSender {
         return this;
     }
 
-    /**
-     * Sends a game message to a player in the server.
-     *
-     * @param message The message they will receive in chat box.
-     * @return The PacketSender instance.
-     */
-    public PacketSender sendMessage(String message) {
-        if (message.length() > 220) {
-            logger.error("aye", new IllegalArgumentException("The message length was too big! " + message));
-            message = message.substring(0, 220);
-        }
+    public PacketSender sendMessage(final String message) {
+        return sendGameMessage(message, false);
+    }
+
+    public PacketSender sendFilteredMessage(final String message) {
+        return sendGameMessage(message, true);
+    }
+
+    public PacketSender sendMessage(final String message, final MessageType type) {
+        return sendGameMessage(message, type);
+    }
+
+    public PacketSender sendMessage(final String message, final MessageType type, final String extension) {
+
         PacketBuilder out = new PacketBuilder(253, PacketType.VARIABLE);
+        out.putShort(type.getType());
+        out.put(extension != null ? 1 : 0);
+        if (extension != null) {
+            out.putString(extension);
+        }
         out.putString(message);
         player.getSession().write(out);
         return this;
+
+    }
+
+    public PacketSender sendGameMessage(final String message, final MessageType type) {
+        return sendMessage(message, type, null);
+    }
+
+    public PacketSender sendGameMessage(final String message, final boolean filterable) {
+        return sendMessage(message, filterable ? MessageType.FILTERABLE : MessageType.UNFILTERABLE, null);
+    }
+
+    public PacketSender sendGameMessage(final String message, final boolean filterable, final Object... params) {
+        return sendMessage(params.length > 0 ? String.format(message, params) : message, filterable ? MessageType.FILTERABLE : MessageType.UNFILTERABLE, null);
+    }
+
+    public PacketSender sendTradeRequest(final String message, final String user) {
+        return sendMessage(message, MessageType.TRADE_REQUEST, user);
+    }
+
+    public PacketSender sendChallengeRequest(final String message, final String user) {
+        return sendMessage(message, MessageType.CHALLENGE_REQUEST, user);
     }
 
     /**
@@ -465,10 +495,10 @@ public final class PacketSender {
      * @return The PacketSender instance.
      */
     public PacketSender sendConfig(int id, int state) {
-        player.sessionVarps()[id] = state;
-        if (state > Byte.MAX_VALUE) {
+        if (state < Byte.MIN_VALUE || state > 255) {
             return sendVarpIntSize(id, state);
         }
+
         PacketBuilder out = new PacketBuilder(36);
         out.putShort(id, ByteOrder.LITTLE);
         out.put(state); // value is over byte lol

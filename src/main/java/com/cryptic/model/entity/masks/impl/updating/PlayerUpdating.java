@@ -33,7 +33,7 @@ public class PlayerUpdating {
             out.initializeAccess(AccessType.BIT);
             updateMovement(player, out);
             out.putBits(8, player.getLocalPlayers().size());
-            appendUpdates(player, builder, player, false, true);
+            appendUpdates(player, builder, player, false, false);
             Iterator<Player> playerIterator = player.getLocalPlayers().iterator();
             while (playerIterator.hasNext()) {
                 Player otherPlayer = playerIterator.next();
@@ -389,7 +389,7 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.FORCED_CHAT) && otherPlayer.getForcedChat() != null) {
             updateForcedChat(builder, otherPlayer);
         }
-        if (flag.flagged(Flag.CHAT) && otherPlayer.getCurrentChatMessage() != null && !noChat) {
+        if (flag.flagged(Flag.CHAT)) {
             updateChat(builder, otherPlayer);
         }
         if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {

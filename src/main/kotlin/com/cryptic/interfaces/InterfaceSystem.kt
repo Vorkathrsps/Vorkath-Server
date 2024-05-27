@@ -83,6 +83,7 @@ class InterfaceSystem(private val player: Player) {
         handleJournalTab()
         handleJournalTab()
         handleRelationShipTab()
+        player.varps().setVarbit(Varbits.CHATBOX_UNLOCKED,1)
     }
 
     fun handleRelationShipTab(toggleTab: Boolean = false) {

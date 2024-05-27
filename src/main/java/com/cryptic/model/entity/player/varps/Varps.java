@@ -34,6 +34,10 @@ public class Varps {
         setState(id, state);
     }
 
+    public void setVarbitDirect(int id, int state) {
+        setState(id, state);
+    }
+
     public void setBit(int id, int startBit, int endBit, int value) {
         int packed = BIT_SIZES[endBit - startBit] << startBit;
         setState(id, (varps[id] & (~packed)) | value << startBit & packed);

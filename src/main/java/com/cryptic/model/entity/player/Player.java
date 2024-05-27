@@ -3124,7 +3124,7 @@ public class Player extends Entity {
             if (!getChatMessageQueue().isEmpty()) {
                 this.setCurrentChatMessage(getChatMessageQueue().poll());
                 this.getUpdateFlag().flag(Flag.CHAT);
-            } else setCurrentChatMessage(null);
+            }
         } catch (Exception e) {
             System.err.println("Error processing logic for Player: " + this);
             System.err.println(captureState());

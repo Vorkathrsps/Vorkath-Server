@@ -1619,7 +1619,6 @@ public class Player extends Entity {
         setHitMarkVarbits();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
-        World.getWorld().sendBroadcast("<lsprite=504>" + "has lost their hardcore ironman status! Total Level: ");
     }
 
     private void setHitMarkVarbits() {

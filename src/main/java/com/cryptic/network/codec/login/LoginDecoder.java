@@ -33,29 +33,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
     private static final int INITIAL_POW_DIFFICULTY = 15;
 
-    private static final Int2IntMap ipToDifficulty = new Int2IntOpenHashMap();
-
-    static {
-        Executors.newSingleThreadScheduledExecutor()
-            .scheduleAtFixedRate(() -> {
-                synchronized (ipToDifficulty) {
-                    for (Int2IntMap.Entry entry : ipToDifficulty.int2IntEntrySet()) {
-                        int ip = entry.getIntKey();
-                        int oldDifficulty = entry.getIntValue();
-                        int newDifficulty = oldDifficulty - 1;
-                        if (newDifficulty <= INITIAL_POW_DIFFICULTY) {
-                            ipToDifficulty.remove(ip);
-                        } else {
-                            ipToDifficulty.put(ip, newDifficulty);
-                        }
-                    }
-                }
-            }, 1, 1, TimeUnit.MINUTES);
-    }
-
     private static final Logger logger = LogManager.getLogger(LoginDecoder.class);
-
-    private int proofOfWorkBlockSize;
 
     /**
      * The size of the encrypted data.
@@ -121,15 +99,8 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         }
 
         long serverSeed = ThreadLocalSecureRandom.get().nextLong();
-        int ip = IPv4AddressExtensionsKt.ipv4Address(ctx).hashCode();
-        int difficulty;
 
-        synchronized (ipToDifficulty) {
-            difficulty = ipToDifficulty.getOrDefault(ip, INITIAL_POW_DIFFICULTY);
-            ipToDifficulty.put(ip, difficulty + 1);
-        }
-
-        proofOfWork = ProofOfWork.generate(difficulty);
+        proofOfWork = ProofOfWork.generate(INITIAL_POW_DIFFICULTY);
         byte[] stringBuffer = proofOfWork.getText().getBytes();
         int stringBufferSize = stringBuffer.length;
 
@@ -141,7 +112,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             .writeShort(4 + stringBufferSize) // 4 + 45 = 49
             .writeByte(0)
             .writeByte(1)
-            .writeByte(difficulty)
+            .writeByte(INITIAL_POW_DIFFICULTY)
             .writeBytes(stringBuffer)
             .writeByte(0);
 
@@ -150,12 +121,17 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     }
 
     private void decodeProofOfWorkResponse(ChannelHandlerContext ctx, ByteBuf buffer) {
-        if (ctx == null || ctx.isRemoved() || !buffer.isReadable(3 + 8)) {
+        if (ctx == null || ctx.isRemoved()) {
             closeChannel(ctx, "Context removed or buffer not readable for proof of work");
             return;
         }
 
+        if (!buffer.isReadable(3 + 8)) {
+            return;
+        }
+
         int op = buffer.readByte();
+
         if (op != 19) {
             closeChannel(ctx, "Invalid proof of work operation");
             return;
@@ -176,8 +152,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             closeChannel(ctx, "Context removed or buffer not readable for type and size");
             return;
         }
-
-        System.out.println("stack 1");
 
         int connectionType = buffer.readUnsignedByte();
         if (connectionType != NetworkUtils.NEW_CONNECTION_OPCODE && connectionType != NetworkUtils.RECONNECTION_OPCODE) {

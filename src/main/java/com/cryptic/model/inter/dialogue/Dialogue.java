@@ -4,7 +4,8 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.records.*;
+import com.cryptic.model.inter.dialogue.records.DialogueRecord;
+import com.cryptic.model.inter.dialogue.records.args.*;
 import com.cryptic.model.items.Item;
 
 /**
@@ -69,12 +70,12 @@ public abstract class Dialogue {
 
 
     protected void sendProduceItem(String title, int total, int lastAmt, int... items) {
-        player.activeDialogueProduceItemItemRecord = new DialogueProduceItemItemRecord(title, total,lastAmt, items);
+        player.setDialogueRecord(DialogueRecord.buildProduceItem(title, total,lastAmt, items));
         GameInterface.PRODUCE_ITEM.open(player);
     }
 
     protected void sendItemDestroy(Item item, String note) {
-        player.activeDialogueDestroyItemRecord = new DialogueDestroyItemRecord(item,"Are you sure you want to destroy this item?",note);
+        player.setDialogueRecord(DialogueRecord.buildDestroyItem(item, "Are you sure you want to destroy this item?", note));
         GameInterface.DESTROY_ITEM.open(player);
     }
 
@@ -91,12 +92,12 @@ public abstract class Dialogue {
     }
 
     protected void sendNpcChat(String title, int npcId, Expression expression, boolean continueButton, String... chats) {
-        player.activeNpcDialogue = new DialogueNPCRecord(npcId, title, chats, expression, continueButton);
+        player.setDialogueRecord(DialogueRecord.buildNpc(npcId, title, chats, expression, continueButton));
         GameInterface.DIALOGUE_NPC.open(player);
     }
 
     protected void sendOption(String title, String... options) {
-        player.activeOptionDialogue = new DialogueOptionRecord(title, options);
+        player.setDialogueRecord(DialogueRecord.buildOptions(title, options));
         GameInterface.DIALOGUE_OPTIONS.open(player);
     }
 
@@ -113,7 +114,7 @@ public abstract class Dialogue {
     }
 
     protected void sendPlayerChat(String title, Expression expression, boolean continueButton, String... chats) {
-        player.activePlayerDialogue = new DialoguePlayerRecord(title, chats, expression, continueButton);
+        player.setDialogueRecord(DialogueRecord.buildPlayer(title, chats, expression, continueButton));
         GameInterface.DIALOGUE_PLAYER.open(player);
     }
 
@@ -122,7 +123,7 @@ public abstract class Dialogue {
     }
 
     protected void sendStatement(boolean continueButton, String... chats) {
-        player.activeStatementRecord = new DialogueStatementRecord(chats, continueButton);
+        player.setDialogueRecord(DialogueRecord.buildStatement(chats, continueButton));
         GameInterface.DIALOGUE_STATEMENT.open(player);
     }
 
@@ -132,7 +133,7 @@ public abstract class Dialogue {
     }
 
     protected void sendItemStatement(Item item, boolean continueButton,String... chats) {
-        player.activeSingleItemRecord = new DialogueSingleItemRecord(item,chats,continueButton);
+        player.setDialogueRecord(DialogueRecord.buildSingleItem(item, chats, continueButton));
         GameInterface.DIALOGUE_ITEM_SINGLE.open(player);
     }
 
@@ -141,7 +142,7 @@ public abstract class Dialogue {
     }
 
     protected void sendItemStatement(Item firstItem,Item secondItem, boolean continueButton,String... chats) {
-        player.activeDoubleItemRecord = new DialogueDoubleItemRecord(firstItem,secondItem,chats,continueButton);
+        player.setDialogueRecord(DialogueRecord.buildDoubleItem(firstItem, secondItem, chats, continueButton));
         GameInterface.DIALOGUE_ITEM_DOUBLE.open(player);
     }
 

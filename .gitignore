@@ -49,7 +49,9 @@ Cryptic-GameServer.iml
 votes.ini
 mvnw
 mvnw.cmd
-#pom.xml
+pom.xml
+data/*
+bosses.json
 .mvn/
 libs/functions-1.93.0.jar
 settings.toml

@@ -4,7 +4,7 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.cs2.ComponentID;
 import com.cryptic.model.cs2.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.records.DialogueStatementRecord;
+import com.cryptic.model.inter.dialogue.records.args.StatementArgs;
 
 public class DialogueStatement extends InterfaceBuilder {
 
@@ -15,17 +15,18 @@ public class DialogueStatement extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        DialogueStatementRecord dialogueStatementRecord = player.activeStatementRecord;
-        if (dialogueStatementRecord == null) return;
-        player.varps().sendTempVarbit(10670, 0);
+        var record = player.dialogueRecord.getType();
+        if (record instanceof StatementArgs dialogueStatementRecord) {
+            player.varps().sendTempVarbit(10670, 0);
 
-        player.getPacketSender().setComponentText(ComponentID.STATEMENT_CHAT_RESULT, joinWithBr(dialogueStatementRecord.messages()));
-        player.getPacketSender().setComponentVisability(ComponentID.STATEMENT_CHAT_CONTINUE, !dialogueStatementRecord.continueButtons());
-        player.getPacketSender().setComponentText(ComponentID.STATEMENT_CHAT_CONTINUE,  "Click here to continue");
+            player.getPacketSender().setComponentText(ComponentID.STATEMENT_CHAT_RESULT, joinWithBr(dialogueStatementRecord.messages()));
+            player.getPacketSender().setComponentVisability(ComponentID.STATEMENT_CHAT_CONTINUE, !dialogueStatementRecord.continueButtons());
+            player.getPacketSender().setComponentText(ComponentID.STATEMENT_CHAT_CONTINUE, "Click here to continue");
 
-        //int lineHeight = getLineHeight(message);
-        player.getPacketSender().runClientScriptNew(600, 1, 1, 16, ComponentID.STATEMENT_CHAT_CONTINUE);
+            //int lineHeight = getLineHeight(message);
+            player.getPacketSender().runClientScriptNew(600, 1, 1, 16, ComponentID.STATEMENT_CHAT_CONTINUE);
 
+        }
     }
 
     public static String joinWithBr(String... chats) {
@@ -35,6 +36,5 @@ public class DialogueStatement extends InterfaceBuilder {
 
         return String.join("<br>", chats);
     }
-
 
 }

@@ -4,7 +4,7 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.cs2.ComponentID;
 import com.cryptic.model.cs2.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.records.DialogueNPCRecord;
+import com.cryptic.model.inter.dialogue.records.args.NpcArgs;
 import dev.openrune.cache.CacheManager;
 
 public class DialogueNpc extends InterfaceBuilder {
@@ -16,25 +16,26 @@ public class DialogueNpc extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        DialogueNPCRecord dialogueNPCRecord = player.activeNpcDialogue;
-        if (dialogueNPCRecord == null) return;
+        var record = player.dialogueRecord.getType();
+        if (record instanceof NpcArgs dialogueNPCRecord) {
 
-        String dialogTitle = !dialogueNPCRecord.title().isBlank() ? dialogueNPCRecord.title() : CacheManager.INSTANCE.getNpc(dialogueNPCRecord.npcId()).getName();
-        String message = joinWithBr(dialogueNPCRecord.chats());
-        player.varps().sendTempVarbit(10670, 0);
+            String dialogTitle = !dialogueNPCRecord.title().isBlank() ? dialogueNPCRecord.title() : CacheManager.INSTANCE.getNpc(dialogueNPCRecord.npcId()).getName();
+            String message = joinWithBr(dialogueNPCRecord.chats());
+            player.varps().sendTempVarbit(10670, 0);
 
-        player.getPacketSender().setNpcHeadMessage(ComponentID.NPC_CHAT_HEAD, dialogueNPCRecord.npcId());
-        player.getPacketSender().setAnimMessage(ComponentID.NPC_CHAT_HEAD, dialogueNPCRecord.expression().getAnimation().getId());
+            player.getPacketSender().setNpcHeadMessage(ComponentID.NPC_CHAT_HEAD, dialogueNPCRecord.npcId());
+            player.getPacketSender().setAnimMessage(ComponentID.NPC_CHAT_HEAD, dialogueNPCRecord.expression().getAnimation().getId());
 
-        player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_TITLE, dialogTitle);
-        player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_MESSAGE, message);
+            player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_TITLE, dialogTitle);
+            player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_MESSAGE, message);
 
-        player.getPacketSender().setComponentVisability(ComponentID.NPC_CHAT_CONTINUE, !dialogueNPCRecord.continueButtons());
-        player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_CONTINUE,  "Click here to continue");
+            player.getPacketSender().setComponentVisability(ComponentID.NPC_CHAT_CONTINUE, !dialogueNPCRecord.continueButtons());
+            player.getPacketSender().setComponentText(ComponentID.NPC_CHAT_CONTINUE, "Click here to continue");
 
-        //int lineHeight = getLineHeight(message);
-        player.getPacketSender().runClientScriptNew(600, 1, 1, 16, ComponentID.NPC_CHAT_MESSAGE);
+            //int lineHeight = getLineHeight(message);
+            player.getPacketSender().runClientScriptNew(600, 1, 1, 16, ComponentID.NPC_CHAT_MESSAGE);
 
+        }
     }
 
     public static String joinWithBr(String... chats) {

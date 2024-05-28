@@ -52,9 +52,8 @@ public final class NetworkBuilder {
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> logger.error("Uncaught server exception in thread {}!", t, e));
         TimerKey.verifyIntegrity();
         final boolean epoll = Epoll.isAvailable();
-        final int threads = Math.max(1, NettyRuntime.availableProcessors() / 2);
         final EventLoopGroup parentGroup = epoll ? new EpollEventLoopGroup(1) : new NioEventLoopGroup(1);
-        final EventLoopGroup childGroup = epoll ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
+        final EventLoopGroup childGroup = epoll ? new EpollEventLoopGroup(2) : new NioEventLoopGroup(2);
         bootstrap.group(parentGroup, childGroup).handler(new LoggingHandler());
         bootstrap.channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class).handler(new LoggingHandler());
         bootstrap.childHandler(connectionInitializer);

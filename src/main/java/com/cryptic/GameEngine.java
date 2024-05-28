@@ -90,10 +90,7 @@ public final class GameEngine implements Runnable {
      */
     private GameEngine() {
         int nWorkers =
-            Math.max(
-                Runtime.getRuntime().availableProcessors() / 2,
-                2); // Workers should be cores / 2 not * 2 since we don't want to peg the
-        // CPU and lag in-game.
+            Math.max(Runtime.getRuntime().availableProcessors() / 2, 2);
         ThreadPoolExecutor executor =
             new ThreadPoolExecutor(
                 nWorkers, nWorkers, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());

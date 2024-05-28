@@ -11,6 +11,7 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.NettyRuntime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,7 +53,7 @@ public final class NetworkBuilder {
         TimerKey.verifyIntegrity();
         final boolean epoll = Epoll.isAvailable();
         final EventLoopGroup parentGroup = epoll ? new EpollEventLoopGroup(1) : new NioEventLoopGroup(1);
-        final EventLoopGroup childGroup = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
+        final EventLoopGroup childGroup = epoll ? new EpollEventLoopGroup(2) : new NioEventLoopGroup(2);
         bootstrap.group(parentGroup, childGroup).handler(new LoggingHandler());
         bootstrap.channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class).handler(new LoggingHandler());
         bootstrap.childHandler(connectionInitializer);

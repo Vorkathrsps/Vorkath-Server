@@ -31,27 +31,16 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) {
         try {
-            if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0"))
-                return;
-            if (throwable.getMessage() != null && throwable.getMessage().equalsIgnoreCase("Connection reset")) return;
-            if (throwable instanceof java.nio.channels.ClosedChannelException) return; // dc
-
             if (throwable instanceof ReadTimeoutException) {
                 logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
-                ctx.channel().close();
             } else {
-                logger.error("An exception has been caused in the pipeline: {} {}", ctx, throwable);
-                ctx.channel().close();
+                logger.error("An exception occurred in the pipeline: {}", ctx, throwable);
             }
+            ctx.channel().close();
         } catch (Exception e) {
             logger.error("Uncaught server exception!", e);
-            ctx.channel().close();
         }
-
-        // don't close on exception, continue
-        super.exceptionCaught(ctx, throwable);
     }
-
 }

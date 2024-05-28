@@ -482,14 +482,11 @@ public class World {
     }
 
     public void sendBroadcast(String broadcast) {
-        sendBroadcast(broadcast, false, "no_link");
+        new BroadcastMessage.Builder().message(broadcast).send();
     }
 
-    public void sendBroadcast(String broadcast, boolean hasUrl, String link) {
-        if (hasUrl)
-            World.getWorld().sendWorldMessage("osrsbroadcast##" + broadcast + "%%" + link);
-        else
-            World.getWorld().sendWorldMessage("osrsbroadcast##" + broadcast + "%%" + "no_link");
+    public void sendBroadcast(String broadcast, String link) {
+        new BroadcastMessage.Builder().message(broadcast).url(link).send();
     }
 
     /**

@@ -3,6 +3,7 @@ package com.cryptic.model.content.areas.wilderness.content.todays_top_pkers;
 import com.cryptic.GameEngine;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
+import com.cryptic.model.BroadcastMessage;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.save.PlayerSave;
@@ -82,7 +83,7 @@ public final class TopPkers {
     }
 
     private void broadcast(String message) {
-        World.getWorld().getPlayers().forEach(player -> player.message(message));
+        new BroadcastMessage.Builder().message(message).aboveChatBox(false).send();
     }
 
     private void give(KillEntry entry, int position, Item reward) {

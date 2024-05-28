@@ -30,10 +30,10 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
     SIDE_SETTINGS(87, InterfaceID.SETTINGS_SIDE),
     SIDE_EMOTES(88, InterfaceID.EMOTES),
     SIDE_MUSIC(89, InterfaceID.MUSIC),
+    PRIVATE_CHAT(93, InterfaceID.PRIVATE_CHAT),
 
     MINIGAME_OVERLAY(6), //TODO
     UNKNOWN_OVERLAY(8), //TODO
-    PRIVATE_CHAT(9), //TODO
     MULTI(94),//TODO
     SKILL_INFORMATION(548);
 

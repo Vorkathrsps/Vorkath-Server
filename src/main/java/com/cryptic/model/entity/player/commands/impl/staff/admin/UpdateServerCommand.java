@@ -29,42 +29,47 @@ public class UpdateServerCommand implements Command {
         }
 
         try {
-            time = Integer.parseInt(parts[1]);
-            logger.info("An update initiated by {} to happen in {} ticks.", player.getUsername(), time);
-            Utils.sendDiscordInfoLog("An update initiated by "+player.getUsername()+" to happen in "+time+" ticks.");
-            GameServer.setUpdating(true);
-
-            // Warn all players about the scheduled update.
-            World.getWorld().getPlayers().stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendSystemUpdate(time));
-
-            if (time == 0) {
-                // cancel
-                GameServer.setUpdating(false);
-                updateTask = null;
-                return;
-            }
-            if (updateTask == null) {
-                // maintain 1 instance only
-                updateTask = new TickableTask() {
-                    @Override
-                    protected void tick() {
-                        if (UpdateServerCommand.updateTask == null) {
-                            // its been cancelled
-                            stop();
-                            return;
-                        }
-                        if (UpdateServerCommand.time-- == 0) {
-                            logger.info("Enter task shutdown server.");
-                            Utils.sendDiscordInfoLog("Enter task shutdown server.");
-                            GameEngine.getInstance().shutdown();
-                            stop();
-                        }
-                    }
-                };
-                TaskManager.submit(updateTask);
-            }
+            update(player,Integer.parseInt(parts[1]));
         } catch (Exception e) {
             logger.error("sadge", e);
+        }
+    }
+
+    public static void update(Player player,int time) {
+        UpdateServerCommand.time = time;
+        logger.info("An update initiated by {} to happen in {} ticks.", player.getUsername(), time);
+        Utils.sendDiscordInfoLog("An update initiated by "+player.getUsername()+" to happen in "+time+" ticks.");
+        GameServer.setUpdating(true);
+
+        // Warn all players about the scheduled update.
+        World.getWorld().getPlayers().stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendSystemUpdate(time));
+
+        if (time == 0) {
+            // cancel
+            GameServer.setUpdating(false);
+            updateTask = null;
+            return;
+        }
+        if (updateTask == null) {
+            // maintain 1 instance only
+            updateTask = new TickableTask() {
+                @Override
+                protected void tick() {
+                    if (UpdateServerCommand.updateTask == null) {
+                        // its been cancelled
+                        stop();
+                        return;
+                    }
+
+                    if (UpdateServerCommand.time-- == 0) {
+                        logger.info("Enter task shutdown server.");
+                        Utils.sendDiscordInfoLog("Enter task shutdown server.");
+                        GameEngine.getInstance().shutdown();
+                        stop();
+                    }
+                }
+            };
+            TaskManager.submit(updateTask);
         }
     }
 

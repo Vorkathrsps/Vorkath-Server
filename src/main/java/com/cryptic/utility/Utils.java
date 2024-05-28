@@ -65,6 +65,11 @@ public class Utils {
         return l + timeCorrection;
     }
 
+    public static String joinWithBr(String... chats) {
+        if (chats == null || chats.length == 0) return "";
+        return String.join("<br>", chats);
+    }
+
     public static String formatpercent(double decimal) {
         double percentage = (decimal - 1.0) * 100;
         return String.format("%.2f%%", percentage);

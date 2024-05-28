@@ -7,6 +7,7 @@ import com.cryptic.model.cs2.interfaces.EventNode;
 import com.cryptic.model.cs2.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.records.args.SingleItemArgs;
+import com.cryptic.model.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +24,7 @@ public class DialogueItemSingle extends InterfaceBuilder {
         var record = player.dialogueRecord.getType();
         if (record instanceof SingleItemArgs dialogueItemSingle) {
             setEvents(new EventNode(0, 0, 1, new ArrayList<>(List.of(EventConstants.PAUSE))));
-            player.getPacketSender().setItemMessage(ComponentID.DIALOG_SPRITE_SPRITE, dialogueItemSingle.item().getId(), dialogueItemSingle.item().getAmount());
-            player.getPacketSender().setComponentText(ComponentID.DIALOG_SPRITE_TEXT, joinWithBr(dialogueItemSingle.messages()));
-            player.getPacketSender().runClientScriptNew(2868, dialogueItemSingle.continueButton() ? "Click here to continue" : "");
+            dialogueItemSingle.send(player);
         }
     }
-
-    public static String joinWithBr(String... chats) {
-        if (chats == null || chats.length == 0) {
-            return "";
-        }
-
-        return String.join("<br>", chats);
-    }
-
 }

@@ -54,6 +54,8 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     SKOTIZO_OVERLAY(InterfaceID.SKOTIZO,InterfacePosition.OVERLAY),
     WORLD_MAP(InterfaceID.WORLD_MAP,InterfacePosition.WORLD_MAP),
 
+    PRIVATE_CHAT(InterfaceID.PRIVATE_CHAT,InterfacePosition.PRIVATE_CHAT),
+
     PVP_OVERLAY(InterfaceID.PVP,InterfacePosition.PVP_OVERLAY),
     SKILL_INFORMATION(InterfaceID.SKILL_INFORMATION, InterfacePosition.SKILL_INFORMATION),
 

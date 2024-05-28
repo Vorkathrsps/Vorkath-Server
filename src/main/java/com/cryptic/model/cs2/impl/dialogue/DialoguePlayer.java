@@ -16,33 +16,10 @@ public class DialoguePlayer extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         var record = player.dialogueRecord.getType();
-        if (record instanceof PlayerArgs dialoguePlayerRecord) {
-
-            String dialogTitle = !dialoguePlayerRecord.title().isBlank() ? dialoguePlayerRecord.title() : player.getUsername();
-            String message = joinWithBr(dialoguePlayerRecord.chats());
+        if (record instanceof PlayerArgs dialogue) {
             player.varps().sendTempVarbit(10670, 0);
-
-            player.getPacketSender().setPlayerHeadMesssage(ComponentID.PLAYER_CHAT_HEAD);
-            player.getPacketSender().setAnimMessage(ComponentID.PLAYER_CHAT_HEAD, dialoguePlayerRecord.expression().getAnimation().getId());
-
-            player.getPacketSender().setComponentText(ComponentID.PLAYER_CHAT_TITLE, dialogTitle);
-            player.getPacketSender().setComponentText(ComponentID.PLAYER_CHAT_MESSAGE, message);
-
-            player.getPacketSender().setComponentVisability(ComponentID.PLAYER_CHAT_CONTINUE, !dialoguePlayerRecord.continueButtons());
-            player.getPacketSender().setComponentText(ComponentID.PLAYER_CHAT_CONTINUE, "Click here to continue");
-
-            //int lineHeight = getLineHeight(message);
+            dialogue.send(player);
             player.getPacketSender().runClientScriptNew(600, 1, 1, 16, ComponentID.PLAYER_CHAT_MESSAGE);
         }
     }
-
-    public static String joinWithBr(String... chats) {
-        if (chats == null || chats.length == 0) {
-            return "";
-        }
-
-        return String.join("<br>", chats);
-    }
-
-
 }

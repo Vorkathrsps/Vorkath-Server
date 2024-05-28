@@ -83,7 +83,7 @@ public class TheatreInteractions extends PacketInteraction {
         }
         if (id == 32741) {
             if (player.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
-                player.message("<img=13><shad=0>" + Color.RED.wrap("You already have claimed the Dawnbringer.") + "</shad></img>");
+                player.message("<lsprite=13><shad=0>" + Color.RED.wrap("You already have claimed the Dawnbringer.") + "</shad></img>");
                 return true;
             }
             if (!player.getInventory().isFull()) {

@@ -892,7 +892,7 @@ public class TournamentManager extends PacketInteraction {
                 nextEvent = null;
                 tournaments.add(t);
                 waitingRoomTournament = t;
-                World.getWorld().sendWorldMessage(format("<img=1082>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: A %s tournament will start in %s.", t.fullName(), t.lobbyTimeMessage()));
+                World.getWorld().sendWorldMessage(format("<lsprite=1082>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: A %s tournament will start in %s.", t.fullName(), t.lobbyTimeMessage()));
                 //logger.info(format("A %s tournament will start in %s.", t.fullName(), t.lobbyTimeMessage()));
                 t.setLobbyOpenTimeMs(System.currentTimeMillis());
             }

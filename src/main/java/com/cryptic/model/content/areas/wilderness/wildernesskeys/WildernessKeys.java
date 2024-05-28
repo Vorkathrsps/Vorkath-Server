@@ -31,7 +31,7 @@ public class WildernessKeys extends PacketInteraction {
                 Item item = new Item(ItemIdentifiers.KEY_298, 1);
                 GroundItem groundItem = new GroundItem(item, npc.tile(), player);
                 GroundItemHandler.createGroundItem(groundItem);
-                player.message(Color.PURPLE.wrap("<img=2010>You've received a Wilderness Key drop!"));
+                player.message(Color.PURPLE.wrap("<lsprite=2010>You've received a Wilderness Key drop!"));
             }
         }
     }

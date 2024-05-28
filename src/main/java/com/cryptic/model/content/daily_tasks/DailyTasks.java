@@ -518,7 +518,7 @@ public enum DailyTasks {
             found.isRewardClaimed.set(player, true);
             player.getInventory().addOrBank(found.rewards);
             player.getSkills().addXp(found.type.getId(), 10_000);
-            player.message("<img=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
+            player.message("<lsprite=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
         }
     }
 

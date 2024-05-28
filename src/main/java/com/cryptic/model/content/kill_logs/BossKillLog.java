@@ -49,7 +49,7 @@ public class BossKillLog {
 
                 var points = player.<Integer>getAttribOr(BOSS_POINTS,0) + boss.points;
                 player.putAttrib(BOSS_POINTS, points);
-                player.message(Color.PURPLE.wrap("<img=2069> You have received +"+boss.points+" boss points, you now have a total of "+Utils.formatNumber(points)+" boss points."));
+                player.message(Color.PURPLE.wrap("<lsprite=2069> You have received +"+boss.points+" boss points, you now have a total of "+Utils.formatNumber(points)+" boss points."));
                 DailyTasks.check(player, DailyTasks.BOSSING, boss.name);
                 if(npc.getCombatInfo() == null) return;
                 break;

@@ -44,7 +44,7 @@ public class AchievementsManager {
             }
 
             player.message("<col=297A29>Congratulations! You have completed the "+achievement.getName()+" achievement.");
-            World.getWorld().sendWorldMessage(format("<img=1953>[<col="+ Color.MEDRED.getColorValue()+">Achievement</col>]: %s just completed the %s achievement.", (PlayerRights.getCrown(player) + player.getUsername()), achievement.getName()));
+            World.getWorld().sendWorldMessage(format("<lsprite=1953>[<col="+ Color.MEDRED.getColorValue()+">Achievement</col>]: %s just completed the %s achievement.", (PlayerRights.getCrown(player) + player.getUsername()), achievement.getName()));
 
             if(achievement.otherRewardString() != null) {
                 checkForOtherReward(player, achievement);

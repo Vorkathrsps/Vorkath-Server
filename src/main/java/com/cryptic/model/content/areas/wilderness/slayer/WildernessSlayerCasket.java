@@ -31,7 +31,7 @@ public class WildernessSlayerCasket {
      * @param npc
      */
     private void dropSupplys(@NotNull final Player player, @NotNull NPC npc) {
-        player.message(Color.RED.wrap("<img=2010>You've received a supply loot drop!"));
+        player.message(Color.RED.wrap("<lsprite=2010>You've received a supply loot drop!"));
         for (var items : supplyLoot().entrySet()) {
             final int id = items.getKey();
             final int amount = items.getValue();
@@ -56,7 +56,7 @@ public class WildernessSlayerCasket {
             if (task.matches(taskID)) {
                 GroundItem groundItem = new GroundItem(new Item(ItemIdentifiers.ANCIENT_CASKET), npc.tile(), player);
                 GroundItemHandler.createGroundItem(groundItem);
-                player.message(Color.RED.wrap("<img=2010>A slayer casket has appeared!"));
+                player.message(Color.RED.wrap("<lsprite=2010>A slayer casket has appeared!"));
                 World.getWorld().sendWorldMessage(player.getDisplayName() + " has received " + groundItem.getItem().name() + " at wilderness level " + WildernessArea.getWildernessLevel(player.tile()));
             }
         }

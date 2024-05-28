@@ -74,9 +74,9 @@ public class Watson extends PacketInteraction {
     }
 
     private static void sendMessage(Player player, List<String> invalid) {
-        player.message("<img=13><shad=0>" + Color.RED.wrap(" You do not have all the required clue scrolls to exchange.") + "</shad></img>");
+        player.message("<lsprite=13><shad=0>" + Color.RED.wrap(" You do not have all the required clue scrolls to exchange.") + "</shad></img>");
         StringBuilder builder = buildString(invalid);
-        player.message(Color.RED.wrap("<img=13><shad=0>" + builder + "</shad></img>"));
+        player.message(Color.RED.wrap("<lsprite=13><shad=0>" + builder + "</shad></img>"));
     }
 
     @NotNull

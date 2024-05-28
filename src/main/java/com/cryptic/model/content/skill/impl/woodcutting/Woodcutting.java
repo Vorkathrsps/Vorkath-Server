@@ -179,7 +179,7 @@ public class Woodcutting extends PacketInteraction {
         }
         if (Utils.rollDie((int) chance, 1)) {
             player.getInventory().addOrBank(new Item(ItemIdentifiers.BEAVER));
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Beaver Pet!" + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Beaver Pet!" + "</shad>"));
         }
     }
 

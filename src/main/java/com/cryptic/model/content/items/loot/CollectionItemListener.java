@@ -70,7 +70,7 @@ public interface CollectionItemListener {
         String name = reward.name();
         if (reward.noted()) name = reward.unnote().name();
         if (isRare) {
-            World.getWorld().sendWorldMessage("<img=2010><shad=0>[<col=" + Color.YELLOW.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + "<shad=0>" + Color.YELLOW.wrap(player.getUsername() + " received a ") + "</shad>" + "<shad=0>" + Color.BURNTORANGE.wrap(name + "!") + "</shad>");
+            World.getWorld().sendWorldMessage("<lsprite=2010><shad=0>[<col=" + Color.YELLOW.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + "<shad=0>" + Color.YELLOW.wrap(player.getUsername() + " received a ") + "</shad>" + "<shad=0>" + Color.BURNTORANGE.wrap(name + "!") + "</shad>");
             Utils.sendDiscordInfoLog("Player " + player.getUsername() + " received a " + name + " from a " + this.name() + ".", "box_and_tickets");
         }
         player.putAttrib(this.key(), increment);
@@ -102,7 +102,7 @@ public interface CollectionItemListener {
             if (this.logType() != null) this.logType().log(player, this.id(), rolledReward);
             for (var rare : rareMap.entrySet()) {
                 if (rare.getValue() == rolledReward.getId()) {
-                    World.getWorld().sendWorldMessage("<img=2010><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + player.getUsername() + " received a <shad=0>" + rolledReward.name() + "</shad>!");
+                    World.getWorld().sendWorldMessage("<lsprite=2010><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + player.getUsername() + " received a <shad=0>" + rolledReward.name() + "</shad>!");
                 }
             }
         }
@@ -140,7 +140,7 @@ public interface CollectionItemListener {
             else player.getInventory().addOrDrop(rolledReward);
             if (this.logType() != null) this.logType().log(player, this.id(), rolledReward);
             if (isRare) {
-                World.getWorld().sendWorldMessage("<img=2010><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + player.getUsername() + " received a <shad=0>" + rolledReward.name() + "</shad>!");
+                World.getWorld().sendWorldMessage("<lsprite=2010><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">" + this.name() + "</col>]</shad>:<col=AD800F> " + player.getUsername() + " received a <shad=0>" + rolledReward.name() + "</shad>!");
                 Utils.sendDiscordInfoLog("Player " + player.getUsername() + " received a " + rolledReward.name() + " from a " + this.name() + ".", "box_and_tickets");
             }
         }

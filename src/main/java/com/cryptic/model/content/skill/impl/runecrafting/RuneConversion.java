@@ -197,7 +197,7 @@ public class RuneConversion extends PacketInteraction {
         if (Utils.rollDie((int) chance, 1)) {
             Item pet = new Item(altar.petDefinitionsTransform.getItem());
             player.inventory().addOrBank(pet);
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rift Guardian Pet!" + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rift Guardian Pet!" + "</shad>"));
         }
     }
 

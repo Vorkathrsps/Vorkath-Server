@@ -112,13 +112,13 @@ public class PlayerKillingRewards {
                     killer.message("You're currently on a killing spree of " + killstreak + "!");
 
                     if (killstreak % 5 == 0 || killstreak > 15) {
-                        World.getWorld().getPlayers().forEach(player -> player.message("<col=ca0d0d><img=2011> " + killer.getUsername() + " has a killing spree of " + killstreak + " and can be shut down for " + (100 + player.shutdownValueOf(killstreak)) + " BM!"));
+                        World.getWorld().getPlayers().forEach(player -> player.message("<col=ca0d0d><lsprite=2011> " + killer.getUsername() + " has a killing spree of " + killstreak + " and can be shut down for " + (100 + player.shutdownValueOf(killstreak)) + " BM!"));
                     }
                 }
 
                 // Announce if you shut down a killstreak
                 if (target_killstreak >= 5) {
-                    World.getWorld().getPlayers().forEach(player -> player.message("<col=ca0d0d><img=2011> " + killer.getUsername() + " has shut down " + target.getUsername() + " with a killing spree of " + target_killstreak + "."));
+                    World.getWorld().getPlayers().forEach(player -> player.message("<col=ca0d0d><lsprite=2011> " + killer.getUsername() + " has shut down " + target.getUsername() + " with a killing spree of " + target_killstreak + "."));
                 }
 
                 // If this passes our shutdown record, change it
@@ -174,7 +174,7 @@ public class PlayerKillingRewards {
                 if(World.getWorld().rollDie(1000,1)) {
                     killer.inventory().addOrBank(new Item(VESTAS_LONGSWORD));
                     killer.message(Color.PURPLE.wrap("You've found a epic pet mystery box searching the corpse of "+target.getUsername()+"."));
-                    World.getWorld().sendWorldMessage("<img=2010><img=2013>" + killer.getUsername() + " " + "found a epic pet mystery box searching the corpse of "+target.getUsername()+".");
+                    World.getWorld().sendWorldMessage("<lsprite=2010><lsprite=2013>" + killer.getUsername() + " " + "found a epic pet mystery box searching the corpse of "+target.getUsername()+".");
                 }
             }
         } catch (Exception e) {

@@ -68,7 +68,7 @@ public enum PlayerRights {
 
     /** Gets the crown display. */
     public static String getCrown(Player player) {
-        return player.getPlayerRights().equals(PLAYER) ? "" : "<img=" + (player.getPlayerRights().getSpriteId()) + ">";
+        return player.getPlayerRights().equals(PLAYER) ? "" : "<lsprite=" + (player.getPlayerRights().getSpriteId()) + ">";
     }
 
     public static boolean is(Player player, PlayerRights rights) {

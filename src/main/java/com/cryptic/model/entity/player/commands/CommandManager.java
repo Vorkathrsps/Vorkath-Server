@@ -1573,7 +1573,7 @@ public class CommandManager {
 
             case "icons": {
                 for (int i = 160; i < 400; i++) {
-                    player.getPacketSender().sendMessage("Icon=" + i + " - <img=" + i + ">");
+                    player.getPacketSender().sendMessage("Icon=" + i + " - <lsprite=" + i + ">");
                 }
                 return true;
             }

@@ -188,7 +188,7 @@ public class Fishing {
 
         if (Utils.rollDie((int) odds, 1)) {
             player.getInventory().addOrBank(new Item(ItemIdentifiers.HERON));
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Heron Pet!" + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Heron Pet!" + "</shad>"));
         }
     }
 

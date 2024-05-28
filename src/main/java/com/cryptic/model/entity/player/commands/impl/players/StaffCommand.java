@@ -21,7 +21,7 @@ public class StaffCommand implements Command {
         List<Player> staff = World.getWorld().getPlayers().stream().filter(px -> px != null && px.getPlayerRights().isStaffMember(px)).toList();
         int admins = 0, mods = 0, helpers = 0, cm = 0, owner = 0;
 
-        StringBuilder staffOnline = new StringBuilder("<img=2175></img> <col=800000>Owner:");
+        StringBuilder staffOnline = new StringBuilder("<lsprite=2175></img> <col=800000>Owner:");
 
         for (Player staffmember : staff) {
             if (staffmember.getPlayerRights() == PlayerRights.OWNER) {
@@ -37,7 +37,7 @@ public class StaffCommand implements Command {
             staffOnline.append(" - Nobody");
         }
 
-        staffOnline.append("<br><br><br><img=2174></img>  <col=800000>Community Managers:");
+        staffOnline.append("<br><br><br><lsprite=2174></img>  <col=800000>Community Managers:");
 
         for (Player staffmember : staff) {
             if (staffmember.getPlayerRights() == PlayerRights.COMMUNITY_MANAGER) {
@@ -53,7 +53,7 @@ public class StaffCommand implements Command {
             staffOnline.append("<br><br>- Nobody");
         }
 
-        staffOnline.append("<br><br><br><img=2172></img>  <col=800000>Administrators:");
+        staffOnline.append("<br><br><br><lsprite=2172></img>  <col=800000>Administrators:");
 
         for (Player staffmember : staff) {
             if (staffmember.getPlayerRights() == PlayerRights.ADMINISTRATOR) {
@@ -69,7 +69,7 @@ public class StaffCommand implements Command {
             staffOnline.append("<br><br>- Nobody");
         }
 
-        staffOnline.append("<br><br><br><img=2171></img> <col=800000>Moderators:");
+        staffOnline.append("<br><br><br><lsprite=2171></img> <col=800000>Moderators:");
         for (Player staffmember : staff) {
             if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) continue;
             if (staffmember.getPlayerRights() == PlayerRights.MODERATOR) {
@@ -82,7 +82,7 @@ public class StaffCommand implements Command {
             staffOnline.append("<br><br>- Nobody");
         }
 
-        staffOnline.append("<br><br><br><img=2170></img> <col=800000>Support:");
+        staffOnline.append("<br><br><br><lsprite=2170></img> <col=800000>Support:");
         for (Player staffmember : staff) {
             if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
                 continue;

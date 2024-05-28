@@ -505,7 +505,7 @@ public class SlayerTask {
                 var def = ItemDefinition.cached.get(id);
                 var inWild = WildernessArea.inWilderness(killer.tile());
                 var level = WildernessArea.getWildernessLevel(killer.tile());
-                World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + killer.getUsername() + " has received a " + def.name + " from a " + npc.getMobName() + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
+                World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + killer.getUsername() + " has received a " + def.name + " from a " + npc.getMobName() + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
             }
         }
     }

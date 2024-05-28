@@ -78,7 +78,7 @@ public enum MemberRights {
     }
 
     public String tag() {
-        return "<img=" + spriteId + ">";
+        return "<lsprite=" + spriteId + ">";
     }
 
     private double bloodMoneyMultiplier() {
@@ -149,49 +149,49 @@ public enum MemberRights {
         if (totalAmountPaid >= 10.00 && !memberUnlocked) {
             player.setMemberRights(MemberRights.RUBY_MEMBER);
             player.putAttrib(AttributeKey.MEMBER_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + RUBY_MEMBER.spriteId + ">Ruby Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + RUBY_MEMBER.spriteId + ">Ruby Member</col>!");
         }
 
         boolean superMemberUnlocked = player.getAttribOr(AttributeKey.SUPER_MEMBER_UNLOCKED, false);
         if (totalAmountPaid >= 50.00 && !superMemberUnlocked) {
             player.setMemberRights(MemberRights.SAPPHIRE_MEMBER);
             player.putAttrib(AttributeKey.SUPER_MEMBER_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + SAPPHIRE_MEMBER.spriteId + ">Sapphire Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + SAPPHIRE_MEMBER.spriteId + ">Sapphire Member</col>!");
         }
 
         boolean eliteMemberUnlocked = player.getAttribOr(AttributeKey.ELITE_MEMBER_UNLOCKED, false);
         if (totalAmountPaid >= 100.00 && !eliteMemberUnlocked) {
             player.setMemberRights(MemberRights.EMERALD_MEMBER);
             player.putAttrib(AttributeKey.ELITE_MEMBER_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + EMERALD_MEMBER.spriteId + ">Emerald Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + EMERALD_MEMBER.spriteId + ">Emerald Member</col>!");
         }
 
         boolean extremeMemberUnlocked = player.getAttribOr(AttributeKey.EXTREME_MEMBER_UNLOCKED, false);
         if (totalAmountPaid >= 500 && !extremeMemberUnlocked) {
             player.setMemberRights(MemberRights.DIAMOND_MEMBER);
             player.putAttrib(AttributeKey.EXTREME_MEMBER_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DIAMOND_MEMBER.spriteId + ">Diamond Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + DIAMOND_MEMBER.spriteId + ">Diamond Member</col>!");
         }
 
         boolean legendaryMemberUnlocked = player.getAttribOr(AttributeKey.LEGENDARY_MEMBER_UNLOCKED, false);
         if (totalAmountPaid >= 1000 && !legendaryMemberUnlocked) {
             player.setMemberRights(MemberRights.DRAGONSTONE_MEMBER);
             player.putAttrib(AttributeKey.LEGENDARY_MEMBER_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DRAGONSTONE_MEMBER.spriteId + ">Dragonstone Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + DRAGONSTONE_MEMBER.spriteId + ">Dragonstone Member</col>!");
         }
 
         boolean vipMemberUnlocked = player.getAttribOr(AttributeKey.VIP_UNLOCKED, false);
         if (totalAmountPaid >= 2500 && !vipMemberUnlocked) {
             player.setMemberRights(MemberRights.ONYX_MEMBER);
             player.putAttrib(AttributeKey.VIP_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ONYX_MEMBER.spriteId + ">Onyx Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + ONYX_MEMBER.spriteId + ">Onyx Member</col>!");
         }
 
         boolean sponsorMemberUnlocked = player.getAttribOr(AttributeKey.SPONSOR_UNLOCKED, false);
         if (totalAmountPaid >= 5000.00 && !sponsorMemberUnlocked) {
             player.setMemberRights(MemberRights.ZENYTE_MEMBER);
             player.putAttrib(AttributeKey.SPONSOR_UNLOCKED, true);
-            if (!silent) World.getWorld().sendWorldMessage("<img=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ZENYTE_MEMBER.spriteId + ">Zenyte Member</col>!");
+            if (!silent) World.getWorld().sendWorldMessage("<lsprite=993><shad=0>" + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><lsprite=" + ZENYTE_MEMBER.spriteId + ">Zenyte Member</col>!");
         }
 
         if (totalAmountPaid >= 10.00) {

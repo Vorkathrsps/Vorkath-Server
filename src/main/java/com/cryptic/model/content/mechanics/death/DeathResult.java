@@ -222,7 +222,7 @@ public class DeathResult {
         if (player.getIronManStatus().isHardcoreIronman()) {
             player.setIronmanStatus(IronMode.REGULAR);
             player.getPacketSender().sendRights();
-            World.getWorld().sendWorldMessage("<img=504> " + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
+            World.getWorld().sendWorldMessage("<lsprite=504> " + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
         }
         return this;
     }

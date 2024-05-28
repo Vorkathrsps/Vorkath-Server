@@ -48,7 +48,7 @@ public enum LogType {
                 int after = killer.getCollectionLog().totalObtained(c);
                 if(after != before && after == totalCollectables) {
                     killer.message("<col=297A29>Congratulations! You have completed the "+c.getName()+" collection log.");
-                    World.getWorld().sendWorldMessage(format("<img=1953>[<col="+ Color.MEDRED.getColorValue()+">Collection log</col>]: %s just completed the %s collection log.", (PlayerRights.getCrown(killer) + killer.getUsername()), c.getName()));
+                    World.getWorld().sendWorldMessage(format("<lsprite=1953>[<col="+ Color.MEDRED.getColorValue()+">Collection log</col>]: %s just completed the %s collection log.", (PlayerRights.getCrown(killer) + killer.getUsername()), c.getName()));
                 }
                 return v;
             });

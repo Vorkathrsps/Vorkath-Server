@@ -129,7 +129,7 @@ public class ItemDrops {
         if (i.isRareDrop() && drop.getId() == parsedID) {
             var inWild = WildernessArea.inWilderness(player.tile());
             var level = WildernessArea.getWildernessLevel(player.tile());
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.YELLOW.wrap("<shad=0>" + player.getUsername() + " has received a " + Color.BURNTORANGE.wrap(drop.name()) + " from a " + Color.BURNTORANGE.wrap(npc.getMobName()) + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.YELLOW.wrap("<shad=0>" + player.getUsername() + " has received a " + Color.BURNTORANGE.wrap(drop.name()) + " from a " + Color.BURNTORANGE.wrap(npc.getMobName()) + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
             return true;
         }
         return false;

@@ -1541,7 +1541,7 @@ public class Utils {
     }
 
     private static final String[] BLOCKED_WORDS = new String[]{
-        "<img", "@cr", "<img=", ":tradereq:", ":duelreq:",
+        "<img", "@cr", "<img=", ":tradereq:", ":duelreq:","<sprite","<lsprite",
         "<col=", "<shad=", "[Global]", "[global]", "leaked ip's", "leaked ips", "leaked pass",
         "devious", "firepk", "ventrilica", "ventrili",
         "hade5", "hades5", "pvplegacy", "junglepk", "runeinsanit",
@@ -1559,7 +1559,7 @@ public class Utils {
         ".e u", ".d e", ".c c", ".(c)om", "kandarin", "o r g", "www",
         "w w w", "w.w.w", "voidrsps", "void-ps", "desolace", "ikov", "soulsplit",
         "soulspawn", "atiloc", "@cr", "@red", "@whi", "@bla", "@blu",
-        "@or1", "@yel", "@gre", "@dre", "@pur", "@cya", "i k o v", "ik0v", "<img=", "@cr", ":tradereq:", ":duelreq:",
+        "@or1", "@yel", "@gre", "@dre", "@pur", "@cya", "i k o v", "ik0v", "<img=","<sprite=","<lsprite=", "@cr", ":tradereq:", ":duelreq:",
         "<trans", "<str", "<shad=", "hostilityps", "hostilityp", "hostility ps"
         , "0s-base", "os -base", "os - base", "o s b a s e", "o s - b a s e", "spawnpk", "runex"};
 
@@ -1762,7 +1762,7 @@ public class Utils {
 
     private static final List<String> MESSAGE_FORMATTING_TAGS = List.of(
         ".com", ".net", ".org", "<img",
-        "<sprite", "@cr", "<img=",
+        "<sprite", "@cr", "<img=","<sprite=","<lsprite=","<sprite","<lsprite",
         "<col=", "<shad="
     );
 
@@ -2227,14 +2227,14 @@ public class Utils {
 
     public static Player createTestbot() {
         var msg = new LoginDetailsMessage(
-                DummyChannelHandlerContext.DUMMY,
-                "Testbot"+KtCommands.getBotAccIncrementor(),
-                "test",
-                "127.0.0.1",
-                "",
-                GameServer.properties().gameVersion,
-                IsaacRandom.DUMMY(),
-                IsaacRandom.DUMMY()
+            DummyChannelHandlerContext.DUMMY,
+            "Testbot"+KtCommands.getBotAccIncrementor(),
+            "test",
+            "127.0.0.1",
+            "",
+            GameServer.properties().gameVersion,
+            IsaacRandom.DUMMY(),
+            IsaacRandom.DUMMY()
         );
         KtCommands.setBotAccIncrementor(KtCommands.getBotAccIncrementor() + 1);
         var bot = new Session(msg.getContext().channel()).getPlayer();

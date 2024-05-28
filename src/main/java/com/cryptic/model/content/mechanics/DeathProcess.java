@@ -370,7 +370,7 @@ public class DeathProcess implements TheatreDeath {
                         p2.setIronmanStatus(IronMode.REGULAR);
                         p2.getPacketSender().sendRights();
                         p2.getUpdateFlag().flag(Flag.APPEARANCE);
-                        World.getWorld().sendBroadcast("<img=504>" + p2.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + p2.getSkills().totalLevel());
+                        World.getWorld().sendBroadcast("<lsprite=504>" + p2.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + p2.getSkills().totalLevel());
                     }
                 }
                 party.getOccupiedCageSpawnPointsList().clear();

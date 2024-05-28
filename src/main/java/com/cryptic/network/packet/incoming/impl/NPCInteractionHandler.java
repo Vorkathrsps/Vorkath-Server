@@ -211,7 +211,7 @@ public class NPCInteractionHandler implements PacketListener {
                 case VOID_KNIGHT -> {
                     int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
                     World.getWorld().shop(48).open(player);
-                    player.message(Color.ORANGE_2.wrap("<img=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
+                    player.message(Color.ORANGE_2.wrap("<lsprite=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
                 }
                 case TWIGGY_OKORN -> {
                     if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
@@ -360,7 +360,7 @@ public class NPCInteractionHandler implements PacketListener {
             case VOID_KNIGHT -> {
                 int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
                 World.getWorld().shop(48).open(player);
-                player.message(Color.ORANGE_2.wrap("<img=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
+                player.message(Color.ORANGE_2.wrap("<lsprite=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
             }
             case SUROK_MAGIS -> {
                 npc.setPositionToFace(player.tile());

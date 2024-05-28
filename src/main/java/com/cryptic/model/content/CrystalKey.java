@@ -103,7 +103,7 @@ public class CrystalKey extends PacketInteraction {
                 return;
             }
             System.out.println(drop);
-            World.getWorld().sendWorldMessage("<img=2010>" + player.getUsername() + " received <col=A30072>" + drop.name() + " </col>from the crystal key.");
+            World.getWorld().sendWorldMessage("<lsprite=2010>" + player.getUsername() + " received <col=A30072>" + drop.name() + " </col>from the crystal key.");
         }
 
         int keysUsed = player.<Integer>getAttribOr(AttributeKey.CRYSTAL_KEYS_OPENED, 0) + 1;

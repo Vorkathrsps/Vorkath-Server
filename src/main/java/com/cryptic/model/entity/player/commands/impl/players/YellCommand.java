@@ -61,7 +61,7 @@ public class YellCommand implements Command {
         String color = "006601";
         String yellColour = player.getAttribOr(AttributeKey.YELL_COLOUR, color);
 
-        //System.out.println("[Global] <img=" + (player.getPlayerRights().getRight())
+        //System.out.println("[Global] <lsprite=" + (player.getPlayerRights().getRight())
         //    + "</img> " + player.getUsername() + ":<col=" + colour + "> " + Misc.ucFirst(yellMessage));
 
         //#Name colour is based on member rights not player rights
@@ -81,8 +81,8 @@ public class YellCommand implements Command {
         //String mainChannel = "[Global]";
 
         //# The player icon
-        String playerIcon = player.getPlayerRights().getSpriteId() != -1 ? "<img=" + player.getPlayerRights().getSpriteId() + ">" : "";
-        String memberIcon = player.getMemberRights().getSpriteId() != -1 ? "<img=" + player.getMemberRights().getSpriteId() + ">" : "";
+        String playerIcon = player.getPlayerRights().getSpriteId() != -1 ? "<lsprite=" + player.getPlayerRights().getSpriteId() + ">" : "";
+        String memberIcon = player.getMemberRights().getSpriteId() != -1 ? "<lsprite=" + player.getMemberRights().getSpriteId() + ">" : "";
 
         //# The username...
         String username = player.getUsername();

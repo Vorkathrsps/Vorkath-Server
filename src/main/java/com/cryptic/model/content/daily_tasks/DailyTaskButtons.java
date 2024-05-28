@@ -64,7 +64,7 @@ public class DailyTaskButtons extends PacketInteraction {
                 tasks.forEach(list::remove);
                 tasks.set(i, list.get(i));
                 player.getPacketSender().sendString(80778 + (i * 2), tasks.get(i).taskName);
-                player.message(Color.ORANGE.wrap("<img=2014><shad>New task: " + tasks.get(i).taskName + "</shad></img>"));
+                player.message(Color.ORANGE.wrap("<lsprite=2014><shad>New task: " + tasks.get(i).taskName + "</shad></img>"));
                 DailyTaskManager.displayTaskInfo(player, tasks.get(i));
                 break;
             }
@@ -92,7 +92,7 @@ public class DailyTaskButtons extends PacketInteraction {
                             v += toAdd;
                         return v;
                     });
-                    player.message(Color.ORANGE.wrap("<img=2014><shad>Your task has been extended to: " + newTotal + "</shad></img>"));
+                    player.message(Color.ORANGE.wrap("<lsprite=2014><shad>Your task has been extended to: " + newTotal + "</shad></img>"));
                     DailyTaskManager.displayTaskInfo(player, tasks.get(i));
                     break;
                 }

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @version Jan 6 2020
  */
 public enum GlobalStrings {
-    PLAYERS_ONLINE(12700, "<img=1400>Players Online: <col=ffffff>%s"),
+    PLAYERS_ONLINE(12700, "<lsprite=1400>Players Online: <col=ffffff>%s"),
     RUN_ENERGY(41553, "%s%%")
     ;
 

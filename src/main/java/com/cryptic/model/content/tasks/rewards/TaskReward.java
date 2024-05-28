@@ -99,7 +99,7 @@ public class TaskReward {
         if (item.getValue() >= 30000 && !player.getUsername().equalsIgnoreCase("Box test")) {
             boolean amOverOne = item.getAmount() > 1;
             String amtString = amOverOne ? "x " + Utils.format(item.getAmount()) + "" : Utils.getAOrAn(item.name());
-            String msg = "<img=2013> <col=AD800F>" + player.getUsername() + " has received " + amtString + "<shad=0> " + item.name() + "</shad>!";
+            String msg = "<lsprite=2013> <col=AD800F>" + player.getUsername() + " has received " + amtString + "<shad=0> " + item.name() + "</shad>!";
             World.getWorld().sendWorldMessage(msg);
         }
 

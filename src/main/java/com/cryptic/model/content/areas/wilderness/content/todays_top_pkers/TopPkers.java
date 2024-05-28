@@ -59,7 +59,7 @@ public final class TopPkers {
     }
 
     public void announce() {
-        broadcast("<sprite=780> <col=800000>Today's top PKers are now being announced:");
+        broadcast("<lsprite=780> <col=800000>Today's top PKers are now being announced:");
 
         for (int i = 0; i < ANNOUNCEMENT_AMOUNT; i++) {
             var entry = getAndTakeTop();
@@ -76,7 +76,7 @@ public final class TopPkers {
                 give(entry, position, reward);
             }
 
-            broadcast("<sprite=" + sprite + ">" + position + getSuffix(position) + ": " + details);
+            broadcast("<lsprite=" + sprite + ">" + position + getSuffix(position) + ": " + details);
         }
 
         totalKills.clear();

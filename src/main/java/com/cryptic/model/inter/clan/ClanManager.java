@@ -158,11 +158,11 @@ public class ClanManager {
 
         String rightsPrefix = "";
         if (player.getPlayerRights() != PlayerRights.PLAYER) {
-            rightsPrefix = "<img=" + player.getPlayerRights().getSpriteId() + ">";
+            rightsPrefix = "<lsprite=" + player.getPlayerRights().getSpriteId() + ">";
         }
         String memberPrefix = "";
         if (player.getMemberRights() != MemberRights.NONE) {
-            memberPrefix = "<img=" + player.getMemberRights().getSpriteId() + ">";
+            memberPrefix = "<lsprite=" + player.getMemberRights().getSpriteId() + ">";
         }
 
         for (ClanMember other : clan.members()) {
@@ -192,7 +192,7 @@ public class ClanManager {
                 String name = Utils.formatName(other.getName());
 
                 if (other.getRank() != ClanRank.ANYONE) {
-                    String rank = "<img=" + other.getRank().getRankIndex() + ">";
+                    String rank = "<lsprite=" + other.getRank().getRankIndex() + ">";
                     player.getPacketSender().sendString(33821 + index++, rank.concat(name));
                 } else {
                     player.getPacketSender().sendString(33821 + index++, name);
@@ -309,7 +309,7 @@ public class ClanManager {
 
         for (ClanMember other : clan.members()) {
             player.getPacketSender().sendString(44001 + index, "" + Utils.formatName(other.getName()));
-            player.getPacketSender().sendString(44801 + index, "<img=" + other.getRank().getRankIndex() + ">" + other.getRank().getName());
+            player.getPacketSender().sendString(44801 + index, "<lsprite=" + other.getRank().getRankIndex() + ">" + other.getRank().getName());
             index++;
         }
 

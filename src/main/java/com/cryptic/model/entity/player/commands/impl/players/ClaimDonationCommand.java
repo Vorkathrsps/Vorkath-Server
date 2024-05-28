@@ -43,8 +43,8 @@ public class ClaimDonationCommand implements Command {
                 }
                 player.putAttrib(AttributeKey.TOTAL_PAYMENT_AMOUNT, rank);
                 player.getMemberRights().update(player, false);
-                player.message(Color.PURPLE.wrap("<img=993><shad=0>Thank you for donating! Your new total donated amount is $" + rank + "</shad></img>"));
-                World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>" + player.getUsername() + " has just donated! Thank them for supporting Valor!</shad></img>"));
+                player.message(Color.PURPLE.wrap("<lsprite=993><shad=0>Thank you for donating! Your new total donated amount is $" + rank + "</shad></img>"));
+                World.getWorld().sendWorldMessage("<lsprite=993>" + Color.MITHRIL.wrap("<shad=0>" + player.getUsername() + " has just donated! Thank them for supporting Valor!</shad></img>"));
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -52,7 +52,7 @@ public class ClaimDonationCommand implements Command {
     }
 
     public static void spawnDonatorBoss() {
-        World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>The Donator boss 'Xamphur' has spawned! Gear up for the ultimate challenge! ::xamphur </shad></img>"));
+        World.getWorld().sendWorldMessage("<lsprite=993>" + Color.MITHRIL.wrap("<shad=0>The Donator boss 'Xamphur' has spawned! Gear up for the ultimate challenge! ::xamphur </shad></img>"));
         NPC xamphur = new NPC(10951, new Tile(-1, -1, 0));
         xamphur.spawn(false);
         totalDonated = 0;
@@ -60,13 +60,13 @@ public class ClaimDonationCommand implements Command {
 
     private static void checkDonatorBoss() {
         if (totalDonated >= 150) {
-            World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $50 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
+            World.getWorld().sendWorldMessage("<lsprite=993>" + Color.MITHRIL.wrap("<shad=0>Only $50 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
         }
         if (totalDonated >= 100) {
-            World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $100 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
+            World.getWorld().sendWorldMessage("<lsprite=993>" + Color.MITHRIL.wrap("<shad=0>Only $100 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
         }
         if (totalDonated >= 50) {
-            World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $200 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
+            World.getWorld().sendWorldMessage("<lsprite=993>" + Color.MITHRIL.wrap("<shad=0>Only $200 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
         }
     }
 

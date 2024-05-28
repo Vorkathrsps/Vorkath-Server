@@ -73,7 +73,7 @@ public class DailyTaskManager {
 
             var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.totalCompletionAmount, 0) + 1;
             player.putAttrib(dailyTask.totalCompletionAmount, newCompletedAmt);
-            player.message(Color.ORANGE.wrap("<img=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
+            player.message(Color.ORANGE.wrap("<lsprite=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
 
             //We have completed the task
             if (newCompletedAmt == completionAmount) {
@@ -89,7 +89,7 @@ public class DailyTaskManager {
                     builder.append(dailyTask.rewards[index].name());
                     builder.append(", ");
                 }
-                player.message(Color.PURPLE.wrap("<img=2014><shad=0>" + builder + "</shad></img>"));
+                player.message(Color.PURPLE.wrap("<lsprite=2014><shad=0>" + builder + "</shad></img>"));
             }
         }
     }

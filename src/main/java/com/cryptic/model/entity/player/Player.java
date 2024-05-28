@@ -1619,7 +1619,7 @@ public class Player extends Entity {
         setHitMarkVarbits();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
-        //World.getWorld().sendBroadcast("<img=504>" + "has lost their hardcore ironman status! Total Level: ");
+        World.getWorld().sendBroadcast("<lsprite=504>" + "has lost their hardcore ironman status! Total Level: ");
     }
 
     private void setHitMarkVarbits() {
@@ -3090,7 +3090,7 @@ public class Player extends Entity {
                 if (minutesTillWildyBoss == 5) {
                     if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
                         WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
-                        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
+                        World.getWorld().sendWorldMessage("<col=6a1a18><lsprite=2012>The world boss will spawn in 5 minutes, gear up!");
                     }
                 }
             }

@@ -143,8 +143,8 @@ public class Tournament {
             winner.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
             winner.message("You have won the " + fullName() + " Tournament! You now have " + Color.BLUE.wrap("" + wins) + " tournaments.");
             winner.message("You've received 4 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
-            World.getWorld().sendWorldMessage(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
-            logger.info(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
+            World.getWorld().sendWorldMessage(format("<lsprite=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
+            logger.info(format("<lsprite=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info("PvP tournament rewards: " + reward.toString());
             winner.getPacketSender().sendInteractionOption("null", 2, true);
             winner.getPacketSender().sendEntityHintRemoval(true);

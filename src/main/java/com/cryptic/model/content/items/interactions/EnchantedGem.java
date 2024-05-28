@@ -50,7 +50,7 @@ public class EnchantedGem extends PacketInteraction {
                     }
                 }
                 var amount = assignment.getRemainingTaskAmount(player);
-                player.message(Color.BLUE.wrap("<img=13><shad=0>Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + amount + "</shad></img>"));
+                player.message(Color.BLUE.wrap("<lsprite=13><shad=0>Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + amount + "</shad></img>"));
                 return true;
             }
         }

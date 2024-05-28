@@ -235,7 +235,7 @@ public class Mining extends PacketInteraction {
         }
         if (Utils.rollDie((int) chance, 1)) {
             player.getInventory().add(new Item(ItemIdentifiers.ROCK_GOLEM));
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rock Golem Pet!" + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rock Golem Pet!" + "</shad>"));
         }
     }
 

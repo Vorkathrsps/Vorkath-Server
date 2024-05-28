@@ -112,7 +112,7 @@ public class Pickpocketing extends PacketInteraction {
     private static void rollForPet(Player player, PickPocket pickpocket) {
         if (Utils.rollDie(pickpocket.petOdds, 1)) {
             player.inventory().addOrBank(new Item(ROCKY, 1));
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rocky Pet!" + "</shad>"));
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + player.getUsername() + " has received a Rocky Pet!" + "</shad>"));
         }
     }
 

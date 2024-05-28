@@ -140,7 +140,7 @@ public class WildernessBossEvent {
 
         //Dissmiss broadcast when boss has been killed.
         World.getWorld().clearBroadcast();
-        World.getWorld().sendWorldMessage("<col=6a1a18><img=2013> " + activeEvent.description + " has been killed. It will respawn shortly.");
+        World.getWorld().sendWorldMessage("<col=6a1a18><lsprite=2013> " + activeEvent.description + " has been killed. It will respawn shortly.");
     }
 
     public LocalDateTime last = LocalDateTime.now().minus((long) (BOSS_EVENT_INTERVAL * 0.6d), ChronoUnit.SECONDS);
@@ -185,9 +185,9 @@ public class WildernessBossEvent {
         World.getWorld().registerNpc(boss);
         Utils.sendDiscordInfoLog("The wilderness event boss has been spawned: " + boss.def().name + " at " + tile.toString() + ".");
         this.activeNpc = Optional.of(boss);
-        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
+        World.getWorld().sendWorldMessage("<col=6a1a18><lsprite=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
         World.getWorld().sendWorldMessage("<col=6a1a18>It despawns in 60 minutes. Hurry!");
-        World.getWorld().sendBroadcast("<img=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
+        World.getWorld().sendBroadcast("<lsprite=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
     }
 
     public void terminateActiveEvent(boolean force) {

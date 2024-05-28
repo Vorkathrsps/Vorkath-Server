@@ -64,7 +64,7 @@ public class UnlockEventRewards {
                 player.putAttrib(WINTER_EVENT_TOKENS_SPENT,0);
                 player.inventory().addOrBank(COMPLETED_EVENT_REWARD);
                 //Let the world know this play has finished the rewards and goes for them again
-                World.getWorld().sendWorldMessage("<img=2013><shad=0>" + Color.MEDRED.wrap("[Winter event]:") + "</shad> " + Color.PURPLE.wrap(player.getUsername()) + " has just reset the " + Color.PURPLE.wrap("Winter event") + " rewards!");
+                World.getWorld().sendWorldMessage("<lsprite=2013><shad=0>" + Color.MEDRED.wrap("[Winter event]:") + "</shad> " + Color.PURPLE.wrap(player.getUsername()) + " has just reset the " + Color.PURPLE.wrap("Winter event") + " rewards!");
 
                 player.getInterfaceManager().close();
             });
@@ -94,7 +94,7 @@ public class UnlockEventRewards {
             if(player.getUsername().equalsIgnoreCase("Box test")) {
                 return;
             }
-            World.getWorld().sendWorldMessage("<img=2020><shad=0>" + Color.MEDRED.wrap("[News]:") + "</shad> " + Color.PURPLE.wrap(player.getUsername()) + " received " + Color.HOTPINK.wrap("x" + reward.getAmount()) + " " + Color.HOTPINK.wrap(reward.unnote().name()) + " from the Event!");
+            World.getWorld().sendWorldMessage("<lsprite=2020><shad=0>" + Color.MEDRED.wrap("[News]:") + "</shad> " + Color.PURPLE.wrap(player.getUsername()) + " received " + Color.HOTPINK.wrap("x" + reward.getAmount()) + " " + Color.HOTPINK.wrap(reward.unnote().name()) + " from the Event!");
         } else {
             int rewardAmount = reward.getAmount();
             String plural = rewardAmount > 1 ? "x" + rewardAmount : "x1";

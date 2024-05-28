@@ -50,7 +50,7 @@ public class TreasureRoom extends PacketInteraction {
     private void broadcastWorldMessage(int[] rare_loot, Player key, Item i) {
         if (ArrayUtils.contains(rare_loot, i.getId())) {
             System.out.println(key.getUsername());
-            World.getWorld().sendWorldMessage("<img=2010> " + Color.RAID_PURPLE.wrap(key.getUsername() + " has recieved " + i.getAmount() + "x: " + i.name())); //TODO raids kc
+            World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.RAID_PURPLE.wrap(key.getUsername() + " has recieved " + i.getAmount() + "x: " + i.name())); //TODO raids kc
         }
     }
 }

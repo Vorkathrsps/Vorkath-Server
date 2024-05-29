@@ -1,5 +1,5 @@
 {
-  "live": false,
+  "live": true,
   "gameVersion": "6",
   "definitionsDirectory": "./data/def/",
   "clippingDirectory": "./data/map/clipping/",

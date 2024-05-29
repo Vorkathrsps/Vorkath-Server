@@ -19,7 +19,6 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.RECRUI
 
 /**
  * @author Origin | April, 26, 2021, 17:25
- * 
  */
 public class RaidPartyActions extends PacketInteraction {
 
@@ -47,7 +46,7 @@ public class RaidPartyActions extends PacketInteraction {
             return false;
         }
 
-        if(button == 12115) {
+        if (button == 12115) {
             if (party.getLeader() != player) {
                 player.message("Only the leader of this party can select a raids type.");
                 return true;
@@ -62,7 +61,7 @@ public class RaidPartyActions extends PacketInteraction {
             return true;
         }
 
-        if(button == 12116) {
+        if (button == 12116) {
             if (party.getLeader() != player) {
                 player.message("Only the leader of this party can select a raids type.");
                 return true;
@@ -102,7 +101,7 @@ public class RaidPartyActions extends PacketInteraction {
         }
 
         if (button == 12143) {
-            if(player.raidsParty.getLeader() != player) {
+            if (player.raidsParty.getLeader() != player) {
                 player.message(Color.RED.wrap("Only the leader can start this raiding party."));
                 return true;
             }
@@ -110,7 +109,7 @@ public class RaidPartyActions extends PacketInteraction {
             return true;
         }
         if (button == 12146) {
-            Party.leaveParty(player,true);
+            Party.leaveParty(player, true);
             return true;
         }
         if (button == 12125) {
@@ -148,7 +147,7 @@ public class RaidPartyActions extends PacketInteraction {
             return;
         }
 
-        DialogueManager.sendStatement(p, "Requesting..");
+        p.getDialogueManager().sendStatement("Requesting..");
         target.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -161,11 +160,11 @@ public class RaidPartyActions extends PacketInteraction {
                 if (isPhase(0)) {
                     if (option == 1) {
                         if (target.raidsParty != null) {
-                            DialogueManager.sendStatement(p, target.getUsername() + " is already in a party.");
+                            player.getDialogueManager().sendStatement(target.getUsername() + " is already in a party.");
                             return;
                         } else {
                             Party party = p.raidsParty;
-                            if(party != null) {
+                            if (party != null) {
                                 if (party.getRaidStage() >= 1) {
                                     target.getInterfaceManager().close();
                                     target.message(Color.RED.wrap("Could not join party, the party had already begun."));
@@ -174,7 +173,7 @@ public class RaidPartyActions extends PacketInteraction {
                                 party.addMember(target);
                                 target.raidsParty = party;
                                 target.message("You've joined " + p.getUsername() + "'s raid party.");
-                                DialogueManager.sendStatement(p, target.getUsername() + " has joined your raid party.");
+                                sendStatement(target.getUsername() + " has joined your raid party.");
                                 Party.openPartyInterface(p, true);
                                 Party.openPartyInterface(target, true);
                             }
@@ -182,7 +181,7 @@ public class RaidPartyActions extends PacketInteraction {
                         }
                     }
                     if (option == 2) {
-                        DialogueManager.sendStatement(p, target.getUsername() + " has declined your request to join your raid party.");
+                        sendStatement(target.getUsername() + " has declined your request to join your raid party.");
                         target.message("You decline " + p.getUsername() + "'s request to join their party.");
                         stop();
                     }

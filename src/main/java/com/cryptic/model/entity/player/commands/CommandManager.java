@@ -1352,7 +1352,7 @@ public class CommandManager {
                         player.getTheatreInterface().getPlayers().add(member);
                         member.setRaidParty(player.getTheatreInterface().getOwner().getRaidParty());
                         member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
-                        DialogueManager.sendStatement(player.getTheatreInterface().getOwner(), member.getUsername() + " has joined your raid party.");
+                        player.getDialogueManager().sendStatement( member.getUsername() + " has joined your raid party.");
                         member.getPacketSender().sendString(73055, "Leave");
                     }
                 }

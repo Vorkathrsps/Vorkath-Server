@@ -80,7 +80,7 @@ public class ElderChaosDruid extends PacketInteraction {
         var name = "blood money";
 
         if (!player.inventory().contains(new Item(currency, toRemove * 50))) {
-            DialogueManager.npcChat(player, Expression.VERY_SAD, ELDER_CHAOS_DRUID_7995, "Unfortunately, you don't have enough " + name + " right now to do that.");
+           player.getDialogueManager().npcChat( Expression.VERY_SAD, ELDER_CHAOS_DRUID_7995, "Unfortunately, you don't have enough " + name + " right now to do that.");
         } else {
             player.inventory().remove(new Item(currency, toRemove * 50));
             player.inventory().remove(new Item(original, toRemove));
@@ -141,7 +141,7 @@ public class ElderChaosDruid extends PacketInteraction {
             if (new Item(item).noted() && new Item(item).unnote().definition(World.getWorld()).name.toLowerCase().endsWith("bones")) {
                 swap(player, item.getId(), new Item(item).unnote().getId());
             } else {
-                DialogueManager.npcChat(player, Expression.VERY_SAD, ELDER_CHAOS_DRUID_7995, "Sorry, I wasn't expecting anyone to want to convert", "that sort of item, so I haven't any banknotes for it.");
+               player.getDialogueManager().npcChat( Expression.VERY_SAD, ELDER_CHAOS_DRUID_7995, "Sorry, I wasn't expecting anyone to want to convert", "that sort of item, so I haven't any banknotes for it.");
             }
             return true;
         }

@@ -164,7 +164,7 @@ public class Mac extends PacketInteraction {
         }
         if (counter > 0) {
             var pluralOr = counter == 1 ? "skill" : "skills";
-            DialogueManager.npcChat(player, HAPPY, MAC, "Sorry but you require a skill level of 99 in "+counter+" more "+pluralOr+".", "Better get to it.");
+           player.getDialogueManager().npcChat( HAPPY, MAC, "Sorry but you require a skill level of 99 in "+counter+" more "+pluralOr+".", "Better get to it.");
             return false;
         }
         return true;

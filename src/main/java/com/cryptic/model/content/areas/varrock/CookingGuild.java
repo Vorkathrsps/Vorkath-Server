@@ -31,9 +31,9 @@ public class CookingGuild extends PacketInteraction {
         //Requirement checks to enter the cooking guild.
         if (player.tile().y <= 3443) {
             if (player.getSkills().level(Skills.COOKING) < 32) {
-                DialogueManager.npcChat(player, Expression.DULL, CHEF, "Sorry. Only the finest chefs are allowed in here. Get", "your cooking level up to 32 and come back wearing a", "chef's hat.");
+               player.getDialogueManager().npcChat( Expression.DULL, CHEF, "Sorry. Only the finest chefs are allowed in here. Get", "your cooking level up to 32 and come back wearing a", "chef's hat.");
             } else if (!player.getEquipment().containsAny(CHEFS_HAT, GOLDEN_CHEFS_HAT)) {
-                DialogueManager.npcChat(player, Expression.ANXIOUS, CHEF, "You can't come in here unless you're wearing a chef's", "hat, or something like that.");
+               player.getDialogueManager().npcChat( Expression.ANXIOUS, CHEF, "You can't come in here unless you're wearing a chef's", "hat, or something like that.");
             } else {
                 if (!player.tile().equals(door.tile().transform(0, 0, 0))) {
                     player.getMovementQueue().interpolate(door.tile().transform(0, 0, 0));

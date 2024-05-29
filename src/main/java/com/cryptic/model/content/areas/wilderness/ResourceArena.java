@@ -48,7 +48,7 @@ public class ResourceArena extends PacketInteraction {
             protected void select(int option) {
                 if(option == 1) {
                     if(!player.inventory().contains(new Item(currency, player.inventory().count(original) * 50))) {
-                        DialogueManager.npcChat(player, Expression.VERY_SAD, 13, "Unfortunately, you don't have enough "+name, "right now to do that.");
+                       player.getDialogueManager().npcChat( Expression.VERY_SAD, 13, "Unfortunately, you don't have enough "+name, "right now to do that.");
                     } else {
                         int num = player.inventory().count(original);
                         player.inventory().remove(new Item(currency, player.inventory().count(original) * 50));
@@ -139,7 +139,7 @@ public class ResourceArena extends PacketInteraction {
             if (Arrays.stream(ResourceArena.ALLOWED_EXCHANGE).anyMatch(id -> id == item.getId())) {
                 swap(player, item.getId(), item.note().getId());
             } else {
-                DialogueManager.npcChat(player, Expression.VERY_SAD, PILES, "Sorry, I wasn't expecting anyone to want to convert", "that sort of item, so I haven't any banknotes for it.");
+               player.getDialogueManager().npcChat( Expression.VERY_SAD, PILES, "Sorry, I wasn't expecting anyone to want to convert", "that sort of item, so I haven't any banknotes for it.");
             }
             return true;
         }

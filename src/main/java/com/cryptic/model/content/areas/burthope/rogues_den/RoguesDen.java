@@ -131,10 +131,10 @@ public class RoguesDen extends PacketInteraction {
                             player.message("The door won't open!");
                         }
                     } else {
-                        DialogueManager.npcChat(player, Expression.H, BRIAN_ORICHARD,"Tut tut tut, now you know you're not allowed to take", "anything except that jewel in with you.");
+                       player.getDialogueManager().npcChat( Expression.H, BRIAN_ORICHARD,"Tut tut tut, now you know you're not allowed to take", "anything except that jewel in with you.");
                     }
                 } else {
-                    DialogueManager.npcChat(player, Expression.H1, BRIAN_ORICHARD,"And where do you think you're going? A little too eager", "I think. Come and talk to me before you go wandering", "around in there.");
+                   player.getDialogueManager().npcChat( Expression.H1, BRIAN_ORICHARD,"And where do you think you're going? A little too eager", "I think. Come and talk to me before you go wandering", "around in there.");
                 }
                 return true;
             }

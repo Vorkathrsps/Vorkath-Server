@@ -31,7 +31,7 @@ public class MiningGuild extends PacketInteraction {
 
     private void door(Player player, GameObject door) {
         if (player.getSkills().level(Skills.MINING) < 60) {
-            DialogueManager.npcChat(player, Expression.HAPPY, NpcIdentifiers.GUARD_6561, "Sorry, but you need level 60 Mining to get in there.");
+           player.getDialogueManager().npcChat( Expression.HAPPY, NpcIdentifiers.GUARD_6561, "Sorry, but you need level 60 Mining to get in there.");
         } else {
             player.lock();
 

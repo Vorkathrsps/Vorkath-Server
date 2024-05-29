@@ -55,7 +55,7 @@ public class IronManTutor extends Dialogue {
         }
 
         if (player.getIronManStatus() != IronMode.NONE) {
-            DialogueManager.npcChat(player, Expression.HAPPY, NpcIdentifiers.IRON_MAN_TUTOR, "There you go. Wear it with pride.");
+           player.getDialogueManager().npcChat( Expression.HAPPY, NpcIdentifiers.IRON_MAN_TUTOR, "There you go. Wear it with pride.");
         }
     }
 

@@ -45,7 +45,7 @@ public class LootChest extends PacketInteraction {
 
     private void open(Player player) {
         if (!player.inventory().containsAny(LOOT_KEY, LOOT_KEY_26652, LOOT_KEY_26653, LOOT_KEY_26654, LOOT_KEY_26655)) {
-            DialogueManager.npcChat(player, Expression.NODDING_ONE, SKULLY, "You don't seem to have any loot keys on you there,", "mate.");
+           player.getDialogueManager().npcChat( Expression.NODDING_ONE, SKULLY, "You don't seem to have any loot keys on you there,", "mate.");
             return;
         }
         player.animate(832);

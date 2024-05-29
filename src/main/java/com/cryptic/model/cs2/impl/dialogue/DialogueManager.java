@@ -6,6 +6,8 @@ import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.function.Consumer;
+
 @Getter
 @Setter
 public class DialogueManager {
@@ -116,6 +118,24 @@ public class DialogueManager {
 
     public void npcChat(final Expression expression, final int id, final String... strings) {
         npcChat("null", expression, id, strings);
+    }
+
+    public void produceItem(final String title, final int total, final int lastAmount, final int[] itemIds, Consumer<Dialogue> next) {
+        start(new Dialogue() {
+            @Override
+            protected void start(Object... parameters) {
+
+            }
+        });
+        next.accept(this.dialogue);
+    }
+
+    public static void main(String[] args) {
+        Player player1 = new Player();
+        new DialogueManager(new Player()).produceItem("",0,0,new int[]{0,0,0}, t -> {
+            t.setPhase(0);
+
+        });
     }
 
     public void npcChat(final String title, final Expression expression, final int id, final String... strings) {

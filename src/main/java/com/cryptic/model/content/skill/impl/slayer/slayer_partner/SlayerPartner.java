@@ -220,17 +220,17 @@ public class SlayerPartner {
 
         //We can't invite someone without a slayer task.
         if (requester.slayerTaskAmount() <= 0) {
-            DialogueManager.sendStatement(requester, "I should get a slayer task first.");
+            requester.getDialogueManager().sendStatement( "I should get a slayer task first.");
             return;
         }
 
-        Chain.bound(requester).runFn(1, () -> DialogueManager.sendStatement(requester, "Sending request to " + requestee.getUsername() + "...")).then(4, () -> {
+        Chain.bound(requester).runFn(1, () -> requester.getDialogueManager().sendStatement("Sending request to " + requestee.getUsername() + "...")).then(4, () -> {
             //You can't invite someone who already has a partner
             String slayerPartner = requestee.getAttribOr(AttributeKey.SLAYER_PARTNER, "None");
             if (slayerPartner.equalsIgnoreCase(requester.getUsername())) {
-                DialogueManager.sendStatement(requester, requestee.getUsername() + " is already your slayer partner.");
+                requester.getDialogueManager().sendStatement( requestee.getUsername() + " is already your slayer partner.");
             } else if (!slayerPartner.equalsIgnoreCase("None")) {
-                DialogueManager.sendStatement(requester, requestee.getUsername() + " is the slayer partner of " + slayerPartner + ".");
+                requester.getDialogueManager().sendStatement(requestee.getUsername() + " is the slayer partner of " + slayerPartner + ".");
             }
         });
 
@@ -254,7 +254,7 @@ public class SlayerPartner {
                     if (option == 1) {
                         stop();
                         requestee.message(requester.getUsername() + " is now your slayer partner until you leave the party.");
-                        DialogueManager.sendStatement(requester, requestee.getUsername() + " accepted your request.");
+                        sendStatement(requestee.getUsername() + " accepted your request.");
                         requestee.putAttrib(AttributeKey.SLAYER_PARTNER, requester.getUsername());
                         requester.putAttrib(AttributeKey.SLAYER_PARTNER, requestee.getUsername());
 
@@ -276,7 +276,7 @@ public class SlayerPartner {
                         setPhase(1);
                     } else if (option == 2) {
                         stop();
-                        DialogueManager.sendStatement(requester, requestee.getUsername() + " declined your request.");
+                        requester.getDialogueManager().sendStatement( requestee.getUsername() + " declined your request.");
                     }
                 }
             }

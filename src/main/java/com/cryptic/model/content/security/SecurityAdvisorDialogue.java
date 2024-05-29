@@ -13,7 +13,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.ASK_FOR_ACCOUNT_P
 
 /**
  * @author Origin | April, 29, 2021, 18:18
- * 
  */
 public class SecurityAdvisorDialogue extends Dialogue {
 
@@ -71,12 +70,12 @@ public class SecurityAdvisorDialogue extends Dialogue {
                     public boolean handle(Object value) {
                         int pin = (Integer) value;
                         String pinToString = Integer.toString(pin);
-                        if(pinToString.equalsIgnoreCase(Integer.toString(player.<Integer>getAttribOr(ACCOUNT_PIN,0)))) {
-                            player.putAttrib(ACCOUNT_PIN,0);
-                            player.putAttrib(ASK_FOR_ACCOUNT_PIN,false);
+                        if (pinToString.equalsIgnoreCase(Integer.toString(player.<Integer>getAttribOr(ACCOUNT_PIN, 0)))) {
+                            player.putAttrib(ACCOUNT_PIN, 0);
+                            player.putAttrib(ASK_FOR_ACCOUNT_PIN, false);
                             player.message(Color.GREEN.wrap("Your account pin has been removed."));
                         } else {
-                            DialogueManager.npcChat(player, Expression.ANNOYED, SECURITY_GUARD,"Your account pin did not match!");
+                            player.getDialogueManager().npcChat(Expression.ANNOYED, SECURITY_GUARD, "Your account pin did not match!");
                         }
                         return true;
                     }

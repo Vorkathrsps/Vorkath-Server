@@ -165,7 +165,7 @@ public class FightCavesMinigame extends Minigame {
         player.getInterfaceManager().sendOverlay(4535);
 
         NPC npc = NPC.of(NpcIdentifiers.TZHAARMEJJAL, new Tile(3222, 3222, 0));
-        DialogueManager.npcChat(player, Expression.CALM_TALK, npc.id(),"Good luck, Jal-Yt!");
+       player.getDialogueManager().npcChat( Expression.CALM_TALK, npc.id(),"Good luck, Jal-Yt!");
         spawnWave(player, wave);
     }
 
@@ -180,7 +180,7 @@ public class FightCavesMinigame extends Minigame {
         if (wave == (MAX_WAVE + 1)) {
 
             NPC npc = NPC.of(NpcIdentifiers.TZHAARMEJJAL, new Tile(3222, 3222, 0));
-            DialogueManager.npcChat(player, Expression.CALM_TALK, npc.id(), "You even defeated TzTok-Jad, I am most impressed!", "Please accept this gift.", "Give cape back to me if you not want it.");
+           player.getDialogueManager().npcChat( Expression.CALM_TALK, npc.id(), "You even defeated TzTok-Jad, I am most impressed!", "Please accept this gift.", "Give cape back to me if you not want it.");
 
             player.inventory().addOrDrop(new Item(FIRE_CAPE, 1));
             AchievementsManager.activate(player, Achievements.FIGHT_CAVES_I, 1);

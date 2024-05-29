@@ -282,14 +282,14 @@ public class TheatreInterface extends RaidParty {
                     if (isPhase(0)) {
                         if (option == 1) {
                             if (member.getRaidParty() != null) {
-                                DialogueManager.sendStatement(getOwner(), member.getUsername() + " is already in a party.");
+                                sendStatement(member.getUsername() + " is already in a party.");
                                 return;
                             } else {
                                 if (getOwner().getRaidParty() != null) {
                                     getPlayers().add(member);
                                     member.setRaidParty(getOwner().getRaidParty());
                                     member.message("You've joined " + getOwner().getUsername() + "'s raid party.");
-                                    DialogueManager.sendStatement(getOwner(), member.getUsername() + " has joined your raid party.");
+                                    sendStatement(member.getUsername() + " has joined your raid party.");
                                     member.getPacketSender().sendString(73055, "Leave");
                                     refreshPartyUi(member.getRaidParty());
                                 }
@@ -297,7 +297,7 @@ public class TheatreInterface extends RaidParty {
                             }
                         }
                         if (option == 2) {
-                            player.getDialogueManager().sendStatement( member.getUsername() + " has declined your request to join your raid party.");
+                            sendStatement( member.getUsername() + " has declined your request to join your raid party.");
                             member.message("You decline " + player.getUsername() + "'s request to join their party.");
                             stop();
                         }

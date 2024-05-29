@@ -46,13 +46,13 @@ public class SkullySettingsD extends Dialogue {
                 player.setAmountScript("Enter Amount:", value -> {
                     int input = (Integer) value;
                     if (input <= 0) {
-                        DialogueManager.npcChat(player, Expression.NODDING_ONE, SKULLY, "Hump. Yeah, real funny, wise guy.");
+                       player.getDialogueManager().npcChat( Expression.NODDING_ONE, SKULLY, "Hump. Yeah, real funny, wise guy.");
                     }
                     if (input > Integer.MAX_VALUE) {
                         input = Integer.MAX_VALUE;
                     }
                     player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, input);
-                    DialogueManager.npcChat(player, Expression.NODDING_ONE, SKULLY, "Ok, now items worth at least " + Utils.formatRunescapeStyle(input) + "gp will drop to", "the floor.");
+                   player.getDialogueManager().npcChat( Expression.NODDING_ONE, SKULLY, "Ok, now items worth at least " + Utils.formatRunescapeStyle(input) + "gp will drop to", "the floor.");
                     return true;
                 });
             }

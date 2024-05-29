@@ -3,8 +3,8 @@ package com.cryptic.model.content.areas.zeah.woodcutting_guild;
 import com.cryptic.model.content.packet_actions.interactions.objects.Ladders;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.TickAndStop;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
@@ -66,7 +66,7 @@ public class WoodcuttingGuild extends PacketInteraction {
 
     private void enterGuild(Player player) {
         if (player.getSkills().xpLevel(Skills.WOODCUTTING) < 60) {
-            DialogueManager.sendStatement(player, "You need a Woodcutting level of 60 to access this guild.");
+            player.getDialogueManager().sendStatement( "You need a Woodcutting level of 60 to access this guild.");
         } else {
             ObjectManager.removeObj(new GameObject(GATE_28851, new Tile(1657, 3505), 0, 2));
             ObjectManager.removeObj(new GameObject(GATE_28852, new Tile(1657, 3504), 0, 2));
@@ -91,7 +91,7 @@ public class WoodcuttingGuild extends PacketInteraction {
                 }
             });
             if (player.tile().x >= 1658)
-                DialogueManager.npcChat(player, Expression.HAPPY, 7235, "Welcome to the woodcutting guild, adventurer.");
+                player.getDialogueManager().npcChat(Expression.HAPPY, 7235, "Welcome to the woodcutting guild, adventurer.");
         }
     }
 }

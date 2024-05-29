@@ -4,8 +4,8 @@ import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -129,7 +129,7 @@ public enum HerbTar {
 
                 if (!(player.inventory().containsAll(primary, secondary))) {
                     stop();
-                    DialogueManager.sendStatement(player, "<col=369>You have run out of materials.");
+                    player.getDialogueManager().sendStatement( "<col=369>You have run out of materials.");
                 }
             }
 

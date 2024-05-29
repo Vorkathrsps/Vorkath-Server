@@ -23,7 +23,7 @@ import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.items.Item;
@@ -415,7 +415,7 @@ public final class Equipment extends ItemContainer {
                     if (duelRule == null)
                         return false;
                     if (equipmentSlot == duelRule.getEquipmentSlot() || duelRule == DuelRule.NO_SHIELD && equip.isTwoHanded()) {
-                        DialogueManager.sendStatement(player, "The rules that were set do not allow this item to be equipped.");
+                        player.getDialogueManager().sendStatement( "The rules that were set do not allow this item to be equipped.");
                         return false;
                     }
                 }
@@ -426,7 +426,7 @@ public final class Equipment extends ItemContainer {
                 var whipAndDDS = player.<Boolean>getAttribOr(AttributeKey.WHIP_AND_DDS, false);
                 var whipOnly = player.<Boolean>getAttribOr(AttributeKey.WHIP_ONLY, false);
                 if (player.getDueling().getRules()[DuelRule.LOCK_WEAPON.ordinal()] && !(whipAndDDS && isDDSOrWhip) && !(whipOnly && isWhip)) {
-                    DialogueManager.sendStatement(player, "Weapons have been locked in this duel!");
+                    player.getDialogueManager().sendStatement( "Weapons have been locked in this duel!");
                     return false;
                 }
             }
@@ -636,7 +636,7 @@ public final class Equipment extends ItemContainer {
 
         if (equipmentIndex == EquipSlot.WEAPON || unequip.isTwoHanded()) {
             if (player.getDueling().getRules()[DuelRule.LOCK_WEAPON.ordinal()]) {
-                DialogueManager.sendStatement(player, "Weapons have been locked in this duel!");
+                player.getDialogueManager().sendStatement( "Weapons have been locked in this duel!");
                 return false;
             }
         }

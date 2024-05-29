@@ -3,10 +3,9 @@ package com.cryptic.model.content.skill.impl.crafting.impl;
 import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -112,12 +111,12 @@ public class Spinning {
      */
     public static void click(Player player, Spinnable spinnable) {
         if (player.getSkills().level(Skills.CRAFTING) < spinnable.requiredLevel) {
-            DialogueManager.sendStatement(player, "You need a crafting level of " + spinnable.requiredLevel + " to spin this!");
+            player.getDialogueManager().sendStatement( "You need a crafting level of " + spinnable.requiredLevel + " to spin this!");
             return;
         }
 
         if (!player.inventory().contains(spinnable.item)) {
-            DialogueManager.sendStatement(player,"You do not have the required items to do this!");
+            player.getDialogueManager().sendStatement("You do not have the required items to do this!");
             return;
         }
 
@@ -171,7 +170,7 @@ public class Spinning {
             @Override
             public void execute() {
                 if (!player.inventory().contains(spinnable.item)) {
-                    DialogueManager.sendStatement(player,"You have run out of materials!");
+                    player.getDialogueManager().sendStatement("You have run out of materials!");
                     stop();
                     return;
                 }

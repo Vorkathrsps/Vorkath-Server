@@ -1,6 +1,6 @@
 package com.cryptic.model.content.areas.fishing_guild;
 
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
@@ -24,7 +24,7 @@ public class FishingGuild extends PacketInteraction {
             if(obj.getId() == DOOR_20925) {
                 int change = player.tile().y >= 3394 ? -1 : 1;
                 if (change == 1 && player.getSkills().level(Skills.FISHING) < 68) {
-                    DialogueManager.sendStatement(player,"You do not meet the level 68 Fishing requirement to enter the Guild.");
+                    player.getDialogueManager().sendStatement("You do not meet the level 68 Fishing requirement to enter the Guild.");
                     return false;
                 }
 

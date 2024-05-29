@@ -2,7 +2,7 @@ package com.cryptic.model.content.areas.burthope.warriors_guild;
 
 import com.cryptic.model.content.packet_actions.interactions.objects.Ladders;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -23,12 +23,12 @@ public class Basement extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if(obj.getId() == DOOR_10043) {
             if(!(player.inventory().containsAny(RUNE_DEFENDER, DRAGON_DEFENDER, DRAGON_DEFENDER_T)) && !player.getEquipment().containsAny(RUNE_DEFENDER, DRAGON_DEFENDER, DRAGON_DEFENDER_T)) {
-                DialogueManager.sendStatement(player, "You need at least a rune defender to enter this area.");
+                player.getDialogueManager().sendStatement( "You need at least a rune defender to enter this area.");
                 return true;
             }
 
             if(!player.inventory().contains(WARRIOR_GUILD_TOKEN, 100) && player.getX() < 2912) {
-                DialogueManager.sendStatement(player, "You need at least 100 warrior guild tokens to enter this area.");
+                player.getDialogueManager().sendStatement( "You need at least 100 warrior guild tokens to enter this area.");
                 return true;
             }
             if (player.inventory().contains(new Item(DRAGON_DEFENDER)) || player.getEquipment().hasAt(EquipSlot.SHIELD, DRAGON_DEFENDER))

@@ -1,8 +1,7 @@
 package com.cryptic.model.content.items.interactions;
 
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -54,9 +53,9 @@ public class RockCake {
                         if(option == 1) {
                             var bm = player.inventory().count(BLOOD_MONEY);
                             if (!would_have_space(player, new Item(ROCKCAKE))) {
-                                DialogueManager.sendStatement(player,"You don't have enough inventory space.");
+                                player.getDialogueManager().sendStatement("You don't have enough inventory space.");
                             } else if (bm < 10) {
-                                DialogueManager.sendStatement(player,"You don't have enough BM.");
+                                player.getDialogueManager().sendStatement("You don't have enough BM.");
                             } else if (bm > 10) {
                                 player.inventory().remove(new Item(BLOOD_MONEY,10));
                                 player.inventory().add(new Item(ROCKCAKE), true);

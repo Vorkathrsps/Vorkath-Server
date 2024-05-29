@@ -2,11 +2,9 @@ package com.cryptic.model.content.skill.impl.slayer.master.impl;
 
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
-import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
@@ -15,7 +13,6 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.TASK_STREAK;
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.DURADEL;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.KRYSTILIA;
 
 /**

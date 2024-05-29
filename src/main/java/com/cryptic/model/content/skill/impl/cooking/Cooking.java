@@ -8,10 +8,9 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -121,7 +120,7 @@ public class Cooking extends PacketInteraction { //TODO add gauntles
                 if (food != null) {
                     //Check to see if the player has the level required to cook the food
                     if (player.getSkills().levels()[Skills.COOKING] < food.lvl) {
-                        DialogueManager.sendStatement(player, "You need a cooking level of " + food.lvl + " to cook " + food.itemname + ".");
+                        player.getDialogueManager().sendStatement( "You need a cooking level of " + food.lvl + " to cook " + food.itemname + ".");
                     } else {
                         startCooking(player, food, obj);
                     }

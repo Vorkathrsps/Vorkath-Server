@@ -1,7 +1,7 @@
 package com.cryptic.model.content.areas.dungeons;
 
 import com.cryptic.model.World;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -27,7 +27,7 @@ public class NieveCave extends PacketInteraction {
                     if (p != null && p.tile().inArea(2344, 9434, 2376, 9462))
                         count++;
                     String pluralOr = count == 1 ? "" : "s";
-                    DialogueManager.sendStatement(player,"There are currently "+count+" player"+pluralOr+" in the cave.");
+                    player.getDialogueManager().sendStatement("There are currently "+count+" player"+pluralOr+" in the cave.");
                 }
                 return true;
             }

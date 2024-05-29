@@ -1,14 +1,13 @@
 package com.cryptic.model.content.areas.varrock;
 
 import com.cryptic.model.content.packet_actions.interactions.objects.Ladders;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
-import com.cryptic.model.map.object.doors.Door;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.chainedwork.Chain;

@@ -3,9 +3,8 @@ package com.cryptic.model.content.items.equipment.max_cape;
 import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.items.equipment.max_cape.dialogue.CombineDialogue;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -59,7 +58,7 @@ public class MaxCape extends PacketInteraction {
         boolean hasItems = player.inventory().containsAll(NORMAL_MAXCAPE, HOOD, src);
 
         if (!hasItems) {
-            DialogueManager.sendStatement(player, "You need a Max Cape and the Max Hood to infuse these together.");
+            player.getDialogueManager().sendStatement( "You need a Max Cape and the Max Hood to infuse these together.");
             return;
         }
 

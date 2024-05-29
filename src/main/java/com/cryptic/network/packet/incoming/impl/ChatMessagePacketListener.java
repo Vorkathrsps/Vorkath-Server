@@ -4,7 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.model.content.mechanics.AntiSpam;
 import com.cryptic.model.content.mechanics.Censor;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.packet.Packet;
@@ -76,7 +76,7 @@ public class ChatMessagePacketListener implements PacketListener {
             text = Utils.encode(filtered, Buffer.create());
         
         if (Utils.blockedWord(chatMessage)) {
-            DialogueManager.sendStatement(player, "A word was blocked in your sentence. Please do not repeat it!");
+            player.getDialogueManager().sendStatement( "A word was blocked in your sentence. Please do not repeat it!");
             return;
         }
 

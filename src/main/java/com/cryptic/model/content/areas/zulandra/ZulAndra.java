@@ -7,10 +7,9 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
@@ -50,7 +49,7 @@ public class ZulAndra extends PacketInteraction {
                             if (option == 1) {
                                 stop();
                                 player.getPacketSender().sendScreenFade("", 1, 5);
-                                DialogueManager.sendStatement(player, "The priestess rows you to Zulrah's shrine,", "then hurriedly paddles away.");
+                                player.getDialogueManager().sendStatement( "The priestess rows you to Zulrah's shrine,", "then hurriedly paddles away.");
                                 enterInstance(player);
                             } else if (option == 2) {
                                 stop();

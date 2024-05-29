@@ -5,16 +5,14 @@ import com.cryptic.model.content.raids.theatreofblood.interactions.dialogue.Thea
 import com.cryptic.model.content.raids.theatreofblood.stage.RoomState;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
-import com.cryptic.utility.timers.TimerKey;
 
 import java.util.ArrayList;
 

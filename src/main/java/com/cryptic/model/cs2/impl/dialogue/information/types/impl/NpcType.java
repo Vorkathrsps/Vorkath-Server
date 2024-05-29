@@ -1,13 +1,13 @@
-package com.cryptic.model.inter.dialogue.records.args;
+package com.cryptic.model.cs2.impl.dialogue.information.types.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.cs2.ComponentID;
+import com.cryptic.model.cs2.impl.dialogue.information.types.DialogueType;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.utility.Utils;
-import dev.openrune.cache.CacheManager;
 
-public record NpcArgs(int npcId, String title, String[] chats, Expression expression, boolean continueButtons) implements Arguements {
+public record NpcType(int npcId, String title, String[] chats, Expression expression, boolean continueButtons) implements DialogueType {
     @Override
     public void send(Player player) {
         player.getPacketSender().setNpcHeadMessage(ComponentID.NPC_CHAT_HEAD, this.npcId);

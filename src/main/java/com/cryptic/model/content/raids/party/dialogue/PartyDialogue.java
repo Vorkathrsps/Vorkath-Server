@@ -1,8 +1,7 @@
 package com.cryptic.model.content.raids.party.dialogue;
 
 import com.cryptic.model.content.raids.party.Party;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 
 /**
  * @author Origin | April, 27, 2021, 10:17

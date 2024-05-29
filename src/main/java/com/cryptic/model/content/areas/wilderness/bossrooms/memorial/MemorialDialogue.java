@@ -1,8 +1,7 @@
 package com.cryptic.model.content.areas.wilderness.bossrooms.memorial;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
 

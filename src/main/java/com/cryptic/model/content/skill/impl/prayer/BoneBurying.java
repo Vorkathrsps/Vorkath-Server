@@ -2,9 +2,7 @@ package com.cryptic.model.content.skill.impl.prayer;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
-import com.cryptic.model.content.skill.perks.SkillingSets;
-import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;

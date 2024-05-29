@@ -1,8 +1,7 @@
 package com.cryptic.model.content.areas.zeah.woodcutting_guild.dialogue;
 
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
@@ -41,7 +40,7 @@ public class KaiD extends Dialogue {
             sendOption(DEFAULT_OPTION_TITLE, "Interesting... can I fight them?", "Thanks for the information, see you around.");
             setPhase(9);
         } else if (getPhase() == 10) {
-            sendNpcChat(NpcIdentifiers.KAI, Expression.SNIGGER, "Of course! There's no shortage of them residing within", "the dungeon, and they're a fantastic source of wood.");
+            sendNpcChat(NpcIdentifiers.KAI, Expression.SNICKER, "Of course! There's no shortage of them residing within", "the dungeon, and they're a fantastic source of wood.");
             setPhase(11);
         } else if (getPhase() == 11) {
             sendPlayerChat(Expression.NODDING_THREE, "Thanks!");

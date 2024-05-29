@@ -8,7 +8,7 @@ import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -176,7 +176,7 @@ public class RuneConversion extends PacketInteraction {
             } else {
                 player.putAttrib(AttributeKey.RUNECRAFTING, false);
                 player.getInterfaceManager().close();
-                DialogueManager.sendStatement(player, "You do not have any " + msg + " essence to bind.");
+                player.getDialogueManager().sendStatement( "You do not have any " + msg + " essence to bind.");
             }
         } else {
             player.putAttrib(AttributeKey.RUNECRAFTING, false);

@@ -16,8 +16,7 @@ import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.rights.MemberRights;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -29,10 +28,8 @@ import lombok.Getter;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 /**
  * Created by Bart Pelle on 8/23/2014.

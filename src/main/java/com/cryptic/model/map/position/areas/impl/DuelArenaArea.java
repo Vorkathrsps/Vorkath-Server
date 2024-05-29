@@ -4,7 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
@@ -68,7 +68,7 @@ public class DuelArenaArea extends Controller {
     @Override
     public boolean canTeleport(Player player) {
         if (player.getDueling().inDuel()) {
-            DialogueManager.sendStatement(player, "You cannot teleport out of a duel!");
+            player.getDialogueManager().sendStatement( "You cannot teleport out of a duel!");
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ public class DuelArenaArea extends Controller {
     @Override
     public boolean canTrade(Player player, Player target) {
         if (player.getDueling().inDuel()) {
-            DialogueManager.sendStatement(player, "You cannot trade during a duel!");
+            player.getDialogueManager().sendStatement( "You cannot trade during a duel!");
             return false;
         }
         return true;
@@ -109,7 +109,7 @@ public class DuelArenaArea extends Controller {
     @Override
     public boolean canEat(Player player, int itemId) {
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_FOOD.ordinal()]) {
-            DialogueManager.sendStatement(player, "Food has been disabled in this duel!");
+            player.getDialogueManager().sendStatement( "Food has been disabled in this duel!");
             return true;
         }
         return true;
@@ -118,7 +118,7 @@ public class DuelArenaArea extends Controller {
     @Override
     public boolean canDrink(Player player, int itemId) {
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_POTIONS.ordinal()]) {
-            DialogueManager.sendStatement(player, "Potions have been disabled in this duel!");
+            player.getDialogueManager().sendStatement( "Potions have been disabled in this duel!");
             return true;
         }
         return true;
@@ -156,14 +156,14 @@ public class DuelArenaArea extends Controller {
             player.message("Forfeit is currently disabled.");
             /*if (player.getController() instanceof DuelArenaArea) {
                 if (player.getDueling().getRules()[DuelRule.NO_FORFEIT.ordinal()]) {
-                    DialogueManager.sendStatement(player, "This duel cannot be forfeited.");
+                    player.getDialogueManager().sendStatement( "This duel cannot be forfeited.");
                     return true;
                 }
 
                 if (Dueling.in_duel(player)) {
                     player.getDialogueManager().start(new DuelForfeitDialogue());
                 } else {
-                    DialogueManager.sendStatement(player, "The duel has not yet begun.");
+                    player.getDialogueManager().sendStatement( "The duel has not yet begun.");
                     return true;
                 }
             }*/

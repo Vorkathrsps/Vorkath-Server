@@ -4,8 +4,7 @@ import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.map.position.Tile;
 
 public class GdzCommand implements Command {

@@ -1,15 +1,10 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.interactions;
 
-import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
-import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;

@@ -1,11 +1,9 @@
 
 package com.cryptic.model.entity.player.commands.impl.dev;
 
-import com.cryptic.interfaces.GameInterface;
-import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
-import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 
 public class TestCommand implements Command {

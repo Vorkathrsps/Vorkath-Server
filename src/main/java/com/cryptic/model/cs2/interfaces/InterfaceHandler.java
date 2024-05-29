@@ -4,7 +4,7 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.model.cs2.InterfaceID;
 import com.cryptic.model.cs2.impl.*;
-import com.cryptic.model.cs2.impl.dialogue.*;
+import com.cryptic.model.cs2.impl.dialogue.impl.*;
 import com.cryptic.model.cs2.impl.emotes.EmoteInterface;
 import com.cryptic.model.cs2.impl.equipment.EquipmentInventory;
 import com.cryptic.model.cs2.impl.equipment.EquipmentStats;

@@ -12,18 +12,16 @@ import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.EntityCombatBuilder;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.chainedwork.Chain;
 import org.jetbrains.annotations.Nullable;
 
-import javax.management.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
 
@@ -221,7 +219,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
 
                 // Duel, disabled magic?
                 if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_MAGIC.ordinal()]) {
-                    DialogueManager.sendStatement(player, "Magic has been disabled in this duel!");
+                    player.getDialogueManager().sendStatement( "Magic has been disabled in this duel!");
                     player.getCombat().reset();
                     Debugs.CMB.debug(entity, "no magic in duel.", other, true);
                     return false;
@@ -229,7 +227,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
             } else if (type == CombatType.RANGED) {
                 // Duel, disabled ranged?
                 if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_RANGED.ordinal()]) {
-                    DialogueManager.sendStatement(player, "Ranged has been disabled in this duel!");
+                    player.getDialogueManager().sendStatement( "Ranged has been disabled in this duel!");
                     player.getCombat().reset();//Ranged attacks disabled, stop combat
                     Debugs.CMB.debug(entity, "no range in duel.", other, true);
                     return false;
@@ -243,7 +241,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
                 }
             } else if (type == CombatType.MELEE) {
                 if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_MELEE.ordinal()]) {
-                    DialogueManager.sendStatement(player, "Melee has been disabled in this duel!");
+                    player.getDialogueManager().sendStatement( "Melee has been disabled in this duel!");
                     player.getCombat().reset();//Melee attacks disabled, stop combat
                     Debugs.CMB.debug(entity, "no melee in duel.", other, true);
                     return false;

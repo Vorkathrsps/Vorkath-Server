@@ -4,7 +4,7 @@ import com.cryptic.model.action.impl.UnwalkableAction;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -48,7 +48,7 @@ public class RuneEssenceMining extends PacketInteraction {
         Optional<Pickaxe> pick = Mining.findPickaxe(player);
 
         if (pick.isEmpty()) {
-            DialogueManager.sendStatement(player, "You need a pickaxe to mine this rock. You do not have a pickaxe", "which you have the Mining level to use.");
+            player.getDialogueManager().sendStatement( "You need a pickaxe to mine this rock. You do not have a pickaxe", "which you have the Mining level to use.");
             return;
         }
 

@@ -7,7 +7,6 @@ import com.cryptic.model.entity.masks.impl.animations.Animation
 import com.cryptic.model.entity.masks.impl.graphics.Graphic
 import com.cryptic.model.entity.player.EquipSlot
 import com.cryptic.model.entity.player.Player
-import com.cryptic.model.inter.dialogue.DialogueManager
 import com.cryptic.utility.ItemIdentifiers
 
 //TODO

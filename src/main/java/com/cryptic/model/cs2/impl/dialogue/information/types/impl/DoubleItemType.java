@@ -1,12 +1,13 @@
-package com.cryptic.model.inter.dialogue.records.args;
+package com.cryptic.model.cs2.impl.dialogue.information.types.impl;
 
 import com.cryptic.model.cs2.ComponentID;
 import com.cryptic.model.cs2.InterfaceID;
+import com.cryptic.model.cs2.impl.dialogue.information.types.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Utils;
 
-public record DoubleItemArgs(Item firstItem, Item secondItem, String[] messages, boolean continueButtons) implements Arguements {
+public record DoubleItemType(Item firstItem, Item secondItem, String[] messages, boolean continueButtons) implements DialogueType {
 
     @Override
     public void send(Player player) {

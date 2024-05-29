@@ -4,9 +4,8 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatreofblood.party.RaidParty;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
@@ -270,7 +269,7 @@ public class TheatreInterface extends RaidParty {
                 return;
             }
 
-            DialogueManager.sendStatement(player, "Requesting..");
+            player.getDialogueManager().sendStatement( "Requesting..");
             member.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
@@ -298,7 +297,7 @@ public class TheatreInterface extends RaidParty {
                             }
                         }
                         if (option == 2) {
-                            DialogueManager.sendStatement(player, member.getUsername() + " has declined your request to join your raid party.");
+                            player.getDialogueManager().sendStatement( member.getUsername() + " has declined your request to join your raid party.");
                             member.message("You decline " + player.getUsername() + "'s request to join their party.");
                             stop();
                         }

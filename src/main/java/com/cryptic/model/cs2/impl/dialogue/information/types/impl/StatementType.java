@@ -1,10 +1,11 @@
-package com.cryptic.model.inter.dialogue.records.args;
+package com.cryptic.model.cs2.impl.dialogue.information.types.impl;
 
 import com.cryptic.model.cs2.ComponentID;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.cs2.impl.dialogue.information.types.DialogueType;
 import com.cryptic.utility.Utils;
 
-public record StatementArgs(String[] messages, boolean continueButtons) implements Arguements {
+public record StatementType(String[] messages, boolean continueButtons) implements DialogueType {
     @Override
     public void send(Player player) {
         player.getPacketSender().setComponentText(ComponentID.STATEMENT_CHAT_RESULT, Utils.joinWithBr(this.messages));

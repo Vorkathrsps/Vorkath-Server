@@ -104,12 +104,10 @@ import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.cryptic.model.entity.player.varps.Varps;
 import com.cryptic.model.inter.clan.Clan;
 import com.cryptic.model.inter.clan.ClanManager;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.Expression;
-import com.cryptic.model.inter.dialogue.records.DialogueRecord;
-import com.cryptic.model.inter.dialogue.records.args.*;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
@@ -230,9 +228,6 @@ public class Player extends Entity {
     public InterfaceSystem interfaces = new InterfaceSystem(this);
     public DisplayMode displayMode = DisplayMode.FIXED;
     public Device device = Device.DESKTOP;
-
-    @Getter @Setter public DialogueRecord<?> dialogueRecord;
-
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());

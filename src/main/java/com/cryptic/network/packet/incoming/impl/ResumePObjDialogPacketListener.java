@@ -9,7 +9,6 @@ public class ResumePObjDialogPacketListener implements PacketListener {
     @Override
     public void handleMessage(Player player, Packet packet) {
         int value = packet.readShort();
-
         System.out.println("ResumePObjDialogPacketListener: " + value);
 
     }

@@ -6,7 +6,7 @@ import com.cryptic.model.content.skill.impl.fletching.impl.*;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -299,7 +298,7 @@ public class Fletching extends PacketInteraction {
         player.getInterfaceManager().close();
 
         if (player.getSkills().level(Skills.FLETCHING) < item.getLevel()) {
-            DialogueManager.sendStatement(player, "<col=369>You need a Fletching level of " + item.getLevel() + " to do that.");
+            player.getDialogueManager().sendStatement( "<col=369>You need a Fletching level of " + item.getLevel() + " to do that.");
             return;
         }
 
@@ -380,7 +379,7 @@ public class Fletching extends PacketInteraction {
 
                 if (!(player.inventory().containsAll(fletchable.getIngediants()))) {
                     stop();
-                    DialogueManager.sendStatement(player, "<col=369>You have run out of materials.");
+                    player.getDialogueManager().sendStatement( "<col=369>You have run out of materials.");
                 }
             }
 

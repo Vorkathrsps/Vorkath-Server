@@ -1,13 +1,10 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.cs2.InterfaceID;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.utility.CombinedComponent;
-import javassist.compiler.ast.Symbol;
 
 public class ResumePauseButtonPacketListener implements PacketListener {
 

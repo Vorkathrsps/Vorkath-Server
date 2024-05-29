@@ -4,7 +4,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.AccountPinFrozenTask;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
@@ -21,7 +21,7 @@ public class AccountPin {
         int convertTicksToSeconds = Utils.getSeconds(ticks);
 
         if (player.<Integer>getAttribOr(ACCOUNT_PIN_FREEZE_TICKS, 0) > 0) {
-            DialogueManager.sendStatement(player, "Try again in " + Utils.convertSecondsToDuration(convertTicksToSeconds, false) + ".");
+            player.getDialogueManager().sendStatement( "Try again in " + Utils.convertSecondsToDuration(convertTicksToSeconds, false) + ".");
             return;
         }
         player.getInterfaceManager().closeDialogue();

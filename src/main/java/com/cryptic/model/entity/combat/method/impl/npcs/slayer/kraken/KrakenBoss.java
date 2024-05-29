@@ -5,15 +5,12 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.npc.NPCDeath;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
 import java.util.ArrayList;
@@ -58,7 +55,7 @@ public class KrakenBoss {
             switch (opt) {
                 case 1 -> {// Enter
                     if (CombatFactory.inCombat(player)) {
-                        DialogueManager.sendStatement(player, "You can't go in here when under attack.");
+                        player.getDialogueManager().sendStatement( "You can't go in here when under attack.");
                         player.message("You can't go in here when under attack.");
                     } else {
                         player.teleport(ENTER_TILE);
@@ -75,7 +72,7 @@ public class KrakenBoss {
                             count++;
                         String strEnd = count == 1 ? "" : "s";
                         String isAre = count == 1 ? "is" : "are";
-                        DialogueManager.sendStatement(player, "There " + isAre + " currently " + count + " player" + strEnd + " in the cave.");
+                        player.getDialogueManager().sendStatement( "There " + isAre + " currently " + count + " player" + strEnd + " in the cave.");
                     }
                 }
             }

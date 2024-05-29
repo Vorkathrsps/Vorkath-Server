@@ -1,6 +1,6 @@
 package com.cryptic.model.content.skill.impl.fletching.impl;
 
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -32,7 +32,7 @@ public class Ballistae extends PacketInteraction {
 
     private void craft(Player player, double exp, int levelReq, Item itemOne, Item itemTwo, int result) {
         if (player.getSkills().level(Skills.FLETCHING) < levelReq) {
-            DialogueManager.sendStatement(player, "<col=369>You need a Fletching level of " + levelReq + " to do that.");
+            player.getDialogueManager().sendStatement( "<col=369>You need a Fletching level of " + levelReq + " to do that.");
             return;
         }
 

@@ -5,11 +5,9 @@ import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
@@ -176,7 +174,7 @@ public class SlayerPartner {
                             if (partner.isPresent()) {
                                 invite(player, partner.get(), true);
                             } else {
-                                DialogueManager.sendStatement(player, input + " is not online.");
+                                player.getDialogueManager().sendStatement( input + " is not online.");
                             }
                             return true;
                         });

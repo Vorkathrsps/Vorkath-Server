@@ -7,10 +7,9 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.mining.Ore;
 import com.cryptic.model.content.skill.impl.mining.SkillingSuccess;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -89,7 +88,7 @@ public class ResourceArena extends PacketInteraction {
                 player.message("You do not have a pickaxe which you have the Mining level to use.");
             } else {
                 if (player.getSkills().level(Skills.MINING) < 85) {
-                    DialogueManager.sendStatement(player,"You need a Mining level of 85 to mine this rock.");
+                    player.getDialogueManager().sendStatement("You need a Mining level of 85 to mine this rock.");
                 } else {
                     Chain.bound(null).runFn(1, () -> player.message("You swing your pick at the rock."));
 
@@ -247,9 +246,9 @@ public class ResourceArena extends PacketInteraction {
                     }
 
                     if (count == 0) {
-                        DialogueManager.sendStatement(player, "You peek inside the gate and see no adventurers inside the arena.");
+                        player.getDialogueManager().sendStatement( "You peek inside the gate and see no adventurers inside the arena.");
                     } else {
-                        DialogueManager.sendStatement(player, "You peek inside the gate and see " + count + " adventurer inside the arena.");
+                        player.getDialogueManager().sendStatement( "You peek inside the gate and see " + count + " adventurer inside the arena.");
                     }
                 } else if (player.tile().y == 3944) {
                     player.message("All you see is the barren wasteland of the Wilderness.");

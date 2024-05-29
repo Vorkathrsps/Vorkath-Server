@@ -8,9 +8,8 @@ import com.cryptic.model.content.skill.impl.crafting.impl.*;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -472,7 +471,7 @@ public class Crafting extends PacketInteraction {
         player.getInterfaceManager().close();
 
         if (player.getSkills().level(Skills.CRAFTING) < item.getLevel()) {
-            DialogueManager.sendStatement(player, "<col=369>You need a Crafting level of " + item.getLevel() + " to do that.");
+            player.getDialogueManager().sendStatement( "<col=369>You need a Crafting level of " + item.getLevel() + " to do that.");
             return true;
         }
 
@@ -539,7 +538,7 @@ public class Crafting extends PacketInteraction {
 
                 if (!player.inventory().containsAll(craftable.getIngredients(index))) {
                     stop();
-                    DialogueManager.sendStatement(player, "<col=369>You have run out of materials.");
+                    player.getDialogueManager().sendStatement( "<col=369>You have run out of materials.");
                 }
             }
 

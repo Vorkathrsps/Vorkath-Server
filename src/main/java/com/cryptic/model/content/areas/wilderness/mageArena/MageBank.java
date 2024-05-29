@@ -3,9 +3,8 @@ package com.cryptic.model.content.areas.wilderness.mageArena;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.ForceMovementTask;
 import com.cryptic.model.World;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.ForceMovement;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -101,9 +100,9 @@ public class MageBank extends PacketInteraction {
             player.runFn(1, () -> {
                 player.lockMovement();
                 player.animate(645);
-                DialogueManager.sendStatement(player,"You kneel and chant to Saradomin...");
+                player.getDialogueManager().sendStatement("You kneel and chant to Saradomin...");
             }).then(2, () -> {
-                DialogueManager.sendStatement(player,"You kneel and chant to Saradomin...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
+                player.getDialogueManager().sendStatement("You kneel and chant to Saradomin...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
                 World.getWorld().sendClippedTileGraphic(188, new Tile(2500, 4719,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(SARADOMIN_CAPE), new Tile(2500, 4719, 0), player);
@@ -117,9 +116,9 @@ public class MageBank extends PacketInteraction {
             player.runFn(1, () -> {
                 player.lockMovement();
                 player.animate(645);
-                DialogueManager.sendStatement(player,"You kneel and chant to Zamorak...");
+                player.getDialogueManager().sendStatement("You kneel and chant to Zamorak...");
             }).then(2, () -> {
-                DialogueManager.sendStatement(player,"You kneel and chant to Zamorak...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
+                player.getDialogueManager().sendStatement("You kneel and chant to Zamorak...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
                 World.getWorld().sendClippedTileGraphic(188, new Tile(2516, 4719,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(ZAMORAK_CAPE), new Tile(2516, 4719, 0), player);
@@ -133,9 +132,9 @@ public class MageBank extends PacketInteraction {
             player.runFn(1, () -> {
                 player.lockMovement();
                 player.animate(645);
-                DialogueManager.sendStatement(player,"You kneel and chant to Guthix...");
+                player.getDialogueManager().sendStatement("You kneel and chant to Guthix...");
             }).then(2, () -> {
-                DialogueManager.sendStatement(player,"You kneel and chant to Guthix...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
+                player.getDialogueManager().sendStatement("You kneel and chant to Guthix...", "You feel a rush of energy charge through your veins.", "Suddenly a cape appears before you.");
             }).then(1, () -> {
                 World.getWorld().sendClippedTileGraphic(188, new Tile(2507, 4722,0), 50, 0);
                 GroundItem groundItem = new GroundItem(new Item(GUTHIX_CAPE), new Tile(2507, 4722, 0), player);

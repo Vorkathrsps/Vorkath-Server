@@ -1,7 +1,6 @@
 package com.cryptic.model.content.areas.dungeons.kraken_cove;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -9,14 +8,11 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInst
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenInstanceD;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
-import com.cryptic.utility.Color;
-import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_537;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_538;
@@ -35,7 +31,7 @@ public class KrakenCove extends PacketInteraction {
                 var task_id = player.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
                 var task = SlayerCreature.lookup(task_id);
                 if (CombatFactory.inCombat(player)) {
-                    DialogueManager.sendStatement(player, "You can't go in here when under attack.");
+                    player.getDialogueManager().sendStatement( "You can't go in here when under attack.");
                     player.message("You can't go in here when under attack.");
                     return false;
                 }
@@ -103,7 +99,7 @@ public class KrakenCove extends PacketInteraction {
                         count++;
                     String strEnd = count == 1 ? "" : "s";
                     String isAre = count == 1 ? "is" : "are";
-                    DialogueManager.sendStatement(player, "There " + isAre + " currently " + count + " player" + strEnd + " in the cave.");
+                    player.getDialogueManager().sendStatement( "There " + isAre + " currently " + count + " player" + strEnd + " in the cave.");
                 }
                 return true;
             }

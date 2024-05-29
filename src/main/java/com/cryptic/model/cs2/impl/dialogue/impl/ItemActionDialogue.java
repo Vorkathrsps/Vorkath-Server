@@ -1,4 +1,4 @@
-package com.cryptic.model.inter.dialogue;
+package com.cryptic.model.cs2.impl.dialogue.impl;
 
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.skill.impl.runecrafting.RuneConversion;

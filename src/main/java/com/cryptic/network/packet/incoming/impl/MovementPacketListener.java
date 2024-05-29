@@ -3,7 +3,6 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.GameServer;
 import com.cryptic.annotate.Init;
 import com.cryptic.core.task.Task;
-import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.skill.impl.mining.Pickaxe;
@@ -15,7 +14,7 @@ import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -227,7 +226,7 @@ public class MovementPacketListener implements PacketListener {
         // Duel, disabled movement?
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_MOVEMENT.ordinal()]) {
             if (opcode != IncomingHandler.COMMAND_MOVEMENT_OPCODE) {
-                DialogueManager.sendStatement(player, "Movement has been disabled in this duel!");
+                player.getDialogueManager().sendStatement( "Movement has been disabled in this duel!");
             }
             return false;
         }

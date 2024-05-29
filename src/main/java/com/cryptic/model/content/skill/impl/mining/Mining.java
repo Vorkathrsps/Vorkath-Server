@@ -13,7 +13,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
@@ -84,17 +84,17 @@ public class Mining extends PacketInteraction {
         }
 
         if (player.inventory().isFull()) {
-            DialogueManager.sendStatement(player, "Your inventory is too full to hold any more " + rockType.name + ".");
+            player.getDialogueManager().sendStatement( "Your inventory is too full to hold any more " + rockType.name + ".");
             return;
         }
 
         if (pick.isEmpty()) {
-            DialogueManager.sendStatement(player, "You need a pickaxe to mine this rock.", "You do not have a pickaxe which " + "you have the Mining level to use.");
+            player.getDialogueManager().sendStatement( "You need a pickaxe to mine this rock.", "You do not have a pickaxe which " + "you have the Mining level to use.");
             return;
         }
 
         if (player.getSkills().levels()[Skills.MINING] < rockType.level_req && (int) player.getAttribOr(AttributeKey.JAILED, 0) == 0) {
-            DialogueManager.sendStatement(player, "You need a Mining level of " + rockType.level_req + " to mine this rock.");
+            player.getDialogueManager().sendStatement( "You need a Mining level of " + rockType.level_req + " to mine this rock.");
             return;
         }
 

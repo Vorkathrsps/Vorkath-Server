@@ -3,7 +3,6 @@ package com.cryptic.model.entity.combat;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.RestoreSpecialAttackTask;
 import com.cryptic.model.content.duel.DuelRule;
-import com.cryptic.model.content.packet_actions.GlobalStrings;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.CombatMethod;
@@ -18,7 +17,7 @@ import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
@@ -334,7 +333,7 @@ public enum CombatSpecial {
 
         //Duel, disabled special attacks?
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_SPECIAL_ATTACKS.ordinal()]) {
-            DialogueManager.sendStatement(player, "Special attacks have been disabled in this duel!");
+            player.getDialogueManager().sendStatement( "Special attacks have been disabled in this duel!");
             return;
         }
 

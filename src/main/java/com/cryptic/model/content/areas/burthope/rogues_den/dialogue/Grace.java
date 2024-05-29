@@ -1,9 +1,8 @@
 package com.cryptic.model.content.areas.burthope.rogues_den.dialogue;
 
 import com.cryptic.model.World;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
@@ -35,7 +34,7 @@ public class Grace extends Dialogue {
             sendOption("What would you like to say?", "I don't know. What can you do for me?", "Can I see what you're selling?", "I'm alright, thanks.");
             setPhase(1);
         } else if(isPhase(2)) {
-            sendNpcChat(GRACE, Expression.SNIGGER, "A good question indeed! I'm selling special clothing for", "Agility enthusiasts.");
+            sendNpcChat(GRACE, Expression.SNICKER, "A good question indeed! I'm selling special clothing for", "Agility enthusiasts.");
             setPhase(3);
         } else if(isPhase(3)) {
             sendNpcChat(GRACE, Expression.ANXIOUS, "Sometimes, when you're exploring the hidden rooftops of", "our cities, you'll find one of my Marks.");

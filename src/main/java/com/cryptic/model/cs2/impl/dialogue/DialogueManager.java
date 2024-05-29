@@ -1,30 +1,17 @@
-package com.cryptic.model.inter.dialogue;
+package com.cryptic.model.cs2.impl.dialogue;
 
 import com.cryptic.model.entity.player.Player;
-import com.google.common.collect.Iterables;
+import com.cryptic.model.cs2.impl.dialogue.information.DialogueInformation;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
-
-/**
- * Handles the {@link Player}s current {@link Dialogue}
- *
- * @author Erik Eide
- */
+@Getter
+@Setter
 public class DialogueManager {
 
-    /**
-     * The player object.
-     */
     private final Player player;
-
-    /**
-     * The current dialogue.
-     */
-    @Getter @Setter
+    public DialogueInformation<?> record = null;
     private Dialogue dialogue = null;
 
     public DialogueManager(final Player player) {
@@ -110,8 +97,8 @@ public class DialogueManager {
         start(dialogue, 0);
     }
 
-    public static void sendStatement(Player player, String... strings) {
-        player.getDialogueManager().start(new Dialogue() {
+    public void sendStatement(String... strings) {
+        start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
                 sendStatement(strings);
@@ -127,15 +114,15 @@ public class DialogueManager {
         });
     }
 
-    public static void npcChat(Player player, Expression expression, int id, String... strings) {
-        npcChat("null",player,expression,id,strings);
+    public void npcChat(final Expression expression, final int id, final String... strings) {
+        npcChat("null", expression, id, strings);
     }
 
-    public static void npcChat(String title,Player player, Expression expression, int id, String... strings) {
-        player.getDialogueManager().start(new Dialogue() {
+    public void npcChat(final String title, final Expression expression, final int id, final String... strings) {
+       start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                sendNpcChat(title,id, expression, strings);
+                sendNpcChat(title, id, expression, strings);
                 setPhase(0);
             }
 

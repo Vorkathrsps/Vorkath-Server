@@ -1,9 +1,8 @@
 package com.cryptic.model.content.areas.edgevile.dialogue;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.ItemActionDialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.impl.ItemActionDialogue;
 import com.cryptic.utility.ItemIdentifiers;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.RC_DIALOGUE;

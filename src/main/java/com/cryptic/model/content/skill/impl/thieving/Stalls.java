@@ -1,13 +1,11 @@
 package com.cryptic.model.content.skill.impl.thieving;
 
-import com.cryptic.model.World;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
-import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
@@ -15,8 +13,6 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
-
-import static com.cryptic.utility.ItemIdentifiers.COINS_995;
 
 /**
  * @author Origin | April, 21, 2021, 11:44
@@ -107,7 +103,7 @@ public class Stalls extends PacketInteraction {
             return;
 
         if (player.inventory().isFull()) {
-            DialogueManager.sendStatement(player, "Your inventory is too full to hold any more.");
+            player.getDialogueManager().sendStatement( "Your inventory is too full to hold any more.");
             return;
         }
 

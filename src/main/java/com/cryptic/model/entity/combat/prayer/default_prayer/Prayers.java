@@ -7,11 +7,10 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.utility.timers.TimerKey;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Nullable;
@@ -274,7 +273,7 @@ public class Prayers {
             if (Skulling.skulled(player) && player.getSkullType() == SkullType.RED_SKULL) {
                 if (msg) {
                     player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
-                    DialogueManager.sendStatement(player, "You cannot use the Protect Item prayer with a red skull!");
+                    player.getDialogueManager().sendStatement( "You cannot use the Protect Item prayer with a red skull!");
                 }
                 return false;
             }
@@ -315,7 +314,7 @@ public class Prayers {
         //Duel, disabled prayer?
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_PRAYER.ordinal()]) {
             if (msg) {
-                DialogueManager.sendStatement(player, "Prayer has been disabled in this duel!");
+                player.getDialogueManager().sendStatement( "Prayer has been disabled in this duel!");
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
             }
             return false;

@@ -3,8 +3,7 @@ package com.cryptic.model.content.areas.edgevile.dialogue;
 import com.cryptic.GameServer;
 import com.cryptic.services.database.transactions.*;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 
 import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
 

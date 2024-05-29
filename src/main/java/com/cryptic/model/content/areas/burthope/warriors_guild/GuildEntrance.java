@@ -1,7 +1,7 @@
 package com.cryptic.model.content.areas.burthope.warriors_guild;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -37,7 +37,7 @@ public class GuildEntrance extends PacketInteraction {
 
         if (player.tile().x >= 2877) {
             if (attack_lvl + strength_lvl < 130) {
-                DialogueManager.sendStatement(player, "You are not a high enough level to enter the guild. Work on your", "combat skills some more. You need to have a combined attack and", "strength level of at least 130.");
+                player.getDialogueManager().sendStatement( "You are not a high enough level to enter the guild. Work on your", "combat skills some more. You need to have a combined attack and", "strength level of at least 130.");
             } else {
                 if (!player.tile().equals(door.tile().transform(0, 0, 0))) {
                     player.getMovementQueue().walkTo(door.tile().transform(0, 0, 0));

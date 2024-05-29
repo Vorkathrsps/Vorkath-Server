@@ -4,7 +4,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.ForceMovementTask;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.FaceDirection;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.masks.ForceMovement;
@@ -64,13 +64,13 @@ public class MagicalAnimator extends PacketInteraction {
 
                 Chain.bound(player).name("MagicalAnimatorStartTask").runFn(1, () -> {
                     player.lock();
-                    DialogueManager.sendStatement(player, "You place your armour on the platform where it disappears....");
+                    player.getDialogueManager().sendStatement( "You place your armour on the platform where it disappears....");
                 }).then(1, () -> player.animate(827)).then(3, () -> {
                     // Remove all the parts
                     player.inventory().remove(new Item(sets.get(0).helm));
                     player.inventory().remove(new Item(sets.get(0).legs));
                     player.inventory().remove(new Item(sets.get(0).body));
-                }).then(2, () -> DialogueManager.sendStatement(player, "You place your armour on the platform where it disappears....", "The animator hums; something appears to be working...")).then(2, () -> TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, +2), 45, 126, FaceDirection.SOUTH.direction)))).then(1, () -> player.animate(820, 5)).then(1, () -> {
+                }).then(2, () -> player.getDialogueManager().sendStatement( "You place your armour on the platform where it disappears....", "The animator hums; something appears to be working...")).then(2, () -> TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, +2), 45, 126, FaceDirection.SOUTH.direction)))).then(1, () -> player.animate(820, 5)).then(1, () -> {
                     NPC npc = new NPC(sets.get(0).npc, spawnTile);
                     Long uid = player.<Long>getAttribOr(PLAYER_UID, 0L);
                     npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(uid, player));
@@ -89,7 +89,7 @@ public class MagicalAnimator extends PacketInteraction {
                 });
             } else {
                 //If the player doesn't have a full set of armour, send this message instead of starting the sequence
-                DialogueManager.sendStatement(player, "You need a platebody, legs and full helm of the same type to activate", "the armour animator.");
+                player.getDialogueManager().sendStatement( "You need a platebody, legs and full helm of the same type to activate", "the armour animator.");
             }
             return true;
         }

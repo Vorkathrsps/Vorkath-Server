@@ -4,8 +4,8 @@ import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -118,7 +118,7 @@ public class PotionBrewing {
                 int vial = (pot == BrewablePotion.ANTIDOTE_PLUS || pot == BrewablePotion.ANTIDOTE_PP) ? COCONUT_MILK : VIAL_OF_WATER;
                 if ((use.getId() == pot.herb || with.getId() == pot.herb) && (use.getId() == vial || with.getId() == vial)) {
                     if (player.getSkills().level(Skills.HERBLORE) < pot.level) {
-                        DialogueManager.sendStatement(player, "You need level " + pot.level + " Herblore to make this potion.");
+                        player.getDialogueManager().sendStatement( "You need level " + pot.level + " Herblore to make this potion.");
                         return true;
                     }
 
@@ -168,7 +168,7 @@ public class PotionBrewing {
         for (BrewablePotion pot : BrewablePotion.values()) {
             if ((use.getId() == pot.unfinished.getId() || with.getId() == pot.unfinished.getId()) && (use.getId() == pot.secondary || with.getId() == pot.secondary)) {
                 if (player.getSkills().level(Skills.HERBLORE) < pot.level) {
-                    DialogueManager.sendStatement(player, "You need level " + pot.level + " Herblore to make this potion.");
+                    player.getDialogueManager().sendStatement( "You need level " + pot.level + " Herblore to make this potion.");
                     return true;
                 }
 

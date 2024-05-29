@@ -2,7 +2,7 @@ package com.cryptic.model.content.areas.dungeons.godwars;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
@@ -76,9 +76,9 @@ public class BossRoomDoors extends PacketInteraction {
                 }
 
                 if (count == 0) {
-                    DialogueManager.sendStatement(player, "You peek inside the barrier and see no adventurers inside.");
+                    player.getDialogueManager().sendStatement( "You peek inside the barrier and see no adventurers inside.");
                 } else {
-                    DialogueManager.sendStatement(player, "You peek inside the barrier and see " + count + " adventurers inside.");
+                    player.getDialogueManager().sendStatement( "You peek inside the barrier and see " + count + " adventurers inside.");
                 }
                 return true;
             }

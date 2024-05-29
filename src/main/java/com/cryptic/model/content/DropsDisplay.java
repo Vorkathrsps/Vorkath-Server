@@ -4,28 +4,21 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.*;
-import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-import static com.cryptic.model.entity.npc.droptables.ItemDrops.ignored;
 import static com.cryptic.model.entity.npc.droptables.ItemDrops.isSkipped;
 
 /**
@@ -146,7 +139,7 @@ public class DropsDisplay {
             }
             player.debugMessage("There are " + npc.size() + " npcs with drops");
             if (id.isEmpty()) {
-                DialogueManager.sendStatement(player, "No result was found for your search entry!");
+                player.getDialogueManager().sendStatement( "No result was found for your search entry!");
                 return;
             }
             player.putAttrib(AttributeKey.DROP_DISPLAY_KEY, id);

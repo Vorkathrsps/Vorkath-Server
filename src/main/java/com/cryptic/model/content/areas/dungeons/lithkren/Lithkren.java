@@ -2,7 +2,7 @@ package com.cryptic.model.content.areas.dungeons.lithkren;
 
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
@@ -34,7 +34,7 @@ public class Lithkren extends PacketInteraction {
             return true;
         }
         if(obj.getId() == 32144) {
-            DialogueManager.sendStatement(player, "You have killed " + NumberUtils.formatNumber(player.<Integer>getAttribOr(AttributeKey.ADAMANT_DRAGONS_KILLED,0)) + " adamant dragons and " + NumberUtils.formatNumber(player.<Integer>getAttribOr(AttributeKey.RUNE_DRAGONS_KILLED,0)) + " rune dragons.");
+            player.getDialogueManager().sendStatement( "You have killed " + NumberUtils.formatNumber(player.<Integer>getAttribOr(AttributeKey.ADAMANT_DRAGONS_KILLED,0)) + " adamant dragons and " + NumberUtils.formatNumber(player.<Integer>getAttribOr(AttributeKey.RUNE_DRAGONS_KILLED,0)) + " rune dragons.");
             return true;
         }
         if(obj.getId() == 32117) {

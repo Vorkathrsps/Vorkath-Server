@@ -4,8 +4,8 @@ import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -48,7 +48,7 @@ public class SuperCombatPotions {
 
     private static void makePotion(Player player) {
         if (player.getSkills().xpLevel(Skills.HERBLORE) < 90) {
-            DialogueManager.sendStatement(player, "You need a Herblore level of at least 90 to make this potion.");
+            player.getDialogueManager().sendStatement( "You need a Herblore level of at least 90 to make this potion.");
             return;
         }
 

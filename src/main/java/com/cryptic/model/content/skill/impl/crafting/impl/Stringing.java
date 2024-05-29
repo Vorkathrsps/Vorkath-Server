@@ -5,8 +5,8 @@ import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.impl.ChatBoxItemDialogue;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -109,12 +109,12 @@ public class Stringing {
     public static void craft(Player player, AmuletData amulet) {
 
         if (player.getSkills().level(Skills.CRAFTING) < amulet.level) {
-            DialogueManager.sendStatement(player,"You need a crafting level of " + amulet.level + " to string this!");
+            player.getDialogueManager().sendStatement("You need a crafting level of " + amulet.level + " to string this!");
             return;
         }
 
         if (!player.inventory().contains(amulet.ingredient) || !player.inventory().contains(1759)) {
-            DialogueManager.sendStatement(player,"You do not have the required items to do this!");
+            player.getDialogueManager().sendStatement("You do not have the required items to do this!");
             return;
         }
 
@@ -165,7 +165,7 @@ public class Stringing {
             @Override
             public void execute() {
                 if (!player.inventory().contains(amulet.ingredient) || !player.inventory().contains(BALL_OF_WOOL)) {
-                    DialogueManager.sendStatement(player,"You have run out of material!");
+                    player.getDialogueManager().sendStatement("You have run out of material!");
                     stop();
                     return;
                 }

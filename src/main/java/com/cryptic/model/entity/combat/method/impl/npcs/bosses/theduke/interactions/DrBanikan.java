@@ -3,8 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.interact
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.theduke.instance.TheDukeInstance;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 public class DrBanikan extends PacketInteraction {

@@ -11,7 +11,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -72,7 +72,7 @@ public class Fishing {
 
         // Level requirement
         if (player.getSkills().level(Skills.FISHING) < selectedAction.levelReq()) {
-            DialogueManager.sendStatement(player, "You need to be at least level " + selectedAction.levelReq() + " Fishing to catch these fish.");
+            player.getDialogueManager().sendStatement( "You need to be at least level " + selectedAction.levelReq() + " Fishing to catch these fish.");
             return;
         }
 
@@ -83,21 +83,21 @@ public class Fishing {
         // Check for the basic item first
         if (!overrideTool && !player.inventory().contains(selectedAction.staticRequiredItem)) {
             player.animate(-1);
-            DialogueManager.sendStatement(player, selectedAction.missingText);
+            player.getDialogueManager().sendStatement( selectedAction.missingText);
             return;
         }
 
         // Inventory full?
         if (player.inventory().isFull()) {
             player.animate(-1);
-            DialogueManager.sendStatement(player, "You can't carry any more fish.");
+            player.getDialogueManager().sendStatement( "You can't carry any more fish.");
             return;
         }
 
         // Bait check!
         if (!overrideTool && selectedAction.baitItem != -1 && !player.inventory().contains(selectedAction.baitItem)) {
             player.animate(-1);
-            DialogueManager.sendStatement(player, selectedAction.baitMissing != null ? selectedAction.baitMissing : "You don't have any bait left.");
+            player.getDialogueManager().sendStatement( selectedAction.baitMissing != null ? selectedAction.baitMissing : "You don't have any bait left.");
             return;
         }
 
@@ -118,7 +118,7 @@ public class Fishing {
 
                 if (player.inventory().isFull()) {
                     player.animate(-1);
-                    DialogueManager.sendStatement(player, "You can't carry any more fish.");
+                    player.getDialogueManager().sendStatement( "You can't carry any more fish.");
                     t.stop();
                     return; // cancel the repeating task
                 }

@@ -2,7 +2,7 @@ package com.cryptic.model.content.areas.wilderness;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -65,7 +65,7 @@ public class WildernessVolcano extends PacketInteraction {
                             }
                             player.waitForTile(forge.tile().transform(0, -1, 0), () -> {
                                 player.runFn(2, () -> {
-                                    DialogueManager.sendStatement(player, "You drop the three shield shards into the mouth of the volcanic", "chamber of fire.");
+                                    player.getDialogueManager().sendStatement( "You drop the three shield shards into the mouth of the volcanic", "chamber of fire.");
                                     player.animate(4411);
                                 }).then(1, () -> {
                                   //  TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().clone(), new Tile(0, -1), 45, 126, FaceDirection.NORTH)));

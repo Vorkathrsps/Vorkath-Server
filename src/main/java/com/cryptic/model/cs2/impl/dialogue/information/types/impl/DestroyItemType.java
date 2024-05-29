@@ -1,9 +1,10 @@
-package com.cryptic.model.inter.dialogue.records.args;
+package com.cryptic.model.cs2.impl.dialogue.information.types.impl;
 
+import com.cryptic.model.cs2.impl.dialogue.information.types.DialogueType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 
-public record DestroyItemArgs(Item item, String title, String note) implements Arguements {
+public record DestroyItemType(Item item, String title, String note) implements DialogueType {
     @Override
     public void send(Player player) {
         if (this.item == null) throw new NullPointerException("parameter item is null.");

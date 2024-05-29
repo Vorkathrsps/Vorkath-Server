@@ -1,7 +1,7 @@
 package com.cryptic.model.content.areas.falador;
 
-import com.cryptic.model.inter.dialogue.DialogueManager;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;

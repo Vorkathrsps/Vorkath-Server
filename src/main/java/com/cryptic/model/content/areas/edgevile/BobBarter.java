@@ -1,9 +1,8 @@
 package com.cryptic.model.content.areas.edgevile;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;

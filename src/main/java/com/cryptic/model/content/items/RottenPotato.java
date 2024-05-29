@@ -8,7 +8,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.InputScript;
-import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.entity.player.commands.CommandManager;

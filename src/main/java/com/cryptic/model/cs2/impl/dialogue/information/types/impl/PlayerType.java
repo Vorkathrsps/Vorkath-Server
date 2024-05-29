@@ -1,12 +1,12 @@
-package com.cryptic.model.inter.dialogue.records.args;
+package com.cryptic.model.cs2.impl.dialogue.information.types.impl;
 
-import com.cryptic.GameServer;
 import com.cryptic.model.cs2.ComponentID;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Expression;
+import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.model.cs2.impl.dialogue.information.types.DialogueType;
 import com.cryptic.utility.Utils;
 
-public record PlayerArgs(String title, String[] chats, Expression expression, boolean continueButtons) implements Arguements {
+public record PlayerType(String title, String[] chats, Expression expression, boolean continueButtons) implements DialogueType {
     @Override
     public void send(Player player) {
         player.getPacketSender().setPlayerHeadMesssage(ComponentID.PLAYER_CHAT_HEAD);

@@ -2,8 +2,7 @@ package com.cryptic.model.content.areas.dungeons.taverley.cerberus;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.cerberus.CerberusRegion;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.cs2.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;

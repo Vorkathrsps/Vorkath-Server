@@ -1,6 +1,7 @@
 package com.cryptic.model.inter.dialogue;
 
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.interfaces.InterfacePosition;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -167,6 +168,7 @@ public abstract class Dialogue {
      * Stops the current dialogue where it is
      */
     protected final void stop() {
+        player.interfaces.closeInterface(InterfacePosition.DIALOGUE);
         player.getInterfaceManager().closeDialogue();
     }
 
@@ -189,47 +191,6 @@ public abstract class Dialogue {
         this.phase = phase;
     }
 
-    public static void send(Player player, NPC npc, String[] parameters) {
-        if (parameters == null) {
-            System.err.println("No parameters sent!");
-            return;
-        }
-        System.err.println(parameters.length + " <-- size");
-        int startLine = 0;
-
-        if (parameters.length > 3)
-            startLine = 4902;
-        else if (parameters.length > 2)
-            startLine = 4895;
-        else if (parameters.length > 1)
-            startLine = 4889;
-        else
-            startLine = 4884;
-        System.err.println(startLine + " <-- start line..");
-        if (parameters.length > 4) {
-            player.getPacketSender().sendInterfaceAnimation(4883, Animation.DEFAULT_RESET_ANIMATION);
-            player.getPacketSender().sendNpcHeadOnInterface(npc.getId(), 4883);
-            player.getPacketSender().sendChatboxInterface(4882);
-        } else if (parameters.length > 3) {
-            player.getPacketSender().sendInterfaceAnimation(4888, Animation.DEFAULT_RESET_ANIMATION);
-            player.getPacketSender().sendNpcHeadOnInterface(npc.getId(), 4888);
-            player.getPacketSender().sendChatboxInterface(4887);
-        } else if (parameters.length > 2) {
-            player.getPacketSender().sendInterfaceAnimation(4894, Animation.DEFAULT_RESET_ANIMATION);
-            player.getPacketSender().sendNpcHeadOnInterface(npc.getId(), 4894);
-            player.getPacketSender().sendChatboxInterface(4893);
-        } else if (parameters.length > 1) {
-            player.getPacketSender().sendInterfaceAnimation(4901, Animation.DEFAULT_RESET_ANIMATION);
-            player.getPacketSender().sendNpcHeadOnInterface(npc.getId(), 4901);
-            player.getPacketSender().sendChatboxInterface(4900);
-        }
-        player.getPacketSender().sendString(startLine, npc.getMobName());
-        int offset = startLine + 1;
-        for (String line : parameters) {
-            System.err.println(offset + " <-- offset line..");
-            player.getPacketSender().sendString(offset++, line);
-        }
-    }
 
     public void begin(Player p) {
         p.getDialogueManager().start(this);

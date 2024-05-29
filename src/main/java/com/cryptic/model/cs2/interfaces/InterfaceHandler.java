@@ -62,7 +62,6 @@ public class InterfaceHandler {
         for (InterfaceBuilder inter : player.activeInterface.values()) {
             GameInterface gameInterface = inter.gameInterface();
             if (gameInterface.getPosition().getType() == InterfaceType.MODAL && !gameInterface.name().contains("VIEWPORT")) {
-                System.out.println("Close: " + gameInterface.name());
                 gameInterface.close(player);
                 inter.close(player);
             }

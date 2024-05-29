@@ -10,6 +10,6 @@ public record DestroyItemArgs(Item item, String title, String note) implements A
         player.getPacketSender().runClientScriptNew(2379);
         player.getPacketSender().runClientScriptNew(814,
             item.getId(),
-            item.getAmount(), 0, this.title, this.note);
+            item.getAmount() <= 1 ? -1 : item.getAmount(), 0, this.title, this.note);
     }
 }

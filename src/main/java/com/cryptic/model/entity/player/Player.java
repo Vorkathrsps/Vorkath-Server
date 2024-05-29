@@ -107,6 +107,7 @@ import com.cryptic.model.inter.clan.ClanManager;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
+import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.model.inter.dialogue.records.DialogueRecord;
 import com.cryptic.model.inter.dialogue.records.args.*;
 import com.cryptic.model.inter.impl.BonusesInterface;
@@ -2886,7 +2887,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(player, npc, strings);
+                sendNpcChat(npc.id(), Expression.DEFAULT,strings);
                 setPhase(0);
             }
 

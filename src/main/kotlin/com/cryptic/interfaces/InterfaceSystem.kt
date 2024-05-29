@@ -5,6 +5,7 @@ import com.cryptic.model.entity.player.Player
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableMap
+import java.util.*
 
 class InterfaceSystem(private val player: Player) {
 
@@ -138,16 +139,18 @@ class InterfaceSystem(private val player: Player) {
     }
 
     fun containsInterface(position: InterfacePosition): Boolean {
-        return when {
-            position == InterfacePosition.CHATBOX || position == InterfacePosition.DIALOGUE ->
-                visible.containsKey(PaneType.CHATBOX.id shl 16 or InterfacePosition.DIALOGUE.getComponent(PaneType.RESIZABLE))
-
-            else ->
-                visible.containsKey(PaneType.FIXED.id shl 16 or position.getFixedComponent()) ||
-                        visible.containsKey(PaneType.SIDE_PANELS.id shl 16 or position.getSidepanelsComponent()) ||
-                        visible.containsKey(PaneType.RESIZABLE.id shl 16 or position.resizableComponent) ||
-                        visible.containsKey(PaneType.MOBILE.id shl 16 or position.getMobileComponent())
+        if (position === InterfacePosition.CHATBOX || position === InterfacePosition.DIALOGUE) {
+            return visible.containsKey(
+                PaneType.CHATBOX.id shl 16 or InterfacePosition.DIALOGUE.getComponent(
+                    PaneType.RESIZABLE
+                )
+            )
         }
+        return visible.containsKey(PaneType.FIXED.id shl 16 or position.getFixedComponent()) || visible.containsKey(
+            PaneType.SIDE_PANELS.id shl 16 or position.getSidepanelsComponent()
+        ) || visible.containsKey(PaneType.RESIZABLE.id shl 16 or position.resizableComponent) || visible.containsKey(
+            PaneType.MOBILE.id shl 16 or position.getMobileComponent()
+        )
     }
 
     fun sendInterface(interfaceId: Int, paneComponent: Int, pane: PaneType, walkable: InterfaceType) {
@@ -196,61 +199,40 @@ class InterfaceSystem(private val player: Player) {
         player.packetSender.sendInterfaceOSRS(id, position.getComponent(paneToObtainComponentFrom), pane, type)
     }
 
-    fun closeInterface(position: InterfacePosition, removeFromMap: Boolean, closeEvent: Boolean) {
-        val contains = containsInterface(position)
+    fun closeInterface(position: InterfacePosition) {
+        closeInterface(position,true)
+    }
+
+    fun closeInterface(position: InterfacePosition?, removeFromMap: Boolean) {
+        val contains = containsInterface(position!!)
         val dialogue = position == InterfacePosition.DIALOGUE
         val pane = if (dialogue) PaneType.RESIZABLE else this.pane
-        val hash = (if (dialogue) PaneType.CHATBOX.id else pane?.id ?: 0) shl 16 or (position?.getComponent(pane) ?: 0)
-        //closeInput()
+        val hash = (if (dialogue) PaneType.CHATBOX.id else (pane?.id ?: 0)) shl 16 or (position.getComponent(pane) ?: 0)
+        //if (combat && contains) {
+            //val id = visible[hash]
+            //val plugin: Interface = NewInterfaceHandler.getInterface(id)
+            //if (plugin != null && !plugin.closeInCombat()) {
+              //  return
+            //}
+       // }
+
+        closeInterface(hash, removeFromMap, contains)
+    }
+
+    private fun closeInterface(hash: Int, removeFromMap: Boolean, contains: Boolean) {
+        player.packetSender.runClientScriptNew(299, 1, 1)
         var previous: Int? = null
         if (removeFromMap) {
             previous = visible.remove(hash)
         }
-        if (contains) {
-            //player.closeInterface(hash)
-            //if (dialogue) {
-               // val dial = player.dialogueManager.lastDialogue
-                //if (dial != null) {
-                  //  dial.npc?.finishInteractingWith(player)
-                //}
-            //}
-        }
-        if (contains && previous != null) {
-           //// val prevGameInterface = GameInterface.get(previous)
-           // prevGameInterface.ifPresent { gameInterface -> closePlugin(player, gameInterface, Optional.empty()) }
-        }
-        if (closeEvent && contains && position == InterfacePosition.MAIN_MODAL) {
-           // val runnable = player.closeInterfacesEvent
-            //if (runnable == null) {
-              //  return
-           // }
-           // runnable.run()
-           // player.closeInterfacesEvent = null
+
+        player.packetSender.closeInterfaceOSRS(hash)
+        if (previous != null) {
+            val prevGameInterface: GameInterface? = GameInterface.get(previous)
+            //CLOSE PREV EVENT
         }
     }
 
-    fun closeInterface(position: InterfacePosition) {
-        closeInterface(position, true, true)
-    }
-
-    fun closeInterface(gameInterface: GameInterface) {
-        closeInterface(gameInterface.position)
-    }
-
-    fun closeInterface(interfaceId: Int) {
-        val componentId = getInterfaceComponent(interfaceId)
-        val position = InterfacePosition.getPosition(componentId, pane)
-        if (position == null) {
-            return
-        }
-        closeInterface(position, true, true)
-    }
-
-    fun closeInterfaces() {
-        closeInterface(InterfacePosition.MAIN_MODAL)
-        closeInterface(InterfacePosition.SINGLE_TAB)
-        closeInterface(InterfacePosition.DIALOGUE)
-    }
 
     fun isPresent(inter: GameInterface): Boolean {
         return isVisible(inter.id)

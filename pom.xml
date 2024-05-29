@@ -25,6 +25,11 @@
             <url>https://raw.githubusercontent.com/OpenRune/hosting/master</url>
         </repository>
         <repository>
+            <id>local</id>
+            <name>Local Repository</name>
+            <url>file://${env.MAVEN_REPOSITORY}</url>
+        </repository>
+        <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
@@ -278,7 +283,7 @@
             <version>0.7.2</version>
         </dependency>
 
-        <dependency>
+         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.110.Final</version>
@@ -589,13 +594,13 @@
             <version>1.8.10</version>
         </dependency>
 
-        <!--        <dependency>
-                    <groupId>com.dev.shadow</groupId>
-                    <artifactId>functions</artifactId>
-                    <version>1.93.0</version>
-                    <scope>runtime</scope>
-                    <optional>true</optional>
-                </dependency>-->
+        <dependency>
+            <groupId>com.dev.shadow</groupId>
+            <artifactId>functions</artifactId>
+            <version>1.93.0</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>com.everythingrs</groupId>

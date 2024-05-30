@@ -9,6 +9,7 @@ import com.cryptic.core.task.impl.*;
 import com.cryptic.interfaces.Device;
 import com.cryptic.interfaces.DisplayMode;
 import com.cryptic.interfaces.InterfaceSystem;
+import com.cryptic.model.BroadcastMessage;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
@@ -1615,6 +1616,10 @@ public class Player extends Entity {
         setHitMarkVarbits();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
+        //World.getWorld().sendBroadcast("<cimg=22> Hi");
+        //World.getWorld().sendBroadcast("<img=2> Hi Osrs Sprite");
+        //World.getWorld().sendBroadcast("<lsprite=2009> Hi Legacy Sprite");
+        //World.getWorld().sendBroadcast("<sprite=3152> Hi OSRS SPRITE");
     }
 
     private void setHitMarkVarbits() {

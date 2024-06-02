@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public class Event<T> {
@@ -80,10 +81,15 @@ public class Event<T> {
         waitUntil(condition, Integer.MAX_VALUE);
     }
 
+
+    public void waitFor(BooleanSupplier supplier) {
+        waitUntil(supplier::getAsBoolean);
+    }
+
     /**
      * When returning from a pause (delay), the given condition will be checked, and if met, the event will be stopped
      */
-    public final void setCancelCondition(Supplier<Boolean> cancelCondition) {
+    public final void setCancelCondition(@org.jetbrains.annotations.Nullable Supplier<Boolean> cancelCondition) {
         this.cancelCondition = cancelCondition;
     }
 

@@ -1038,11 +1038,12 @@ public final class PacketSender {
             Item item = items[i];
 
             out.putSmart1or2(slot);
+
             if (item != null && item.getId() != -1) {
                 out.putShort(item.getId() + 1);
                 int amount = item.getAmount();
-                if (amount < 0 || amount >= 255) {
-                    out.put(0).putInt(amount);
+                if (amount < 0 || amount > 254) {
+                    out.put(255).putInt(amount);
                 } else {
                     out.put(amount);
                 }
@@ -1162,12 +1163,11 @@ public final class PacketSender {
         player.getSession().write(out);
     }
 
-    public PacketSender sendString(int id, String string) { //i dont use that client.java its a deob that patrick had in the valinor clietn at one point kk what one
+    public PacketSender sendString(int id, String string) {
         PacketBuilder out = new PacketBuilder(126, PacketType.VARIABLE_SHORT);
         out.putString(string);
         out.putInt(id);
         player.getSession().write(out);
-        //System.out.println("Id being updated: "+id+" vs text: "+string);
         return this;
     }
 

@@ -24,7 +24,8 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     /**
      * The GamePacketEncoder constructor.
-     * @param rand    The encoder used for the packets.
+     *
+     * @param rand The encoder used for the packets.
      */
     public PacketEncoder(IsaacRandom rand) {
         this.rand = rand;
@@ -66,22 +67,21 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
         }
 
 
-        // Write opcode
-        out.writeByte((opcode + rand.nextInt()) & 0xFF);
+        if (out.isWritable()) {
 
-        // Write packet size
-        switch (type) {
-            case VARIABLE -> out.writeByte(size);
-            case VARIABLE_SHORT -> out.writeShort(size);
-            default -> {
+            out.writeByte((opcode + rand.nextInt()) & 0xFF);
+
+            switch (type) {
+                case VARIABLE -> out.writeByte(size);
+                case VARIABLE_SHORT -> out.writeShort(size);
+                default -> {
+                }
             }
+
+            // Write packet
+            out.writeBytes(packet.getBuffer());
+
         }
-
-        // Write packet
-        out.writeBytes(packet.getBuffer());
-
-        //logger.debug("Opcode: {} - Size: {} - Type: {} - CurrentSize: {} - Expected Size: {} ", opcode, size, type, currSize, expectedSize);
-        //logger.debug("Encoded packet with opcode {} and size {} (type={})", opcode, size, type);
     }
 
     public static final int[] PACKET_SIZES = new int[256];

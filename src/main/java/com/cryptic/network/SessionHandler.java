@@ -46,7 +46,8 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     public void channelWritabilityChanged(ChannelHandlerContext ctx) {
         final Channel channel = ctx.channel();
         if (!channel.isActive()) return;
-        if (channel.isWritable()) {
+        final boolean writable = channel.isWritable();
+        if (writable) {
             logger.debug("writing to session writability changed");
             Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
             if (session != null) {

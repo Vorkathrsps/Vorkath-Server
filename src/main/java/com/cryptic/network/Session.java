@@ -218,8 +218,8 @@ public class Session {
             return;
 
         //System.out.println(channel.isWritable() + ", " + builder.getOpcode() + " size " + builder.getSize() + " (queued="+outboundPacketsQueue.size()+")");
-
-        if (channel.isWritable()) {
+        final boolean writable = channel.isWritable();
+        if (writable) {
             writeRaw(channel, builder);
         } else {
             outboundPacketsQueue.offer(builder);
@@ -236,9 +236,13 @@ public class Session {
         if (channel == null || !channel.isOpen() || !channel.isActive())
             return;
 
+        final boolean writeable = channel.isWritable();
+
         try {
             final Packet packet = builder.toPacket();
-            channel.write(packet, channel.voidPromise());
+            if (writeable) {
+                channel.write(packet, channel.voidPromise());
+            }
         } catch (Exception e) {
             logger.error("sadge", e);
         }

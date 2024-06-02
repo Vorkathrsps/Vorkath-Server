@@ -25,7 +25,7 @@ public class Packet {
     /**
      * The buffer being used to read the packet information.
      */
-    private ByteBuf buffer;
+    private final ByteBuf buffer;
 
     /**
      * The Packet constructor.

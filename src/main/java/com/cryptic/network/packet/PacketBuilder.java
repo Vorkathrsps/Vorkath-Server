@@ -87,7 +87,9 @@ public final class PacketBuilder implements AutoCloseable {
      * @return The PacketBuilder instance.
      */
     public PacketBuilder writeBuffer(ByteBuf buffer) {
-        this.buffer.writeBytes(buffer);
+        if (this.buffer.isWritable()) {
+            this.buffer.writeBytes(buffer);
+        }
         return this;
     }
 
@@ -98,7 +100,9 @@ public final class PacketBuilder implements AutoCloseable {
      * @return an instance of this message builder.
      */
     public PacketBuilder putBytes(byte[] from) {
-        buffer.writeBytes(from);
+        if (buffer.isWritable()) {
+            buffer.writeBytes(from);
+        }
         return this;
     }
 
@@ -109,7 +113,9 @@ public final class PacketBuilder implements AutoCloseable {
      * @return an instance of this message builder.
      */
     public PacketBuilder putBytes(byte[] from, int size) {
-        buffer.writeBytes(from, 0, size);
+        if (buffer.isWritable()) {
+            buffer.writeBytes(from, 0, size);
+        }
         return this;
     }
 
@@ -126,12 +132,16 @@ public final class PacketBuilder implements AutoCloseable {
     }
 
     public PacketBuilder writeByteArray(byte[] bytes, int offset, int length) {
-        buffer.writeBytes(bytes, offset, length);
+        if (buffer.isWritable()) {
+            buffer.writeBytes(bytes, offset, length);
+        }
         return this;
     }
 
     public PacketBuilder writeByteArray(byte[] bytes) {
-        buffer.writeBytes(bytes);
+        if (buffer.isWritable()) {
+            buffer.writeBytes(bytes);
+        }
         return this;
     }
 
@@ -149,26 +159,28 @@ public final class PacketBuilder implements AutoCloseable {
             throw new UnsupportedOperationException("The ByteBuf implementation must support array() for bit usage.");
         }
 
-        int bytes = (int) Math.ceil((double) numBits / 8D) + 1;
-        buffer.ensureWritable((bitPosition + 7) / 8 + bytes);
+        if (buffer.isWritable()) {
+            int bytes = (int) Math.ceil((double) numBits / 8D) + 1;
+            buffer.ensureWritable((bitPosition + 7) / 8 + bytes);
 
-        final byte[] buffer = this.buffer.array();
+            final byte[] buffer = this.buffer.array();
 
-        int bytePos = bitPosition >> 3;
-        int bitOffset = 8 - (bitPosition & 7);
-        bitPosition += numBits;
+            int bytePos = bitPosition >> 3;
+            int bitOffset = 8 - (bitPosition & 7);
+            bitPosition += numBits;
 
-        for (; numBits > bitOffset; bitOffset = 8) {
-            buffer[bytePos] &= ~BIT_MASK[bitOffset];
-            buffer[bytePos++] |= (value >> (numBits - bitOffset)) & BIT_MASK[bitOffset];
-            numBits -= bitOffset;
-        }
-        if (numBits == bitOffset) {
-            buffer[bytePos] &= ~BIT_MASK[bitOffset];
-            buffer[bytePos] |= value & BIT_MASK[bitOffset];
-        } else {
-            buffer[bytePos] &= ~(BIT_MASK[numBits] << (bitOffset - numBits));
-            buffer[bytePos] |= (value & BIT_MASK[numBits]) << (bitOffset - numBits);
+            for (; numBits > bitOffset; bitOffset = 8) {
+                buffer[bytePos] &= ~BIT_MASK[bitOffset];
+                buffer[bytePos++] |= (value >> (numBits - bitOffset)) & BIT_MASK[bitOffset];
+                numBits -= bitOffset;
+            }
+            if (numBits == bitOffset) {
+                buffer[bytePos] &= ~BIT_MASK[bitOffset];
+                buffer[bytePos] |= value & BIT_MASK[bitOffset];
+            } else {
+                buffer[bytePos] &= ~(BIT_MASK[numBits] << (bitOffset - numBits));
+                buffer[bytePos] |= (value & BIT_MASK[numBits]) << (bitOffset - numBits);
+            }
         }
         return this;
     }
@@ -223,7 +235,9 @@ public final class PacketBuilder implements AutoCloseable {
             case STANDARD:
                 break;
         }
+        if (buffer.isWritable()) {
         buffer.writeByte((byte) value);
+        }
         return this;
     }
 

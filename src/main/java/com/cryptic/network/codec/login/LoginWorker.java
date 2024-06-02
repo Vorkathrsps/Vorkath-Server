@@ -86,12 +86,13 @@ public class LoginWorker implements Runnable {
         Channel channel = session.getChannel();
 
         if (channel == null) return;
-        if (!channel.isWritable()) return;
+        final boolean writeable = channel.isWritable();
 
-        LoginDetailsMessage message = request.message;
-
-        if (!message.getHost().isEmpty()) {
-            complete(request, player, channel, message);
+        if (writeable) {
+            LoginDetailsMessage message = request.message;
+            if (!message.getHost().isEmpty()) {
+                complete(request, player, channel, message);
+            }
         }
     }
 

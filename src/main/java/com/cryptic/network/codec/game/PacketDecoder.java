@@ -92,6 +92,8 @@ public final class PacketDecoder extends ByteToMessageDecoder {
             }
 
             final ByteBuf payload = buffer.readRetainedSlice(size);
+
+
             state = State.OPCODE;
 
             try {

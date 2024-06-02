@@ -3,6 +3,9 @@ package com.cryptic.core.event;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.map.position.Tile;
 
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
+
 public class EntityEvent<T extends Entity> extends Event<T> {
 
     public EntityEvent(ContinuationScope continuationScope, T context) {
@@ -13,8 +16,12 @@ public class EntityEvent<T extends Entity> extends Event<T> {
         this(EventWorker.CONTINUATION_SCOPE, context);
     }
 
+    public void waitFor(BooleanSupplier supplier) {
+        waitUntil(supplier::getAsBoolean);
+    }
+
     public void waitForTile(Tile tile, int timeout) {
-        waitUntil(() -> tile.equals(context.tile()), timeout);
+        waitUntil(() -> tile.equals(Objects.requireNonNull(context).tile()), timeout);
     }
 
     public void waitForTile(Tile tile) {

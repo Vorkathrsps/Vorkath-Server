@@ -63,7 +63,7 @@ public final class NetworkBuilder {
         bootstrap.childOption(ChannelOption.AUTO_READ, false);
         bootstrap.childOption(ChannelOption.SO_RCVBUF, 65536);
         bootstrap.childOption(ChannelOption.SO_SNDBUF, 65536);
-        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(65535, 65535 * 10));
+        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(524_288, 2_097_152));
         final ByteBufAllocator allocator = new UnpooledByteBufAllocator(false);
         bootstrap.option(ChannelOption.ALLOCATOR, allocator);
         bootstrap.childOption(ChannelOption.ALLOCATOR, allocator);

@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+import static com.cryptic.utility.CustomItemIdentifiers.KORASI_SWORD;
+import static com.cryptic.utility.CustomItemIdentifiers.NOXIOUS_SCYTHE;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -231,6 +233,8 @@ public class EquipmentInfo {
                 case IVANDIS_FLAIL:
                 case BLISTERWOOD_FLAIL:
                     return 8010;
+                case KORASI_SWORD:
+                    return style == 2 ? 32767 : 32766;
                 case DRAGON_CLAWS:
                 case CORRUPTED_DRAGON_CLAWS:
                     return style == 2 ? 1067 : 393;
@@ -244,6 +248,7 @@ public class EquipmentInfo {
                 case SANGUINE_SCYTHE_OF_VITUR:
                 case HOLY_SCYTHE_OF_VITUR:
                 case CORRUPTED_SCYTHE_OF_VITUR:
+                case NOXIOUS_SCYTHE:
                     return 8056;
                 case GHRAZI_RAPIER:
                 case HOLY_GHRAZI_RAPIER:
@@ -265,6 +270,8 @@ public class EquipmentInfo {
                 case TUMEKENS_SHADOW:
                 case CORRUPTED_TUMEKENS_SHADOW:
                     return 9493;
+                case TONALZTICS_OF_RALOS:
+                    return 10923;
                 case 12924: // Toxic blowpipe
                 case TOXIC_BLOWPIPE: // Toxic blowpipe
                     return 5061;
@@ -562,6 +569,9 @@ public class EquipmentInfo {
         switch (weapon) {
             case INQUISITORS_MACE -> {
                 return 403;
+            }
+            case KORASI_SWORD -> {
+                return 32765;
             }
             case DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGER_CR, DRAGON_DAGGER_PCR, DRAGON_DAGGER_PCR_28023, DRAGON_DAGGER_PCR_28025, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGERP_5698 -> {
                 return 404;

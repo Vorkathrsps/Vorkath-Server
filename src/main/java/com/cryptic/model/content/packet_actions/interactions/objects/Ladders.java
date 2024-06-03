@@ -2,9 +2,8 @@ package com.cryptic.model.content.packet_actions.interactions.objects;
 
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.TickAndStop;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;

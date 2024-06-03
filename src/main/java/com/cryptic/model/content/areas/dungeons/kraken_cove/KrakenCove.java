@@ -8,8 +8,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInst
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenInstanceD;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;

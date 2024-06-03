@@ -2,9 +2,8 @@ package com.cryptic.model.content.skill.impl.slayer.master.impl;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 
 /**

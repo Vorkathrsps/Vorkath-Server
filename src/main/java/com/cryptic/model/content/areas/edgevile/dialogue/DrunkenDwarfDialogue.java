@@ -1,8 +1,8 @@
 package com.cryptic.model.content.areas.edgevile.dialogue;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.items.Item;
 
 import static com.cryptic.model.map.object.dwarf_cannon.DwarfCannon.*;

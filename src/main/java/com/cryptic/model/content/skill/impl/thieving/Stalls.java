@@ -5,7 +5,6 @@ import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;

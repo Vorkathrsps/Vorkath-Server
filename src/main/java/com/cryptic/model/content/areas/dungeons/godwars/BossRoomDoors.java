@@ -2,7 +2,6 @@ package com.cryptic.model.content.areas.dungeons.godwars;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;

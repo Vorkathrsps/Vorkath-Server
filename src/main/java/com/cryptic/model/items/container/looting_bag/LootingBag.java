@@ -4,7 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;

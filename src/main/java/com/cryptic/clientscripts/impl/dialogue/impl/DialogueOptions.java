@@ -1,0 +1,41 @@
+package com.cryptic.clientscripts.impl.dialogue.impl;
+
+import com.cryptic.clientscripts.impl.dialogue.information.types.impl.OptionType;
+import com.cryptic.interfaces.GameInterface;
+import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.interfaces.EventConstants;
+import com.cryptic.clientscripts.interfaces.EventNode;
+import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.WidgetUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DialogueOptions extends InterfaceBuilder {
+
+    @Override
+    public GameInterface gameInterface() {
+        return GameInterface.DIALOGUE_OPTIONS;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+        var dialogueType = player.getDialogueManager().getRecord().getType();
+        if (dialogueType instanceof OptionType dialogueOptionRecord) {
+            setEvents(new EventNode(WidgetUtil.componentToId(ComponentID.DIALOG_OPTION_OPTIONS), 0, dialogueOptionRecord.options().length, new ArrayList<>(List.of(EventConstants.PAUSE))));
+            player.varps().sendTempVarbit(10670, 1);
+            player.getPacketSender().runClientScriptNew(2379);
+            String options = joinWithPipe(dialogueOptionRecord.options());
+            player.getPacketSender().runClientScriptNew(58, dialogueOptionRecord.title(), options);
+        }
+    }
+
+    public static String joinWithPipe(String... chats) {
+        if (chats == null || chats.length == 0) {
+            return "";
+        }
+        return String.join("|", chats);
+    }
+
+}

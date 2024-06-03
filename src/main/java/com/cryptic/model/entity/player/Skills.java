@@ -16,7 +16,7 @@ import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.rights.MemberRights;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;

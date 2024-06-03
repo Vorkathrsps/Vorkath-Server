@@ -1,11 +1,10 @@
 package com.cryptic.interfaces
 
-import com.cryptic.model.cs2.impl.weaponinterface.WeaponInformationInterface
+import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface
 import com.cryptic.model.entity.player.Player
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableMap
-import java.util.*
 
 class InterfaceSystem(private val player: Player) {
 

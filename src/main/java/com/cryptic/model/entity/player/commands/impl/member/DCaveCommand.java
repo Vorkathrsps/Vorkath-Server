@@ -2,7 +2,7 @@ package com.cryptic.model.entity.player.commands.impl.member;
 
 import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.map.position.Tile;

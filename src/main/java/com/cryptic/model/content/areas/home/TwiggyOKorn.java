@@ -2,8 +2,8 @@ package com.cryptic.model.content.areas.home;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.World;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.TWIGGY_OKORN;
 

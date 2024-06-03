@@ -12,7 +12,6 @@ import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.EntityCombatBuilder;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Debugs;

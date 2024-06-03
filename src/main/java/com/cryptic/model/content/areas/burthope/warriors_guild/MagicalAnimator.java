@@ -4,7 +4,6 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.ForceMovementTask;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.FaceDirection;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.masks.ForceMovement;

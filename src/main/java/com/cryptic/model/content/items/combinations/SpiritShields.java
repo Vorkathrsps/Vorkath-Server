@@ -1,6 +1,6 @@
 package com.cryptic.model.content.items.combine;
 
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;

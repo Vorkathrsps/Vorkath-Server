@@ -4,8 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatreofblood.party.RaidParty;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 

@@ -4,7 +4,6 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.AccountPinFrozenTask;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 

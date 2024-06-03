@@ -5,8 +5,8 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 

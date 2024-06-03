@@ -1,6 +1,6 @@
 package com.cryptic.model.items.tradingpost;
 
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Utils;
 

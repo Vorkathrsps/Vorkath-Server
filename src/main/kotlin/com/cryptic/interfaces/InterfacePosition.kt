@@ -1,6 +1,6 @@
 package com.cryptic.interfaces
 
-import com.cryptic.model.cs2.InterfaceID
+import com.cryptic.clientscripts.InterfaceID
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 
 enum class InterfacePosition(val resizableComponent: Int, val gameframeInterfaceId: Int = -1, val type: InterfaceType = InterfaceType.OVERLAY) {

@@ -17,7 +17,7 @@ import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.Skulling;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.inventory.Inventory;

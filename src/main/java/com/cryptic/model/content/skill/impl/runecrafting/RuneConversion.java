@@ -8,7 +8,6 @@ import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;

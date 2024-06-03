@@ -4,7 +4,7 @@ import com.cryptic.model.content.areas.edgevile.dialogue.SkillingAreaHuntingExpe
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;

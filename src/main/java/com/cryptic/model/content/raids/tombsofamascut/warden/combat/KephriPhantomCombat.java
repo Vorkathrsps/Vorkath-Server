@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KephriPhantomCombat extends CommonCombatMethod {
+
     TombsInstance instance;
 
     @Override

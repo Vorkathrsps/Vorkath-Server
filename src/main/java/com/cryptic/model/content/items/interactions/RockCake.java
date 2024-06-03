@@ -1,7 +1,6 @@
 package com.cryptic.model.content.items.interactions;
 
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;

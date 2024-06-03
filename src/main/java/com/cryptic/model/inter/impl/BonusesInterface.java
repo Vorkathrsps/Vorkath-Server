@@ -1,21 +1,14 @@
 package com.cryptic.model.inter.impl;
 
-import com.cryptic.model.cs2.ComponentID;
-import com.cryptic.model.cs2.InterfaceID;
+import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.ItemWeight;
-import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentBonuses;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
-import com.cryptic.utility.Color;
-import com.cryptic.utility.Utils;
 import lombok.Getter;
 
 /**

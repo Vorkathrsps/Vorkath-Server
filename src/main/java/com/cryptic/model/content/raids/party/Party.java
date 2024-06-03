@@ -3,7 +3,7 @@ package com.cryptic.model.content.raids.party;
 import com.cryptic.model.content.raids.RaidsType;
 import com.cryptic.model.content.raids.chamber_of_xeric.ChamberOfXerics;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;

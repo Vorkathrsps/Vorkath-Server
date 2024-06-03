@@ -1,7 +1,7 @@
 package com.cryptic.interfaces
 
-import com.cryptic.model.cs2.InterfaceID
-import com.cryptic.model.cs2.interfaces.InterfaceHandler
+import com.cryptic.clientscripts.InterfaceID
+import com.cryptic.clientscripts.interfaces.InterfaceHandler
 import com.cryptic.model.entity.player.Player
 
 

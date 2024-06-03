@@ -77,15 +77,14 @@ public class WardenCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC warden = (NPC) entity;
-        this.insanity(warden);
-        /* FloorSection random = Utils.randomElement(values);
+        FloorSection random = Utils.randomElement(values);
         if (this.phase.equals(WardenPhase.ONE) && !this.initiatePhaseOne) {
             this.initiatePhaseOne = true;
             this.floorAttack(warden, random);
         } else if (this.phase.equals(WardenPhase.TWO) && !this.initiatePhaseTwo) {
             this.initiatePhaseTwo = true;
             this.insanity(warden);
-        }*/
+        }
         return true;
     }
 

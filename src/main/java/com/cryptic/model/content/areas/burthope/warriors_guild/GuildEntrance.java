@@ -1,7 +1,6 @@
 package com.cryptic.model.content.areas.burthope.warriors_guild;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;

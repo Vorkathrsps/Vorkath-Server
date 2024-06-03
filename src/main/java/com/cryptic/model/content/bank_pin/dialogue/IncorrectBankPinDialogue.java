@@ -1,7 +1,7 @@
 package com.cryptic.model.content.bank_pin.dialogue;
 
 import com.cryptic.model.content.bank_pin.BankPin;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 
 /**
  * @author lare96 <http://github.com/lare96>

@@ -45,7 +45,6 @@ import com.cryptic.model.entity.player.commands.impl.staff.admin.*;
 import com.cryptic.model.entity.player.commands.impl.staff.moderator.*;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;

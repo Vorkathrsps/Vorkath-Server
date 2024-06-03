@@ -1,6 +1,5 @@
 package com.cryptic.model.content.skill.impl.fletching.impl;
 
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;

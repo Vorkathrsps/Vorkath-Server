@@ -3,7 +3,7 @@ package com.cryptic.model.content.items.teleport;
 import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;

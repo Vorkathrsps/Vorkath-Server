@@ -27,7 +27,7 @@ import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.inter.clan.ClanButtons;
-import com.cryptic.model.cs2.impl.dialogue.impl.ItemActionDialogue;
+import com.cryptic.clientscripts.impl.dialogue.impl.ItemActionDialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.shop.Shop;

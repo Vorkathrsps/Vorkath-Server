@@ -1,6 +1,6 @@
 package com.cryptic.model.content.items.combinations.crystal.crystalobject;
 
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 
 public class SingingBowl extends Dialogue {
     @Override

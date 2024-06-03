@@ -3,7 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;

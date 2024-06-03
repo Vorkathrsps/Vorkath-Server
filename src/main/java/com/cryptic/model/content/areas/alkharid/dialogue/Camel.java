@@ -1,8 +1,8 @@
 package com.cryptic.model.content.areas.alkharid.dialogue;
 
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.cs2.impl.dialogue.Dialogue;
-import com.cryptic.model.cs2.impl.dialogue.util.Expression;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 

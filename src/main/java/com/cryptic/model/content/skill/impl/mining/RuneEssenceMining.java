@@ -4,7 +4,6 @@ import com.cryptic.model.action.impl.UnwalkableAction;
 import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Skill;
-import com.cryptic.model.cs2.impl.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;

@@ -18,11 +18,6 @@ public class PrayerManager {
     private final Object2IntOpenHashMap<Prayer> activePrayers = new Object2IntOpenHashMap<>();
     private int drain;
     public int quickPrayerSettings;
-    private static final int SHOW_LOWER_TIERS = 6574;
-    private static final int SHOW_MULTI = 6575;
-    private static final int RAPID_HEALING = 6576;
-    private static final int LACK_LEVEL = 6577;
-    private static final int LACK_REQ = 6578;
 
     public PrayerManager(Player player) {
         this.player = player;
@@ -117,11 +112,11 @@ public class PrayerManager {
 
     public static int getFilterConfiguration(final int slot) {
         return switch (slot) {
-            case 0 -> SHOW_LOWER_TIERS;
-            case 1 -> SHOW_MULTI;
-            case 2 -> RAPID_HEALING;
-            case 3 -> LACK_LEVEL;
-            case 4 -> LACK_REQ;
+            case 0 -> Varbit.LOWER_TIERS_OF_TIERED_PRAYERS;
+            case 1 -> Varbit.SHOW_TIERED_PRAYERS_EVEN_IF_MULTI;
+            case 2 -> Varbit.SHOW_RAPID_HEALING_PRAYERS;
+            case 3 -> Varbit.SHOW_PRAYERS_YOU_LACK_THE_LEVEL;
+            case 4 -> Varbit.SHOW_PRAYERS_YOU_LACK_THE_REQUIREMENTS;
             default -> 0;
         };
     }

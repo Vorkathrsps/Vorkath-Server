@@ -357,4 +357,9 @@ public class Varbit {
     public static final int TINTED_HITSPLATS = 10236;
 
     public static final int INFERNO_BOSS_ROOF = 5652;
+    public static final int LOWER_TIERS_OF_TIERED_PRAYERS = 6574;
+    public static final int SHOW_TIERED_PRAYERS_EVEN_IF_MULTI = 6575; // LOWER_TIERS_OF_TIERED_PRAYERS Has to be (1) Disabled other wise ull get output: "This option can only be toggled when the "Show lower tiers of tiered prayers" is off."
+    public static final int SHOW_RAPID_HEALING_PRAYERS = 6576;
+    public static final int SHOW_PRAYERS_YOU_LACK_THE_LEVEL = 6577;
+    public static final int SHOW_PRAYERS_YOU_LACK_THE_REQUIREMENTS = 6578;
 }

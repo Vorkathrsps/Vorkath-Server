@@ -83,6 +83,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.Peri
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.newprayer.PrayerManager;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
@@ -228,6 +229,8 @@ public class Player extends Entity {
     public InterfaceSystem interfaces = new InterfaceSystem(this);
     public DisplayMode displayMode = DisplayMode.FIXED;
     public Device device = Device.DESKTOP;
+    @Getter
+    PrayerManager prayer = new PrayerManager(this);
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -1598,7 +1601,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
         setSpecialActivated(false);
-        message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName()+ "!");
+        message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName() + "!");
         handleForcedTeleports();
         applyAttributes();
         updatePlayer();
@@ -2137,12 +2140,12 @@ public class Player extends Entity {
 
     public void toggleSpecialAttack() {
         this.specialActivated = !specialActivated;
-        player().varps().setVarp(301,specialActivated ? 1 : 0);
+        player().varps().setVarp(301, specialActivated ? 1 : 0);
     }
 
     public void setSpecialActivated(boolean specialActivated) {
         this.specialActivated = specialActivated;
-        player().varps().setVarp(301,specialActivated ? 1 : 0);
+        player().varps().setVarp(301, specialActivated ? 1 : 0);
     }
 
     /**
@@ -2886,7 +2889,7 @@ public class Player extends Entity {
         this.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                sendNpcChat(npc.id(), Expression.DEFAULT,strings);
+                sendNpcChat(npc.id(), Expression.DEFAULT, strings);
                 setPhase(0);
             }
 
@@ -3104,7 +3107,8 @@ public class Player extends Entity {
             ControllerManager.process(this);
             this.getCombat().process();
             this.handleLastRegion();
-            Prayers.drainPrayer(this);
+            this.getPrayer().process();
+            Prayers.drainPrayer(this); //TODO deprecated
             if (queuedAppearanceUpdate()) {
                 this.getUpdateFlag().flag(Flag.APPEARANCE);
                 this.setQueuedAppearanceUpdate(false);

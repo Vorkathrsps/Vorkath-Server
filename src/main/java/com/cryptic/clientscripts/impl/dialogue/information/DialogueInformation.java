@@ -1,8 +1,6 @@
 package com.cryptic.clientscripts.impl.dialogue.information;
 
-import com.cryptic.clientscripts.cs2.impl.dialogue.information.types.impl.*;
 import com.cryptic.clientscripts.impl.dialogue.information.types.impl.*;
-import com.cryptic.model.cs2.impl.dialogue.information.types.impl.*;
 import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.items.Item;
 import lombok.Getter;

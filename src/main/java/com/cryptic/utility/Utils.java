@@ -19,6 +19,7 @@ import com.cryptic.utility.flood.Buffer;
 import com.google.gson.Gson;
 import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -137,6 +138,32 @@ public class Utils {
         } else {
             return player.getGameMode().toName();
         }
+    }
+
+    public static String capitalize(final String s) {
+        return WordUtils.capitalize(s);
+    }
+
+    public static boolean getShiftedBoolean(final int total, final int id) {
+        return ((total >> id) & 1) == 1;
+    }
+
+    public static int getShiftedValue(final int total, final int id) {
+        final int val = ((total >> id) & 1);
+        if (val == 1) {
+            return total & (1 << id ^ -1);
+        }
+        return total | 1 << id;
+    }
+
+    public static int getShiftedValue(final int total, final int id, final boolean toggled) {
+        final int val = ((total >> id) & 1);
+        if (val == 1 && !toggled) {
+            return total & (1 << id ^ -1);
+        } else if (val == 0 && toggled) {
+            return total | 1 << id;
+        }
+        return total;
     }
 
     public static String convertMsToTime(long ms) {

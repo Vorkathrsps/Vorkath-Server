@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Swiffy
  */
+@Deprecated(forRemoval = true)
 public class Prayers {
 
     public static boolean overheadPrayerActivated(Player player) {

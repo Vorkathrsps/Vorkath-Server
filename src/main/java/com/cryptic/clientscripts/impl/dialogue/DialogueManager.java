@@ -1,5 +1,6 @@
 package com.cryptic.clientscripts.impl.dialogue;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.clientscripts.impl.dialogue.information.DialogueInformation;
 import com.cryptic.clientscripts.impl.dialogue.util.Expression;
@@ -115,12 +116,12 @@ public class DialogueManager {
     }
 
     public void npcChat(final Expression expression, final int id, final String... strings) {
-        npcChat("null", expression, id, strings);
+        npcChat(NpcDefinition.cached.get(id).name, expression, id, strings);
     }
 
 
     public void npcChat(final String title, final Expression expression, final int id, final String... strings) {
-       start(new Dialogue() {
+        start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
                 sendNpcChat(title, id, expression, strings);

@@ -615,6 +615,10 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
 
+        dev("clearp", (p, c, s) -> {
+            p.getPrayer().clear();
+        });
+
         dev("c", (p, c, s) -> {
             ScurriusCombat.HealState state;
             NPC npc = new NPC(7221, p.tile()).spawn(false);
@@ -658,46 +662,46 @@ public class CommandManager {
         });
 
         dev("c5", (p, c, s) -> {
-                Chain.noCtx().runFn(3, () -> {
-                    final List<Tile> occupiedThunderLocations = new ArrayList<>();
-                    int[] floorRemovalIndex = new int[]{0};
-                    final Tile thunderTile = new Tile(3926, 5157, 1);
-                    final Projectile projectile = new Projectile(2228, 0, 200, 0, 20, 90, 0, 0);
-                    final Tile voidTile = new Tile(3936, 5130, 1);
-                    Chain.noCtxRepeat().repeatingTask(3, _ -> {
-                        int currentRow = (thunderTile.getY() + 8) - (floorRemovalIndex[0] / 4);
-                        for (GameObject object : floorObjects[floorRemovalIndex[0]]) {
-                            final Tile location = object.tile();
-                            if (location.transform(0, 0, 1).getY() == currentRow) {
-                                projectile.send(location, voidTile);
-                            }
-                            object.spawn();
+            Chain.noCtx().runFn(3, () -> {
+                final List<Tile> occupiedThunderLocations = new ArrayList<>();
+                int[] floorRemovalIndex = new int[]{0};
+                final Tile thunderTile = new Tile(3926, 5157, 1);
+                final Projectile projectile = new Projectile(2228, 0, 200, 0, 20, 90, 0, 0);
+                final Tile voidTile = new Tile(3936, 5130, 1);
+                Chain.noCtxRepeat().repeatingTask(3, _ -> {
+                    int currentRow = (thunderTile.getY() + 8) - (floorRemovalIndex[0] / 4);
+                    for (GameObject object : floorObjects[floorRemovalIndex[0]]) {
+                        final Tile location = object.tile();
+                        if (location.transform(0, 0, 1).getY() == currentRow) {
+                            projectile.send(location, voidTile);
                         }
-                        floorRemovalIndex[0]++;
-                    });
-
-                    Chain.noCtxRepeat().repeatingTask(5, _ -> {
-                        occupiedThunderLocations.clear();
-                        List<Tile> availableLocations = new ArrayList<>();
-                        for (int y = 0; y <= 8 - (floorRemovalIndex[0] / 4); y++) {
-                            for (int x = 0; x <= 20; x++) {
-                                final Tile loc = thunderTile.transform(x, y, 1);
-                                if (World.getWorld().clipAt(loc) == 0 && !occupiedThunderLocations.contains(loc)) {
-                                    availableLocations.add(loc);
-                                }
-                            }
-                        }
-                        Collections.shuffle(availableLocations);
-                        List<Tile> thunderTiles = availableLocations.subList(0, Math.max(2, (int) (availableLocations.size() * .3)));
-                        thunderTiles.forEach(loc -> {
-                            World.getWorld().sendClippedTileGraphic(1446, loc, 0, 0);
-                            occupiedThunderLocations.add(loc);
-                        });
-                        Chain.noCtx().runFn(2, () -> thunderTiles.forEach(loc -> {
-                            World.getWorld().sendClippedTileGraphic(2197, loc, 0, 0);
-                        }));
-                    });
+                        object.spawn();
+                    }
+                    floorRemovalIndex[0]++;
                 });
+
+                Chain.noCtxRepeat().repeatingTask(5, _ -> {
+                    occupiedThunderLocations.clear();
+                    List<Tile> availableLocations = new ArrayList<>();
+                    for (int y = 0; y <= 8 - (floorRemovalIndex[0] / 4); y++) {
+                        for (int x = 0; x <= 20; x++) {
+                            final Tile loc = thunderTile.transform(x, y, 1);
+                            if (World.getWorld().clipAt(loc) == 0 && !occupiedThunderLocations.contains(loc)) {
+                                availableLocations.add(loc);
+                            }
+                        }
+                    }
+                    Collections.shuffle(availableLocations);
+                    List<Tile> thunderTiles = availableLocations.subList(0, Math.max(2, (int) (availableLocations.size() * .3)));
+                    thunderTiles.forEach(loc -> {
+                        World.getWorld().sendClippedTileGraphic(1446, loc, 0, 0);
+                        occupiedThunderLocations.add(loc);
+                    });
+                    Chain.noCtx().runFn(2, () -> thunderTiles.forEach(loc -> {
+                        World.getWorld().sendClippedTileGraphic(2197, loc, 0, 0);
+                    }));
+                });
+            });
         });
 
         dev("c2", (p, c, s) -> {
@@ -1351,7 +1355,7 @@ public class CommandManager {
                         player.getTheatreInterface().getPlayers().add(member);
                         member.setRaidParty(player.getTheatreInterface().getOwner().getRaidParty());
                         member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
-                        player.getDialogueManager().sendStatement( member.getUsername() + " has joined your raid party.");
+                        player.getDialogueManager().sendStatement(member.getUsername() + " has joined your raid party.");
                         member.getPacketSender().sendString(73055, "Leave");
                     }
                 }

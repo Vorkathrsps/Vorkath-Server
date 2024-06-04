@@ -9,6 +9,7 @@ import com.cryptic.model.entity.player.Skills;
  * Handles quick prayers.
  * @author Professor Oak
  */
+@Deprecated(forRemoval = true)
 public class QuickPrayers extends Prayers {
 
     /**

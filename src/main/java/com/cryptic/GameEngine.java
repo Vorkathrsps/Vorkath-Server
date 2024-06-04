@@ -112,7 +112,6 @@ public final class GameEngine implements Runnable {
      * Initializes this {@link GameEngine}.
      */
     public void start() {
-        // Start game engine..
         gameThread.scheduleAtFixedRate(this, 0, GAME_TICK_DURATION, TimeUnit.MILLISECONDS);
         World.getWorld().ls.start();
     }

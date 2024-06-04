@@ -15,6 +15,11 @@ public class MinimapOrbs extends InterfaceBuilder {
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
+        if (option == 2) {
+            if (button == ComponentID.MINIMAP_QUICK_PRAYER_ORB) {
+                GameInterface.QUICK_PRAYERS.open(player);
+            }
+        }
         if (button == ComponentID.MINIGAMES_SPEC) {
             player.toggleSpecialAttack();
         } else if (button == ComponentID.MINIMAP_TOGGLE_RUN_ORB) {

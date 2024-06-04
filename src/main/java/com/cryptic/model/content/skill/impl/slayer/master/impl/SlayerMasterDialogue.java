@@ -18,7 +18,7 @@ public class SlayerMasterDialogue extends Dialogue {
         if (assignment != null) {
             int numleft = assignment.getRemainingTaskAmount(player);
             if (numleft > 0) {
-               player.getDialogueManager().npcChat( Expression.H, player.getInteractingNpcId(), "You're still hunting " + assignment.getTaskName() + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
+                player.getDialogueManager().npcChat(Expression.H, player.getInteractingNpcId(), "You're still hunting " + assignment.getTaskName() + "; you have " + numleft + " to go.", "Come back when you've finished your task.");
             }
         } else {
             slayer.getRandomTask(player, player.getInteractingNpcId());

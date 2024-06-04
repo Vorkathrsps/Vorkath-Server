@@ -1,7 +1,6 @@
 package com.cryptic.clientscripts.interfaces;
 
 import com.cryptic.clientscripts.InterfaceID;
-import com.cryptic.clientscripts.cs2.impl.dialogue.impl.*;
 import com.cryptic.clientscripts.impl.*;
 import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
 import com.cryptic.clientscripts.impl.equipment.EquipmentInventory;
@@ -12,14 +11,14 @@ import com.cryptic.clientscripts.impl.journal.AchievementTabInterface;
 import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
 import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
+import com.cryptic.clientscripts.impl.prayer.PrayerTab;
+import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
 import com.cryptic.clientscripts.impl.social.FriendListInterface;
 import com.cryptic.clientscripts.impl.social.IgnoreListInterface;
 import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.clientscripts.impl.dialogue.impl.*;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.InterfaceType;
-import com.cryptic.model.cs2.impl.*;
-import com.cryptic.model.cs2.impl.dialogue.impl.*;
 import com.cryptic.model.entity.player.Player;
 
 import java.util.HashMap;
@@ -39,8 +38,9 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.QUEST_ROOT, new JournalRootInterface());
         interfaces.put(InterfaceID.MINIMAP, new MinimapOrbs());
         interfaces.put(InterfaceID.PRAYER, new PrayerTab());
+        interfaces.put(InterfaceID.QUICK_PRAYER, new QuickPrayerInterface());
         interfaces.put(InterfaceID.FIXED_VIEWPORT, new ViewportFixed());
-        interfaces.put(InterfaceID.COMBAT,new WeaponInformationInterface());
+        interfaces.put(InterfaceID.COMBAT, new WeaponInformationInterface());
         interfaces.put(InterfaceID.INVENTORY, new InventoryInterface());
         interfaces.put(InterfaceID.EQUIPMENT, new EquipmentTab());
         interfaces.put(InterfaceID.EQUIPMENT_STATS, new EquipmentStats());

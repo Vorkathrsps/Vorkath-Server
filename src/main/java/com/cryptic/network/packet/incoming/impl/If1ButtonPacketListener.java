@@ -33,10 +33,10 @@ public class If1ButtonPacketListener implements PacketListener {
         int component = combinedId.getComponentId();
         int packed = WidgetUtil.packComponentId(interfaceId, component);
 
-        log.info("Click button: component=[{}:{}:{}], option={}, slot={}, item={}, packed={}", findInterfaceFieldName(interfaceId), component, findComponentFieldName(packed), option, shortSlot, shortItem,packed);
+        log.info("Click button: component=[{}:{}:{}], option={}, slot={}, item={}, packed={}", findInterfaceFieldName(interfaceId), component, findComponentFieldName(packed), option, shortSlot, shortItem, packed);
         if (player.activeInterface.containsKey(interfaceId)) {
             var active = player.activeInterface.get(interfaceId);
-            active.onButton(player,packed, option, shortSlot, shortItem);
+            active.onButton(player, packed, option, shortSlot, shortItem);
         }
     }
 

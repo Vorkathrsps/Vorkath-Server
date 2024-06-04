@@ -41,8 +41,8 @@ class InterfaceSystem(private val player: Player) {
         player.packetSender.runClientScriptNew(2524, color, transparency)
     }
 
-    fun openInterfaceForMode(mode : DisplayMode) {
-        when(mode) {
+    fun openInterfaceForMode(mode: DisplayMode) {
+        when (mode) {
             DisplayMode.FIXED -> GameInterface.FIXED_VIEWPORT.open(player)
             DisplayMode.RESIZABLE_NORMAL -> TODO()
             DisplayMode.RESIZABLE_LIST -> TODO()
@@ -51,8 +51,8 @@ class InterfaceSystem(private val player: Player) {
         }
     }
 
-    fun closeInterfaceForMode(mode : DisplayMode) {
-        when(mode) {
+    fun closeInterfaceForMode(mode: DisplayMode) {
+        when (mode) {
             DisplayMode.FIXED -> GameInterface.FIXED_VIEWPORT.close(player)
             DisplayMode.RESIZABLE_NORMAL -> TODO()
             DisplayMode.RESIZABLE_LIST -> TODO()
@@ -83,7 +83,7 @@ class InterfaceSystem(private val player: Player) {
         handleJournalTab()
         handleJournalTab()
         handleRelationShipTab()
-        player.varps().setVarbit(Varbits.CHATBOX_UNLOCKED,1)
+        player.varps().setVarbit(Varbits.CHATBOX_UNLOCKED, 1)
     }
 
     fun handleRelationShipTab(toggleTab: Boolean = false) {
@@ -104,7 +104,7 @@ class InterfaceSystem(private val player: Player) {
         if (newTab != journal) {
             journal = newTab
         }
-        player.varps().setVarbit(Varbits.JOURNAL_TAB_INTERFACE,newTab.ordinal)
+        player.varps().setVarbit(Varbits.JOURNAL_TAB_INTERFACE, newTab.ordinal)
         when (journal) {
             Journal.CHARACTER_SUMMARY -> GameInterface.CHARACTER_SUMMARY.open(player)
             Journal.QUEST_TAB -> GameInterface.QUEST_LIST.open(player)
@@ -189,7 +189,10 @@ class InterfaceSystem(private val player: Player) {
             if (position == InterfacePosition.DIALOGUE) PaneType.CHATBOX else this.pane
         val paneToObtainComponentFrom = if (pane == PaneType.CHATBOX) PaneType.RESIZABLE else pane
         if (position == InterfacePosition.MAIN_MODAL) {
-            player.packetSender.runClientScriptNew(2524, if (EXPANDED_INTERFACES.contains(id)) EXPANDED_ARGS else DEFAULT_ARGS)
+            player.packetSender.runClientScriptNew(
+                2524,
+                if (EXPANDED_INTERFACES.contains(id)) EXPANDED_ARGS else DEFAULT_ARGS
+            )
             if (BACKGROUND_SCRIPT_ARGS.containsKey(id)) {
                 player.packetSender.runClientScriptNew(917, BACKGROUND_SCRIPT_ARGS[id]!!)
             }
@@ -199,7 +202,7 @@ class InterfaceSystem(private val player: Player) {
     }
 
     fun closeInterface(position: InterfacePosition) {
-        closeInterface(position,true)
+        closeInterface(position, true)
     }
 
     fun closeInterface(position: InterfacePosition?, removeFromMap: Boolean) {
@@ -208,12 +211,12 @@ class InterfaceSystem(private val player: Player) {
         val pane = if (dialogue) PaneType.RESIZABLE else this.pane
         val hash = (if (dialogue) PaneType.CHATBOX.id else (pane?.id ?: 0)) shl 16 or (position.getComponent(pane) ?: 0)
         //if (combat && contains) {
-            //val id = visible[hash]
-            //val plugin: Interface = NewInterfaceHandler.getInterface(id)
-            //if (plugin != null && !plugin.closeInCombat()) {
-              //  return
-            //}
-       // }
+        //val id = visible[hash]
+        //val plugin: Interface = NewInterfaceHandler.getInterface(id)
+        //if (plugin != null && !plugin.closeInCombat()) {
+        //  return
+        //}
+        // }
 
         closeInterface(hash, removeFromMap, contains)
     }

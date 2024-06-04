@@ -2590,10 +2590,40 @@ public final class ComponentID {
      * 69:18
      */
     public static final int WORLD_SWITCHER_WORLD_LIST = 4522002;
-
     /**
      * 235:2
      */
     public static final int ZEAH_MESS_HALL_COOKING_DISPLAY = 15400962;
-
+    /**
+     * Prayer Components - (Not Generated)
+     */
+    public static final int THICK_SKIN_COMPONENT = 35454985;
+    public static final int BURST_OF_STRENGTH_COMPONENT = 35454986;
+    public static final int CLARITY_OF_THOUGHT_COMPONENT = 35454987;
+    public static final int SHARP_EYE_COMPONENT = 35455003;
+    public static final int MYSTIC_WILL_COMPONENT = 35455006;
+    public static final int ROCK_SKIN_COMPONENT = 35454988;
+    public static final long SUPER_HUMAN_STRENGTH_COMPONENT = 35454989;
+    public static final long IMPROVED_REFLEX_COMPONENT = 35454990;
+    public static final long RAPID_RESTORE_COMPONENT = 35454991;
+    public static final long RAPID_HEAL_COMPONENT = 35454992;
+    public static final long PROTECT_ITEM_COMPONENT = 35454993;
+    public static final long STEEL_SKIN_COMPONENT = 35454994;
+    public static final long ULTIMATE_STRENGTH_COMPONENT = 35454995;
+    public static final long INCREDIBLE_REFLEX_COMPONENT = 35454996;
+    public static final long PROTECT_FROM_MAGIC_COMPONENT = 35454997;
+    public static final long PROTECT_FROM_MISSILES_COMPONENT = 35454998;
+    public static final long PROTECT_FROM_MELEE_COMPONENT = 35454999;
+    public static final long RETRIBUTION_COMPONENT = 35455000;
+    public static final long SMITE_COMPONENT = 35455002;
+    public static final long HAWK_EYE_COMPONENT = 35455004;
+    public static final long MYSTIC_LORE_COMPONENT = 35455007;
+    public static final long EAGLE_EYE_COMPONENT = 35455005;
+    public static final long RIGOUR_COMPONENT = 35455009;
+    public static final long MYSTIC_MIGHT_COMPONENT = 35455008;
+    public static final long CHIVALRY_COMPONENT = 35455010;
+    public static final long PIETY_COMPONENT = 35455011;
+    public static final long AUGURY_COMPONENT = 35455012;
+    public static final long PRESERVE_COMPONENT = 35455013;
+    public static final int REDEMPTION_COMPONENT = 35455001;
 }

@@ -50,7 +50,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     EQUIPMENT_STATS(InterfaceID.EQUIPMENT_STATS),
     EXPERIENCE_TRACKER(InterfaceID.EXPERIENCE_TRACKER,InterfacePosition.XP_TRACKER),
     EXPERIENCE_TRACKER_SETUP(InterfaceID.XP_DROPS),
-    QUICK_PRAYERS(InterfaceID.QUICK_PRAYER,InterfacePosition.SINGLE_TAB),
+    QUICK_PRAYERS(InterfaceID.QUICK_PRAYER, InterfacePosition.SIDE_PRAYER),
     SKOTIZO_OVERLAY(InterfaceID.SKOTIZO,InterfacePosition.OVERLAY),
     WORLD_MAP(InterfaceID.WORLD_MAP,InterfacePosition.WORLD_MAP),
 

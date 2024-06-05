@@ -5,6 +5,7 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -31,8 +32,6 @@ import static com.cryptic.model.entity.combat.CombatFactory.MAGIC_COMBAT;
 
 public class MagicTab extends InterfaceBuilder {
 
-    private CommonCombatMethod commonCombatMethod;
-
     @Override
     public GameInterface gameInterface() {
         return GameInterface.SPELLBOOK_TAB;
@@ -40,7 +39,7 @@ public class MagicTab extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        player.varps().setVarp(4070, 1);
+        player.varps().setVarp(Varbits.SPELLBOOK, 1);
     }
 
 

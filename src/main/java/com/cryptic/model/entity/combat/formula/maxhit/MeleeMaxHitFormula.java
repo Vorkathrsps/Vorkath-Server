@@ -1,14 +1,14 @@
 package com.cryptic.model.entity.combat.formula.maxhit;
 
 import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.World;
 
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
@@ -60,15 +60,16 @@ public class MeleeMaxHitFormula {
 
     private static double getPrayerBonus(Player player) {
         double prayerBonus = 1;
-        if (Prayers.usingPrayer(player, Prayers.BURST_OF_STRENGTH)) {
+        PrayerManager prayer = player.getPrayer();
+        if (prayer.isPrayerActive(Prayer.BURST_OF_STRENGTH)) {
             prayerBonus *= 1.05;
-        } else if (Prayers.usingPrayer(player, Prayers.SUPERHUMAN_STRENGTH)) {
+        } else if (prayer.isPrayerActive(Prayer.SUPERHUMAN_STRENGTH)) {
             prayerBonus *= 1.10;
-        } else if (Prayers.usingPrayer(player, Prayers.ULTIMATE_STRENGTH)) {
+        } else if (prayer.isPrayerActive(Prayer.ULTIMATE_STRENGTH)) {
             prayerBonus *= 1.15;
-        } else if (Prayers.usingPrayer(player, Prayers.CHIVALRY)) {
+        } else if (prayer.isPrayerActive(Prayer.CHIVALRY)) {
             prayerBonus *= 1.18;
-        } else if (Prayers.usingPrayer(player, Prayers.PIETY)) {
+        } else if (prayer.isPrayerActive(Prayer.PIETY)) {
             prayerBonus *= 1.23;
         }
         return prayerBonus;

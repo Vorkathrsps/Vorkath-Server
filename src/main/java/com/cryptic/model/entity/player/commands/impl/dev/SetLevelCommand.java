@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.player.commands.impl.dev;
 
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.entity.player.commands.Command;
@@ -38,8 +37,7 @@ public class SetLevelCommand implements Command {
             }
 
             // Turn off prayers
-            Prayers.closeAllPrayers(player);
-
+            player.getPrayer().clear();
             player.getSkills().setXp(skill, Skills.levelToXp(Math.min(99, lvl)));
             player.getSkills().update();
             player.getSkills().recalculateCombat();

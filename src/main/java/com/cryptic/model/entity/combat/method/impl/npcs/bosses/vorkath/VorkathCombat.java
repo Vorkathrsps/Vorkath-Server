@@ -8,7 +8,8 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
@@ -165,9 +166,8 @@ public class VorkathCombat extends CommonCombatMethod {
                 Hit hit = new Hit(entity, target, delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 fireDamage(hit);
                 if (target.isPlayer()) {
-                    for (int i = 0; i < target.getAsPlayer().getPrayerActive().length; i++) {
-                        Prayers.deactivatePrayer(target, i);
-                    }
+                    PrayerManager prayer = target.getAsPlayer().getPrayer();
+                    prayer.clear();
                     target.getAsPlayer().message("Your prayers have been disabled!");
                 }
             }
@@ -193,7 +193,7 @@ public class VorkathCombat extends CommonCombatMethod {
             var antifire_charges = player.<Integer>getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             var hasShield = CombatConstants.hasAntiFireShield(player);
             var superAntifire = player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false);
-            var prayerProtection = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC);
+            var prayerProtection = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC);
 
             //If player is wearing a anti-dragon shield max hit is 20
             if (hasShield) {

@@ -6,7 +6,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.cryptic.model.entity.combat.magic.impl.CombatNormalSpell;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
@@ -1611,7 +1611,7 @@ public enum CombatSpells {
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
             if (hit.isAccurate()) {
-                castOn.teleblock(castOn.isPlayer() && Prayers.usingPrayer(castOn.player(), Prayers.PROTECT_FROM_MAGIC) ? 250 : 500);
+                castOn.teleblock(castOn.isPlayer() && castOn.player().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC) ? 250 : 500);
             }
         }
 

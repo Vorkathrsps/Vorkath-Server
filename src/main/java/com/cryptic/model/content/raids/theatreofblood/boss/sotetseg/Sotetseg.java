@@ -5,7 +5,7 @@ import com.cryptic.model.content.raids.theatreofblood.stage.RoomState;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
@@ -57,12 +57,12 @@ public class Sotetseg extends NPC {
                 if (randomProjectile == 1606) {
                     magicAttackCount++;
                 }
-                if (randomProjectile == 1606 && Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MISSILES)) {
-                    Prayers.closeAllPrayers(player);
+                if (randomProjectile == 1606 && player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
+                    player.getPrayer().clear();
                     player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
                     d.setDamage(Utils.random(1, 50));
-                } else if (randomProjectile == 1607 && Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
-                    Prayers.closeAllPrayers(player);
+                } else if (randomProjectile == 1607 && player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                    player.getPrayer().clear();
                     player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
                     d.setDamage(Utils.random(1, 50));
                 } else {

@@ -12,7 +12,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.ForceMovement;
 import com.cryptic.model.entity.masks.Projectile;
@@ -304,7 +304,7 @@ public final class Verzik extends NPC {
         int delay = projectile.send(this, target);
         Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         int damage = hit.getDamage();
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+        if (target.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
             hit.setDamage(0);
         }
         if (target.getEquipment().hasAt(EquipSlot.FEET, ItemIdentifiers.INSULATED_BOOTS)) {
@@ -319,7 +319,7 @@ public final class Verzik extends NPC {
         target = getEntity(player, target, lineOfSight);
         Projectile projectile = new Projectile(this, target, 1580, 20, duration, 100, 25, 20, 0, 5, 10);
         int delay = this.executeProjectile(projectile);
-        boolean isUsingPrayer = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC);
+        boolean isUsingPrayer = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC);
         int damage = Utils.random(10, 137);
         Hit hit = Hit.builder(this, target, isUsingPrayer ? (int) (damage * .50) : damage, delay, CombatType.MAGIC).setAccurate(true);
         hit.submit();
@@ -341,7 +341,7 @@ public final class Verzik extends NPC {
         projectile.send(this, target);
         Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         int damage = hit.getDamage();
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+        if (target.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
             hit.setDamage(0);
         }
         if (target.getEquipment().hasAt(EquipSlot.FEET, ItemIdentifiers.INSULATED_BOOTS)) {
@@ -354,7 +354,7 @@ public final class Verzik extends NPC {
         Chain.bound(this).name("VerzikToxicBlastTask").runFn(delay, () -> {
             if (player.tile().equals(projectile.getEnd())) {
                 int damage = Utils.random(1, 47);
-                if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MISSILES)) {
+                if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
                     player.hit(this, (int) (damage * 0.5));
                     return;
                 }
@@ -400,7 +400,7 @@ public final class Verzik extends NPC {
             projectile.send(this, p);
             int delay = (int) (projectile.getSpeed() / 25D);
             new Hit(this, target, delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(hit -> {
-                if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) hit.block();
+                if (p.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) hit.block();
             });
             p.graphic(1581, GraphicHeight.LOW, projectile.getSpeed());
         }
@@ -410,7 +410,7 @@ public final class Verzik extends NPC {
     private void sendMeleePhaseThree(Player target) {
         this.animate(8123);
         new Hit(this, target, 0, CombatType.MELEE).checkAccuracy(true).submit().postDamage(hit -> {
-            if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) hit.block();
+            if (target.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) hit.block();
         });
     }
 
@@ -427,7 +427,7 @@ public final class Verzik extends NPC {
             int delay = (int) (projectile.getSpeed() / 25D);
             Hit hit = Hit.builder(this, p, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
-            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
+            if (p.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
                 hit.block();
             }
         }

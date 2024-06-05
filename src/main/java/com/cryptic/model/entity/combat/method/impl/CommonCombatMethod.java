@@ -269,9 +269,6 @@ public abstract class CommonCombatMethod implements CombatMethod {
                 }
             }
         }
-        if (other.isPlayer()) {
-            other.getAsPlayer().setLastActiveOverhead();
-        }
         return true;
     }
 

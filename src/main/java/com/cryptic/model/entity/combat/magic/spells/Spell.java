@@ -140,7 +140,7 @@ public abstract class Spell {
                     combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
 
             final CombatSpell finalCombatSpell = combatSpell;
-            if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
+            /*if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
                 if (!player.getSpellbook().equals(combatSpell.spellbook())) {
                     Autocasting.setAutocast(player, null);
                     // player.getCombat().setPoweredStaffSpell(null);
@@ -148,7 +148,7 @@ public abstract class Spell {
                     player.message("This spell belongs to a different spellbook.");
                     return false;
                 }
-            }
+            }*/
 
             // Then we check the items required.
             final var itemsRequired = itemsRequired(player);

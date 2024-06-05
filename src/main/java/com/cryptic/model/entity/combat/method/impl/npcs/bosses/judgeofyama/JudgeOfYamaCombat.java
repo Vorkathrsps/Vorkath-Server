@@ -6,14 +6,12 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.masks.impl.tinting.Tinting;
-import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.chainedwork.Chain;
 
@@ -77,7 +75,7 @@ public class JudgeOfYamaCombat extends CommonCombatMethod {
             if (entity.isRegistered() && !entity.dead() && target.tile().inSqRadius(entity.tile(), 8)) {
                 target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
                 Hit hit = target.hit(entity, 40, delay, CombatType.MAGIC).setAccurate(true);
-                if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+                if (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                     hit.setDamage(20);
                 }
                 target.performGraphic(new Graphic(1430, GraphicHeight.LOW, delay));

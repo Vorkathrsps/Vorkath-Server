@@ -3,7 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -25,8 +25,8 @@ public class VoidWaker extends CommonCombatMethod {
         int finalDamage = (int) Math.floor(hitDamage);
         entity.submitAccurateHit(target, 0, finalDamage, this)
             .postDamage(d -> {
-                if (target instanceof Player) {
-                    if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) d.setDamage(d.getDamage() / 2);
+                if (target instanceof Player player) {
+                    if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) d.setDamage(d.getDamage() / 2);
                 }
             });
         CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());

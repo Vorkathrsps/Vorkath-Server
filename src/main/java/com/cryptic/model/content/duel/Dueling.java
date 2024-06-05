@@ -15,7 +15,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
@@ -861,7 +860,7 @@ public class Dueling {
         player.setSpecialAttackPercentage(100);//Set special to 100%
         CombatSpecial.updateBar(player);
         player.getCombat().clearDamagers(); //Clear damagers
-        Prayers.closeAllPrayers(player); //Disable all prayers
+        player.getPrayer().clear();
         player.hp(100, 0); //Set hitpoints to 100%
         EffectTimer.clearTimers(player);
     }
@@ -985,7 +984,7 @@ public class Dueling {
         Poison.cure(player);
         WeaponInterfaces.updateWeaponInterface(player);
         Skulling.unskull(player);
-        Prayers.closeAllPrayers(player);
+        player.getPrayer().clear();
         player.getSkills().resetStats();
         player.getCombat().setPoweredStaffSpell(null);
         player.getCombat().setRangedWeapon(null);

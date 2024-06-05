@@ -3,15 +3,14 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import lombok.Getter;
 import lombok.Setter;
-
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public final class MagicAccuracy implements AbstractAccuracy {
 
@@ -72,10 +71,11 @@ public final class MagicAccuracy implements AbstractAccuracy {
     public double getPrayerBonusAttacker() {
         double prayerBonus = 1D;
         if (this.attacker instanceof Player player) {
-            if (Prayers.usingPrayer(player, MYSTIC_WILL)) prayerBonus *= 1.05D; // 5% magic level boost
-            else if (Prayers.usingPrayer(player, MYSTIC_LORE)) prayerBonus *= 1.10D; // 10% magic level boost
-            else if (Prayers.usingPrayer(player, MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
-            else if (Prayers.usingPrayer(player, AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
+            PrayerManager prayer = player.getPrayer();
+            if (prayer.isPrayerActive(Prayer.MYSTIC_WILL)) prayerBonus *= 1.05D; // 5% magic level boost
+            else if (prayer.isPrayerActive(Prayer.MYSTIC_LORE)) prayerBonus *= 1.10D; // 10% magic level boost
+            else if (prayer.isPrayerActive(Prayer.MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
+            else if (prayer.isPrayerActive(Prayer.AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
         }
         return prayerBonus;
     }
@@ -84,7 +84,8 @@ public final class MagicAccuracy implements AbstractAccuracy {
     public double getPrayerBonusDefender() {
         double prayerBonus = 1D;
         if (this.defender instanceof Player) {
-            if (Prayers.usingPrayer(this.defender, AUGURY)) prayerBonus *= 1.25D;
+            PrayerManager prayer = this.defender.getAsPlayer().getPrayer();
+            if (prayer.isPrayerActive(Prayer.AUGURY)) prayerBonus *= 1.25D;
         }
         return prayerBonus;
     }

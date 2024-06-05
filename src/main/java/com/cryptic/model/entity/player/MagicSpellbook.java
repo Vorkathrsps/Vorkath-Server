@@ -1,6 +1,8 @@
 package com.cryptic.model.entity.player;
 
+import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
+import com.cryptic.utility.Varbit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,35 +69,27 @@ public enum MagicSpellbook {
         if (book == LUNAR) {
             if (player.getSkills().level(Skills.DEFENCE) < 40) {
                 player.message("You need at least level 40 Defence to use the Lunar spellbook.");
-                //System.out.println(player.getUsername() + " needs at least level 40 Defence to use the Lunar spellbook.");
                 return;
             }
         }
 
         player.setSpellbook(book);
-
         Autocasting.setAutocast(player, null);
 
         if (notify) {
             player.message("You have changed your magic spellbook.");
         }
 
-        //Send the new spellbook interface to the client side tabs
-        player.getInterfaceManager().setSidebar(6, player.getSpellbook().getInterfaceId());
-
-        int id = player.getSpellbook().getInterfaceId();
-
-
-        if (id == 29999) {
-            player.getPacketSender().updateTab(2, 0);
-        } else if (id == 838) {
-            player.getPacketSender().updateTab(1, 0);
-        } else if (id == 938) {
-            player.getPacketSender().updateTab(0, 0);
-        } else if (id == 839) {
-            player.getPacketSender().updateTab(3, 0);
-        } else {
-            LogManager.getLogger(MagicSpellbook.class).error("For some reason, the spellbook interface ID for " + player.getUsername() + " is " + id);
+        if (book == MagicSpellbook.NORMAL) {
+            player.varps().setVarbit(Varbit.SPELLBOOK, 0);
+        } else if (book == MagicSpellbook.ANCIENTS) {
+            player.varps().setVarbit(Varbit.SPELLBOOK, 1);
+            player.varps().setVarbit(Varbits.DESERT_TREASURE, 15);
+        } else if (book == MagicSpellbook.LUNAR) {
+            player.varps().setVarbit(Varbit.SPELLBOOK, 2);
+            player.varps().setVarbit(Varbits.LUNAR_DIPLOMACY, 28);
+        } else if (book == MagicSpellbook.ARCEUUS) {
+            player.varps().setVarbit(Varbit.SPELLBOOK, 3);
         }
     }
 }

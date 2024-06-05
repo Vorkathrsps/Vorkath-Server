@@ -392,11 +392,6 @@ public class NPCDeath {
                 }
             }
 
-            //Do bots death
-            if (npc.getBotHandler() != null) {
-                npc.getBotHandler().onDeath(killer);
-            }
-
             var killerOpp = killer.<Entity>getAttribOr(AttributeKey.LAST_DAMAGER, null);
             if (killer.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0 && killerOpp != null && killerOpp == npc) { // Last fighting with this dead npc.
                 killer.clearAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME); // Allow instant aggro from other npcs/players.

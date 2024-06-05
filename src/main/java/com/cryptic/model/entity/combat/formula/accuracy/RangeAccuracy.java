@@ -4,7 +4,8 @@ import com.cryptic.model.World;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -12,14 +13,17 @@ import com.cryptic.model.entity.player.Skills;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 
 public class RangeAccuracy implements AbstractAccuracy {
 
-    @Getter @Setter public int modifier;
-    @Getter @Setter Entity attacker, defender;
+    @Getter
+    @Setter
+    public int modifier;
+    @Getter
+    @Setter
+    Entity attacker, defender;
     CombatType combatType;
+
     public RangeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
         this.defender = defender;
@@ -70,10 +74,16 @@ public class RangeAccuracy implements AbstractAccuracy {
     public double getPrayerBonusAttacker() {
         double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.attacker, SHARP_EYE)) prayerBonus *= 1.05D; // 5% range level boost
-            else if (Prayers.usingPrayer(this.attacker, HAWK_EYE)) prayerBonus *= 1.10D; // 10% range level boost
-            else if (Prayers.usingPrayer(this.attacker, EAGLE_EYE)) prayerBonus *= 1.15D; // 15% range level boost
-            else if (Prayers.usingPrayer(this.attacker, RIGOUR)) prayerBonus *= 1.20D; // 20% range level boost
+            PrayerManager prayer = this.attacker.getAsPlayer().getPrayer();
+            if (prayer.isPrayerActive(Prayer.SHARP_EYE)) {
+                prayerBonus *= 1.05D;
+            } else if (prayer.isPrayerActive(Prayer.HAWK_EYE)) {
+                prayerBonus *= 1.10D;
+            } else if (prayer.isPrayerActive(Prayer.EAGLE_EYE)) {
+                prayerBonus *= 1.15D;
+            } else if (prayer.isPrayerActive(Prayer.RIGOUR)) {
+                prayerBonus *= 1.20D;
+            }
         }
         return prayerBonus;
     }
@@ -81,7 +91,7 @@ public class RangeAccuracy implements AbstractAccuracy {
     @Override
     public double getPrayerBonusDefender() {
         double prayerBonus = 1D;
-        if (defender instanceof Player) if (Prayers.usingPrayer(attacker, RIGOUR)) prayerBonus *= 1.25D;
+        if (defender instanceof Player) if (defender.getAsPlayer().getPrayer().isPrayerActive(Prayer.RIGOUR)) prayerBonus *= 1.25D;
         return prayerBonus;
     }
 

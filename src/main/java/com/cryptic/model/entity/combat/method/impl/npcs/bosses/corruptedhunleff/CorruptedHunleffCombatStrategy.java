@@ -9,7 +9,6 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -132,7 +131,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if(hit.isAccurate()) {
-            Prayers.closeAllPrayers(target);
+            target.getPrayer().clear();
             if(target.isPlayer()) {
                 target.message(Color.RED.wrap("Your prayers have been disabled"));
             }

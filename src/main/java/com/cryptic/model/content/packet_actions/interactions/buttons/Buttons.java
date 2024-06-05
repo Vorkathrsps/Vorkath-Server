@@ -20,7 +20,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.combat.magic.spells.MagicClickSpells;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.MagicSpellbook;
@@ -310,9 +309,6 @@ public class Buttons {
                     player.getTaskMasterManager().claimReward();
                     return;
                 }
-                if (player.getQuickPrayers().handleButton(button)) {
-                    return;
-                }
                 if (TradingPost.handleButtons(player, button))
                     return;
                 if (player.getSlayerRewards().handleButtonInteraction(player, button)) {
@@ -440,9 +436,6 @@ public class Buttons {
                 }
                 BankPin bankPin = player.getBankPin();
                 if (bankPin.isEnteringPin() && bankPin.getPinInterface().enterDigit(button)) {
-                    return;
-                }
-                if (Prayers.togglePrayer(player, button)) {
                     return;
                 }
                 if (Autocasting.handleLegacyAutocast(player, button)) {

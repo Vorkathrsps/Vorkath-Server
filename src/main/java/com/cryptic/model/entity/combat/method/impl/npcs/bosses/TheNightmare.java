@@ -12,7 +12,6 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.EntityCombatBuilder;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.HealthHud;
@@ -149,7 +148,7 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     private void curse() {
-        Chain.noCtx().cancelWhen(() -> cursedCount.get() >= 5).repeatingTask(1, curseCount -> {
+        /*Chain.noCtx().cancelWhen(() -> cursedCount.get() >= 5).repeatingTask(1, curseCount -> {
             cursedCount.getAndIncrement();
             cursed.getAndSet(true);
 
@@ -179,7 +178,7 @@ public class TheNightmare extends CommonCombatMethod {
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void flowerPower() {

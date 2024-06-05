@@ -7,7 +7,7 @@ import com.cryptic.model.entity.combat.CombatConstants;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
@@ -78,7 +78,7 @@ public class MithrilDragonCombat extends CommonCombatMethod {
                 max_damage *= 0.10D;
             }
 
-            if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
+            if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                 player.message("Your prayer absorbs most of the dragon's breath!");
                 max_damage *= 0.60D;
             }

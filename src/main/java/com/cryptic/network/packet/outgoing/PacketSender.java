@@ -376,9 +376,9 @@ public final class PacketSender {
     }
 
     public PacketSender sendAutocastId(int id) {
-        PacketBuilder out = new PacketBuilder(38);
-        out.putShort(id);
-        player.getSession().write(out);
+//        PacketBuilder out = new PacketBuilder(38);
+//        out.putShort(id);
+//        player.getSession().write(out);
         return this;
     }
 

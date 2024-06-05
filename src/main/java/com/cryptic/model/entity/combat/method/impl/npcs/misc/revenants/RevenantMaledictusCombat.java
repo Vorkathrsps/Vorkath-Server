@@ -5,7 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
@@ -86,7 +86,7 @@ public class RevenantMaledictusCombat extends CommonCombatMethod {
 
         Chain.noCtx().runFn(delay, () -> {
             if (target.tile().inSqRadius(targetTile, 2)) {
-                if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+                if (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                     target.hit(npc, damage / 2);
                 } else {
                     target.hit(npc, damage);
@@ -106,7 +106,7 @@ public class RevenantMaledictusCombat extends CommonCombatMethod {
         var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
         Projectile p = new Projectile(tile, target, 2033, 41, duration, 40, 36, 15, 5, 5);
         final int delay = npc.executeProjectile(p);
-        var damage = (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) ? Utils.random(1, 15) : Utils.random(1, 30);
+        var damage = (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) ? Utils.random(1, 15) : Utils.random(1, 30);
         if (npc.getAnimation().getId() == animations[1]) {
             target.hit(npc, damage, delay);
             if (damage > 1) {
@@ -114,7 +114,7 @@ public class RevenantMaledictusCombat extends CommonCombatMethod {
             }
         } else if (npc.getAnimation().getId() == animations[0]) {
             target.hit(npc, damage, delay);
-            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) && !target.frozen()) {
+            if (!target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC) && !target.frozen()) {
                 target.freeze(15, npc, false);
             }
         }

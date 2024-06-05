@@ -26,7 +26,7 @@ public class Skulling {
      * context or if we're just giving the player a skull status with no player interaction.
      */
     public static void skull(Player attacker, Entity target, SkullType skullType) {
-        if (target == null || attacker.dead() || attacker.getGameMode().isIronman() || (!target.isPlayer() && target.getAsNpc().getBotHandler() == null)) {
+        if (target == null || attacker.dead() || attacker.getGameMode().isIronman()) {
             return;
         }
 

@@ -111,4 +111,64 @@ public class InventoryInterface extends InterfaceBuilder {
             }
         }
     }
+
+    @Override
+    public void onTargetButton(Player player, int selectedButton, int selectedSlot, int selectedItemId, int targetButton, int targetSlot, int targetItemId) {
+        if (selectedButton != ComponentID.INVENTORY_CONTAINER || targetButton != ComponentID.INVENTORY_CONTAINER) {
+            return;
+        }
+
+        if (player.locked() || player.dead()) {
+            return;
+        }
+
+        Inventory inventory = player.getInventory();
+        if (selectedSlot < 0 || selectedSlot >= inventory.capacity() || targetSlot < 0 || targetSlot >= inventory.capacity()) {
+            return;
+        }
+
+        if (selectedSlot == targetSlot) {
+            return;
+        }
+
+        Item selected = inventory.get(selectedSlot);
+        Item targeted = inventory.get(targetSlot);
+        if (selected == null || targeted == null || selected.getId() != selectedItemId || targeted.getId() != targetItemId) {
+            inventory.refresh();
+            return;
+        }
+
+        player.stopActions(false);
+        player.putAttrib(AttributeKey.ITEM_SLOT, selectedSlot);
+        player.putAttrib(AttributeKey.ALT_ITEM_SLOT, targetSlot);
+        player.putAttrib(AttributeKey.FROM_ITEM, selected);
+        player.putAttrib(AttributeKey.TO_ITEM, targeted);
+        player.putAttrib(AttributeKey.ITEM_ID, selected.getId());
+        player.putAttrib(AttributeKey.ALT_ITEM_ID, targeted.getId());
+
+        player.afkTimer.reset();
+
+        // Block packet when the bank pin hasn't been entered yet
+        if (!player.getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
+            player.getBankPin().openIfNot();
+            return;
+        }
+
+        if(player.askForAccountPin()) {
+            player.sendAccountPinMessage();
+            return;
+        }
+
+        ItemOnItem.itemOnItem(player, selected, targeted);
+    }
+
+    @Override
+    public void onDrag(Player player, int fromButton, int fromSlot, int fromItemId, int toButton, int toSlot, int toItemId) {
+        Inventory inventory = player.getInventory();
+        if (fromSlot < 0 || fromSlot >= inventory.capacity() || toSlot < 0 || toSlot >= inventory.capacity()) {
+            return;
+        }
+
+        inventory.swap(fromSlot, toSlot, true);
+    }
 }

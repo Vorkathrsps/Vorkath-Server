@@ -11,7 +11,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.FaceDirection;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -456,8 +456,10 @@ public class NexCombat extends CommonCombatMethod {
             } else if (t.tile().distance(nex.tile()) > 6) {
                 damage = RANGED_ATTACK_MAX - 30;
             }
-            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
-                damage = damage / 2;
+            if (t instanceof Player player) {
+                if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
+                    damage = damage / 2;
+                }
             }
             t.hit(nex, World.getWorld().random(damage), delay, CombatType.RANGED).ignorePrayer().checkAccuracy(true).postDamage(h -> {
                 // Successful hits can drain prayer points slightly, which can be reduced by the spectral spirit shield.
@@ -547,8 +549,8 @@ public class NexCombat extends CommonCombatMethod {
         if (target.tile().distanceTo(nex.tile()) < 6) {
             return;
         }
-        var drag = World.getWorld().rollDie(Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) ? 4 : 8);
-        if (target.isPlayer() && drag) {
+        //var drag = World.getWorld().rollDie(Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) ? 4 : 8);
+        if (target.isPlayer()) {
             int vecX = (nex.getAbsX() - Utils.getClosestX(nex, target.tile()));
             int vecY = (nex.getAbsY() - Utils.getClosestY(nex, target.tile()));
             FaceDirection dir;
@@ -647,11 +649,13 @@ public class NexCombat extends CommonCombatMethod {
             Projectile p = new Projectile(nex, t, 362, 51, duration, 43, 31, 0, t.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
-                if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
-                    h.getTarget().graphic(2005, GraphicHeight.MIDDLE, p.getSpeed());
-                    h.getTarget().freeze(33, nex, true);
-                    int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
-                    h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
+                if (t instanceof Player player) {
+                    if (h.isAccurate() && !player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                        h.getTarget().graphic(2005, GraphicHeight.MIDDLE, p.getSpeed());
+                        h.getTarget().freeze(33, nex, true);
+                        int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
+                        h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
+                    }
                 }
             }).submit();
         }
@@ -683,9 +687,10 @@ public class NexCombat extends CommonCombatMethod {
         }).then(7, () -> {
             for (Tile tile : tiles) {
                 getPossibleTargets(nex).forEach(t -> {
+                    if (t instanceof Player player)
                     if (tile.isWithinDistance(t.tile(), 5) && !nex.stalagmiteDestroyed) {
                         CombatFactory.disableProtectionPrayers((Player) t);
-                        int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? CONTAINMENT_SPECIAL_ATTACK_MAX / 2 : CONTAINMENT_SPECIAL_ATTACK_MAX;
+                        int damage = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES) ? CONTAINMENT_SPECIAL_ATTACK_MAX / 2 : CONTAINMENT_SPECIAL_ATTACK_MAX;
                         Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
                         hit.submit();
                     }
@@ -724,11 +729,13 @@ public class NexCombat extends CommonCombatMethod {
             for (Tile tile : tiles) {
 
                 getPossibleTargets(nex).forEach(t -> {
-                    if (tile.isWithinDistance(t.tile(), 3) && !nex.stalagmiteDestroyed) {
-                        CombatFactory.disableProtectionPrayers((Player) t);
-                        int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? ICE_PRISON_SPECIAL_ATTACK_MAX / 2 : ICE_PRISON_SPECIAL_ATTACK_MAX;
-                        Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
-                        hit.submit();
+                    if (t instanceof Player player) {
+                        if (tile.isWithinDistance(t.tile(), 3) && !nex.stalagmiteDestroyed) {
+                            CombatFactory.disableProtectionPrayers((Player) t);
+                            int damage = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES) ? ICE_PRISON_SPECIAL_ATTACK_MAX / 2 : ICE_PRISON_SPECIAL_ATTACK_MAX;
+                            Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
+                            hit.submit();
+                        }
                     }
                 });
                 break;

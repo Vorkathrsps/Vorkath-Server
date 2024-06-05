@@ -10,7 +10,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.Projectile;
@@ -426,7 +426,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                 Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, 25, duration, 80, 31, 12, npc.getSize(), 48, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
-                if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
+                if (p.getPrayer().isPrayerActive(lastBasicAttackStyle == CombatType.RANGED ? Prayer.PROTECT_FROM_MISSILES : Prayer.PROTECT_FROM_MAGIC))
                     maxDamage /= 4;
                 Hit hit = p.hit(npc, World.getWorld().random(maxDamage), lastBasicAttackStyle).clientDelay(delay).checkAccuracy(true);
                 hit.submit();
@@ -444,34 +444,34 @@ public class GreatOlmCombat extends CommonCombatMethod {
             Projectile projectile;
             var tileDist = entity.tile().distance(target.tile());
             int duration = (51 + 11 + (10 * tileDist));
-            int prayer;
+            Prayer prayer;
             int hitGfx;
             switch (style) {
                 case MAGIC -> {
                     message = Color.PURPLE.wrap("The Great Olm fires a sphere of magical power your way.");
                     projectile = new Projectile(npc, target, 1341, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1342;
-                    prayer = Prayers.PROTECT_FROM_MAGIC;
+                    prayer = Prayer.PROTECT_FROM_MAGIC;
                 }
                 case RANGED -> {
                     message = Color.DARK_GREEN.wrap("The Great Olm fires a sphere of accuracy and dexterity your way.");
                     projectile = new Projectile(npc, target, 1343, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1344;
-                    prayer = Prayers.PROTECT_FROM_MISSILES;
+                    prayer = Prayer.PROTECT_FROM_MISSILES;
                 }
                 case MELEE -> {
                     message = Color.RED.wrap("The Great Olm fires a sphere of aggression your way.");
                     projectile = new Projectile(npc, target, 1345, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1346;
-                    prayer = Prayers.PROTECT_FROM_MELEE;
+                    prayer = Prayer.PROTECT_FROM_MELEE;
                 }
                 default -> {
                     return;
                 }
             }
-            if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
+            if (target.getPrayer().isPrayerActive(prayer)) {
                 target.skills().alterSkill(Skills.PRAYER, Math.max(1, target.skills().level(Skills.PRAYER)) / 2);
-                Prayers.closeAllPrayers(target);
+                target.getPrayer().clear();
                 message += " Your prayers have been sapped.";
             }
             final int delay = entity.executeProjectile(projectile);
@@ -479,7 +479,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
             target.message(message);
 
             Chain.noCtx().delay(4, () -> {
-                if (!Prayers.usingPrayer(target, prayer)) {
+                if (!target.getPrayer().isPrayerActive(prayer)) {
                     target.hit(npc, World.getWorld().random((Math.min(200, target.hp() / 2))), delay);
                 }
             });

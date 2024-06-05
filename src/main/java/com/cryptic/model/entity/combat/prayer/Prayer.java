@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.combat.prayer.newprayer;
+package com.cryptic.model.entity.combat.prayer;
 
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.utility.Utils;
@@ -8,8 +8,6 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Arrays;
 
 @Getter
 public enum Prayer {

@@ -4,9 +4,9 @@ import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -131,7 +131,7 @@ public class ItemsKeptOnDeath {
             itemsKept = 0;
         }
 
-        boolean protection_prayer = Prayers.usingPrayer(player, Prayers.PROTECT_ITEM);
+        boolean protection_prayer = player.getPrayer().isPrayerActive(Prayer.PROTECT_ITEM);
 
         if (protection_prayer) {
             itemsKept++;

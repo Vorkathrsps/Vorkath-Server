@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl;
 
-import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
@@ -21,7 +20,6 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -42,13 +40,19 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 spell = player.getCombat().getPoweredStaffSpell();
             }
         }
-        if (spell == null) return false;
+        if (spell == null) {
+            System.out.println("null spell?");
+            return false;
+        }
 
         if (player.getDialogueManager().isActive()) {
             player.getDialogueManager().interrupt();
         }
 
         int spellId = spell.spellId();
+
+        System.out.println(spellId);
+
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
         boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENTS;
         boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A, CORRUPTED_TUMEKENS_SHADOW, STARTER_STAFF,THAMMARONS_SCEPTRE);
@@ -68,10 +72,10 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (!canCast || target.dead() || player.dead()) return false;
         GraphicHeight startGraphicHeight = (hasTumeken && spell.spellId() == 6) ? GraphicHeight.LOW : GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellId, endGraphicHeight);
+        ModernSpells findProjectileDataModern = ModernSpells.findSpell(spellId, endGraphicHeight);
         AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellId, startGraphicHeight, endGraphicHeight);
         AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellId, endGraphicHeight);
-        if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
+        if (findProjectileDataModern != null && spell.spellId() == findProjectileDataModern.spellID) {
             projectile = findProjectileDataModern.projectile;
             startgraphic = findProjectileDataModern.startGraphic;
             castAnimation = findProjectileDataModern.castAnimation;

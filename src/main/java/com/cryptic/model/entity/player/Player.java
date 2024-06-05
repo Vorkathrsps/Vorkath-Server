@@ -3,6 +3,7 @@ package com.cryptic.model.entity.player;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.impl.equipment.util.ToggleManager;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.*;
@@ -74,16 +75,15 @@ import com.cryptic.model.entity.NodeType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.Venom;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.perilsofmoon.PerilOfMoonInstance;
-import com.cryptic.model.entity.combat.prayer.QuickPrayers;
-import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.combat.prayer.newprayer.PrayerManager;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
@@ -257,6 +257,8 @@ public class Player extends Entity {
     @Getter
     @Setter
     RaidParty raidParty;
+
+    @Getter ToggleManager toggleManager = new ToggleManager();
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -1146,8 +1148,16 @@ public class Player extends Entity {
         if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             if (npc.id() == NpcIdentifiers.TZTOKJAD) {
-                if (Prayers.usingPrayer(this, Prayers.getProtectingPrayer(hit.getCombatType(), this))) {
-                    hit.setDamage(0);
+                if (this instanceof Player player) {
+                    if (hit.getCombatType() == CombatType.RANGED && player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
+                        hit.setDamage(0);
+                    }
+                    if (hit.getCombatType() == CombatType.MELEE && player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MELEE)) {
+                        hit.setDamage(0);
+                    }
+                    if (hit.getCombatType() == CombatType.MAGIC && player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                        hit.setDamage(0);
+                    }
                 }
             }
         }
@@ -1633,7 +1643,6 @@ public class Player extends Entity {
         PacketInteractionManager.onLogin(player);
         TournamentManager.onLogin1(player);
         //DailyTaskManager.onLogin(player);
-        Prayers.onLogin(player);
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);
         ControllerManager.process(player);
@@ -1645,8 +1654,8 @@ public class Player extends Entity {
         relations.setPrivateMessageId(1);
         relations.onLogin();
         getMovementQueue().clear();
-        packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).sendRunStatus().sendRunEnergy((int) energy);
-        Prayers.closeAllPrayers(this);
+        //packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).sendRunStatus().sendRunEnergy((int) energy);
+        getPrayer().clear();
         setHeadHint(-1);
         skills.update();
         farming.handleLogin();
@@ -2131,8 +2140,7 @@ public class Player extends Entity {
         setSpecialAttackPercentage(100);
         setSpecialActivated(false);//Disable special attack
         CombatSpecial.updateBar(this);
-        Prayers.closeAllPrayers(this);//Disable all prayers
-
+        getPrayer().clear();
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(this);
         getMovementQueue().setBlockMovement(false).clear();
@@ -2172,8 +2180,7 @@ public class Player extends Entity {
     }
 
     private final PlayerRelations relations = new PlayerRelations(this);
-    @Getter
-    private final QuickPrayers quickPrayers = new QuickPrayers(this);
+
     private Session session;
     @Getter
     private PlayerInteractingOption playerInteractingOption = PlayerInteractingOption.NONE;
@@ -2254,11 +2261,11 @@ public class Player extends Entity {
             getLootingBag().dirty = false;
         }
         skills.syncDirty();
-        if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
+        if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (getPrayer().isPrayerActive(Prayer.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
             this.skills.replenishStats();
             if (!this.increaseStats.active()) this.increaseStats.start(60);
-            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))
-                this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
+            if (this.decreaseStats.secondsElapsed() >= (getPrayer().isPrayerActive(Prayer.PRESERVE) ? 90 : 60))
+                this.decreaseStats.start((getPrayer().isPrayerActive(Prayer.PRESERVE) ? 90 : 60));
         }
         var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
         if (staminaTicks > 0) {
@@ -3108,7 +3115,6 @@ public class Player extends Entity {
             this.getCombat().process();
             this.handleLastRegion();
             this.getPrayer().process();
-            Prayers.drainPrayer(this); //TODO deprecated
             if (queuedAppearanceUpdate()) {
                 this.getUpdateFlag().flag(Flag.APPEARANCE);
                 this.setQueuedAppearanceUpdate(false);
@@ -3131,17 +3137,6 @@ public class Player extends Entity {
             MultiwayCombat.refresh(this, lastregion, lastChunk);
         this.putAttrib(AttributeKey.LAST_REGION, tile.region());
         this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
-    }
-
-    public int lastActiveOverhead;
-
-    public void setLastActiveOverhead() {
-        boolean[] actives = getPrayerActive();
-        int forLastActive = -1;
-        if (actives[16]) forLastActive = Prayers.PROTECT_FROM_MAGIC;
-        if (actives[17]) forLastActive = Prayers.PROTECT_FROM_MISSILES;
-        if (actives[18]) forLastActive = Prayers.PROTECT_FROM_MELEE;
-        lastActiveOverhead = forLastActive;
     }
 
     void updateQuestTab() {

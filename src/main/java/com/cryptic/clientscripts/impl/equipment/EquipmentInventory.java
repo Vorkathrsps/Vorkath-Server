@@ -1,5 +1,6 @@
 package com.cryptic.clientscripts.impl.equipment;
 
+import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.clientscripts.interfaces.EventNode;

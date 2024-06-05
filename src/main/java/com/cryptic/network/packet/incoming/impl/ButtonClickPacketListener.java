@@ -8,7 +8,6 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.packet_actions.interactions.buttons.Buttons;
 import com.cryptic.core.task.Task;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.items.Item;
@@ -55,6 +54,7 @@ public class ButtonClickPacketListener implements PacketListener {
 
     public static final int[] ALL = new int[]{2494, 2495, 2496, 2497, 2498, 2482, 2483, 2484, 2485, 2471, 2472, 2473, 2461, 2462, 2458, 24492};
     public static final int[] TELEPORT_BUTTONS = new int[]{13035, 13045, 13053, 13061, 13069, 13079, 13087, 13095, 1164, 1167, 1170, 1174, 1541, 7455, 31674, 30064, 30075, 30083, 30106, 30114, 30138, 30146, 30162, 30170, 30226, 30250, 30258, 30266, 30274, 40305, 40307, 40308, 40309, 40310, 40312, 40316, 40323, 40326, 40334, 40343};
+
     public static void main(String[] args) {
         final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0, (byte) 0, (byte) 101, (byte) -9}));
         int r = packet.readInt();
@@ -144,47 +144,39 @@ public class ButtonClickPacketListener implements PacketListener {
         if (player.locked()) {
             // unique case: since prayers always 'activate' when clicked client side, we'll try to just wait until
             // we unlock and trigger the button so the client stays in sync.
-            DefaultPrayerData defaultPrayerData = DefaultPrayerData.getActionButton().get(button);
-            if (defaultPrayerData != null) {
 
-                // store btn
-                HashSet<Integer> clicks = player.<HashSet<Integer>>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, new HashSet<Integer>());
-                clicks.add(button); // one task but you can spam different prayers. queue them all up until task is over.
-                player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, clicks);
+            // store btn
+            HashSet<Integer> clicks = player.<HashSet<Integer>>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, new HashSet<Integer>());
+            clicks.add(button); // one task but you can spam different prayers. queue them all up until task is over.
+            player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, clicks);
 
-                // fetch task
-                Task task = player.<Task>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, null);
-                if (task == null) {
+            // fetch task
+            Task task = player.<Task>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, null);
+            if (task == null) {
 
-                    // build task logic
-                    task = Task.repeatingTask(t -> {
+                // build task logic
+                task = Task.repeatingTask(t -> {
 
-                        // this is a long ass pause homie
-                        if (t.tick > 10) {
-                            t.stop();
-                            player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
-                            for (Integer click : clicks) {
-                                DefaultPrayerData p1 = DefaultPrayerData.getActionButton().get(click);
-                                if (p1 != null) // resync previous state
-                                    player.getPacketSender().sendConfig(p1.getConfigId(), player.getPrayerActive()[p1.ordinal()] ? 1 : 0);
-                            }
-                            clicks.clear();
-                            return;
+                    // this is a long ass pause homie
+                    if (t.tick > 10) {
+                        t.stop();
+                        player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
+                        clicks.clear();
+                        return;
+                    }
+
+                    // tele has finished or w.e was locking us
+                    if (!player.locked()) {
+                        t.stop();
+                        player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
+                        // now trigger we are unlocked
+                        for (Integer click : clicks) {
+                            parseButtonPacket(player, click);
                         }
-
-                        // tele has finished or w.e was locking us
-                        if (!player.locked()) {
-                            t.stop();
-                            player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
-                            // now trigger we are unlocked
-                            for (Integer click : clicks) {
-                                parseButtonPacket(player, click);
-                            }
-                            clicks.clear();
-                        }
-                    });
-                    player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, task);
-                }
+                        clicks.clear();
+                    }
+                });
+                player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, task);
             }
             return;
         }

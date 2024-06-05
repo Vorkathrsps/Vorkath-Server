@@ -7,15 +7,12 @@ import com.cryptic.model.content.areas.wilderness.content.activity.WildernessAct
 import com.cryptic.model.content.areas.wilderness.content.activity.impl.EdgevileActivity;
 import com.cryptic.model.content.areas.wilderness.content.activity.impl.PureActivity;
 import com.cryptic.model.content.areas.wilderness.content.activity.impl.ZerkerActivity;
-import com.cryptic.model.content.daily_tasks.DailyTaskManager;
-import com.cryptic.model.content.daily_tasks.DailyTasks;
-import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.tasks.Requirements;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatConstants;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
@@ -30,7 +27,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.*;
-import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -311,7 +307,7 @@ public class PlayerKillingRewards {
             player.getTaskMasterManager().increase(Tasks.WEAR_FULL_DH_TASK);
         }
 
-        if (Requirements.bmRisk(player) > 20_000 && !Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) {
+        if (Requirements.bmRisk(player) > 20_000 && !player.getPrayer().isPrayerActive(Prayer.PROTECT_ITEM)) {
             player.getTaskMasterManager().increase(Tasks.KILL_WITH_20K_BM_RISK);
         }
 

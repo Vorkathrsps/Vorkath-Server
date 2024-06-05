@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.player.commands;
 
 import com.cryptic.GameConstants;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
@@ -25,12 +26,12 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
+import com.cryptic.model.entity.combat.magic.data.ModernSpells;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
@@ -59,6 +60,8 @@ import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.tools.KtCommands;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -620,38 +623,7 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            ScurriusCombat.HealState state;
-            NPC npc = new NPC(7221, p.tile()).spawn(false);
-            state = ScurriusCombat.HealState.THREE;
-            if (state.equals(ScurriusCombat.HealState.ONE)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3298, 9873);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
-            } else if (state.equals(ScurriusCombat.HealState.TWO)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3303, 9867);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
-            } else if (state.equals(ScurriusCombat.HealState.THREE)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3298, 9855);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
-            }
-            Chain.noCtx().runFn(15, npc::remove);
+            System.out.println(p.getSpellbook());
         });
 
         dev("c3", (p, c, s) -> {
@@ -985,7 +957,7 @@ public class CommandManager {
         dev("curseoff", (p, c, s) ->
 
         {
-            p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
+           /* p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
             p.message("curse off");
 
             if (!p.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
@@ -1009,7 +981,7 @@ public class CommandManager {
                 prayerMap.put(CombatType.RANGED, Prayers.PROTECT_FROM_MISSILES);
             }
 
-            p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));
+            p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));*/
 
         });
 

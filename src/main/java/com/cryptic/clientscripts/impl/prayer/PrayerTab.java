@@ -4,8 +4,8 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
-import com.cryptic.model.entity.combat.prayer.newprayer.Prayer;
-import com.cryptic.model.entity.combat.prayer.newprayer.PrayerManager;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.WidgetUtil;
 
@@ -29,8 +29,22 @@ public class PrayerTab extends InterfaceBuilder {
         }
 
         Prayer prayer = player.getPrayer().getPrayer(button);
-        if (prayer != null) player.getPrayer().activate(prayer);
 
+        if (prayer != null) {
+            if (player.getPrayer().getSkillLevel() <= prayer.getLevel()) {
+                player.message("You do not meet the requirements to activate this Prayer.");
+                player.sendPrivateSound(2672);
+                return;
+            }
+
+            if (player.getPrayer().getSkillLevel() <= 0) {
+                player.message("You need to recharge your Prayer at an altar.");
+                player.sendPrivateSound(2672);
+                return;
+            }
+
+            player.getPrayer().activate(prayer);
+        }
     }
 
 }

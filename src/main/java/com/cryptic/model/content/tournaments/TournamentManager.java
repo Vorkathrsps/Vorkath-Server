@@ -9,7 +9,6 @@ import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
@@ -274,7 +273,7 @@ public class TournamentManager extends PacketInteraction {
             player.setTournamentOpponent(null);
             player.setParticipatingTournament(null);
             // TODO skill restore
-            Prayers.closeAllPrayers(player);
+            player.getPrayer().clear();
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
             player.getPacketSender().sendEntityHintRemoval(true);

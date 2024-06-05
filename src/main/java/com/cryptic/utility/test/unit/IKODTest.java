@@ -2,7 +2,6 @@ package com.cryptic.utility.test.unit;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.inter.impl.BonusesInterface;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
@@ -132,7 +131,6 @@ public class IKODTest {
         p1.getSkills().setXp(Skills.RANGED, 14_000_000);
         p1.getSkills().setLevel(Skills.RANGED, 99);
         p1.setTile(new Tile(3092, 3530)); // wild somewhere around lvl 10
-        p1.setPrayerActive(Prayers.PROTECT_ITEM, true);
         Skulling.assignSkullState(p1, SkullType.WHITE_SKULL);
         //p1.putAttrib(AttributeKey.BLOWPIPE_DART_ID, DRAGON_DART);
         //p1.putAttrib(AttributeKey.BLOWPIPE_DARTS_COUNT, 100);

@@ -3,7 +3,8 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
@@ -13,7 +14,6 @@ import com.cryptic.model.items.container.equipment.EquipmentBonuses;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public class MeleeAccuracy implements AbstractAccuracy {
 
@@ -101,11 +101,12 @@ public class MeleeAccuracy implements AbstractAccuracy {
     public double getPrayerBonusAttacker() {
         double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05D;
-            else if (Prayers.usingPrayer(this.attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10D;
-            else if (Prayers.usingPrayer(this.attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15D;
-            else if (Prayers.usingPrayer(this.attacker, CHIVALRY)) prayerBonus *= 1.15D;
-            else if (Prayers.usingPrayer(this.attacker, PIETY)) prayerBonus *= 1.20D;
+            PrayerManager prayer = this.attacker.getAsPlayer().getPrayer();
+            if (prayer.isPrayerActive(Prayer.CLARITY_OF_THOUGHT)) prayerBonus *= 1.05D;
+            else if (prayer.isPrayerActive(Prayer.IMPROVED_REFLEXES)) prayerBonus *= 1.10D;
+            else if (prayer.isPrayerActive(Prayer.INCREDIBLE_REFLEXES)) prayerBonus *= 1.15D;
+            else if (prayer.isPrayerActive(Prayer.CHIVALRY)) prayerBonus *= 1.15D;
+            else if (prayer.isPrayerActive(Prayer.PIETY)) prayerBonus *= 1.20D;
         }
         return prayerBonus;
     }
@@ -113,11 +114,12 @@ public class MeleeAccuracy implements AbstractAccuracy {
     public double getPrayerBonusDefender() {
         double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.defender, THICK_SKIN)) prayerBonus *= 1.05D;
-            else if (Prayers.usingPrayer(this.defender, ROCK_SKIN)) prayerBonus *= 1.10D;
-            else if (Prayers.usingPrayer(this.defender, STEEL_SKIN)) prayerBonus *= 1.15D;
-            else if (Prayers.usingPrayer(this.defender, CHIVALRY)) prayerBonus *= 1.20D;
-            else if (Prayers.usingPrayer(this.defender, PIETY)) prayerBonus *= 1.25D;
+            PrayerManager prayer = this.attacker.getAsPlayer().getPrayer();
+            if (prayer.isPrayerActive(Prayer.THICK_SKIN)) prayerBonus *= 1.05D;
+            else if (prayer.isPrayerActive(Prayer.ROCK_SKIN)) prayerBonus *= 1.10D;
+            else if (prayer.isPrayerActive(Prayer.STEEL_SKIN)) prayerBonus *= 1.15D;
+            else if (prayer.isPrayerActive(Prayer.CHIVALRY)) prayerBonus *= 1.20D;
+            else if (prayer.isPrayerActive(Prayer.PIETY)) prayerBonus *= 1.25D;
         }
         return prayerBonus;
     }

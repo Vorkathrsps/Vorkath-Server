@@ -1052,6 +1052,11 @@ public final class ComponentID {
     public static final int FIXED_VIEWPORT_MINIMAP = 35913736;
 
     /**
+     * 548:9
+     */
+    public static final int ITEMS_KEPT_ON_DEATH = 35913737;
+
+    /**
      * 548:16
      */
     public static final int FIXED_VIEWPORT_ROOT_INTERFACE_CONTAINER = 35913744;

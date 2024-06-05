@@ -14,7 +14,6 @@ public class EventNode {
     final ArrayList<EventConstants> events;
     final int childFrom;
     final int childTo;
-
     int event;
 
     public EventNode(int componentId, int childFrom, int childTo) {
@@ -29,6 +28,11 @@ public class EventNode {
         this.childFrom = childFrom;
         this.childTo = childTo;
         this.events = events;
+    }
+
+    public final EventNode setContinue() {
+        events.add(EventConstants.PAUSE);
+        return this;
     }
 
     public final EventNode setButtons() {
@@ -52,6 +56,6 @@ public class EventNode {
     }
 
     public final void send(Player player) {
-        player.getPacketSender().setInterfaceEvents(interfaceID,this.componentId,new IntRange(childFrom,childTo), this.event);
+        player.getPacketSender().setInterfaceEvents(interfaceID, this.componentId, new IntRange(childFrom, childTo), this.event);
     }
 }

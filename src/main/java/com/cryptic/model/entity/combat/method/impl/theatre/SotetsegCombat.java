@@ -5,7 +5,8 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
@@ -53,12 +54,13 @@ public class SotetsegCombat extends CommonCombatMethod {
             if (randomProjectile == 1606) {
                 magicAttackCount++;
             }
-            if (randomProjectile == 1606 && Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
-                Prayers.closeAllPrayers(target);
+            PrayerManager prayer = target.getPrayer();
+            if (randomProjectile == 1606 && prayer.isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
+                prayer.clear();
                 target.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
                 d.setDamage(Utils.random(1, 50));
-            } else if (randomProjectile == 1607 && Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-                Prayers.closeAllPrayers(target);
+            } else if (randomProjectile == 1607 && prayer.isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                prayer.clear();
                 target.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
                 d.setDamage(Utils.random(1, 50));
             } else {

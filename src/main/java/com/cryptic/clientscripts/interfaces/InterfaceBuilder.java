@@ -2,6 +2,7 @@ package com.cryptic.clientscripts.interfaces;
 
 import com.cryptic.core.event.Event;
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.region.RegionManager;
 import com.displee.cache.index.Index;
@@ -33,9 +34,50 @@ public abstract class InterfaceBuilder {
         }
     }
 
-    public void onButton(Player player, final int button, final int option, final int slot, final int itemId) {
+    public void onResumePause(Player player, final int slot) {
     }
 
+    public void onButton(Player player, final int button, final int option, final int slot, final int itemId) {
+
+    }
+
+    /**
+     *     @Override
+     *     public boolean targetPlayer(Player player, int selectedCom, int selectedComSub, int selectedItem, Player targetedPlayer) {
+     *         return targetNode(player, selectedComSub, selectedItem, targetedPlayer);
+     *     }
+     *
+     *     @Override
+     *     public boolean targetNpc(Player player, int selectedCom, int selectedComSub, int selectedItem, NPC targetedNpc) {
+     *         return targetNode(player, selectedComSub, selectedItem, targetedNpc);
+     *     }
+     *
+     *     @Override
+     *     public boolean targetObject(Player player, int selectedCom, int selectedComSub, int selectedItem, GameObject targetedObject) {
+     *         return targetNode(player, selectedComSub, selectedItem, targetedObject);
+     *     }
+     *
+     *     @Override
+     *     public boolean targetGroundItem(Player player, int selectedCom, int selectedComSub, int selectedItem, GroundItem targetedItem) {
+     *         return targetNode(player, selectedComSub, selectedItem, targetedItem);
+     *     }
+     */
+
+    public void onTargetNpc(Player player, final int selectedButton, final int selectedSub, final int selectedItemId, NPC target) {
+
+    }
+
+    public void onTargetButton(Player player, final int selectedButton, final int selectedSlot, final int selectedItemId, final int targetButton, final int targetSlot, final int targetItemId) {
+
+    }
+
+    public void onTargetPlayer(Player player, final int selectedButton, final int selectedSlot, final int selectedItemId, final int targetButton, final int targetSlot, final int targetItemId) {
+
+    }
+
+    public void onDrag(Player player, final int fromButton, final int fromSlot, final int fromItemId, final int toButton, final int toSlot, final int toItemId) {
+
+    }
 
     public void close(final Player player) {
         if (sendInterface()) {

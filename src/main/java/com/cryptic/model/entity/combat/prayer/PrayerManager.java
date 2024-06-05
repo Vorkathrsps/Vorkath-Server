@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.combat.prayer.newprayer;
+package com.cryptic.model.entity.combat.prayer;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
@@ -6,6 +6,7 @@ import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -17,7 +18,7 @@ public class PrayerManager {
     public final Player player;
     private final Object2IntOpenHashMap<Prayer> activePrayers = new Object2IntOpenHashMap<>();
     private int drain;
-    public int quickPrayerSettings;
+    @Setter public int quickPrayerSettings = -1;
 
     public PrayerManager(Player player) {
         this.player = player;
@@ -65,6 +66,16 @@ public class PrayerManager {
         this.checkCollisions(prayer);
     }
 
+    public void deactivate(final Prayer prayer) {
+        final boolean activated = this.player.varps().getVarbit(prayer.getVarbit()) == 1;
+        if (activated) {
+            this.clearHeadIcons(prayer);
+            this.player.varps().toggleVarbit(prayer.getVarbit());
+            this.player.sendPrivateSound(2663);
+            this.activePrayers.removeInt(prayer);
+        }
+    }
+
     public void toggle(final Prayer prayer) {
         final boolean activating = this.player.varps().getVarbit(prayer.getVarbit()) == 0;
         if (activating) {
@@ -85,6 +96,7 @@ public class PrayerManager {
             this.clearHeadIcons(prayer);
             this.player.varps().toggleVarbit(prayer.getVarbit());
         }
+        this.player.sendPrivateSound(2672);
         this.activePrayers.clear();
     }
 
@@ -95,7 +107,7 @@ public class PrayerManager {
     }
 
     public final void decrementPoints(final int amount) {
-        this.player.skills().alterSkill(Skills.PRAYER, -amount);
+        if (this.getSkillLevel() > 0) this.player.skills().alterSkill(Skills.PRAYER, -amount);
     }
 
     public final int getSkillLevel() {
@@ -107,7 +119,7 @@ public class PrayerManager {
     }
 
     public @Nullable Prayer getPrayer(long button) {
-        return Prayer.MAPPED_COMPONENTS.get(button);
+        return Prayer.MAPPED_COMPONENTS.getOrDefault(button, null);
     }
 
     public static int getFilterConfiguration(final int slot) {

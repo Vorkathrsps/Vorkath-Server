@@ -5,7 +5,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.npc.NPC;
 
 public class HuskCombat extends CommonCombatMethod {
@@ -33,7 +33,7 @@ public class HuskCombat extends CommonCombatMethod {
 
         Hit hit = target.hit(husk, CombatFactory.calcDamageFromType(husk, target, CombatType.MAGIC), 1, CombatType.MAGIC);
 
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+        if (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
             var damage = hit.getDamage();
             hit.setDamage((int) (damage * 1.50));
             hit.submit();

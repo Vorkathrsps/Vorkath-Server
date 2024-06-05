@@ -12,7 +12,6 @@ import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.weapon.FightType;
 import com.cryptic.model.entity.player.GameMode;
@@ -224,8 +223,9 @@ public class PlayerSave {
             player.getTargetSearchTimer().start(details.targetSearchTimer);
             player.getSpecialAttackRestore().start(details.specialAttackRestoreTimer);
             player.setSkullType(details.skullType);
-            if (details.quickPrayers != null)
-                player.getQuickPrayers().setPrayers(details.quickPrayers);
+            if (details.quickPrayers != -1) {
+                player.getPrayer().setQuickPrayerSettings(details.quickPrayers);
+            }
             if (details.presets != null) {
                 // put into individual slots, dont replace an array[20] with a game save array[10]
                 for (int i = 0; i < details.presets.length; i++) {
@@ -536,7 +536,7 @@ public class PlayerSave {
         private final int targetSearchTimer;
         private final int specialAttackRestoreTimer;
         private final SkullType skullType;
-        private final DefaultPrayerData[] quickPrayers;
+        private final int quickPrayers;
         private final Presetable[] presets;
         private final PresetData[] presetsv2;
         private final Object[] lastPreset;
@@ -791,7 +791,7 @@ public class PlayerSave {
             targetSearchTimer = player.getTargetSearchTimer().secondsRemaining();
             specialAttackRestoreTimer = player.getSpecialAttackRestore().secondsRemaining();
             skullType = player.getSkullType();
-            quickPrayers = player.getQuickPrayers().getPrayers();
+            quickPrayers = player.getPrayer().quickPrayerSettings;
             presets = player.getPresets();//so rest is just writing? like how do oyu write the data from presetdata in logic, you get what im saying? like how would i send it to the player? just setpresetdata in presethandler?
             // its already on player, player.presetsv2
             presetsv2 = player.getPresetData();

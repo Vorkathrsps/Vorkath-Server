@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.player.commands.impl.dev;
 
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -15,7 +14,7 @@ public class MasterCommand implements Command {
             player.getSkills().update();
             player.getSkills().recalculateCombat();
         }
-        Prayers.closeAllPrayers(player);
+        player.getPrayer().clear();
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 

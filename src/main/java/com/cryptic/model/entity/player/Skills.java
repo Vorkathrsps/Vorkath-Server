@@ -10,8 +10,6 @@ import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
-import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
@@ -839,14 +837,14 @@ public class Skills {
         player.getSkills().recalculateCombat();
 
         if (skill == PRAYER) {
-            player.getPacketSender().sendConfig(708, Prayers.canUse(player, DefaultPrayerData.PRESERVE, false) ? 1 : 0);
+            /*player.getPacketSender().sendConfig(708, Prayers.canUse(player, DefaultPrayerData.PRESERVE, false) ? 1 : 0);
             player.getPacketSender().sendConfig(710, Prayers.canUse(player, DefaultPrayerData.RIGOUR, false) ? 1 : 0);
-            player.getPacketSender().sendConfig(712, Prayers.canUse(player, DefaultPrayerData.AUGURY, false) ? 1 : 0);
+            player.getPacketSender().sendConfig(712, Prayers.canUse(player, DefaultPrayerData.AUGURY, false) ? 1 : 0);*/
         }
 
         //Update weapon tab to send combat level etc.
         player.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
-        Prayers.closeAllPrayers(player);
+        player.getPrayer().clear();
         BountyHunter.unassign(player);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }

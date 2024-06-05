@@ -1,11 +1,11 @@
 package com.cryptic.model.entity.combat.formula.maxhit;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
+import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.combat.ranged.RangedData;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
@@ -55,13 +55,14 @@ public class RangeMaxHitFormula {
 
     private double getPrayerBonus(@NonNull final Player player) {
         double prayerBonus = 1D;
-        if (Prayers.usingPrayer(player, Prayers.SHARP_EYE)) {
+        PrayerManager prayer = player.getPrayer();
+        if (prayer.isPrayerActive(Prayer.SHARP_EYE)) {
             prayerBonus = 1.05D;
-        } else if (Prayers.usingPrayer(player, Prayers.HAWK_EYE)) {
+        } else if (prayer.isPrayerActive(Prayer.HAWK_EYE)) {
             prayerBonus = 1.10D;
-        } else if (Prayers.usingPrayer(player, Prayers.EAGLE_EYE)) {
+        } else if (prayer.isPrayerActive(Prayer.EAGLE_EYE)) {
             prayerBonus = 1.15D;
-        } else if (Prayers.usingPrayer(player, Prayers.RIGOUR)) {
+        } else if (prayer.isPrayerActive(Prayer.RIGOUR)) {
             prayerBonus = 1.23D;
         }
 
@@ -128,7 +129,7 @@ public class RangeMaxHitFormula {
                 otherBonus *= 1.50;
             }
 
-            int[] twisted_bows = new int[] {TWISTED_BOW, CORRUPTED_TWISTED_BOW};
+            int[] twisted_bows = new int[]{TWISTED_BOW, CORRUPTED_TWISTED_BOW};
             if (weapon != null && ArrayUtils.contains(twisted_bows, weapon.getId())) {
                 int magicLevel = npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().stats.magic : 0;
 

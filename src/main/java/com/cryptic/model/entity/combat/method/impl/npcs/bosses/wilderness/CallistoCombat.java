@@ -9,7 +9,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -174,8 +174,10 @@ public class CallistoCombat extends CommonCombatMethod {
             entity.executeProjectile(p);
             Hit hit = Hit.builder(entity, t, CombatFactory.calcDamageFromType(entity, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
-            if (!Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
-                knockBack(entity, t, delay);
+            if (t instanceof Player player) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                    knockBack(entity, t, delay);
+                }
             }
             if (hit.isAccurate()) {
                 t.graphic(134, GraphicHeight.MIDDLE, p.getSpeed());

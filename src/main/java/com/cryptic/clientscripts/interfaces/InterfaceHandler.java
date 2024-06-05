@@ -6,6 +6,7 @@ import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
 import com.cryptic.clientscripts.impl.equipment.EquipmentInventory;
 import com.cryptic.clientscripts.impl.equipment.EquipmentStats;
 import com.cryptic.clientscripts.impl.equipment.EquipmentTab;
+import com.cryptic.clientscripts.impl.equipment.KeptOnDeathInterface;
 import com.cryptic.clientscripts.impl.inventory.InventoryInterface;
 import com.cryptic.clientscripts.impl.journal.AchievementTabInterface;
 import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
@@ -43,6 +44,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.COMBAT, new WeaponInformationInterface());
         interfaces.put(InterfaceID.INVENTORY, new InventoryInterface());
         interfaces.put(InterfaceID.EQUIPMENT, new EquipmentTab());
+        interfaces.put(InterfaceID.KEPT_ON_DEATH, new KeptOnDeathInterface());
         interfaces.put(InterfaceID.EQUIPMENT_STATS, new EquipmentStats());
         interfaces.put(InterfaceID.EQUIPMENT_INVENTORY, new EquipmentInventory());
         interfaces.put(InterfaceID.DIALOG_NPC, new DialogueNpc());

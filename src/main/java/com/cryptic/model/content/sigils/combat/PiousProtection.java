@@ -5,7 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
@@ -17,19 +17,19 @@ public class PiousProtection extends AbstractSigil {
             final CombatType combatType = entity.getCombatType();
             int damage = entity.getDamage();
             if (CombatType.MELEE.equals(combatType)) {
-                if (!Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MELEE)) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MELEE)) {
                     entity.setDamage((int) (damage * 1.05D));
                 }
                 entity.setDamage((int) (damage * 0.75D));
             }
             if (CombatType.MAGIC.equals(combatType)) {
-                if (!Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                     entity.setDamage((int) (damage * 1.05D));
                 }
                 entity.setDamage((int) (damage * 0.75D));
             }
             if (CombatType.RANGED.equals(combatType)) {
-                if (!Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MISSILES)) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
                     entity.setDamage((int) (damage * 1.05D));
                 }
                 entity.setDamage((int) (damage * 0.75D));

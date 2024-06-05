@@ -28,7 +28,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Hydra;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
-import com.cryptic.model.entity.npc.bots.NPCBotHandler;
 import com.cryptic.model.entity.npc.impl.MaxHitDummyNpc;
 import com.cryptic.model.entity.npc.impl.UndeadMaxHitDummy;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
@@ -199,12 +198,6 @@ public class NPC extends Entity {
             }
         }
 
-        try {
-            NPCBotHandler.assignBotHandler(this);
-        } catch (Exception e) {
-            logger.error("sadge", e);
-            logger.error("NPC {} might not have an NPC definition entry.", box(id));
-        }
 
         if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
             if (id == NpcIdentifiers.ZULRAH || id == NpcIdentifiers.ZULRAH_2043 || id == NpcIdentifiers.ZULRAH_2044) {
@@ -246,13 +239,6 @@ public class NPC extends Entity {
             }
         }
 
-        try {
-            NPCBotHandler.assignBotHandler(this);
-        } catch (Exception e) {
-            logger.error("sadge", e);
-            logger.error("NPC {} might not have an NPC definition entry.", box(id));
-        }
-
         if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
             if (id == NpcIdentifiers.ZULRAH || id == NpcIdentifiers.ZULRAH_2043 || id == NpcIdentifiers.ZULRAH_2044) {
                 setCombatMethod(Zulrah.EmptyCombatMethod.make());
@@ -291,13 +277,6 @@ public class NPC extends Entity {
             if (id == types) {
                 setPoisonImmune(true);
             }
-        }
-
-        try {
-            NPCBotHandler.assignBotHandler(this);
-        } catch (Exception e) {
-            logger.error("sadge", e);
-            logger.error("NPC {} might not have an NPC definition entry.", box(id));
         }
 
         if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
@@ -535,7 +514,7 @@ public class NPC extends Entity {
 
         boolean wilderness = (WildernessArea.getWildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
 
-        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
+        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive))
             return;
 
         final int ceil = def.combatLevel * 2;
@@ -596,13 +575,6 @@ public class NPC extends Entity {
         //We used to flag APPEARANCE, now we flag TRANSFORM.
         getUpdateFlag().flag(Flag.TRANSFORM);
     }
-
-    /**
-     * The npc bot handler.
-     */
-    @Setter
-    @Getter
-    private NPCBotHandler botHandler;
 
     public void setCombatMethod(CombatMethod combatMethod) {
         this.combatMethod = combatMethod;

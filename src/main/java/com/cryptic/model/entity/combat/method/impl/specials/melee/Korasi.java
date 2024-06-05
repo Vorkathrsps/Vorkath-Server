@@ -6,7 +6,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
@@ -34,8 +34,8 @@ public class Korasi extends CommonCombatMethod {
             .postDamage(hit -> {
                 hit.setAccurate(true);
                 hit.setDamage(finalDamage);
-                if (target instanceof Player)
-                    if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) hit.setDamage(hit.getDamage() / 2);
+                if (target instanceof Player player)
+                    if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) hit.setDamage(hit.getDamage() / 2);
             });
         CombatSpecial.drain(entity, CombatSpecial.KORASI_SWORD.getDrainAmount());
         return true;

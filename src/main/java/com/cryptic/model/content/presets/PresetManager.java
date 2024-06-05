@@ -5,7 +5,6 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.player.*;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
@@ -606,7 +605,7 @@ public class PresetManager {
         player.stopActions(true);
 
         //Turn off prayers when applying a new preset.
-        Prayers.closeAllPrayers(player);
+        player.getPrayer().clear();
 
         //Reset vars
         player.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);

@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.player.commands.impl.staff.admin;
 
 import com.cryptic.model.World;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.entity.player.commands.Command;
@@ -41,8 +40,7 @@ public class SetLevelOther implements Command {
                 }
 
                 // Turn off prayers
-                Prayers.closeAllPrayers(plr.get());
-
+                plr.get().getPrayer().clear();
                 plr.get().getSkills().setXp(skill_id, Skills.levelToXp(Math.min(99, lvl)));
                 plr.get().getSkills().update();
                 plr.get().getSkills().recalculateCombat();

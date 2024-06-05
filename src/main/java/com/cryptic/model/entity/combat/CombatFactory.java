@@ -2,7 +2,6 @@ package com.cryptic.model.entity.combat;
 
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
-import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
@@ -42,7 +41,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizardsCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeaponType;
 import com.cryptic.model.entity.combat.ranged.requirements.BowReqs;
@@ -81,7 +80,6 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.MAXHIT_OVERRIDE;
 import static com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.KRAKEN_WHIRLPOOL;
 import static com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.TENTACLE_WHIRLPOOL;
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.cryptic.model.inter.InterfaceConstants.BARROWS_REWARD_WIDGET;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -375,23 +373,8 @@ public class CombatFactory {
             Debugs.CMB.debug(entity, "kys 2", other, true);
             return false;
         }
-
-        if (entity.isNpc() && entity.getAsNpc().getBotHandler() != null) {
-            if (!(WildernessArea.inWilderness(entity.tile())) || !(WildernessArea.inWilderness(other.tile()))) {
-                //Only reset combat if NPC is trying to attack player outside of wilderness. Don't reset players combat regardless of if they are attacker or target.
-                Debugs.CMB.debug(entity, "bots cannot attack outside of wilderness.", other, true);
-                return false;
-            }
-        }
         if (entity.isNpc(CORPOREAL_BEAST) && !(entity.tile().region() == 11844 && ((other.getX() >= 2972 || entity.getX() <= 2972) && (entity.getX() >= 2972 || other.getX() <= 2972)))) {
             return false;
-        }
-
-        if (other.isNpc() && other.getAsNpc().getBotHandler() != null) {
-            if (!(WildernessArea.inWilderness(entity.tile())) || !(WildernessArea.inWilderness(other.tile()))) {
-                Debugs.CMB.debug(entity, "bots cannot be attacked outside of wilderness.", other, true);
-                return false;
-            }
         }
 
         if (!MemberZone.canAttack(entity, other)) {
@@ -678,22 +661,6 @@ public class CombatFactory {
         if (other.isNpc()) {
             if (other instanceof NPC) {
                 NPC npc = (NPC) other;
-                if (npc.getBotHandler() != null) {
-                    if (entity.isPlayer()) {
-                        var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(entity, npc) && entity.getSkills().combatLevel() <= getHighestLevel(entity, npc);
-
-                        if (!oppWithinLvl) {
-                            entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
-                            return false;
-                        } else {
-                            var withinLvl = npc.def().combatLevel >= getLowestLevel(entity, npc) && npc.def().combatLevel <= getHighestLevel(entity, npc);
-                            if (!withinLvl) {
-                                entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
-                                return false;
-                            }
-                        }
-                    }
-                }
 
                 //var player = (Player) entity;
                 //var targetList = player.getWildernessKeys().getTargetList();
@@ -1211,7 +1178,6 @@ public class CombatFactory {
             target.getCombat().addDamage(attacker, hit.getDamage());
 
             if (target.isPlayer()) {
-                target.getAsPlayer().setLastActiveOverhead();
                 attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
             }
         }
@@ -1276,13 +1242,13 @@ public class CombatFactory {
         disableProtectionPrayers(player, true, true);
     }
 
-    public static void disableProtectionPrayers(Entity player, boolean sendMsg, boolean block) {
+    public static void disableProtectionPrayers(Player player, boolean sendMsg, boolean block) {
         if (block) player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 9);
-        Prayers.deactivatePrayer(player, PROTECT_FROM_MAGIC);
-        Prayers.deactivatePrayer(player, PROTECT_FROM_MISSILES);
-        Prayers.deactivatePrayer(player, PROTECT_FROM_MELEE);
-        Prayers.deactivatePrayer(player, RETRIBUTION);
-        Prayers.deactivatePrayer(player, REDEMPTION);
+        player.getPrayer().deactivate(Prayer.PROTECT_FROM_MAGIC);
+        player.getPrayer().deactivate(Prayer.PROTECT_FROM_MISSILES);
+        player.getPrayer().deactivate(Prayer.PROTECT_FROM_MELEE);
+        player.getPrayer().deactivate(Prayer.RETRIBUTION);
+        player.getPrayer().deactivate(Prayer.REDEMPTION);
         if (sendMsg) player.message("You have been disabled and can no longer use protection prayers.");
     }
 
@@ -1389,13 +1355,13 @@ public class CombatFactory {
 
             // The redemption (HEALING) prayer effect.
             double healthAmount = victim.hp() * 1.0 / (victim.maxHp() * 1.0);
-            if (Prayers.usingPrayer(victim, Prayers.REDEMPTION) && (healthAmount <= 0.10D)) {
+            if (victim.getPrayer().isPrayerActive(Prayer.REDEMPTION) && (healthAmount <= 0.10D)) {
                 int amountToHeal = (int) (victim.getSkills().xpLevel(Skills.PRAYER) * .25);
                 victim.graphic(436, GraphicHeight.HIGH, 0);
                 victim.getSkills().setLevel(Skills.PRAYER, 0);
                 victim.getSkills().setLevel(Skills.HITPOINTS, victim.hp() + amountToHeal);
                 victim.message("You've run out of prayer points!");
-                Prayers.closeAllPrayers(victim);
+                victim.getPrayer().clear();
                 return;
             }
 
@@ -1403,7 +1369,7 @@ public class CombatFactory {
             if (attacker.isPlayer()) {
                 Player playerAttacker = (Player) attacker;
 
-                if (Prayers.usingPrayer(playerAttacker, Prayers.SMITE)) {
+                if (playerAttacker.getPrayer().isPrayerActive(Prayer.SMITE)) {
                     int removePoints = (int) (damage * 0.25F);
 
                     victim.getSkills().alterSkill(Skills.PRAYER, -removePoints);

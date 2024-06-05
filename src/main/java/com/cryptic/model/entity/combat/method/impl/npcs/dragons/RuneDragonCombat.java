@@ -9,17 +9,14 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
-
-import java.util.function.BooleanSupplier;
 
 /**
  * @author Origin
@@ -125,7 +122,7 @@ public class RuneDragonCombat extends CommonCombatMethod {
                 max_damage *= 0.10D;
             }
 
-            if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC)) {
+            if (player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                 player.message("Your prayer absorbs most of the dragon's breath!");
                 max_damage *= 0.60D;
             }

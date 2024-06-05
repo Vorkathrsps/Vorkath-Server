@@ -15,7 +15,6 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
     XP_TRACKER(9),
     OVERLAY(1),
     PVP_OVERLAY(3),
-
     COMBAT_TAB(76, InterfaceID.COMBAT),
     SIDE_SKILLS(77, InterfaceID.SKILLS),
     SIDE_JOURNAL(78, InterfaceID.QUEST_ROOT),

@@ -2,19 +2,16 @@ package com.cryptic.model.content.mechanics;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.content.EffectTimer;
-import com.cryptic.model.content.daily_tasks.DailyTaskManager;
-import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatreofblood.controller.TheatreDeath;
 import com.cryptic.model.content.tournaments.TournamentManager;
-import com.cryptic.model.entity.LockType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.masks.Flag;
@@ -35,10 +32,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.function.BooleanSupplier;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.RETRIBUTION;
 
 /**
  * Created by Bart on 8/15/2015.
@@ -73,7 +68,7 @@ public class DeathProcess implements TheatreDeath {
     private static void retrib(Player player) {
         //Retribution. example: https://www.youtube.com/watch?v=7c6idspnxak
         try {
-            if (Prayers.usingPrayer(player, RETRIBUTION)) {
+            if (player.getPrayer().isPrayerActive(Prayer.RETRIBUTION)) {
                 var pker = player.getCombat().getKiller(); // Person who killed the dead player. Might be a 73 AGS spec pj.
                 player.graphic(437);
                 var damage = (int) (player.getSkills().level(Skills.PRAYER) * 0.25);
@@ -142,16 +137,6 @@ public class DeathProcess implements TheatreDeath {
 
                 Entity lastAttacker = player.getAttrib(AttributeKey.LAST_DAMAGER);
 
-                //Handle player dying to a bot.
-                if (lastAttacker != null && lastAttacker.isNpc() && lastAttacker.getAsNpc().getBotHandler() != null) {
-                    NPC bot = (NPC) lastAttacker;
-                    bot.stopActions(true);
-                    int botDeaths = player.getAttribOr(AttributeKey.BOT_DEATHS, 0);
-                    botDeaths++;
-                    player.putAttrib(AttributeKey.BOT_DEATHS, botDeaths);
-                    player.message("You now have " + botDeaths + " bot " + Utils.pluralOrNot("death", botDeaths) + ".");
-                }
-
                 NPC barrowsBro = player.getAttribOr(barrowsBroSpawned, null);
                 if (barrowsBro != null) {
                     World.getWorld().unregisterNpc(barrowsBro);
@@ -171,7 +156,8 @@ public class DeathProcess implements TheatreDeath {
 
             try {
                 var isSkulled = Skulling.skulled(player);
-                var result = DeathResult.create(player, killer, isSkulled, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                var isProtectItem = player.getPrayer().isPrayerActive(Prayer.PROTECT_ITEM);
+                var result = DeathResult.create(player, killer, isProtectItem, isSkulled, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 var lootingBag = player.getLootingBag().getItems();
                 var runePouch = player.getRunePouch().getItems();
                 var inventory = player.getInventory().getItems().clone();
@@ -279,7 +265,7 @@ public class DeathProcess implements TheatreDeath {
 
         player.getCombat().clearDamagers(); //Clear damagers
         player.setEntityInteraction(null); // Reset entity facing
-        Prayers.closeAllPrayers(player); //Disable all prayers
+        player.getPrayer().clear();
         player.getPacketSender().sendInteractionOption("null", 2, false); //Remove the player attack option
         player.setRunningEnergy(100.0, true); //Set the players run energy to 100
         player.graphic(-1); //Set player graphics to -1
@@ -349,7 +335,7 @@ public class DeathProcess implements TheatreDeath {
         player.getPacketSender().sendEffectTimer(0, EffectTimer.STAMINA);
         player.getCombat().clearDamagers(); //Clear damagers
         player.setEntityInteraction(null); // Reset entity facing
-        Prayers.closeAllPrayers(player); //Disable all prayers
+        player.getPrayer().clear();
         player.getPacketSender().sendInteractionOption("null", 2, false); //Remove the player attack option
         player.setRunningEnergy(100.0, true); //Set the players run energy to 100
         player.graphic(-1); //Set player graphics to -1

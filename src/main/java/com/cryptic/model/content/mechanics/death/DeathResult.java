@@ -8,7 +8,6 @@ import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.death.ornaments.OrnamentKits;
 import com.cryptic.model.content.mechanics.death.repair.Breakable;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.GameMode;
@@ -18,6 +17,8 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,21 +27,24 @@ import java.util.*;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
+@Getter
+@Setter
 public class DeathResult {
 
     public static final Logger logger = LogManager.getLogger(DeathResult.class);
     final Player player;
-    final Entity killer;
-    final List<Item> itemList;
-    final List<Item> untradeables;
-    final List<Item> alwaysDropped;
-    List<Item> itemsKeptOnDeath;
-    Item[] lootingBag;
-    Item[] runePouch;
+    Entity killer;
+    public final List<Item> itemList;
+    public final List<Item> untradeables;
+    public final List<Item> alwaysDropped;
+    public List<Item> itemsKeptOnDeath;
+    public Item[] lootingBag;
+    public Item[] runePouch;
     boolean skulled;
+    boolean protectItem;
     int[] always_lost = new int[]{LARRANS_KEY, MYSTERIOUS_EMBLEM_TIER_1, MYSTERIOUS_EMBLEM_TIER_2, MYSTERIOUS_EMBLEM_TIER_3, MYSTERIOUS_EMBLEM_TIER_4, MYSTERIOUS_EMBLEM_TIER_5};
 
-    public DeathResult(Player player, Entity killer, boolean skulled, List<Item> itemList, List<Item> untradeables, List<Item> alwaysDropped) {
+    public DeathResult(Player player, Entity killer, boolean protectItem, boolean skulled, List<Item> itemList, List<Item> untradeables, List<Item> alwaysDropped) {
         this.player = player;
         this.killer = killer;
         this.skulled = skulled;
@@ -49,8 +53,21 @@ public class DeathResult {
         this.alwaysDropped = alwaysDropped;
     }
 
-    public static DeathResult create(Player player, Entity killer, boolean skulled, List<Item> items, List<Item> untradeables, List<Item> alwaysLost) {
-        return new DeathResult(player, killer, skulled, items, untradeables, alwaysLost);
+    public DeathResult(Player player, boolean protectItem, boolean skulled, List<Item> itemList, List<Item> untradeables, List<Item> alwaysDropped) {
+        this.player = player;
+        this.protectItem = protectItem;
+        this.skulled = skulled;
+        this.itemList = itemList;
+        this.untradeables = untradeables;
+        this.alwaysDropped = alwaysDropped;
+    }
+
+    public static DeathResult create(Player player, Entity killer, boolean protectItem, boolean skulled, List<Item> items, List<Item> untradeables, List<Item> alwaysLost) {
+        return new DeathResult(player, killer, protectItem, skulled, items, untradeables, alwaysLost);
+    }
+
+    public static DeathResult create(Player player, boolean protectItem, boolean skulled, List<Item> items, List<Item> untradeables, List<Item> alwaysLost) {
+        return new DeathResult(player, protectItem, skulled, items, untradeables, alwaysLost);
     }
 
     public DeathResult withLootingBag(Item[] lootingBag) {
@@ -83,7 +100,7 @@ public class DeathResult {
         return this;
     }
 
-    final int[] NEVER_LOST = new int[]{RING_OF_WEALTH_I, OVERLOAD_4_20996, REVITALISATION_4_20960, RUNE_POUCH, RUNE_POUCH_23650, RUNE_POUCH_23650, RUNE_POUCH_27086, RUNE_POUCH_L, DIVINE_RUNE_POUCH, DIVINE_RUNE_POUCH_L, SALVE_AMULET, SALVE_AMULETI,SALVE_AMULET_E,SALVE_AMULETEI,SALVE_AMULETEI_25278,SALVE_AMULETI_25250,SALVE_AMULETI_26763};
+    final int[] NEVER_LOST = new int[]{RING_OF_WEALTH_I, OVERLOAD_4_20996, REVITALISATION_4_20960, RUNE_POUCH, RUNE_POUCH_23650, RUNE_POUCH_23650, RUNE_POUCH_27086, RUNE_POUCH_L, DIVINE_RUNE_POUCH, DIVINE_RUNE_POUCH_L, SALVE_AMULET, SALVE_AMULETI, SALVE_AMULET_E, SALVE_AMULETEI, SALVE_AMULETEI_25278, SALVE_AMULETI_25250, SALVE_AMULETI_26763};
 
     public DeathResult processItems(Item[] items) {
         if (isSafeDeath()) return this;
@@ -169,15 +186,24 @@ public class DeathResult {
         return this;
     }
 
+    public DeathResult populateScenario(Item[] container) {
+        List<Item> temp = new ArrayList<>();
+        for (var item : container) {
+            if (item == null) continue;
+            temp.add(item);
+        }
+        itemList.addAll(temp);
+        return this;
+    }
+
     public DeathResult calculateItemsKept() {
         if (player == null || itemList == null) throw new NullPointerException("Player or Item List is null.");
         if (isSafeDeath()) return this;
         if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL))
             return this;
         int itemsToRemove = 0;
-        if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 1);
-        else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM))
-            itemsToRemove = Math.min(itemList.size(), 4);
+        if (skulled && protectItem) itemsToRemove = Math.min(itemList.size(), 1);
+        else if (!skulled && protectItem) itemsToRemove = Math.min(itemList.size(), 4);
         else if (!skulled) itemsToRemove = Math.min(itemList.size(), 3);
         List<Item> subList = new ArrayList<>();
         List<Item> tempList = new ArrayList<>();

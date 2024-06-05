@@ -2,7 +2,6 @@ package com.cryptic.model.entity.player;
 
 import com.cryptic.cache.definitions.VarbitDefinition;
 import com.cryptic.model.World;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 
 /**
  * Created by bart on 7/18/15.
@@ -102,11 +101,6 @@ public class Varps {
 
     public int[] raw() {
         return varps;
-    }
-
-    public void presave() {
-        // Turn off prayers
-        Prayers.closeAllPrayers(player);
     }
 
     public void syncNonzero() {

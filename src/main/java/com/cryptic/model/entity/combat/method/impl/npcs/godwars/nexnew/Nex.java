@@ -8,7 +8,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -113,12 +113,14 @@ public class Nex extends NPC {
             Projectile p = new Projectile(this, t, 2007, 51, duration, 41, 25, 8, 15, 10);
 //            p.sendProjectile((Player) target);
             final int delay = (int) (p.getSpeed() / 30D);
-            new Hit(this, t, World.getWorld().random(0, 32), delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(h -> {
-                if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
-                    int drain = t.getAsPlayer().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
-                    h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
-                }
-            });
+            if (t instanceof Player player) {
+                new Hit(this, t, World.getWorld().random(0, 32), delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(h -> {
+                    if (h.isAccurate() && !player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                        int drain = t.getAsPlayer().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
+                        h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
+                    }
+                });
+            }
             t.graphic(2008, GraphicHeight.HIGH, p.getSpeed());
         }
     }
@@ -238,7 +240,7 @@ public class Nex extends NPC {
             final int delay = this.executeProjectile(p);
             t.graphic(2005, GraphicHeight.LOW, p.getSpeed());
             new Hit(this, t, World.getWorld().random(0, 32), delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(h -> {
-                if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
+                if (h.isAccurate() && !t.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                     int drain = t.getAsPlayer().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
                 }
@@ -303,7 +305,7 @@ public class Nex extends NPC {
         if (t.tile().distance(this.tile()) <= 2) damage = 60;
         else if (t.tile().distance(this.tile()) <= 4) damage = 60 - 20;
         else if (t.tile().distance(this.tile()) > 6) damage = 60 - 30;
-        if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) damage = damage / 2;
+        if (t.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) damage = damage / 2;
         return damage;
     }
 

@@ -5,13 +5,12 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageModifyingListener;
 
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
-import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public class PrayerDamage implements DamageModifyingListener {
     private static final String[] ignoredNegatedDamage = new String[]{"corporeal beast", "dragon", "king black", "graardor", "kree", "zilyana", "vorkath", "maiden", "verzik", "xarpus", "bloat", "sotetseg", "enormous tentacle", "kraken", "tsutsaroth", "olm", "alchemical hydra", "nex", "venenatis"};
@@ -21,9 +20,9 @@ public class PrayerDamage implements DamageModifyingListener {
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         var target = hit.getTarget();
         if (target instanceof Player player) {
-            var meleePrayer = (Prayers.usingPrayer(player, PROTECT_FROM_MELEE) && CombatType.MELEE.equals(hit.getCombatType()));
-            var rangedPrayer = (Prayers.usingPrayer(player, PROTECT_FROM_MISSILES) && CombatType.RANGED.equals(hit.getCombatType()));
-            var magicPrayer = (Prayers.usingPrayer(player, PROTECT_FROM_MAGIC) && CombatType.MAGIC.equals(hit.getCombatType()));
+            var meleePrayer = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MELEE) && CombatType.MELEE.equals(hit.getCombatType());
+            var rangedPrayer = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES) && CombatType.RANGED.equals(hit.getCombatType());
+            var magicPrayer = player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC) && CombatType.MAGIC.equals(hit.getCombatType());
             if (hit.isAccurate()) {
                 if (hit.prayerIgnored) return false;
                 var damage = hit.getDamage();

@@ -6,7 +6,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -125,27 +125,31 @@ public class CerberusCombat extends CommonCombatMethod {
             melee.setPositionToFace(target.tile());
             melee.animate(8528);
         }).then(1, () -> {
-            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-                target.hit(melee, 30);
-            } else {
-                target.hits.block();
-            }
-            if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
-            } else {
-                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
+            if (target instanceof Player player) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MELEE)) {
+                    player.hit(melee, 30);
+                } else {
+                    player.hits.block();
+                }
+                if (!player.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
+                    player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 30));
+                } else {
+                    player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 15));
+                }
             }
         });
         Chain.noCtx().runFn(3, () -> {
             archer.setPositionToFace(target.tile());
             archer.animate(8528); //TODO
         }).then(1, () -> {
-            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
-                target.hit(archer, 30);
-                if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
-                } else {
-                    target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
+            if (target instanceof Player player) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
+                    player.hit(archer, 30);
+                    if (!player.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
+                        player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 30));
+                    } else {
+                        player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 15));
+                    }
                 }
             }
         });
@@ -153,13 +157,15 @@ public class CerberusCombat extends CommonCombatMethod {
             magician.setPositionToFace(target.tile());
             magician.animate(8528);
         }).then(1, () -> {
-            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-                target.hit(magician, 30);
-            }
-            if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
-            } else {
-                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
+            if (target instanceof Player player) {
+                if (!player.getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
+                    player.hit(magician, 30);
+                }
+                if (!player.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
+                    player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 30));
+                } else {
+                    player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 15));
+                }
             }
         }).then(1, () -> {
             melee.remove();

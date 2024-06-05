@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat;
 
 import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
@@ -18,7 +17,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.state.AshihamaPhase;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.state.AshihamaState;
-import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -36,7 +35,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
 
-import static com.cryptic.model.entity.attributes.AttributeKey.NIGHTMARE_CURSE;
 import static com.cryptic.model.entity.attributes.AttributeKey.NO_MOVEMENT_NIGHTMARE;
 
 public class Nightmare extends CommonCombatMethod { //TODO increase max hit based on wrong protection prayer
@@ -251,7 +249,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
     }
 
     private void curse() {
-        Chain.noCtx().cancelWhen(() -> cursedCount.get() >= 5).repeatingTask(1, curseCount -> {
+     /*   Chain.noCtx().cancelWhen(() -> cursedCount.get() >= 5).repeatingTask(1, curseCount -> {
             cursedCount.getAndIncrement();
             cursed.getAndSet(true);
 
@@ -281,7 +279,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void graspingClaws(NPC nightmare, Entity target) {
@@ -503,7 +501,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
             Hit hit = Hit.builder(nightmare, t, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
 
-            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
+            if (t.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MAGIC)) {
                 var damage = hit.getDamage();
                 hit.setDamage((int) (damage * 1.20));
                 hit.submit();
@@ -541,7 +539,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
             Hit hit = t.hit(nightmare, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC);
 
-            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
+            if (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MISSILES)) {
                 var damage = hit.getDamage();
                 hit.setDamage((int) (damage * 1.20));
                 hit.submit();
@@ -564,7 +562,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
         hit.setAccurate(true);
 
-        if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MELEE)) {
+        if (target.getAsPlayer().getPrayer().isPrayerActive(Prayer.PROTECT_FROM_MELEE)) {
             var damage = hit.getDamage();
             hit.setDamage((int) (damage * 1.20));
             hit.submit();

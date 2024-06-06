@@ -4,6 +4,7 @@ import com.cryptic.cache.definitions.VarbitDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import dev.openrune.cache.CacheManager;
+import dev.openrune.cache.filestore.definition.data.VarBitType;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 public class Varps {
@@ -60,19 +61,27 @@ public class Varps {
         return varps[id];
     }
 
-    public void setVarbit(int id, int value) {
-        VarbitDefinition def = World.getWorld().definitions().get(VarbitDefinition.class, id);
+    public void setVarbit2(int id, int value) {
+        VarBitType def = CacheManager.INSTANCE.getVarbit(id);
         if (def != null) {
-            setBit(def.varp, def.startbit, def.endbit, value);
+            setBit(def.getVarp(), def.getStartBit(), def.getEndBit(), value);
         }
     }
 
+    public void setVarbit(final int id, int value) {
+        if (id == -1) return;
+        final VarBitType defs = CacheManager.INSTANCE.getVarbit(id);
+        int mask = BIT_SIZES[defs.getEndBit() - defs.getStartBit()];
+        if (value < 0 || value > mask) value = 0;
+        mask <<= defs.getStartBit();
+        final int varpValue = (varps[defs.getVarp()] & (~mask) | value << defs.getStartBit() & mask);
+        setState(defs.getVarp(), varpValue);
+    }
+
     public void sendTempVarbit(int id, int value) {
-        VarbitDefinition def = World.getWorld().definitions().get(VarbitDefinition.class, id);
-        if (def != null) {
-            int packed = BIT_SIZES[def.endbit - def.startbit] << def.startbit;
-            player.getPacketSender().sendConfig(def.varp, (varps[def.varp] & (~packed)) | value << def.startbit & packed);
-        }
+        VarBitType def = CacheManager.INSTANCE.getVarbit(id);
+        int packed = BIT_SIZES[def.getEndBit() - def.getStartBit()] << def.getStartBit();
+        player.getPacketSender().sendConfig(def.getVarp(), (varps[def.getVarp()] & (~packed)) | value << def.getStartBit() & packed);
     }
 
     public void toggleVarbit(int id) {
@@ -91,15 +100,12 @@ public class Varps {
 
 
     public int getVarbit(int id) {
-        VarbitDefinition def = World.getWorld().definitions().get(VarbitDefinition.class, id);
-        if (def != null) {
-            return getState(varps[def.varp], def);
-        }
-        return 0;
+        VarBitType def = CacheManager.INSTANCE.getVarbit(id);
+        return getState(varps[def.getVarp()], def);
     }
 
-    public static int getState(int varp, VarbitDefinition def) {
-        return BitManipulation.getBit(varp, def.startbit, def.endbit);
+    public static int getState(int varp, VarBitType def) {
+        return BitManipulation.getBit(varp, def.getStartBit(), def.getEndBit());
     }
 
     public void updateVarps() {

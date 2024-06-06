@@ -307,7 +307,7 @@ public class Player extends Entity {
         return username;
     }
 
-    private int[] sessionVarps = new int[5000];
+    private int[] sessionVarps = new int[7000];
 
     public int[] sessionVarps() {
         return sessionVarps;
@@ -1502,6 +1502,7 @@ public class Player extends Entity {
         }
 
         this.getCombat().setAutoCastSpell(null);
+        this.getPrayer().clear();
 
         // Update session state
         getSession().setState(SessionState.LOGGING_OUT);

@@ -72,14 +72,12 @@ class InterfaceSystem(private val player: Player) {
         player.packetSender.sendPane(pane)
 
         InterfacePosition.VALUES.forEach { position ->
-            if (position.gameframeInterfaceId != -1) {
-                /*     if (position.gameframeInterfaceId == -1 || position == InterfacePosition.SIDE_RELATIONSHIPS || position == InterfacePosition.SIDE_JOURNAL) {
+            if (position.gameframeInterfaceId == -1 || position == InterfacePosition.SIDE_RELATIONSHIPS || position == InterfacePosition.SIDE_JOURNAL) {
                 return@forEach
-            }*/
-
-                val gameInter = GameInterface.get(position.gameframeInterfaceId)
-                gameInter!!.open(player)
             }
+
+            val gameInter = GameInterface.get(position.gameframeInterfaceId)
+            gameInter!!.open(player)
         }
         handleJournalTab()
         handleRelationShipTab()
@@ -185,7 +183,8 @@ class InterfaceSystem(private val player: Player) {
         } else if (position == InterfacePosition.MAIN_MODAL) {
             closeInterface(InterfacePosition.DIALOGUE)
         }
-        val pane = if (position == InterfacePosition.DIALOGUE) PaneType.CHATBOX else this.pane
+        val pane =
+            if (position == InterfacePosition.DIALOGUE) PaneType.CHATBOX else this.pane
         val paneToObtainComponentFrom = if (pane == PaneType.CHATBOX) PaneType.RESIZABLE else pane
         if (position == InterfacePosition.MAIN_MODAL) {
             player.packetSender.runClientScriptNew(

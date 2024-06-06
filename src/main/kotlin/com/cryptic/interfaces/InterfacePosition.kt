@@ -8,6 +8,7 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
     CHATBOX(96, InterfaceID.CHATBOX),
     MINIMAP_ORBS(33, InterfaceID.MINIMAP),
     MAIN_MODAL(16, InterfaceType.MODAL),
+    IN_VIEWPORT(548, InterfaceType.MODAL),
     WORLD_MAP(18, type = InterfaceType.OVERLAY),
     DIALOGUE(565, InterfaceType.MODAL),
     WILDERNESS_OVERLAY(4),

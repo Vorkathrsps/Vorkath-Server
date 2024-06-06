@@ -12,7 +12,7 @@ public class EquipmentInventory extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        setEvents(new EventNode(0, 0, 28));
+        setEvents(new EventNode(0, 0, 27));
     }
 
     @Override

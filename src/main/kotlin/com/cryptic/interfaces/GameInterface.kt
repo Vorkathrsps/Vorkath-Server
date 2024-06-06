@@ -28,8 +28,10 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
 
     SIDE_CHANNELS(InterfaceID.CLAN_CHAT, InterfacePosition.SIDE_CHANNELS),
     FRIENDS_CHANNEL(InterfaceID.FRIENDS_CHAT, InterfacePosition.SIDE_CHANNELS),
-
-
+    YOUR_CLAN(InterfaceID.CLAN, InterfacePosition.SIDE_CHANNELS),
+    CLAN_GUEST(InterfaceID.CLAN_GUEST, InterfacePosition.SIDE_CHANNELS),
+    CLAN_GROUP(InterfaceID.CLAN_GROUP, InterfacePosition.SIDE_CHANNELS),
+    CLAN_SETUP(InterfaceID.CLAN_SETUP),
 
     FRIEND_LIST_TAB(InterfaceID.FRIEND_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     IGNORE_LIST_TAB(InterfaceID.IGNORE_LIST, InterfacePosition.SIDE_RELATIONSHIPS),

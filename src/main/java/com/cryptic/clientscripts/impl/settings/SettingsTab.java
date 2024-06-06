@@ -18,14 +18,14 @@ public class SettingsTab extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        setEvents(new EventNode(ComponentID.PLAYER_ATTACK_PRIORITY, 1, 5));
-        setEvents(new EventNode(ComponentID.NPC_ATTACK_PRIORITY, 1, 4));
-        setEvents(new EventNode(ComponentID.MAX_FPS, 1, 5));
-        setEvents(new EventNode(ComponentID.CLIENT_LAYOUT, 1, 3));
-        setEvents(new EventNode(ComponentID.MUSIC_SLIDER, 0, 21));
-        setEvents(new EventNode(ComponentID.SETTINGS_SIDE_SOUND_EFFECT_SLIDER, 0, 21));
-        setEvents(new EventNode(ComponentID.SETTINGS_SIDE_AREA_SOUND_SLIDER, 0, 21));
-        setEvents(new EventNode(ComponentID.BRIGHTNESS_SLIDER, 0, 21));
+        setEvents(new EventNode(ComponentID.PLAYER_ATTACK_PRIORITY2, 1, 5));
+        setEvents(new EventNode(ComponentID.NPC_ATTACK_PRIORITY2, 1, 4));
+        setEvents(new EventNode(ComponentID.MAX_FPS2, 1, 5));
+        setEvents(new EventNode(ComponentID.CLIENT_LAYOUT2, 1, 3));
+        setEvents(new EventNode(ComponentID.MUSIC_SLIDER2, 0, 21));
+        setEvents(new EventNode(ComponentID.SOUND_EFFECTS_SLIDER2, 0, 21));
+        setEvents(new EventNode(ComponentID.AREA_SOUNDS_SLIDER2, 0, 21));
+        setEvents(new EventNode(ComponentID.BRIGHTNESS_SLIDER2, 0, 21));
     }
 
     @Override
@@ -40,7 +40,13 @@ public class SettingsTab extends InterfaceBuilder {
             GameInterface.SETTINGS_INTERFACE.open(player);
         }
 
-        switch (player.varps().getVarbit(Varbits.SETTINGS_TAB_FOCUS)) {
+        int state = player.varps().getVarbit(Varbits.SETTINGS_TAB_FOCUS);
+
+        if (button == ComponentID.SETTINGS_SIDE_NPC_ATTACK_OPTIONS) {
+            System.out.println(button);
+        }
+
+        switch (state) {
             case 0 -> {
                 switch (button) {
                     case ComponentID.SETTINGS_SIDE_RUN_BUTTON -> {
@@ -65,6 +71,39 @@ public class SettingsTab extends InterfaceBuilder {
             }
             case 1 -> {
                 switch (button) {
+                    case ComponentID.SETTINGS_SIDE_MUTE_MUSIC -> {
+                        int volume = player.varps().getVarp(Varps.MUSIC_VOLUME);
+                        int previousVolume = player.varps().getVarbit(Varbits.PREV_MUSIC_VOLUME);
+                        if (volume > 0) {
+                            player.varps().setVarbit(Varbits.PREV_MUSIC_VOLUME, volume);
+                            player.varps().setVarp(Varps.MUSIC_VOLUME, 0);
+                        } else {
+                            player.varps().setVarp(Varps.MUSIC_VOLUME, previousVolume);
+                            player.varps().setVarbit(Varbits.PREV_MUSIC_VOLUME, previousVolume);
+                        }
+                    }
+                    case ComponentID.SETTINGS_SOUND_MUTE -> {
+                        int volume = player.varps().getVarp(Varps.SOUND_VOLUME);
+                        int previousVolume = player.varps().getVarbit(Varbits.PREV_SOUND_VOLUME);
+                        if (volume > 0) {
+                            player.varps().setVarbit(Varbits.PREV_SOUND_VOLUME, volume);
+                            player.varps().setVarp(Varps.SOUND_VOLUME, 0);
+                        } else {
+                            player.varps().setVarp(Varps.SOUND_VOLUME, previousVolume);
+                            player.varps().setVarbit(Varbits.PREV_SOUND_VOLUME, previousVolume);
+                        }
+                    }
+                    case ComponentID.SETTINGS_SIDE_MUTE_AREA -> {
+                        int volume = player.varps().getVarp(Varps.AREA_VOLUME);
+                        int previousVolume = player.varps().getVarbit(Varbits.PREV_AREA_VOLUME);
+                        if (volume > 0) {
+                            player.varps().setVarbit(Varbits.PREV_AREA_VOLUME, volume);
+                            player.varps().setVarp(Varps.AREA_VOLUME, 0);
+                        } else {
+                            player.varps().setVarp(Varps.AREA_VOLUME, previousVolume);
+                            player.varps().setVarbit(Varbits.PREV_AREA_VOLUME, previousVolume);
+                        }
+                    }
                     case ComponentID.SETTINGS_SIDE_MUSIC_SLIDER_STEP_HOLDER -> {
                         player.varps().setVarp(Varps.MUSIC_VOLUME, slot * 5);
                         int volume = player.varps().getVarp(Varps.MUSIC_VOLUME);
@@ -85,13 +124,13 @@ public class SettingsTab extends InterfaceBuilder {
                     }
                 }
             }
-            case 2 -> {
+            /*case 2 -> {
                 switch (button) {
                     case ComponentID.BRIGHTNESS_SLIDER -> {
 
                     }
                 }
-            }
+            }*/
         }
     }
 }

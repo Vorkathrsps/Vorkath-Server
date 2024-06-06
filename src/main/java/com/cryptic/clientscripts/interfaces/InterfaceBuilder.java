@@ -25,15 +25,13 @@ public abstract class InterfaceBuilder {
     }
 
     public void open(final Player player) {
-        if (gameInterface() != null) {
-            final GameInterface gameInterface = gameInterface();
-            final int interfaceId = gameInterface.getId();
-            player.activeInterface.put(interfaceId, this);
-            beforeOpen(player);
-            initialize(player);
-            if (sendInterface()) {
-                player.interfaces.sendInterface(gameInterface());
-            }
+        GameInterface gameInterface = gameInterface();
+        int interfaceId = gameInterface.getId();
+        player.activeInterface.put(interfaceId, this);
+        beforeOpen(player);
+        initialize(player);
+        if (sendInterface()) {
+            player.interfaces.sendInterface(gameInterface);
         }
     }
 

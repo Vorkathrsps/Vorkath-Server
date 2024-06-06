@@ -2,8 +2,7 @@ package com.cryptic.clientscripts.interfaces;
 
 import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.clientscripts.impl.*;
-import com.cryptic.clientscripts.impl.clanchat.ClanChatTab;
-import com.cryptic.clientscripts.impl.clanchat.FriendsChannelInterface;
+import com.cryptic.clientscripts.impl.clanchat.*;
 import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
 import com.cryptic.clientscripts.impl.equipment.EquipmentInventory;
 import com.cryptic.clientscripts.impl.equipment.EquipmentStats;
@@ -69,6 +68,9 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.SETTINGS, new SettingsInterface());
         interfaces.put(InterfaceID.CLAN_CHAT, new ClanChatTab());
         interfaces.put(InterfaceID.FRIENDS_CHAT, new FriendsChannelInterface());
+        interfaces.put(InterfaceID.CLAN, new YourChannelInterface());
+        interfaces.put(InterfaceID.CLAN_GUEST, new GuestChannelInterface());
+        interfaces.put(InterfaceID.CLAN_SETUP, new SetupChannelInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

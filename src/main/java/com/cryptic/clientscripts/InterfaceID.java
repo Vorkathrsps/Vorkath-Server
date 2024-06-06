@@ -63,6 +63,8 @@ public final class InterfaceID {
     public static final int CLAN = 701;
 
     public static final int CLAN_GUEST = 702;
+    public static final int CLAN_GROUP = 76;
+    public static final int CLAN_SETUP = 94;
 
     public static final int CLANRANK_POPUP = 289;
 

@@ -25,6 +25,8 @@ public class ViewportFixed extends InterfaceBuilder {
                 player.varps().toggleVarbit(6579);
             } else if (button == ComponentID.FIXED_VIEWPORT_MAGIC_TAB) {
                 player.varps().toggleVarp(Varbits.SPELLBOOK_FILTERING);
+            } else if (button == ComponentID.FIXED_VIEWPORT_OPTIONS_TAB) {
+                GameInterface.SETTINGS.open(player);
             }
         }
     }

@@ -2660,22 +2660,25 @@ public final class ComponentID {
     public static final int SETTINGS_TAB_ONE = 7602239;
     public static final int SETTINGS_TAB_TWO = 7602244;
     public static final int SETTINGS_TAB_THREE = 7602245;
-    public static final int MUSIC_SLIDER = 6815848;
-    public static final int SOUND_EFFECTS_SLIDER = 7733366;
-    public static final int AREA_SOUNDS_SLIDER = 8716421;
-    public static final int PLAYER_ATTACK_PRIORITY = 2490406;
-    public static final int NPC_ATTACK_PRIORITY = 2555943;
-    public static final int MAX_FPS = 5439571;
-    public static final int CLIENT_LAYOUT = 2687017;
-    public static final int BRIGHTNESS_SLIDER = 7602199;
-    public static final int AREA_SOUND_SLIDER_SETTINGS_SIDE = 7602309;
+    public static final int AREA_SOUND_SLIDER_SETTINGS_SIDE = 8716421;
+    public static final int YOUR_CLAN = 46333956;
+    public static final int FRIENDS_CHANNEL = 46333955;
+    public static final int GUEST_CHANNEL = 46333957;
+    public static final int GROUPING_CHANNEL = 46333958;
+    public static final int SETUP_CHANNEL = 458772;
+    public static final int FRIENDS_CHANNEL_JOIN = 458770;
+    public static final int SETTINGS_SOUND_MUTE = 7602283;
 
     /**
      * Non BitPacked
      */
+    public static final int BRIGHTNESS_SLIDER2 = 23;
     public static final int MUSIC = 93;
+    public static final int MUSIC_SLIDER2 = 104;
     public static final int SOUND_EFFECTS = 107;
+    public static final int SOUND_EFFECTS_SLIDER2 = 118;
     public static final int AREA_SOUNDS = 122;
+    public static final int AREA_SOUNDS_SLIDER2 = 133;
     public static final int MUSIC_UNLOCK_MESSAGE = 121;
     public static final int TOGGLE_AID = 29;
     public static final int TOGGLE_RUN = 30;
@@ -2683,6 +2686,10 @@ public final class ComponentID {
     public static final int ALL_SETTINGS = 32;
     public static final int BOND_POUCH = 33;
     public static final int PK_SKULL_PREVENTION = 5;
+    public static final int PLAYER_ATTACK_PRIORITY2 = 38;
+    public static final int NPC_ATTACK_PRIORITY2 = 39;
+    public static final int MAX_FPS2 = 83;
+    public static final int CLIENT_LAYOUT2 = 41;
     public static final int ZOOM = 44;
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;

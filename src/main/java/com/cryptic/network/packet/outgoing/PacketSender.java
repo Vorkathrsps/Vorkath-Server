@@ -416,6 +416,7 @@ public final class PacketSender {
             out.putString(extension);
         }
         out.putString(message);
+        System.out.println(message);
         player.getSession().write(out);
         return this;
 

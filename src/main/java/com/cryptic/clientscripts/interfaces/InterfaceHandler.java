@@ -14,6 +14,9 @@ import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
 import com.cryptic.clientscripts.impl.prayer.PrayerTab;
 import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
+import com.cryptic.clientscripts.impl.settings.SettingsTab;
+import com.cryptic.clientscripts.impl.skills.impl.SkillInformationInterface;
+import com.cryptic.clientscripts.impl.skills.SkillTab;
 import com.cryptic.clientscripts.impl.social.FriendListInterface;
 import com.cryptic.clientscripts.impl.social.IgnoreListInterface;
 import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface;
@@ -57,6 +60,9 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.PRODUCE_ITEM, new DialogueProduceItem());
         interfaces.put(InterfaceID.FRIEND_LIST, new FriendListInterface());
         interfaces.put(InterfaceID.IGNORE_LIST, new IgnoreListInterface());
+        interfaces.put(InterfaceID.SKILL_INFORMATION, new SkillInformationInterface());
+        interfaces.put(InterfaceID.SKILLS, new SkillTab());
+        interfaces.put(InterfaceID.SETTINGS, new SettingsTab());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

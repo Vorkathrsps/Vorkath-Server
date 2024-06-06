@@ -30,9 +30,10 @@ public class WeaponInformationInterface extends InterfaceBuilder {
             category = AttackStyleDefinition.getName(def.category);
         }
 
-        player.getPacketSender().setComponentText(ComponentID.COMBAT_LEVEL, 0, String.valueOf(player.skills().combatLevel()));
+        var combatLevel = String.valueOf(player.skills().combatLevel());
         player.getPacketSender().setComponentText(InterfaceID.COMBAT, 1, name);
         player.getPacketSender().setComponentText(InterfaceID.COMBAT, 2, "Category: " + category);
+        player.getPacketSender().setComponentText(InterfaceID.COMBAT, 3, combatLevel);
         player.varps().setVarp(172, 0);
         player.varps().setVarbit(357, varbitValue);
     }

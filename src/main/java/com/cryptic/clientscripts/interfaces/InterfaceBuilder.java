@@ -48,11 +48,6 @@ public abstract class InterfaceBuilder {
      *     }
      *
      *     @Override
-     *     public boolean targetNpc(Player player, int selectedCom, int selectedComSub, int selectedItem, NPC targetedNpc) {
-     *         return targetNode(player, selectedComSub, selectedItem, targetedNpc);
-     *     }
-     *
-     *     @Override
      *     public boolean targetObject(Player player, int selectedCom, int selectedComSub, int selectedItem, GameObject targetedObject) {
      *         return targetNode(player, selectedComSub, selectedItem, targetedObject);
      *     }

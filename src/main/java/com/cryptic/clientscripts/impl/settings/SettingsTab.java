@@ -1,19 +1,19 @@
-package com.cryptic.clientscripts.impl;
+package com.cryptic.clientscripts.impl.settings;
 
-import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.player.Player;
 
-public class SkillInformationInterface extends InterfaceBuilder {
+public class SettingsTab extends InterfaceBuilder {
+
     @Override
     public GameInterface gameInterface() {
-        return GameInterface.SKILL_INFORMATION;
+        return GameInterface.SETTINGS;
     }
 
     @Override
     public void beforeOpen(Player player) {
-        System.out.println(gameInterface().getId() << 16);
-//        setEvents(new EventNode(ComponentID.));
+
     }
 
     @Override

@@ -20,18 +20,18 @@ public class ChatMessagePacketListener implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) {
-        //int junk = packet.readByte();//Edited no longer needs to be read.
         int size = packet.getSize() - 4;
         int color = packet.readByteS();
         int effect = packet.readByteS();
         int type = packet.readByteS();
         int clanType = packet.readByteS();
-        byte[] text = packet.readReversedBytesA(
-            size);
+        byte[] text = packet.readReversedBytesA(size);
+
         String raw = Utils.textUnpack(text, size);
+
         String chatMessage = Utils.ucFirst(Utils.textUnpack(text, size).toLowerCase());
 
-        if (chatMessage.length() <= 0) {
+        if (chatMessage.isEmpty()) {
             return;
         }
 

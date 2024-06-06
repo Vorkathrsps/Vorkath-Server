@@ -33,8 +33,7 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
 
     MINIGAME_OVERLAY(6), //TODO
     UNKNOWN_OVERLAY(8), //TODO
-    MULTI(94),//TODO
-    SKILL_INFORMATION(548);
+    MULTI(94);
 
     companion object {
         /**

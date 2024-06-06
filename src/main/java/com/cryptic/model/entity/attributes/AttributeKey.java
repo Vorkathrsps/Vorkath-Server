@@ -1641,7 +1641,7 @@ public enum AttributeKey {
     MINING_IDENTIFIER(AttribType.STRING),
     SLAYER_IDENTIFIER(AttribType.STRING),
     COOKING_IDENTIFIER(AttribType.STRING),
-    REVENANT_DROP_BOOST;
+    REVENANT_DROP_BOOST, SKILL_INFORMATION;
 
     private String saveName;
     private AttribType type;

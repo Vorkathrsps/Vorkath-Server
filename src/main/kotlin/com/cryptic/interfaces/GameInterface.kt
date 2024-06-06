@@ -58,7 +58,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     PRIVATE_CHAT(InterfaceID.PRIVATE_CHAT, InterfacePosition.PRIVATE_CHAT),
 
     PVP_OVERLAY(InterfaceID.PVP, InterfacePosition.PVP_OVERLAY),
-    SKILL_INFORMATION(InterfaceID.SKILL_INFORMATION, InterfacePosition.SKILL_INFORMATION),
+    SKILL_INFORMATION(InterfaceID.SKILL_INFORMATION),
 
     FIXED_PANE(548),
     RESIZABLE_PANE(161),

@@ -4,10 +4,9 @@ import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.clientscripts.impl.*;
 import com.cryptic.clientscripts.impl.clanchat.*;
 import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
-import com.cryptic.clientscripts.impl.equipment.EquipmentInventory;
-import com.cryptic.clientscripts.impl.equipment.EquipmentStats;
-import com.cryptic.clientscripts.impl.equipment.EquipmentTab;
-import com.cryptic.clientscripts.impl.equipment.KeptOnDeathInterface;
+import com.cryptic.clientscripts.impl.equipment.*;
+import com.cryptic.clientscripts.impl.equipment.guideprice.GuidePriceInterface;
+import com.cryptic.clientscripts.impl.equipment.guideprice.GuidePriceInventory;
 import com.cryptic.clientscripts.impl.inventory.InventoryInterface;
 import com.cryptic.clientscripts.impl.journal.AchievementTabInterface;
 import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
@@ -71,6 +70,8 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.CLAN, new YourChannelInterface());
         interfaces.put(InterfaceID.CLAN_GUEST, new GuestChannelInterface());
         interfaces.put(InterfaceID.CLAN_SETUP, new SetupChannelInterface());
+        interfaces.put(InterfaceID.GUIDE_PRICES, new GuidePriceInterface());
+        interfaces.put(InterfaceID.GUIDE_PRICES_INVENTORY, new GuidePriceInventory());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

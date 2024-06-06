@@ -45,7 +45,9 @@ public class WeaponInformationInterface extends InterfaceBuilder {
             player.varps().toggleVarp(46);
         } else if (button == ComponentID.COMBAT_AUTO_RETALIATE) {
             player.varps().toggleVarp(172);
-        } else if (button == 38862885) { //TODO find component name & true id to add to our componentId generation
+            final boolean autoRetaliate = player.varps().getVarp(172) == 0;
+            player.getCombat().setAutoRetaliate(autoRetaliate);
+        } else if (button == ComponentID.COMBAT_SPECIAL_ATTACK_BUTTON) {
             player.toggleSpecialAttack();
         }
     }

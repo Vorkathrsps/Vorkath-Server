@@ -545,6 +545,7 @@ public final class ComponentID {
      * 593:30
      */
     public static final int COMBAT_AUTO_RETALIATE = 38862878;
+    public static final int COMBAT_SPECIAL_ATTACK_BUTTON = 38862885;
 
     /**
      * 192:2
@@ -2694,4 +2695,5 @@ public final class ComponentID {
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
+    public static final int GUIDE_PRICES_SEARCH = 30408709;
 }

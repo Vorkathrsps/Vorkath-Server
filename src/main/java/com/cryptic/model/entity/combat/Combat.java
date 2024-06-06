@@ -99,7 +99,7 @@ public class Combat {
     // WeaponInterface
     private WeaponType weapon;
     // Autoretaliate
-    private boolean autoRetaliate;
+    @Setter private boolean autoRetaliate;
     // Magic data
     private CombatSpell castSpell;
     private ModernSpells spellID;
@@ -635,13 +635,6 @@ public class Combat {
 
     public boolean hasAutoReliateToggled() {
         return autoRetaliate;
-    }
-
-    public void setAutoRetaliate(boolean autoRetaliate) {
-        this.autoRetaliate = autoRetaliate;
-        if (mob instanceof Player) {
-            mob.getAsPlayer().getPacketSender().sendConfig(172, autoRetaliate ? 1 : 0);
-        }
     }
 
     private void checkGraniteMaul() {

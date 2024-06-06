@@ -23,6 +23,8 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     INVENTORY_TAB(InterfaceID.INVENTORY, InterfacePosition.SIDE_INVENTORY),
     EQUIPMENT_TAB(InterfaceID.EQUIPMENT, InterfacePosition.SIDE_EQUIPMENT),
     EQUIPMENT_KEPT_ON_DEATH(InterfaceID.KEPT_ON_DEATH),
+    GUIDE_PRICE(InterfaceID.GUIDE_PRICES),
+    GUIDE_PRICE_INVENTORY(InterfaceID.GUIDE_PRICES_INVENTORY, InterfacePosition.SINGLE_TAB),
     PRAYER_TAB(InterfaceID.PRAYER, InterfacePosition.SIDE_PRAYER),
     SPELLBOOK_TAB(InterfaceID.SPELLBOOK, InterfacePosition.SIDE_SPELLBOOK),
 

@@ -1,6 +1,5 @@
 package com.cryptic.clientscripts.impl.equipment;
 
-import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
@@ -47,6 +46,10 @@ public class EquipmentTab extends InterfaceBuilder {
 
         if (button == ComponentID.EQUIPMENT_DEATH) {
             GameInterface.EQUIPMENT_KEPT_ON_DEATH.open(player);
+        }
+
+        if (button == ComponentID.EQUIPMENT_PRICE) {
+            GameInterface.GUIDE_PRICE.open(player);
         }
 
     }

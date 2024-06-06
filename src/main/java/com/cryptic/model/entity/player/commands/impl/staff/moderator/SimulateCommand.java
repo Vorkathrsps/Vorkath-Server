@@ -44,7 +44,7 @@ public class SimulateCommand implements Command {
 
             List<Item> mergedList = new ArrayList<>(mergedItems.values());
 
-            player.getPacketSender().sendInterface(27200);
+            player.getPacketSender().ifOpenSub(27200);
             for (int index = 0; index < 500; index++) {
                 player.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
             }

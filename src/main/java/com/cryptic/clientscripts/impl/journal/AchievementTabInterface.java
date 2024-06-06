@@ -1,6 +1,8 @@
 package com.cryptic.clientscripts.impl.journal;
 
+import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
@@ -19,7 +21,8 @@ public class AchievementTabInterface extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        player.getPacketSender().sendInterface(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER, true);
+        setEvents(new EventNode(2, 0, 11));
+        player.getPacketSender().ifOpenSub(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER, true);
     }
 
 }

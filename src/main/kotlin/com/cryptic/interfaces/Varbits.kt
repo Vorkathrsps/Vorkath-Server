@@ -1,6 +1,9 @@
 package com.cryptic.interfaces
 
 object Varbits {
+    const val PREV_MUSIC_VOLUME = 12426
+    const val PREV_SOUND_VOLUME = 12427
+    const val PREV_AREA_VOLUME = 12428
     const val ALL_SETTINGS_TAB = 9656
     const val ACTIVITIES_HITSPLAT_TINTING = 10236
     const val ACTIVITIES_SHOW_BOSS_HEALTH_OVERLAY = 12389
@@ -56,6 +59,7 @@ object Varbits {
     const val CHATBOX_SOLID_VARBIT = 2570
     const val SIDESTONES_ARRAGEMENT_VARBIT = 4607
     const val CLOSE_TABS_WITH_HOTKEY_VARBIT = 4611
+    const val SETTINGS_TAB_RUN = 173
     const val BOND_INTERFACE_FOCUS_TAB = 9544
     const val PLAYER_SUMMARY_FOCUS_TAB = 8168 // Sets which tab to focus Player Summary / Quests tab / Achievement Diary / Favour tab
     const val SETTINGS_INTERFACE_INFORMATION = 9665 // Show description or not.

@@ -187,21 +187,6 @@ public class ItemDefinition implements Definition {
             ioptions = new String[]{null, "Open", null, null, "Drop"};
         }
 
-        if (id == BANDOS_CHESTPLATE_OR) {
-            System.out.println("chestplate="+this);
-        }
-        if (id == TZKAL_SLAYER_HELMET) {
-            System.out.println("helm="+this);
-        }
-
-        if (id == AHRIMS_ROBETOP) {
-            System.out.println("robetop=" + this);
-        }
-
-        if (id == AHRIMS_ROBESKIRT) {
-            System.out.println("robeskirt=" + this);
-        }
-
         //Bounty hunter emblem hardcoding.
         if (id == 12746 || (id >= 12748 && id <= 12756)) {
             unprotectable = true;

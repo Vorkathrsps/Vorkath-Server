@@ -94,9 +94,8 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
         if (isFull()) return false;
         if (!e.isRegistered()) {
             int slot = slotQueue.dequeueInt();
-            // Check if the slot is already in renderOrder
             if (!renderOrder.contains(slot)) renderOrder.add(slot);
-            e.pidOrderIndex = renderOrder.indexOf(slot); // Alternatively, use the index directly from dequeueInt()
+            e.pidOrderIndex = renderOrder.indexOf(slot);
             e.setRegistered(true);
             e.setIndex(slot);
             entities.put(slot, e);

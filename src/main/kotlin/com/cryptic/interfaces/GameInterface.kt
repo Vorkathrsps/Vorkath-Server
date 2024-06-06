@@ -25,12 +25,18 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     EQUIPMENT_KEPT_ON_DEATH(InterfaceID.KEPT_ON_DEATH),
     PRAYER_TAB(InterfaceID.PRAYER, InterfacePosition.SIDE_PRAYER),
     SPELLBOOK_TAB(InterfaceID.SPELLBOOK, InterfacePosition.SIDE_SPELLBOOK),
+
     SIDE_CHANNELS(InterfaceID.CLAN_CHAT, InterfacePosition.SIDE_CHANNELS),
+    FRIENDS_CHANNEL(InterfaceID.FRIENDS_CHAT, InterfacePosition.SIDE_CHANNELS),
+
+
+
     FRIEND_LIST_TAB(InterfaceID.FRIEND_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     IGNORE_LIST_TAB(InterfaceID.IGNORE_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     ACCOUNT_MANAGEMENT(InterfaceID.ACCOUNT_MANAGEMENT, InterfacePosition.SIDE_ACCOUNT_MANAGEMENT),
     LOGOUT_TAB(InterfaceID.LOGOUT_PANEL, InterfacePosition.SIDE_LOGOUT),
     SETTINGS(InterfaceID.SETTINGS_SIDE, InterfacePosition.SIDE_SETTINGS),
+    SETTINGS_INTERFACE(InterfaceID.SETTINGS),
     EMOTE_TAB(InterfaceID.EMOTES, InterfacePosition.SIDE_EMOTES),
     MUSIC_TAB(InterfaceID.MUSIC, InterfacePosition.SIDE_MUSIC),
 

@@ -2,6 +2,8 @@ package com.cryptic.clientscripts.interfaces;
 
 import com.cryptic.clientscripts.InterfaceID;
 import com.cryptic.clientscripts.impl.*;
+import com.cryptic.clientscripts.impl.clanchat.ClanChatTab;
+import com.cryptic.clientscripts.impl.clanchat.FriendsChannelInterface;
 import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
 import com.cryptic.clientscripts.impl.equipment.EquipmentInventory;
 import com.cryptic.clientscripts.impl.equipment.EquipmentStats;
@@ -14,6 +16,7 @@ import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
 import com.cryptic.clientscripts.impl.prayer.PrayerTab;
 import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
+import com.cryptic.clientscripts.impl.settings.SettingsInterface;
 import com.cryptic.clientscripts.impl.settings.SettingsTab;
 import com.cryptic.clientscripts.impl.skills.impl.SkillInformationInterface;
 import com.cryptic.clientscripts.impl.skills.SkillTab;
@@ -62,7 +65,10 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.IGNORE_LIST, new IgnoreListInterface());
         interfaces.put(InterfaceID.SKILL_INFORMATION, new SkillInformationInterface());
         interfaces.put(InterfaceID.SKILLS, new SkillTab());
-        interfaces.put(InterfaceID.SETTINGS, new SettingsTab());
+        interfaces.put(InterfaceID.SETTINGS_SIDE, new SettingsTab());
+        interfaces.put(InterfaceID.SETTINGS, new SettingsInterface());
+        interfaces.put(InterfaceID.CLAN_CHAT, new ClanChatTab());
+        interfaces.put(InterfaceID.FRIENDS_CHAT, new FriendsChannelInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

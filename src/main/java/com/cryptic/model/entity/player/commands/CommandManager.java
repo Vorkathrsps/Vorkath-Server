@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.player.commands;
 
 import com.cryptic.GameConstants;
-import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
@@ -26,9 +25,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
-import com.cryptic.model.entity.combat.magic.data.ModernSpells;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.scurrius.ScurriusCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionCombat;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -60,8 +57,6 @@ import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.tools.KtCommands;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -69,7 +64,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
-import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -1017,7 +1011,7 @@ public class CommandManager {
 
         dev("simclear", (p, c, s) ->
         {
-            p.getPacketSender().sendInterface(27200);
+            p.getPacketSender().ifOpenSub(27200);
             for (int index = 0; index < 1000; index++) {
                 p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
             }
@@ -1054,7 +1048,7 @@ public class CommandManager {
 
                     List<Item> mergedList = new ArrayList<>(mergedItems.values());
 
-                    p.getPacketSender().sendInterface(27200);
+                    p.getPacketSender().ifOpenSub(27200);
                     for (int index = 0; index < 500; index++) {
                         p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
                     }

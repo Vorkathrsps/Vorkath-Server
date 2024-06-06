@@ -573,7 +573,7 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendInterface(int id) {
+    public PacketSender ifOpenSub(int id) {
         //System.out.println("sending interface");
         PacketBuilder out = new PacketBuilder(97);
         out.putInt(id);
@@ -581,7 +581,7 @@ public final class PacketSender {
         return this;
     }
 
-    public void sendInterface(final int interfaceId, final int paneComponent, final PaneType pane, final boolean walkable) {
+    public void ifOpenSub(final int interfaceId, final int paneComponent, final PaneType pane, final boolean walkable) {
         sendInterfaceOSRS(interfaceId, paneComponent, pane, InterfaceType.OVERLAY);
         player.interfaces.getVisible().forcePut(pane.getId() << 16 | paneComponent, interfaceId);
     }

@@ -4,7 +4,6 @@ import com.cryptic.GameConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.items.container.shop.Shop;
-import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.utility.Utils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,7 +72,7 @@ public class InterfaceManager {
         player.unlock();
         main = identification;
         player.getMovementQueue().clear();
-        player.getPacketSender().sendInterface(identification);
+        player.getPacketSender().ifOpenSub(identification);
         setSidebar(GameConstants.LOGOUT_TAB, -1);
         int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
         player.getPacketSender().sendString(64014, "Reward Points: " + Utils.formatNumber(slayerRewardPoints));

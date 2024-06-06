@@ -1,6 +1,5 @@
 package com.cryptic.clientscripts.interfaces;
 
-import com.cryptic.core.event.Event;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -26,11 +25,15 @@ public abstract class InterfaceBuilder {
     }
 
     public void open(final Player player) {
-        player.activeInterface.put(gameInterface().getId(), this);
-        beforeOpen(player);
-        initialize(player);
-        if (sendInterface()) {
-            player.interfaces.sendInterface(gameInterface());
+        if (gameInterface() != null) {
+            final GameInterface gameInterface = gameInterface();
+            final int interfaceId = gameInterface.getId();
+            player.activeInterface.put(interfaceId, this);
+            beforeOpen(player);
+            initialize(player);
+            if (sendInterface()) {
+                player.interfaces.sendInterface(gameInterface());
+            }
         }
     }
 
@@ -42,20 +45,15 @@ public abstract class InterfaceBuilder {
     }
 
     /**
-     *     @Override
-     *     public boolean targetPlayer(Player player, int selectedCom, int selectedComSub, int selectedItem, Player targetedPlayer) {
-     *         return targetNode(player, selectedComSub, selectedItem, targetedPlayer);
-     *     }
-     *
-     *     @Override
-     *     public boolean targetObject(Player player, int selectedCom, int selectedComSub, int selectedItem, GameObject targetedObject) {
-     *         return targetNode(player, selectedComSub, selectedItem, targetedObject);
-     *     }
-     *
-     *     @Override
-     *     public boolean targetGroundItem(Player player, int selectedCom, int selectedComSub, int selectedItem, GroundItem targetedItem) {
-     *         return targetNode(player, selectedComSub, selectedItem, targetedItem);
-     *     }
+     * @Override public boolean targetPlayer(Player player, int selectedCom, int selectedComSub, int selectedItem, Player targetedPlayer) {
+     * return targetNode(player, selectedComSub, selectedItem, targetedPlayer);
+     * }
+     * @Override public boolean targetObject(Player player, int selectedCom, int selectedComSub, int selectedItem, GameObject targetedObject) {
+     * return targetNode(player, selectedComSub, selectedItem, targetedObject);
+     * }
+     * @Override public boolean targetGroundItem(Player player, int selectedCom, int selectedComSub, int selectedItem, GroundItem targetedItem) {
+     * return targetNode(player, selectedComSub, selectedItem, targetedItem);
+     * }
      */
 
     public void onTargetNpc(Player player, final int selectedButton, final int selectedSub, final int selectedItemId, NPC target) {

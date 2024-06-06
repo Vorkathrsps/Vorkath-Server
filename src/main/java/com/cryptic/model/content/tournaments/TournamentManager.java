@@ -273,7 +273,7 @@ public class TournamentManager extends PacketInteraction {
             player.setTournamentOpponent(null);
             player.setParticipatingTournament(null);
             // TODO skill restore
-            player.getPrayer().clear();
+            player.getPrayer().reset();
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
             player.getPacketSender().sendEntityHintRemoval(true);

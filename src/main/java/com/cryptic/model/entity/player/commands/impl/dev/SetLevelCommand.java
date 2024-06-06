@@ -37,7 +37,7 @@ public class SetLevelCommand implements Command {
             }
 
             // Turn off prayers
-            player.getPrayer().clear();
+            player.getPrayer().reset();
             player.getSkills().setXp(skill, Skills.levelToXp(Math.min(99, lvl)));
             player.getSkills().update();
             player.getSkills().recalculateCombat();

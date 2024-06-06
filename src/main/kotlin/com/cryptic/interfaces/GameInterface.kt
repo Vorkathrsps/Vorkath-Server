@@ -75,7 +75,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     MOBILE_PANE(601),
     SIDE_PANELS_RESIZABLE_PANE(164),
 
-    ;
+    COLLECTION_LOG(InterfaceID.COLLECTION_LOG);
 
     companion object {
         val VALUES = values()

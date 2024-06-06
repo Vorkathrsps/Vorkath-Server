@@ -40,7 +40,7 @@ public class SetLevelOther implements Command {
                 }
 
                 // Turn off prayers
-                plr.get().getPrayer().clear();
+                plr.get().getPrayer().reset();
                 plr.get().getSkills().setXp(skill_id, Skills.levelToXp(Math.min(99, lvl)));
                 plr.get().getSkills().update();
                 plr.get().getSkills().recalculateCombat();

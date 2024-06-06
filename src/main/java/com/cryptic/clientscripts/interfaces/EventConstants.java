@@ -1,5 +1,8 @@
 package com.cryptic.clientscripts.interfaces;
 
+import lombok.Getter;
+
+@Getter
 public enum EventConstants {
 
     /**
@@ -59,18 +62,14 @@ public enum EventConstants {
 
     /**
      * The integer representation of the event.
+     * -- GETTER --
+     *  Gets the flag for the event.
+
      */
     private final int flag;
 
     EventConstants(final int flag) {
         this.flag = flag;
-    }
-
-    /**
-     * Gets the flag for the event.
-     */
-    public int getFlag() {
-        return flag;
     }
 
 }

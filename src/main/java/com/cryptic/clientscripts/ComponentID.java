@@ -2696,4 +2696,8 @@ public final class ComponentID {
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
     public static final int GUIDE_PRICES_SEARCH = 30408709;
+    public static final int COLLECTION_LOG_BUTTON = 46661635;
+    public static final int COLLECTION_LOG_CLOSE = 40697937;
+    public static final int BEASTIARY_LOOKUP = 40697876;
+    public static final int COLLECTION_LOG_CATEGORY_ONE = 40697861;
 }

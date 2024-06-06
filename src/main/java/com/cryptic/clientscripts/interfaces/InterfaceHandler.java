@@ -12,6 +12,8 @@ import com.cryptic.clientscripts.impl.journal.AchievementTabInterface;
 import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
 import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
+import com.cryptic.clientscripts.impl.journal.collectionlog.CollectionLogInterface;
+import com.cryptic.clientscripts.impl.magic.MagicTab;
 import com.cryptic.clientscripts.impl.prayer.PrayerTab;
 import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
 import com.cryptic.clientscripts.impl.settings.SettingsInterface;
@@ -72,6 +74,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.CLAN_SETUP, new SetupChannelInterface());
         interfaces.put(InterfaceID.GUIDE_PRICES, new GuidePriceInterface());
         interfaces.put(InterfaceID.GUIDE_PRICES_INVENTORY, new GuidePriceInventory());
+        interfaces.put(InterfaceID.COLLECTION_LOG, new CollectionLogInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

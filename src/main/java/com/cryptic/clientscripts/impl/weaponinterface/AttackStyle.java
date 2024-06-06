@@ -1,6 +1,5 @@
 package com.cryptic.clientscripts.impl.weaponinterface;
 
-import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.weapon.AttackType;
 
 public final class AttackStyle {

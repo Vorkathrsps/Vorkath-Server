@@ -605,7 +605,7 @@ public class PresetManager {
         player.stopActions(true);
 
         //Turn off prayers when applying a new preset.
-        player.getPrayer().clear();
+        player.getPrayer().reset();
 
         //Reset vars
         player.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);

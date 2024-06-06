@@ -18,7 +18,8 @@ public class PrayerManager {
     public final Player player;
     private final Object2IntOpenHashMap<Prayer> activePrayers = new Object2IntOpenHashMap<>();
     private int drain;
-    @Setter public int quickPrayerSettings = -1;
+    @Setter
+    public int quickPrayerSettings = -1;
 
     public PrayerManager(Player player) {
         this.player = player;
@@ -55,8 +56,11 @@ public class PrayerManager {
 
     public void checkCollisions(final Prayer prayer) {
         for (final int varbit : prayer.getCollisions()) {
-            this.activePrayers.removeInt(Prayer.getPrayer(varbit));
-            this.player.varps().setVarbit(varbit, 0);
+            final var active = Prayer.getPrayer(varbit);
+            if (active != null) {
+                this.activePrayers.removeInt(active);
+                this.player.varps().setVarbit(varbit, 0);
+            }
         }
     }
 
@@ -78,6 +82,15 @@ public class PrayerManager {
 
     public void toggle(final Prayer prayer) {
         final boolean activating = this.player.varps().getVarbit(prayer.getVarbit()) == 0;
+
+        if (this.getSkillLevel() <= 0) return;
+
+        if (player.getPrayer().getSkillLevel() < prayer.getLevel() && activating) {
+            player.getPacketSender().runClientScriptNew(5224, 112);
+            player.message("You do not meet the requirements to activate this Prayer.");
+            return;
+        }
+
         if (activating) {
             if (prayer.getHeadIcon() != -1) this.player.setHeadHint(prayer.getHeadIcon());
             this.player.varps().toggleVarbit(prayer.getVarbit());
@@ -96,8 +109,19 @@ public class PrayerManager {
             this.clearHeadIcons(prayer);
             this.player.varps().toggleVarbit(prayer.getVarbit());
         }
-        this.player.sendPrivateSound(2672);
         this.activePrayers.clear();
+        this.player.sendPrivateSound(2672);
+        this.player.varps().setVarbit(Varbit.REGULAR_PRAYERS, 0);
+    }
+
+    public void reset() {
+        for (var prayer : this.activePrayers.keySet()) {
+            this.clearHeadIcons(prayer);
+            this.player.varps().toggleVarbit(prayer.getVarbit());
+        }
+        this.activePrayers.clear();
+        this.player.varps().setVarbit(Varbit.REGULAR_PRAYERS, -1);
+        this.player.varps().setVarbit(Varbit.QUICK_PRAYERS_ON, -1);
     }
 
     private void clearHeadIcons(final Prayer prayer) {

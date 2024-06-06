@@ -121,6 +121,7 @@ public class NPCInteractionHandler implements PacketListener {
             Tuple<Long, Player> ownerLink = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1L, null));
             if (ownerLink.first() != null && ownerLink.first() >= 0 && !Objects.equals(ownerLink.first(), uid)) {
                 player.message("They don't seem interested in fighting you.");
+                player.getMovementQueue().clear();
                 player.getCombat().reset();
                 return;
             }

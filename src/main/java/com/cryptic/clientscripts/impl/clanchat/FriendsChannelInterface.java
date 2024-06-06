@@ -28,9 +28,7 @@ public class FriendsChannelInterface extends InterfaceBuilder {
         switch (button) {
             case ComponentID.FRIENDS_CHANNEL_JOIN -> {
             }
-            case ComponentID.SETUP_CHANNEL -> {
-                GameInterface.CLAN_SETUP.open(player);
-            }
+            case ComponentID.SETUP_CHANNEL -> GameInterface.CLAN_SETUP.open(player);
         }
     }
 }

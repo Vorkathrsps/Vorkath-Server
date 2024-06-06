@@ -844,7 +844,7 @@ public class Skills {
 
         //Update weapon tab to send combat level etc.
         player.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         BountyHunter.unassign(player);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }

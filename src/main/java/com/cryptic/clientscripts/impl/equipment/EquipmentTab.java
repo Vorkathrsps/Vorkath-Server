@@ -28,7 +28,6 @@ public class EquipmentTab extends InterfaceBuilder {
         return map;
     }
 
-
     @Override
     public GameInterface gameInterface() {
         return GameInterface.EQUIPMENT_TAB;

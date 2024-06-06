@@ -42,7 +42,7 @@ public enum Prayer {
     PRESERVE(ComponentID.PRESERVE_COMPONENT, Varbit.PRESERVE, 55, -1, 3, 2679);
 
     public static final Prayer[] VALUES = values();
-    private static final Int2ObjectOpenHashMap<Prayer> PRAYERS = new Int2ObjectOpenHashMap<Prayer>(VALUES.length);
+    private static final Int2ObjectOpenHashMap<Prayer> PRAYERS = new Int2ObjectOpenHashMap<>(VALUES.length);
     public static final Long2ObjectMap<Prayer> MAPPED_COMPONENTS = new Long2ObjectOpenHashMap<>();
 
     static {
@@ -76,7 +76,7 @@ public enum Prayer {
     }
 
     public static Prayer getPrayer(final int varbitId) {
-        return PRAYERS.get(varbitId);
+        return PRAYERS.getOrDefault(varbitId, null);
     }
 
     public static Prayer get(int id) {

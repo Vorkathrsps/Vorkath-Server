@@ -39,6 +39,13 @@ public class AttackPlayerPacketListener implements PacketListener {
             return;
         }
 
+        final var hasSkullPrevention = player.<Boolean>getAttribOr(AttributeKey.PK_SKULL_PREVENTION, false);
+        if (hasSkullPrevention) {
+            player.getMovementQueue().clear();
+            player.message("You cannot attack this target as it would result in you getting skulled.");
+            return;
+        }
+
         player.stopActions(false);
 
         int index = packet.readLEShort();

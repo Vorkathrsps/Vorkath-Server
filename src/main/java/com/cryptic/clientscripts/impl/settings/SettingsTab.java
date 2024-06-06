@@ -56,7 +56,9 @@ public class SettingsTab extends InterfaceBuilder {
                         player.getPacketSender().sendRunStatus();
                     }
                     case ComponentID.SETTINGS_SIDE_PK_SKULL_PREVENTION -> {
+                        final var preventionState = player.varps().getVarbit(Varbits.PK_SKULL_PREVENTION) == 0;
                         player.varps().toggleVarbit(Varbits.PK_SKULL_PREVENTION);
+                        player.putAttrib(AttributeKey.PK_SKULL_PREVENTION, preventionState);
                     }
                     case ComponentID.SETTINGS_SIDE_ACCEPT_AID -> {
                         player.varps().toggleVarbit(Varbits.ACCEPT_AID_VARBIT);

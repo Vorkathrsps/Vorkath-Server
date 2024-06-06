@@ -613,7 +613,7 @@ public class CommandManager {
         });
 
         dev("clearp", (p, c, s) -> {
-            p.getPrayer().clear();
+            p.getPrayer().reset();
         });
 
         dev("c", (p, c, s) -> {

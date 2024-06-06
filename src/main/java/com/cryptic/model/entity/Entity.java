@@ -1009,6 +1009,13 @@ public abstract class Entity {
         }
 
         if (this instanceof Player) {
+            final var hasSkullPrevention = this.<Boolean>getAttribOr(AttributeKey.PK_SKULL_PREVENTION, false);
+            if (this.getCombat().getTarget() instanceof Player && hasSkullPrevention) {
+                this.getMovementQueue().clear();
+                this.getCombat().reset();
+                this.message("You cannot attack this target as it would result in you getting skulled.");
+                return;
+            }
             BooleanSupplier cancel = () ->
                 this.getMovementQueue().isMoving() && this.getCombat().getTarget() == null
                     || this.getMovementQueue().hasMoved()
@@ -2092,7 +2099,8 @@ public abstract class Entity {
     @Getter
     public final List<HealthBarUpdate> healthBarQueue = new ArrayList<>();
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public int healthBar = 0;
 
     public void updateHealthBar(HealthBarUpdate update) {

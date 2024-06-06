@@ -31,15 +31,14 @@ public class PrayerTab extends InterfaceBuilder {
         Prayer prayer = player.getPrayer().getPrayer(button);
 
         if (prayer != null) {
-            if (player.getPrayer().getSkillLevel() <= prayer.getLevel()) {
+
+            if (player.getPrayer().getSkillLevel() < prayer.getLevel()) {
                 player.message("You do not meet the requirements to activate this Prayer.");
-                player.sendPrivateSound(2672);
                 return;
             }
 
             if (player.getPrayer().getSkillLevel() <= 0) {
                 player.message("You need to recharge your Prayer at an altar.");
-                player.sendPrivateSound(2672);
                 return;
             }
 

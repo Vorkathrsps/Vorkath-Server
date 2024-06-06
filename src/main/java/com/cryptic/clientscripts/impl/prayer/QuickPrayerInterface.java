@@ -19,7 +19,7 @@ public class QuickPrayerInterface extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        EventNode quickPrayerEvent = new EventNode(WidgetUtil.componentToId(ComponentID.QUICK_PRAYER_PRAYERS), 0, 28);
+        EventNode quickPrayerEvent = new EventNode(WidgetUtil.componentToId(ComponentID.QUICK_PRAYER_CONTAINER), 0, 28);
         quickPrayerEvent.getEvents().add(EventConstants.ClickOp1);
         setEvents(List.of(quickPrayerEvent));
     }

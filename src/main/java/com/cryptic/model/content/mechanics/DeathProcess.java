@@ -265,7 +265,7 @@ public class DeathProcess implements TheatreDeath {
 
         player.getCombat().clearDamagers(); //Clear damagers
         player.setEntityInteraction(null); // Reset entity facing
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         player.getPacketSender().sendInteractionOption("null", 2, false); //Remove the player attack option
         player.setRunningEnergy(100.0, true); //Set the players run energy to 100
         player.graphic(-1); //Set player graphics to -1
@@ -335,7 +335,7 @@ public class DeathProcess implements TheatreDeath {
         player.getPacketSender().sendEffectTimer(0, EffectTimer.STAMINA);
         player.getCombat().clearDamagers(); //Clear damagers
         player.setEntityInteraction(null); // Reset entity facing
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         player.getPacketSender().sendInteractionOption("null", 2, false); //Remove the player attack option
         player.setRunningEnergy(100.0, true); //Set the players run energy to 100
         player.graphic(-1); //Set player graphics to -1

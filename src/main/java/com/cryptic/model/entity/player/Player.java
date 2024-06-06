@@ -1502,7 +1502,7 @@ public class Player extends Entity {
         }
 
         this.getCombat().setAutoCastSpell(null);
-        this.getPrayer().clear();
+        this.getPrayer().reset();
 
         // Update session state
         getSession().setState(SessionState.LOGGING_OUT);
@@ -1656,7 +1656,7 @@ public class Player extends Entity {
         relations.onLogin();
         getMovementQueue().clear();
         //packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).sendRunStatus().sendRunEnergy((int) energy);
-        getPrayer().clear();
+        getPrayer().reset();
         setHeadHint(-1);
         skills.update();
         farming.handleLogin();
@@ -2141,7 +2141,7 @@ public class Player extends Entity {
         setSpecialAttackPercentage(100);
         setSpecialActivated(false);//Disable special attack
         CombatSpecial.updateBar(this);
-        getPrayer().clear();
+        getPrayer().reset();
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(this);
         getMovementQueue().setBlockMovement(false).clear();

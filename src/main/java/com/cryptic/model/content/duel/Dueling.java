@@ -860,7 +860,7 @@ public class Dueling {
         player.setSpecialAttackPercentage(100);//Set special to 100%
         CombatSpecial.updateBar(player);
         player.getCombat().clearDamagers(); //Clear damagers
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         player.hp(100, 0); //Set hitpoints to 100%
         EffectTimer.clearTimers(player);
     }
@@ -984,7 +984,7 @@ public class Dueling {
         Poison.cure(player);
         WeaponInterfaces.updateWeaponInterface(player);
         Skulling.unskull(player);
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         player.getSkills().resetStats();
         player.getCombat().setPoweredStaffSpell(null);
         player.getCombat().setRangedWeapon(null);

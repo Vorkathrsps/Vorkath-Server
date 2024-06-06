@@ -63,9 +63,7 @@ public class Varps {
 
     public void setVarbit2(int id, int value) {
         VarBitType def = CacheManager.INSTANCE.getVarbit(id);
-        if (def != null) {
-            setBit(def.getVarp(), def.getStartBit(), def.getEndBit(), value);
-        }
+        setBit(def.getVarp(), def.getStartBit(), def.getEndBit(), value);
     }
 
     public void setVarbit(final int id, int value) {
@@ -109,7 +107,10 @@ public class Varps {
     }
 
     public void updateVarps() {
-        requireUpdate.forEach( value -> player.getPacketSender().sendConfig(value, varps[value]));
+        requireUpdate.forEach( value -> {
+            System.out.println("varp val="+varps[value]);
+            player.getPacketSender().sendConfig(value, varps[value]);
+        });
         requireUpdate.clear();
     }
 

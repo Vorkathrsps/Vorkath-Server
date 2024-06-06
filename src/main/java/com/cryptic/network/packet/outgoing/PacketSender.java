@@ -495,6 +495,7 @@ public final class PacketSender {
      */
     public PacketSender sendConfig(int id, int state) {
         if (state < Byte.MIN_VALUE || state > 255) {
+            System.out.println("sending int size");
             return sendVarpIntSize(id, state);
         }
 

@@ -14,7 +14,7 @@ public class MasterCommand implements Command {
             player.getSkills().update();
             player.getSkills().recalculateCombat();
         }
-        player.getPrayer().clear();
+        player.getPrayer().reset();
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 

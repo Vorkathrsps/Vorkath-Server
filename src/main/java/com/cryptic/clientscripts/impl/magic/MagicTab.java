@@ -1,34 +1,19 @@
-package com.cryptic.clientscripts.impl;
+package com.cryptic.clientscripts.impl.magic;
 
 import com.cryptic.GameServer;
-import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.CombatFactory;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.data.AncientSpells;
 import com.cryptic.model.entity.combat.magic.data.ModernSpells;
-import com.cryptic.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
-import com.cryptic.model.entity.combat.method.CombatMethod;
-import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.masks.Projectile;
-import com.cryptic.model.entity.masks.impl.animations.Animation;
-import com.cryptic.model.entity.masks.impl.animations.Priority;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
-import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Tuple;
-
-import static com.cryptic.model.entity.combat.CombatFactory.MAGIC_COMBAT;
 
 public class MagicTab extends InterfaceBuilder {
 

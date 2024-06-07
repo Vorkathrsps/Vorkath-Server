@@ -7,6 +7,7 @@ import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.combat.prayer.Prayer;
 import com.cryptic.model.entity.combat.prayer.PrayerManager;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.WidgetUtil;
 
 public class PrayerTab extends InterfaceBuilder {
@@ -32,13 +33,13 @@ public class PrayerTab extends InterfaceBuilder {
 
         if (prayer != null) {
 
-            if (player.getPrayer().getSkillLevel() < prayer.getLevel()) {
-                player.message("You do not meet the requirements to activate this Prayer.");
+            if (player.skills().level(Skills.PRAYER) <= 0 && player.skills().xpLevel(Skills.PRAYER) >= prayer.getLevel()) {
+                player.getPacketSender().runClientScriptNew(5224, 112);
                 return;
             }
 
-            if (player.getPrayer().getSkillLevel() <= 0) {
-                player.message("You need to recharge your Prayer at an altar.");
+            if (player.skills().xpLevel(Skills.PRAYER) < prayer.getLevel()) {
+                player.message("You do not meet the requirements to activate this Prayer.");
                 return;
             }
 

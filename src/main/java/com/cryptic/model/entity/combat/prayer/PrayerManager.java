@@ -83,14 +83,6 @@ public class PrayerManager {
     public void toggle(final Prayer prayer) {
         final boolean activating = this.player.varps().getVarbit(prayer.getVarbit()) == 0;
 
-        if (this.getSkillLevel() <= 0) return;
-
-        if (player.getPrayer().getSkillLevel() < prayer.getLevel() && activating) {
-            player.getPacketSender().runClientScriptNew(5224, 112);
-            player.message("You do not meet the requirements to activate this Prayer.");
-            return;
-        }
-
         if (activating) {
             if (prayer.getHeadIcon() != -1) this.player.setHeadHint(prayer.getHeadIcon());
             this.player.varps().toggleVarbit(prayer.getVarbit());

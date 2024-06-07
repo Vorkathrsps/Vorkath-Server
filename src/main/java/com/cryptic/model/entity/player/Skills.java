@@ -506,14 +506,17 @@ public class Skills {
      */
     public void alterSkill(int skill, int change) {
         levels[skill] += change;
-        if (change > 0 && levels[skill] > xpLevel(skill) + change) { // Cap at realLvl (99) + boost (20) = 118
+        if (change > 0 && levels[skill] > xpLevel(skill) + change) {
             levels[skill] = xpLevel(skill) + change;
         }
-        if (levels[skill] < 0) { // Min 0
+
+        if (levels[skill] < 0) {
             levels[skill] = 0;
         }
+
         update(skill);
     }
+
 
     int getLevelFor(Skill skill) {
         return player.getSkills().levels[skill.getId()];
@@ -548,33 +551,23 @@ public class Skills {
     }
 
     public void replenishStats() {
-        if (player.dead() || player.hp() < 1)
-            return;
+        if (player.dead() || player.hp() < 1) return;
 
-        if (!player.hasAttrib(AttributeKey.EXAGGERATION_BOOST)) {
-            for (int i = 0; i < SKILL_COUNT; i++) {
-                if (i == 5) continue;
-                if (levels[i] < xpLevel(i)) {
-                    levels[i]++;
-                    update(i);
-                } else if (levels[i] > xpLevel(i)) {
-                    levels[i]--;
-                    update(i);
-                }
-            }
-        } else {
-            for (int i = 0; i < SKILL_COUNT; i++) {
-                if (i >= 6) break;
-                if (levels[i] < xpLevel(i)) {
-                    levels[i]++;
-                    update(i);
-                } else if (levels[i] > xpLevel(i)) {
-                    levels[i]--;
-                    update(i);
-                }
+        int maxIndex = player.hasAttrib(AttributeKey.EXAGGERATION_BOOST) ? 6 : SKILL_COUNT;
+
+        for (int i = 0; i < maxIndex; i++) {
+            if (i == 5) continue; // Ignore skill index 5
+            if (i >= 6 && player.hasAttrib(AttributeKey.EXAGGERATION_BOOST)) break;
+            if (levels[i] < xpLevel(i)) {
+                levels[i]++;
+                update(i);
+            } else if (levels[i] > xpLevel(i)) {
+                levels[i]--;
+                update(i);
             }
         }
     }
+
 
     public void replenishStatsToNorm() {
         for (int i = 0; i < SKILL_COUNT; i++) {

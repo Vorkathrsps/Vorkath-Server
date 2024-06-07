@@ -15,6 +15,8 @@ public final class InterfaceID {
 
     public static final int BA_DEFENDER = 487;
 
+    public static final int LEATHER_TANNING_INTERFACE = 324;
+
     public static final int BA_HEALER = 488;
 
     public static final int BA_REWARD = 497;

@@ -23,8 +23,15 @@ public class SettingsInterface extends InterfaceBuilder {
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
-        if (button == ComponentID.ALL_SETTINGS_CLOSE) {
-            this.gameInterface().close(player);
+        switch (button) {
+            case ComponentID.ALL_SETTINGS_CLOSE -> this.gameInterface().close(player);
+            case ComponentID.SETTINGS_INTERFACE_TOP_BUTTON -> {
+                switch (slot) {
+                    case 91 -> player.varps().toggleVarbit(1074);
+                    case 192 -> player.varps().toggleVarbit(12378);
+                    case 93 -> player.varps().toggleVarp(171);
+                }
+            }
         }
     }
 }

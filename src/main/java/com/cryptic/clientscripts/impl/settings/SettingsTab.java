@@ -126,13 +126,6 @@ public class SettingsTab extends InterfaceBuilder {
                     }
                 }
             }
-            /*case 2 -> {
-                switch (button) {
-                    case ComponentID.BRIGHTNESS_SLIDER -> {
-
-                    }
-                }
-            }*/
         }
     }
 }

@@ -13,7 +13,7 @@ public class SetupChannelInterface extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        player.getPacketSender().ifOpenSub(GameInterface.CLAN_SETUP.getId(), 40, PaneType.FIXED, true);
+        player.getPacketSender().ifOpenSubModal(gameInterface().getId(), 40, PaneType.FIXED);
     }
 
     @Override

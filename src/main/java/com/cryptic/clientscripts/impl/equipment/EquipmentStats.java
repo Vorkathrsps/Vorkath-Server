@@ -8,7 +8,8 @@ import com.cryptic.model.entity.player.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EquipmentStats extends InterfaceBuilder {
+public class
+EquipmentStats extends InterfaceBuilder {
 
     private static final Map<Integer, Integer> componentToEquipmentMap = createComponentToEquipmentMap();
 

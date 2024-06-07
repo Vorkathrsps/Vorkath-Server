@@ -2232,6 +2232,51 @@ public final class ComponentID {
      */
     public static final int SEED_VAULT_SEARCH_BUTTON = 41353240;
 
+
+    public static final int TANNING_STRING_RGB_1 = 21233772;
+    public static final int TANNING_STRING_RGB_2 = 21233780;
+    public static final int TANNING_STRING_RGB_3 = 21233773;
+    public static final int TANNING_STRING_RGB_4 = 21233781;
+    public static final int TANNING_STRING_RGB_5 = 21233774;
+    public static final int TANNING_STRING_RGB_6 = 21233782;
+    public static final int TANNING_STRING_RGB_7 = 21233775;
+    public static final int TANNING_STRING_RGB_8 = 21233783;
+    public static final int TANNING_STRING_RGB_9 = 21233776;
+    public static final int TANNING_STRING_RGB_10 = 21233784;
+    public static final int TANNING_STRING_RGB_11 = 21233777;
+    public static final int TANNING_STRING_RGB_12 = 21233785;
+    public static final int TANNING_STRING_RGB_13 = 21233778;
+    public static final int TANNING_STRING_RGB_14 = 21233786;
+    public static final int TANNING_STRING_RGB_15 = 21233779;
+    public static final int TANNING_STRING_RGB_16 = 21233787;
+    public static final int COMPONENT_TEXT_EMPTY = 21233764; // 100
+    public static final int COMPONENT_TEXT_SOFT_LEATHER_1 = 21233772; // 108
+    public static final int COMPONENT_TEXT_1_COINS = 21233780; // 116
+    public static final int COMPONENT_TEXT_SOFT_LEATHER_2 = 21233773; // 109
+    public static final int COMPONENT_TEXT_3_COINS = 21233781; // 117
+    public static final int COMPONENT_TEXT_SNAKESKIN_1 = 21233774; // 110
+    public static final int COMPONENT_TEXT_20_COINS_1 = 21233782; // 118
+    public static final int COMPONENT_TEXT_SNAKESKIN_2 = 21233775; // 111
+    public static final int COMPONENT_TEXT_15_COINS = 21233783; // 119
+    public static final int COMPONENT_TEXT_GREEN_DHIDE = 21233776; // 112
+    public static final int COMPONENT_TEXT_20_COINS_2 = 21233784; // 120
+    public static final int COMPONENT_TEXT_BLUE_DHIDE = 21233777; // 113
+    public static final int COMPONENT_TEXT_20_COINS_3 = 21233785; // 121
+    public static final int COMPONENT_TEXT_RED_DHIDE = 21233778; // 114
+    public static final int COMPONENT_TEXT_20_COINS_4 = 21233786; // 122
+    public static final int COMPONENT_TEXT_BLACK_DHIDE = 21233779; // 115
+    public static final int COMPONENT_TEXT_20_COINS_5 = 21233787; // 123
+    public static final int SOFT_LEATHER_ITEM = 21233764;
+    public static final int HARD_LEATHER_ITEM = 21233765;
+    public static final int SNAKESKIN_ITEM_1 = 21233766;
+    public static final int SNAKESKIN_ITEM_2 = 21233767;
+    public static final int GREEN_DHIDE_ITEM = 21233768;
+    public static final int BLUE_DHIDE_ITEM = 21233769;
+    public static final int RED_DHIDE_ITEM = 21233770;
+    public static final int BLACK_DHIDE_ITEM = 21233771; // Placeholder name, replace if needed
+
+
+
     /**
      * 134:1
      */
@@ -2669,6 +2714,12 @@ public final class ComponentID {
     public static final int SETUP_CHANNEL = 458772;
     public static final int FRIENDS_CHANNEL_JOIN = 458770;
     public static final int SETTINGS_SOUND_MUTE = 7602283;
+    public static final int SETTINGS_INTERFACE_TOP_BUTTON = 8781843;
+    public static final int GUIDE_PRICES_SEARCH = 30408709;
+    public static final int COLLECTION_LOG_BUTTON = 46661635;
+    public static final int COLLECTION_LOG_CLOSE = 40697937;
+    public static final int BEASTIARY_LOOKUP = 40697876;
+    public static final int COLLECTION_LOG_CATEGORY_ONE = 40697861;
 
     /**
      * Non BitPacked
@@ -2695,9 +2746,4 @@ public final class ComponentID {
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
-    public static final int GUIDE_PRICES_SEARCH = 30408709;
-    public static final int COLLECTION_LOG_BUTTON = 46661635;
-    public static final int COLLECTION_LOG_CLOSE = 40697937;
-    public static final int BEASTIARY_LOOKUP = 40697876;
-    public static final int COLLECTION_LOG_CATEGORY_ONE = 40697861;
 }

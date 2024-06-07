@@ -27,7 +27,7 @@ public class TreasureRoom extends PacketInteraction {
                 return true;
             }
             int[] rare_loot = new int[]{ItemIdentifiers.CABBAGE, ItemIdentifiers.AVERNIC_DEFENDER_HILT, ItemIdentifiers.GHRAZI_RAPIER, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.JUSTICIAR_FACEGUARD, ItemIdentifiers.JUSTICIAR_CHESTGUARD, ItemIdentifiers.JUSTICIAR_LEGGUARDS, ItemIdentifiers.SANGUINE_ORNAMENT_KIT, ItemIdentifiers.HOLY_ORNAMENT_KIT, ItemIdentifiers.SANGUINE_DUST, ItemIdentifiers.LIL_ZIK, ItemIdentifiers.SCYTHE_OF_VITUR};
-            player.getPacketSender().ifOpenSub(12220);
+            player.getPacketSender().sendInterface(12220);
             player.getTheatreInstance().getLootMap().forEach((key, value) -> giveRewards(player, rare_loot, key, value));
             object.replaceWith(new GameObject(32994, object.tile(), object.getType(), object.getRotation()), false);
             player.clearAttrib(AttributeKey.RARE_TOB_REWARD);

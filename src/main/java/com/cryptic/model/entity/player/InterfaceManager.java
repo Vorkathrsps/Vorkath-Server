@@ -72,7 +72,7 @@ public class InterfaceManager {
         player.unlock();
         main = identification;
         player.getMovementQueue().clear();
-        player.getPacketSender().ifOpenSub(identification);
+        player.getPacketSender().sendInterface(identification);
         setSidebar(GameConstants.LOGOUT_TAB, -1);
         int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
         player.getPacketSender().sendString(64014, "Reward Points: " + Utils.formatNumber(slayerRewardPoints));

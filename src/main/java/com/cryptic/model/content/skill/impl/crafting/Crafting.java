@@ -1,5 +1,6 @@
 package com.cryptic.model.content.skill.impl.crafting;
 
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.action.Action;
 import com.cryptic.model.action.policy.WalkablePolicy;
 import com.cryptic.model.content.achievements.Achievements;
@@ -87,7 +88,7 @@ public class Crafting extends PacketInteraction {
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if (npc.id() == NpcIdentifiers.ELLIS) {
-            Tanning.open(player);
+            GameInterface.TANNING_INTERFACE.open(player);
             return true;
         }
 

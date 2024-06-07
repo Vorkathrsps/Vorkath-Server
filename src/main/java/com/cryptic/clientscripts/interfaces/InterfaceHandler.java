@@ -13,6 +13,7 @@ import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
 import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
 import com.cryptic.clientscripts.impl.journal.collectionlog.CollectionLogInterface;
+import com.cryptic.clientscripts.impl.leathertanner.TanningInterface;
 import com.cryptic.clientscripts.impl.magic.MagicTab;
 import com.cryptic.clientscripts.impl.prayer.PrayerTab;
 import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
@@ -75,6 +76,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.GUIDE_PRICES, new GuidePriceInterface());
         interfaces.put(InterfaceID.GUIDE_PRICES_INVENTORY, new GuidePriceInventory());
         interfaces.put(InterfaceID.COLLECTION_LOG, new CollectionLogInterface());
+        interfaces.put(InterfaceID.LEATHER_TANNING_INTERFACE, new TanningInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

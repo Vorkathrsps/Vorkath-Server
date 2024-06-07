@@ -20,7 +20,7 @@ public class FriendsChannelInterface extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         player.getPacketSender().runClientScriptNew(2524, -1, -1);
-        player.getPacketSender().ifOpenSub(GameInterface.FRIENDS_CHANNEL.getId(), 7, PaneType.CHAT_TAB_HEADER, true);
+        player.getPacketSender().ifOpenSubWalkable(GameInterface.FRIENDS_CHANNEL.getId(), 7, PaneType.CHAT_TAB_HEADER);
     }
 
     @Override

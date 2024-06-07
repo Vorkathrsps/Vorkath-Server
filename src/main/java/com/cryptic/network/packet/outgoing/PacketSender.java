@@ -1,6 +1,8 @@
 package com.cryptic.network.packet.outgoing;
 
 import com.cryptic.GameConstants;
+import com.cryptic.clientscripts.util.CombinedId;
+import com.cryptic.clientscripts.util.JagexColor;
 import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.content.EffectTimer;
@@ -574,15 +576,19 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender ifOpenSub(int id) {
-        //System.out.println("sending interface");
+    public PacketSender sendInterface(int id) {
         PacketBuilder out = new PacketBuilder(97);
         out.putInt(id);
         player.getSession().write(out);
         return this;
     }
 
-    public void ifOpenSub(final int interfaceId, final int paneComponent, final PaneType pane, final boolean walkable) {
+    public void ifOpenSubModal(final int interfaceId, final int topComponent, final PaneType pane) {
+        sendInterfaceOSRS(interfaceId, topComponent, pane, InterfaceType.MODAL);
+        player.interfaces.getVisible().forcePut(pane.getId() << 16 | topComponent, interfaceId);
+    }
+
+    public void ifOpenSubWalkable(final int interfaceId, final int paneComponent, final PaneType pane) {
         sendInterfaceOSRS(interfaceId, paneComponent, pane, InterfaceType.OVERLAY);
         player.interfaces.getVisible().forcePut(pane.getId() << 16 | paneComponent, interfaceId);
     }
@@ -773,13 +779,13 @@ public final class PacketSender {
         int interfaceId = WidgetUtil.componentToInterface(packed);
         int component = WidgetUtil.componentToId(packed);
 
-        return setComponentVisability(interfaceId,component,hidden);
+        return setComponentVisability(interfaceId, component, hidden);
     }
 
     public PacketSender setComponentVisability(int parent, int child, boolean hidden) {
         PacketBuilder out = new PacketBuilder(232);
         out.putInt((parent << 16) | child);
-        out.put(hidden ? 1: 0 );
+        out.put(hidden ? 1 : 0);
         player.getSession().write(out);
         return this;
     }
@@ -788,7 +794,7 @@ public final class PacketSender {
         int interfaceId = WidgetUtil.componentToInterface(packed);
         int component = WidgetUtil.componentToId(packed);
 
-        return setComponentText(interfaceId,component,text);
+        return setComponentText(interfaceId, component, text);
     }
 
     public PacketSender setComponentText(int parent, int child, String text) {
@@ -798,7 +804,6 @@ public final class PacketSender {
         player.getSession().write(out);
         return this;
     }
-
 
 
     public PacketSender setItemMessage(int hash, int item, int amount) {
@@ -1026,7 +1031,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendUpdateInvPartial(int inventoryId, int slot, Item item) {
-        return sendUpdateInvPartial(inventoryId, new int[] {slot}, new Item[] {item});
+        return sendUpdateInvPartial(inventoryId, new int[]{slot}, new Item[]{item});
     }
 
     public PacketSender sendUpdateInvPartial(int inventoryId, int[] slots, Item[] items) {
@@ -1176,6 +1181,14 @@ public final class PacketSender {
         out.putShort(id);
         out.putInt(color);
         //System.out.printf("id: %d colour: %d%n", id, color);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender setTextComponentColor(CombinedId component, JagexColor color) {
+        PacketBuilder out = new PacketBuilder(226);
+        out.putInt(component.combinedId);
+        out.putShort(color.packed);
         player.getSession().write(out);
         return this;
     }

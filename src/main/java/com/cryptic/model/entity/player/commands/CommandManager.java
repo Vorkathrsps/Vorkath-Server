@@ -4,6 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -617,7 +618,7 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            System.out.println(p.getSpellbook());
+            GameInterface.TANNING_INTERFACE.open(p);
         });
 
         dev("c3", (p, c, s) -> {
@@ -1011,7 +1012,7 @@ public class CommandManager {
 
         dev("simclear", (p, c, s) ->
         {
-            p.getPacketSender().ifOpenSub(27200);
+            p.getPacketSender().sendInterface(27200);
             for (int index = 0; index < 1000; index++) {
                 p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
             }
@@ -1048,7 +1049,7 @@ public class CommandManager {
 
                     List<Item> mergedList = new ArrayList<>(mergedItems.values());
 
-                    p.getPacketSender().ifOpenSub(27200);
+                    p.getPacketSender().sendInterface(27200);
                     for (int index = 0; index < 500; index++) {
                         p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
                     }

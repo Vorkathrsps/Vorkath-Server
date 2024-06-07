@@ -35,6 +35,8 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     CLAN_GROUP(InterfaceID.CLAN_GROUP, InterfacePosition.SIDE_CHANNELS),
     CLAN_SETUP(InterfaceID.CLAN_SETUP),
 
+    TANNING_INTERFACE(InterfaceID.LEATHER_TANNING_INTERFACE),
+
     FRIEND_LIST_TAB(InterfaceID.FRIEND_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     IGNORE_LIST_TAB(InterfaceID.IGNORE_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     ACCOUNT_MANAGEMENT(InterfaceID.ACCOUNT_MANAGEMENT, InterfacePosition.SIDE_ACCOUNT_MANAGEMENT),

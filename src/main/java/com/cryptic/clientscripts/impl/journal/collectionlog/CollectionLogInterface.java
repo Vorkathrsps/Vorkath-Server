@@ -54,7 +54,7 @@ public class CollectionLogInterface extends InterfaceBuilder {
         ));
         player.getPacketSender().runClientScriptNew(2388, 0);
         player.getPacketSender().runClientScriptNew(2730, 40697866, 40697867, 40697868, 40697869, 471, 0);
-        player.getPacketSender().ifOpenSub(gameInterface().getId(), 40, PaneType.FIXED, true);
+        player.getPacketSender().sendInterface(gameInterface().getId(), 40, PaneType.FIXED, true);
         player.varps().setVarbit(Varbits.COLLECTION_LOG_SELECTED_ELEMENT, 0);
     }
 

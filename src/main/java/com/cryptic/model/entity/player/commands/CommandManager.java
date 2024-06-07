@@ -1011,7 +1011,7 @@ public class CommandManager {
 
         dev("simclear", (p, c, s) ->
         {
-            p.getPacketSender().ifOpenSub(27200);
+            p.getPacketSender().sendInterface(27200);
             for (int index = 0; index < 1000; index++) {
                 p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
             }
@@ -1048,7 +1048,7 @@ public class CommandManager {
 
                     List<Item> mergedList = new ArrayList<>(mergedItems.values());
 
-                    p.getPacketSender().ifOpenSub(27200);
+                    p.getPacketSender().sendInterface(27200);
                     for (int index = 0; index < 500; index++) {
                         p.getPacketSender().sendItemOnInterfaceSlot(27201, null, index);
                     }

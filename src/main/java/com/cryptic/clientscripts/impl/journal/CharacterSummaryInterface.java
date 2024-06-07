@@ -22,7 +22,7 @@ public class CharacterSummaryInterface extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         setEvents(new EventNode(3, 3, 7));
-        player.getPacketSender().ifOpenSub(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER, true);
+        player.getPacketSender().sendInterface(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER, true);
     }
 
     @Override

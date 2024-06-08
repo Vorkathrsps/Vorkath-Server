@@ -2,6 +2,8 @@ package com.cryptic.clientscripts.util;
 
 import lombok.Getter;
 
+import java.awt.*;
+
 @Getter
 public class JagexColor {
 
@@ -40,6 +42,32 @@ public class JagexColor {
         JagexColor that = (JagexColor) o;
         return packed == that.packed;
     }
+
+    public static JagexColor hex(String hex) {
+        if (hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
+        if (hex.length() == 3) {
+            hex = "" + hex.charAt(0) + hex.charAt(0) +
+                hex.charAt(1) + hex.charAt(1) +
+                hex.charAt(2) + hex.charAt(2);
+        }
+        if (hex.length() != 6) {
+            throw new IllegalArgumentException("Invalid hex color format");
+        }
+        int red = Integer.parseInt(hex.substring(0, 2), 16) >> 3;
+        int green = Integer.parseInt(hex.substring(2, 4), 16) >> 3;
+        int blue = Integer.parseInt(hex.substring(4, 6), 16) >> 3;
+        return new JagexColor(red, green, blue);
+    }
+
+    public static JagexColor color(Color color) {
+        int red = color.getRed() >> 3;
+        int green = color.getGreen() >> 3;
+        int blue = color.getBlue() >> 3;
+        return new JagexColor(red, green, blue);
+    }
+
 
     @Override
     public int hashCode() {

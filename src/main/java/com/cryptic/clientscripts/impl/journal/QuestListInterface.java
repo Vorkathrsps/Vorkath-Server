@@ -22,7 +22,7 @@ public class QuestListInterface extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         setEvents(new EventNode(3, 3, 7));
-        player.getPacketSender().ifOpenSubWalkable(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER);
+        player.getPacketSender().sendSubInterface(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER);
     }
 
     @Override

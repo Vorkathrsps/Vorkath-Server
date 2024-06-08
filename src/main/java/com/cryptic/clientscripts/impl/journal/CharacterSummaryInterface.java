@@ -26,7 +26,7 @@ public class CharacterSummaryInterface extends InterfaceBuilder {
     public void beforeOpen(Player player) {
         long gameTime = player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L);
         setEvents(new EventNode(3, 3, 7));
-        player.getPacketSender().ifOpenSubWalkable(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER);
+        player.getPacketSender().sendSubInterface(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER);
         player.getPacketSender().runClientScriptNew(ScriptID.TIME_PLAYED, ComponentID.CHARACTER_SUMMARY_CONTAINER, ComponentID.COLLECTION_LOG, gameTime / 100L);
         player.getPacketSender().runClientScriptNew(ScriptID.CHARACTER_SUMMARY_COMBAT_LEVEL, ComponentID.CHARACTER_SUMMARY_CONTAINER, ComponentID.COLLECTION_LOG, player.skills().combatLevel());
     }

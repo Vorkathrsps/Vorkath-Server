@@ -17,7 +17,7 @@ public class SetupChannelInterface extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        player.getPacketSender().ifOpenSubModal(gameInterface().getId(), 40, PaneType.FIXED);
+        player.getPacketSender().sendSubInterfaceModal(gameInterface().getId(), 40, PaneType.FIXED);
     }
 
     @Override

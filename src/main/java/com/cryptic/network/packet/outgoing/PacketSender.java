@@ -583,14 +583,17 @@ public final class PacketSender {
         return this;
     }
 
-    public void ifOpenSubModal(final int interfaceId, final int topComponent, final PaneType pane) {
-        sendInterfaceOSRS(interfaceId, topComponent, pane, InterfaceType.MODAL);
+    public void sendSubInterface(final int interfaceId, final int topComponent, final PaneType pane, InterfaceType type) {
+        sendInterfaceOSRS(interfaceId, topComponent, pane, type);
         player.interfaces.getVisible().forcePut(pane.getId() << 16 | topComponent, interfaceId);
     }
 
-    public void ifOpenSubWalkable(final int interfaceId, final int paneComponent, final PaneType pane) {
-        sendInterfaceOSRS(interfaceId, paneComponent, pane, InterfaceType.OVERLAY);
-        player.interfaces.getVisible().forcePut(pane.getId() << 16 | paneComponent, interfaceId);
+    public void sendSubInterface(final int interfaceId, final int topComponent, final PaneType pane) {
+        sendSubInterface(interfaceId,topComponent,pane,InterfaceType.OVERLAY);
+    }
+    
+    public void sendSubInterfaceModal(final int interfaceId, final int topComponent, final PaneType pane) {
+        sendSubInterface(interfaceId,topComponent,pane,InterfaceType.MODAL);
     }
 
     public PacketSender sendWalkableInterface(int interfaceId) {

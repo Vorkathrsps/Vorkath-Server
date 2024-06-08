@@ -64,7 +64,7 @@ public class TanningInterface extends InterfaceBuilder {
         player.getPacketSender().setItemMessage(ComponentID.BLUE_DHIDE_ITEM, ItemIdentifiers.BLUE_DRAGONHIDE, 250);
         player.getPacketSender().setItemMessage(ComponentID.RED_DHIDE_ITEM, ItemIdentifiers.RED_DRAGONHIDE, 250);
         player.getPacketSender().setItemMessage(ComponentID.BLACK_DHIDE_ITEM, ItemIdentifiers.BLACK_DRAGONHIDE, 250);
-        player.getPacketSender().ifOpenSubModal(gameInterface().getId(), 40, PaneType.FIXED);
+        player.getPacketSender().sendSubInterfaceModal(gameInterface().getId(), 40, PaneType.FIXED);
     }
 
 

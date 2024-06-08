@@ -2746,4 +2746,6 @@ public final class ComponentID {
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
+    public static final int GUIDE_PRICE_SLOT = 15597568;
+    public static final int DEPOSIT_ALL_GUIDE_PRICE = 30408714;
 }

@@ -1,12 +1,12 @@
 package com.cryptic.clientscripts.impl.equipment.guideprice;
 
-import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.utility.WidgetUtil;
+import com.cryptic.model.items.Item;
 
 public class GuidePriceInventory extends InterfaceBuilder {
 
@@ -17,16 +17,50 @@ public class GuidePriceInventory extends InterfaceBuilder {
 
     @Override
     public void beforeOpen(Player player) {
-        setEvents(new EventNode(0, 0, 27));
+        setEvents(new EventNode(0, 0, 28));
         player.getPacketSender().runClientScriptNew(ScriptID.ADD_AMOUNT_MENU_OPTIONS, 15597568, 93, 4, 7, 0, -1, "Add<col=ff9040>", "Add-5<col=ff9040>", "Add-10<col=ff9040>", "Add-All<col=ff9040>", "Add-X<col=ff9040>");
     }
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
-        int interfaceID = WidgetUtil.componentToInterface(button);
-        int child = WidgetUtil.componentToId(button);
-        if (interfaceID == InterfaceID.GUIDE_PRICES_INVENTORY && child == 0) {
-            player.getEquipment().equip(slot);
+        final Item itemAtSlot = player.getInventory().get(slot);
+        if (button == ComponentID.GUIDE_PRICE_SLOT) {
+            switch (option) {
+                case 1 -> {
+                    if (itemAtSlot == null) return;
+                    player.getPriceChecker().sendItemToSlot(slot, 1);
+                }
+                case 2 -> {
+                    if (itemAtSlot == null) return;
+                    player.getPriceChecker().sendItemToSlot(slot, 5);
+                }
+                case 3 -> {
+                    if (itemAtSlot == null) return;
+                    player.getPriceChecker().sendItemToSlot(slot, 10);
+                }
+                case 4 -> {
+                    if (itemAtSlot == null) return;
+                    if (itemAtSlot.stackable()) {
+                        player.getPriceChecker().sendItemToSlot(itemId, itemAtSlot.getAmount());
+                        return;
+                    }
+                    player.getPriceChecker().sendAllToSlot(itemId);
+                }
+                case 5 -> {
+                    if (itemAtSlot == null) return;
+                    player.<Integer>setResumeAmountScript("Enter Amount:", (amount) -> {
+                        if (slot == -1) return true;
+                        player.getPriceChecker().sendItemToSlot(slot, amount);
+                        return true;
+                    });
+                }
+            }
         }
+    }
+
+    @Override
+    public void onModalClosed(Player player) {
+        if (player.getPriceChecker().isEmpty()) return;
+        player.getPriceChecker().withdrawAll();
     }
 }

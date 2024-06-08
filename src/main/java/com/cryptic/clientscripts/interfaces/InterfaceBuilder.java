@@ -70,8 +70,17 @@ public abstract class InterfaceBuilder {
 
     }
 
+    public void onResumePObj(Player player, int id) {
+
+    }
+
+    public void onModalClosed(Player player) {
+
+    }
+
     public void close(final Player player) {
         if (sendInterface()) {
+            onModalClosed(player);
             player.activeInterface.remove(gameInterface().getId());
         }
     }

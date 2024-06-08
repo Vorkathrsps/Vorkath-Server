@@ -40,7 +40,7 @@ public class EquipmentTab extends InterfaceBuilder {
         } else if (button == ComponentID.EQUIPMENT_STATS) {
             GameInterface.EQUIPMENT_STATS.open(player);
         } else if (button == ComponentID.EQUIPMENT_CALL) {
-            player.message("Come Here boiii");
+
         }
 
         if (button == ComponentID.EQUIPMENT_DEATH) {

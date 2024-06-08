@@ -1642,7 +1642,8 @@ public enum AttributeKey {
     SLAYER_IDENTIFIER(AttribType.STRING),
     COOKING_IDENTIFIER(AttribType.STRING),
     REVENANT_DROP_BOOST, SKILL_INFORMATION,
-    PK_SKULL_PREVENTION(AttribType.BOOLEAN);
+    PK_SKULL_PREVENTION(AttribType.BOOLEAN),
+    ACTIVE_ONRESUME_INTERFACE, STORED_SLOT;
 
     private String saveName;
     private AttribType type;

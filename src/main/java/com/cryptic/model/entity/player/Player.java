@@ -258,7 +258,8 @@ public class Player extends Entity {
     @Setter
     RaidParty raidParty;
 
-    @Getter ToggleManager toggleManager = new ToggleManager();
+    @Getter
+    ToggleManager toggleManager = new ToggleManager();
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -3179,15 +3180,11 @@ public class Player extends Entity {
 
     public int lastSoundId = 1;
 
-    private InputScript inputScript;
+    @Getter @Setter private InputScript<Object> inputScript;
 
     public void removeInputScript() {
         if (inputScript == null) return;
         inputScript = null;
-    }
-
-    public InputScript getInputScript() {
-        return inputScript;
     }
 
     public void finishInputScript() {
@@ -3196,7 +3193,12 @@ public class Player extends Entity {
 
     public <T> void setAmountScript(String title, InputScript<T> inputScript) {
         this.getPacketSender().sendEnterAmountPrompt(title);
-        this.inputScript = inputScript;
+        this.inputScript = (InputScript<Object>) inputScript;
+    }
+
+    public <T> void setResumeAmountScript(String title, InputScript<T> inputScript) {
+        this.getPacketSender().runClientScriptNew(108, title);
+        this.setInputScript((InputScript<Object>) inputScript);
     }
 
     public void setNameScript(String title, InputScript inputScript) {

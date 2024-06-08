@@ -10,7 +10,5 @@ public class CloseModelPacketListener implements PacketListener {
     @Override
     public void handleMessage(Player player, Packet packet) {
         InterfaceHandler.closeModals(player);
-
-        System.out.println("Close Models");
     }
 }

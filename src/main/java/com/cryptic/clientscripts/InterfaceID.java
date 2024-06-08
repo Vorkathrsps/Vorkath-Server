@@ -240,6 +240,8 @@ public final class InterfaceID {
 
     public static final int PVP = 90;
 
+    public static final int GUIDE_PRICE_INVENTORY = 90;
+
     public static final int PYRAMID_PLUNDER = 428;
 
     public static final int QUEST_COMPLETED = 153;

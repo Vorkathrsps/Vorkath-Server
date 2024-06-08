@@ -1,5 +1,8 @@
 package com.cryptic.model.items.container.price_checker;
 
+import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.util.CombinedId;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
@@ -9,49 +12,64 @@ import com.cryptic.model.items.container.ItemContainerAdapter;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
-import java.text.NumberFormat;
 import java.util.Optional;
 
 public class PriceChecker extends ItemContainer {
 
-    /** Holds all the string identifications */
-    private final int[] STRINGS = { 49550, 49551, 49552, 49553, 49554, 49555, 49556, 49557, 49558, 49559, 49560, 49561,
+    /**
+     * Holds all the string identifications
+     */
+    private final int[] STRINGS = {49550, 49551, 49552, 49553, 49554, 49555, 49556, 49557, 49558, 49559, 49560, 49561,
         49562, 49563, 49564, 49565, 49566, 49567, 49568, 49569, 49570, 49571, 49572, 49573, 49574, 49575, 49576,
-        49577, };
+        49577,};
 
-    /** The player instance. */
+    /**
+     * The player instance.
+     */
     public Player player;
 
-    /** The item being searched. */
+    /**
+     * The item being searched.
+     */
     public Item searchedItem;
 
-    /** Creates a new <code>PriceChecker<code>. */
+    /**
+     * Creates a new <code>PriceChecker<code>.
+     */
     public PriceChecker(Player player) {
         super(28, StackPolicy.STANDARD);
         this.player = player;
         addListener(new PriceCheckerListener());
     }
 
-    /** Closes the price checker interface. */
+    /**
+     * Closes the price checker interface.
+     */
     public void close() {
         player.getPriceChecker().withdrawAll();
         player.getPriceChecker().searchedItem = null;
         player.putAttrib(AttributeKey.PRICE_CHECKING, false);
     }
 
-    /** Opens the price checker interface. */
+    /**
+     * Opens the price checker interface.
+     */
     public void open() {
         refresh();
         player.putAttrib(AttributeKey.PRICE_CHECKING, true);
         player.getInterfaceManager().openInventory(InterfaceConstants.PRICE_CHECKER, 5063);
     }
 
-    /** Sets the calculating value of the price checker. */
+    /**
+     * Sets the calculating value of the price checker.
+     */
     public void setValue() {
         refresh();
     }
 
-    /** Deposits an item into the price checker. */
+    /**
+     * Deposits an item into the price checker.
+     */
     public void deposit(int slot, int amount) {
         Item item = player.inventory().get(slot);
         if (item == null)
@@ -82,7 +100,9 @@ public class PriceChecker extends ItemContainer {
         refresh();
     }
 
-    /** Withdraws an item from the price checker. */
+    /**
+     * Withdraws an item from the price checker.
+     */
     public void withdraw(int itemId, int amount) {
         int slot = getSlot(itemId);
         if (itemId < 0)
@@ -123,7 +143,33 @@ public class PriceChecker extends ItemContainer {
         refresh();
     }
 
-    /** Deposits all the items into the price checker. */
+    public void removeAllFromSlot(int id) {
+        for (Item item : getItems()) {
+            if (item == null) continue;
+            if (item.getId() != id) continue;
+            if (this.remove(item)) {
+                player.inventory().add(item, -1, true);
+            }
+        }
+        runClientScripts();
+        refresh();
+    }
+
+    public void sendAllToSlot(int id) {
+        Item[] items = player.inventory().toArray();
+        for (int slot = 0; slot < items.length; slot++) {
+            Item item = items[slot];
+            if (item == null) continue;
+            if (item.getId() != id) continue;
+            sendItemToSlot(slot, item.getAmount());
+        }
+        runClientScripts();
+        refresh();
+    }
+
+    /**
+     * Deposits all the items into the price checker.
+     */
     public void depositAll() {
         Item[] items = player.inventory().toArray();
         for (int slot = 0; slot < items.length; slot++) {
@@ -132,21 +178,52 @@ public class PriceChecker extends ItemContainer {
                 continue;
             }
 
-            deposit(slot, item.getAmount());
+            sendItemToSlot(slot, item.getAmount());
         }
         refresh();
     }
 
-    /** Withdraw all the items from the price checker. */
+    private void runClientScripts() {
+        long totalValue = 0;
+        final Object[] params = new Object[player.getPriceChecker().size()];
+        for (int i = 0; i < params.length; i++) {
+            final Item item = player.getPriceChecker().get(i);
+            if (item == null) {
+                params[i] = 0;
+                continue;
+            }
+            final int valueOfStack = item.getValue();
+            params[i] = item.getId() == 995 ? 1 : valueOfStack;
+            totalValue += (long) item.getValue() * item.getAmount();
+        }
+        final long total = totalValue;
+        player.getPacketSender().runClientScriptNew(785, params);
+        player.getPacketSender().runClientScriptNew(600, 1, 1, 15, 30408716);
+        player.getPacketSender().setItemMessage(new CombinedId(GameInterface.GUIDE_PRICE.getId(), 8).combinedId, 6512, 0);
+        player.getPacketSender().setComponentText(GameInterface.GUIDE_PRICE.getId(), 12, "Total guide price:<br><col=ffffff>" + Utils.formatValueCommas(total) + "</col>");
+    }
+
+    /**
+     * Withdraw all the items from the price checker.
+     */
     public void withdrawAll() {
         for (Item item : getItems()) {
-            if (item != null) {
-                if (this.remove(item)) {
-                    player.inventory().add(item, -1, false);
-                }
+            if (item == null) continue;
+            if (this.remove(item)) {
+                player.inventory().add(item, -1, true);
             }
         }
         refresh();
+    }
+
+    public void removeItemFromSlot(int itemId, int amount) {
+        this.withdraw(itemId, amount);
+        runClientScripts();
+    }
+
+    public void sendItemToSlot(int slot, int amount) {
+        this.deposit(slot, amount);
+        runClientScripts();
     }
 
     public boolean buttonActions(int button) {
@@ -168,33 +245,12 @@ public class PriceChecker extends ItemContainer {
     }
 
     public void sync() {
-        refresh(player, InterfaceConstants.PRICE_CHECKER_DISPLAY_ID);
+        refreshInventory(player, InterfaceID.GUIDE_PRICE_INVENTORY);
     }
 
     @Override
     public void onRefresh() {
-        for (int index = 0; index < STRINGS.length; index++) {
-            String value = "";
-
-            if (getItems()[index] != null) {
-                int price = getItems()[index].noted() ? getItems()[index].unnote().getValue() : getItems()[index].getValue();
-                int amount = getItems()[index].getAmount();
-
-                value = getItems()[index].stackable() ? Utils.formatPriceKMB(price * amount) : Utils.formatPriceKMB(price);
-            }
-
-            player.getPacketSender().sendString(STRINGS[index], value);
-        }
-
         player.inventory().refresh();
-        player.getPacketSender().sendString(49582, "");
-        player.getPacketSender().sendString(49583, "");
-        player.getPacketSender().sendItemOnInterfaceSlot(49581, searchedItem, 0);
-        player.getPacketSender().sendConfig(237, 1);
-        player.getPacketSender().sendItemOnInterface(InterfaceConstants.INVENTORY_STORE, player.inventory().toArray());
-        player.getPacketSender().sendString(49582, searchedItem == null ? "" : "<col=ffb000>" + searchedItem.name() + ":");
-        player.getPacketSender().sendString(49583, searchedItem == null ? "" : Utils.format(searchedItem.getValue()));
-        player.getPacketSender().sendString(49513, "" + NumberFormat.getInstance().format(containerValue()));
     }
 
     private final class PriceCheckerListener extends ItemContainerAdapter {
@@ -205,7 +261,7 @@ public class PriceChecker extends ItemContainer {
 
         @Override
         public int getWidgetId() {
-            return 5063;
+            return GameInterface.GUIDE_PRICE.getId();
         }
 
         @Override
@@ -215,6 +271,9 @@ public class PriceChecker extends ItemContainer {
 
         @Override
         public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
+            if (refresh) {
+                player.getPacketSender().sendUpdateInvPartial(InterfaceID.GUIDE_PRICE_INVENTORY, index, newItem.orElse(null));
+            }
         }
 
         @Override

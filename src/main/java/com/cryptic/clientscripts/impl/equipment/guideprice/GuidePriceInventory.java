@@ -1,12 +1,14 @@
 package com.cryptic.clientscripts.impl.equipment.guideprice;
 
 import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.InventoryID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.inventory.Inventory;
 
 /**
  * @Author: Origin
@@ -22,7 +24,7 @@ public class GuidePriceInventory extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         setEvents(new EventNode(0, 0, 28));
-        player.getPacketSender().runClientScriptNew(ScriptID.ADD_AMOUNT_MENU_OPTIONS, 15597568, 93, 4, 7, 0, -1, "Add<col=ff9040>", "Add-5<col=ff9040>", "Add-10<col=ff9040>", "Add-All<col=ff9040>", "Add-X<col=ff9040>");
+        player.getPacketSender().runClientScriptNew(ScriptID.ADD_AMOUNT_MENU_OPTIONS, ComponentID.GUIDE_PRICE_SLOT, InventoryID.INVENTORY, 4, 7, 0, -1, "Add<col=ff9040>", "Add-5<col=ff9040>", "Add-10<col=ff9040>", "Add-All<col=ff9040>", "Add-X<col=ff9040>");
     }
 
     @Override

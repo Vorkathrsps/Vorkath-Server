@@ -6,9 +6,9 @@ import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.QuestTabUtils;
 
 public class CharacterSummaryInterface extends InterfaceBuilder {
 
@@ -27,19 +27,19 @@ public class CharacterSummaryInterface extends InterfaceBuilder {
         long gameTime = player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L);
         setEvents(new EventNode(3, 3, 7));
         player.getPacketSender().ifOpenSubWalkable(gameInterface().getId(), 28, PaneType.JOURNAL_TAB_HEADER);
-        player.getPacketSender().runClientScriptNew(3970, 46661634, 46661635, gameTime / 100L);
-        player.getPacketSender().runClientScriptNew(ScriptID.CHARACTER_SUMMARY_COMBAT_LEVEL, 46661634, 46661635, player.skills().combatLevel());
+        player.getPacketSender().runClientScriptNew(ScriptID.TIME_PLAYED, ComponentID.CHARACTER_SUMMARY_CONTAINER, ComponentID.COLLECTION_LOG, gameTime / 100L);
+        player.getPacketSender().runClientScriptNew(ScriptID.CHARACTER_SUMMARY_COMBAT_LEVEL, ComponentID.CHARACTER_SUMMARY_CONTAINER, ComponentID.COLLECTION_LOG, player.skills().combatLevel());
     }
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
-        if (button == ComponentID.COLLECTION_LOG_BUTTON) {
+        if (button == ComponentID.COLLECTION_LOG) {
             switch (slot) {
                 case 6 -> GameInterface.COLLECTION_LOG.open(player);
                 case 7 -> {
                     long gameTime = player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L);
-                    player.varps().toggleVarbit(12933);
-                    player.getPacketSender().runClientScriptNew(3970, 46661634, 46661635, gameTime / 100L);
+                    player.varps().toggleVarbit(Varbits.TOGGLE_TIME_PLAYED);
+                    player.getPacketSender().runClientScriptNew(ScriptID.TIME_PLAYED, ComponentID.CHARACTER_SUMMARY_CONTAINER, ComponentID.COLLECTION_LOG, gameTime / 100L);
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.cryptic.interfaces
 
 object Varbits {
+    const val TOGGLE_TIME_PLAYED = 12933
     const val PREV_MUSIC_VOLUME = 12426
     const val PREV_SOUND_VOLUME = 12427
     const val PREV_AREA_VOLUME = 12428
@@ -61,7 +62,8 @@ object Varbits {
     const val CLOSE_TABS_WITH_HOTKEY_VARBIT = 4611
     const val SETTINGS_TAB_RUN = 173
     const val BOND_INTERFACE_FOCUS_TAB = 9544
-    const val PLAYER_SUMMARY_FOCUS_TAB = 8168 // Sets which tab to focus Player Summary / Quests tab / Achievement Diary / Favour tab
+    const val PLAYER_SUMMARY_FOCUS_TAB =
+        8168 // Sets which tab to focus Player Summary / Quests tab / Achievement Diary / Favour tab
     const val SETTINGS_INTERFACE_INFORMATION = 9665 // Show description or not.
     const val PLAYER_GAME_MODE_VARBIT = 1777 // Changes icon in ChatBox
     const val PLAYER_SPELL_BOOK = 4070
@@ -1082,7 +1084,6 @@ object Varbits {
     const val PRESET_RUNE_POUCH_8_RUNE_4_INDEX = 65368
 
 
-
     // SpellBook filter tab @TODO
     const val SHOW_COMBAT_SPELLS_STATE = 6605
     const val SHOW_TELEPORT_SPELLS_STATE = 6609
@@ -1094,7 +1095,8 @@ object Varbits {
 
     // Prayer filter tab
     const val LOWER_TIERS_OF_TIERED_PRAYERS = 6574
-    const val SHOW_TIERED_PRAYERS_EVEN_IF_MULTI = 6575 // LOWER_TIERS_OF_TIERED_PRAYERS Has to be (1) Disabled other wise ull get output: "This option can only be toggled when the "Show lower tiers of tiered prayers" is off."
+    const val SHOW_TIERED_PRAYERS_EVEN_IF_MULTI =
+        6575 // LOWER_TIERS_OF_TIERED_PRAYERS Has to be (1) Disabled other wise ull get output: "This option can only be toggled when the "Show lower tiers of tiered prayers" is off."
     const val SHOW_RAPID_HEALING_PRAYERS = 6576
     const val SHOW_PRAYERS_YOU_LACK_THE_LEVEL = 6577
     const val SHOW_PRAYERS_YOU_LACK_THE_REQUIREMENTS = 6578

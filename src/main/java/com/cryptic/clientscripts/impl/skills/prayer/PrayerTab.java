@@ -1,5 +1,6 @@
 package com.cryptic.clientscripts.impl.skills.prayer;
 
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventNode;
@@ -38,7 +39,7 @@ public class PrayerTab extends InterfaceBuilder {
         if (prayer != null) {
 
             if (player.skills().level(Skills.PRAYER) <= 0 && player.skills().xpLevel(Skills.PRAYER) >= prayer.getLevel()) {
-                player.getPacketSender().runClientScriptNew(5224, 112);
+                player.getPacketSender().runClientScriptNew(ScriptID.OUT_OF_PRAYER, 112);
                 return;
             }
 

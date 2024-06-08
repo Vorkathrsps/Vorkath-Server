@@ -2716,10 +2716,14 @@ public final class ComponentID {
     public static final int SETTINGS_SOUND_MUTE = 7602283;
     public static final int SETTINGS_INTERFACE_TOP_BUTTON = 8781843;
     public static final int GUIDE_PRICES_SEARCH = 30408709;
-    public static final int COLLECTION_LOG_BUTTON = 46661635;
+    public static final int COLLECTION_LOG = 46661635;
     public static final int COLLECTION_LOG_CLOSE = 40697937;
     public static final int BEASTIARY_LOOKUP = 40697876;
     public static final int COLLECTION_LOG_CATEGORY_ONE = 40697861;
+    public static final int GUIDE_PRICE_SLOT = 15597568;
+    public static final int DEPOSIT_ALL_GUIDE_PRICE = 30408714;
+    public static final int TOTAL_GUIDE_PRICE = 30408716;
+    public static final int GUIDE_PRICE_GRAND_EXCHANGE_ITEM = 30408712;
 
     /**
      * Non BitPacked
@@ -2746,8 +2750,4 @@ public final class ComponentID {
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
-    public static final int GUIDE_PRICE_SLOT = 15597568;
-    public static final int DEPOSIT_ALL_GUIDE_PRICE = 30408714;
-    public static final int TOTAL_GUIDE_PRICE = 30408716;
-    public static final int GUIDE_PRICE_GRAND_EXCHANGE_ITEM = 30408712;
 }

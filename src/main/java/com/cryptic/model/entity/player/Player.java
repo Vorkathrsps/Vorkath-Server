@@ -3,6 +3,7 @@ package com.cryptic.model.entity.player;
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.impl.equipment.util.ToggleManager;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
@@ -3180,7 +3181,9 @@ public class Player extends Entity {
 
     public int lastSoundId = 1;
 
-    @Getter @Setter private InputScript<Object> inputScript;
+    @Getter
+    @Setter
+    private InputScript<Object> inputScript;
 
     public void removeInputScript() {
         if (inputScript == null) return;
@@ -3197,7 +3200,7 @@ public class Player extends Entity {
     }
 
     public <T> void setResumeAmountScript(String title, InputScript<T> inputScript) {
-        this.getPacketSender().runClientScriptNew(108, title);
+        this.getPacketSender().runClientScriptNew(ScriptID.SEND_AMOUNT_SCRIPT, title);
         this.setInputScript((InputScript<Object>) inputScript);
     }
 

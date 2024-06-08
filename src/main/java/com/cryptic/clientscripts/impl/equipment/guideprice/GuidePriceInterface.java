@@ -25,7 +25,7 @@ public class GuidePriceInterface extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         setEvents(new EventNode(2, 0, 28));
-        player.getPacketSender().runClientScriptNew(600, 1, 1, 15, 30408716);
+        player.getPacketSender().runClientScriptNew(ScriptID.TOTAL_GUIDE_PRICE_AMOUNT, 1, 1, 15, ComponentID.TOTAL_GUIDE_PRICE);
         player.getPacketSender().setComponentText(ComponentID.TOTAL_GUIDE_PRICE, "Total guide price:<br><col=ffffff>0</col>");
         player.getPacketSender().setItemMessage(ComponentID.GUIDE_PRICE_GRAND_EXCHANGE_ITEM, 6512, -1);
         GameInterface.GUIDE_PRICE_INVENTORY.open(player);
@@ -83,7 +83,7 @@ public class GuidePriceInterface extends InterfaceBuilder {
     public void onResumePObj(Player player, int id) {
         final Item item = Item.of(id);
         player.getPacketSender().setItemMessage(ComponentID.GUIDE_PRICE_GRAND_EXCHANGE_ITEM, id, 1);
-        player.getPacketSender().runClientScriptNew(600, 0, 1, 15, 30408716);
+        player.getPacketSender().runClientScriptNew(ScriptID.TOTAL_GUIDE_PRICE_AMOUNT, 0, 1, 15, ComponentID.TOTAL_GUIDE_PRICE);
         player.getPacketSender().setComponentText(ComponentID.TOTAL_GUIDE_PRICE, (item.name() + ":<br><col=ffffff>" + Utils.formatValueCommas(item.getValue()) + "coins</col>"));
         player.clearAttrib(AttributeKey.ACTIVE_ONRESUME_INTERFACE);
     }

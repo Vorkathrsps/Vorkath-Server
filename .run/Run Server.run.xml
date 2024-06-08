@@ -6,7 +6,7 @@
     <option name="MAIN_CLASS_NAME" value="com.cryptic.GameServer" />
     <module name="Cryptic-GameServer" />
     <option name="PROGRAM_PARAMETERS" value="-javaagent" />
-    <option name="VM_PARAMETERS" value="-XX:AutoBoxCacheMax=65535 -noverify -Dio.netty.tryReflectionSetAccessible=true -XX:TieredStopAtLevel=1 -XX:CompileThreshold=1500 --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
+    <option name="VM_PARAMETERS" value="-noverify -Dio.netty.tryReflectionSetAccessible=true -XX:TieredStopAtLevel=1 -XX:CompileThreshold=1500 --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.cryptic.*" />

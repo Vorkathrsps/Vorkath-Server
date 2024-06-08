@@ -618,7 +618,7 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            GameInterface.TANNING_INTERFACE.open(p);
+            GameInterface.SMITHING_INTERFACE.open(p);
         });
 
         dev("c3", (p, c, s) -> {

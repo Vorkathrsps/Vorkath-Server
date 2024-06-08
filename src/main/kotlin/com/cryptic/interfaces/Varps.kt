@@ -5,4 +5,6 @@ object Varps {
     const val MUSIC_VOLUME = 168;
     const val SOUND_VOLUME = 169;
     const val AREA_VOLUME = 872;
+    const val ATTACK_STYLE = 43
+    const val LAST_ATTACK_STYLE = 46
 }

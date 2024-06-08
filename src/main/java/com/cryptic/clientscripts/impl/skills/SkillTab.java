@@ -1,5 +1,6 @@
 package com.cryptic.clientscripts.impl.skills;
 
+import com.cryptic.clientscripts.impl.skills.information.SkillEnum;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.attributes.AttributeKey;

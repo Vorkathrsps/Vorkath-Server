@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.impl.prayer;
+package com.cryptic.clientscripts.impl.skills.prayer;
 
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventConstants;

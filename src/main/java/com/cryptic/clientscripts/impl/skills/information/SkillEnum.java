@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.impl.skills;
+package com.cryptic.clientscripts.impl.skills.information;
 
 import com.cryptic.clientscripts.ComponentID;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;

@@ -17,6 +17,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     RESIZABLE_VIEWPORT_BOTTOM_LINE(InterfaceID.RESIZABLE_VIEWPORT_BOTTOM_LINE),
 
     //Tab Area
+    SMITHING_INTERFACE(InterfaceID.SMITHING),
     COMBAT_TAB(InterfaceID.COMBAT, InterfacePosition.COMBAT_TAB),
     SKILL_TAB(InterfaceID.SKILLS, InterfacePosition.SIDE_SKILLS),
     JOURNAL_ROOT(InterfaceID.QUEST_ROOT, InterfacePosition.SIDE_JOURNAL),

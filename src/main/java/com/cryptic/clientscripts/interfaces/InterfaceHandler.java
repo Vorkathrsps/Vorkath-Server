@@ -14,13 +14,14 @@ import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
 import com.cryptic.clientscripts.impl.journal.collectionlog.CollectionLogInterface;
 import com.cryptic.clientscripts.impl.leathertanner.TanningInterface;
-import com.cryptic.clientscripts.impl.magic.MagicTab;
-import com.cryptic.clientscripts.impl.prayer.PrayerTab;
-import com.cryptic.clientscripts.impl.prayer.QuickPrayerInterface;
+import com.cryptic.clientscripts.impl.skills.magic.MagicTab;
+import com.cryptic.clientscripts.impl.skills.prayer.PrayerTab;
+import com.cryptic.clientscripts.impl.skills.prayer.QuickPrayerInterface;
 import com.cryptic.clientscripts.impl.settings.SettingsInterface;
 import com.cryptic.clientscripts.impl.settings.SettingsTab;
-import com.cryptic.clientscripts.impl.skills.impl.SkillInformationInterface;
+import com.cryptic.clientscripts.impl.skills.information.SkillInformationInterface;
 import com.cryptic.clientscripts.impl.skills.SkillTab;
+import com.cryptic.clientscripts.impl.skills.smithing.SmithingInterface;
 import com.cryptic.clientscripts.impl.social.FriendListInterface;
 import com.cryptic.clientscripts.impl.social.IgnoreListInterface;
 import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface;
@@ -77,6 +78,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.GUIDE_PRICES_INVENTORY, new GuidePriceInventory());
         interfaces.put(InterfaceID.COLLECTION_LOG, new CollectionLogInterface());
         interfaces.put(InterfaceID.LEATHER_TANNING_INTERFACE, new TanningInterface());
+        interfaces.put(InterfaceID.SMITHING, new SmithingInterface());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

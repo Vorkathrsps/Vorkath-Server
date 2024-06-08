@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.impl.skills.impl;
+package com.cryptic.clientscripts.impl.skills.information;
 
 import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventNode;

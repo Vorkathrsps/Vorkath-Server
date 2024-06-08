@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.impl.magic;
+package com.cryptic.clientscripts.impl.skills.magic;
 
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;

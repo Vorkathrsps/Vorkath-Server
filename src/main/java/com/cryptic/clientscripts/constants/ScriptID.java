@@ -6,6 +6,8 @@ public class ScriptID {
     public static final int GUIDE_PRICE_SEARCH = 750;
     public static final int GUIDE_PRICE_ITEMSLOTS = 785;
     public static final int ADD_AMOUNT_MENU_OPTIONS = 149;
+    public static final int WEAPON_INFORMATION_COMBAT_LEVEL = 5224;
+    public static final int CHARACTER_SUMMARY_COMBAT_LEVEL = 3954;
 
     public static final int IF_SETTEXTALIGN = find("if_settextalign");
     public static final int MESLAYER_CLOSE = find("meslayer_close");

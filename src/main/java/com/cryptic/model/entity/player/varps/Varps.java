@@ -108,7 +108,6 @@ public class Varps {
 
     public void updateVarps() {
         requireUpdate.forEach( value -> {
-            System.out.println("varp val="+varps[value]);
             player.getPacketSender().sendConfig(value, varps[value]);
         });
         requireUpdate.clear();

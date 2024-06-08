@@ -2,6 +2,7 @@ package com.cryptic.clientscripts.impl.journal;
 
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;

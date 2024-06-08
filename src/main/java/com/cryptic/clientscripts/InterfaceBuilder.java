@@ -44,7 +44,7 @@ public abstract class InterfaceBuilder {
      * @param slot the slot where the button is located.
      * @param itemId the ID of the item associated with the button.
      */
-    protected void onButton(Player player, final int button, final int option, final int slot, final int itemId) {
+    public void onButton(Player player, final int button, final int option, final int slot, final int itemId) {
 
     }
 

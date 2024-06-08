@@ -1,5 +1,9 @@
 package com.cryptic.clientscripts.impl.equipment.util;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class ToggleManager {
 
     public final boolean[] toggledStates = new boolean[4];

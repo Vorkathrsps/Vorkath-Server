@@ -10,6 +10,10 @@ import com.cryptic.utility.WidgetUtil;
 
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class QuickPrayerInterface extends InterfaceBuilder {
 
     @Override

@@ -9,6 +9,10 @@ import com.cryptic.interfaces.Varps;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class SettingsTab extends InterfaceBuilder {
 
     @Override

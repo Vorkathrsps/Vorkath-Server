@@ -5,6 +5,10 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.entity.player.Player;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class SetupChannelInterface extends InterfaceBuilder {
     @Override
     public GameInterface gameInterface() {

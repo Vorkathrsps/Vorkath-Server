@@ -6,6 +6,10 @@ import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.clientscripts.impl.dialogue.information.types.DialogueType;
 import com.cryptic.utility.Utils;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public record PlayerType(String title, String[] chats, Expression expression, boolean continueButtons) implements DialogueType {
     @Override
     public void send(Player player) {

@@ -10,6 +10,10 @@ import com.cryptic.clientscripts.impl.dialogue.information.types.impl.DestroyIte
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class DialogueDestroyItem extends InterfaceBuilder {
 
     @Override

@@ -7,6 +7,10 @@ import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class SkillInformationInterface extends InterfaceBuilder {
 
     @Override

@@ -4,6 +4,10 @@ import com.cryptic.clientscripts.ComponentID;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public enum SkillEnum {
     ATTACK,
     STRENGTH,

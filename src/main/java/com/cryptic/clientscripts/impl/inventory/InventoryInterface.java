@@ -16,6 +16,11 @@ import kotlin.ranges.IntRange;
 
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @SubAuthor: Joshua-F
+ * @Date: 6/8/24
+ */
 public class InventoryInterface extends InterfaceBuilder {
 
     @Override

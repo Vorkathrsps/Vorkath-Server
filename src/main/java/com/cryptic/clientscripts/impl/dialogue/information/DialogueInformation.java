@@ -5,6 +5,10 @@ import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.items.Item;
 import lombok.Getter;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 @Getter
 public class DialogueInformation<T> {
 

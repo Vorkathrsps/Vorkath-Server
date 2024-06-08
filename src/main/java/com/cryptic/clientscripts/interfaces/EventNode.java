@@ -7,6 +7,10 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 @Data
 public class EventNode {
     final int componentId;

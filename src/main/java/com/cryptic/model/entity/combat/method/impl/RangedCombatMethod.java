@@ -69,7 +69,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             int startHeight = 0;
             int startSpeed = 0;
             int curve = 0;
-            int lengthAdjustment = 0;
+            int lengthAdjustment;
             var graphic = -1;
             var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
             var ammoId = player.getEquipment().getId(EquipSlot.AMMO);

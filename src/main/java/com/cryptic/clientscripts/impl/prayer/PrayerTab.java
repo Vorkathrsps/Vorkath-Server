@@ -10,6 +10,10 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.WidgetUtil;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class PrayerTab extends InterfaceBuilder {
 
     @Override

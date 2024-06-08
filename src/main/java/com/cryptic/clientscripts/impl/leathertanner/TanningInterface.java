@@ -9,6 +9,10 @@ import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class TanningInterface extends InterfaceBuilder {
 
     @Override

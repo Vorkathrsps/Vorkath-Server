@@ -9,6 +9,10 @@ import dev.openrune.cache.filestore.definition.data.ItemType;
 
 import java.util.Arrays;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class DialogueProduceItem extends InterfaceBuilder {
 
     @Override

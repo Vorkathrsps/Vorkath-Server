@@ -10,6 +10,10 @@ import com.cryptic.model.entity.player.Player;
 
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class CollectionLogInterface extends InterfaceBuilder {
 
     @Override

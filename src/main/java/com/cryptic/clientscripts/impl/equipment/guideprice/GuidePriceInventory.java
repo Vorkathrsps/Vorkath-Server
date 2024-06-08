@@ -8,6 +8,10 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class GuidePriceInventory extends InterfaceBuilder {
 
     @Override

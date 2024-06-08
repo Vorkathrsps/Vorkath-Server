@@ -14,6 +14,10 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Tuple;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class MagicTab extends InterfaceBuilder {
 
     @Override

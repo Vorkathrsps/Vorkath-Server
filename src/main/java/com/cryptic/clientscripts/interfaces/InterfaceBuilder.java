@@ -9,6 +9,10 @@ import com.displee.cache.index.Index;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public abstract class InterfaceBuilder {
     ArrayList<EventNode> events = new ArrayList<>();
 

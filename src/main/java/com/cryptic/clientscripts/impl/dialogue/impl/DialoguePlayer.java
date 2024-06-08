@@ -6,6 +6,10 @@ import com.cryptic.clientscripts.ComponentID;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class DialoguePlayer extends InterfaceBuilder {
 
     @Override

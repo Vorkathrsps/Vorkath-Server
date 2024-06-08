@@ -13,6 +13,10 @@ import com.cryptic.model.items.container.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 6/8/24
+ */
 public class KeptOnDeathInterface extends InterfaceBuilder {
 
     @Override

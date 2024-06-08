@@ -500,7 +500,7 @@ public class SlayerTask {
             int id = Utils.randomElement(sigils);
             GroundItemHandler.createGroundItem(new GroundItem(new Item(id), npc.tile(), killer));
             if (ArrayUtils.contains(sigils, id)) {
-                var def = ItemDefinition.cached.get(id);
+                var def = ItemDefinition.getInstance(id);
                 var inWild = WildernessArea.inWilderness(killer.tile());
                 var level = WildernessArea.getWildernessLevel(killer.tile());
                 World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.BURNTORANGE.wrap("<shad=0>" + killer.getUsername() + " has received a " + def.name + " from a " + npc.getMobName() + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));

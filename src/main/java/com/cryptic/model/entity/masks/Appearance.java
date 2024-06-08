@@ -123,7 +123,7 @@ public class Appearance {
             var slot = player.getEquipment().get(index);
             if (slot == null) continue;
             var equipmentId = slot.getId();
-            ItemDefinition def = ItemDefinition.cached.get(equipmentId);
+            ItemDefinition def = ItemDefinition.getInstance(equipmentId);
             if (def != null) {
                 if (def.wearPos2 != -1) {
                     if (!skippedSlots.contains(def.wearPos2)) {

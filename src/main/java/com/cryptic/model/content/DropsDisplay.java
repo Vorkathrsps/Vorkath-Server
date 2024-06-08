@@ -104,7 +104,7 @@ public class DropsDisplay {
                         ArrayList<Integer> ids = new ArrayList<>();
                         deepAdd(v, ids);
                         ids.forEach(i -> {
-                            ItemDefinition itemDefinition = ItemDefinition.cached.get(i.intValue());
+                            ItemDefinition itemDefinition = ItemDefinition.getInstance(i.intValue());
                             if (itemDefinition == null) return;
                             if (itemDefinition.name.toLowerCase().contains(finalContext)) {
                                 if (!npc.contains(npcDefinition.name)) {

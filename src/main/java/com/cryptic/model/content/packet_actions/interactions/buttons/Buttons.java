@@ -234,14 +234,14 @@ public class Buttons {
                     if (staff != null) {
                         if (MagicSpellbook.ANCIENTS.equals(player.getSpellbook()) && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
                             if (player.getEquipment().contains(HARMONISED_NIGHTMARE_STAFF)) {
-                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
+                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.getInstance(HARMONISED_NIGHTMARE_STAFF).name + "."));
                                 return;
                             }
                             player.getInterfaceManager().setSidebar(0, 1689);
                         } else if (MagicSpellbook.NORMAL.equals(player.getSpellbook()) && MODERN_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
                             player.getInterfaceManager().setSidebar(0, 1829);
                         } else {
-                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(staff.getId()).name + "."));
+                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.getInstance(staff.getId()).name + "."));
                         }
                     }
                 }
@@ -257,14 +257,14 @@ public class Buttons {
                     if (staff != null) {
                         if (MagicSpellbook.ANCIENTS.equals(player.getSpellbook()) && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
                             if (player.getEquipment().contains(HARMONISED_NIGHTMARE_STAFF)) {
-                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(HARMONISED_NIGHTMARE_STAFF).name + "."));
+                                player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.getInstance(HARMONISED_NIGHTMARE_STAFF).name + "."));
                                 return;
                             }
                             player.getInterfaceManager().setSidebar(0, 1689);
                         } else if (MagicSpellbook.NORMAL.equals(player.getSpellbook()) && MODERN_SPELL_AUTOCAST_STAFFS.contains(staff.getId())) {
                             player.getInterfaceManager().setSidebar(0, 1829);
                         } else {
-                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.cached.get(staff.getId()).name + "."));
+                            player.message(Color.RED.wrap("You cannot use Autocast with a " + ItemDefinition.getInstance(staff.getId()).name + "."));
                         }
                     }
                 }

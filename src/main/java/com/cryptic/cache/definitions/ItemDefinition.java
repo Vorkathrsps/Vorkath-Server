@@ -126,7 +126,7 @@ public class ItemDefinition implements Definition {
     public static Int2ObjectOpenHashMap<ItemDefinition> cached = new Int2ObjectOpenHashMap<>();
 
     public static ItemDefinition getInstance(int id) {
-        return cached.get(id);
+        return cached.getOrDefault(id, null);
     }
 
     void decode(RSBuffer buffer) {

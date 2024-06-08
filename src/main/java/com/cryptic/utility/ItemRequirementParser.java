@@ -82,7 +82,7 @@ public class ItemRequirementParser {
 
     public static String getItemName(int id) {
         if (id <= 0) return "null";
-        var def = ItemDefinition.cached.get(id);
+        var def = ItemDefinition.getInstance(id);
         String itemName;
         if (def != null && def.noted()) {
             var item = new Item(def.id);

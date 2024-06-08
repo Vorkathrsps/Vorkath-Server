@@ -33,7 +33,7 @@ public class BankObjects extends PacketInteraction {
             if(obj.getId() == bank) {
                 int itemid = player.getAttribOr(AttributeKey.ITEM_ID, -1);
                 int slot = player.getAttribOr(AttributeKey.ITEM_SLOT, -1);
-                ItemDefinition def = ItemDefinition.cached.get(itemid);
+                ItemDefinition def = ItemDefinition.getInstance(itemid);
                 if (def == null) return false;
 
                 noteLogic(player, itemid, slot, def);

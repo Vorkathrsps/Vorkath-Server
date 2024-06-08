@@ -101,8 +101,8 @@ public class ItemsKeptOnDeath {
                 o1 = o1.unnote();
                 o2 = o2.unnote();
 
-                ItemDefinition def = ItemDefinition.cached.get(o1.getId());
-                ItemDefinition def2 = ItemDefinition.cached.get(o2.getId());
+                ItemDefinition def = ItemDefinition.getInstance(o1.getId());
+                ItemDefinition def2 = ItemDefinition.getInstance(o2.getId());
 
                 int v1 = 0;
                 int v2 = 0;

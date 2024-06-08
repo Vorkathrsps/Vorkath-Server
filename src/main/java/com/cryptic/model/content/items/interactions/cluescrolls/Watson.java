@@ -83,7 +83,7 @@ public class Watson extends PacketInteraction {
         List<String> invalid = new ArrayList<>();
         for (var clue : CLUES) {
             if (!player.getInventory().contains(clue)) {
-                ItemDefinition definition = ItemDefinition.cached.get(clue);
+                ItemDefinition definition = ItemDefinition.getInstance(clue);
                 invalid.add(definition.name);
             }
         }

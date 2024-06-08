@@ -57,7 +57,7 @@ public class Item implements Cloneable {
      * @throws IllegalArgumentException if {@code id} is invalid.
      */
     public static Item of(int id) {
-        ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, id);
+        ItemDefinition def = ItemDefinition.getInstance(id);
         if (def == null) {
             throw new IllegalArgumentException("undefined item: " + id);
         }
@@ -804,7 +804,7 @@ public class Item implements Cloneable {
      * @return the value of this item.
      */
     public int getValue() {
-        final ItemDefinition def = ItemDefinition.cached.get(id);
+        final ItemDefinition def = ItemDefinition.getInstance(id);
         if (def == null) return 0;
         if (def.noted()) return unnote().getBloodMoneyPrice().value();
         if (def.bm != null) {
@@ -815,9 +815,9 @@ public class Item implements Cloneable {
     }
 
     public static int getValue(int id) {
-        final ItemDefinition def = ItemDefinition.cached.get(id);
+        final ItemDefinition def = ItemDefinition.getInstance(id);
         if (def == null) return 0;
-        if (def.noted()) return ItemDefinition.cached.get(unnoted(def)).bm.value();
+        if (def.noted()) return ItemDefinition.getInstance(unnoted(def)).bm.value();
         if (def.bm != null) {
             if ((id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0) && def.bm.value() <= 0) return def.findLinkedValue(def.name);
             if (!(id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0) && def.bm.value() <= 0) return def.findLinkedValue(def.name);

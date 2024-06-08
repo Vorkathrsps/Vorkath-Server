@@ -57,7 +57,7 @@ public enum ModernSpells {
         for (var spell : VALUES) ITEM_MAP.put(spell.itemId, spell);
         for (var entry : ModernSpells.ITEM_MAP.int2ObjectEntrySet()) {
             var id = entry.getIntKey();
-            ItemDefinition itemDefinition = ItemDefinition.cached.get(id);
+            ItemDefinition itemDefinition = ItemDefinition.getInstance(id);
             MODERN_SPELL_COMPONENT_MAP.put(Integer.parseInt(itemDefinition.params.get(596).toString()), entry.getValue().spellID);
         }
     }

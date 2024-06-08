@@ -26,7 +26,7 @@ public class ItemRepository {
 
     public static String getItemName(int id) {
         if (id <= 0) return "null";
-        var def = ItemDefinition.cached.get(id);
+        var def = ItemDefinition.getInstance(id);
         String itemName;
         if (def != null && def.noted()) {
             var item = new Item(def.id);
@@ -52,7 +52,7 @@ public class ItemRepository {
     }
 
     private static ItemDefinition getItemDefinition(int unnotedId) {
-        return ItemDefinition.cached.get(unnotedId);
+        return ItemDefinition.getInstance(unnotedId);
     }
 
     public static void load() {

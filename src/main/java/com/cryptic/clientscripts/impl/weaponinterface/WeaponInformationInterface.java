@@ -24,7 +24,7 @@ public class WeaponInformationInterface extends InterfaceBuilder {
         int varbitValue = 0;
         String category = "Unarmed";
         if (hasWeapon) {
-            ItemDefinition def = ItemDefinition.cached.get(player.getEquipment().getWeapon().getId());
+            ItemDefinition def = ItemDefinition.getInstance(player.getEquipment().getWeapon().getId());
             name = def.name;
             varbitValue = AttackStyleDefinition.getVarbit(def.category);
             category = AttackStyleDefinition.getName(def.category);

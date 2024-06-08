@@ -196,10 +196,10 @@ public abstract class Shop {
         if (storeItem.secondaryValue.isPresent()) {
             if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && (currencyType.currency.currencyAmount(player, cost) >= cost)) {
                 System.out.println(storeItem.secondaryValue);
-                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
+                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.getInstance(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
                 return;
             } else if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && !(currencyType.currency.currencyAmount(player, cost) >= cost)) {
-                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
+                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.getInstance(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
                 player.message(Color.RED.wrap("<shad=0>You don't have enough " + currencyType.toString() + " to buy this item.</shad>"));
                 return;
             }

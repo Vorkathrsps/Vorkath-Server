@@ -83,7 +83,7 @@ public class InventoryInterface extends InterfaceBuilder {
             }
 
             if (option == 10) {
-                ItemDefinition def = ItemDefinition.cached.get(itemId);
+                ItemDefinition def = ItemDefinition.getInstance(itemId);
                 player.message(def.description);
                 return;
             }

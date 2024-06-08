@@ -2748,4 +2748,6 @@ public final class ComponentID {
     public static final int DISPLAY = 112;
     public static final int GUIDE_PRICE_SLOT = 15597568;
     public static final int DEPOSIT_ALL_GUIDE_PRICE = 30408714;
+    public static final int TOTAL_GUIDE_PRICE = 30408716;
+    public static final int GUIDE_PRICE_GRAND_EXCHANGE_ITEM = 30408712;
 }

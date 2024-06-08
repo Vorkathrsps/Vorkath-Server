@@ -588,7 +588,7 @@ public class TradingPost extends PacketInteraction {
         if (buttonId == 81840) { //  sell tab- restore default price whats default price code, its just uh bm=coins?, yes just unrenamed kk
             if (p.tradingPostListedItemId < 1)
                 return true;
-            var price = p.<Long>getAttribOr(AttributeKey.TRADING_POST_ORIGINAL_PRICE, (long)ItemDefinition.cached.get(p.tradingPostListedItemId).bm.value());
+            var price = p.<Long>getAttribOr(AttributeKey.TRADING_POST_ORIGINAL_PRICE, (long)ItemDefinition.getInstance(p.tradingPostListedItemId).bm.value());
             p.tpListingPrice = (int) Math.min(Integer.MAX_VALUE, price);
             p.getPacketSender().sendString(81830, "" + price); // price
             return true;

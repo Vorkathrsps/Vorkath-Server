@@ -1,7 +1,7 @@
 package com.cryptic.interfaces
 
 import com.cryptic.clientscripts.constants.InterfaceID
-import com.cryptic.clientscripts.interfaces.InterfaceHandler
+import com.cryptic.clientscripts.InterfaceHandler
 import com.cryptic.model.entity.player.Player
 
 enum class GameInterface(val id: Int, val position: InterfacePosition = InterfacePosition.MAIN_MODAL) {

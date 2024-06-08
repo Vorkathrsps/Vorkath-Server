@@ -3,7 +3,7 @@ package com.cryptic.clientscripts.impl;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 
@@ -12,6 +12,11 @@ public class LogoutTab extends InterfaceBuilder {
     @Override
     public GameInterface gameInterface() {
         return GameInterface.LOGOUT_TAB;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+
     }
 
     @Override

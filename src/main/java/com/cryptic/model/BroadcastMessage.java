@@ -1,6 +1,6 @@
 package com.cryptic.model;
 
-import com.cryptic.clientscripts.MessageType;
+import com.cryptic.clientscripts.constants.MessageType;
 
 public class BroadcastMessage {
     private final String message;

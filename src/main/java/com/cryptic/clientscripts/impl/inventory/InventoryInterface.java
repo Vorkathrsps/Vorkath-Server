@@ -5,9 +5,9 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.packet_actions.interactions.items.*;
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.EventConstants;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
-import com.cryptic.clientscripts.interfaces.InterfaceHandler;
+import com.cryptic.clientscripts.constants.EventConstants;
+import com.cryptic.clientscripts.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -24,7 +24,7 @@ import java.util.List;
 public class InventoryInterface extends InterfaceBuilder {
 
     @Override
-    protected GameInterface gameInterface() {
+    public GameInterface gameInterface() {
         return GameInterface.INVENTORY_TAB;
     }
 

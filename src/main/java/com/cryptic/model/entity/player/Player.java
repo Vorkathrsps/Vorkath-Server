@@ -69,7 +69,7 @@ import com.cryptic.model.content.title.TitlePlugin;
 import com.cryptic.model.content.title.req.impl.other.TitleUnlockRequirement;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.LockType;
 import com.cryptic.model.entity.NodeType;

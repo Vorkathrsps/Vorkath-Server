@@ -1,7 +1,7 @@
 package com.cryptic.clientscripts.impl.skills.crafting;
 
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.clientscripts.util.CombinedId;
 import com.cryptic.clientscripts.util.JagexColor;
 import com.cryptic.interfaces.GameInterface;

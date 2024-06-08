@@ -2,7 +2,7 @@ package com.cryptic.clientscripts.impl.dialogue.impl;
 
 import com.cryptic.clientscripts.impl.dialogue.information.types.impl.NpcType;
 import com.cryptic.interfaces.GameInterface;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 
 /**

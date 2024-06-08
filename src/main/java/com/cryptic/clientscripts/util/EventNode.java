@@ -1,5 +1,6 @@
-package com.cryptic.clientscripts.interfaces;
+package com.cryptic.clientscripts.util;
 
+import com.cryptic.clientscripts.constants.EventConstants;
 import com.cryptic.model.entity.player.Player;
 import kotlin.ranges.IntRange;
 import lombok.Data;
@@ -14,11 +15,11 @@ import java.util.List;
 @Data
 public class EventNode {
     final int componentId;
-    int interfaceID;
+    public int interfaceID;
     final ArrayList<EventConstants> events;
     final int childFrom;
     final int childTo;
-    int event;
+    public int event;
 
     public EventNode(int componentId, int childFrom, int childTo) {
         this.componentId = componentId;

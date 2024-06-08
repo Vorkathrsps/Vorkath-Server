@@ -6,7 +6,7 @@ import com.cryptic.core.task.Task;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.skill.impl.mining.Pickaxe;
-import com.cryptic.clientscripts.interfaces.InterfaceHandler;
+import com.cryptic.clientscripts.InterfaceHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;

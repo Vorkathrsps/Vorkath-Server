@@ -1,7 +1,7 @@
 package com.cryptic.clientscripts.impl;
 
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.player.Player;
@@ -11,6 +11,11 @@ public class ViewportFixed extends InterfaceBuilder {
     @Override
     public GameInterface gameInterface() {
         return GameInterface.FIXED_VIEWPORT;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+
     }
 
     @Override

@@ -1,5 +1,8 @@
-package com.cryptic.clientscripts;
+package com.cryptic.clientscripts.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum MessageType {
     UNFILTERABLE(0),
     GLOBAL_BROADCAST(14),
@@ -10,13 +13,11 @@ public enum MessageType {
     TRADE_REQUEST(101),
     CHALLENGE_REQUEST(103),
     FILTERABLE(105);
+
     private final int type;
 
     MessageType(final int type) {
         this.type = type;
     }
 
-    public int getType() {
-        return this.type;
-    }
 }

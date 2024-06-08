@@ -1,7 +1,7 @@
 package com.cryptic.clientscripts.impl.social;
 
 import com.cryptic.interfaces.GameInterface;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 
 public class FriendListInterface extends InterfaceBuilder {
@@ -9,6 +9,11 @@ public class FriendListInterface extends InterfaceBuilder {
     @Override
     public GameInterface gameInterface() {
         return GameInterface.FRIEND_LIST_TAB;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.interfaces;
+package com.cryptic.clientscripts.constants;
 
 import lombok.Getter;
 

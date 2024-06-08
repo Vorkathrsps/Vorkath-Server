@@ -2,7 +2,7 @@ package com.cryptic.clientscripts.impl;
 
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 
@@ -11,6 +11,11 @@ public class MinimapOrbs extends InterfaceBuilder {
     @Override
     public GameInterface gameInterface() {
         return GameInterface.MINIMAP_ORBS;
+    }
+
+    @Override
+    public void beforeOpen(Player player) {
+
     }
 
     @Override

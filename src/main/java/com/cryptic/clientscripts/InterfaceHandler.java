@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts.interfaces;
+package com.cryptic.clientscripts;
 
 import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.clientscripts.impl.*;

@@ -1,8 +1,8 @@
 package com.cryptic.clientscripts.impl.equipment;
 
 import com.cryptic.clientscripts.impl.equipment.util.ToggleManager;
-import com.cryptic.clientscripts.interfaces.EventNode;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.util.EventNode;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.entity.player.Player;
@@ -32,6 +32,11 @@ public class KeptOnDeathInterface extends InterfaceBuilder {
         ToggleManager manager = player.getToggleManager();
         player.getPacketSender().runClientScriptNew(468, 0, 0, 0, 0, 0);
         player.getPacketSender().runClientScriptNew(972, manager.args[0], manager.args[1], manager.args[2], manager.args[3], "");
+    }
+
+    @Override
+    public void onButton(Player player, int button, int option, int slot, int itemId) {
+
     }
 
     @Override

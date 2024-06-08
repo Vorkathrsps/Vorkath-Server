@@ -5,7 +5,7 @@ import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.constants.InterfaceID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.Varps;
 import com.cryptic.model.entity.player.Player;
 

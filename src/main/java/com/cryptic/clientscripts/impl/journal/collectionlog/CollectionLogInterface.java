@@ -1,8 +1,8 @@
 package com.cryptic.clientscripts.impl.journal.collectionlog;
 
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.EventNode;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.util.EventNode;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.interfaces.Varbits;

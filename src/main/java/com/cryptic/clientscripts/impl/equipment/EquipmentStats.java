@@ -2,7 +2,7 @@ package com.cryptic.clientscripts.impl.equipment;
 
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 
 import java.util.HashMap;

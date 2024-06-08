@@ -1,7 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
-import com.cryptic.clientscripts.interfaces.InterfaceHandler;
+import com.cryptic.clientscripts.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.packet.Packet;

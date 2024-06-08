@@ -3,7 +3,7 @@ package com.cryptic.clientscripts.impl.skills.magic;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.interfaces.GameInterface;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.magic.CombatSpell;

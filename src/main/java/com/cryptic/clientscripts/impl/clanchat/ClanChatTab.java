@@ -1,7 +1,7 @@
 package com.cryptic.clientscripts.impl.clanchat;
 
 import com.cryptic.clientscripts.constants.ComponentID;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.entity.player.Player;

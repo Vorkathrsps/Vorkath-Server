@@ -2,8 +2,8 @@ package com.cryptic.clientscripts.impl.equipment;
 
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.constants.InterfaceID;
-import com.cryptic.clientscripts.interfaces.EventNode;
-import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
+import com.cryptic.clientscripts.util.EventNode;
+import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.WidgetUtil;
 

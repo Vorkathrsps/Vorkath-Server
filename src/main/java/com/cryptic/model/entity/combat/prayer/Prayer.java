@@ -1,6 +1,6 @@
 package com.cryptic.model.entity.combat.prayer;
 
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

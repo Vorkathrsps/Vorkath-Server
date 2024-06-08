@@ -1,14 +1,13 @@
 package com.cryptic.clientscripts.impl.equipment.guideprice;
 
-import com.cryptic.clientscripts.ComponentID;
-import com.cryptic.clientscripts.InventoryID;
+import com.cryptic.clientscripts.constants.ComponentID;
+import com.cryptic.clientscripts.constants.InventoryID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.inventory.Inventory;
 
 /**
  * @Author: Origin

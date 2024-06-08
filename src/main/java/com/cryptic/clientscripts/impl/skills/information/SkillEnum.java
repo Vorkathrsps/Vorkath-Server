@@ -1,6 +1,6 @@
 package com.cryptic.clientscripts.impl.skills.information;
 
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 

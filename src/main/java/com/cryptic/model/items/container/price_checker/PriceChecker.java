@@ -1,6 +1,6 @@
 package com.cryptic.model.items.container.price_checker;
 
-import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.clientscripts.util.CombinedId;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.inter.InterfaceConstants;

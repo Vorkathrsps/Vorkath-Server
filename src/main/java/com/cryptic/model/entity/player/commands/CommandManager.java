@@ -4,6 +4,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
@@ -619,6 +620,10 @@ public class CommandManager {
 
         dev("c", (p, c, s) -> {
             GameInterface.SMITHING_INTERFACE.open(p);
+        });
+
+        dev("sp", (p, c, s) -> {
+            p.getPacketSender().runClientScriptNew(ScriptID.GUIDE_PRICE_SEARCH, "Search For:", 1, -1, 0);
         });
 
         dev("c3", (p, c, s) -> {

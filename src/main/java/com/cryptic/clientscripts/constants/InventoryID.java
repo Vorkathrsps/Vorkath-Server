@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts;
+package com.cryptic.clientscripts.constants;
 
 public class InventoryID
 {

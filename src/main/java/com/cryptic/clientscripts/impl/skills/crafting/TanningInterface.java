@@ -1,6 +1,6 @@
-package com.cryptic.clientscripts.impl.leathertanner;
+package com.cryptic.clientscripts.impl.skills.crafting;
 
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.clientscripts.util.CombinedId;
 import com.cryptic.clientscripts.util.JagexColor;

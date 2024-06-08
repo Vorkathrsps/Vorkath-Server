@@ -1,4 +1,4 @@
-package com.cryptic.clientscripts;
+package com.cryptic.clientscripts.constants;
 
 public final class InterfaceID {
     public static final int ACHIEVEMENT_DIARY = 259;

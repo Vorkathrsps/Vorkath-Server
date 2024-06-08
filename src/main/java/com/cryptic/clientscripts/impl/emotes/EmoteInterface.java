@@ -1,7 +1,7 @@
 package com.cryptic.clientscripts.impl.emotes;
 
 import com.cryptic.GameServer;
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;

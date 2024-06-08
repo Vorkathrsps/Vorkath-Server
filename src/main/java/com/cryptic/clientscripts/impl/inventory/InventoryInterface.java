@@ -4,7 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.packet_actions.interactions.items.*;
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventConstants;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.clientscripts.interfaces.InterfaceHandler;

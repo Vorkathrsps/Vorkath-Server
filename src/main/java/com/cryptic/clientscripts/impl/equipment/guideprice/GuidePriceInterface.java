@@ -1,10 +1,9 @@
 package com.cryptic.clientscripts.impl.equipment.guideprice;
 
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
-import com.cryptic.clientscripts.util.CombinedId;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;

@@ -1,6 +1,6 @@
 package com.cryptic.network.packet.incoming.impl;
 
-import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;
 import com.cryptic.clientscripts.interfaces.InterfaceHandler;
 import com.cryptic.model.entity.player.Player;

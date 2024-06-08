@@ -1,22 +1,18 @@
 package com.cryptic.interfaces
 
-import com.cryptic.clientscripts.InterfaceID
+import com.cryptic.clientscripts.constants.InterfaceID
 import com.cryptic.clientscripts.interfaces.InterfaceHandler
 import com.cryptic.model.entity.player.Player
 
-
 enum class GameInterface(val id: Int, val position: InterfacePosition = InterfacePosition.MAIN_MODAL) {
-
-    //GameFrame
-
+    // Game Frame
     MINIMAP_ORBS(InterfaceID.MINIMAP, InterfacePosition.MINIMAP_ORBS),
     CHAT(InterfaceID.CHATBOX, InterfacePosition.CHATBOX),
-
     FIXED_VIEWPORT(InterfaceID.FIXED_VIEWPORT),
     RESIZABLE_VIEWPORT(InterfaceID.RESIZABLE_VIEWPORT),
     RESIZABLE_VIEWPORT_BOTTOM_LINE(InterfaceID.RESIZABLE_VIEWPORT_BOTTOM_LINE),
 
-    //Tab Area
+    // Tab Area
     SMITHING_INTERFACE(InterfaceID.SMITHING),
     COMBAT_TAB(InterfaceID.COMBAT, InterfacePosition.COMBAT_TAB),
     SKILL_TAB(InterfaceID.SKILLS, InterfacePosition.SIDE_SKILLS),
@@ -28,16 +24,13 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     GUIDE_PRICE_INVENTORY(InterfaceID.GUIDE_PRICES_INVENTORY, InterfacePosition.SINGLE_TAB),
     PRAYER_TAB(InterfaceID.PRAYER, InterfacePosition.SIDE_PRAYER),
     SPELLBOOK_TAB(InterfaceID.SPELLBOOK, InterfacePosition.SIDE_SPELLBOOK),
-
     SIDE_CHANNELS(InterfaceID.CLAN_CHAT, InterfacePosition.SIDE_CHANNELS),
     FRIENDS_CHANNEL(InterfaceID.FRIENDS_CHAT, InterfacePosition.SIDE_CHANNELS),
     YOUR_CLAN(InterfaceID.CLAN, InterfacePosition.SIDE_CHANNELS),
     CLAN_GUEST(InterfaceID.CLAN_GUEST, InterfacePosition.SIDE_CHANNELS),
     CLAN_GROUP(InterfaceID.CLAN_GROUP, InterfacePosition.SIDE_CHANNELS),
     CLAN_SETUP(InterfaceID.CLAN_SETUP),
-
     TANNING_INTERFACE(InterfaceID.LEATHER_TANNING_INTERFACE),
-
     FRIEND_LIST_TAB(InterfaceID.FRIEND_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     IGNORE_LIST_TAB(InterfaceID.IGNORE_LIST, InterfacePosition.SIDE_RELATIONSHIPS),
     ACCOUNT_MANAGEMENT(InterfaceID.ACCOUNT_MANAGEMENT, InterfacePosition.SIDE_ACCOUNT_MANAGEMENT),
@@ -47,7 +40,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     EMOTE_TAB(InterfaceID.EMOTES, InterfacePosition.SIDE_EMOTES),
     MUSIC_TAB(InterfaceID.MUSIC, InterfacePosition.SIDE_MUSIC),
 
-    //Other
+    // Other
     DIALOGUE_NPC(InterfaceID.DIALOG_NPC, InterfacePosition.DIALOGUE),
     DIALOGUE_PLAYER(InterfaceID.DIALOG_PLAYER, InterfacePosition.DIALOGUE),
     DIALOGUE_OPTIONS(InterfaceID.DIALOG_OPTION, InterfacePosition.DIALOGUE),
@@ -67,9 +60,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     QUICK_PRAYERS(InterfaceID.QUICK_PRAYER, InterfacePosition.SIDE_PRAYER),
     SKOTIZO_OVERLAY(InterfaceID.SKOTIZO, InterfacePosition.OVERLAY),
     WORLD_MAP(InterfaceID.WORLD_MAP, InterfacePosition.WORLD_MAP),
-
     PRIVATE_CHAT(InterfaceID.PRIVATE_CHAT, InterfacePosition.PRIVATE_CHAT),
-
     PVP_OVERLAY(InterfaceID.PVP, InterfacePosition.PVP_OVERLAY),
     SKILL_INFORMATION(InterfaceID.SKILL_INFORMATION),
 
@@ -83,14 +74,15 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     companion object {
         val VALUES = values()
 
-        fun get(id: Int): GameInterface? {
-            val field = VALUES.find { it.id == id }
-            return field
-        }
+        fun get(id: Int): GameInterface? = VALUES.find { it.id == id }
     }
 
-    fun open(player: Player) = InterfaceHandler.find(this.id)?.open(player) ?: player.interfaces.sendInterface(this)
+    fun open(player: Player) {
+        InterfaceHandler.find(this.id)?.open(player) ?: player.interfaces.sendInterface(this)
+    }
 
-    fun close(player: Player) = player.interfaces.closeInterface(this.position)
-
+    fun close(player: Player) {
+        player.interfaces.closeInterface(this.position)
+    }
 }
+

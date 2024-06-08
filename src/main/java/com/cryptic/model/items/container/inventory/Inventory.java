@@ -1,6 +1,6 @@
 package com.cryptic.model.items.container.inventory;
 
-import com.cryptic.clientscripts.InventoryID;
+import com.cryptic.clientscripts.constants.InventoryID;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;

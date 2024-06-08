@@ -5,7 +5,7 @@ import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.items.equipment.max_cape.MaxCape;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
-import com.cryptic.clientscripts.InventoryID;
+import com.cryptic.clientscripts.constants.InventoryID;
 import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.masks.impl.animations.Animation;

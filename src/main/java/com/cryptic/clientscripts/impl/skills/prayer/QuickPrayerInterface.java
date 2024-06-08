@@ -1,6 +1,6 @@
 package com.cryptic.clientscripts.impl.skills.prayer;
 
-import com.cryptic.clientscripts.ComponentID;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.interfaces.EventConstants;
 import com.cryptic.clientscripts.interfaces.EventNode;
 import com.cryptic.clientscripts.interfaces.InterfaceBuilder;

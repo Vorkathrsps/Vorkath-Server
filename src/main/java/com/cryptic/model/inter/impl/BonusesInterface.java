@@ -1,6 +1,6 @@
 package com.cryptic.model.inter.impl;
 
-import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.masks.Flag;

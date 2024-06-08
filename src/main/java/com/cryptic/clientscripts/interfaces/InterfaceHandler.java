@@ -1,6 +1,6 @@
 package com.cryptic.clientscripts.interfaces;
 
-import com.cryptic.clientscripts.InterfaceID;
+import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.clientscripts.impl.*;
 import com.cryptic.clientscripts.impl.clanchat.*;
 import com.cryptic.clientscripts.impl.emotes.EmoteInterface;
@@ -13,7 +13,7 @@ import com.cryptic.clientscripts.impl.journal.CharacterSummaryInterface;
 import com.cryptic.clientscripts.impl.journal.JournalRootInterface;
 import com.cryptic.clientscripts.impl.journal.QuestListInterface;
 import com.cryptic.clientscripts.impl.journal.collectionlog.CollectionLogInterface;
-import com.cryptic.clientscripts.impl.leathertanner.TanningInterface;
+import com.cryptic.clientscripts.impl.skills.crafting.TanningInterface;
 import com.cryptic.clientscripts.impl.skills.magic.MagicTab;
 import com.cryptic.clientscripts.impl.skills.prayer.PrayerTab;
 import com.cryptic.clientscripts.impl.skills.prayer.QuickPrayerInterface;

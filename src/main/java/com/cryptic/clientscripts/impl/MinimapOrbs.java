@@ -20,6 +20,15 @@ public class MinimapOrbs extends InterfaceBuilder {
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
+        if (button == ComponentID.MINIMAP_WORLDMAP_OPTIONS) {
+            if (option == 2) {
+                player.putAttrib(AttributeKey.WORLD_MAP_FULLSCREEN,false);
+                GameInterface.WORLD_MAP.open(player);
+            } else if (option == 3) {
+                player.putAttrib(AttributeKey.WORLD_MAP_FULLSCREEN,true);
+                GameInterface.WORLD_MAP.open(player);
+            }
+        }
         if (option == 1) {
             switch (button) {
                 case ComponentID.MINIGAMES_SPEC -> player.toggleSpecialAttack();

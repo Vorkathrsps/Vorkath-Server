@@ -63,6 +63,10 @@ public class Tile implements Cloneable {
         checkActive();
     }
 
+    public int getPositionHash() {
+        return  getY() | getX() << 14 | getX() << 28;
+    }
+
     private boolean active;
     private Region region;
 

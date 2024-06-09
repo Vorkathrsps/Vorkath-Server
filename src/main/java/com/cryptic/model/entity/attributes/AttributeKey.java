@@ -461,6 +461,10 @@ public enum AttributeKey {
 
     MULTIWAY_AREA,
 
+    WORLD_MAP_ACTIVE,
+
+    WORLD_MAP_FULLSCREEN,
+
     // ID of the last region we were in
     LAST_REGION,
 

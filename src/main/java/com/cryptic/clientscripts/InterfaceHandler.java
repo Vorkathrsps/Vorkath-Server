@@ -26,6 +26,7 @@ import com.cryptic.clientscripts.impl.social.FriendListInterface;
 import com.cryptic.clientscripts.impl.social.IgnoreListInterface;
 import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface;
 import com.cryptic.clientscripts.impl.dialogue.impl.*;
+import com.cryptic.clientscripts.impl.worldmap.WorldMap;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.InterfaceType;
 import com.cryptic.model.entity.player.Player;
@@ -79,6 +80,7 @@ public class InterfaceHandler {
         interfaces.put(InterfaceID.COLLECTION_LOG, new CollectionLogInterface());
         interfaces.put(InterfaceID.LEATHER_TANNING_INTERFACE, new TanningInterface());
         interfaces.put(InterfaceID.SMITHING, new SmithingInterface());
+        interfaces.put(InterfaceID.WORLD_MAP,new WorldMap());
     }
 
     public static InterfaceBuilder find(int interfaceId) {

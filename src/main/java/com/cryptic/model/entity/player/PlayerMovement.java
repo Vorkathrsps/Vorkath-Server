@@ -108,6 +108,9 @@ public class PlayerMovement extends MovementQueue {
         MultiwayCombat.tileChanged(player);
         Tile.occupy(player);
         if (isMoving) {
+            if (player.hasAttrib(AttributeKey.WORLD_MAP_ACTIVE)) {
+                player.getPacketSender().runClientScriptNew(1749, player.tile().getPositionHash());
+            }
             player.clearAttrib(MOVEMENT_PACKET_STEPS);
             if (!player.getControllers().isEmpty()) {
                 for (Controller controller : player.getControllers()) {

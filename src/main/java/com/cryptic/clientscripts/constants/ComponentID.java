@@ -2750,4 +2750,38 @@ public final class ComponentID {
     public static final int CONTROLS = 106;
     public static final int AUDIO = 111;
     public static final int DISPLAY = 112;
+    public static final int LEATHER_MAKE_ONE = 21233812;
+    public static final int LEATHER_MAKE_FIVE = 21233804;
+    public static final int LEATHER_MAKE_X = 21233796;
+    public static final int LEATHER_MAKE_ALL = 21233788;
+
+    public static final int HARD_LEATHER_MAKE_ONE = 21233813;
+    public static final int HARD_LEATHER_MAKE_FIVE = 21233805;
+    public static final int HARD_LEATHER_MAKE_X = 21233797;
+    public static final int HARD_LEATHER_MAKE_ALL = 21233789;
+
+    public static final int SNAKESKIN_MAKE_ONE = 21233814;
+    public static final int SNAKESKIN_MAKE_FIVE = 21233806;
+    public static final int SNAKESKIN_MAKE_X = 21233798;
+    public static final int SNAKESKIN_MAKE_ALL = 21233790;
+
+    public static final int GREEN_DHIDE_MAKE_ONE = 21233816;
+    public static final int GREEN_DHIDE_MAKE_FIVE = 21233808;
+    public static final int GREEN_DHIDE_MAKE_X = 21233800;
+    public static final int GREEN_DHIDE_MAKE_ALL = 21233792;
+
+    public static final int BLUE_DHIDE_MAKE_ONE = 21233817;
+    public static final int BLUE_DHIDE_MAKE_FIVE = 21233809;
+    public static final int BLUE_DHIDE_MAKE_X = 21233801;
+    public static final int BLUE_DHIDE_MAKE_ALL = 21233793;
+
+    public static final int RED_DHIDE_MAKE_ONE = 21233818;
+    public static final int RED_DHIDE_MAKE_FIVE = 21233810;
+    public static final int RED_DHIDE_MAKE_X = 21233802;
+    public static final int RED_DHIDE_MAKE_ALL = 21233794;
+
+    public static final int BLACK_DHIDE_MAKE_ONE = 21233819;
+    public static final int BLACK_DHIDE_MAKE_FIVE = 21233811;
+    public static final int BLACK_DHIDE_MAKE_X = 21233803;
+    public static final int BLACK_DHIDE_MAKE_ALL = 21233795;
 }

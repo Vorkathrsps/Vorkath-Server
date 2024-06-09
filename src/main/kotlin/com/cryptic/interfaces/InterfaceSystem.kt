@@ -10,20 +10,24 @@ class InterfaceSystem(private val player: Player) {
 
     var visible: BiMap<Int, Int> = HashBiMap.create()
 
-    private var pane: PaneType? = null
+    var previousPane: PaneType? = null
 
-    private var journal: Journal = Journal.QUEST_TAB
+    var pane: PaneType = PaneType.FIXED
+        set(value) {
+            field = value
+            visible.forcePut(-1, pane.id)
+        }
 
     init {
-        pane = PaneType.FIXED
-        visible[pane!!.id shl 16] = pane!!.id
+        visible[pane.id shl 16] = pane.id
     }
 
+    private var journal: Journal = Journal.QUEST_TAB
 
     fun sendPane(fromPane: PaneType, toPane: PaneType) {
         player.packetSender.sendPane(toPane)
         visible.remove(fromPane.id shl 16)
-        visible.forcePut(pane!!.id shl 16, toPane.id)
+        visible.forcePut(pane.id shl 16, toPane.id)
         val pairs = InterfacePosition.getPairs(fromPane, toPane)
         pairs.forEach { (k, v) -> moveInterface(fromPane, k, toPane, v) }
     }
@@ -208,13 +212,6 @@ class InterfaceSystem(private val player: Player) {
         val dialogue = position == InterfacePosition.DIALOGUE
         val pane = if (dialogue) PaneType.RESIZABLE else this.pane
         val hash = (if (dialogue) PaneType.CHATBOX.id else (pane?.id ?: 0)) shl 16 or (position.getComponent(pane) ?: 0)
-        //if (combat && contains) {
-        //val id = visible[hash]
-        //val plugin: Interface = NewInterfaceHandler.getInterface(id)
-        //if (plugin != null && !plugin.closeInCombat()) {
-        //  return
-        //}
-        // }
 
         closeInterface(hash, removeFromMap, contains)
     }
@@ -255,11 +252,6 @@ class InterfaceSystem(private val player: Player) {
 
     fun isVisible(pane: Int, paneComponent: Int): Boolean {
         return visible.containsKey(pane shl 16 or paneComponent)
-    }
-
-    fun setPane(pane: PaneType) {
-        this.pane = pane
-        visible.forcePut(-1, pane.id)
     }
 
     fun setJournal(journal: Journal) {

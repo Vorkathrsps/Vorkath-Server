@@ -2638,6 +2638,11 @@ public final class ComponentID {
     public static final int WORLD_MAP_CLOSE = 38993958;
 
     /**
+     * 595:4
+     */
+    public static final int WORLD_MAP_CLOSE_ESC = 38993924;
+
+    /**
      * 69:18
      */
     public static final int WORLD_SWITCHER_WORLD_LIST = 4522002;

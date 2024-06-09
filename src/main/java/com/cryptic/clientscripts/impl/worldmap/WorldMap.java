@@ -48,7 +48,7 @@ public class WorldMap extends InterfaceBuilder {
             }
         }
 
-        player.getPacketSender().sendSubInterface(gameInterface().getId(), 42, PaneType.FIXED);
+        player.getPacketSender().sendSubInterface(gameInterface().getId(), 42, isFullscreen ? PaneType.FULL_SCREEN : PaneType.FIXED);
         player.putAttrib(AttributeKey.WORLD_MAP_ACTIVE, true);
     }
 

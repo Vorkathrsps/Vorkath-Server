@@ -3,6 +3,7 @@ package com.cryptic.clientscripts.impl.worldmap;
 import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.constants.EventConstants;
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.util.EventNode;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.InterfacePosition;
@@ -35,7 +36,7 @@ public class WorldMap extends InterfaceBuilder {
         setEvents(new EventNode(21, 0, 4).setOperations(EventConstants.ClickOp1));
         player.getPacketSender().runClientScriptNew(4717, 574042);
         player.getPacketSender().runClientScriptNew(4722, 574042);
-        player.getPacketSender().runClientScriptNew(1749, player.tile().getPositionHash(), -1, -1);
+        player.getPacketSender().runClientScriptNew(ScriptID.WORLD_MAP_POSITION, player.tile().getPositionHash(), -1, -1);
 
         if (isFullscreen) {
             player.animate(5354);

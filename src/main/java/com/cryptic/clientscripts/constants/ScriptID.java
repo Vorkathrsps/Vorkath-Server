@@ -12,6 +12,7 @@ public class ScriptID {
     public static final int OUT_OF_PRAYER = 5224;
     public static final int SEND_AMOUNT_SCRIPT = 108;
     public static final int TOTAL_GUIDE_PRICE_AMOUNT = 600;
+    public static final int WORLD_MAP_POSITION = 1749;
 
     public static final int IF_SETTEXTALIGN = find("if_settextalign");
     public static final int MESLAYER_CLOSE = find("meslayer_close");

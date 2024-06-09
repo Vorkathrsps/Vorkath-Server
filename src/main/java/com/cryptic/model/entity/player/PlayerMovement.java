@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.player;
 
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
@@ -109,7 +110,7 @@ public class PlayerMovement extends MovementQueue {
         Tile.occupy(player);
         if (isMoving) {
             if (player.hasAttrib(AttributeKey.WORLD_MAP_ACTIVE)) {
-                player.getPacketSender().runClientScriptNew(1749, player.tile().getPositionHash());
+                player.getPacketSender().runClientScriptNew(ScriptID.WORLD_MAP_POSITION, player.tile().getPositionHash());
             }
             player.clearAttrib(MOVEMENT_PACKET_STEPS);
             if (!player.getControllers().isEmpty()) {

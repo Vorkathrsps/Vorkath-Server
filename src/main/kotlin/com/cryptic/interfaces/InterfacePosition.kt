@@ -3,7 +3,11 @@ package com.cryptic.interfaces
 import com.cryptic.clientscripts.constants.InterfaceID
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 
-enum class InterfacePosition(val resizableComponent: Int, val gameframeInterfaceId: Int = -1, val type: InterfaceType = InterfaceType.OVERLAY) {
+enum class InterfacePosition(
+    val resizableComponent: Int,
+    val gameframeInterfaceId: Int = -1,
+    val type: InterfaceType = InterfaceType.OVERLAY
+) {
 
     CHATBOX(96, InterfaceID.CHATBOX),
     MINIMAP_ORBS(33, InterfaceID.MINIMAP),
@@ -31,6 +35,7 @@ enum class InterfacePosition(val resizableComponent: Int, val gameframeInterface
     SIDE_EMOTES(88, InterfaceID.EMOTES),
     SIDE_MUSIC(89, InterfaceID.MUSIC),
     PRIVATE_CHAT(93, InterfaceID.PRIVATE_CHAT),
+    HP_HUD_POS(2, InterfaceID.HEALTH),
 
     MINIGAME_OVERLAY(6), //TODO
     UNKNOWN_OVERLAY(8), //TODO

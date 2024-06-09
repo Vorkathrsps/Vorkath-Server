@@ -1,5 +1,11 @@
 package com.cryptic.model.entity.npc;
 
+import com.cryptic.clientscripts.constants.ComponentID;
+import com.cryptic.clientscripts.constants.ScriptID;
+import com.cryptic.clientscripts.impl.healthhud.HealthHud;
+import com.cryptic.interfaces.GameInterface;
+import com.cryptic.interfaces.Varbits;
+import com.cryptic.interfaces.Varps;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
@@ -37,6 +43,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -315,11 +322,11 @@ public class NPC extends Entity {
             case 8612, 8613 -> new Drake(id, tile);
             case NpcIdentifiers.TZTOKJAD -> new TzTokJad(id, tile);
             case NpcIdentifiers.DEMONIC_GORILLA,
-                NpcIdentifiers.DEMONIC_GORILLA_7145,
-                NpcIdentifiers.DEMONIC_GORILLA_7146 -> new DemonicGorilla(id, tile);
+                 NpcIdentifiers.DEMONIC_GORILLA_7145,
+                 NpcIdentifiers.DEMONIC_GORILLA_7146 -> new DemonicGorilla(id, tile);
             case NpcIdentifiers.CORRUPTED_HUNLLEF,
-                NpcIdentifiers.CORRUPTED_HUNLLEF_9036,
-                NpcIdentifiers.CORRUPTED_HUNLLEF_9037 -> new CorruptedHunleff(id, tile);
+                 NpcIdentifiers.CORRUPTED_HUNLLEF_9036,
+                 NpcIdentifiers.CORRUPTED_HUNLLEF_9037 -> new CorruptedHunleff(id, tile);
             default -> new NPC(id, tile);
         };
     }
@@ -881,5 +888,7 @@ public class NPC extends Entity {
         this.canAttack = canAttack;
         return this;
     }
+
+    @Getter HealthHud healthHud = new HealthHud(this);
 
 }

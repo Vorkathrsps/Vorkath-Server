@@ -107,9 +107,9 @@ public class Varps {
     }
 
     public void updateVarps() {
-        requireUpdate.forEach( value -> {
-            player.getPacketSender().sendConfig(value, varps[value]);
-        });
+        for (var entry : requireUpdate) {
+            player.getPacketSender().sendConfig(entry, varps[entry]);
+        }
         requireUpdate.clear();
     }
 

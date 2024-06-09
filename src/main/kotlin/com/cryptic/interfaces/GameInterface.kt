@@ -69,13 +69,15 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     MOBILE_PANE(601),
     SIDE_PANELS_RESIZABLE_PANE(164),
 
-    COLLECTION_LOG(InterfaceID.COLLECTION_LOG);
+    COLLECTION_LOG(InterfaceID.COLLECTION_LOG),
+    HEALTH_HUD(InterfaceID.HEALTH, InterfacePosition.HP_HUD_POS);
 
     companion object {
         val VALUES = values()
 
         fun get(id: Int): GameInterface? = VALUES.find { it.id == id }
     }
+
 
     fun open(player: Player) {
         InterfaceHandler.find(this.id)?.open(player) ?: player.interfaces.sendInterface(this)

@@ -5,9 +5,11 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public abstract class Controller {
 
     private final List<Area> areas;
@@ -44,11 +46,6 @@ public abstract class Controller {
 
     public abstract boolean handleNpcOption(Player player, NPC npc, int option);
 
-    public List<Area> getAreas() {
-        return areas;
-    }
-    //If we want to use the AbstractArea inside method to check instead of the AreaManager inside method
-    //to check, we should set this to true in the AbstractArea that overrides this.
     public abstract boolean useInsideCheck();
 
     public abstract boolean inside(Entity entity);

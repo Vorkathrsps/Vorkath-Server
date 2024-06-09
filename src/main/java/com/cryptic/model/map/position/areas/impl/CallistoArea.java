@@ -1,6 +1,7 @@
 package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class CallistoArea extends Controller {
     public static final Area ROOM = new Area(1746, 11525, 1771, 11556);
+
     public CallistoArea() {
         super(Collections.singletonList(new Area(Tile.regionToTile(7092).getX(), Tile.regionToTile(7092).getY(), Tile.regionToTile(7092).getX() + 63, Tile.regionToTile(7092).getY() + 63)));
     }
@@ -24,8 +26,7 @@ public class CallistoArea extends Controller {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6609) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
+                        npc.getHealthHud().set(player);
                     }
                 }
             }
@@ -34,7 +35,13 @@ public class CallistoArea extends Controller {
 
     @Override
     public void leave(Player player) {
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 6609) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
     @Override
@@ -42,14 +49,7 @@ public class CallistoArea extends Controller {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6609) {
-                    if (npc.dead()) {
-                        HealthHud.close(player);
-                    } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                        else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
-                        }
-                    }
+                    npc.getHealthHud().sync(player);
                 }
             }
         }

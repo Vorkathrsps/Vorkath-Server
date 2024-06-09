@@ -13,7 +13,9 @@ public class ScriptID {
     public static final int SEND_AMOUNT_SCRIPT = 108;
     public static final int TOTAL_GUIDE_PRICE_AMOUNT = 600;
     public static final int WORLD_MAP_POSITION = 1749;
-
+    public static final int HEALTH_HUDE_FADE_IN = 2376;
+    public static final int HEALTH_HUDE_FADE = 2498; //TODO naming may not be correct
+    public static final int HEALTH_HUDE_FADE_OUT = 2889;
     public static final int IF_SETTEXTALIGN = find("if_settextalign");
     public static final int MESLAYER_CLOSE = find("meslayer_close");
     public static final int SKILL_MULTI_SETUP = find("skillmulti_setup");

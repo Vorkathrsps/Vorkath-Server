@@ -497,13 +497,11 @@ public final class PacketSender {
      */
     public PacketSender sendConfig(int id, int state) {
         if (state < Byte.MIN_VALUE || state > 255) {
-            System.out.println("sending int size");
             return sendVarpIntSize(id, state);
         }
-
         PacketBuilder out = new PacketBuilder(36);
         out.putShort(id, ByteOrder.LITTLE);
-        out.put(state); // value is over byte lol
+        out.put(state);
         player.getSession().write(out);
         return this;
     }

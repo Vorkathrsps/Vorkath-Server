@@ -4,8 +4,11 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.interfaces.Varbits;
+import com.cryptic.interfaces.Varps;
 import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
@@ -615,11 +618,52 @@ public class CommandManager {
         });
 
         dev("clearp", (p, c, s) -> {
-            p.getPrayer().reset();
+            GameInterface.HEALTH_HUD.close(p);
+        });
+
+        dev("reseti", (p, c, s) -> {
+            p.getPacketSender().setComponentVisability(GameInterface.HEALTH_HUD.getId(), 5, false);
+        });
+
+        dev("clearh", (p, c, s) -> {
+            p.getPacketSender().runClientScriptNew(ScriptID.HEALTH_HUDE_FADE_OUT, 19857413, 19857416, 19857414, 19857415, 19857417, 19857419, 19857421, 19857422, 19857423, 19857428, 19857426, 19857427, 19857424, 19857425, 0);
+            Chain.noCtx().runFn(7, () -> {
+                p.varps().setVarp(Varps.HEALTH_HUD_NPC_ID, -1); //value = npc id
+                p.varps().setVarbit(Varbits.HEALTH_HUD_CURRENT_HP, -1); //value = health current
+                p.varps().setVarbit(Varbits.HEALTH_HUD_MAX_HP, -1); //value = health max
+                p.varps().sendTempVarbit(Varbits.HEALTH_HUD_VISIBILTY, 0); //visibility varbit
+                GameInterface.HEALTH_HUD.close(p);
+            });
         });
 
         dev("c", (p, c, s) -> {
-            GameInterface.SMITHING_INTERFACE.open(p);
+            p.varps().sendTempVarbit(Varbits.HEALTH_HUD_VISIBILTY, 1); //visibility varbit
+            p.varps().setVarp(Varps.HEALTH_HUD_NPC_ID, 6610); //value = npc id
+            p.varps().setVarbit(Varbits.HEALTH_HUD_CURRENT_HP, 1000); //value = health current
+            p.varps().setVarbit(Varbits.HEALTH_HUD_MAX_HP, 1000); //value = health max
+            GameInterface gameInterface = GameInterface.HEALTH_HUD;
+            GameInterface.HEALTH_HUD.open(p);
+            p.getPacketSender().runClientScriptNew(ScriptID.HEALTH_HUDE_FADE, 1, 0, 0);
+            p.getPacketSender().runClientScriptNew(ScriptID.HEALTH_HUDE_FADE_IN,
+                gameInterface.getId() << 16,
+                gameInterface.getId() << 16 | 2,
+                gameInterface.getId() << 16 | 4,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_MAIN_CONTAINER,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_TITLE_CONTAINER,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_BAR_CONTAINER,
+                gameInterface.getId() << 16 | ComponentID.NOT_SURE_18,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_BAR_BACKGROUND,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_BAR_FOREGROUND,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_MAIN_CONTAINER_BORDER,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_TITLE,
+                gameInterface.getId() << 16 | ComponentID.HEALTH_HUD_MAIN_CONTAINER_BACKGROUND,
+                gameInterface.getId() << 16 | ComponentID.BAR_BORDER,
+                gameInterface.getId() << 16 | ComponentID.NOT_SURE_16,
+                gameInterface.getId() << 16 | ComponentID.NOT_SURE_17,
+                gameInterface.getId() << 16 | ComponentID.NOT_SURE_14,
+                gameInterface.getId() << 16 | ComponentID.NOT_SURE_15,
+                gameInterface.getId() << 16 | 3
+            );
         });
 
         dev("sp", (p, c, s) -> {

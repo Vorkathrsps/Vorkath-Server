@@ -5,6 +5,9 @@ object Varbits {
     const val PREV_MUSIC_VOLUME = 12426
     const val PREV_SOUND_VOLUME = 12427
     const val PREV_AREA_VOLUME = 12428
+    const val HEALTH_HUD_VISIBILTY = 12401
+    const val HEALTH_HUD_CURRENT_HP = 6099
+    const val HEALTH_HUD_MAX_HP = 6100
     const val ALL_SETTINGS_TAB = 9656
     const val ACTIVITIES_HITSPLAT_TINTING = 10236
     const val ACTIVITIES_SHOW_BOSS_HEALTH_OVERLAY = 12389

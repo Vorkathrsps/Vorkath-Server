@@ -2794,4 +2794,21 @@ public final class ComponentID {
     public static final int BLACK_DHIDE_MAKE_FIVE = 21233811;
     public static final int BLACK_DHIDE_MAKE_X = 21233803;
     public static final int BLACK_DHIDE_MAKE_ALL = 21233795;
+
+
+    public static final int HEALTH_HUD_MAIN_CONTAINER = 5;
+    public static final int HEALTH_HUD_MAIN_CONTAINER_BORDER = 6;
+    public static final int HEALTH_HUD_MAIN_CONTAINER_BACKGROUND = 7;
+    public static final int HEALTH_HUD_TITLE_CONTAINER = 8;
+    public static final int HEALTH_HUD_TITLE = 9;
+    public static final int HEALTH_HUD_BAR_CONTAINER = 10;
+    public static final int BAR_BORDER = 11;
+    public static final int HEALTH_HUD_BAR_BACKGROUND = 12;
+    public static final int HEALTH_HUD_BAR_FOREGROUND = 13;
+
+    public static final int NOT_SURE_14 = 14;
+    public static final int NOT_SURE_15 = 15;
+    public static final int NOT_SURE_16 = 16;
+    public static final int NOT_SURE_17 = 17;
+    public static final int NOT_SURE_18 = 19;
 }

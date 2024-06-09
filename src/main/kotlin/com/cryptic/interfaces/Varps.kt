@@ -7,4 +7,5 @@ object Varps {
     const val AREA_VOLUME = 872;
     const val ATTACK_STYLE = 43
     const val LAST_ATTACK_STYLE = 46
+    const val HEALTH_HUD_NPC_ID = 1683
 }

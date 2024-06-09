@@ -3084,7 +3084,6 @@ public class Player extends Entity {
             this.action.sequence();
             TaskManager.sequenceForMob(this);
             PacketInteractionManager.onPlayerProcess(this);
-            varps.updateVarps();
             this.getTimers().cycle();
             this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             updateServerInformation(this);
@@ -3116,6 +3115,7 @@ public class Player extends Entity {
             TargetRoute.afterMovement(this);
             ControllerManager.process(this);
             this.getCombat().process();
+            varps.updateVarps();
             this.handleLastRegion();
             this.getPrayer().process();
             if (queuedAppearanceUpdate()) {

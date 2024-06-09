@@ -24,8 +24,7 @@ public class NightmareArea extends Controller {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 9430 || npc.id() == 9425) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.CYAN_SHIELD, "The Nightmare", npc.hp());
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
+                        npc.getHealthHud().set(player);
                     }
                 }
             }
@@ -34,10 +33,16 @@ public class NightmareArea extends Controller {
 
     @Override
     public void leave(Player player) {
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 9430 || npc.id() == 9425) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
-    @Override
+    @Override //TODO colored huds
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {

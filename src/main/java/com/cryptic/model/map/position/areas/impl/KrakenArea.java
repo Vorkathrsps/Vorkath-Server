@@ -16,30 +16,34 @@ public class KrakenArea extends Controller {
 
     @Override
     public void enter(Player player) {
-
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 494) {
+                    if (!npc.dead()) {
+                        npc.getHealthHud().set(player);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void leave(Player player) {
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 494) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
     @Override
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.getZ() != player.getZ()) {
-                    continue;
-                }
                 if (npc.id() == 494) {
-                    if (npc.dead()) {
-                        HealthHud.close(player);
-                    } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                        else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Kraken", npc.hp());
-                        }
-                    }
+                    npc.getHealthHud().sync(player);
                 }
             }
         }

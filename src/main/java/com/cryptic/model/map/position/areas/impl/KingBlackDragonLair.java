@@ -19,8 +19,7 @@ public class KingBlackDragonLair extends Controller {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 239) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
+                        npc.getHealthHud().set(player);
                     }
                 }
             }
@@ -29,7 +28,13 @@ public class KingBlackDragonLair extends Controller {
 
     @Override
     public void leave(Player player) {
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 239) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
     @Override
@@ -37,14 +42,7 @@ public class KingBlackDragonLair extends Controller {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 239) {
-                    if (npc.dead()) {
-                        HealthHud.close(player);
-                    } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                        else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
-                        }
-                    }
+                    npc.getHealthHud().sync(player);
                 }
             }
         }

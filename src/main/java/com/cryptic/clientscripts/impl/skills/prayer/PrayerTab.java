@@ -48,6 +48,10 @@ public class PrayerTab extends InterfaceBuilder {
                 return;
             }
 
+            if (player.stunned()) {
+                return;
+            }
+
             player.getPrayer().activate(prayer);
         }
     }

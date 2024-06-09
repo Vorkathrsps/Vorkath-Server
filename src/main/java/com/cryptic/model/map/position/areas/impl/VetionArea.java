@@ -34,16 +34,22 @@ public class VetionArea extends Controller {
                         });
                     }
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
+                        npc.getHealthHud().set(player);
                     }
                 }
             }
         }
     }
+
     @Override
     public void leave(Player player) {
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 6611) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
     @Override
@@ -51,15 +57,7 @@ public class VetionArea extends Controller {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6611) {
-                    if (npc.dead()) {
-                        player.getPacketSender().darkenScreen(0);
-                        HealthHud.close(player);
-                    } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                        else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
-                        }
-                    }
+                    npc.getHealthHud().sync(player);
                 }
             }
         }

@@ -34,23 +34,22 @@ public class NexArea extends Controller {
     @Override
     public void leave(Player player) {
         player.getPacketSender().darkenScreen(0);
-        HealthHud.close(player);
+        for (var regions : player.getRegions()) {
+            for (var npc : regions.getNpcs()) {
+                if (npc.id() == 11278 || npc.id() == 11279) {
+                    npc.getHealthHud().clear(player);
+                }
+            }
+        }
     }
 
     @Override
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 11278) {
-                    if (npc.dead()) {
-                        player.getPacketSender().darkenScreen(0);
-                        HealthHud.close(player);
-                    } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                        else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
-                        }
-                    }
+                if (npc.id() == 11278 || npc.id() == 11279) {
+                    if (npc.dead()) player.getPacketSender().darkenScreen(0);
+                    npc.getHealthHud().sync(player);
                 }
             }
         }

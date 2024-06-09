@@ -3114,8 +3114,8 @@ public class Player extends Entity {
             this.getMovementQueue().process();
             TargetRoute.afterMovement(this);
             ControllerManager.process(this);
+            this.varps().updateVarps();
             this.getCombat().process();
-            varps.updateVarps();
             this.handleLastRegion();
             this.getPrayer().process();
             if (queuedAppearanceUpdate()) {

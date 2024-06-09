@@ -2765,10 +2765,15 @@ public final class ComponentID {
     public static final int HARD_LEATHER_MAKE_X = 21233797;
     public static final int HARD_LEATHER_MAKE_ALL = 21233789;
 
-    public static final int SNAKESKIN_MAKE_ONE = 21233814;
-    public static final int SNAKESKIN_MAKE_FIVE = 21233806;
-    public static final int SNAKESKIN_MAKE_X = 21233798;
-    public static final int SNAKESKIN_MAKE_ALL = 21233790;
+    public static final int SNAKEHIDE_MAKE_ONE = 21233814;
+    public static final int SNAKEHIDE_MAKE_FIVE = 21233806;
+    public static final int SNAKEHIDE_MAKE_X = 21233798;
+    public static final int SNAKEHIDE_MAKE_ALL = 21233790;
+
+    public static final int SNAKESKIN_MAKE_ONE = 21233815;
+    public static final int SNAKESKIN_MAKE_FIVE = 21233807;
+    public static final int SNAKESKIN_MAKE_X = 21233799;
+    public static final int SNAKESKIN_MAKE_ALL = 21233791;
 
     public static final int GREEN_DHIDE_MAKE_ONE = 21233816;
     public static final int GREEN_DHIDE_MAKE_FIVE = 21233808;

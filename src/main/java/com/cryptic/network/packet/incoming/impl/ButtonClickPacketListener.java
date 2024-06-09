@@ -1,6 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
+import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.content.account.AccountSelection;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
@@ -18,6 +19,7 @@ import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 import com.cryptic.utility.ItemIdentifiers;
 import io.netty.buffer.Unpooled;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +35,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASKS_LIST;
  *
  * @author Gabriel Hannason
  */
+
+@Slf4j
 public class ButtonClickPacketListener implements PacketListener {
     public static final int FIRST_DIALOGUE_OPTION_OF_FIVE = 2494;
     public static final int SECOND_DIALOGUE_OPTION_OF_FIVE = 2495;
@@ -85,6 +89,11 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (PlayerRights.OWNER.equals(player.getPlayerRights())) {
             player.debugMessage("button=" + button);
+        }
+
+        if (player.activeInterface.containsKey(GameInterface.TANNING_INTERFACE.getId())) {
+            var active = player.activeInterface.get(GameInterface.TANNING_INTERFACE.getId());
+            active.onButton(player, button, 1, -1, -1);
         }
 
         if (player.getTeleportInterface().handleButton(button, -1)) {

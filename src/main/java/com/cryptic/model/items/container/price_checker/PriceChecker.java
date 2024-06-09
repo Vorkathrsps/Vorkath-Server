@@ -1,6 +1,8 @@
 package com.cryptic.model.items.container.price_checker;
 
+import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.constants.InterfaceID;
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.util.CombinedId;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.model.inter.InterfaceConstants;
@@ -198,7 +200,7 @@ public class PriceChecker extends ItemContainer {
         }
         final long total = totalValue;
         player.getPacketSender().runClientScriptNew(785, params);
-        player.getPacketSender().runClientScriptNew(600, 1, 1, 15, 30408716);
+        player.getPacketSender().runClientScriptNew(600, 1, 1, 15, ComponentID.TOTAL_GUIDE_PRICE);
         player.getPacketSender().setItemMessage(new CombinedId(GameInterface.GUIDE_PRICE.getId(), 8).combinedId, 6512, 0);
         player.getPacketSender().setComponentText(GameInterface.GUIDE_PRICE.getId(), 12, "Total guide price:<br><col=ffffff>" + Utils.formatValueCommas(total) + "</col>");
     }

@@ -6,6 +6,8 @@ import com.cryptic.clientscripts.constants.EventConstants;
 import com.cryptic.clientscripts.util.EventNode;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.InterfacePosition;
+import com.cryptic.interfaces.InterfaceType;
+import com.cryptic.interfaces.PaneType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.chainedwork.Chain;
@@ -22,25 +24,33 @@ public class WorldMap extends InterfaceBuilder {
         return GameInterface.WORLD_MAP;
     }
 
+    public boolean sendInterface() {
+        return false;
+    }
+
     @Override
     public void beforeOpen(Player player) {
         player.getPacketSender().setInterfaceEvents(gameInterface().getId(), 17, new IntRange(0, 3), List.of(EventConstants.ClickOp1));
         boolean isFullscreen = player.<Boolean>getAttribOr(AttributeKey.WORLD_MAP_FULLSCREEN, false);
+
         if (isFullscreen) {
+            System.out.println("HERE");
             player.animate(5354);
+            player.interfaces.sendInterface(594,21, PaneType.FULL_SCREEN, InterfaceType.MODAL);
         }
+        player.interfaces.sendInterface(GameInterface.WORLD_MAP);
+
         player.putAttrib(AttributeKey.WORLD_MAP_ACTIVE, true);
 
     }
 
     @Override
-    public void close(Player player) {
+    public void onModalClosed(Player player) {
         player.clearAttrib(AttributeKey.WORLD_MAP_ACTIVE);
         boolean isFullscreen = player.<Boolean>getAttribOr(AttributeKey.WORLD_MAP_FULLSCREEN, false);
         if (isFullscreen) {
             player.animate(7551);
         }
-
     }
 
     @Override

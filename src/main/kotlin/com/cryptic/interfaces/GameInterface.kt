@@ -82,7 +82,7 @@ enum class GameInterface(val id: Int, val position: InterfacePosition = Interfac
     }
 
     fun close(player: Player) {
-        player.interfaces.closeInterface(this.position)
+        InterfaceHandler.find(this.id)?.close(player) ?: player.interfaces.closeInterface(this.position)
     }
 }
 

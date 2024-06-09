@@ -190,10 +190,10 @@ public abstract class InterfaceBuilder {
      * @param player the player for whom the interface is being closed.
      */
     public void close(final Player player) {
-        if (sendInterface()) {
-            onModalClosed(player);
-            player.activeInterface.remove(gameInterface().getId());
-        }
+        onModalClosed(player);
+        player.interfaces.closeInterface(gameInterface().getPosition());
+        player.activeInterface.remove(gameInterface().getId());
+
     }
 
     /**

@@ -35,12 +35,17 @@ public class EventNode {
         this.events = events;
     }
 
+    public final EventNode setOperations(EventConstants... constants) {
+        events.addAll(List.of(constants));
+        return this;
+    }
+
     public final EventNode setContinue() {
         events.add(EventConstants.PAUSE);
         return this;
     }
 
-    public final EventNode setButtons() {
+    public final EventNode setOperations() {
         events.addAll(List.of(
             EventConstants.ClickOp1,
             EventConstants.ClickOp2,

@@ -222,7 +222,7 @@ public abstract class InterfaceBuilder {
     public void initialize(final Player player) {
         for (final EventNode node : events) {
             node.interfaceID = gameInterface().getId();
-            node.setButtons().setFlags().send(player);
+            node.setOperations().setFlags().send(player);
         }
     }
 

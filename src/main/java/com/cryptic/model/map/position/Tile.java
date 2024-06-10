@@ -151,6 +151,13 @@ public class Tile implements Cloneable {
         updateFirstChunk();
     }
 
+    /**
+     * The Position constructor.
+     * @param hash The hash coordinate of the position.
+     */
+    public Tile(final int hash) {
+        this(hash >> 14 & 16383, hash & 16383, hash >> 28 & 3);
+    }
 
     public int clipping;
 
@@ -801,10 +808,6 @@ public class Tile implements Cloneable {
 
     public int hash18() {
         return (level << 16) + (tectonicPlateX() << 8) + tectonicPlateY();
-    }
-
-    public int hash30() {
-        return (level << 28) | (x << 14) | y;
     }
 
     public Area area(int radius) {

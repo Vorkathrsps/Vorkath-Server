@@ -4,6 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.AnimationDefinition;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.event.EntityEvent;
 import com.cryptic.core.event.Event;
@@ -1986,7 +1987,12 @@ public abstract class Entity {
         if (this instanceof Player player) {
             if (!player.getRegions().contains(player.tile().getRegion())) player.addRegion(player.tile().getRegion());
             player.getMovementQueue().handleRegionChange();
+            if (player.hasAttrib(AttributeKey.WORLD_MAP_ACTIVE)) {
+                player.getPacketSender().runClientScriptNew(ScriptID.WORLD_MAP_POSITION, player.tile().getPositionHash());
+            }
+
         }
+
     }
 
     public MovementQueue getMovement() {

@@ -2,6 +2,9 @@ package com.cryptic.clientscripts.impl.skills.magic;
 
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;
+import com.cryptic.clientscripts.constants.ComponentID;
+import com.cryptic.clientscripts.constants.EventConstants;
+import com.cryptic.clientscripts.util.EventNode;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.clientscripts.InterfaceBuilder;
 import com.cryptic.interfaces.Varbits;
@@ -20,6 +23,8 @@ import com.cryptic.utility.Tuple;
  */
 public class MagicTab extends InterfaceBuilder {
 
+    public static final int[] FILTER_VARBITS = {6605, 6609, 6606, 6607, 6608, 12137, 6548};
+
     @Override
     public GameInterface gameInterface() {
         return GameInterface.SPELLBOOK_TAB;
@@ -28,12 +33,15 @@ public class MagicTab extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         player.varps().setVarp(Varbits.SPELLBOOK, 1);
+        setEvents(new EventNode(198, 0, FILTER_VARBITS.length - 1).setOperations(EventConstants.ClickOp1));
     }
 
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
-
+        if (button == ComponentID.SPELLBOOK_FILTERS) {
+            player.varps().toggleVarbit(FILTER_VARBITS[slot]);
+        }
     }
 
     @Override

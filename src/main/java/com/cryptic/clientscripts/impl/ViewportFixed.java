@@ -2,9 +2,13 @@ package com.cryptic.clientscripts.impl;
 
 import com.cryptic.clientscripts.constants.ComponentID;
 import com.cryptic.clientscripts.InterfaceBuilder;
+import com.cryptic.clientscripts.constants.EventConstants;
+import com.cryptic.clientscripts.impl.skills.magic.MagicTab;
+import com.cryptic.clientscripts.util.EventNode;
 import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.Varbits;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.WidgetUtil;
 
 public class ViewportFixed extends InterfaceBuilder {
 
@@ -29,7 +33,7 @@ public class ViewportFixed extends InterfaceBuilder {
             if (button == ComponentID.FIXED_VIEWPORT_PRAYER_TAB) {
                 player.varps().toggleVarbit(6579);
             } else if (button == ComponentID.FIXED_VIEWPORT_MAGIC_TAB) {
-                player.varps().toggleVarp(Varbits.SPELLBOOK_FILTERING);
+                player.varps().toggleVarbit(Varbits.SPELLBOOK_FILTERING);
             } else if (button == ComponentID.FIXED_VIEWPORT_OPTIONS_TAB) {
                 GameInterface.SETTINGS.open(player);
             }

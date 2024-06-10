@@ -2811,4 +2811,6 @@ public final class ComponentID {
     public static final int NOT_SURE_16 = 16;
     public static final int NOT_SURE_17 = 17;
     public static final int NOT_SURE_18 = 19;
+
+    public static final int SPELLBOOK_FILTERS = 14287046;
 }

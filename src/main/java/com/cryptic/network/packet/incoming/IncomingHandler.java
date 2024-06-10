@@ -91,6 +91,10 @@ public class IncomingHandler {
 
     public static final int OPOBJT = 175;
 
+    public static final int WORLDMAP_TELEPORT = 176;
+
+    public static final int WORLDMAP_CLICK = 178;
+
     public static final int
         OBJECT_FIRST_CLICK_OPCODE = 132,
         OBJECT_SECOND_CLICK_OPCODE = 252,
@@ -175,6 +179,8 @@ public class IncomingHandler {
         PACKETS[OPLOCT] = new OpLocTPacketListener();
         PACKETS[OPNPCT] = new OpNpcTPacketListener();
         PACKETS[OPOBJT] = new OpObjTPacketListener();
+        PACKETS[WORLDMAP_TELEPORT] = new WorldMapTeleportPacketListener();
+        PACKETS[WORLDMAP_CLICK] = new WorldMapClickPacketListener();
         PACKETS[145] = new FirstItemContainerActionPacketListener();
         PACKETS[117] = new SecondItemContainerActionPacketListener();
         PACKETS[43] = new ThirdItemContainerActionPacketListener();
@@ -507,7 +513,7 @@ public class IncomingHandler {
         PACKET_SIZES[OPLOCT] = 15;
         PACKET_SIZES[OPNPCT] = 11;
         PACKET_SIZES[OPOBJT] = 15;
-        PACKET_SIZES[176] = -3;
+        PACKET_SIZES[WORLDMAP_TELEPORT] = 4;
         PACKET_SIZES[177] = 1;
         PACKET_SIZES[178] = -3;
         PACKET_SIZES[179] = -3;

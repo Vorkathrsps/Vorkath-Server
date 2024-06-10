@@ -34,8 +34,6 @@ public class WorldMap extends InterfaceBuilder {
     public void beforeOpen(Player player) {
         boolean isFullscreen = player.<Boolean>getAttribOr(AttributeKey.WORLD_MAP_FULLSCREEN, false);
         setEvents(new EventNode(21, 0, 4).setOperations(EventConstants.ClickOp1));
-        player.getPacketSender().runClientScriptNew(4717, 574042);
-        player.getPacketSender().runClientScriptNew(4722, 574042);
         player.getPacketSender().runClientScriptNew(ScriptID.WORLD_MAP_POSITION, player.tile().getPositionHash(), -1, -1);
 
         if (isFullscreen) {
@@ -46,9 +44,10 @@ public class WorldMap extends InterfaceBuilder {
                 player.getPacketSender().sendSubInterfaceModal(GameInterface.WORLD_MAP.getId() - 1, 39, PaneType.FULL_SCREEN);
                 player.getPacketSender().sendSubInterface(GameInterface.WORLD_MAP.getId(), 40, PaneType.FULL_SCREEN);
             }
+        } else {
+            player.interfaces.sendInterface(GameInterface.WORLD_MAP);
         }
 
-        player.getPacketSender().sendSubInterface(gameInterface().getId(), 42, isFullscreen ? PaneType.FULL_SCREEN : PaneType.FIXED);
         player.putAttrib(AttributeKey.WORLD_MAP_ACTIVE, true);
     }
 

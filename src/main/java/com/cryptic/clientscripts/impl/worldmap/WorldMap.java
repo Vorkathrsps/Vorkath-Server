@@ -33,7 +33,7 @@ public class WorldMap extends InterfaceBuilder {
     @Override
     public void beforeOpen(Player player) {
         boolean isFullscreen = player.<Boolean>getAttribOr(AttributeKey.WORLD_MAP_FULLSCREEN, false);
-        setEvents(new EventNode(21, 0, 4).setOperations(EventConstants.ClickOp1));
+        setEvents(new EventNode(17, 0, 4).setOperations(EventConstants.ClickOp1));
         player.getPacketSender().runClientScriptNew(ScriptID.WORLD_MAP_POSITION, player.tile().getPositionHash(), -1, -1);
 
         if (isFullscreen) {

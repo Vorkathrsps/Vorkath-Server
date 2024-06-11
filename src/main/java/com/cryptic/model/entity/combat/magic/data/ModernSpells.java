@@ -9,15 +9,20 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public enum ModernSpells {
 
+    LUMBRIDGE_HOME_TELEPORT(9712, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     WIND_STRIKE(3273, 1152, 91, 51, 43, 31, 90, 92, 10, 1162, GraphicHeight.HIGH),
     WATER_STRIKE(3275, 1154, 94, 51, 43, 31, 93, 95, 10, 1162, GraphicHeight.HIGH),
     EARTH_STRIKE(3277, 1156, 97, 51, 43, 31, 96, 98, 10, 1162, GraphicHeight.HIGH),
     FIRE_STRIKE(3279, 1158, 100, 51, 43, 31, 99, 101, 10, 1162, GraphicHeight.HIGH),
     WIND_BOLT(3281, 1160, 118, 51, 43, 31, 117, 119, 10, 1162, GraphicHeight.HIGH),
     WATER_BOLT(3285, 1163, 121, 51, 43, 31, 120, 122, 10, 1162, GraphicHeight.HIGH),
+    VARROCK_TELEPORT(3286, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     EARTH_BOLT(3288, 1166, 124, 51, 43, 31, 123, 125, 10, 1162, GraphicHeight.HIGH),
+    LUMBRIDGE_TELEPORT(3289, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     FIRE_BOLT(3291, 1169, 127, 51, 43, 31, 126, 128, 10, 1162, GraphicHeight.HIGH),
+    FALADOR_TELEPORT(3292, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     WIND_BLAST(3294, 1172, 133, 51, 43, 31, 132, 134, 10, 1162, GraphicHeight.HIGH),
+    CAMELOT_TELEPORT(3296, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     WATER_BLAST(3297, 1175, 136, 51, 43, 31, 135, 137, 10, 1162, GraphicHeight.HIGH),
     EARTH_BLAST(3302, 1177, 139, 51, 43, 31, 138, 140, 10, 1162, GraphicHeight.HIGH),
     FIRE_BLAST(3307, 1181, 130, 51, 43, 31, 129, 131, 10, 1162, GraphicHeight.HIGH),
@@ -35,6 +40,7 @@ public enum ModernSpells {
     SNARE(3300, 1582, 178, 75, 43, 0, 177, 180, 10, 1161, GraphicHeight.LOW),
     VULNERABILITY(3317, 1542, 168, 34, 36, 31, 167, 169, 10, 718, GraphicHeight.LOW),
     MAGIC_DART(4176, 12037, 328, 51, 43, 31, -1, 329, 10, 1576, GraphicHeight.LOW),
+    ARDOUGNE_TELEPORT(3301, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
     IBAN_BLAST(3299, 1539, 89, 51, 36, 31, 87, 89, 10, 708, GraphicHeight.LOW),
     BIND(3283, 1572, 178, 75, 45, 0, 177, 181, 10, 1161, GraphicHeight.LOW),
     CURSE(3282, 1161, 109, 51, 43, 31, 108, 110, 10, 1165, GraphicHeight.LOW),
@@ -44,7 +50,12 @@ public enum ModernSpells {
     ENFEEBLE(3320, 1543, 171, 48, 36, 31, 170, 172, 10, 728, GraphicHeight.LOW),
     STUN(3324, 1562, 174, 52, 36, 31, 173, 80, 10, 729, GraphicHeight.LOW),
     ENTANGLE(3322, 1592, 178, 75, 43, 0, 177, 180, 10, 1161, GraphicHeight.LOW),
-    TELEBLOCK(4555, 12445, 1299, 75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW);
+    TELEBLOCK(4555, 12445, 1299, 75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW),
+    WATCHTOWER_TELEPORT(3306, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
+    TROLLHEIM_TELEPORT(3312, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
+    APE_ATOLL_TELEPORT(7619, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
+    KOUREND_TELEPORT(21836, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH),
+    CIVITAS_ILLA_FORTIS_TELEPORT(24612, -1, -1, -1, -1, -1, -1, -1, -1, -1, GraphicHeight.HIGH);
 
     public final int itemId, spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 

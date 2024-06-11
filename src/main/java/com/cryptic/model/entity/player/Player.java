@@ -2,9 +2,12 @@ package com.cryptic.model.entity.player;
 
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.constants.InterfaceID;
 import com.cryptic.clientscripts.constants.ScriptID;
 import com.cryptic.clientscripts.impl.equipment.util.ToggleManager;
+import com.cryptic.clientscripts.impl.weaponinterface.AttackStyleDefinition;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.*;
@@ -3301,6 +3304,27 @@ public class Player extends Entity {
         public DailyTasks type;
         public int completionamt;
         public String name, desc;
+    }
 
+
+    public void updateWeaponInfo() {
+        boolean hasWeapon = this.getEquipment().getWeapon() != null;
+        String name = "Unarmed";
+        int varbitValue = 0;
+        String category = "Unarmed";
+        if (hasWeapon) {
+            ItemDefinition def = ItemDefinition.getInstance(this.getEquipment().getWeapon().getId());
+            name = def.name;
+            varbitValue = AttackStyleDefinition.getVarbit(def.category);
+            category = AttackStyleDefinition.getName(def.category);
+        }
+
+        var combatLevel = String.valueOf(this.skills().combatLevel());
+        this.getPacketSender().runClientScriptNew(ScriptID.WEAPON_INFORMATION_COMBAT_LEVEL, this.skills().combatLevel());
+        this.getPacketSender().setComponentText(InterfaceID.COMBAT, 1, name);
+        this.getPacketSender().setComponentText(InterfaceID.COMBAT, 2, "Category: " + category);
+        this.getPacketSender().setComponentText(InterfaceID.COMBAT, 3, combatLevel);
+        this.varps().setVarp(172, 0);
+        this.varps().setVarbit(357, varbitValue);
     }
 }

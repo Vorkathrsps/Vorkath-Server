@@ -39,6 +39,10 @@ public class MagicTab extends InterfaceBuilder {
 
     @Override
     public void onButton(Player player, int button, int option, int slot, int itemId) {
+        int modernSpell = ModernSpells.MODERN_SPELL_COMPONENT_MAP.get(button);
+
+        ModernSpells moderns = ModernSpells.findSpell(modernSpell);
+
         if (button == ComponentID.SPELLBOOK_FILTERS) {
             player.varps().toggleVarbit(FILTER_VARBITS[slot]);
         }

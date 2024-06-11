@@ -1,6 +1,5 @@
 package com.cryptic.interfaces
 
-import com.cryptic.clientscripts.impl.weaponinterface.WeaponInformationInterface
 import com.cryptic.model.entity.player.Player
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
@@ -85,6 +84,7 @@ class InterfaceSystem(private val player: Player) {
         }
         handleJournalTab()
         handleRelationShipTab()
+        player.updateWeaponInfo()
         player.varps().setVarbit(Varbits.CHATBOX_UNLOCKED, 1)
     }
 
@@ -124,7 +124,7 @@ class InterfaceSystem(private val player: Player) {
     }
 
     private fun sendMisc() {
-        WeaponInformationInterface.updateWeaponInfo(player)
+        player.updateWeaponInfo()
     }
 
     fun getInterfaceComponent(interfaceId: Int): Int {

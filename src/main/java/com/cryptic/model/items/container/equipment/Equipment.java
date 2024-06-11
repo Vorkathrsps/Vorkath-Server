@@ -598,7 +598,7 @@ public final class Equipment extends ItemContainer {
 
         player.getCombat().setTarget(null);
         player.setEntityInteraction(null);
-        WeaponInformationInterface.updateWeaponInfo(player);
+        player.updateWeaponInfo();
         return true;
     }
 
@@ -675,10 +675,9 @@ public final class Equipment extends ItemContainer {
 
         WeaponInterfaces.updateWeaponInterface(player);
 
-        WeaponInformationInterface.updateWeaponInfo(player);
+        player.updateWeaponInfo();
         CombatSpecial.updateBar(player);
         player.setSpecialActivated(false);
-
         return true;
     }
 

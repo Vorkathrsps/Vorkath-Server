@@ -49,6 +49,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 @Slf4j
 public class TradingPost extends PacketInteraction {
+
     @Override
     public void onLogin(Player player) {
         PlayerListing list = getListings(player.getUsername().toLowerCase());
@@ -63,11 +64,7 @@ public class TradingPost extends PacketInteraction {
         }
     }
 
-    // is there a onLogin fcor TP you know of?
-    //not that ive seen, 95% rewrite XD i havent seen you make one i dont think
-
     private static final Logger logger = LogManager.getLogger(TradingPost.class);
-
     private static final Logger tradingPostLogs = LogManager.getLogger("TradingPostLogs");
     private static final Level TRADING_POST;
 
@@ -150,27 +147,19 @@ public class TradingPost extends PacketInteraction {
     public static int getProtectionPrice(int itemId) {
         List<TradingPostListing> transactions = recentTransactions;
 
-        //Gets newest first
         Collections.reverse(recentTransactions);
 
-        //System.out.println("transactions: "+Arrays.toString(transactions.toArray()));
-
-        //Creates temp list to store first 5.
         List<TradingPostListing> prices = Lists.newArrayList();
         for (TradingPostListing listing : transactions) {
-            //System.out.println("enter loop");
             if (listing != null) {
-                //System.out.println("listing not null");
+
                 Item protItem = new Item(itemId);
-                /*if (prices.size() >= SALES_REQUIRED_FOR_AVERAGE_PRICE) {
-                    System.out.println("ofc u fucker");
-                    continue;
-                }*/
+
                 if (protItem.noted()) {
                     protItem.setId(protItem.unnote().getId());
                 }
+
                 if (listing.getSaleItem().getId() == protItem.getId()) {
-                    //System.out.println("item matches");
                     prices.add(listing);
                 }
             }

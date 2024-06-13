@@ -321,7 +321,7 @@ public class TradingPost extends PacketInteraction {
         List<TradingPostListing> list = c.getListedItems();
         String s = "%s. Inv: %s".formatted(
                 Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
-                Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))
+                Utils.formatPriceKMB((long) player.inventory().count(995) + (1000L * player.inventory().count(13307)) + (1000L * player.inventory().count(PLATINUM_TOKEN)))
         );
 
         ObjectList<Player.TextData> strings = ObjectList.of(
@@ -455,7 +455,7 @@ public class TradingPost extends PacketInteraction {
     public static void openBuyUI(Player player) {
         String s = "%s. Inv: %s".formatted(
             Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
-            Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))));
+            Utils.formatPriceKMB((long) player.inventory().count(995) + (1000L * player.inventory().count(13307)) + (1000L * player.inventory().count(PLATINUM_TOKEN))));
         ObjectList<Player.TextData> list = ObjectList.of(
             new Player.TextData("My coins",81269),
             new Player.TextData(s,81271),
@@ -762,7 +762,7 @@ public class TradingPost extends PacketInteraction {
                         long current = player.<Long>getAttribOr(TRADING_POST_COFFER, 0L);
                         if (current == 0L)
                             return true;
-                        long toAdd = Long.min(current, 1L * Integer.MAX_VALUE - player.inventory().count(995));
+                        long toAdd = Long.min(current, (long) Integer.MAX_VALUE - player.inventory().count(995));
                         if (player.inventory().add(995, (int) toAdd)) {
                             player.putAttrib(TRADING_POST_COFFER, Math.max(0, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) - toAdd));
                             player.message(Utils.formatNumber(toAdd)+" was removed from your coffer, it now holds "+Utils.formatNumber(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L))+" gp.");
@@ -1033,7 +1033,7 @@ public class TradingPost extends PacketInteraction {
             return false;
         }
 
-        if (currentListings.size() > 0) {
+        if (!currentListings.isEmpty()) {
             player.message("<col=ff0000>You already have a listing of this item. You cannot list it again..");
             player.message("<col=ff0000>.. You will need to edit ur current listing and change quantity.");
             return false;
@@ -1088,7 +1088,7 @@ public class TradingPost extends PacketInteraction {
 
     public static void listSale(Player player, Item sale, long price) {
         if (player == null || sale == null || !isValid(player) || price <= 0) {
-            logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+            logger.info("player: {} sale: {} price: {}", player.getUsername(), sale.getId(), price);
             return;
         }
 
@@ -1102,7 +1102,7 @@ public class TradingPost extends PacketInteraction {
         }
 
         if (!player.inventory().contains(sale.getId(), sale.getAmount())) {
-            logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+            logger.info("player: {} sale: {} price: {}", player.getUsername(), sale.getId(), price);
             return;
         }
 
@@ -1182,7 +1182,7 @@ public class TradingPost extends PacketInteraction {
 
     public static void showBuyTabOffers(Player player, List<TradingPostListing> saleMatches) {
 
-        var sumForSale = saleMatches == null ? 0L : saleMatches.stream().map(e -> e.getRemaining() * 1L).reduce(0L, (subtotal, element) -> subtotal + element);
+        var sumForSale = saleMatches == null ? 0L : saleMatches.stream().map(e -> (long) e.getRemaining()).reduce(0L, (subtotal, element) -> subtotal + element);
         player.getPacketSender().sendString(81272, Utils.formatPriceKMB(sumForSale));
         for (int i = 0; i < 10; i++) {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
@@ -1234,7 +1234,7 @@ public class TradingPost extends PacketInteraction {
         }
 
         List<TradingPostListing> list2;
-        if (player.lastTradingPostUserSearch != null && player.lastTradingPostUserSearch.length() > 0) {
+        if (player.lastTradingPostUserSearch != null && !player.lastTradingPostUserSearch.isEmpty()) {
             list2 = getSalesByUsername(Utils.capitalizeFirst(player.lastTradingPostUserSearch).toLowerCase());
         } else {
             list2 = getSalesForItemName(player, player.lastTradingPostItemSearch);
@@ -1494,13 +1494,6 @@ public class TradingPost extends PacketInteraction {
             return;
         }
 
-       /* if (offer.profit <= 0) {
-            if (offer.profit < 0)
-                offer.profit = 0;
-            p.message("<col=ff0000>You don't have any funds to claim from this sell offer.</col>");
-            return;
-        }*/
-
         long profit = offer.profit;
 
         if (profit > Integer.MAX_VALUE) {
@@ -1514,7 +1507,6 @@ public class TradingPost extends PacketInteraction {
                 tradingPostLogs.log(TRADING_POST, p.getUsername() + " offer claimed for: " + offer.getSaleItem().unnote().name() + " Received=" + (int) remainingCoins + " coins");
             }
         } else {
-            //Below max int add coins.
             if (profit > 0) {
                 p.inventory().addOrBank(new Item(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995, (int) profit));
                 tradingPostLogs.log(TRADING_POST, p.getUsername() + " offer claimed for: " + offer.getSaleItem().unnote().name() + " Received=" + (int) profit + " coins");
@@ -1599,13 +1591,10 @@ public class TradingPost extends PacketInteraction {
 
     public static void refreshListing(Player player) {
         if (player.lastTradingPostUserSearch != null) {
-            //System.out.println("Searching by username... DEBUG");
             searchByUsername(player, player.lastTradingPostUserSearch, true);
         } else if (player.lastTradingPostItemSearch != null) {
-            //System.out.println("Searching by item name... DEBUG");
             searchByItemName(player, player.lastTradingPostItemSearch, true);
         }
-        //System.out.println("Searching by NUN... DEBUG");
     }
 
     public static void resetSearchVars(Player player) {

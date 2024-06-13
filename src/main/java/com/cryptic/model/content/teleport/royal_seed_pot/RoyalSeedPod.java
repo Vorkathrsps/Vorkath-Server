@@ -10,7 +10,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
-public class RoyalSeedPot extends PacketInteraction {
+public class RoyalSeedPod extends PacketInteraction {
 
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {

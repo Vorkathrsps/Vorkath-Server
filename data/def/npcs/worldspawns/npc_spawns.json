@@ -23968,5 +23968,6 @@
   {"x":3039,"y":6428,"z":0,"id":12293,"walkRange":0,"direction":"s"},
   {"x":3108,"y":3502,"z":0,"id":2668,"walkRange":0,"direction":"n"},
   {"x":3086,"y":3509,"z":0,"id":3231,"walkRange":0,"direction":"e"},
+  {"x":3095,"y":3507,"z":0,"id":8213,"walkRange":0,"direction":"e"},
   {"x":3089,"y":3503,"z":0,"id":7303,"walkRange":2,"direction":"e"}
 ]

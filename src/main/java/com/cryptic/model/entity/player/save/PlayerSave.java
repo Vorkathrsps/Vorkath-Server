@@ -10,6 +10,7 @@ import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
+import com.cryptic.model.content.teleport.newinterface.SpecificTeleport;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
@@ -494,6 +495,7 @@ PlayerSave {
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
+            if (details.teleports != null) player.setnewtelefavs(details.teleports);
             player.putAttrib(AttributeKey.VOID_ISLAND_POINTS, details.voidIslandPoints);
             player.putAttrib(PLAYER_UID, details.playerUID);
         }
@@ -628,6 +630,7 @@ PlayerSave {
         private final int starterStaffCharges;
         private final int starterSwordCharges;
         private final PlainTile lastRecallSave;
+        private final List<SpecificTeleport> teleports;
         private final boolean alchemicalHydraLogClaimed;
         private final boolean ancientBarrelchestLogClaimed;
         private final boolean ancientChaosElementalLogClaimed;
@@ -980,6 +983,7 @@ PlayerSave {
             starterStaffCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
+            teleports = player.getnewfavs() != null ? player.getnewfavs() : null;
             voidIslandPoints = Player.getAttribIntOr(player, AttributeKey.VOID_ISLAND_POINTS, 0);
             playerUID = Player.getAttribLongOr(player, PLAYER_UID, -1L);
         }

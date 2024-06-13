@@ -7,6 +7,7 @@ import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.map.position.CoordGrid;
 import com.cryptic.model.map.position.Tile;
 
 import java.util.*;
@@ -53,7 +54,7 @@ NewTeleportInterface {
                     if (!Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                         return;
                     }
-                    Teleports.basicTeleport(player, thespecificteleport.tile);
+                    Teleports.basicTeleport(player, new CoordGrid(thespecificteleport.tile).toTile());
                     stop();
                 } else if (option == 2) {
                     stop();
@@ -63,7 +64,7 @@ NewTeleportInterface {
     }
 
     public void confirmDangerousTeleport(SpecificTeleport thespecificteleport) {
-        Tile teleportLocation = thespecificteleport.tile;
+        Tile teleportLocation = new CoordGrid(thespecificteleport.tile).toTile();
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -446,7 +447,7 @@ NewTeleportInterface {
     int category = 0;
 
     public void displaythecategories(List<NewTeleData> listofthespecificteleports) {
-        category = listofthespecificteleports.get(0).category;
+        category = listofthespecificteleports.getFirst().category;
         for (int i = 0; i < listofthespecificteleports.size(); i++) {
             NewTeleData thespecificteleportdata = listofthespecificteleports.get(i);
             boolean favorited = false;
@@ -454,7 +455,7 @@ NewTeleportInterface {
                 if (thespecificteleportdata.text.equalsIgnoreCase(tele.text))
                     favorited = true;
             }
-            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, thespecificteleportdata.tile, thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton + i));
+            thespecificteleport.add(new SpecificTeleport(teleportbutton + i, new CoordGrid(thespecificteleportdata.tile.level, thespecificteleportdata.tile.x, thespecificteleportdata.tile.y).packed, thespecificteleportdata.text, thespecificteleportdata.description, favorited, favoritebutton + i));
         }
 
     }

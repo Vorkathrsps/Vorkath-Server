@@ -64,36 +64,6 @@ public class DailyTaskManager {
         player.putAttrib(DAILY_TASK_SELECTED, task);
     }
 
-    public static void increase(DailyTasks dailyTask, Player player) {
-        //Can only increase when the task isn't already finished.
-        if (dailyTask.canIncrease(player)) {
-            var completionAmount = dailyTask.maximumAmt;
-            var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
-            completionAmount += extensions.getOrDefault(dailyTask, 0);
-
-            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.totalCompletionAmount, 0) + 1;
-            player.putAttrib(dailyTask.totalCompletionAmount, newCompletedAmt);
-            player.message(Color.ORANGE.wrap("<img=2014><shad>Daily task: " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")" + "</shad></img>"));
-
-            //We have completed the task
-            if (newCompletedAmt == completionAmount) {
-                int rewardPoints = player.<Integer>getAttribOr(DAILY_TASKS_POINTS, 0);
-                player.putAttrib(dailyTask.currentlyCompletedAmount, true);
-                rewardPoints += 1;
-                player.putAttrib(DAILY_TASKS_POINTS, rewardPoints);
-                player.getInventory().addOrBank(dailyTask.rewards);
-                StringBuilder builder = new StringBuilder();
-                builder.append(dailyTask.taskName).append(" has been completed! You have received 1 Daily Task point, as well as the following items: ");
-                for (int index = 0; index < dailyTask.rewards.length; index++) {
-                    builder.append(dailyTask.rewards[index].getAmount()).append("x ");
-                    builder.append(dailyTask.rewards[index].name());
-                    builder.append(", ");
-                }
-                player.message(Color.PURPLE.wrap("<img=2014><shad=0>" + builder + "</shad></img>"));
-            }
-        }
-    }
-
     public static void onLogin(Player player) {
         var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
         if (tasks == null) tasks = new ArrayList<>();

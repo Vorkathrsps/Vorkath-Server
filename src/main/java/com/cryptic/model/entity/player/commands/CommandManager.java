@@ -290,6 +290,7 @@ public class CommandManager {
         commands.put("setlevel", new SetLevelCommand());
         commands.put("lvl", new SetLevelCommand());
         commands.put("click", new ClickLinkCommand());
+        commands.put("ctrlt", new TeleportInterfaceCommand());
         commands.put("sethp", new SetHitPointsCommand());
         commands.put("noclip", new NoclipCommandCommand());
         commands.put("tasknames", new TaskNamesCommand());
@@ -1427,7 +1428,7 @@ public class CommandManager {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             int inc = s.length > 1 ? Integer.parseInt(s[1]) : 1;
             for (int i = 0; i < inc; i++) {
-                DailyTaskManager.increase(tasks.get(0), player);
+                //DailyTaskManager.increase(tasks.get(0), player);
             }
         });
 
@@ -1469,6 +1470,12 @@ public class CommandManager {
 
         {
             player.getPacketSender().sendParallelInterfaceVisibility(Integer.parseInt(s[1]), Boolean.parseBoolean(s[2]));
+        });
+
+        dev("test69", (player, c, s) ->
+
+        {
+            DailyTasks.BOSSING.getTask(player).currentlyCompletedAmount.set(player,5);
         });
     }
 

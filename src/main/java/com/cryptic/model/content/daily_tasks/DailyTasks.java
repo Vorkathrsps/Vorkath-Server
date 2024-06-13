@@ -508,11 +508,13 @@ public enum DailyTasks {
     public void increment(final Player player) {
         DailyTasks found = getTask(player);
         if (found == null || !found.canIncrease(player)) return;
-        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0) + 1;
+        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0);
         if (found.canIncrease(player)) {
-            found.currentlyCompletedAmount.set(player, points);
-            return;
+            found.currentlyCompletedAmount.set(player, points + 1);
         }
+        if (points + 1 < found.totalCompletionAmount.<Integer>get(player))
+            return;
+        //
         boolean isClaimed = found.isRewardClaimed.get(player);
         if (!isClaimed) {
             found.isRewardClaimed.set(player, true);

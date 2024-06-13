@@ -71,13 +71,18 @@ public class DailyTaskButtons extends PacketInteraction {
             player.getInventory().remove(995, 5_000_000);
         }
         if (button == 80775) { // extend tasks
-            if (!player.getInventory().contains(995, 10_000_000)) {
-                player.message(Color.RED.wrap("You do not have enough coins to re-roll your Daily Task."));
-                return false;
-            }
+
             var selected = DAILY_TASK_SELECTED.<DailyTasks>get(player);
             if (selected == null) {
                 player.message("You need to pick a task to replace.");
+                return true;
+            }
+            if (selected.isRewardClaimed.getBoolean(player)) {
+                player.message("You cannot extend a task with a reward already claimed.");
+                return true;
+            }
+            if (!player.getInventory().contains(995, 10_000_000)) {
+                player.message(Color.RED.wrap("You do not have enough coins to re-roll your Daily Task."));
                 return true;
             }
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
@@ -93,7 +98,8 @@ public class DailyTaskButtons extends PacketInteraction {
                         return v;
                     });
                     player.message(Color.ORANGE.wrap("<img=2014><shad>Your task has been extended to: " + newTotal + "</shad></img>"));
-                    DailyTaskManager.displayTaskInfo(player, tasks.get(i));
+                    selected.totalCompletionAmount.set(player, newTotal);
+                    DailyTaskManager.displayTaskInfo(player, selected);
                     break;
                 }
             }

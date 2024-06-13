@@ -518,11 +518,22 @@ public enum DailyTasks {
         boolean isClaimed = found.isRewardClaimed.get(player);
         if (!isClaimed) {
             found.isRewardClaimed.set(player, true);
+            var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+            var extensionAmt = extensions.getOrDefault(found, 0);
             player.getInventory().addOrBank(found.rewards);
             if (found.type != null) {
                 player.getSkills().addXp(found.type.getId(), 10_000);
             }
             player.message("<img=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
+
+            if (extensionAmt > 0) {
+                // change me if wanted
+                if (found.type != null) {
+                    player.getSkills().addXp(found.type.getId(), 10_000);
+                }
+                player.getInventory().addOrBank(found.rewards);
+                player.message("<img=13><shad=0>Your rewards were doubled for completing an extended task.</shad></img>");
+            }
         }
     }
 

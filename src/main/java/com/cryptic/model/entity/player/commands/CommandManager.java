@@ -1475,7 +1475,8 @@ public class CommandManager {
         dev("test69", (player, c, s) ->
 
         {
-            DailyTasks.BOSSING.getTask(player).currentlyCompletedAmount.set(player,5);
+            DailyTasks.BOSSING.getTask(player).isRewardClaimed.set(player, false);
+            DailyTasks.BOSSING.getTask(player).currentlyCompletedAmount.set(player,Integer.parseInt(s[1]));
         });
     }
 

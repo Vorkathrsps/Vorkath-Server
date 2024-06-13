@@ -1676,4 +1676,11 @@ public enum AttributeKey {
         e.putAttrib(this, t);
         return e;
     }
+
+    public int getInt(Player player) {
+        return player.getAttribOr(this, 0);
+    }
+    public boolean getBoolean(Player player) {
+        return player.getAttribOr(this, false);
+    }
 }

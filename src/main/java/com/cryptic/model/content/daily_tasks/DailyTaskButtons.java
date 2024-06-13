@@ -90,6 +90,11 @@ public class DailyTaskButtons extends PacketInteraction {
                 if (selected == tasks.get(i)) {
                     var toAdd = (int) (selected.maximumAmt * .25);
                     var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+                    var alreadyExtended = extensions.get(selected) > 0;
+                    if (alreadyExtended) {
+                        player.message("You've already extended this task, and cannot extend is again.");
+                        return true;
+                    }
                     var newTotal = selected.maximumAmt + extensions.compute(selected, (_, v) -> {
                         if (v == null)
                             v = toAdd;

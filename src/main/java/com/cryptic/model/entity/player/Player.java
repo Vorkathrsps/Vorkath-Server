@@ -3264,6 +3264,8 @@ public class Player extends Entity {
     @Setter
     Player tournamentOpponent;
 
+    @Getter TimeClock raidTimeClock = new TimeClock();
+
     @RequiredArgsConstructor
     public static class DailyTask {
         public DailyTasks type;

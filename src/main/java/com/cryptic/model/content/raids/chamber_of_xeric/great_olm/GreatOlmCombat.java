@@ -27,10 +27,7 @@ import com.cryptic.utility.TickDelay;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -89,8 +86,10 @@ public class GreatOlmCombat extends CommonCombatMethod {
                 return;
             }
             party = npc1.getAttrib(AttributeKey.RAID_PARTY);
-            rightClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_RIGHT_CLAW_7553).findFirst().get();
-            leftClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_LEFT_CLAW_7555).findFirst().get();
+            var rClaw = party.monsters.stream().filter(Objects::nonNull).filter(e -> e.id() == GREAT_OLM_RIGHT_CLAW_7553).findFirst();
+            var lClaw = party.monsters.stream().filter(Objects::nonNull).filter(e -> e.id() == GREAT_OLM_LEFT_CLAW_7555).findFirst();
+            rClaw.ifPresent(value -> rightClaw = value);
+            lClaw.ifPresent(value -> leftClaw = value);
             rightClaw.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
             leftClaw.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
             rightClaw.setCombatMethod(new CommonCombatMethod() {
@@ -205,21 +204,31 @@ public class GreatOlmCombat extends CommonCombatMethod {
 
         Party party = target.player().raidsParty;
         List<Player> targets = getFacingTargets();
-        //System.out.println("targets size : " + targets.size());
+
         // if everyone runs between both sides, olm spends all the time turning and no time attacking.
-        if (justTurned && targets.isEmpty())
+        if (justTurned && targets.isEmpty()) {
             targets = getAllTargets();
+            }
+
         var headRunnerNotInDirection = false;
         if (isOnEastSide()) {
             headRunnerNotInDirection = (facing == RIGHT && target.tile().y < 5741) || (facing == LEFT && target.tile().y > 5739) || (facing == CENTER && target.tile().y != 5740);
         } else {
             headRunnerNotInDirection = (facing == LEFT && target.tile().y < 5741) || (facing == RIGHT && target.tile().y > 5739) || (facing == CENTER && target.tile().y != 5740);
         }
-        if (targets.isEmpty() || (!justTurned && headRunnerNotInDirection)) {
+
+        if (targets.isEmpty()) {
             turn();
             justTurned = true;
             return false;
         }
+
+        if ((!justTurned && headRunnerNotInDirection)) {
+            turn();
+            justTurned = true;
+            return false;
+        }
+
         justTurned = false;
 
         int attackType = (attackCounter - 1) % 4;
@@ -1202,12 +1211,21 @@ public class GreatOlmCombat extends CommonCombatMethod {
     }
 
     private List<Player> getAllTargets() {
-        return Arrays.stream(npc.closePlayers(32))
-            .filter(p -> (p.tile().getY() & 63) >= 34) // on olm floor, past the barrier
-            .collect(Collectors.toList());
+        List<Player> temp = new ArrayList<>();
+        Area invalid = new Area(3225, 5714, 3238, 5728, entity.getZ());
+        for (var player : npc.closePlayers(32)) {
+            if (player == null) continue;
+            if (!player.isRegistered()) continue;
+            if (player.tile().inArea(invalid)) continue;
+            if ((player.tile().getY() & 63) >= 34) {
+                temp.add(player);
+            }
+        }
+        return temp;
     }
 
     private List<Player> getFacingTargets() {
+        List<Player> temp = new ArrayList<>();
         Area bounds;
         if (facing == CENTER)
             bounds = centerTargetBounds;
@@ -1216,10 +1234,19 @@ public class GreatOlmCombat extends CommonCombatMethod {
         else
             bounds = isOnEastSide() ? southTargetBounds : northTargetBounds;
 
+        Area invalid = new Area(3225, 5714, 3238, 5728, entity.getZ());
+        for (var player : npc.closePlayers(32)) {
+            if (player == null) continue;
+            if (!player.isRegistered()) continue;
+            if (player.tile().inArea(invalid)) {
+                continue;
+            }
+            if (player.tile().inBounds(bounds) && (player.tile().getY() & 63) >= 34) {
+                temp.add(player);
+            }
+        }
         // System.out.println("bounds " + bounds);
         // bounds.corners().forEach(() -> new GroundItem(new Item(ItemID.MITHRIL_ARROWTIPS), c, null).setInstance(npc.getInstance()).spawn().setTimer(2));
-        return Arrays.stream(npc.closePlayers(32))
-            .filter(p -> p.tile().inBounds(bounds) && (p.tile().getY() & 63) >= 34)
-            .collect(Collectors.toList());
+        return temp;
     }
 }

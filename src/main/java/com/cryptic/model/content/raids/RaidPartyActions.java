@@ -1,14 +1,20 @@
 package com.cryptic.model.content.raids;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.model.content.raids.chamber_of_xeric.ChamberOfXerics;
 import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.content.raids.party.dialogue.PartyDialogue;
 import com.cryptic.model.World;
+import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.inter.clan.*;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
@@ -20,25 +26,89 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.RECRUI
 
 /**
  * @author Origin | April, 26, 2021, 17:25
- * 
  */
 public class RaidPartyActions extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (option == 1) {
-            if (object.getId() == RECRUITING_BOARD) {
-                player.getDialogueManager().start(new PartyDialogue());
-                return true;
-            }
-        }
-        if (option == 1) {
-            if (object.getId() == 29777) {
-                player.getDialogueManager().start(new PartyDialogue());
+            if (object.getId() == ObjectIdentifiers.CHAMBERS_OF_XERIC) {
+                Clan clan = player.getClan();
+                if (clan == null) {
+                    player.message(Color.RED.wrap("<img=13> You must first join or make a clan channel to start this raid.</img>"));
+                    return true;
+                }
+                if (isMember(clan)) return true;
+                player.getDialogueManager().start(new Dialogue() {
+                    @Override
+                    protected void start(Object... parameters) {
+                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.CAPTAIN_RIMOR, Expression.DEFAULT, "Hello " + player.getUsername(), "Would you like to start your raid?");
+                        setPhase(0);
+                    }
+
+                    @Override
+                    protected void next() {
+                        if (isPhase(0)) {
+                            send(DialogueType.OPTION, "Would you like to start this raid?", "Yes", "No");
+                            setPhase(1);
+                        }
+                    }
+
+                    @Override
+                    protected void select(int option) {
+                        if (isPhase(1)) {
+                            if (option == 1) {
+                                startRaid(player, clan);
+                                stop();
+                            } else {
+                                stop();
+                            }
+                        }
+
+                    }
+                });
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isMember(Clan clan) {
+        for (ClanMember member : clan.members()) {
+            Player clanMember = member.getPlayer();
+            ClanRank memberRank = member.getRank();
+            if (!memberRank.equals(ClanRank.LEADER)) {
+                clanMember.message(Color.RED.wrap("<img=13> Only the leader of this clan can start the raid.</img>"));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startRaid(Player player, Clan clan) {
+        Party party = player.raidsParty;
+        if (party != null) {
+            for (NPC monster : party.monsters) monster.remove();
+            party.monsters.clear();
+        }
+        Party.createParty(player);
+        party = player.raidsParty;
+        party.setRaidsSelected(RaidsType.CHAMBER_OF_XERICS);
+        for (ClanMember member : clan.members()) {
+            final Player clanMember = member.getPlayer();
+            if (clanMember == null || !clanMember.isRegistered()) continue;
+            final int memberRegion = clanMember.tile().region();
+            if (memberRegion != 4919) continue;
+            party.addMember(clanMember);
+            clanMember.raidsParty = party;
+            clanMember.setRaids(RaidsType.CHAMBER_OF_XERICS.equals(party.getRaidsSelected()) ? new ChamberOfXerics() : null);
+        }
+        player.getRaids().startup(player);
+        party.setRaidStage(7);
+        Tile bossRoomTile = new Tile(3232, 5724, party.getHeight());
+        for (Player member : party.getMembers()) {
+            member.teleport(bossRoomTile);
+        }
     }
 
     @Override
@@ -48,7 +118,7 @@ public class RaidPartyActions extends PacketInteraction {
             return false;
         }
 
-        if(button == 12115) {
+        if (button == 12115) {
             if (party.getLeader() != player) {
                 player.message("Only the leader of this party can select a raids type.");
                 return true;
@@ -63,7 +133,7 @@ public class RaidPartyActions extends PacketInteraction {
             return true;
         }
 
-        if(button == 12116) {
+        if (button == 12116) {
             if (party.getLeader() != player) {
                 player.message("Only the leader of this party can select a raids type.");
                 return true;
@@ -103,7 +173,7 @@ public class RaidPartyActions extends PacketInteraction {
         }
 
         if (button == 12143) {
-            if(player.raidsParty.getLeader() != player) {
+            if (player.raidsParty.getLeader() != player) {
                 player.message(Color.RED.wrap("Only the leader can start this raiding party."));
                 return true;
             }
@@ -111,7 +181,7 @@ public class RaidPartyActions extends PacketInteraction {
             return true;
         }
         if (button == 12146) {
-            Party.leaveParty(player,true);
+            Party.leaveParty(player, true);
             return true;
         }
         if (button == 12125) {
@@ -166,7 +236,7 @@ public class RaidPartyActions extends PacketInteraction {
                             return;
                         } else {
                             Party party = p.raidsParty;
-                            if(party != null) {
+                            if (party != null) {
                                 if (party.getRaidStage() >= 1) {
                                     target.getInterfaceManager().close();
                                     target.message(Color.RED.wrap("Could not join party, the party had already begun."));

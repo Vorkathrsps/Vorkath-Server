@@ -89,17 +89,6 @@ public class Clan {
 
     public void setRank(ClanMember member) {
         ClanRank rank = ranked.get(member.getName());
-
-        if (PlayerRights.is(member.getPlayer(), PlayerRights.ADMINISTRATOR)) {
-            member.setRank(ClanRank.ADMIN);
-            return;
-        }
-
-        if (rank == null) {
-            member.setRank(ClanRank.ANYONE);
-            return;
-        }
-
         member.setRank(rank);
     }
 

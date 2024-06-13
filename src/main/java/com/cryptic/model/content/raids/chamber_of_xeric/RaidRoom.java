@@ -83,9 +83,11 @@ public class RaidRoom extends PacketInteraction {
             }
 
             if (object.getId() == MYSTICAL_BARRIER) {
-                Tile bossRoomTile = new Tile(3232, 5730, player.tile().level);
-                player.teleport(bossRoomTile);
-                return true;
+                if (player.tile().y == 5728) {
+                    Tile bossRoomTile = new Tile(3232, 5730, player.tile().level);
+                    player.teleport(bossRoomTile);
+                    return true;
+                }
             }
 
             if (object.getId() == ANCIENT_CHEST) {

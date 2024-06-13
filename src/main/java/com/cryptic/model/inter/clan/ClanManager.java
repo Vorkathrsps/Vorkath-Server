@@ -43,8 +43,8 @@ public class ClanManager {
 
     }
 
-    public static void join(Player player, String name) {
-        if (name == null || name.length() == 0 || player.getClan() != null) {
+    public static void join(Player player, String name) { //TODO auto-rank for staff in help cc
+        if (name == null || name.isEmpty() || player.getClan() != null) {
             return;
         }
 

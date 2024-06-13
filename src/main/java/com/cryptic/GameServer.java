@@ -140,12 +140,12 @@ public class GameServer {
     public static String broadcast = "";
 
     @Getter
-    private static DatabaseService databaseService;
+    public static DatabaseService databaseService;
 
     @Getter
-    private static DiscordWebhook commandWebHook;
+    public static DiscordWebhook commandWebHook;
     @Getter
-    private static DiscordWebhook warningWebHook;
+    public static DiscordWebhook warningWebHook;
     @Getter
     private static DiscordWebhook chatWebHook;
     @Getter

@@ -19,7 +19,7 @@ public class SkillReset extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Hello", "Would you like to reset a combat skill of your choice?");
+                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Hello " + player.getUsername(), "Would you like to reset a combat skill of your choice?");
                         setPhase(0);
                     }
 

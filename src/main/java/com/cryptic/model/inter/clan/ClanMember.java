@@ -1,6 +1,8 @@
 package com.cryptic.model.inter.clan;
 
 import com.cryptic.model.entity.player.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ import java.util.Objects;
  * @author PVE
  * @Since juli 07, 2020
  */
+@Getter
 public class ClanMember {
 
     /**
@@ -19,6 +22,7 @@ public class ClanMember {
     /**
      * The rank of the member.
      */
+    @Setter
     private ClanRank rank;
 
     /**
@@ -35,26 +39,11 @@ public class ClanMember {
         return player.getUsername().toLowerCase().trim();
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public ClanRank getRank() {
-        return rank;
-    }
-
-    public void setRank(ClanRank rank) {
-        this.rank = rank;
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ClanMember) {
-            ClanMember member = (ClanMember) obj;
-
+        if (obj instanceof ClanMember member) {
             return member.hashCode() == hashCode();
         }
-
         return false;
     }
 

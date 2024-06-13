@@ -17,10 +17,10 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class ChamberOfXericReward {
 
     public static void withdrawReward(Player player) {
-        player.inventory().addOrBank(player.getRaidRewards().getItems());
-        for (Item item : player.getRaidRewards().getItems()) {
-            if (item == null)
-                continue;
+        Item[] rewards = player.getRaidRewards().getItems();
+        player.inventory().addOrBank(rewards);
+        for (Item item : rewards) {
+            if (item == null) continue;
             if (ChamberLootTable.uniqueTable.allItems().stream().anyMatch(i -> item.matchesId(item.getId()))) {
                 Utils.sendDiscordInfoLog("Rare drop collected: " + player.getUsername() + " withdrew " + item.unnote().name() + " ", "raids");
                 if (item.getValue() > 50_000) {
@@ -31,7 +31,7 @@ public class ChamberOfXericReward {
         }
 
         player.getRaidRewards().clear();
-
+        player.varps().varbit(Varbit.RAIDS_REWARD, 0);
         SecureRandom secureRandom = new SecureRandom();
 
         if (secureRandom.nextInt() >= 650) {
@@ -90,9 +90,11 @@ public class ChamberOfXericReward {
             player.varps().varbit(Varbit.RAIDS_CHEST, 3);
             boolean added = player.getRaidRewards().add(rollUnique);
             OTHER.log(player, RAIDS_KEY, rollUnique);
+            player.varps().varbit(Varbit.RAIDS_REWARD, 2);
             Utils.sendDiscordInfoLog("Rare drop: " + player.getUsername() + " Has just received " + rollUnique.unnote().name() + " from Chambers of Xeric! Party Points: " + Utils.formatNumber(personalPoints) + " [debug: added=" + added + "]", "raids");
         } else {
             player.varps().varbit(Varbit.RAIDS_CHEST, 1);
+            player.varps().varbit(Varbit.RAIDS_REWARD, 1);
             player.getRaidRewards().add(rollRegular);
             Utils.sendDiscordInfoLog("Regular Drop: " + player.getUsername() + " Has just received " + rollRegular.unnote().name() + " from Chambers of Xeric! Personal Points: " + Utils.formatNumber(personalPoints), "raids");
         }

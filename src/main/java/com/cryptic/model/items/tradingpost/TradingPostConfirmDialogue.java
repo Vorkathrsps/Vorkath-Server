@@ -17,7 +17,7 @@ public class TradingPostConfirmDialogue extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Submit sell offer: "+sale.getAmount()+"x "+sale.unnote().name()+" for <col=ff0000>"+Utils.formatRunescapeStyle(price)+" Blood money "+(sale.getAmount() > 1 ? "each" : "")+"</col>.", "Nevermind");
+        send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Submit sell offer: "+sale.getAmount()+"x "+sale.unnote().name()+" for <col=ff0000>"+Utils.formatRunescapeStyle(price)+" Coins "+(sale.getAmount() > 1 ? "each" : "")+"</col>.", "Nevermind");
     }
 
     @Override

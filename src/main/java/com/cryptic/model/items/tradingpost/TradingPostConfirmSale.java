@@ -24,7 +24,7 @@ public class TradingPostConfirmSale extends Dialogue {
     @Override
     protected void start(Object... parameters) {
         this.send(DialogueType.OPTION, "Buy offer?",
-            ("Yes, purchase <col=ff0000>" + amount + "x " + selected.getSaleItem().unnote().name() + "</col> for (<col=ff0000>" + Utils.formatRunescapeStyle(price) + " Blood Money</col>)"),
+            ("Yes, purchase <col=ff0000>" + amount + "x " + selected.getSaleItem().unnote().name() + "</col> for (<col=ff0000>" + Utils.formatRunescapeStyle(price) + " Coins</col>)"),
             "No, I don't want to buy this.");
         setPhase(0);
     }

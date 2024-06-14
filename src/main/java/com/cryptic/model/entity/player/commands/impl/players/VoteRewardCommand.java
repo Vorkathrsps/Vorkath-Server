@@ -41,7 +41,6 @@ public class VoteRewardCommand implements Command {
                     records.add(rewardRecord);
                 }
 
-                System.out.println(records.size());
                 if (records.isEmpty()) {
                     player.message(Color.RED.wrap("You do not have any votes to claim."));
                     return;

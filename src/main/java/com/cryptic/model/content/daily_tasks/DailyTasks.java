@@ -527,7 +527,6 @@ public enum DailyTasks {
             player.message("<img=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
 
             if (extensionAmt > 0) {
-                // change me if wanted
                 if (found.type != null) {
                     player.getSkills().addXp(found.type.getId(), 10_000);
                 }

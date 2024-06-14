@@ -569,7 +569,7 @@ public class CommandManager {
         dev("dclips", (p, c, s) -> {
             CLIP.toggle();
         });
-        dev("lr", (p, c, s) -> {
+        dev("lr", (p, c, s) -> { // reload region objects from cache to restore doors
             RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
             p.tile().getRegion().activeTiles.forEach(t -> t.gameObjects.clear());
             p.tile().getRegion().activeTiles.clear();

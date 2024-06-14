@@ -36,6 +36,7 @@ public class PirateHut extends PacketInteraction {
 
     // Option 1 (open)
     private void pirateHutFirst(Player player, GameObject obj) {
+        var closedId = obj.getId();
         var northDoorTile = new Tile(3041, 3959);
         var eastDoorTile = new Tile(3044, 3956);
         var westDoorTile = new Tile(3038, 3956);
@@ -46,8 +47,8 @@ public class PirateHut extends PacketInteraction {
 
         var rotation = westDoor ? 1 : northDoor ? 2 : 3;
         var spawnTile = westDoor ? new Tile(3037, 3956) : northDoor ? new Tile(3041, 3960) : new Tile(3045, 3956);
-        var spawnObj = new GameObject(spawnTile, 1539, obj.getType(), rotation);
-        spawnObj.interactAble(false); // Because it's just a temporary door. Alternatively you could find the alt object-id with no "open" option.
+        var openDoor = new GameObject(spawnTile, 11728, obj.getType(), rotation);
+        openDoor.interactAble(false); // Because it's just a temporary door. Alternatively you could find the alt object-id with no "open" option.
         var x = 0;
         if (WildernessArea.inside_pirates_hideout(player.tile())) {
             if (northDoor) {
@@ -85,14 +86,14 @@ public class PirateHut extends PacketInteraction {
         player.message("You go through the door.");
 
         //Replace the object with an open door
-        var old = new GameObject(obj.tile(), obj.getId(), obj.getType(), obj.getRotation());
-        ObjectManager.removeObj(old);
-        ObjectManager.addObj(spawnObj);
+        var closedOgDoor = new GameObject(obj.tile(), obj.getId(), obj.getType(), obj.getRotation());
+        ObjectManager.removeObj(closedOgDoor);
+        ObjectManager.addObj(openDoor);
         int finalX = x;
         int finalZ = z;
         Chain.bound(null).runFn(1, () -> {
-            ObjectManager.removeObj(spawnObj);
-            ObjectManager.addObj(old);
+            ObjectManager.removeObj(openDoor);
+            closedOgDoor.setId(closedId);
             //Move the player outside of the pirate hut
             player.getMovementQueue().interpolate(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
         });
@@ -100,6 +101,7 @@ public class PirateHut extends PacketInteraction {
 
     // Option 2 (picklock)
     private void pirateHutSecond(Player player, GameObject obj) {
+        var closedId = obj.getId();
         var northDoorTile = new Tile(3041, 3959);
         var eastDoorTile = new Tile(3044, 3956);
         var westDoorTile = new Tile(3038, 3956);
@@ -110,7 +112,7 @@ public class PirateHut extends PacketInteraction {
 
         var rotation = westDoor ? 1 : northDoor ? 2 : 3;
         var spawnTile = westDoor ? new Tile(3037, 3956) : northDoor ? new Tile(3041, 3960) : new Tile(3045, 3956);
-        var spawnObj = new GameObject(spawnTile, 1539, obj.getType(), rotation);
+        var spawnObj = new GameObject(spawnTile, 11728, obj.getType(), rotation);
         spawnObj.interactAble(false);
 
         var x = 0;
@@ -173,7 +175,7 @@ public class PirateHut extends PacketInteraction {
                 int finalZ = z;
                 Chain.bound(null).runFn(1, () -> {
                     ObjectManager.removeObj(spawnObj);
-                    ObjectManager.addObj(old);
+                    old.setId(closedId);
                     //Move the player outside of the pirate hut
                     player.getMovementQueue().interpolate(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
 

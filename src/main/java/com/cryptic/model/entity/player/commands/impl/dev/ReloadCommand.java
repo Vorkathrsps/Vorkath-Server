@@ -7,6 +7,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.items.container.sounds.SoundLoader;
+import com.cryptic.utility.PlayerPunishment;
 import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
 import com.cryptic.utility.loaders.loader.impl.ObjectSpawnDefinitionLoader;
 import com.cryptic.utility.loaders.loader.impl.ShopLoader;
@@ -42,6 +43,11 @@ public class ReloadCommand implements Command {
             player.message("Reloading shops...");
             new ShopLoader().run();
             player.message("Finished.");
+        } else if (reload.equalsIgnoreCase("punish")) {
+            GameEngine.getInstance().addSyncTask(() -> {
+                PlayerPunishment.bans.clear();
+                PlayerPunishment.init();
+            });
         } else if (reload.equalsIgnoreCase("npcs")) {
             player.message("Reloading npcs...");
             GameEngine.getInstance().addSyncTask(() -> {

@@ -120,18 +120,16 @@ public final class LoginResponses {
             }
         }
 
-        if (GameServer.properties().punishmentsToLocalFile) {
-            if (PlayerPunishment.banned(player.getUsername())) {
-                return LoginResponses.LOGIN_DISABLED_ACCOUNT;
-            }
+        if (PlayerPunishment.banned(player.getUsername())) {
+            return LoginResponses.LOGIN_DISABLED_ACCOUNT;
+        }
 
-            if (PlayerPunishment.ipBanned((player.getHostAddress()))) {
-                return LoginResponses.LOGIN_DISABLED_ACCOUNT;
-            }
+        if (PlayerPunishment.ipBanned((player.getHostAddress()))) {
+            return LoginResponses.LOGIN_DISABLED_ACCOUNT;
+        }
 
-            if (PlayerPunishment.macBanned(player.getAttribOr(MAC_ADDRESS, "invalid"))) {
-                return LoginResponses.LOGIN_DISABLED_ACCOUNT;
-            }
+        if (PlayerPunishment.macBanned(player.getAttribOr(MAC_ADDRESS, "invalid"))) {
+            return LoginResponses.LOGIN_DISABLED_ACCOUNT;
         }
 
         String enteredPassword = msg.getPassword();//Password received from client

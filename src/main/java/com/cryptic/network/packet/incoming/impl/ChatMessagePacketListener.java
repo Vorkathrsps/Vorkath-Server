@@ -30,7 +30,7 @@ public class ChatMessagePacketListener implements PacketListener {
         String raw = Utils.textUnpack(text, size);
         String chatMessage = Utils.ucFirst(Utils.textUnpack(text, size).toLowerCase());
 
-        if (chatMessage.length() <= 0) {
+        if (chatMessage.isEmpty()) {
             return;
         }
 

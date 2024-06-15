@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.player.commands.impl.staff.admin;
+package com.cryptic.model.entity.player.commands.impl.staff.moderator;
 
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
@@ -40,6 +40,11 @@ public class CheckBankCommand implements Command {
         offlineUser.get().setUsername(p2name);
         try {
             if (PlayerSave.loadOfflineWithoutPassword(offlineUser.get())) {
+                if(!PlayerSave.playerExists(offlineUser.get().getUsername())) {
+                    staff.message(Color.RED.wrap("There is no such player profile."));
+                    return;
+                }
+
                 staff.message(Color.MITHRIL.wrap("Found Offline Player: " + offlineUser.get().getUsername()));
                 sendBank(staff, offlineUser.get());
             }

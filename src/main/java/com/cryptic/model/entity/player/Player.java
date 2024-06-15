@@ -1347,7 +1347,9 @@ public class Player extends Entity {
      */
     public void requestLogout() {
         stopActions(true);
-        getSession().setState(SessionState.REQUESTED_LOG_OUT);
+        if (this.getSession() != null) {
+            getSession().setState(SessionState.REQUESTED_LOG_OUT);
+        }
         logoutLock();
         onLogout();
         ObjectList<Item> temp = new ObjectArrayList<>();
@@ -1482,7 +1484,9 @@ public class Player extends Entity {
         this.getCombat().setAutoCastSpell(null);
 
         // Update session state
-        getSession().setState(SessionState.LOGGING_OUT);
+        if (this.getSession() != null) {
+            getSession().setState(SessionState.LOGGING_OUT);
+        }
 
         clearAttrib(AttributeKey.PLAYER_AUTO_SAVE_TASK_RUNNING);
 

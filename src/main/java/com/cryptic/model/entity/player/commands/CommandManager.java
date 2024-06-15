@@ -239,6 +239,10 @@ public class CommandManager {
         commands.put("alert", new AlertCommand());
         commands.put("globalmsg", new GlobalMsgCommand());
         commands.put("checkbank", new CheckBankCommand());
+        commands.put("ban", new BanCommand());
+        commands.put("unban", new UnbanCommand());
+        commands.put("mute", new MuteCommand());
+        commands.put("unmute", new UnMuteCommand());
         commands.put("checkinv", new CheckInventoryCommand());
         commands.put("giveitem", new GiveItemCommand());
         UpdatePasswordCommand updatePasswordCommand = new UpdatePasswordCommand();

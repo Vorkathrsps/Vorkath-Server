@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.player.commands.impl.staff.admin;
+package com.cryptic.model.entity.player.commands.impl.staff.moderator;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;

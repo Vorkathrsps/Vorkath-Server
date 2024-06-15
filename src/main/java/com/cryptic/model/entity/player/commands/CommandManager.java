@@ -44,6 +44,7 @@ import com.cryptic.model.entity.player.commands.impl.owner.*;
 import com.cryptic.model.entity.player.commands.impl.players.*;
 import com.cryptic.model.entity.player.commands.impl.staff.admin.*;
 import com.cryptic.model.entity.player.commands.impl.staff.moderator.*;
+import com.cryptic.model.entity.player.commands.impl.staff.server_support.MuteCommand;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.inter.dialogue.DialogueManager;
@@ -357,7 +358,7 @@ public class CommandManager {
 
             @Override
             public boolean canUse(Player player) {
-                return true;
+                return player.getPlayerRights().isSupport(player);
             }
         });
 

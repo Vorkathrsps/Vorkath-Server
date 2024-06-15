@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.player.commands.impl.staff.moderator;
+package com.cryptic.model.entity.player.commands.impl.staff.server_support;
 
 import com.cryptic.GameEngine;
 import com.cryptic.model.entity.player.Player;
@@ -36,6 +36,6 @@ public class MuteCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return player.getPlayerRights().isModerator(player);
+        return player.getPlayerRights().isSupport(player);
     }
 }

@@ -88,26 +88,30 @@ public class CommandsCommand implements Command {
 
 
         if (player.getPlayerRights().isSupport(player)) {
-            commands.add("<br><br><col=" + Color.GREEN.getColorValue() + ">Support Commands:</col>");
+            commands.add("<br><br><shad=0><col=" + Color.GREEN.getColorValue() + ">Support Commands:</col></shad>");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::teleto [username]</col> - Teleports to the specified player.");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::mute [username]</col>");
-            commands.add("example: <br><col=" + Color.RED.getColorValue() + ">::mute player</col>");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::mute </col> - Mutes the player");
         }
 
         if (player.getPlayerRights().isModerator(player)) {
-            commands.add("<br><br><col=" + Color.GREEN.getColorValue() + ">Moderator Commands:</col>");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unmute [username]</col> - Unmutes the specified player.");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unipmute [username]</col> - Unmutes the specified player.");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unban [username]</col> - Unbans the specified player.");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unipban [username]</col> - Unbans the specified player.");
+            commands.add("<br><br><shad=0><col=" + Color.GREEN.getColorValue() + ">Moderator Commands:</col></shad>");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unmute </col> - Unmutes the specified player.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unipmute </col> - Unmutes the specified player.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::unban </col> - Unbans the specified player.");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::teletome [username]</col> - Teleports the specified player to you.");
-            commands.add("<br><col=" + Color.RED.getColorValue() + ">::modzone</col> - Teleports to the mod zone.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::modzone </col> - Teleports to the mod zone.");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::vanish (on or off)</col> - Makes you invisible.");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::unvanish (on or off)</col> - Makes you visible.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::checkbank </col> - Check the bank of an online or offline player.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::checkinv </col> - Check the inventory of an online player.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::modzone </col> - Teleport to the Moderator only zone.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::sz </col> - Teleport to the Staff Zone.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::simulate </col> - Simulate the drop table of any NPC.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::kick [username]</col> - disconnects the player.");
         }
 
         if (player.getPlayerRights().isAdministrator(player)) {
-            commands.add("<br><br><col=" + Color.GREEN.getColorValue() + ">Administrator Commands:</col>");
+            commands.add("<br><br><shad=0><col=" + Color.GREEN.getColorValue() + ">Administrator Commands:</col></shad>");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::ban [username]</col>");
             commands.add("example: <br><col=" + Color.RED.getColorValue() + ">::ban player</col>");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::ipban [username]</col>");

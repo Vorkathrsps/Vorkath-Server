@@ -141,6 +141,7 @@ PlayerSave {
 
         public static boolean loadDetails(final Player player) throws Exception {
             final Path path = SAVE_DIR.resolve(player.getUsername() + ".json");
+
             if (!Files.exists(path)) {
                 return false;
             }
@@ -195,7 +196,9 @@ PlayerSave {
                 player.getCombat().setFightType(FightType.valueOf(details.fightType));
             player.getCombat().getFightType().setParentId(details.fightTypeVarp);
             player.getCombat().getFightType().setChildId(details.fightTypeVarpState);
-            player.getCombat().setAutoRetaliate(details.autoRetaliate);
+            if (player.getSession() != null) {
+                player.getCombat().setAutoRetaliate(details.autoRetaliate);
+            }
             if (details.previousSpellbook != null) {
                 player.setPreviousSpellbook(details.previousSpellbook);
             }
@@ -480,7 +483,7 @@ PlayerSave {
             player.putAttrib(AttributeKey.EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
             player.setInvulnerable(details.infhp);
-            if (details.varps != null) {
+            if (player.getSession() != null && details.varps != null) {
                 int[] varps = new int[5000];
                 details.varps.forEach((k, v) -> varps[k] = v);
                 player.setSessionVarps(varps);

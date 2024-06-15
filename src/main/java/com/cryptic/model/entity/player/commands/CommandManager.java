@@ -5,6 +5,7 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.AchievementUtility;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
@@ -1477,6 +1478,12 @@ public class CommandManager {
         {
             DailyTasks.BOSSING.getTask(player).isRewardClaimed.set(player, false);
             DailyTasks.BOSSING.getTask(player).currentlyCompletedAmount.set(player,Integer.parseInt(s[1]));
+        });
+
+        dev("test70", (player, c, s) ->
+
+        {
+            player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD + 4 , 50);
         });
     }
 

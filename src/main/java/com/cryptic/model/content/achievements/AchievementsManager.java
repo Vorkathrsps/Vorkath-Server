@@ -26,7 +26,7 @@ public class AchievementsManager {
 
     public static void activate(Player player, Achievements achievement, int increaseBy) {
 
-        /*if(player.getUsername().equalsIgnoreCase("Box test")) return;
+        if(player.getUsername().equalsIgnoreCase("Box test")) return;
 
         final int current = player.achievements().computeIfAbsent(achievement, a -> 0);
 
@@ -56,7 +56,7 @@ public class AchievementsManager {
                 player.inventory().addOrBank(reward.clone());
                 Utils.sendDiscordInfoLog(player.getUsername()+" has completed " + achievement.getName() + " and got " + Arrays.toString(reward.clone()), "achievements");
             }
-        }*/
+        }
     }
 
     private static void checkForOtherReward(Player player, Achievements achievement) {

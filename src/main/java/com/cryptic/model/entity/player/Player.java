@@ -518,6 +518,9 @@ public class Player extends Entity {
         } else {
             player.getPacketSender().sendString(80068, "Slayer Task: @whi@N/A");
         }
+        for (int index = 0; index < 19; index++) {
+            player.getPacketSender().sendString(80069 + index, "");
+        }
     }
 
     public void healPlayer() {

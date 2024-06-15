@@ -49,7 +49,8 @@ public class AchievementWidget {
         }
 
         int step = 0;
-        for (final Achievements achievement : list) {
+        System.out.println("loop "+list.size());
+        for (final Achievements achievement : list.subList(0, Math.min(list.size(), 100))) {
             int completed = player.achievements().get(achievement);
             final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
             if (completed > achievement.getCompleteAmount()) {

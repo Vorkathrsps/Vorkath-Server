@@ -54,6 +54,7 @@ public class VoteRewardCommand implements Command {
                 final Item coins = new Item(995, 875_000);
                 player.getInventory().addOrBank(coins);
 
+                player.message(Color.GREEN.wrap("Thank you for voting for Valor!"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -15,6 +15,9 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
+import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.inter.dialogue.DialogueType;
+import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.equipment.Equipment;
@@ -40,6 +43,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.LISA;
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.TWIGGY_OKORN;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.EXIT_PORTAL_27096;
 import static com.cryptic.model.content.tournaments.TournamentUtils.*;
 import static java.lang.String.format;
@@ -97,18 +101,39 @@ public class TournamentManager extends PacketInteraction {
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if (npc.id() == THORVALD || npc.id() == LISA) {
-            if (option == 1) {
-                //player.getDialogueManager().start(new TournamentEntryDialogue());
-                TournamentManager.openTournamentWidget(player);
-                return true;
-            } else if (option == 2) {
-                TournamentManager.quickJoinLobby(player);
-                return true;
-            } else if (option == 3) {
-                TournamentManager.quickSpectate(player);
-                return true;
-            }
+        if (npc.id() == LISA) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    if (!TournamentManager.lobbyActive()) {
+                        send(DialogueType.NPC_STATEMENT, LISA, Expression.HAPPY, "The next Tournament ", nextTornStartsInMessageNPC());
+                        return;
+                    }
+                    send(DialogueType.NPC_STATEMENT, LISA, Expression.ANNOYED, "Hello, " + player.getUsername(), "Would you like to participate in the Tournament?");
+                    setPhase(0);
+                }
+
+                @Override
+                protected void select(int option) {
+                    if (isPhase(1)) {
+                        if (option == 1) {
+                            quickJoinLobby(player);
+                            stop();
+                        } else {
+                            stop();
+                        }
+                    }
+                }
+
+                @Override
+                protected void next() {
+                    if (isPhase(0)) {
+                        send(DialogueType.OPTION, "Would you like to join the Tournament?", "Yes", "No");
+                        setPhase(1);
+                    }
+                }
+            });
+            return true;
         }
         return false;
     }
@@ -141,10 +166,15 @@ public class TournamentManager extends PacketInteraction {
 
     public static String nextTornStartsInMessage() { // where the fuck did i leave that print
         long difference = timeTillNext();
-        if (difference == -1)
-            return "Check back at midnight for the next tournament time.";
+        if (difference == -1) return "Check back at midnight for the next tournament time.";
+        String timeLeft = format("The Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
+        return timeLeft;
+    }
 
-        String timeLeft = format("Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
+    public static String nextTornStartsInMessageNPC() { // where the fuck did i leave that print
+        long difference = timeTillNext();
+        if (difference == -1) return "Check back at midnight for the next tournament time.";
+        String timeLeft = format("will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
         return timeLeft;
     }
 

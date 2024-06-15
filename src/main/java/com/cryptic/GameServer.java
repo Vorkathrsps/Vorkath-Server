@@ -82,7 +82,7 @@ public class GameServer {
     }
 
     static {
-        Thread.currentThread().setName(""+GameServer.settings().getName()+"InitializationThread");
+        Thread.currentThread().setName(GameServer.settings().getName()+"InitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         logger = LogManager.getLogger(GameServer.class);
         if (properties().enableDiscordLogging) {

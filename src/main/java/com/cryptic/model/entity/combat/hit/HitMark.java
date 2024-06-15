@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
 import lombok.Getter;
 
+@Getter
 public enum HitMark {
     /**
      * Corruption has a chance to apply on the target of the player who is under the effects of either Lesser Corruption or Greater Corruption during a successful hit.
@@ -31,11 +32,8 @@ public enum HitMark {
     SCARAB_DAMAGE(73, -1, -1),
     SUN_DAMAGE(74, -1, -1);
 
-    @Getter
     private final int non_tinted;
-    @Getter
     private final int tinted;
-    @Getter
     private final int max_hit;
 
     HitMark(int non_tinted, int tinted, int max_hit) {

@@ -60,7 +60,7 @@ public class PriceParser {
 
 
     private static void writeToFile(String data) throws IOException {
-        try (FileWriter writer = new FileWriter("blood_money_prices.json")) {
+        try (FileWriter writer = new FileWriter("item_prices.json")) {
             writer.write(data);
         }
     }

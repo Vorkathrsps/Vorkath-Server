@@ -46,6 +46,7 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.LISA;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.TWIGGY_OKORN;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.EXIT_PORTAL_27096;
 import static com.cryptic.model.content.tournaments.TournamentUtils.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.MAC_ADDRESS;
 import static java.lang.String.format;
 
 /**
@@ -84,17 +85,9 @@ public class TournamentManager extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject gameObject, int option) {
-        if (option == 1) {
-            //You can only leave if you have no tournament opponent
-            if (gameObject.getId() == EXIT_PORTAL_27096 && player.getTournamentOpponent() != null) {
-                player.message(Color.RED.wrap("The only way out is death!"));
-                return true;
-            } else if (gameObject.getId() == EXIT_PORTAL_27096 && player.getTournamentOpponent() == null) {
-                player.debugMessage("lets leave lobby");
-                leaveLobby(player);
-                return true;
-            }
-            return false;
+        if (gameObject.getId() == 26738) {
+            TournamentManager.leaveTourny(player, false, true);
+            return true;
         }
         return false;
     }
@@ -105,10 +98,6 @@ public class TournamentManager extends PacketInteraction {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
-                    if (!TournamentManager.lobbyActive()) {
-                        send(DialogueType.NPC_STATEMENT, LISA, Expression.HAPPY, "The next Tournament ", nextTornStartsInMessageNPC());
-                        return;
-                    }
                     send(DialogueType.NPC_STATEMENT, LISA, Expression.ANNOYED, "Hello, " + player.getUsername(), "Would you like to participate in the Tournament?");
                     setPhase(0);
                 }
@@ -167,7 +156,7 @@ public class TournamentManager extends PacketInteraction {
     public static String nextTornStartsInMessage() { // where the fuck did i leave that print
         long difference = timeTillNext();
         if (difference == -1) return "Check back at midnight for the next tournament time.";
-        String timeLeft = format("The Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
+        String timeLeft = "<img=13> " + Color.MITHRIL.wrap(format("The Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)</img>"));
         return timeLeft;
     }
 
@@ -259,6 +248,7 @@ public class TournamentManager extends PacketInteraction {
         if (player.isInTournamentLobby()) {
             wipeLoadout(player);
             torn.inLobby.remove(player);
+            torn.macAddressesInLobby.remove(player.getAttribOr(MAC_ADDRESS, "invalid"));
             player.setInTournamentLobby(false);
             player.getRunePouch().clear();
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
@@ -303,7 +293,6 @@ public class TournamentManager extends PacketInteraction {
             }
             player.setTournamentOpponent(null);
             player.setParticipatingTournament(null);
-            // TODO skill restore
             Prayers.closeAllPrayers(player);
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
@@ -843,7 +832,6 @@ public class TournamentManager extends PacketInteraction {
         private void process() {
             now = ZonedDateTime.now();
             nowSec = now.toEpochSecond();
-            //System.out.printf("Core openEventLobby: %s lobbyActive: %s tournaments.size: %s timeTillNext: %s | startTimes: %s nextTorn: %s %s%n", openEventLobby(), lobbyActive(), tournaments.size(), timeTillNext(), Arrays.toString(settings.startTimes), nextTorn != null ? nextTorn.getConfig().key : "none", nextEvent());
             setNextTournyType();
             if (checkAndOpenLobby(false)) return;
             tickTournys();

@@ -1310,10 +1310,12 @@ public class CommandManager {
             player.getTheatreInstance().buildParty().startRaid();
         });
 
-        dev("test14", (player, c, s) ->
-
-        {
-
+        dev("test14", (player, c, s) -> {
+            TournamentManager.setNextTorn(null); // process will re-init next one
+            TournamentManager.getSettings().setStartTimes(new String[]{"23:59"});
+            TournamentManager.getSettings().usingOverrideTimes = true;
+            TournamentManager.checkAndOpenLobby(false);
+            player.getInterfaceManager().close();
         });
 
         dev("teles", (player, c, s) ->

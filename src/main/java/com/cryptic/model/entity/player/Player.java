@@ -165,6 +165,7 @@ import java.util.stream.IntStream;
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMENT_SIZE;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
+import static com.cryptic.model.content.tournaments.TournamentUtils.TOURNAMENT_REGION;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.WORLD_BOSS_SPAWN;
@@ -1645,6 +1646,9 @@ public class Player extends Entity {
     }
 
     private void handleForcedTeleports() {
+        if (tile().region() == TOURNAMENT_REGION) {
+            TournamentManager.onLogin1(this);
+        }
         if (getInstancedArea() == null && getZ() > 3) this.teleport(3096, 3498, 0);
         if (jailed() && tile().region() != 13103) Teleports.basicTeleport(this, new Tile(3290, 3017));
     }

@@ -13,6 +13,7 @@ import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
@@ -79,13 +80,13 @@ public class Tournament {
             return;
         }
         if (inLobby.size() >= maxParticipants) return;
-        if (fighters.size() > 0) return;
+        if (!fighters.isEmpty()) return;
         if (player.getParticipatingTournament() != null) return;
         var MAC = player.<String>getAttribOr(AttributeKey.MAC_ADDRESS, "invalid");
-        if (macAddressesInLobby.contains(MAC)) {
+       /* if (macAddressesInLobby.contains(MAC)) {
             player.message("You can not join the tournaments from two accounts!");
             return;
-        }
+        }*/
         if (!player.getInventory().isEmpty()) player.getBank().depositInventory();
         if (!player.getEquipment().isEmpty()) player.getBank().depositeEquipment();
         if (!player.getLootingBag().isEmpty()) player.getLootingBag().depositLootingBag();
@@ -120,7 +121,7 @@ public class Tournament {
         if (tick++ == Integer.MAX_VALUE) {
             tick = 0;
         }
-        if (fighters.size() == 0 && inLobby.size() > 0) {
+        if (fighters.isEmpty() && !inLobby.isEmpty()) {
             if (tick % 60 == 0) {
                 if (inLobby.size() < minimumParticipants) {
                     for (Player player : inLobby) {
@@ -134,7 +135,7 @@ public class Tournament {
 
     public void checkForWinner() {
         if (fighters.size() == 1) {
-            winner = fighters.get(0);
+            winner = fighters.getFirst();
             var wins = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_WINS, 0);
             wins += 1;
             winner.putAttrib(AttributeKey.TOURNAMENT_WINS, wins);
@@ -145,7 +146,7 @@ public class Tournament {
             winner.message("You've received 4 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
             World.getWorld().sendWorldMessage(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
-            logger.info("PvP tournament rewards: " + reward.toString());
+            logger.info("PvP tournament rewards: {}", reward.toString());
             winner.getPacketSender().sendInteractionOption("null", 2, true);
             winner.getPacketSender().sendEntityHintRemoval(true);
             onTournyClosed();
@@ -210,52 +211,49 @@ public class Tournament {
     }
 
     public void setLoadoutOnPlayer(Player player) {
-        BooleanSupplier empty = () -> player.getInventory().isEmpty() && player.getEquipment().isEmpty();
-        player.waitUntil(empty, () -> {
-            TournamentManager.wipeLoadout(player);
-            player.setSpecialAttackPercentage(100);
-            CombatSpecial.updateBar(player);
+        TournamentManager.wipeLoadout(player);
+        player.setSpecialAttackPercentage(100);
+        CombatSpecial.updateBar(player);
 
-            TournamentManager.Loadout loadout = TournamentManager.loadouts.stream().filter(l -> l.key.equalsIgnoreCase(config.key)).findFirst().orElse(null);
-            if (loadout == null) {
-                logger.error("no loadout exists for tournaments loadout key " + config.key + "!");
-                loadout = TournamentManager.loadouts.get(0);
-            }
-            for (TournamentManager.Tuple<Integer, Integer> stat : loadout.stats) {
-                int skill = stat.x;
-                int level = stat.y;
-                player.skills().setLevel(skill, level);
-                player.skills().setXp(skill, Skills.levelToXp(level));
-                player.skills().update(skill);
-            }
-            player.skills().recalculateCombat();
-            for (int i = 0; i < loadout.equip.capacity(); i++) {
-                if (loadout.equip.getItems()[i] == null)
-                    continue;
-                player.inventory().set(i, loadout.equip.getItems()[i].clone(), false);
-            }
-            for (int i = 0; i < player.inventory().capacity(); i++) {
-                if (player.inventory().get(i) == null) continue;
-                player.getEquipment().equip(i);
-                player.getBonusInterface().sendBonuses();
-            }
-            for (int i = 0; i < loadout.inv.capacity(); i++) {
-                if (loadout.inv.getItems()[i] == null)
-                    continue;
-                player.inventory().set(i, loadout.inv.getItems()[i].clone(), false);
-            }
-            for (int i = 0; i < loadout.runepouch.capacity(); i++) {
-                if (loadout.runepouch.getItems()[i] == null) continue;
-                player.getRunePouch().deposit(loadout.runepouch.getItems()[i].clone());
-                player.getRunePouch().refresh();
-            }
+        TournamentManager.Loadout loadout = TournamentManager.loadouts.stream().filter(l -> l.key.equalsIgnoreCase(config.key)).findFirst().orElse(null);
+        if (loadout == null) {
+            logger.error("no loadout exists for tournaments loadout key {}!", config.key);
+            loadout = TournamentManager.loadouts.getFirst();
+        }
+        for (TournamentManager.Tuple<Integer, Integer> stat : loadout.stats) {
+            int skill = stat.x;
+            int level = stat.y;
+            player.skills().setLevel(skill, level);
+            player.skills().setXp(skill, Skills.levelToXp(level));
+            player.skills().update(skill);
+        }
+        player.skills().recalculateCombat();
+        for (int i = 0; i < loadout.equip.capacity(); i++) {
+            if (loadout.equip.getItems()[i] == null)
+                continue;
+            player.inventory().set(i, loadout.equip.getItems()[i].clone(), false);
+        }
+        for (int i = 0; i < player.inventory().capacity(); i++) {
+            if (player.inventory().get(i) == null) continue;
+            player.getEquipment().equip(i);
+            player.getBonusInterface().sendBonuses();
+        }
+        for (int i = 0; i < loadout.inv.capacity(); i++) {
+            if (loadout.inv.getItems()[i] == null)
+                continue;
+            player.inventory().set(i, loadout.inv.getItems()[i].clone(), false);
+        }
+        for (int i = 0; i < loadout.runepouch.capacity(); i++) {
+            if (loadout.runepouch.getItems()[i] == null) continue;
+            player.getRunePouch().deposit(loadout.runepouch.getItems()[i].clone());
             player.getRunePouch().refresh();
-            player.setPreviousSpellbook(player.getSpellbook());
-            MagicSpellbook.changeSpellbook(player, MagicSpellbook.forId(loadout.spellbook), false);
-            player.inventory().refresh();
-            player.getEquipment().refresh();
-            player.setQueuedAppearanceUpdate(true);
-        });
+        }
+        player.getRunePouch().refresh();
+        player.setPreviousSpellbook(player.getSpellbook());
+        MagicSpellbook.changeSpellbook(player, MagicSpellbook.forId(loadout.spellbook), false);
+        player.inventory().refresh();
+        player.getEquipment().refresh();
+        player.setQueuedAppearanceUpdate(true);
     }
 
     /**
@@ -343,7 +341,7 @@ public class Tournament {
      * The list of items rewarded from a tournament
      */
     private Item setRewards() {
-        var possible_rewards = new Item[]{new Item(30223, 1)};
+        var possible_rewards = new Item[]{new Item(CustomItemIdentifiers.BOX_OF_VALOR, 1)};
         return World.getWorld().random(possible_rewards);
     }
 

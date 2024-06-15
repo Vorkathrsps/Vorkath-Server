@@ -77,7 +77,13 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
         for (int i = 0; i < renderOrder.size(); i++) {
             E e = get(renderOrder.getInt(i));
             if (e == null) continue;
-            if (e instanceof Player player && player.getControllers() instanceof DuelArenaArea) continue; //skip players inside duel arena shuffling
+            /*if (e instanceof Player player) { //TODO
+                for (var controller : player.getControllers()) {
+                    if (controller instanceof DuelArenaArea) {
+                        continue;
+                    }
+                }
+            }*/
             e.pidOrderIndex = i;
         }
     }

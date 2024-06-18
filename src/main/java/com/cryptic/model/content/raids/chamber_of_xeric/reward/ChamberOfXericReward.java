@@ -1,6 +1,8 @@
 package com.cryptic.model.content.raids.chamber_of_xeric.reward;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -82,6 +84,8 @@ public class ChamberOfXericReward {
             return;
         }
 
+        handleChambersOfXericAchievements(player);
+
         if (personalPoints > points_cap) {
             personalPoints = points_cap;
         }
@@ -98,5 +102,11 @@ public class ChamberOfXericReward {
             player.getRaidRewards().add(rollRegular);
             Utils.sendDiscordInfoLog("Regular Drop: " + player.getUsername() + " Has just received " + rollRegular.unnote().name() + " from Chambers of Xeric! Personal Points: " + Utils.formatNumber(personalPoints), "raids");
         }
+    }
+
+    private static void handleChambersOfXericAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.COX_I, 1);
+        AchievementsManager.activate(player, Achievements.COX_II, 1);
+        AchievementsManager.activate(player, Achievements.COX_III, 1);
     }
 }

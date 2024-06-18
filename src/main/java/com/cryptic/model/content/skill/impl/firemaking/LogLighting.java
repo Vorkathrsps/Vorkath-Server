@@ -253,11 +253,15 @@ public class LogLighting {
                 player.inventory().add(new Item(PHOENIX));
             }
             player.getSkills().addXp(Skills.FIREMAKING, log.xp);
-            AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
-            AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
-            AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
-            AchievementsManager.activate(player, Achievements.FIREMAKING_IV, 1);
+            handleFiremakingAchievements(player);
         });
+    }
+
+    private static void handleFiremakingAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_IV, 1);
     }
 
     private static double getChance(Player player) {

@@ -2,12 +2,15 @@ package com.cryptic.model.content.items.loot;
 
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.intellij.openapi.util.Comparing;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +57,7 @@ public interface CollectionItemListener {
     default void openKey(Player player) {
         player.animate(536);
         player.getInventory().remove(this.id());
+        handleAchievements(player);
         int increment = player.<Integer>getAttribOr(this.key(), 0) + 1;
         Item reward = null;
         reward = getSelectedItem(reward);
@@ -74,6 +78,18 @@ public interface CollectionItemListener {
             Utils.sendDiscordInfoLog("Player " + player.getUsername() + " received a " + name + " from a " + this.name() + ".", "box_and_tickets");
         }
         player.putAttrib(this.key(), increment);
+    }
+
+    private void handleAchievements(Player player) {
+        if (ItemIdentifiers.CRYSTAL_KEY == this.id()) {
+            AchievementsManager.activate(player, Achievements.WHATS_INSIDE_I, 1);
+            AchievementsManager.activate(player, Achievements.WHATS_INSIDE_II, 1);
+            AchievementsManager.activate(player, Achievements.WHATS_INSIDE_III, 1);
+        } else if (ItemIdentifiers.LARRANS_KEY == this.id()) {
+            AchievementsManager.activate(player, Achievements.LARRAN_FRENZY_I, 1);
+            AchievementsManager.activate(player, Achievements.LARRAN_FRENZY_II, 1);
+            AchievementsManager.activate(player, Achievements.LARRAN_FRENZY_III, 1);
+        }
     }
 
     default void openClue(Player player) {
@@ -134,7 +150,9 @@ public interface CollectionItemListener {
                 }
             }
         }
-        player.putAttrib(this.key(), increment);
+        if (this.key() != null) {
+            player.putAttrib(this.key(), increment);
+        }
         for (Item rolledReward : rewards) {
             if (!WildernessArea.inWilderness(player.tile())) player.getInventory().addOrBank(rolledReward);
             else player.getInventory().addOrDrop(rolledReward);

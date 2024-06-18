@@ -1,5 +1,6 @@
 package com.cryptic.model.content.items.loot;
 
+import com.cryptic.model.content.items.loot.impl.bountycrates.*;
 import com.cryptic.model.content.items.loot.impl.caskets.*;
 import com.cryptic.model.content.items.loot.impl.keys.CrystalKey;
 import com.cryptic.model.content.items.loot.impl.keys.EnhancedCrystalKey;
@@ -36,6 +37,15 @@ public class CollectionItemHandler {
     private static List<CollectionItemListener> initBoxes() {
         List<CollectionItemListener> listeners = new ArrayList<>();
         listeners.add(new MysteryBox());
+        listeners.add(new BountyCrateTierOne());
+        listeners.add(new BountyCrateTierTwo());
+        listeners.add(new BountyCrateTierThree());
+        listeners.add(new BountyCrateTierFour());
+        listeners.add(new BountyCrateTierFive());
+        listeners.add(new BountyCrateTierSix());
+        listeners.add(new BountyCrateTierSeven());
+        listeners.add(new BountyCrateTierEight());
+        listeners.add(new BountyCrateTierNine());
         return listeners;
     }
 

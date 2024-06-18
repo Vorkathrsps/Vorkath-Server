@@ -1,6 +1,8 @@
 package com.cryptic.model.content.skill.impl.slayer;
 
 import com.cryptic.GameServer;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerExtendable;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerRewardActions;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerRewardButtons;
@@ -384,6 +386,7 @@ public class SlayerRewards {
                                 return false;
                             }
 
+                            handleAchievements(player, name);
                             player.getSlayerRewards().getUnlocks().put(selectedChild, name);
                             player.getPacketSender().sendConfig(750 + unlockable.ordinal(), 1);
                             player.getInterfaceManager().open(getPreviousInterface());
@@ -429,6 +432,18 @@ public class SlayerRewards {
                 return true;
         }
         return false;
+    }
+
+    private static void handleAchievements(Player player, String name) {
+        if (name.equalsIgnoreCase("attuned_luck")) {
+            AchievementsManager.activate(player, Achievements.SIGIL_HUNTER, 1);
+        } else if (name.equalsIgnoreCase("ancient_blessing")) {
+            AchievementsManager.activate(player, Achievements.WHAT_A_BLESSING, 1);
+        } else if (name.equalsIgnoreCase("deaths_touch")) {
+            AchievementsManager.activate(player, Achievements.GRIM, 1);
+        } else if (name.equalsIgnoreCase("slayers_greed")) {
+            AchievementsManager.activate(player, Achievements.GREEDY, 1);
+        }
     }
 
     /**

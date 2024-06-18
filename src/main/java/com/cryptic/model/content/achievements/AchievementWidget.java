@@ -18,8 +18,10 @@ public class AchievementWidget {
 
     public static void sendInterfaceForAchievement(final Player player, Achievements achievement) {
         final int completed = player.achievements().get(achievement);
-        final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
-
+        int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
+        if (progress > 100) {
+            progress = 100;
+        }
         player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_NAME_ID, "<col=ff9040>" + achievement.getName());
         player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_PROGRESS_ID, "<col=ffffff>Progress:</col><col=ffffff>" + " (" + progress + "%) " + Utils.format(completed) + " / " + Utils.format(achievement.getCompleteAmount()));
         player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD, progress);
@@ -49,14 +51,21 @@ public class AchievementWidget {
         }
 
         int step = 0;
-        System.out.println("loop "+list.size());
+        updateFull(player, list, step);
+    }
+
+    public static void updateFull(Player player, List<Achievements> list, int step) {
         for (final Achievements achievement : list.subList(0, Math.min(list.size(), 100))) {
             int completed = player.achievements().get(achievement);
-            final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
+            int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
             if (completed > achievement.getCompleteAmount()) {
                 completed = achievement.getCompleteAmount();
             }
             int totalAmount = achievement.getCompleteAmount();
+            if (progress > 100) {
+                progress = 100;
+            }
+            player.getPacketSender().sendString(achievement.child, achievement.getDescription());
             player.getPacketSender().sendString(ACHIEVEMENTS_LIST_START_ID + step, getColor(completed, totalAmount) + achievement.getName());
             player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_PROGRESS_ID + step, progress + "%");
             player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD + step, progress);
@@ -66,7 +75,7 @@ public class AchievementWidget {
 
     public static void openEasyJournal(Player player) {
         AchievementWidget.open(player, Difficulty.EASY);
-        AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_I);
+        //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_I);
         player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.EASY);
         player.getPacketSender().sendConfig(1160, 1);
         player.getPacketSender().sendConfig(1161, 0);

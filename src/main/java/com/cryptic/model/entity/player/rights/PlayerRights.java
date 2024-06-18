@@ -9,7 +9,6 @@ import com.intellij.openapi.util.text.StringUtil;
 public enum PlayerRights {
 
     PLAYER(-1, 0),
-
     SUPPORT(2170, 1),
     MODERATOR(2171, 2),
     ADMINISTRATOR(2172, 3),

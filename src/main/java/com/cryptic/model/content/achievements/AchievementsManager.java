@@ -3,7 +3,6 @@ package com.cryptic.model.content.achievements;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
@@ -13,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-import static com.cryptic.model.entity.player.QuestTab.InfoTab.SLAYER_POINTS;
 import static java.lang.String.format;
 
 /**
@@ -28,7 +26,7 @@ public class AchievementsManager {
 
         if(player.getUsername().equalsIgnoreCase("Box test")) return;
 
-        final int current = player.achievements().computeIfAbsent(achievement, a -> 0);
+        final int current = player.achievements().computeIfAbsent(achievement, _ -> 0);
 
         if (current >= achievement.getCompleteAmount()) return;
 
@@ -40,7 +38,7 @@ public class AchievementsManager {
 
             //When achievements complete, check if we can complete the COMPLETIONIST achievement.
             if(player.completedAllAchievements()) {
-                activate(player, Achievements.COMPLETIONIST, 1);
+              //  activate(player, Achievements.COMPLETIONIST, 1);
             }
 
             player.message("<col=297A29>Congratulations! You have completed the "+achievement.getName()+" achievement.");
@@ -60,7 +58,7 @@ public class AchievementsManager {
     }
 
     private static void checkForOtherReward(Player player, Achievements achievement) {
-        switch(achievement) {
+       /* switch(achievement) {
             case LARRANS_LOOTER_I:
                 int slayerPoints = (Integer) player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0) + 10;
                 player.putAttrib(AttributeKey.SLAYER_REWARD_POINTS, slayerPoints);
@@ -85,7 +83,7 @@ public class AchievementsManager {
             case PUNCHING_BAGS_III:
                 player.putAttrib(AttributeKey.ROCKY_BALBOA_TITLE_UNLOCKED,true);
                 break;
-        }
+        }*/
     }
 
     public static boolean isCompleted(Player player, Achievements achievement) {

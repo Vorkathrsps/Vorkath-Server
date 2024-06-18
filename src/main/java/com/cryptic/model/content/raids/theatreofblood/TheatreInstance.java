@@ -1,5 +1,7 @@
 package com.cryptic.model.content.raids.theatreofblood;
 
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatreofblood.boss.bloat.handler.BloatBuilder;
@@ -233,7 +235,14 @@ public class TheatreInstance extends InstancedArea {
             generateReward(player);
             monumentalChest(index, player);
             player.putAttrib(TOB_LOOT_CHEST, treasure.getId());
+            handleTheatreOfBloodAchievements(player);
         }
+    }
+
+    private static void handleTheatreOfBloodAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.TOB_I, 1);
+        AchievementsManager.activate(player, Achievements.TOB_II, 1);
+        AchievementsManager.activate(player, Achievements.TOB_III, 1);
     }
 
     private void generateReward(Player player) {

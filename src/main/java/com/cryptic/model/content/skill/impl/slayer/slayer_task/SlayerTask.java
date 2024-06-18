@@ -4,6 +4,8 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_reward_interface.SlayerUnlockable;
@@ -292,6 +294,7 @@ public class SlayerTask {
             amount = isUsingExpeditiousBracelet(player, amount);
             decrementTaskAmount(player, amount);
             if (this.isRemoveSlayerTask(player)) {
+                this.increaseSlayerAchievements(player);
                 DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
                 int increment = 0;
                 increment += this.getSlayerTaskCompletionPoints(player);
@@ -308,6 +311,14 @@ public class SlayerTask {
                 return;
             }
         }
+    }
+
+    private void increaseSlayerAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.SLAYER_1, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_2, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_3, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_4, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_5, 1);
     }
 
     private void decrementTaskAmount(Player player, int amount) {

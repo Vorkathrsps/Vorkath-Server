@@ -110,9 +110,9 @@ public class CrystalKey extends PacketInteraction {
         player.putAttrib(AttributeKey.CRYSTAL_KEYS_OPENED, keysUsed);
 
         player.message("You find some treasure in the chest!");
-        AchievementsManager.activate(player, Achievements.CRYSTAL_LOOTER_I, 1);
-        AchievementsManager.activate(player, Achievements.CRYSTAL_LOOTER_II, 1);
-        AchievementsManager.activate(player, Achievements.CRYSTAL_LOOTER_III, 1);
+        AchievementsManager.activate(player, Achievements.WHATS_INSIDE_I, 1);
+        AchievementsManager.activate(player, Achievements.WHATS_INSIDE_II, 1);
+        AchievementsManager.activate(player, Achievements.WHATS_INSIDE_III, 1);
     }
 
     private static Item[] generateReward() {

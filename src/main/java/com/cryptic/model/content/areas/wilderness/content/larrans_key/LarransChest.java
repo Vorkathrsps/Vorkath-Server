@@ -80,7 +80,7 @@ public class LarransChest extends PacketInteraction {
             }
 
             //Update achievements
-            AchievementsManager.activate(player, Achievements.LARRANS_LOOTER_I, 1);
+            //AchievementsManager.activate(player, Achievements.LARRANS_LOOTER_I, 1);
             player.unlock();
         });
     }

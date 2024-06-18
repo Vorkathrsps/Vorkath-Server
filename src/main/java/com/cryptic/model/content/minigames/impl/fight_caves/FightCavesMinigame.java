@@ -183,8 +183,8 @@ public class FightCavesMinigame extends Minigame {
             DialogueManager.npcChat(player, Expression.CALM_TALK, npc.id(), "You even defeated TzTok-Jad, I am most impressed!", "Please accept this gift.", "Give cape back to me if you not want it.");
 
             player.inventory().addOrDrop(new Item(FIRE_CAPE, 1));
-            AchievementsManager.activate(player, Achievements.FIGHT_CAVES_I, 1);
-            AchievementsManager.activate(player, Achievements.FIGHT_CAVES_II, 1);
+            //AchievementsManager.activate(player, Achievements.FIGHT_CAVES_I, 1);
+            //AchievementsManager.activate(player, Achievements.FIGHT_CAVES_II, 1);
         }
         npcSet.forEach(npc -> World.getWorld().unregisterNpc(npc));
         player.getInterfaceManager().close(true);

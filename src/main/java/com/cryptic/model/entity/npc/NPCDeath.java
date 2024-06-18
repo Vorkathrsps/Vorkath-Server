@@ -129,19 +129,19 @@ public class NPCDeath {
             if (npc.def() != null && npc.def().name != null) {
 
                 if (npc.def().name.equalsIgnoreCase("Yak")) {
-                    AchievementsManager.activate(killer, Achievements.YAK_HUNTER, 1);
+                    //AchievementsManager.activate(killer, Achievements.YAK_HUNTER, 1);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Rock Crab")) {
-                    AchievementsManager.activate(killer, Achievements.ROCK_CRAB_HUNTER, 1);
+                   // AchievementsManager.activate(killer, Achievements.ROCK_CRAB_HUNTER, 1);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Sand Crab")) {
-                    AchievementsManager.activate(killer, Achievements.SAND_CRAB_HUNTER, 1);
+                  //  AchievementsManager.activate(killer, Achievements.SAND_CRAB_HUNTER, 1);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Experiment")) {
-                    AchievementsManager.activate(killer, Achievements.EXPERIMENTS_HUNTER, 1);
+                   // AchievementsManager.activate(killer, Achievements.EXPERIMENTS_HUNTER, 1);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Adamant dragon")) {
@@ -159,7 +159,7 @@ public class NPCDeath {
                     killer.putAttrib(LAVA_DRAGONS_KILLED, kc);
                 }
 
-                if (npc.def().name.contains("dragon") || npc.def().name.contains("Dragon")) {
+                if (npc.def().name.contains("Green dragon")) {
                     AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_I, 1);
                     killer.getTaskMasterManager().increase(Tasks.DRAGONS);
                 }
@@ -169,14 +169,11 @@ public class NPCDeath {
                 }
 
                 if (npc.def().name.equalsIgnoreCase("K'ril Tsutsaroth") || npc.def().name.equalsIgnoreCase("General Graardor") || npc.def().name.equalsIgnoreCase("Commander Zilyana") || npc.def().name.equalsIgnoreCase("Kree'arra")) {
-                    AchievementsManager.activate(killer, Achievements.GODWAR, 1);
+                    handleGodwarsAchievement(killer);
                 }
 
                 if (npc.def().name.contains("Revenant") || npc.def().name.contains("revenant")) {
-                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_I, 1);
-                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_II, 1);
-                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_III, 1);
-                    AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_IV, 1);
+                    handleRevenantsAchievement(killer);
                     killer.getTaskMasterManager().increase(Tasks.REVENANTS);
                 }
 
@@ -189,7 +186,7 @@ public class NPCDeath {
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Corporeal Beast")) {
-                    AchievementsManager.activate(killer, Achievements.CORPOREAL_CRITTER, 1);
+                  //  AchievementsManager.activate(killer, Achievements.CORPOREAL_CRITTER, 1);
                     killer.getTaskMasterManager().increase(Tasks.CORPOREAL_BEAST);
                 }
 
@@ -221,13 +218,22 @@ public class NPCDeath {
 
                 if (npc.def().name.equalsIgnoreCase("Chaos Elemental")) {
                     killer.getTaskMasterManager().increase(Tasks.CHAOS_ELEMENTAL);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
+                  //  AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
+                  //  AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
+                  //  AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
                 }
 
-                if (npc.def().name.contains("Zulrah")) {
+                if (npc.def().name.contains("Zulrah")) { //TODO this will break
+                    handleZulrahAchievement(killer);
                     killer.getTaskMasterManager().increase(Tasks.ZULRAH);
+                }
+
+                if (npc.def().name.contains("Nex")) {
+                    handleNexAchievement(killer);
+                }
+
+                if (npc.def().name.contains("Scurrius")) {
+                    handleScurriusAchievement(killer);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Vorkath")) {
@@ -243,15 +249,15 @@ public class NPCDeath {
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Dagannoth Supreme") || npc.def().name.equalsIgnoreCase("Dagannoth Prime") || npc.def().name.equalsIgnoreCase("Dagannoth Rex")) {
-                    AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_I, 1);
-                    AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.LORD_OF_THE_RINGS_II, 1);
                     killer.getTaskMasterManager().increase(Tasks.DAGANNOTH_KINGS);
                 }
 
                 if (npc.def().name.equalsIgnoreCase("Giant Mole")) {
-                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_I, 1);
-                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_II, 1);
-                    AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_III, 1);
+                  //  AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_I, 1);
+                  //  AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_II, 1);
+                  //  AchievementsManager.activate(killer, Achievements.HOLEY_MOLEY_III, 1);
                     killer.getTaskMasterManager().increase(Tasks.GIANT_MOLE);
                 }
 
@@ -269,97 +275,96 @@ public class NPCDeath {
                 case DHAROK_THE_WRETCHED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(DHAROK, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
                 case AHRIM_THE_BLIGHTED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(AHRIM, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
                 case VERAC_THE_DEFILED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(VERAC, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
                 case TORAG_THE_CORRUPTED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(TORAG, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
                 case KARIL_THE_TAINTED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(KARIL, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
                 case GUTHAN_THE_INFESTED -> {
                     isBarrowsBro = true;
                     killer.putAttrib(GUTHAN, 1);
+                    handleBarrowsBrotherAchievement(killer);
                 }
 
                 case KrakenBoss.KRAKEN_NPCID -> {// Kraken boss transmogged KC
-                    AchievementsManager.activate(killer, Achievements.SQUIDWARD_I, 1);
-                    AchievementsManager.activate(killer, Achievements.SQUIDWARD_II, 1);
-                    AchievementsManager.activate(killer, Achievements.SQUIDWARD_III, 1);
+                  //  AchievementsManager.activate(killer, Achievements.SQUIDWARD_I, 1);
+                  //  AchievementsManager.activate(killer, Achievements.SQUIDWARD_II, 1);
+                  //  AchievementsManager.activate(killer, Achievements.SQUIDWARD_III, 1);
                     killer.getTaskMasterManager().increase(Tasks.KRAKEN);
                 }
 
-                case ADAMANT_DRAGON, ADAMANT_DRAGON_8090, RUNE_DRAGON, RUNE_DRAGON_8031, RUNE_DRAGON_8091 ->
-                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_IV, 1);
+/*                case ADAMANT_DRAGON, ADAMANT_DRAGON_8090, RUNE_DRAGON, RUNE_DRAGON_8031, RUNE_DRAGON_8091 ->
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_IV, 1);*/
 
                 case CERBERUS, CERBERUS_5863, CERBERUS_5866 -> {
                     killer.getTaskMasterManager().increase(Tasks.CERBERUS);
-                    AchievementsManager.activate(killer, Achievements.FLUFFY_I, 1);
-                    AchievementsManager.activate(killer, Achievements.FLUFFY_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.FLUFFY_I, 1);
+                  //  AchievementsManager.activate(killer, Achievements.FLUFFY_II, 1);
                 }
 
                 case KALPHITE_QUEEN_6501 -> {
-                    AchievementsManager.activate(killer, Achievements.BUG_EXTERMINATOR_I, 1);
-                    AchievementsManager.activate(killer, Achievements.BUG_EXTERMINATOR_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.BUG_EXTERMINATOR_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.BUG_EXTERMINATOR_II, 1);
                 }
 
                 case LIZARDMAN_SHAMAN_6767 -> {
-                    AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_I, 1);
-                    AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_II, 1);
-                    AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_III, 1);
+                   // AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.DR_CURT_CONNORS_III, 1);
                 }
 
                 case THERMONUCLEAR_SMOKE_DEVIL -> {
-                    AchievementsManager.activate(killer, Achievements.TSJERNOBYL_I, 1);
-                    AchievementsManager.activate(killer, Achievements.TSJERNOBYL_II, 1);
-                    AchievementsManager.activate(killer, Achievements.TSJERNOBYL_III, 1);
+                    //AchievementsManager.activate(killer, Achievements.TSJERNOBYL_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.TSJERNOBYL_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.TSJERNOBYL_III, 1);
                 }
 
                 case VETION, VETION_REBORN -> {
-                    AchievementsManager.activate(killer, Achievements.VETION_I, 1);
-                    AchievementsManager.activate(killer, Achievements.VETION_II, 1);
-                    AchievementsManager.activate(killer, Achievements.VETION_III, 1);
+                    //AchievementsManager.activate(killer, Achievements.VETION_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.VETION_II, 1);
+                   // AchievementsManager.activate(killer, Achievements.VETION_III, 1);
                 }
 
                 case VENENATIS_6610 -> {
                     killer.getTaskMasterManager().increase(Tasks.VENENATIS);
-                    AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_I, 1);
-                    AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_II, 1);
-                    AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_III, 1);
+                  //  AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_I, 1);
+                    //AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_II, 1);
+                    //AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_III, 1);
                 }
 
                 case CALLISTO_6609 -> {
                     killer.getTaskMasterManager().increase(Tasks.CALLISTO);
-                    AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_I, 1);
-                    AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_II, 1);
-                    AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_III, 1);
+                    //AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_I, 1);
+                   // AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_II, 1);
+                    //AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_III, 1);
                 }
 
                 case ZULRAH, ZULRAH_2043, ZULRAH_2044 -> {
-                    AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_I, 1);
-                    AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_II, 1);
-                    AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_III, 1);
-                }
-
-                case VORKATH_8061 -> {
-                    AchievementsManager.activate(killer, Achievements.VORKY_I, 1);
-                    AchievementsManager.activate(killer, Achievements.VORKY_II, 1);
+                    handleZulrahAchievement(killer);
                 }
 
                 case BATTLE_MAGE, BATTLE_MAGE_1611, BATTLE_MAGE_1612 -> {
-                    AchievementsManager.activate(killer, Achievements.MAGE_ARENA_I, 1);
+                    /*AchievementsManager.activate(killer, Achievements.MAGE_ARENA_I, 1);
                     AchievementsManager.activate(killer, Achievements.MAGE_ARENA_II, 1);
                     AchievementsManager.activate(killer, Achievements.MAGE_ARENA_III, 1);
-                    AchievementsManager.activate(killer, Achievements.MAGE_ARENA_IV, 1);
+                    AchievementsManager.activate(killer, Achievements.MAGE_ARENA_IV, 1);*/
                 }
 
             }
@@ -376,9 +381,9 @@ public class NPCDeath {
             if (npc.id() == SCORPIA) {
                 killer.getTaskMasterManager().increase(Tasks.SCORPIA);
                 npc.clearAttrib(AttributeKey.SCORPIA_GUARDIANS_SPAWNED);
-                AchievementsManager.activate(killer, Achievements.BARK_SCORPION_I, 1);
+                /*AchievementsManager.activate(killer, Achievements.BARK_SCORPION_I, 1);
                 AchievementsManager.activate(killer, Achievements.BARK_SCORPION_II, 1);
-                AchievementsManager.activate(killer, Achievements.BARK_SCORPION_III, 1);
+                AchievementsManager.activate(killer, Achievements.BARK_SCORPION_III, 1);*/
                 World.getWorld().getNpcs().forEachInArea(new Area(3219, 3248, 10329, 10353), n -> {
                     if (n.id() == SCORPIAS_GUARDIAN) {
                         World.getWorld().unregisterNpc(n);
@@ -454,6 +459,15 @@ public class NPCDeath {
                 if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
                     commonCombatMethod.set(npc, killer);
                     commonCombatMethod.onDeath(killer, npc);
+                }
+
+                //rock crabs achievement
+                if (npc.def().name.equalsIgnoreCase("rock crab")) {
+                    handleRockCrabAchievements(killer);
+                }
+
+                if (npc.def().name.contains("Vorkath")) {
+                    handleVorkathAchievements(killer);
                 }
 
                 //Rock crabs
@@ -540,6 +554,56 @@ public class NPCDeath {
             SlayerPartner.reward(killer, npc);
         }*/
 
+    }
+
+    private static void handleVorkathAchievements(Player killer) {
+        AchievementsManager.activate(killer, Achievements.VORKY_I, 1);
+        AchievementsManager.activate(killer, Achievements.VORKY_II, 1);
+    }
+
+    private static void handleRockCrabAchievements(Player killer) {
+        AchievementsManager.activate(killer, Achievements.CRABBY_1, 1);
+        AchievementsManager.activate(killer, Achievements.CRABBY_2, 1);
+        AchievementsManager.activate(killer, Achievements.CRABBY_3, 1);
+    }
+
+    private static void handleRevenantsAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_I, 1);
+        AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_II, 1);
+        AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_III, 1);
+        AchievementsManager.activate(killer, Achievements.REVENANT_HUNTER_IV, 1);
+    }
+
+    private static void handleGodwarsAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.GODWARS_I, 1);
+        AchievementsManager.activate(killer, Achievements.GODWARS_II, 1);
+        AchievementsManager.activate(killer, Achievements.GODWARS_III, 1);
+    }
+
+    private static void handleScurriusAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.SCURRIUS_I, 1);
+        AchievementsManager.activate(killer, Achievements.SCURRIUS_II, 1);
+        AchievementsManager.activate(killer, Achievements.SCURRIUS_III, 1);
+    }
+
+    private static void handleNexAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.NEX_I, 1);
+        AchievementsManager.activate(killer, Achievements.NEX_II, 1);
+        AchievementsManager.activate(killer, Achievements.NEX_III, 1);
+    }
+
+    private static void handleZulrahAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_I, 1);
+        AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_II, 1);
+        AchievementsManager.activate(killer, Achievements.SNAKE_CHARMER_III, 1);
+    }
+
+    private static void handleBarrowsBrotherAchievement(Player killer) {
+        AchievementsManager.activate(killer, Achievements.BARROWS_I, 1);
+        AchievementsManager.activate(killer, Achievements.BARROWS_II, 1);
+        AchievementsManager.activate(killer, Achievements.BARROWS_III, 1);
+        AchievementsManager.activate(killer, Achievements.BARROWS_IV, 1);
+        AchievementsManager.activate(killer, Achievements.BARROWS_V, 1);
     }
 
     private static boolean unregisterOnDeath(int npcId) {

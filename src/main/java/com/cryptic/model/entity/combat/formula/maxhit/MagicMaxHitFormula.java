@@ -143,16 +143,16 @@ public class MagicMaxHitFormula {
 
         double magicDamageBonus = calculateMagicDamageBonus(player) / 100.0;
 
-        baseMaxHit *= (1 + magicDamageBonus);
-        baseMaxHit = (int) Math.floor(baseMaxHit);
+        baseMaxHit *= (int) (1 + magicDamageBonus);
+        baseMaxHit = (int) (double) baseMaxHit;
 
         if (!player.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-            baseMaxHit *= getSlayerBonus(player);
-            baseMaxHit = (int) Math.floor(baseMaxHit);
+            baseMaxHit *= (int) getSlayerBonus(player);
+            baseMaxHit = (int) (double) baseMaxHit;
         }
 
-        baseMaxHit *= getTomeBonus(player, spell);
-        baseMaxHit = (int) Math.floor(baseMaxHit);
+        baseMaxHit *= (int) getTomeBonus(player, spell);
+        baseMaxHit = (int) (double) baseMaxHit;
 
         return baseMaxHit;
     }

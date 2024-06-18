@@ -162,6 +162,9 @@ public class ItemDefinition implements Definition {
                 stackable = 1;
                 notelink = 0;
             }
+            case BOX_OF_VALOR -> {
+                notelink = 0;
+            }
             case DONATOR_TICKET -> {
                 name = "Donator Ticket";
                 stackable = 1;

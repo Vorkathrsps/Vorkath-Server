@@ -211,96 +211,74 @@ public class PlayerKillingRewards {
             return;
         }
 
-        AchievementsManager.activate(killer, Achievements.PVP_I, 1);
-        AchievementsManager.activate(killer, Achievements.PVP_II, 1);
-        AchievementsManager.activate(killer, Achievements.PVP_III, 1);
-
 
         boolean usedSpecialAttack = killer.getAttribOr(AttributeKey.SPECIAL_ATTACK_USED, false);
-
-        if (!usedSpecialAttack) {
-            AchievementsManager.activate(killer, Achievements.KEEP_IT_100_I, 1);
-            AchievementsManager.activate(killer, Achievements.KEEP_IT_100_II, 1);
-            AchievementsManager.activate(killer, Achievements.KEEP_IT_100_III, 1);
-        }
 
         boolean wearing_body = killer.getEquipment().hasChest();
         boolean wearing_legs = killer.getEquipment().hasLegs();
         boolean wielding_weapon = killer.getEquipment().hasWeapon();
 
-        if (!wielding_weapon) {
-            AchievementsManager.activate(killer, Achievements.PUNCHING_BAGS_I, 1);
-            AchievementsManager.activate(killer, Achievements.PUNCHING_BAGS_II, 1);
-            AchievementsManager.activate(killer, Achievements.PUNCHING_BAGS_III, 1);
-        }
-
-        if (!wearing_body && !wearing_legs) {
-            AchievementsManager.activate(killer, Achievements.AMPUTEE_ANNIHILATION_I, 1);
-            AchievementsManager.activate(killer, Achievements.AMPUTEE_ANNIHILATION_II, 1);
-            AchievementsManager.activate(killer, Achievements.AMPUTEE_ANNIHILATION_III, 1);
-        }
-
         //Killer needs killstreak of +25 to unlock
         int killstreak = killer.getAttribOr(AttributeKey.KILLSTREAK, 0);
         if (killstreak >= 25) {
-            AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_I, 1);
+          //  AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_I, 1);
         }
 
         //Killer needs killstreak of +50 to unlock
         if (killstreak >= 50) {
-            AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_II, 1);
+          //  AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_II, 1);
         }
         //Killer needs to end a killstreak of +50 to unlock
         int target_killstreak = target.getAttribOr(AttributeKey.KILLSTREAK, 0);
         if (target_killstreak >= 50) {
-            AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_III, 1);
+         //   AchievementsManager.activate(killer, Achievements.BLOODTHIRSTY_III, 1);
         }
 
         int wilderness_killstreak = (Integer) killer.getAttribOr(AttributeKey.WILDERNESS_KILLSTREAK, 0) + 1;
         if (wilderness_killstreak >= 5) {
-            AchievementsManager.activate(killer, Achievements.SURVIVOR_I, 1);
+           // AchievementsManager.activate(killer, Achievements.SURVIVOR_I, 1);
         }
 
         if (wilderness_killstreak >= 10) {
-            AchievementsManager.activate(killer, Achievements.SURVIVOR_II, 1);
+           // AchievementsManager.activate(killer, Achievements.SURVIVOR_II, 1);
         }
 
         if (WildernessArea.getWildernessLevel(killer.tile()) >= 30) {
-            AchievementsManager.activate(killer, Achievements.DEEP_WILD_I, 1);
-            AchievementsManager.activate(killer, Achievements.DEEP_WILD_II, 1);
-            AchievementsManager.activate(killer, Achievements.DEEP_WILD_III, 1);
+            //AchievementsManager.activate(killer, Achievements.DEEP_WILD_I, 1);
+           // AchievementsManager.activate(killer, Achievements.DEEP_WILD_II, 1);
+           // AchievementsManager.activate(killer, Achievements.DEEP_WILD_III, 1);
         }
 
         if (WildernessArea.getWildernessLevel(killer.tile()) >= 50) {
-            AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_I, 1);
-            AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_II, 1);
-            AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_III, 1);
+            //AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_I, 1);
+           // AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_II, 1);
+           // AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_III, 1);
         }
 
         int combatLevel = killer.getSkills().combatLevel();
         int defenceLevel = killer.getSkills().level(Skills.DEFENCE);
 
         if (defenceLevel == 1 && combatLevel >= 80) {
-            AchievementsManager.activate(killer, Achievements.PURE_I, 1);
-            AchievementsManager.activate(killer, Achievements.PURE_II, 1);
-            AchievementsManager.activate(killer, Achievements.PURE_III, 1);
-            AchievementsManager.activate(killer, Achievements.PURE_IV, 1);
+           // AchievementsManager.activate(killer, Achievements.PURE_I, 1);
+           // AchievementsManager.activate(killer, Achievements.PURE_II, 1);
+           // AchievementsManager.activate(killer, Achievements.PURE_III, 1);
+           // AchievementsManager.activate(killer, Achievements.PURE_IV, 1);
         }
 
         if (defenceLevel == 45 && combatLevel >= 95) {
-            AchievementsManager.activate(killer, Achievements.ZERKER_I, 1);
-            AchievementsManager.activate(killer, Achievements.ZERKER_II, 1);
-            AchievementsManager.activate(killer, Achievements.ZERKER_III, 1);
-            AchievementsManager.activate(killer, Achievements.ZERKER_IV, 1);
+           // AchievementsManager.activate(killer, Achievements.ZERKER_I, 1);
+           // AchievementsManager.activate(killer, Achievements.ZERKER_II, 1);
+           // AchievementsManager.activate(killer, Achievements.ZERKER_III, 1);
+           // AchievementsManager.activate(killer, Achievements.ZERKER_IV, 1);
         }
 
         if (CombatConstants.wearingFullDharoks(killer)) {
             if (killer.hp() < 25) {
-                AchievementsManager.activate(killer, Achievements.DHAROK_BOMBER_I, 1);
+              //  AchievementsManager.activate(killer, Achievements.DHAROK_BOMBER_I, 1);
             }
 
             if (killer.hp() < 15) {
-                AchievementsManager.activate(killer, Achievements.DHAROK_BOMBER_II, 1);
+              //  AchievementsManager.activate(killer, Achievements.DHAROK_BOMBER_II, 1);
             }
         }
     }

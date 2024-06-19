@@ -26,8 +26,18 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public class Pickpocketing extends PacketInteraction {
 
+    final int[] HAM_MEMBERS = {2540, 2541, 4524, 4522, 4523, 4526};
+
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
+        if (option == 1) {
+            for (int hamMember : HAM_MEMBERS) {
+                if (npc.id() == hamMember) {
+                    pickpocket(player, npc, PickPocket.HAM);
+                    return true;
+                }
+            }
+        }
         if (option == 2) {
             NpcDefinition npcDef = NpcDefinition.cached.get(npc.id());
             for (PickPocket pickpocket : PickPocket.values()) {
@@ -46,7 +56,6 @@ public class Pickpocketing extends PacketInteraction {
                         return true;
                     }
 
-                    final int[] HAM_MEMBERS = {2540, 2541};
                     for (int hamMember : HAM_MEMBERS) {
                         if (npc.id() == hamMember) {
                             pickpocket(player, npc, PickPocket.HAM);

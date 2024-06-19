@@ -13,6 +13,8 @@ public class MysteryBox extends PacketInteraction {
         if (option == 1) {
             if (item.getId() == CustomItemIdentifiers.BOX_OF_VALOR) {
                 return CollectionItemHandler.rollBoxReward(player, item.getId());
+            } else if (item.getId() == ItemIdentifiers.MYSTERY_BOX) {
+                return CollectionItemHandler.rollBoxReward(player, item.getId());
             } else if (item.getId() == ItemIdentifiers.BOUNTY_CRATE_TIER_1) {
                 return CollectionItemHandler.rollBoxReward(player, item.getId());
             } else if (item.getId() == ItemIdentifiers.BOUNTY_CRATE_TIER_2) {

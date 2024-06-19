@@ -245,7 +245,7 @@ public class DwarfCannon extends OwnedObject {
             if (!n.tile().isWithinDistance(getCorrectedTile(this.tile()), CANNON_RANGE)) continue;
             var def = cached.get(n.getId());
             if (def.isPet || !def.isInteractable || def.actions[1] == null) continue;
-            if (!MultiwayCombat.includes(n.tile())) continue;
+            if (!MultiwayCombat.includes(n.tile()) && n.getCombat().getTarget() != this.getOwner()) continue;
             potentialTargets.add(n);
         }
         return potentialTargets;

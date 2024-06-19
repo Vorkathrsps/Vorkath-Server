@@ -58,14 +58,14 @@ public class ShopUtility extends ItemIdentifiers {
     /**
      * Modern Shops
      */
-    public static int SHOP_CONFIG_FRAME_ID = 1206;
-    public static int GUNJORN_WEAPON_SHOP_ID = 33;
-    public static int AUBURYS_MAGIC_SHOP_ID = 23;
-    public static int HORVIKS_ARMOR_SHOP_ID = 32;
-    public static int LOWES_ARCHERY_SHOP_ID = 35;
-    public static int PKP_SHOP_ID = 1600;
-    public static int VOTE_SHOP_ID = 6;
-    public static int DONATOR_STORE_ID = 44;
-    public static int KAQEMEEX_POTIONS_SHOP_ID = 36;
-    public static int GENERAL_STORE_SHOP_ID = 1;
+    public static final int SHOP_CONFIG_FRAME_ID = 1206;
+    public static final int GUNJORN_WEAPON_SHOP_ID = 33;
+    public static final int AUBURYS_MAGIC_SHOP_ID = 23;
+    public static final int HORVIKS_ARMOR_SHOP_ID = 32;
+    public static final int LOWES_ARCHERY_SHOP_ID = 35;
+    public static final int PKP_SHOP_ID = 1600;
+    public static final int VOTE_SHOP_ID = 6;
+    public static final int DONATOR_STORE_ID = 44;
+    public static final int KAQEMEEX_POTIONS_SHOP_ID = 36;
+    public static final int GENERAL_STORE_SHOP_ID = 1;
 }

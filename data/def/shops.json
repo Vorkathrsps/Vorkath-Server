@@ -1111,7 +1111,7 @@
     "shopId": 351,
     "name": "Skilling Shop",
     "currency": "COINS",
-    "noiron": true,
+    "noiron": false,
     "restock": true,
     "sellType": "NONE",
     "scroll": 1000,

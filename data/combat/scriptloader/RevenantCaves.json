@@ -142,6 +142,7 @@
     "slayerlvl": 1,
     "attackspeed": 4,
     "aggressive": true,
+    "combattype": "MELEE",
     "deathlen": 2,
     "stats": {
       "hitpoints": 120,

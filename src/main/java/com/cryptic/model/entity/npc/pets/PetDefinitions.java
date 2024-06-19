@@ -115,7 +115,8 @@ public enum PetDefinitions {
     BARON(ItemIdentifiers.BARON, 12155, UNLOCKED_BARON),
     VIATHAN(ItemIdentifiers.LILVIATHAN, 12156, UNLOCKED_VIATHAN),
     BUTCH(ItemIdentifiers.BUTCH, 12154, UNLOCKED_BUTCH),
-    MUPHIN(ItemIdentifiers.MUPHIN, 12005, UNLOCKED_MUPHIN);
+    MUPHIN(ItemIdentifiers.MUPHIN, 12005, UNLOCKED_MUPHIN),
+    BABY_MOLE(ItemIdentifiers.BABY_MOLE, NpcIdentifiers.BABY_MOLE_6651, UNLOCKED_BABY_MOLE);
 
     public int item;
     public int npc;

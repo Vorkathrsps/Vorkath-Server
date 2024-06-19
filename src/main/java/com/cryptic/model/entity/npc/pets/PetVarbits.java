@@ -64,4 +64,5 @@ public class PetVarbits {
     public static final int UNLOCKED_VIATHAN = 6107;
     public static final int UNLOCKED_BUTCH = 6108;
     public static final int UNLOCKED_MUPHIN = 6109;
+    public static final int UNLOCKED_BABY_MOLE = 6110;
 }

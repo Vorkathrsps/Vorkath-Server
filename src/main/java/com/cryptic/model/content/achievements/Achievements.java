@@ -30,8 +30,8 @@ public enum Achievements {
     SLAYER_5(80615, "Slayer V", "Complete 75 Slayer Tasks.", 75, Difficulty.EASY, new Item(COINS_995, 50_000_000), new Item(DOUBLE_XP_LAMP, 5), new Item(DOUBLE_DROPS_LAMP, 2), new Item(BOX_OF_VALOR)),
     SIGIL_HUNTER(80616, "Sigil Hunter", "Unlock the Attuned Luck slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP), new Item(DOUBLE_DROPS_LAMP)),
     WHAT_A_BLESSING(80617, "What A Blessing", "Unlock the Ancient Blessing slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP), new Item(DOUBLE_DROPS_LAMP)),
-    GRIM(80618, "Grim", "Unlock the Death's Touch slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP, 1), new Item(DOUBLE_DROPS_LAMP, 1)),
-    GREEDY(80619, "Greedy", "Unlock the Slayer's Greed slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP, 1), new Item(DOUBLE_DROPS_LAMP, 1)),
+    GRIM(80618, "Grim", "Unlock the Death's Touch slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP), new Item(DOUBLE_DROPS_LAMP)),
+    GREEDY(80619, "Greedy", "Unlock the Slayer's Greed slayer perk.", 1, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_XP_LAMP), new Item(DOUBLE_DROPS_LAMP)),
     WHATS_INSIDE_I(80620, "What's Inside I", "Open the Crystal chest 10 times.", 10, Difficulty.EASY, new Item(CRYSTAL_KEY, 5)),
     WHATS_INSIDE_II(80621, "What's Inside II", "Open the Crystal chest 50 times.", 50, Difficulty.MED, new Item(CRYSTAL_KEY, 10)),
     WHATS_INSIDE_III(80622, "What's Inside III", "Open the Crystal chest 100 times.", 100, Difficulty.HARD, new Item(CRYSTAL_KEY, 15)),
@@ -45,9 +45,9 @@ public enum Achievements {
     SKILLER_II(80630, "Skiller II", "Earn a total level of 1000.", 1, Difficulty.MED, new Item(DOUBLE_XP_LAMP, 4), new Item(BOX_OF_VALOR)),
     SKILLER_III(80631, "Skiller III", "Earn a total level of 1500.", 1, Difficulty.HARD, new Item(DOUBLE_XP_LAMP, 6), new Item(BOX_OF_VALOR, 2)),
     SKILLER_IV(80632, "Skiller IV", "Earn level 99 in all skills, with the exception of construction.", 1, Difficulty.HARD, new Item(DOUBLE_XP_LAMP, 5), new Item(BOX_OF_VALOR, 10)),
-    DAMAGE_DEALER_I(80633, "Damage Dealer I", "Deal 5,000 damage.", 5000, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR, 1)),
-    DAMAGE_DEALER_II(80634, "Damage Dealer II", "Deal 10,000 damage.", 10000, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(BOX_OF_VALOR, 1)),
-    DAMAGE_DEALER_III(80635, "Damage Dealer III", "Deal 15,000 damage.", 15000, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(BOX_OF_VALOR, 1)),
+    DAMAGE_DEALER_I(80633, "Damage Dealer I", "Deal 5,000 damage.", 5000, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BOX_OF_VALOR)),
+    DAMAGE_DEALER_II(80634, "Damage Dealer II", "Deal 10,000 damage.", 10000, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(BOX_OF_VALOR)),
+    DAMAGE_DEALER_III(80635, "Damage Dealer III", "Deal 15,000 damage.", 15000, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(BOX_OF_VALOR)),
     DAMAGE_DEALER_IV(80636, "Damage Dealer IV", "Deal 20,000 damage.", 20000, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(BOX_OF_VALOR, 2)),
     BARROWS_I(80637, "Barrows I", "Kill 15 barrows brothers.", 15, Difficulty.EASY, new Item(TORAGS_ARMOUR_SET), new Item(COINS_995, 5_000_000)),
     BARROWS_II(80638, "Barrows II", "Kill 50 barrows brothers.", 50, Difficulty.MED, new Item(GUTHANS_ARMOUR_SET), new Item(COINS_995, 5_000_000)),
@@ -82,12 +82,12 @@ public enum Achievements {
     WOODCUTTING_II(80667, "Woodcutting II", "Cut 100 willow tree's.", 100, Difficulty.MED, new Item(COINS_995, 1_250_000), new Item(DOUBLE_XP_LAMP, 2)),
     WOODCUTTING_III(80668, "Woodcutting III", "Cut 250 yew tree's.", 250, Difficulty.MED, new Item(COINS_995, 2_500_000), new Item(DOUBLE_XP_LAMP, 2)),
     WOODCUTTING_IV(80669, "Woodcutting IV", "Cut 500 magic tree's.", 500, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(DOUBLE_XP_LAMP, 2)),
-    CRAFTING_I(80670, "Crafting I", "Cut 50 sapphire gems.", 50, Difficulty.EASY, new Item(COINS_995, 850_000), new Item(DOUBLE_XP_LAMP, 1)),
-    CRAFTING_II(80671, "Crafting II", "Cut 100 emerald gems.", 100, Difficulty.MED, new Item(COINS_995, 1_250_000), new Item(DOUBLE_XP_LAMP, 1)),
-    CRAFTING_III(80672, "Crafting III", "Cut 250 ruby gems.", 250, Difficulty.MED, new Item(COINS_995, 2_500_000), new Item(DOUBLE_XP_LAMP, 1)),
-    CRAFTING_IV(80673, "Crafting IV", "Cut 500 diamond gems.", 500, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(DOUBLE_XP_LAMP, 1)),
-    REVENANT_HUNTER_I(80674, "Revenant Hunter I", "Kill 250 revenants.", 250, Difficulty.EASY, new Item(ANCIENT_EMBLEM, 1), new Item(DOUBLE_DROPS_LAMP, 1)),
-    REVENANT_HUNTER_II(80675, "Revenant Hunter II", "Kill 500 revenants.", 500, Difficulty.MED, new Item(ANCIENT_STATUETTE, 1), new Item(DOUBLE_DROPS_LAMP, 1)),
+    CRAFTING_I(80670, "Crafting I", "Cut 50 sapphire gems.", 50, Difficulty.EASY, new Item(COINS_995, 850_000), new Item(DOUBLE_XP_LAMP)),
+    CRAFTING_II(80671, "Crafting II", "Cut 100 emerald gems.", 100, Difficulty.MED, new Item(COINS_995, 1_250_000), new Item(DOUBLE_XP_LAMP)),
+    CRAFTING_III(80672, "Crafting III", "Cut 250 ruby gems.", 250, Difficulty.MED, new Item(COINS_995, 2_500_000), new Item(DOUBLE_XP_LAMP)),
+    CRAFTING_IV(80673, "Crafting IV", "Cut 500 diamond gems.", 500, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(DOUBLE_XP_LAMP)),
+    REVENANT_HUNTER_I(80674, "Revenant Hunter I", "Kill 250 revenants.", 250, Difficulty.EASY, new Item(ANCIENT_EMBLEM, 1), new Item(DOUBLE_DROPS_LAMP)),
+    REVENANT_HUNTER_II(80675, "Revenant Hunter II", "Kill 500 revenants.", 500, Difficulty.MED, new Item(ANCIENT_STATUETTE, 1), new Item(DOUBLE_DROPS_LAMP)),
     REVENANT_HUNTER_III(80676, "Revenant Hunter III", "Kill 750 revenants.", 750, Difficulty.HARD, new Item(ANCIENT_MEDALLION, 1), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP, 2)),
     REVENANT_HUNTER_IV(80677, "Revenant Hunter IV", "Kill 1000 revenants.", 1000, Difficulty.HARD, new Item(ANCIENT_RELIC, 1), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP, 2)),
     VORKY_I(80678, "Vorkath I", "Kill 50 Vorkaths.", 50, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(VORKATHS_HEAD_21907), new Item(BLUE_DRAGONHIDE + 1, 50), new Item(SUPERIOR_DRAGON_BONES + 1, 50)),
@@ -107,15 +107,18 @@ public enum Achievements {
     TOB_I(80692, "Theatre I", "Complete 15 Theatre Of Blood raids.", 15, Difficulty.HARD, new Item(COINS_995, 10_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 5)),
     TOB_II(80693, "Theatre II", "Complete 50 Theatre Of Blood raids.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 5)),
     TOB_III(80694, "Theatre III", "Complete 100 Theatre Of Blood raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 5), new Item(DOUBLE_DROPS_LAMP, 5)),
-    COX_I(80695, "Chambers I", "Complete 15 Chambers of Xeric raids.", 15, Difficulty.HARD, new Item(COINS_995, 10_000_000), new Item(BOX_OF_VALOR, 1), new Item(DOUBLE_DROPS_LAMP, 2)),
-    COX_II(80696, "Chambers II", "Complete 50 Chambers of Xeric raids.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(BOX_OF_VALOR, 1), new Item(DOUBLE_DROPS_LAMP, 2)),
-    COX_III(80697, "Chambers III", "Complete 100 Chambers of Xeric raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 2));
+    COX_I(80695, "Chambers I", "Complete 15 Chambers of Xeric raids.", 15, Difficulty.HARD, new Item(COINS_995, 10_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP, 2)),
+    COX_II(80696, "Chambers II", "Complete 50 Chambers of Xeric raids.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP, 2)),
+    COX_III(80697, "Chambers III", "Complete 100 Chambers of Xeric raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 2)),
+    RUN_THE_WILD(80698, "Run The Wild", "Kill any Wilderness boss 100 times.", 100, Difficulty.HARD, new Item(COINS_995, 15_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP), new Item(DOUBLE_XP_LAMP)),
+    HYDRATE(80699, "Hydrate", "Kill Alchemical Hydra 100 times.", 100, Difficulty.HARD, new Item(COINS_995, 15_000_000), new Item(BOX_OF_VALOR), new Item(DOUBLE_DROPS_LAMP, 2), new Item(DOUBLE_XP_LAMP, 2)),
+    WHATS_KRAKEN(80700, "What's Kraken?", "Kill The Kraken 150 times.", 100, Difficulty.HARD, new Item(COINS_995, 15_000_000), new Item(BOX_OF_VALOR), new Item(TRIDENT_OF_THE_SEAS_FULL, 1), new Item(DOUBLE_DROPS_LAMP, 2));//COMPLETIONIST(80697, "Chambers III", "Complete 100 Chambers of Xeric raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 2));
 
     public static List<Achievements> asList(Difficulty difficulty) {
         return Arrays.stream(values()).filter(Objects::nonNull).filter(a -> a.difficulty == difficulty).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
     }
 
-    public int child;
+    public final int child;
     @Getter
     private final String name;
     @Getter
@@ -126,17 +129,7 @@ public enum Achievements {
     private final Difficulty difficulty;
     @Getter
     private final Item[] reward;
-
     public static final Achievements[] VALUES = values();
-
-    Achievements(String name, String description, int completeAmount, Difficulty difficulty, Item... reward) {
-        this.name = name;
-        this.description = description;
-        this.completeAmount = completeAmount;
-        this.rewardString = "";
-        this.difficulty = difficulty;
-        this.reward = reward;
-    }
 
     Achievements(int child, String name, String description, int completeAmount, Difficulty difficulty, Item... reward) {
         this.child = child;

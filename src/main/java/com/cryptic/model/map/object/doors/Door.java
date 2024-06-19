@@ -22,6 +22,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 // 0 = east, 1 = south \\
 // 2 = west, 3 = north \\
 // ~~~~~~~~~~~~~~~~~~~~ \\
+
 /**
  * @author Runite team
  */
@@ -33,6 +34,16 @@ public class Door {
     private static final List<Integer> IGNORE = Arrays.asList(GUILD_DOOR_14910, DOOR_24309, DOOR_11726, DOOR_11727, GATE_28851, GATE_28852, 26502, 26503, 26504, 26505, DOOR_20925, ALCHEMICAL_DOOR, ALCHEMICAL_DOOR_34554);
 
     public static void handle(Player player, GameObject obj) {
+        if (obj.getId() == 26760) {
+            final int yPos = player.getY();
+            if (yPos == 3945) {
+                player.teleport(new Tile(player.getX(), yPos - 1));
+            }
+            if (yPos == 3944) {
+                player.teleport(new Tile(player.getX(), yPos + 1));
+            }
+            return;
+        }
         handle(player, obj, false);
     }
 
@@ -47,9 +58,9 @@ public class Door {
                 player.teleport(2888, player.getAbsY());
                 return;
             }
-            player.message("Unhandled door, report this to a staff member! ID: "+def.id);
+            player.message("Unhandled door, report this to a staff member! ID: " + def.id);
         }
-        if (def.doorOppositeId == -1) {
+        if (!skipJammedCheck && def.doorOppositeId == -1) {
             player.message("The " + (def.gateType ? "gate" : "door") + " won't seem to budge.");
             return;
         }
@@ -384,7 +395,7 @@ public class Door {
                     diffDir++;
                 } else {
                     diffDir--;
-                    if(dir == 0) {
+                    if (dir == 0) {
                         diffX++;
                     }
                     if (dir == 2) {
@@ -498,7 +509,7 @@ public class Door {
         for (int i = 0; i < World.getWorld().definitions().total(ObjectDefinition.class); i++) {
             ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, i);
             var ignore = IGNORE.stream().anyMatch(id -> def.id == id);
-            if(ignore) {
+            if (ignore) {
                 continue;
             }
             if (def.id >= 26502 && def.id <= 26505) // gwd doors
@@ -520,7 +531,7 @@ public class Door {
                 setSound(def, 62, 60);
             }
 
-            if(def.id == 12657)
+            if (def.id == 12657)
                 def.doorOppositeId = 12658;
             else if (def.id == 12658)
                 def.doorOppositeId = 12657;

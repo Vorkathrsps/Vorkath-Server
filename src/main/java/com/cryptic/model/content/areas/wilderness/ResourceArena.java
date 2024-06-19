@@ -1,12 +1,14 @@
 package com.cryptic.model.content.areas.wilderness;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.content.skill.impl.mining.Mining;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.mining.Ore;
 import com.cryptic.model.content.skill.impl.mining.SkillingSuccess;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
@@ -33,7 +35,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.GATE_2
 public class ResourceArena extends PacketInteraction {
 
     private static final Area ARENA_BOUNDARIES = new Area(3174, 3924, 3196, 3944);
-    public static int[] ALLOWED_EXCHANGE = new int[] {440, 453, 444, 447, 449, 451, 1515, 1513, 11936, 11934, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 451, 13439, 10138};
+    public static int[] ALLOWED_EXCHANGE = new int[]{440, 453, 444, 447, 449, 451, 1515, 1513, 11936, 11934, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 451, 13439, 10138};
 
     private void swap(Player player, int original, int result) {
         int currency = GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995;
@@ -41,15 +43,15 @@ public class ResourceArena extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.OPTION, "Banknote "+player.inventory().count(original) + " "+new Item(original).name(), "Yes - "+player.inventory().count(original) * 50 + " "+name, "Cancel");
+                send(DialogueType.OPTION, "Banknote " + player.inventory().count(original) + " " + new Item(original).name(), "Yes - " + player.inventory().count(original) * 50 + " " + name, "Cancel");
                 setPhase(0);
             }
 
             @Override
             protected void select(int option) {
-                if(option == 1) {
-                    if(!player.inventory().contains(new Item(currency, player.inventory().count(original) * 50))) {
-                        DialogueManager.npcChat(player, Expression.VERY_SAD, 13, "Unfortunately, you don't have enough "+name, "right now to do that.");
+                if (option == 1) {
+                    if (!player.inventory().contains(new Item(currency, player.inventory().count(original) * 50))) {
+                        DialogueManager.npcChat(player, Expression.VERY_SAD, 13, "Unfortunately, you don't have enough " + name, "right now to do that.");
                     } else {
                         int num = player.inventory().count(original);
                         player.inventory().remove(new Item(currency, player.inventory().count(original) * 50));
@@ -73,7 +75,7 @@ public class ResourceArena extends PacketInteraction {
                             }
                         });
                     }
-                } else if(option == 2) {
+                } else if (option == 2) {
                     stop();
                 }
             }
@@ -82,20 +84,40 @@ public class ResourceArena extends PacketInteraction {
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if(npc.id() == ROCKS_6601) {
+        if (npc.id() == 6599) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    send(DialogueType.OPTION, "Would you like to enter the Resource Area?", "Yes", "No");
+                    setPhase(0);
+                }
+
+                @Override
+                protected void select(int option) {
+                    if (option == 1) {
+                        player.stepAbs(player.getAbsX(), -1, MovementQueue.StepType.FORCED_WALK);
+                        stop();
+                    } else if (option == 2) {
+                        stop();
+                    }
+                }
+            });
+        }
+        if (npc.id() == ROCKS_6601) {
             var pick = Mining.findPickaxe(player);
 
             if (pick.isEmpty()) {
                 player.message("You do not have a pickaxe which you have the Mining level to use.");
             } else {
                 if (player.getSkills().level(Skills.MINING) < 85) {
-                    DialogueManager.sendStatement(player,"You need a Mining level of 85 to mine this rock.");
+                    DialogueManager.sendStatement(player, "You need a Mining level of 85 to mine this rock.");
                 } else {
                     Chain.bound(null).runFn(1, () -> player.message("You swing your pick at the rock."));
 
                     TaskManager.submit(player.loopTask = new Task("loop_skill_task_golem", 1) {
 
                         int internalTimer = 1;
+
                         @Override
                         protected void execute() {
                             player.animate(pick.get().anim);
@@ -150,94 +172,9 @@ public class ResourceArena extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if(obj.getId() == GATE_26760) {
-            if (option == 1) {
-                String name = GameServer.properties().pvpMode ? "BM" : "coins";
-                int itemId = GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995;
-                int amount = GameServer.properties().pvpMode ? 100 : 7500;
-
-                if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
-                    if (player.inventory().count(itemId) < amount) {
-                        player.message("You do not have enough "+name+" to enter the Arena.");
-                    } else {
-                        player.getDialogueManager().start(new Dialogue() {
-                            @Override
-                            protected void start(Object... parameters) {
-                                send(DialogueType.OPTION, "Pay "+amount+" "+name+" to enter?", "Yes", "No");
-                                setPhase(0);
-                            }
-
-                            @Override
-                            protected void select(int option) {
-                                if(option == 1) {
-                                    if (ObjectManager.exists(1548, new Tile(obj.tile().x, 3945))) {
-                                        return;
-                                    }
-                                    player.lockDelayDamage();
-                                    player.inventory().remove(new Item(itemId, amount));
-                                    player.message("You pay "+amount+" "+name+" and enter the resource arena.");
-                                    GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                                    GameObject spawned = new GameObject(1548, new Tile(obj.tile().x,3945), obj.getType(),2);
-                                    ObjectManager.removeObj(obj);
-                                    ObjectManager.addObj(spawned);
-                                    player.getMovementQueue().walkTo(new Tile(3184, 3944));
-                                    Chain.bound(player).runFn(2, () -> {
-                                        ObjectManager.removeObj(spawned);
-                                        ObjectManager.addObj(old);
-                                        player.unlock();
-                                    });
-                                    stop();
-                                } else if(option == 2) {
-                                    stop();
-                                }
-                            }
-                        });
-                    }
-                } else if (player.tile().y == 3944 && player.tile().y <= obj.tile().y) {
-                    if (!player.tile().equals(obj.tile().transform(0, 0, 0))) {
-                        player.getMovementQueue().clear();
-                        player.getMovementQueue().walkTo(obj.tile().transform(0, 0, 0));
-                    }
-
-                    if (ObjectManager.exists(1548, new Tile(obj.tile().x, 3945))) {
-                        return true;
-                    }
-
-                    GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                    GameObject spawned = new GameObject(1548, new Tile(obj.tile().x, 3945), obj.getType(), 2);
-                    player.lockDelayDamage();
-                    ObjectManager.removeObj(old);
-                    ObjectManager.addObj(spawned);
-                    player.getMovementQueue().walkTo(new Tile(3184,  3945));
-                    Chain.bound(player).runFn(2, () -> {
-                        ObjectManager.removeObj(spawned);
-                        ObjectManager.addObj(old);
-                        player.unlock();
-                    });
-                } else if (player.tile().y == 3944 && player.tile().y <= obj.tile().y) {
-                    if (!player.tile().equals(obj.tile().transform(0, 0, 0))) {
-                        player.getMovementQueue().clear();
-                        player.getMovementQueue().walkTo(obj.tile().transform(0, 0, 0));
-                    }
-
-                    if (ObjectManager.exists(1548, new Tile(obj.tile().x, 3945))) {
-                        return true;
-                    }
-
-                    GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                    GameObject spawned = new GameObject(1548, new Tile(obj.tile().x, 3945), obj.getType(), 2);
-
-                    player.lockDelayDamage();
-                    ObjectManager.removeObj(old);
-                    ObjectManager.addObj(spawned);
-                    player.getMovementQueue().walkTo(new Tile(3184,  3945));
-                    Chain.bound(null).runFn(2, () -> {
-                        ObjectManager.removeObj(spawned);
-                        ObjectManager.addObj(old);
-                        player.unlock();
-                    });
-                }
-            } else if(option == 2) {
+        System.out.println("option="+option);
+        if (obj.getId() == GATE_26760) {
+           if (option == 2) {
                 if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
 
                     int count = 0;
@@ -259,5 +196,4 @@ public class ResourceArena extends PacketInteraction {
         }
         return false;
     }
-
 }

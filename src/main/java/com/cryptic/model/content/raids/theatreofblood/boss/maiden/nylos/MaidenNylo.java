@@ -38,8 +38,10 @@ public class MaidenNylo extends NPC {
         if (timer > 0) {
             timer--;
             if (timer == 0) {
-                maiden.healHit(this, this.hp());
-                die();
+                if (maiden != null && this.getCentrePosition().nextTo(maiden.getCentrePosition())) {
+                    maiden.healHit(this, this.hp());
+                    die();
+                }
             }
         }
 

@@ -806,56 +806,25 @@ public class Player extends Entity {
         this.putAttrib(SLAYER_WIDGET_TYPE, type);
     }
 
+    @Getter
     private final SlayerRewards slayerRewards = new SlayerRewards(this);
 
-    public SlayerRewards getSlayerRewards() {
-        return slayerRewards;
-    }
-
+    @Getter
     private final List<TitleUnlockRequirement.UnlockableTitle> unlockedTitles = new ArrayList<>();
 
-    public List<TitleUnlockRequirement.UnlockableTitle> getUnlockedTitles() {
-        return unlockedTitles;
-    }
-
+    @Getter
+    @Setter
     private TitleCategory currentCategory = TitleCategory.PKING;
+    @Getter
+    @Setter
     private AvailableTitle currentSelectedTitle;
+    @Getter
+    @Setter
     private TitleColour currentSelectedColour;
 
-    public TitleColour getCurrentSelectedColour() {
-        return currentSelectedColour;
-    }
-
-    public void setCurrentSelectedColour(TitleColour currentSelectedColour) {
-        this.currentSelectedColour = currentSelectedColour;
-    }
-
-    public AvailableTitle getCurrentSelectedTitle() {
-        return currentSelectedTitle;
-    }
-
-    public void setCurrentSelectedTitle(AvailableTitle currentSelectedTitle) {
-
-        this.currentSelectedTitle = currentSelectedTitle;
-    }
-
-    public TitleCategory getCurrentCategory() {
-        return currentCategory;
-    }
-
-    public void setCurrentCategory(TitleCategory currentCategory) {
-        this.currentCategory = currentCategory;
-    }
-
+    @Getter
+    @Setter
     private Optional<Skillable> skillable = Optional.empty();
-
-    public Optional<Skillable> getSkillable() {
-        return skillable;
-    }
-
-    public void setSkillable(Optional<Skillable> skillable) {
-        this.skillable = skillable;
-    }
 
     public int slayerTaskAmount() {
         return this.getAttribOr(AttributeKey.SLAYER_TASK_AMT, 0);
@@ -865,13 +834,10 @@ public class Player extends Entity {
         return this.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
     }
 
+    @Getter
     private final TaskMasterManager taskMasterManager = new TaskMasterManager(this);
 
-    public TaskMasterManager getTaskMasterManager() {
-        return taskMasterManager;
-    }
-
-    private Varps varps;
+    private final Varps varps;
 
     public Varps varps() {
         return varps;
@@ -880,11 +846,8 @@ public class Player extends Entity {
     /**
      * Our achieved skill levels
      */
+    @Getter
     private Skills skills;
-
-    public Skills getSkills() {
-        return skills;
-    }
 
     public void skills(Skills skills) {
         this.skills = skills;
@@ -905,78 +868,44 @@ public class Player extends Entity {
     }
 
 
+    @Getter
     private final CollectionLog collectionLog = new CollectionLog(this);
 
-    public CollectionLog getCollectionLog() {
-        return collectionLog;
-    }
-
+    @Setter
+    @Getter
     private Clan clan;
+    @Setter
+    @Getter
     private String clanChat;
+    @Setter
     private String savedClan;
+    @Setter
+    @Getter
     private String clanPromote;
-
-    public Clan getClan() {
-        return clan;
-    }
-
-    public void setClan(Clan clan) {
-        this.clan = clan;
-    }
 
     public String getSavedClan() {
         return savedClan;
     }
 
-    public void setSavedClan(String savedClan) {
-        this.savedClan = savedClan;
-    }
-
-    public String getClanPromote() {
-        return clanPromote;
-    }
-
-    public void setClanPromote(String clanPromote) {
-        this.clanPromote = clanPromote;
-    }
-
-    public String getClanChat() {
-        return clanChat;
-    }
-
-    public void setClanChat(String clanChat) {
-        this.clanChat = clanChat;
-    }
-
     public ChatBoxItemDialogue chatBoxItemDialogue;
 
-    //This task keeps looping until the player action has been completed.
     public Task loopTask;
 
     /**
      * Their skull icon identification
      */
+    @Setter
+    @Getter
     private SkullType skullType = SkullType.NO_SKULL;
-
-    public SkullType getSkullType() {
-        return skullType;
-    }
-
-    public void setSkullType(SkullType skullType) {
-        this.skullType = skullType;
-    }
 
     /**
      * The map which was recently sent to show
      */
+    @Setter
     private Tile activeMap;
 
     public Tile activeMap() {
         return activeMap;
-    }
-
-    public void setActiveMap(Tile tile) {
-        activeMap = tile;
     }
 
     public Area activeArea() {
@@ -991,15 +920,9 @@ public class Player extends Entity {
         return activeArea().contains(new Tile(x, z));
     }
 
+    @Setter
+    @Getter
     private boolean[] savedDuelConfig = new boolean[22]; // 22 rules
-
-    public boolean[] getSavedDuelConfig() {
-        return savedDuelConfig;
-    }
-
-    public void setSavedDuelConfig(boolean[] savedDuelConfig) {
-        this.savedDuelConfig = savedDuelConfig;
-    }
 
     public void setSavedDuelConfig(int index, boolean value) {
         this.savedDuelConfig[index] = value;
@@ -1018,11 +941,8 @@ public class Player extends Entity {
 
     public Map<Integer, Integer> commonStringsCache;
 
+    @Getter
     private final InterfaceManager interfaceManager = new InterfaceManager(this);
-
-    public InterfaceManager getInterfaceManager() {
-        return interfaceManager;
-    }
 
     public final RuntimeException initializationSource;
 
@@ -1278,10 +1198,10 @@ public class Player extends Entity {
 
     private String captureState() {
         StringBuilder sb = new StringBuilder();
-        sb.append(username + " state: ");
+        sb.append(username).append(" state: ");
         sb.append(String.format("ded %s, lock %s, moving %s", dead(), lockState(), getMovementQueue().isMoving()));
-        sb.append(" inv: " + Arrays.toString(inventory.getValidItems().stream().map(i -> i.toShortString()).toArray()));
-        sb.append(" equipment: " + Arrays.toString(equipment.getValidItems().stream().map(i -> i.toShortString()).toArray()));
+        sb.append(" inv: ").append(Arrays.toString(inventory.getValidItems().stream().map(i -> i.toShortString()).toArray()));
+        sb.append(" equipment: " + Arrays.toString(equipment.getValidItems().stream().map(Item::toShortString).toArray()));
         return sb.toString();
     }
 

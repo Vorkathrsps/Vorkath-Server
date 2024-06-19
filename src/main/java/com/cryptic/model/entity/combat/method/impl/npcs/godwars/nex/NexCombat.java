@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -889,6 +890,7 @@ public class NexCombat extends CommonCombatMethod {
         list.stream().limit(amountOfPlayersToGetDrop).forEach(e -> {
             var key = e.getKey();
             Player player = (Player) key;
+            AchievementsManager.handleNexAchievement(player);
             if (nex.tile().isWithinDistance(player.tile(), 12)) {
                 ItemDrops drop = new ItemDrops();
                 drop.rollTheDropTable(player, nex);

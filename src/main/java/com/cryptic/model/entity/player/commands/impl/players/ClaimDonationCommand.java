@@ -31,15 +31,13 @@ public class ClaimDonationCommand implements Command {
         return GameEngine.getInstance().submitLowPriority(() -> {
             try {
                 final Transaction[] details = transaction.getTransactions();
-                if (details.length == 0) {
-                    return donationRecords;
-                }
                 for (var order : details) {
-                    if (order.message.contains("There are currently no items to claim.")) break;
-                    final DonationRecord rewardRecord = new DonationRecord(order.product_id, order.product_amount, order.amount_purchased, order.product_price, order.message);
-                    donationRecords.add(rewardRecord);
+                    if (order.message == null) {
+                        final DonationRecord rewardRecord = new DonationRecord(order.product_id, order.product_amount, order.amount_purchased, order.product_price, order.message);
+                        donationRecords.add(rewardRecord);
+                    }
                 }
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 throw new RuntimeException(e);
             }
             return donationRecords;
@@ -56,8 +54,8 @@ public class ClaimDonationCommand implements Command {
         Futures.addCallback(response, new FutureCallback<>() {
             @Override
             public void onSuccess(List<DonationRecord> result) {
-                GameEngine.getInstance().addSyncTask(() -> { // there now its game-thread safe, what about the getfuture ? i use a
-                   if (result.isEmpty()) {
+                GameEngine.getInstance().addSyncTask(() -> {
+                    if (result.isEmpty()) {
                         player.message(Color.RED.wrap("You currently don't have any items waiting. You must donate first!"));
                         return;
                     }
@@ -73,9 +71,12 @@ public class ClaimDonationCommand implements Command {
                         totalDonated += (int) totalValue;
                         checkDonatorBoss();
                     }
+
                     if (totalDonated >= 200) {
+                        totalDonated = 0;
                         spawnDonatorBoss();
                     }
+
                     player.putAttrib(AttributeKey.TOTAL_PAYMENT_AMOUNT, rank);
                     player.getMemberRights().update(player, false);
                     player.message(Color.PURPLE.wrap("<img=993><shad=0>Thank you for donating! Your new total donated amount is $" + rank + "</shad></img>"));
@@ -92,19 +93,16 @@ public class ClaimDonationCommand implements Command {
 
     public static void spawnDonatorBoss() {
         World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>The Donator boss 'Xamphur' has spawned! Gear up for the ultimate challenge! ::xamphur </shad></img>"));
-        NPC xamphur = new NPC(10951, new Tile(-1, -1, 0));
+        NPC xamphur = new NPC(10951, new Tile(3333, 3333, 0));
         xamphur.spawn(false);
-        totalDonated = 0;
     }
 
     private static void checkDonatorBoss() {
         if (totalDonated >= 150) {
             World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $50 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
-        }
-        if (totalDonated >= 100) {
+        } else if (totalDonated >= 100) {
             World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $100 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
-        }
-        if (totalDonated >= 50) {
+        } else if (totalDonated >= 50) {
             World.getWorld().sendWorldMessage("<img=993>" + Color.MITHRIL.wrap("<shad=0>Only $200 Left until The Donator boss 'Xamphur' will spawn!</shad></img>"));
         }
     }

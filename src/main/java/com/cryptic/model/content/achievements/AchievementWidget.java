@@ -36,7 +36,7 @@ public class AchievementWidget {
     }
 
     public static void open(Player player, Difficulty difficulty) {
-        final List<Achievements> list = Arrays.stream(Achievements.values()).filter(Objects::nonNull).toList();
+        final List<Achievements> list = Arrays.stream(Achievements.VALUES).filter(Objects::nonNull).toList();
 
         int totalAchievements = list.size();
 

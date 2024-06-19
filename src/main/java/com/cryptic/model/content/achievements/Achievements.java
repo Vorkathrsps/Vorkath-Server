@@ -4,6 +4,8 @@ import com.cryptic.GameServer;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -115,7 +117,7 @@ public enum Achievements {
     WHATS_KRAKEN(80700, "What's Kraken?", "Kill The Kraken 150 times.", 100, Difficulty.HARD, new Item(COINS_995, 15_000_000), new Item(BOX_OF_VALOR), new Item(TRIDENT_OF_THE_SEAS_FULL, 1), new Item(DOUBLE_DROPS_LAMP, 2));//COMPLETIONIST(80697, "Chambers III", "Complete 100 Chambers of Xeric raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 2), new Item(DOUBLE_DROPS_LAMP, 2));
 
     public static List<Achievements> asList(Difficulty difficulty) {
-        return Arrays.stream(values()).filter(Objects::nonNull).filter(a -> a.difficulty == difficulty).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
+        return Arrays.stream(VALUES).filter(Objects::nonNull).filter(a -> a.difficulty == difficulty).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
     }
 
     public final int child;

@@ -91,11 +91,10 @@ public class PirateHut extends PacketInteraction {
         ObjectManager.addObj(openDoor);
         int finalX = x;
         int finalZ = z;
-        Chain.bound(null).runFn(1, () -> {
+        player.stepAbs(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
+        Chain.bound(null).runFn(2, () -> {
             ObjectManager.removeObj(openDoor);
             closedOgDoor.setId(closedId);
-            //Move the player outside of the pirate hut
-            player.getMovementQueue().interpolate(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
         });
     }
 
@@ -173,14 +172,11 @@ public class PirateHut extends PacketInteraction {
                 ObjectManager.addObj(spawnObj);
                 int finalX = x;
                 int finalZ = z;
-                Chain.bound(null).runFn(1, () -> {
+                player.message("You manage to pick the lock.");
+                player.stepAbs(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
+                Chain.bound(null).runFn(2, () -> {
                     ObjectManager.removeObj(spawnObj);
                     old.setId(closedId);
-                    //Move the player outside of the pirate hut
-                    player.getMovementQueue().interpolate(finalX, finalZ, MovementQueue.StepType.FORCED_WALK);
-
-                    player.message("You manage to pick the lock.");
-                    //Add thieving experience for a successful lockpick
                     player.getSkills().addXp(Skills.THIEVING, 22.0);
                 });
             } else {

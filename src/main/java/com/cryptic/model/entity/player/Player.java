@@ -9,6 +9,7 @@ import com.cryptic.core.task.impl.*;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.wilderness.content.RiskManagement;
 import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
@@ -1608,8 +1609,24 @@ public class Player extends Entity {
         restartTasks();
         auditTabs();
         setHitMarkVarbits();
+        checkUnlockedAchievements();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
+    private void checkUnlockedAchievements() {
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SIGIL_DROPPER)) {
+            AchievementsManager.activate(this, Achievements.SIGIL_HUNTER, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.PVP_ARMOURS)) {
+            AchievementsManager.activate(this, Achievements.WHAT_A_BLESSING, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DEATHS_TOUCH)) {
+            AchievementsManager.activate(this, Achievements.GRIM, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYERS_GREED)) {
+            AchievementsManager.activate(this, Achievements.GREEDY, 1);
+        }
     }
 
     private void setHitMarkVarbits() {

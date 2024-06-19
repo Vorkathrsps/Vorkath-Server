@@ -73,7 +73,8 @@ public enum Breakable {
     IMBUED_ZAMORAK_CAPE(ItemIdentifiers.IMBUED_ZAMORAK_CAPE, ItemIdentifiers.IMBUED_ZAMORAK_CAPE_BROKEN, 500_000, -1),
     IMBUED_SARADOMIN_CAPE(ItemIdentifiers.IMBUED_SARADOMIN_CAPE, ItemIdentifiers.IMBUED_SARADOMIN_CAPE_BROKEN, 500_000, -1),
     IMBUED_GUTHIX_CAPE(ItemIdentifiers.IMBUED_GUTHIX_CAPE, ItemIdentifiers.IMBUED_GUTHIX_CAPE_BROKEN, 500_000, -1),
-    AVAS_ASSEMBLER(ItemIdentifiers.AVAS_ASSEMBLER, ItemIdentifiers.AVAS_ASSEMBLER_BROKEN, 500_000, -1);
+    AVAS_ASSEMBLER(ItemIdentifiers.AVAS_ASSEMBLER, ItemIdentifiers.AVAS_ASSEMBLER_BROKEN, 500_000, -1),
+    DRAGON_DEFENDER(ItemIdentifiers.DRAGON_DEFENDER, ItemIdentifiers.DRAGON_DEFENDER_BROKEN, 50_000, -1);
 
     public final int id;
     public final int brokenId;

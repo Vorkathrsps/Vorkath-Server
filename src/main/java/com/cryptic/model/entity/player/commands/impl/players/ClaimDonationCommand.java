@@ -49,7 +49,7 @@ public class ClaimDonationCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         final String name = player.getUsername().toLowerCase();
-        final String key = "1xqEgV4QtvySYVIXyXLOm22aNn2TIBoB75ojmAHbvj2slniJbKt7RZVO8vCTFn1rqmcKsCy5";
+        final String key = "EH1jU4frnPjyy4AsvqB9W2I3cvH4VwTpSdVPmallSWGKSPDIlI9PAUC2CWA49Gv319EWci1L";
         final List<DonationRecord> records = new ArrayList<>();
         final Transaction transaction = new Transaction().setApiKey(key).setPlayerName(name);
         final ListenableFuture<List<DonationRecord>> response = getResponse(transaction, records);

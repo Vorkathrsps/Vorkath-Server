@@ -4890,6 +4890,7 @@
       "rangestrength": 0
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -9706,6 +9707,7 @@
       "rangestrength": 60
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -22896,6 +22898,7 @@
       "rangestrength": 0
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -38888,6 +38891,7 @@
       "rangestrength": 50
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -40662,6 +40666,7 @@
       "rangestrength": 0
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -54427,6 +54432,7 @@
       "rangestrength": 40
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -63524,6 +63530,7 @@
       "rangestrength": 45
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -83462,6 +83469,7 @@
       "rangestrength": 0
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -91049,6 +91057,7 @@
       "rangestrength": 21
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },
@@ -98706,6 +98715,7 @@
       "rangestrength": 25
     },
     "scripts": {
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RevenantAggro",
       "combat": "RevenantCombat"
     }
   },

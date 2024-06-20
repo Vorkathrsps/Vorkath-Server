@@ -1086,6 +1086,37 @@
     ]
   },
   {
+    "shopId": 780,
+    "name": "Stardust Shop",
+    "currency": "STARDUST",
+    "noiron": false,
+    "restock": false,
+    "sellType": "NONE",
+    "scroll": 350,
+    "items": [
+      {
+        "id": 25549,
+        "amount": 2500
+      },
+      {
+        "id": 25551,
+        "amount": 2500
+      },
+      {
+        "id": 25553,
+        "amount": 2500
+      },
+      {
+        "id": 25555,
+        "amount": 2500
+      },
+      {
+        "id": 25555,
+        "amount": 2500
+      }
+    ]
+  },
+  {
     "shopId": 4,
     "name": "<col=FF0000>Blood Money Wares",
     "currency": "COINS_995",

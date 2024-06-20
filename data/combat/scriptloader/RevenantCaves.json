@@ -183,6 +183,7 @@
       7880
     ],
     "maxhit": 4,
+    "combattype": "MELEE",
     "slayerxp": 70,
     "slayerlvl": 1,
     "attackspeed": 5,
@@ -227,6 +228,7 @@
     ],
     "maxhit": 17,
     "slayerxp": 157,
+    "combattype": "MELEE",
     "aggressive": true,
     "slayerlvl": 1,
     "stats": {

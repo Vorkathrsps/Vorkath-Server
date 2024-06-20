@@ -605,7 +605,6 @@ public class CommandManager {
         });
         dev("test11", (p, c, s) -> {
 //            CommandManager.attempt(p, "npc 106 1 5 1");  // ID HP AMOUNT RESPAWN=1
-            System.out.println(ClaimDonationCommand.totalDonated);
         });
         dev("olm2", (p, c, s) -> {
             var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();

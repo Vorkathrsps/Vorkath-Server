@@ -212,7 +212,12 @@ public class NPCInteractionHandler implements PacketListener {
                     int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
                     World.getWorld().shop(48).open(player);
                     player.message(Color.ORANGE_2.wrap("<img=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
+                    return;
                 }
+               /* case OLD_DWARF -> {
+                    World.getWorld().shop(780).open(player);
+                    return;
+                }*/
                 case TWIGGY_OKORN -> {
                    /* if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
                         if (player.inventory().getFreeSlots() < 2) {

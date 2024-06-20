@@ -3368,6 +3368,7 @@
       2242
     ],
     "maxhit": 15,
+    "combattype": "RANGED",
     "slayerxp": 120,
     "slayerlvl": 63,
     "attackspeed": 4,

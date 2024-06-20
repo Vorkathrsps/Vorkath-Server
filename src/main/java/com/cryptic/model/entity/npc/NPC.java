@@ -336,11 +336,11 @@ public class NPC extends Entity {
             case 8612, 8613 -> new Drake(id, tile);
             case NpcIdentifiers.TZTOKJAD -> new TzTokJad(id, tile);
             case NpcIdentifiers.DEMONIC_GORILLA,
-                NpcIdentifiers.DEMONIC_GORILLA_7145,
-                NpcIdentifiers.DEMONIC_GORILLA_7146 -> new DemonicGorilla(id, tile);
+                 NpcIdentifiers.DEMONIC_GORILLA_7145,
+                 NpcIdentifiers.DEMONIC_GORILLA_7146 -> new DemonicGorilla(id, tile);
             case NpcIdentifiers.CORRUPTED_HUNLLEF,
-                NpcIdentifiers.CORRUPTED_HUNLLEF_9036,
-                NpcIdentifiers.CORRUPTED_HUNLLEF_9037 -> new CorruptedHunleff(id, tile);
+                 NpcIdentifiers.CORRUPTED_HUNLLEF_9036,
+                 NpcIdentifiers.CORRUPTED_HUNLLEF_9037 -> new CorruptedHunleff(id, tile);
             default -> new NPC(id, tile);
         };
     }
@@ -549,7 +549,7 @@ public class NPC extends Entity {
                     continue;
                 if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
                 if (override) {
-                    combatInfo.scripts.agro_.shouldAgro(this, player);
+                    if (!combatInfo.scripts.agro_.shouldAgro(this, player)) continue;
                     temp.add(player);
                     continue;
                 }

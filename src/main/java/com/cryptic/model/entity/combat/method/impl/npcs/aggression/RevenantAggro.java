@@ -11,10 +11,10 @@ import org.apache.commons.lang.ArrayUtils;
 public class RevenantAggro implements AggressionCheck {
     @Override
     public boolean shouldAgro(Entity entity, Entity victim) {
-        NPC npc = (NPC) entity;
-        Player player = (Player) victim;
-        if (ArrayUtils.contains(FormulaUtils.isRevenant(), npc.getId())) {
-            return !player.getEquipment().contains(ItemIdentifiers.BRACELET_OF_ETHEREUM);
+        if ((entity instanceof NPC npc) && (victim instanceof Player player)) {
+            if (ArrayUtils.contains(FormulaUtils.isRevenant(), npc.getId())) {
+                return !player.getEquipment().contains(ItemIdentifiers.BRACELET_OF_ETHEREUM);
+            }
         }
         return true;
     }

@@ -373,11 +373,11 @@ public class Hit {
     }
 
     private double calculateRangedOrMeleeXP(int damage) {
-        return Math.max((damage * (damage - 1D) / 2D), 2.0D);
+        return Math.max(4 * damage, 2.0D);
     }
 
     private double calculateHitpointsExperience(int damage) {
-        return Math.max((damage * (damage - 1D) / 2D) * 1.33D, 2.0D);
+        return Math.max(damage * 1.33D, 2.0D);
     }
 
     public Hit submit() {

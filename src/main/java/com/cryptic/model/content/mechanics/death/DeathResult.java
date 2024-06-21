@@ -213,7 +213,7 @@ public class DeathResult {
 
     public DeathResult checkIronManStatus() {
         var instance = player.getInstancedArea();
-        if (isSafeDeath(instance)) return this;
+        if (isSafeDeath(instance) || isSafeDeath()) return this;
         if (player.getGameMode().equals(GameMode.HARDCORE_REALISM)) {
             player.setGameMode(GameMode.REALISM);
             player.getPacketSender().sendRights();
@@ -241,6 +241,6 @@ public class DeathResult {
     }
 
     private boolean isSafeDeath() {
-        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile()) || player.inActiveTournament() || player.getParticipatingTournament() != null;
+        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile()) || player.getParticipatingTournament() != null;
     }
 }

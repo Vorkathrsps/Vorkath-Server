@@ -125,6 +125,7 @@ public class CommandsCommand implements Command {
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::up</col> - Teleports you one height level up.");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::down</col> - Teleports you one height level down.");
             commands.add("<br><col=" + Color.RED.getColorValue() + ">::setlevelo</col> - Sets a skill level for other players.");
+            commands.add("<br><col=" + Color.RED.getColorValue() + ">::opentorn</col> - Starts a tournament immediately.");
         }
 
         player.sendScroll("<col=" + Color.MAROON.getColorValue() + ">Commands List</col>", Collections.singletonList(commands).toString().replaceAll(Pattern.quote("["), "").replaceAll(Pattern.quote("]"), "").replaceAll(",", ""));

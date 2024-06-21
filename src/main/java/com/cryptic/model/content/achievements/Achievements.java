@@ -118,8 +118,10 @@ public enum Achievements {
     VOTE_I(80701, "Vote I", "Vote 1 time.", 1, Difficulty.HARD, new Item(COINS_995, 850_000), new Item(MYSTERY_BOX)),
     VOTE_II(80702, "Vote II", "Vote 10 times.", 10, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 2)),
     VOTE_III(80702, "Vote III", "Vote 25 times.", 25, Difficulty.HARD, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 4)),
-    VOTE_IV(80703, "Vote IV", "Vote 50 times.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 6));//COMPLETIONIST(80697, "Chambers III", "Complete 100 Chambers of Xeric raids.", 100, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(MYSTERY_BOX, 2), new Item(DOUBLE_DROPS_LAMP, 2));
-
+    VOTE_IV(80703, "Vote IV", "Vote 50 times.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 6)),
+    VOTE_IV2(80704, "placeholder 1", "Vote 50 times.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 6)),
+    VOTE_IV23(80705, "placeholder 2", "Vote 50 times.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 6)),
+    COMPLETIONIST(80706, "Completionist", "Complete all achievements.", 50, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 5), new Item(MYSTERY_BOX, 10), new Item(DOUBLE_DROPS_LAMP, 10));
     public static List<Achievements> asList(Difficulty difficulty) {
         return Arrays.stream(VALUES).filter(Objects::nonNull).filter(a -> a.difficulty == difficulty).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
     }

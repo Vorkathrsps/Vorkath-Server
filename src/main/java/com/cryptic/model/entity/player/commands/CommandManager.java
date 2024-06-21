@@ -1217,10 +1217,10 @@ public class CommandManager {
             player.getMovementQueue().interpolate(player.tile().transform(1, 1));
         });
 
-        dev("t21", (player, c, parts) ->
+        dev("opentorn", (player, c, parts) ->
 
         {
-            player.getMovementQueue().step(1, 1, MovementQueue.StepType.REGULAR);
+            TournamentManager.checkAndOpenLobby(true);
         });
 
         dev("t22", (player, c, parts) ->

@@ -1,5 +1,7 @@
 package com.cryptic.model.entity.player.commands.impl.players;
 
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.items.Item;
@@ -54,6 +56,10 @@ public class VoteRewardCommand implements Command {
                 final Item coins = new Item(995, 875_000);
                 player.getInventory().addOrBank(coins);
 
+                AchievementsManager.activate(player, Achievements.VOTE_I, 1);
+                AchievementsManager.activate(player, Achievements.VOTE_II, 1);
+                AchievementsManager.activate(player, Achievements.VOTE_III, 1);
+                AchievementsManager.activate(player, Achievements.VOTE_IV, 1);
                 player.message(Color.GREEN.wrap("Thank you for voting for Valor!"));
             } catch (Exception e) {
                 e.printStackTrace();

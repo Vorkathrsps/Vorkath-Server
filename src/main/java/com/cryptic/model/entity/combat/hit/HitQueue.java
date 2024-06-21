@@ -49,7 +49,7 @@ public class HitQueue {
             return;
         }
 
-        for (Hit hit : Lists.newArrayList(hits)) {
+        for (final Hit hit : Lists.newArrayList(hits)) {
             try {
                 if (hit != null) {
                     if (hit.getTarget() == null || hit.getTarget().isNullifyDamageLock()) {
@@ -79,10 +79,9 @@ public class HitQueue {
                         continue;
                     }
 
-                    int delay = hit.decrementAndGetDelay();
-                    int targetDelay = Math.max(-1, hit.getInitialDelay() - 1);
-                    if (targetDelay > 0 && delay == targetDelay) hit.applyBeforeRemove();
+                    final int delay = hit.decrementAndGetDelay();
                     if (delay <= 0) {
+                        hit.applyBeforeRemove();
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))
@@ -91,13 +90,13 @@ public class HitQueue {
                 }
             } catch (RuntimeException e) {
                 hit.toremove = true;
-                logger.error(entity.getMobName() + ": RTE in hits - hopefully this stack helps pinpoint the cause: " + hit, e);
+                logger.error("{}: RTE in hits - hopefully this stack helps pinpoint the cause: {}", entity.getMobName(), hit, e);
                 throw e;
             }
         }
         List<Hit> toShow = hits.stream().filter(e -> e.showSplat).collect(Collectors.toList());
         hits.removeIf(o -> o.toremove);
-        if (toShow.size() == 0) return;
+        if (toShow.isEmpty()) return;
         for (Hit hit : toShow) hit.update();
         toShow.clear();
     }

@@ -4,6 +4,8 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.Player;
@@ -247,6 +249,9 @@ public abstract class Shop {
             else player.inventory().remove(storeItem.secondaryValue.getAsInt());
         }
 
+        if (shopId == 780) {
+            AchievementsManager.activate(player, Achievements.STARGAZE, cost);
+        }
         player.inventory().addOrBank(item);
         if (player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE)) {
             int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);

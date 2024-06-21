@@ -2051,7 +2051,7 @@ public abstract class Entity {
             AnimationDefinition nextAnimation = DefinitionRepository.animationDefinitions.get(animation.getId());
             if (currentAnimation != null) {
                 if (nextAnimation != null) {
-                    if (currentAnimation.idleStyle > nextAnimation.idleStyle || currentAnimation.moveStyle > nextAnimation.moveStyle) {
+                    if (animation.getId() == -1 ||  currentAnimation.priority >= nextAnimation.priority) {
                         return;
                     }
                 }

@@ -92,7 +92,8 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.hitMark = hitMark;
     }
 
@@ -100,7 +101,8 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.damage = damage;
         this.hitMark = damage > 0 ? HitMark.HIT : HitMark.MISS;
     }
@@ -116,7 +118,8 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatMethod method) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
@@ -124,7 +127,8 @@ public class Hit {
         this.attacker = attacker;
         this.target = target;
         this.damage = damage;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.combatType = type;
     }
 
@@ -139,13 +143,15 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatType combatType) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.combatType = combatType;
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
         Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.HIT : HitMark.MISS);
-        hit.delay = hit.initialDelay = delay;
+        hit.delay = delay;
+        hit.initialDelay = delay;
         hit.combatType = type;
         return hit;
     }

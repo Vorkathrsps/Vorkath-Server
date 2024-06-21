@@ -22,7 +22,7 @@ public class AnimationDefinition implements Definition {
     public int leftHandItem = -1;
     public int rightHandItem = -1;
     public boolean replay = false;
-    public int priority = -1;
+    public int priority = 5;
    public int delayType = 2;
     public int[] delays;
     int[] flowdata;

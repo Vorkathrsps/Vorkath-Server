@@ -241,6 +241,6 @@ public class DeathResult {
     }
 
     private boolean isSafeDeath() {
-        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile());
+        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile()) || player.inActiveTournament() || player.getParticipatingTournament() != null;
     }
 }

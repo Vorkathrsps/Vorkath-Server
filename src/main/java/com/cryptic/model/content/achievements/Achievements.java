@@ -119,7 +119,7 @@ public enum Achievements {
     VOTE_II(80702, "Vote II", "Vote 10 times.", 10, Difficulty.HARD, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 2)),
     VOTE_III(80703, "Vote III", "Vote 25 times.", 25, Difficulty.HARD, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 4)),
     VOTE_IV(80704, "Vote IV", "Vote 50 times.", 50, Difficulty.HARD, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 6)),
-    STARGAZE(80705, "Stargazing", "Spend 20,000 Stardust.", 20_000, Difficulty.HARD, new Item(GOLDEN_PROSPECTOR_HELMET), new Item(GOLDEN_PROSPECTOR_JACKET), new Item(GOLDEN_PROSPECTOR_LEGS), new Item(GOLDEN_PROSPECTOR_BOOTS)),
+    STARGAZE(80705, "Stargazing", "Spend 20,000 Stardust.", 20_000, Difficulty.HARD, new Item(MYSTERY_BOX, 2)),
     MAXIMUM(80706, "Maximum Potential", "Reach level 99 in all trainable skills, and buy a Max cape.", 1, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(MYSTERY_BOX, 10)),
     COMPLETIONIST(80707, "Completionist", "Complete all achievements.", 1, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(BOX_OF_VALOR, 5), new Item(MYSTERY_BOX, 10), new Item(DOUBLE_DROPS_LAMP, 10));
 

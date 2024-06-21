@@ -214,10 +214,6 @@ public class NPCInteractionHandler implements PacketListener {
                     player.message(Color.ORANGE_2.wrap("<img=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
                     return;
                 }
-               /* case OLD_DWARF -> {
-                    World.getWorld().shop(780).open(player);
-                    return;
-                }*/
                 case TWIGGY_OKORN -> {
                    /* if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
                         if (player.inventory().getFreeSlots() < 2) {
@@ -346,6 +342,10 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         switch (npc.id()) {
+            case OLD_DWARF -> {
+                World.getWorld().shop(780).open(player);
+                return;
+            }
             case LORD_TROBIN_ARCEUUS_10962 -> World.getWorld().shop(350).open(player);
             case 2822, 2821 -> World.getWorld().shop(1).open(player);
             case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());

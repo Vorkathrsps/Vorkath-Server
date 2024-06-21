@@ -30,7 +30,7 @@ public class ArtifactTraderDialogue extends Dialogue {
         var startPhase = player.<Integer>getAttribOr(AttributeKey.DIALOGUE_PHASE, 0);
 
         if(startPhase == 0) {
-            send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "Hello there " + player.getUsername() + ", how can i help you?");
+            send(DialogueType.NPC_STATEMENT, NPC_ID, Expression.CALM_TALK, "Hello " + player.getUsername(), "how can i help you?");
             setPhase(0);
         } else if(startPhase == 12) {
             send(DialogueType.OPTION, "<col=800000>A PK skull means you drop ALL your items on death.", "Give me a PK skull.", "cancel.");

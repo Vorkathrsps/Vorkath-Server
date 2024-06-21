@@ -1,6 +1,7 @@
 package com.cryptic.model.entity.player.commands.impl.dev;
 
 import com.cryptic.GameEngine;
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.entity.npc.NPC;
@@ -50,23 +51,27 @@ public class ReloadCommand implements Command {
             });
         } else if (reload.equalsIgnoreCase("npcs")) {
             player.message("Reloading npcs...");
-            GameEngine.getInstance().addSyncTask(() -> {
-                for (NPC worldNpcs : World.getWorld().getNpcs()) {
-                    if (worldNpcs == null || worldNpcs.def().isPet) {
-                        continue;
+            GameEngine.getInstance().submitLowPriority(() ->
+                GameEngine.getInstance().addSyncTask(() -> {
+                    for (NPC worldNpcs : World.getWorld().getNpcs()) {
+                        if (worldNpcs == null) {
+                            continue;
+                        }
+                        final NpcDefinition cached = NpcDefinition.get(worldNpcs.id());
+                        if (cached.isPet) {
+                            continue;
+                        }
+                        worldNpcs.remove();
                     }
-                    worldNpcs.remove();
-                }
-                // Halloween.loadNpcs();
-                loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
-                try {
-                    Fishing.respawnAllSpots(World.getWorld());
-                } catch (FileNotFoundException e) {
-                    logger.error("sadge", e);
-                }
-                player.message(format("Reloaded %d npcs. <col=ca0d0d>Warning: Npcs in Instances will not be respawned.", World.getWorld().getNpcs().size()));
-                player.message("<col=ca0d0d>Must be done manually.");
-            });
+                    loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
+                    try {
+                        Fishing.respawnAllSpots(World.getWorld());
+                    } catch (FileNotFoundException e) {
+                        logger.error("sadge", e);
+                    }
+                    player.message(format("Reloaded %d npcs. <col=ca0d0d>Warning: Npcs in Instances will not be respawned.", World.getWorld().getNpcs().size()));
+                    player.message("<col=ca0d0d>Must be done manually.");
+                }));
         } else if (reload.equalsIgnoreCase("drops")) {
             player.message("Reloading drops...");
             World.getWorld().loadDrops();

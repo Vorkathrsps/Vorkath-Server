@@ -1289,7 +1289,6 @@ public class CommandManager {
         });
 
         dev("region", (p, c, s) ->
-
         {
             var t = Tile.regionToTile(Integer.parseInt(s[1]));
             p.teleport(t);

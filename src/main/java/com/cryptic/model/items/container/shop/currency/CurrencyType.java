@@ -25,7 +25,8 @@ public enum CurrencyType {
     TOURNAMENT_POINTS(new TournamentPointsCurrency()),
     RISKZONE_POINTS(new RiskzonePointsCurrency()),
     VOID_ISLAND_POINTS(new VoidIslandPointCurrency()),
-    DONATOR_TICKETS(new ItemCurrency(ItemIdentifiers.DONATOR_TICKET));
+    DONATOR_TICKETS(new ItemCurrency(ItemIdentifiers.DONATOR_TICKET)),
+    STARDUST(new ItemCurrency(ItemIdentifiers.STARDUST));
 
     private static final ImmutableSet<CurrencyType> VALUES = ImmutableSet.copyOf(values());
 
@@ -67,6 +68,9 @@ public enum CurrencyType {
             case VOID_ISLAND_POINTS:
                 int voidIslandPoints = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
                 value = Utils.formatNumber(voidIslandPoints);
+                break;
+            case STARDUST:
+                value = Utils.formatNumber(player.inventory().contains(ItemIdentifiers.STARDUST) ? player.inventory().count(ItemIdentifiers.STARDUST) : 0);
                 break;
             default:
                 break;

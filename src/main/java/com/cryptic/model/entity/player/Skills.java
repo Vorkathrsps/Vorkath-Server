@@ -184,16 +184,16 @@ public class Skills {
         //Only unlockable for trained accounts.
         if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
             if (totalLevel() >= 750) {
-                 AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
+                AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
             }
             if (totalLevel() >= 1000) {
-                 AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
+                AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
             }
             if (totalLevel() >= 1500) {
-                 AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
+                AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
             }
             if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
-                 AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
+                AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
             }
         }
 

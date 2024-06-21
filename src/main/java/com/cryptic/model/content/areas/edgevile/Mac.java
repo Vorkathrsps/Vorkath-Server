@@ -2,6 +2,8 @@ package com.cryptic.model.content.areas.edgevile;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.inter.dialogue.DialogueType;
@@ -123,6 +125,7 @@ public class Mac extends PacketInteraction {
                     }
 
                     if (canAfford) {
+                        AchievementsManager.activate(player, Achievements.MAXIMUM, 1);
                         player.inventory().addOrDrop(new Item(MAXCAPE));
                         player.inventory().addOrDrop(new Item(MAXHOOD));
                         send(DialogueType.DOUBLE_ITEM_STATEMENT, new Item(MAXCAPE), new Item(MAXHOOD), "Mac carefully removes a cape and hood from his bag.", "The cape is heavy and made from fine cloth.");

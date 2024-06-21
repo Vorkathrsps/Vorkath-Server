@@ -43,7 +43,7 @@ public class AchievementsManager {
 
             //When achievements complete, check if we can complete the COMPLETIONIST achievement.
             if (player.completedAllAchievements()) {
-                //  activate(player, Achievements.COMPLETIONIST, 1);
+                AchievementsManager.activate(player, Achievements.COMPLETIONIST, 1);
             }
 
             player.message("<col=297A29>Congratulations! You have completed the " + achievement.getName() + " achievement.");

@@ -1456,11 +1456,10 @@ public class CommandManager {
             player.putAttrib(tasks.get(0).isRewardClaimed, false);
         });
 
-        dev("rp1", (player, c, s) ->
+        dev("shufflepid", (player, c, s) ->
 
         {
-            player.getPacketSender().resetParallelInterfaces();
-            player.getInterfaceManager().close(true);
+            World.getWorld().getPlayers().shuffleRenderOrder();
         });
 
         dev("slay1", (player, c, s) ->

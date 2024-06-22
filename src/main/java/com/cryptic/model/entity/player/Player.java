@@ -145,6 +145,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1036,6 +1037,11 @@ public class Player extends Entity {
         packetSender.sendMapRegion().sendDetails().sendRights().sendTabs();
         Tile.occupy(this);
         onLogin();
+        // we need to find a null index instead here
+        int freeIndex = ArrayUtils.indexOf(World.getWorld().getPidPlayers(), null);
+        if (freeIndex == -1) throw new IllegalStateException(); // just in case
+        this.pidOrderIndex = freeIndex;
+        World.getWorld().getPidPlayers()[freeIndex] = this;
     }
 
     /**
@@ -1044,6 +1050,7 @@ public class Player extends Entity {
     @Override
     public void onRemove() {
         // onlogout moved to logout service
+        World.getWorld().getPidPlayers()[this.pidOrderIndex] = null;
     }
 
     @Override

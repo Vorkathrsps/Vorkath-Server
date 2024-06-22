@@ -47,12 +47,14 @@ public class Hit {
     public boolean isImmune = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
     @Getter
+    public boolean pidded;
+    @Getter
     private Entity attacker;
     @Getter
     private Entity target;
     private int damage;
     @Getter
-    private int delay;
+    public int delay;
     @Getter
     @Setter
     private int initialDelay;
@@ -170,7 +172,10 @@ public class Hit {
     }
 
     public int decrementAndGetDelay() {
-        return --delay;
+        if (attacker.pidOrderIndex <= target.pidOrderIndex) {
+            --delay;
+        }
+        return delay;
     }
 
     public final int getDamage() {
@@ -405,10 +410,23 @@ public class Hit {
         if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.damage >= this.target.hp()) this.damage = this.target.hp();
-        if (this.attacker instanceof Player player)
-            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
-        target.getCombat().getHitQueue().add(this);
+        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        this.target.getCombat().getHitQueue().add(this);
         return this;
+    }
+
+    public boolean isPidded() {
+        if (target != null && !(this.target instanceof NPC)) {
+            int initialDelay = this.delay;
+            if (this.attacker.pidOrderIndex <= this.target.pidOrderIndex) {
+                --initialDelay;
+            }
+            if (initialDelay < this.delay) {
+                this.pidded = true;
+                return true;
+            }
+        }
+        return false;
     }
 
     public Hit setIsReflected() {

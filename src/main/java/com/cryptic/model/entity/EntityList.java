@@ -124,17 +124,16 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     public boolean remove(E e) {
         Objects.requireNonNull(e);
         if (e.getIndex() != -1 && entities.get(e.getIndex()) != null) {
-            int renderIndexOf = renderOrder.indexOf(e.getIndex());
+            int renderIndexOf = renderOrder.indexOf(e.getIndex()); // u can delete the render order shit later
             if (renderIndexOf != -1) {
                 renderOrder.removeInt(renderIndexOf);
             }
+            e.onRemove();
             e.pidOrderIndex = -1;
             e.setRegistered(false);
             entities.remove(e.getIndex());
             slotQueue.enqueue(e.getIndex());
             e.setIndex(-1);
-            if (!e.isPlayer())
-                e.onRemove();
             size--;
             return true;
         }

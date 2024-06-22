@@ -31,10 +31,12 @@ public class HitQueue {
         if (entity.stunned()) {
             return;
         }
+
         if (entity.dead() || (entity.locked() && !entity.isDelayDamageLocked() && !entity.isDamageOkLocked() && !entity.isLogoutOkLocked() && !entity.isMoveLockedDamageOk())) {
             hits.clear();
             return;
         }
+
         if (entity.isPlayer()) {
             Player player = entity.getAsPlayer();
 
@@ -45,13 +47,20 @@ public class HitQueue {
             }
         }
 
-        if (entity.isDelayDamageLocked() || entity.isLogoutOkLocked() || hits.isEmpty()) {
+        if (entity instanceof Player player) {
+            if (player.isLogoutOkLocked() || hits.isEmpty()) {
+                return;
+            }
+        }
+
+        if (entity.isDelayDamageLocked()) {
             return;
         }
 
         for (final Hit hit : Lists.newArrayList(hits)) {
             try {
                 if (hit != null) {
+
                     if (hit.getTarget() == null || hit.getTarget().isNullifyDamageLock()) {
                         hit.toremove = true;
                         continue;
@@ -79,9 +88,9 @@ public class HitQueue {
                         continue;
                     }
 
-                    final int delay = hit.decrementAndGetDelay();
-                    if (delay <= 0) {
-                        hit.applyBeforeRemove();
+                    hit.applyBeforeRemove();
+
+                    if (--hit.delay <= -1) {
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))

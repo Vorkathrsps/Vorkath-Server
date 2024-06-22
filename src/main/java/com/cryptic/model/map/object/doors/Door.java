@@ -3,6 +3,7 @@ package com.cryptic.model.map.object.doors;
 import com.cryptic.annotate.Init;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.impl.agility.course.WildernessCourse;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
@@ -10,13 +11,16 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
+import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.cryptic.model.content.skill.impl.agility.course.WildernessCourse.LOWER_GATE;
 
 // ~~~ DIRECTIONS ~~~ \\
 // 0 = east, 1 = south \\
@@ -34,6 +38,20 @@ public class Door {
     private static final List<Integer> IGNORE = Arrays.asList(GUILD_DOOR_14910, DOOR_24309, DOOR_11726, DOOR_11727, GATE_28851, GATE_28852, 26502, 26503, 26504, 26505, DOOR_20925, ALCHEMICAL_DOOR, ALCHEMICAL_DOOR_34554);
 
     public static void handle(Player player, GameObject obj) {
+        if (obj.getId() == LOWER_GATE) {
+            BooleanSupplier firstStep = () -> player.tile().equals(new Tile(2998, 3917, 0));
+            BooleanSupplier lastStep = () -> player.tile().equals(new Tile(2998, 3931, 0));
+
+            handle(player, obj, false);
+            WildernessCourse.lowergate(player, obj);
+            player.waitUntil(1, firstStep, () -> handle(player, obj, false));
+            player.waitUntil(1, lastStep, () -> {
+                final GameObject gates = new GameObject(23552, new Tile(2998, 3931, 0));
+                handle(player, gates, false);
+                Chain.noCtx().runFn(1, () -> handle(player, gates, false));
+            });
+            return;
+        }
         if (obj.getId() == 26760) {
             final int yPos = player.getY();
             if (yPos == 3945) {

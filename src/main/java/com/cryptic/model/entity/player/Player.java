@@ -1050,7 +1050,9 @@ public class Player extends Entity {
     @Override
     public void onRemove() {
         // onlogout moved to logout service
-        World.getWorld().getPidPlayers()[this.pidOrderIndex] = null;
+        if (this.pidOrderIndex != -1) {
+            World.getWorld().getPidPlayers()[this.pidOrderIndex] = null;
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.shop.currency.CurrencyType;
@@ -195,7 +196,7 @@ public abstract class Shop {
 
         int cost = (value * item.getAmount());
 
-        if (storeItem.secondaryValue.isPresent()) {
+        if (storeItem.secondaryValue != null && storeItem.secondaryValue.isPresent()) {
             if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && (currencyType.currency.currencyAmount(player, cost) >= cost)) {
                 System.out.println(storeItem.secondaryValue);
                 player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
@@ -268,6 +269,7 @@ public abstract class Shop {
         shopLogs.log(SHOPS_LEVEL, player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString());
         Utils.sendDiscordInfoLog(player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString(), "shops");
 
+        refresh(player, true);
     }
 
     public void onPurchase(Player player, Item item) {
@@ -297,6 +299,8 @@ public abstract class Shop {
                 player.inventory().addOrBank(new Item(skillcapeHoods.getHood()));
             }
         }
+
+        refresh(player, true);
     }
 
     protected final void sell(Player player, Item item, int slot) {
@@ -406,7 +410,7 @@ public abstract class Shop {
             }
         }
 
-        //refresh(player);
+        refresh(player, true);
     }
 
     public abstract void refresh(Player player, boolean redrawStrings);

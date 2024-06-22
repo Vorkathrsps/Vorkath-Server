@@ -50,6 +50,7 @@ public class ItemDrops {
                 if (isSkipped(drop.getId())) continue;
                 if (isSkipLootingBag(player, drop)) continue;
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
+                if (isUsingBoneCrusher(player, drop)) continue;
                 if (isUsingBoneHunter(player, drop)) drop = drop.note();
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
@@ -63,11 +64,21 @@ public class ItemDrops {
         }
     }
 
-    void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {
+    final boolean isUsingBoneCrusher(Player player, Item drop) {
+        if (player.getInventory().contains(BONECRUSHER) && ArrayUtils.contains(BONES, drop.getId())) {
+            Bone bone = Bone.get(drop.getId());
+            if (bone != null && Objects.equal(bone.itemId, drop.getId()))
+                player.getSkills().addXp(Skill.PRAYER.getId(), bone.xp * 1.5D);
+            return true;
+        }
+        return false;
+    }
+
+    final void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {
         if (isDoubleDropsEnabled) drop.setAmount(drop.getAmount() * 2);
     }
 
-    void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
+    final void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
         for (var i : table.getDrops()) {
             var parsedID = ItemRepository.getItemId(i.getItem());
             if (isRareDrop(player, npc, i, drop, parsedID)) break;
@@ -78,7 +89,7 @@ public class ItemDrops {
         return ArrayUtils.contains(ignored, id);
     }
 
-    void rollKeyTable(Player player, Tile tile) {
+    final void rollKeyTable(Player player, Tile tile) {
         if (Utils.rollDie(500, 1))
             GroundItemHandler.createGroundItem(new GroundItem(new Item(CRYSTAL_KEY, 1), tile, player));
         if (Utils.rollDie(800, 1))

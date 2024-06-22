@@ -237,6 +237,7 @@ public final class DefaultShop extends Shop {
             startAddStock();
             startRemoveStock();
         }
+        player.getInventory().refresh();
 
     }
 

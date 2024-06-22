@@ -18,6 +18,7 @@ import com.cryptic.utility.Utils;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.SHOP;
 import static com.cryptic.model.items.container.shop.ShopUtility.*;
 
 /**
@@ -139,7 +140,14 @@ public final class DefaultShop extends Shop {
             return;
         }
 
-        player.putAttrib(AttributeKey.SHOP, shopId);
+        var shop = player.<Integer>getAttribOr(SHOP, -1);
+        if (shop > -1) {
+            var oldshop = World.getWorld().shop(shop);
+            if (oldshop != null) {
+                oldshop.players.remove(player);
+            }
+        }
+        player.putAttrib(SHOP, shopId);
 
         if (!World.getWorld().shops.containsKey(shopId)) {
             World.getWorld().shops.put(shopId, this);
@@ -168,14 +176,14 @@ public final class DefaultShop extends Shop {
     public void close(Player player) {
         players.remove(player);
         player.shopReference = ShopReference.DEFAULT;
-        player.clearAttrib(AttributeKey.SHOP);
+        player.clearAttrib(SHOP);
         player.getInterfaceManager().close();
     }
 
     @Override
     public void refresh(Player player, boolean redrawStrings) {
         int startSprite = 82006;
-        boolean isSpriteShop = shopId == 48 || shopId == 350 || shopId == 6 || shopId == 21;
+        boolean isSpriteShop = isSpriteShop();
         if (redrawStrings) {
             if (isSpriteShop) {
                 for (int index = 0; index < 50; index++) {
@@ -218,17 +226,10 @@ public final class DefaultShop extends Shop {
                 }
             }
         }
-        int shopInventoryId = 73190;
-        if (isSpriteShop) {
-            shopInventoryId = 82004;
-        }
-        if (shopId == 7) {
-            shopInventoryId = 64016;
-        }
         if (!isSpriteShop) {
             player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, items.length * 11);
         }
-        int finalShop = shopInventoryId;
+        int finalShop = shopWidgetId();
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());
         players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterface(finalShop, items));
         if (restock) {

@@ -228,13 +228,20 @@ public abstract class Shop {
                 return;
             }
 
-            if (itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId()) && container.retrieve(slot).isPresent()) {
+            var changeId = giveNoted ? item.unnote().getId() : item.getId();
+            if (itemCache.containsKey(changeId) && container.retrieve(slot).isPresent()) {
                 if (decrementStock()) {
-                    container.retrieve(slot).get().decrementAmountBy(item.getAmount());
+                    var stockitem =container.retrieve(slot).get();
+                    stockitem.decrementAmountBy(item.getAmount());
+
+                    players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), stockitem, slot));
                 }
-            } else if (!itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId())) {
+            } else if (!itemCache.containsKey(changeId)) {
                 if (decrementStock()) {
-                    container.remove(giveNoted ? item.unnote().getId() : item.getId(), item.getAmount());
+                    container.remove(changeId, item.getAmount());
+
+                    var newSlot = container.getSlot(changeId);
+                    players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), container.get(newSlot), newSlot));
                 }
             }
         } else {
@@ -261,10 +268,6 @@ public abstract class Shop {
         shopLogs.log(SHOPS_LEVEL, player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString());
         Utils.sendDiscordInfoLog(player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString(), "shops");
 
-        //Don't refresh the shop for one player, refresh it for all players.
-        for (Player player1 : this.players) {
-            refresh(player1, false);
-        }
     }
 
     public void onPurchase(Player player, Item item) {
@@ -360,7 +363,7 @@ public abstract class Shop {
             return;
         }
 
-        Optional<Item> find = container.search(item.getId());
+        var existingSLot = container.getSlot(item.getId());
         int sellValue;
         sellValue = item.getId() == 619 ? 1 : item.getSellValue();
 
@@ -390,18 +393,20 @@ public abstract class Shop {
         boolean dontAddToContainer = shopId != 1;
 
         if (!dontAddToContainer) {
-            if (find.isPresent()) {
-                Item found = find.get();
+            if (existingSLot > 0) {
+                Item found = container.get(existingSLot);
                 found.setAmount(found.getAmount() + item.getAmount());
+
+                players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), converted.unnote(), existingSLot));
             } else {
                 container.add(converted);
+                var newSlot = container.getSlot(converted.getId());
+
+                players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), converted.unnote(), newSlot));
             }
         }
 
         //refresh(player);
-        for (Player player1 : this.players) {
-            refresh(player1, false);
-        }
     }
 
     public abstract void refresh(Player player, boolean redrawStrings);
@@ -512,8 +517,24 @@ public abstract class Shop {
 
     public abstract SellType sellType();
 
+    public boolean isSpriteShop() {
+        return shopId == 48 || shopId == 350 || shopId == 6 || shopId == 21;
+    }
+
     public boolean decrementStock() {
         return shopId == 1;
+    }
+
+    public int shopWidgetId() {
+
+        int shopInventoryId = 73190;
+        if (isSpriteShop()) {
+            shopInventoryId = 82004;
+        }
+        if (shopId == 7) {
+            shopInventoryId = 64016;
+        }
+        return shopInventoryId;
     }
 
     @Override

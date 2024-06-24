@@ -240,7 +240,7 @@ public class WildernessCourse extends PacketInteraction {
         }
     }
 
-    private static void lowergate(Player player, GameObject obj) {
+    public static void lowergate(Player player, GameObject obj) {
         if (player.getSkills().xpLevel(Skills.AGILITY) < 52) {
             player.message("You need a Agility level of 52 to pass this gate.");
             return;
@@ -252,13 +252,11 @@ public class WildernessCourse extends PacketInteraction {
                 player.getMovementQueue().clear();
             }
             Chain.bound(player).waitForTile(new Tile(2998, 3916, 0), () -> {
+                player.lockDelayDamage();
                 Chain.bound(player).runFn(1, () -> {
-                    player.lockDelayDamage();
-                    openEntranceGate(player, obj);
-                }).then(1, () -> {
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().step(2998, 3931, MovementQueue.StepType.FORCED_WALK);
                     player.agilityWalk(false);
+                    player.stepAbs(player.tile().transform(0, +16), MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 }).waitForTile(new Tile(2998, 3931, 0), WildernessCourse::openDoubleDoors).then(1, () -> {
                     player.looks().resetRender();
@@ -275,7 +273,6 @@ public class WildernessCourse extends PacketInteraction {
         var newobj = new GameObject(1548, new Tile(2997, 3917), obj.getType(), 2).interactAble(false);
         ObjectManager.addObj(newobj);
         Chain.bound(player).name("openEntranceGateTask").runFn(2, () -> {
-            // Put the old door back
             ObjectManager.removeObj(newobj);
             ObjectManager.addObj(obj);
             obj.interactAble(true);

@@ -235,7 +235,7 @@ public class GameServer {
             logger.info("Loaded {} {}on port {} version v{}.", GameServer.settings().getName(), (GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ", GameServer.properties().gamePort, GameServer.properties().gameVersion);
             logger.info("The Bootstrap has been bound, {} is now online (it took {}ms).", GameServer.settings().getName(), boundTime - startTime);
         } catch (Throwable t) {
-            logger.fatal("An error occurred while loading "+GameServer.settings().getName()+".", t);
+            logger.fatal("An error occurred while loading {}.", GameServer.settings().getName(), t);
             System.exit(1);
         }
     }

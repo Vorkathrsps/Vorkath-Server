@@ -23,7 +23,7 @@ public enum MemberRights {
     DIAMOND_MEMBER(500, "Diamond", 1078, 7, 4, Color.WHITE.tag(), 1.20, 1.025, 1.025),
     DRAGONSTONE_MEMBER(1000, "Dragonstone", 1425, 24, 5, Color.PURPLE.tag(), 1.025, 1.025, 1.025),
     ONYX_MEMBER(2500, "Onyx", 1426, 15, 6, Color.BLACK.tag(), 1.025, 1.025, 1.025),
-    ZENYTE_MEMBER(5000, "Zenyte", 1048, 23, 7, Color.ORANGE.tag(), 1.025, 1.025, 1.0255);
+    ZENYTE_MEMBER(5000, "Zenyte", 1048, 23, 7, Color.ORANGE_2.tag(), 1.025, 1.025, 1.0255);
 
     private final double spent;
 

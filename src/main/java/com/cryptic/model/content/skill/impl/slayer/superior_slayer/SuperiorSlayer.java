@@ -23,9 +23,9 @@ public class SuperiorSlayer {
             return;
         }
         int superior = findSuperior(task);
-        if(superior == -1) return;
+        if (superior == -1) return;
         if (superior == npc.id()) return;
-        int odds = 175;
+        int odds = 80;
         if (player.getPlayerRights().isAdministrator(player) && !GameServer.properties().production) odds = 3;
         if (Utils.rollDie(odds, 1)) {
             NPC boss = new NPC(superior, npc.tile());

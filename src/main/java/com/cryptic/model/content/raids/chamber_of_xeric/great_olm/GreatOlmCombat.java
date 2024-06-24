@@ -208,7 +208,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
         // if everyone runs between both sides, olm spends all the time turning and no time attacking.
         if (justTurned && targets.isEmpty()) {
             targets = getAllTargets();
-            }
+        }
 
         var headRunnerNotInDirection = false;
         if (isOnEastSide()) {
@@ -396,16 +396,17 @@ public class GreatOlmCombat extends CommonCombatMethod {
             if (!wasSpread || i > 0)
                 player.forceChat("Burn with me!");
             player.hit(npc, 5);
-            for (int type : BURN_STAT_DRAIN)
-                player.skills().alterSkill(type, -2);
+            for (int type : BURN_STAT_DRAIN) {
+                int level = player.skills().level(type);
+                level = Math.max(1, level - 2);
+                player.skills().setLevel(type, level);
+            }
 
             for (Player p : npc.closePlayers(32)) {
                 if (p.tile().isWithinDistance(player.tile(), 1))
                     burnPlayer(npc, p, true);
             }
-            Chain.noCtx().delay(i * 8, () -> {
-                player.clearAttrib(OLM_BURN_EFFECT);
-            });
+            Chain.noCtx().delay(i * 8, () -> player.clearAttrib(OLM_BURN_EFFECT));
         }
     }
 
@@ -479,7 +480,7 @@ public class GreatOlmCombat extends CommonCombatMethod {
                 }
             }
             if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-                target.skills().alterSkill(Skills.PRAYER, Math.max(1, target.skills().level(Skills.PRAYER)) / 2);
+                target.skills().setLevel(Skills.PRAYER, Math.max(1, target.skills().level(Skills.PRAYER)) / 2);
                 Prayers.closeAllPrayers(target);
                 message += " Your prayers have been sapped.";
             }

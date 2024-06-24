@@ -22,10 +22,7 @@ import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.combat.magic.spells.MagicClickSpells;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
-import com.cryptic.model.entity.player.EquipSlot;
-import com.cryptic.model.entity.player.MagicSpellbook;
-import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.QuestTab;
+import com.cryptic.model.entity.player.*;
 import com.cryptic.model.inter.clan.ClanButtons;
 import com.cryptic.model.inter.dialogue.ItemActionDialogue;
 import com.cryptic.model.items.Item;
@@ -353,17 +350,29 @@ public class Buttons {
                 }
                 if (button == 73156) {
                     player.getPacketSender().sendConfig(1206, 0);
-                    World.getWorld().shop(5004).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(759).open(player);
+                    } else {
+                        World.getWorld().shop(5004).open(player);
+                    }
                     return;
                 }
                 if (button == 73157) {
                     player.getPacketSender().sendConfig(1206, 1);
-                    World.getWorld().shop(5003).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(760).open(player);
+                    } else {
+                        World.getWorld().shop(5003).open(player);
+                    }
                     return;
                 }
                 if (button == 73159) {
                     player.getPacketSender().sendConfig(1206, 3);
-                    World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(762).open(player);
+                    } else {
+                        World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                    }
                     return;
                 }
                 if (button == 73161) {
@@ -373,7 +382,11 @@ public class Buttons {
                 }
                 if (button == 73158) {
                     player.getPacketSender().sendConfig(1206, 2);
-                    World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(761).open(player);
+                    } else {
+                        World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    }
                     return;
                 }
                 if (button == 73162) {
@@ -388,7 +401,11 @@ public class Buttons {
                 }
                 if (button == 73160) {
                     player.getPacketSender().sendConfig(1206, 4);
-                    World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(763).open(player);
+                    } else {
+                        World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                    }
                     return;
                 }
 
@@ -402,7 +419,11 @@ public class Buttons {
                     return;
                 }
                 if (button == 73165) {
-                    World.getWorld().shop(351).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(764).open(player);
+                    } else {
+                        World.getWorld().shop(351).open(player);
+                    }
                     return;
                 }
                 if (button == 73166) {

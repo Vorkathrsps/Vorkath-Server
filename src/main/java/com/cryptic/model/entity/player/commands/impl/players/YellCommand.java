@@ -57,19 +57,10 @@ public class YellCommand implements Command {
             return;
         }
 
-        //#Text colour
-        String color = "006601";
-        String yellColour = player.getAttribOr(AttributeKey.YELL_COLOUR, color);
-
-        //System.out.println("[Global] <img=" + (player.getPlayerRights().getRight())
-        //    + "</img> " + player.getUsername() + ":<col=" + colour + "> " + Misc.ucFirst(yellMessage));
-
-        //#Name colour is based on member rights not player rights
         String nameColour = player.getMemberRights().yellNameColour();
 
         boolean ignoreStaffColour = true;
 
-        //#Staff colours can be different
         switch (player.getPlayerRights()) {
             case MODERATOR -> nameColour = Color.WHITE.tag();
             case ADMINISTRATOR -> nameColour = Color.YELLOW.tag();
@@ -77,24 +68,16 @@ public class YellCommand implements Command {
             case SUPPORT -> nameColour = Color.CYAN.tag();
         }
 
-        //# This was made by Ken to ensure the client size it needs [Global]
-        //String mainChannel = "[Global]";
+        String yellColour = player.getAttribOr(AttributeKey.YELL_COLOUR, Color.BLACK.getColorValue());
 
-        //# The player icon
         String playerIcon = player.getPlayerRights().getSpriteId() != -1 ? "<img=" + player.getPlayerRights().getSpriteId() + ">" : "";
         String memberIcon = player.getMemberRights().getSpriteId() != -1 ? "<img=" + player.getMemberRights().getSpriteId() + ">" : "";
 
-        //# The username...
         String username = player.getUsername();
 
-        //# The message but formatted proper usages of capitals and such.
         String formatYellMessage = Utils.ucFirst(yellMessage);
 
-        //# Constructs a world message
-        //World.getWorld().sendWorldMessage(mainChannel + " " + icon + "</img> "+nameColour+"" + username + ":</col><col=" + yellColour + "> " + formatYellMessage);
-
-        //System.out.println(yellColour);
-        World.getWorld().sendWorldMessage("<shad=1>"+nameColour+"["+playerIcon+"</img>"+memberIcon+"</img>"+username+"]</col>: <col="+yellColour+">"+formatYellMessage+"</shad>");
+        World.getWorld().sendWorldMessage(nameColour+"["+playerIcon+"</img>"+memberIcon+"</img>"+username+"]</col>: <col="+yellColour+">"+formatYellMessage);
         int yellDelay = getYellDelay(player);
         if (yellDelay > 0) {
             player.getYellDelay().start(yellDelay);

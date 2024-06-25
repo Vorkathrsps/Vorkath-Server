@@ -42,6 +42,18 @@ public class FormulaUtils {
         return false;
     }
 
+    public static final int[] METAL_DRAGONS = new int[]{
+        NpcIdentifiers.STEEL_DRAGON_274,
+        NpcIdentifiers.STEEL_DRAGON,
+        NpcIdentifiers.STEEL_DRAGON_275,
+        NpcIdentifiers.STEEL_DRAGON_7255,
+        NpcIdentifiers.STEEL_DRAGON_8086,
+        NpcIdentifiers.IRON_DRAGON,
+        NpcIdentifiers.IRON_DRAGON_7254,
+        NpcIdentifiers.IRON_DRAGON_273,
+        NpcIdentifiers.IRON_DRAGON_8080
+    };
+
     public static final int[] DAGANNOTH_KINGS = new int[]{
         NpcIdentifiers.DAGANNOTH_REX,
         NpcIdentifiers.DAGANNOTH_PRIME,

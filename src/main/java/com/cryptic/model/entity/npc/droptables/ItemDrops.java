@@ -13,6 +13,7 @@ import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
@@ -58,6 +59,7 @@ public class ItemDrops {
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
                 if (isFremennikSeaBootsEffect(npc, player, drop)) drop = drop.note();
+                if (isKaramjaGloveEffect(npc, player, drop)) drop = drop.note();
                 this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
@@ -159,6 +161,16 @@ public class ItemDrops {
             var level = WildernessArea.getWildernessLevel(player.tile());
             World.getWorld().sendWorldMessage("<img=2010> " + Color.YELLOW.wrap("<shad=0>" + player.getUsername() + " has received a " + Color.BURNTORANGE.wrap(drop.name()) + " from a " + Color.BURNTORANGE.wrap(npc.getMobName()) + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
             return true;
+        }
+        return false;
+    }
+
+    final boolean isKaramjaGloveEffect(final NPC npc, final Player player, final Item drop) {
+        final boolean hasGloves = player.getEquipment().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getInventory().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getBank().contains(ItemIdentifiers.KARAMJA_GLOVES_4);
+        final boolean insideBrimhavenDungeon = player.tile().inArea(new Area(Tile.regionToTile(10899).getX(), Tile.regionToTile(10899).getY(), Tile.regionToTile(10899).getX() + 63, Tile.regionToTile(10899).getY() + 63));
+        final boolean isMetalDragon = ArrayUtils.contains(FormulaUtils.METAL_DRAGONS, npc.id());
+        if (hasGloves && insideBrimhavenDungeon && isMetalDragon) {
+            return drop.name().toLowerCase().contains("bar");
         }
         return false;
     }

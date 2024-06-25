@@ -238,7 +238,7 @@ public class WildernessCourse extends PacketInteraction {
     }
 
     double getKaramjaGloveBoost(Player player, double total) {
-        if (player.getEquipment().containsAny(ItemIdentifiers.KARAMJA_GLOVES_1, ItemIdentifiers.KARAMJA_GLOVES_2,ItemIdentifiers.KARAMJA_GLOVES_3,ItemIdentifiers.KARAMJA_GLOVES_4)) {
+        if (player.getEquipment().containsAny(ItemIdentifiers.KARAMJA_GLOVES_1, ItemIdentifiers.KARAMJA_GLOVES_2,ItemIdentifiers.KARAMJA_GLOVES_3,ItemIdentifiers.KARAMJA_GLOVES_4) || player.getInventory().containsAny(ItemIdentifiers.KARAMJA_GLOVES_1, ItemIdentifiers.KARAMJA_GLOVES_2,ItemIdentifiers.KARAMJA_GLOVES_3,ItemIdentifiers.KARAMJA_GLOVES_4)) {
             total *= 1.10D;
         }
         return total;

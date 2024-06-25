@@ -733,31 +733,6 @@
   },
   {
     "ids": [
-      6603
-    ],
-    "unstacked": true,
-    "maxhit": 2,
-    "stats": {
-      "attack": 140,
-      "strength": 140,
-      "defence": 140,
-      "hitpoints": 125
-    },
-    "bonuses": {
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "rangeddefence": 0,
-      "magicdefence": 0
-    },
-    "animations": {
-      "attack": 386,
-      "block": 388,
-      "death": 2304
-    }
-  },
-  {
-    "ids": [
       1039
     ],
     "maxhit": 7,

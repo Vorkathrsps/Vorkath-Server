@@ -45,29 +45,24 @@ public class RoguesCastle extends PacketInteraction {
 
                     // Grabs a reward from our array lists
                     Item eco_reward = Utils.randomElement(eco_rewards);
-                    Item pvp_reward = Utils.randomElement(pvp_rewards);
 
-                    // For every level 135 Rogue inside the Rogues Castle we..
-                    World.getWorld().getNpcs().forEach(npc -> {
-                        if (WildernessArea.inside_rouges_castle(npc.tile()) && npc.id() == 6603) {
+                    for (var region : player.getSurroundingRegions()) {
+                        for (var npc : region.getNpcs()) {
+                            if (npc.id() != 6603) continue;
                             npc.forceChat("Someone's stealing from us, get them!!");
+                            npc.setEntityInteraction(player);
                             npc.getCombat().attack(player);
                         }
-                    });
+                    }
+
                     Chain.bound(null).runFn(2, () -> {
                         // Handle replacing the chest with an open chest, then back to the original object..
                         GameObject old = new GameObject(CHEST_26757, obj.tile(), obj.getType(), obj.getRotation());
                         GameObject spawned = new GameObject(closed_chest, obj.tile(), obj.getType(), obj.getRotation());
-                        ObjectManager.replace(old, spawned, 60);
-                        String name = GameServer.properties().pvpMode ? pvp_reward.name() : eco_reward.name();
+                        ObjectManager.replace(old, spawned, 30);
+                        String name = eco_reward.name();
 
-                        // If our player is on the PVP world, give them the appropriate reward.
-                        if (GameServer.properties().pvpMode) {
-                            player.inventory().addOrDrop(pvp_reward);
-                        } else {
-                            // Else we must be on the economy server..
-                            player.inventory().addOrDrop(eco_reward);
-                        }
+                        player.inventory().addOrDrop(eco_reward);
                         player.message("You find some " + name + " inside.");
                     });
                 }
@@ -111,27 +106,27 @@ public class RoguesCastle extends PacketInteraction {
 
         //Generate the hit, and apply it to the player.
         if (current_hp >= 90) {
-            player.hit(null,17);
+            player.hit(null, 17);
         } else if (current_hp >= 80) {
-            player.hit(null,15);
+            player.hit(null, 15);
         } else if (current_hp >= 70) {
-            player.hit(null,14);
+            player.hit(null, 14);
         } else if (current_hp >= 60) {
-            player.hit(null,12);
+            player.hit(null, 12);
         } else if (current_hp >= 50) {
-            player.hit(null,11);
+            player.hit(null, 11);
         } else if (current_hp >= 40) {
-            player.hit(null,9);
+            player.hit(null, 9);
         } else if (current_hp >= 30) {
-            player.hit(null,7);
+            player.hit(null, 7);
         } else if (current_hp >= 20) {
-            player.hit(null,6);
+            player.hit(null, 6);
         } else if (current_hp >= 10) {
-            player.hit(null,5);
+            player.hit(null, 5);
         } else if (current_hp >= 7) {
-            player.hit(null,4);
+            player.hit(null, 4);
         } else if (current_hp >= 3) {
-            player.hit(null,3);
-        } else player.hit(null,1);
+            player.hit(null, 3);
+        } else player.hit(null, 1);
     }
 }

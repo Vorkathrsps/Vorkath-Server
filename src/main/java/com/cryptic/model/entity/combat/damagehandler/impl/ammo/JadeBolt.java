@@ -28,7 +28,7 @@ public class JadeBolt implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.JADE_DRAGON_BOLTS_E, ItemIdentifiers.JADE_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 double boltSpecialMultiplier = 1.18;
                 damage *= boltSpecialMultiplier;
                 target.performGraphic(new Graphic(755, GraphicHeight.LOW, 55 + 5));

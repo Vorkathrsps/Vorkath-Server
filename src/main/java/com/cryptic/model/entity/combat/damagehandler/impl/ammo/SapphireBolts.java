@@ -28,7 +28,7 @@ public class SapphireBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.SAPPHIRE_DRAGON_BOLTS_E, ItemIdentifiers.SAPPHIRE_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 Player t = target.getAsPlayer();
                 t.performGraphic(new Graphic(751, GraphicHeight.LOW, 55 + 5));
                 t.getSkills().alterSkill(Skills.PRAYER, -20);

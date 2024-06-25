@@ -27,7 +27,7 @@ public class PearlBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.PEARL_DRAGON_BOLTS_E, ItemIdentifiers.PEARL_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 target.performGraphic(new Graphic(750, GraphicHeight.LOW, 55 + 5));
                 double boltSpecialMultiplier = 1.1;
                 damage *= boltSpecialMultiplier;

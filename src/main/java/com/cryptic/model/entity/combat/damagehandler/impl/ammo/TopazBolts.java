@@ -28,7 +28,7 @@ public class TopazBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.TOPAZ_DRAGON_BOLTS_E, ItemIdentifiers.TOPAZ_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec)) && target.isPlayer()) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec)) && target.isPlayer()) {
                 Player t = target.getAsPlayer();
                 t.performGraphic(new Graphic(757, GraphicHeight.HIGH, 55 + 5));
                 t.getSkills().alterSkill(Skills.MAGIC, t.getSkills().level(Skills.MAGIC) - 1);

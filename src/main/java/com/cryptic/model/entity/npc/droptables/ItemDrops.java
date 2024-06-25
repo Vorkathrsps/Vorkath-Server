@@ -6,6 +6,7 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.skill.impl.prayer.Ashes;
 import com.cryptic.model.content.skill.impl.prayer.Bone;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
@@ -49,13 +50,14 @@ public class ItemDrops {
                 this.checkPlayerEventDoubleDrops(isDoubleDropsEnabled, drop);
                 if (isSkipped(drop.getId())) continue;
                 if (isSkipLootingBag(player, drop)) continue;
+                if (isEcumenicalKey(drop) && !WildernessArea.inWilderness(player.tile())) continue;
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
                 if (isUsingBoneCrusher(player, drop)) continue;
                 if (isUsingBoneHunter(player, drop)) drop = drop.note();
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
-                if (isFremennikSeaBootsEffect(player, drop)) drop = drop.note();
+                if (isFremennikSeaBootsEffect(npc, player, drop)) drop = drop.note();
                 this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
@@ -98,6 +100,10 @@ public class ItemDrops {
 
     public static boolean isSkipped(int id) {
         return ArrayUtils.contains(ignored, id);
+    }
+
+    final boolean isEcumenicalKey(final Item drop) {
+        return drop.getId() == ECUMENICAL_KEY;
     }
 
     final void rollKeyTable(Player player, Tile tile) {
@@ -157,7 +163,9 @@ public class ItemDrops {
         return false;
     }
 
-    final boolean isFremennikSeaBootsEffect(final Player player, final Item drop) {
+    final boolean isFremennikSeaBootsEffect(final NPC npc, final Player player, final Item drop) {
+        if (!ArrayUtils.contains(FormulaUtils.AVIANSIES, npc.id())) return false;
+        System.out.println("addy bars noted");
         return player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) && drop.getId() == ADAMANTITE_BAR;
     }
 

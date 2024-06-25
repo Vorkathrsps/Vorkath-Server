@@ -55,6 +55,7 @@ public class ItemDrops {
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
+                if (isFremennikSeaBootsEffect(player, drop)) drop = drop.note();
                 this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
@@ -154,6 +155,10 @@ public class ItemDrops {
             return true;
         }
         return false;
+    }
+
+    final boolean isFremennikSeaBootsEffect(final Player player, final Item drop) {
+        return player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) && drop.getId() == ADAMANTITE_BAR;
     }
 
     final boolean isUsingAshSanctifier(final Player player, final Item drop) {

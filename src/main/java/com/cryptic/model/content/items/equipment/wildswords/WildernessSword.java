@@ -5,9 +5,8 @@ import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 public class WildernessSword extends PacketInteraction {
-    @Override
+  /*  @Override
     public boolean handleItemContainerActionInteraction(Player player, Item item, int slot, int interfaceId, int type) {
-
         return true;
-    }
+    }*/
 }

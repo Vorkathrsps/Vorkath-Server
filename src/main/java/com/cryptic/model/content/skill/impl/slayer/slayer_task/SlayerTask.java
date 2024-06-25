@@ -295,7 +295,6 @@ public class SlayerTask {
             decrementTaskAmount(player, amount);
             if (this.isRemoveSlayerTask(player)) {
                 this.increaseSlayerAchievements(player);
-                DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
                 int increment = 0;
                 increment += this.getSlayerTaskCompletionPoints(player);
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
@@ -308,6 +307,7 @@ public class SlayerTask {
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);
+                player.getInventory().addOrDrop(new Item(LARRANS_KEY, 1));
                 return;
             }
         }
@@ -319,6 +319,7 @@ public class SlayerTask {
         AchievementsManager.activate(player, Achievements.SLAYER_3, 1);
         AchievementsManager.activate(player, Achievements.SLAYER_4, 1);
         AchievementsManager.activate(player, Achievements.SLAYER_5, 1);
+        DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
     }
 
     private void decrementTaskAmount(Player player, int amount) {

@@ -359,8 +359,10 @@ public class NPCInteractionHandler implements PacketListener {
             }
             case 2980 -> World.getWorld().shop(6).open(player);
             case TWIGGY_OKORN -> {
+                final int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
                 npc.setPositionToFace(player.tile());
-                player.getDialogueManager().start(new TwiggyOKorn());
+                World.getWorld().shop(765).open(player);
+                player.message("<img=13><shad=0>"+Color.RUNITE.wrap("You currently have a total of " + currentAchievementPoints + " Achievement points.")+"</shad></img>");
             }
             case VOID_KNIGHT -> {
                 int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);

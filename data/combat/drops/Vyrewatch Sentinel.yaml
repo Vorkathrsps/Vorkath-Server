@@ -83,12 +83,6 @@ drops:
   chance: 661
   rareDrop: false
   sendToBank: false
-- item: BLOOD_SHARD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 500
-  rareDrop: true
-  sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
@@ -406,5 +400,11 @@ drops:
   maximumAmount: 1
   chance: 33
   rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_BLOOD_FURY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 180
+  rareDrop: true
   sendToBank: false
 rolls: 1

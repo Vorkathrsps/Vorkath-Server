@@ -1641,7 +1641,9 @@ public enum AttributeKey {
     MINING_IDENTIFIER(AttribType.STRING),
     SLAYER_IDENTIFIER(AttribType.STRING),
     COOKING_IDENTIFIER(AttribType.STRING),
-    REVENANT_DROP_BOOST;
+    REVENANT_DROP_BOOST,
+    CLAIMED_PREVIOUS_ACHIEVEMENT_POINTS(AttribType.BOOLEAN),
+    ACHIEVEMENT_POINTS(AttribType.INTEGER), WILDERNESS_COURSE_STAGE;
 
     private String saveName;
     private AttribType type;

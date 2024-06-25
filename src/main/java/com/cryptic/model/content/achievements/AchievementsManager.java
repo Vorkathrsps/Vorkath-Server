@@ -24,17 +24,22 @@ public class AchievementsManager {
 
     private static final Logger logger = LogManager.getLogger(AchievementsManager.class);
 
-    public static void activate(Player player, Achievements achievement, int increaseBy) {
+    public static void activate(final Player player, final Achievements achievement, final int increaseBy) {
 
         if (player.getUsername().equalsIgnoreCase("Box test")) return;
+        if (player.getParticipatingTournament() != null) return;
 
         final int current = player.achievements().computeIfAbsent(achievement, _ -> 0);
 
         if (current >= achievement.getCompleteAmount()) return;
 
+
         player.achievements().put(achievement, current + increaseBy);
 
         final List<Achievements> list = Arrays.stream(Achievements.VALUES).filter(Objects::nonNull).toList();
+
+        checkPreviousAchievementPointsClaimed(player);
+
         int step = 0;
         AchievementWidget.updateFull(player, list, step);
         if (player.achievements().get(achievement) >= achievement.getCompleteAmount()) {
@@ -52,9 +57,35 @@ public class AchievementsManager {
             Item[] reward = achievement.getReward();
 
             if (reward != null) {
+                incrementAchievementPoints(player, achievement);
                 player.inventory().addOrBank(reward.clone());
                 Utils.sendDiscordInfoLog(player.getUsername() + " has completed " + achievement.getName() + " and got " + Arrays.toString(reward.clone()), "achievements");
             }
+        }
+    }
+
+    private static void incrementAchievementPoints(final Player player, final Achievements achievements) {
+        int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
+        currentAchievementPoints += 3;
+        player.putAttrib(AttributeKey.ACHIEVEMENT_POINTS, currentAchievementPoints);
+        player.sendInformationMessage("You've received 3 Achievement points for completing the " + achievements.getName() + " achievement.");
+        player.sendInformationMessage("You now have a total of " + currentAchievementPoints + " Achievement points.");
+    }
+
+    public static void checkPreviousAchievementPointsClaimed(final Player player) {
+        final boolean claimedPreviousPoints = player.getAttribOr(AttributeKey.CLAIMED_PREVIOUS_ACHIEVEMENT_POINTS, false);
+        int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
+        if (!claimedPreviousPoints) {
+            int count = 0;
+            for (final Achievements achievement : player.achievements().keySet()) {
+                if (achievement == null) continue;
+                if (player.achievements().get(achievement).equals(achievement.getCompleteAmount())) {
+                    count++;
+                }
+            }
+            currentAchievementPoints += count;
+            player.putAttrib(AttributeKey.ACHIEVEMENT_POINTS, currentAchievementPoints);
+            player.putAttrib(AttributeKey.CLAIMED_PREVIOUS_ACHIEVEMENT_POINTS, true);
         }
     }
 

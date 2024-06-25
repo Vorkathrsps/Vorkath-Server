@@ -521,8 +521,10 @@ public class Player extends Entity {
         } else {
             player.getPacketSender().sendString(80068, "Slayer Task: @whi@N/A");
         }
+        int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
+        player.getPacketSender().sendString(80069, "Achievement Points: @whi@" + currentAchievementPoints);
         for (int index = 0; index < 19; index++) {
-            player.getPacketSender().sendString(80069 + index, "");
+            player.getPacketSender().sendString(80070 + index, "");
         }
     }
 
@@ -1523,7 +1525,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
-        message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName()+ "!");
+        message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName() + "!");
         handleForcedTeleports();
         applyAttributes();
         updatePlayer();
@@ -1605,6 +1607,7 @@ public class Player extends Entity {
         if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile()))
             putAttrib(MULTIWAY_AREA, 0);
         if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) askForAccountPin();
+        AchievementsManager.checkPreviousAchievementPointsClaimed(this);
     }
 
     private void applyPoweredStaffSpells() {
@@ -2708,6 +2711,14 @@ public class Player extends Entity {
         return achievementsCompleted() >= Achievements.getTotal() - 1;
     }
 
+    public void sendHintMessage(String message) {
+        this.message("<img=1388><shad=0> " + Color.RUNITE.wrap(message) + "</shad></img>");
+    }
+
+    public void sendInformationMessage(String message) {
+        this.message("<img=13><shad=0> " + Color.RUNITE.wrap(message) + "</shad></img>");
+    }
+
     /**
      * -- GETTER --
      * Returns the single instance of the
@@ -3221,7 +3232,11 @@ public class Player extends Entity {
     @Setter
     Player tournamentOpponent;
 
-    @Getter TimeClock raidTimeClock = new TimeClock();
+    @Getter
+    TimeClock raidTimeClock = new TimeClock();
+
+    @Getter
+    public List<Item> wildernessAgilityLoot = new ArrayList<>();
 
     @RequiredArgsConstructor
     public static class DailyTask {

@@ -9,6 +9,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,10 +48,12 @@ public class Obelisks extends PacketInteraction {
         WILDERNESS_44(14826, 2980, 3866, 0, false),
         WILDERNESS_50(14831, 3307, 3916, 0, false);
 
+        @Getter
         private final int id;
         private final int x;
         private final int y;
         private final int h;
+        @Setter
         private boolean active;
 
         Obelisk(int id, int x, int y, int h, boolean active) {
@@ -60,20 +64,12 @@ public class Obelisks extends PacketInteraction {
             this.active = active;
         }
 
-        public int getId() {
-            return id;
-        }
-
         public Tile tile() {
             return new Tile(x, y, h);
         }
 
         public boolean active() {
             return active;
-        }
-
-        public void setActive(boolean active) {
-            this.active = active;
         }
 
         public static Obelisk object(int id) {
@@ -207,11 +203,6 @@ public class Obelisks extends PacketInteraction {
 
         List<Player> teleported = new LinkedList<>();
 
-        // The interacted obelisk coordinates are from the enum at the top of this class.
-        // The coordinates below are therefore fixed, and do not change depending on if you clicked the NE/SE/SW/NW pillar.
-
-        //Replace the world object to the temp one
-
         GameObject swObelisk = new GameObject(14825, new Tile(x, y).transform(-2, -2, 0), obj.getType(), obj.getRotation());
         ObjectManager.addObj(swObelisk);
 
@@ -246,8 +237,6 @@ public class Obelisks extends PacketInteraction {
             });
         }).then(2, () -> {
             teleported.forEach(p -> {
-                //Tile relative = obelisk.tile() - p.tile();
-                //p.teleport(destTile - relative);
                 p.teleport(destTile);
                 p.message("Ancient magic teleports you somewhere in the wilderness.");
                 p.animate(-1);

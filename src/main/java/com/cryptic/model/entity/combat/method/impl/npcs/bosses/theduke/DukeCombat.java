@@ -25,8 +25,16 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 
 public class DukeCombat extends CommonCombatMethod {
-    boolean isGasSent = false;
+
     Map<Player, Integer> damageMap = new HashMap<>();
+    boolean isGasSent = false;
+    public static final int
+        ATTACK_ANIMATION = 10178,
+        SLAM_ANIMATION = 10176,
+        SLAM_GRAPHIC = 2439,
+        DEATH_ANIMATION = 10181,
+        DEATH_TRANSFORMATION = 12192;
+
     @Override
     public void init(NPC npc) {
         npc.putAttrib(AttributeKey.SLEEPING, true);
@@ -80,14 +88,21 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     private void sendMagic(final TheDukeInstance instance) {
+        final NPC duke = (NPC) this.entity;
         final Tile tile = instance.getOwner().getCentrePosition();
-        this.entity.animate(10178);
-        var tileDist = entity.getCentrePosition().transform(3, 3).getChevDistance(tile);
-        var duration = 20 + 70 + (tileDist * 2);
+        final Tile entityCenterPosition = duke.getCentrePosition();
+        final Tile transform = entityCenterPosition.transform(3, 3);
+        final int size = duke.getSize();
+
+        final int tileDist = transform.getChevDistance(tile);
+        int duration = 20 + 70 + (tileDist * 2);
         duration -= 2;
-        Projectile p = new Projectile(entity.getCentrePosition(), target, 2434, 20, duration, 87, 25, 10, this.entity.getSize(), 32, 2);
-        final int delay = this.entity.executeProjectile(p);
-        new Hit(entity, target, delay + 1, CombatType.MAGIC)
+
+        duke.animate(ATTACK_ANIMATION);
+        final Projectile projectile = new Projectile(entityCenterPosition, target, 2434, 20, duration, 87, 25, 10, size, 32, 2);
+        final int delay = duke.executeProjectile(projectile);
+
+        new Hit(duke, target, delay, CombatType.MAGIC)
             .setAccurate(true)
             .setDamage(World.getWorld().random(1, 60))
             .setHitMark(HitMark.HIT)
@@ -103,10 +118,10 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     private boolean isSendDoubleGas(final TheDukeInstance instance) {
-        int gasCount = instance.getGasCount();
+        final int gasCount = instance.getGasCount();
         if (gasCount >= 2) instance.setTwoSent(true);
-        if (isEnraged() && !instance.isTwoSent()) {
-            sendGas(instance);
+        if (this.isEnraged() && !instance.isTwoSent()) {
+            this.sendGas(instance);
             instance.setGasCount(instance.getGasCount() + 1);
             return true;
         } else if (instance.isTwoSent()) {
@@ -121,30 +136,38 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     final void sendGas(final TheDukeInstance instance) {
-        int index = instance.getCurrentTileIndex();
-        Tile tile = instance.getTiles()[index];
+        final NPC duke = (NPC) this.entity;
         final Player owner = instance.getOwner();
-        entity.animate(10178);
-        Projectile projectile = buildToxicGasProjectile(tile);
-        NPC fume = isEnraged() ? getNpc(instance) : getNpcNonEnraged(instance);
-        checkToxicGasDamage(instance, projectile, fume, owner);
-        if (index == instance.getTiles().length - 1) {
+        final int index = instance.getCurrentTileIndex();
+        final Tile[] tiles = instance.getTiles();
+        final Tile tile = tiles[index];
+
+        duke.animate(ATTACK_ANIMATION);
+        final Projectile projectile = buildToxicGasProjectile(tile);
+        final NPC fume = this.isEnraged() ? this.getNpc(instance) : this.getNpcNonEnraged(instance);
+        this.checkToxicGasDamage(instance, projectile, owner);
+        if (index == tiles.length - 1) {
             instance.setIteratingForward(false);
         } else if (index == 0) {
             instance.setIteratingForward(true);
         }
-        isGasSent = true;
+
+        this.isGasSent = true;
         instance.setCurrentTileIndex(instance.isIteratingForward() ? index + 1 : index - 1);
     }
 
     final void sendSlam(final TheDukeInstance instance) {
-        int finalIndex = 0;
         final Set<Tile> tiles = this.buildSlamTiles();
-        entity.animate(10176);
-        entity.graphic(2439);
+        final NPC duke = (NPC) this.entity;
+
+        duke.animate(SLAM_ANIMATION);
+        duke.graphic(SLAM_GRAPHIC);
+
+        int finalIndex = 0;
         for (Tile tile : tiles) {
-            finalIndex %= instance.getSlamGraphics().length;
-            World.getWorld().sendUnclippedTileGraphic(instance.getSlamGraphics()[finalIndex], tile, 0, 0);
+            int[] slamGraphics = instance.getSlamGraphics();
+            finalIndex %= slamGraphics.length;
+            World.getWorld().sendUnclippedTileGraphic(slamGraphics[finalIndex], tile, 0, 0);
             finalIndex++;
             sendHit(tile);
         }
@@ -152,11 +175,18 @@ public class DukeCombat extends CommonCombatMethod {
 
     @NotNull
     private Projectile buildToxicGasProjectile(final Tile tile) {
-        var tileDist = entity.getCentrePosition().transform(3, 3).getChevDistance(tile);
-        var duration = 20 + 70 + (tileDist * 2);
+        final NPC duke = (NPC) this.entity;
+        final Tile centerPosition = duke.getCentrePosition();
+        final Tile transform = centerPosition.transform(3, 3);
+        final Tile targetTileTransform = tile.transform(0, 0, duke.getZ());
+        final int size = duke.getSize();
+
+        final int tileDist = transform.getChevDistance(tile);
+        int duration = 20 + 70 + (tileDist * 2);
         duration -= 2;
-        Projectile p = new Projectile(entity.getCentrePosition(), tile.transform(0, 0, this.entity.getZ()), 2436, 20, duration, 87, 0, 5, this.entity.getSize(), 32, 2);
-        p.send(entity, tile);
+
+        Projectile p = new Projectile(centerPosition, targetTileTransform, 2436, 20, duration, 87, 0, 5, size, 32, 2);
+        p.send(duke, tile);
         return p;
     }
 
@@ -167,7 +197,7 @@ public class DukeCombat extends CommonCombatMethod {
         int[] graphics = instance.getGasGraphics();
         NPC fumeOffset = getFumeOffset(instance, fume, graphics);
         if (fumeOffset != null) return fumeOffset;
-        fume.setGraphics(List.of(
+        this.setGraphics(fume, List.of(
             new Graphic(graphics[0], GraphicHeight.LOW, 120),
             new Graphic(graphics[1], GraphicHeight.LOW, 180),
             new Graphic(graphics[2], GraphicHeight.LOW, 180),
@@ -181,9 +211,12 @@ public class DukeCombat extends CommonCombatMethod {
             new Graphic(graphics[2], GraphicHeight.LOW, 415),
             new Graphic(graphics[1], GraphicHeight.LOW, 473),
             new Graphic(graphics[2], GraphicHeight.LOW, 473),
-            new Graphic(graphics[1], GraphicHeight.LOW, 531))
-        );
+            new Graphic(graphics[1], GraphicHeight.LOW, 531)));
         return fume;
+    }
+
+    void setGraphics(NPC fume, List<Graphic> graphics) {
+        fume.setGraphics(graphics);
     }
 
     @NotNull
@@ -193,7 +226,7 @@ public class DukeCombat extends CommonCombatMethod {
         int[] graphics = instance.getGasGraphics();
         NPC fumeOffset = getFumeOffset(instance, fume, graphics);
         if (fumeOffset != null) return fumeOffset;
-        fume.setGraphics(List.of(
+        this.setGraphics(fume, List.of(
             new Graphic(graphics[0], GraphicHeight.LOW, 120),
             new Graphic(graphics[1], GraphicHeight.LOW, 180),
             new Graphic(graphics[2], GraphicHeight.LOW, 180),
@@ -209,15 +242,14 @@ public class DukeCombat extends CommonCombatMethod {
             new Graphic(graphics[2], GraphicHeight.LOW, 473),
             new Graphic(graphics[1], GraphicHeight.LOW, 531),
             new Graphic(graphics[2], GraphicHeight.LOW, 531),
-            new Graphic(graphics[2], GraphicHeight.LOW, 589))
-        );
+            new Graphic(graphics[2], GraphicHeight.LOW, 589)));
         return fume;
     }
 
     @Nullable
     private NPC getFumeOffset(final TheDukeInstance instance, NPC fume, int[] graphics) {
         if (instance.getGasCount() == 0 && isEnraged()) {
-            fume.setGraphics(List.of(
+            this.setGraphics(fume, List.of(
                 new Graphic(graphics[0], GraphicHeight.LOW, 120),
                 new Graphic(graphics[1], GraphicHeight.LOW, 180),
                 new Graphic(graphics[2], GraphicHeight.LOW, 180),
@@ -237,24 +269,24 @@ public class DukeCombat extends CommonCombatMethod {
                 new Graphic(graphics[2], GraphicHeight.LOW, 589),
                 new Graphic(graphics[1], GraphicHeight.LOW, 647),
                 new Graphic(graphics[2], GraphicHeight.LOW, 647),
-                new Graphic(graphics[2], GraphicHeight.LOW, 705))
-            );
+                new Graphic(graphics[2], GraphicHeight.LOW, 705)));
             return fume;
         }
         return null;
     }
 
-    private void checkToxicGasDamage(final TheDukeInstance instance, Projectile p, NPC npc, final Player owner) {
+    private void checkToxicGasDamage(final TheDukeInstance instance, Projectile p, final Player owner) {
+        final NPC duke = (NPC) this.entity;
         Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
             final int[] tick = new int[1];
-            final Tile realTile = npc.tile().transform(1, 1);
+            final Tile realTile = duke.tile().transform(1, 1);
             Chain.noCtx().repeatingTask(1, task -> {
-                if (tick[0] >= getToxicGasTick(instance)) {
+                if (tick[0] >= this.getToxicGasTick(instance)) {
                     task.stop();
                     return;
                 }
                 if (owner.tile().inSqRadius(realTile, 1)) {
-                    new Hit(entity, owner, CombatFactory.calcDamageFromType(entity, owner, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy(false).submit();
+                    new Hit(duke, owner, CombatFactory.calcDamageFromType(duke, owner, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy(false).submit();
                 }
                 tick[0]++;
             });
@@ -271,7 +303,7 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     final Set<Tile> buildSlamTiles() {
-        Set<Tile> temp = new HashSet<>();
+        final Set<Tile> temp = new HashSet<>();
         final Tile southwest = Tile.getSouthwestTile(this.entity);
         for (int y = 1; y <= 2; y++) {
             for (int x = 1; x <= 7; x++) {
@@ -287,13 +319,14 @@ public class DukeCombat extends CommonCombatMethod {
     }
 
     private boolean isEnraged() {
-        return this.entity.hasAttrib(AttributeKey.BARON_ENRAGED);
+        final NPC duke = (NPC) this.entity;
+        return duke.hasAttrib(AttributeKey.BARON_ENRAGED);
     }
 
     final void computeDropTable(NPC npc, ItemDrops drops) {
-        for (var entry : damageMap.entrySet()) {
-            var player = entry.getKey();
-            var damage = entry.getValue();
+        for (var entry : this.damageMap.entrySet()) {
+            final Player player = entry.getKey();
+            final int damage = entry.getValue();
             if (player == null || damage < 100) continue;
             drops.rollTheDropTable(player, npc);
         }
@@ -301,16 +334,16 @@ public class DukeCombat extends CommonCombatMethod {
 
     final void incrementDamageMap(Hit hit, Entity source, Entity target) {
         if (source instanceof Player player && target instanceof NPC) {
-            if (!damageMap.containsKey(player)) damageMap.put(player, hit.getDamage());
-            else damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
+            if (!this.damageMap.containsKey(player)) this.damageMap.put(player, hit.getDamage());
+            else this.damageMap.computeIfPresent(player, (_, v) -> v + hit.getDamage());
         }
     }
 
     @Override
     public void postDamage(Hit hit) {
-        var target = hit.getTarget();
-        var source = hit.getSource();
-        incrementDamageMap(hit, source, target);
+        final Entity target = hit.getTarget();
+        final Entity source = hit.getSource();
+        this.incrementDamageMap(hit, source, target);
     }
 
     @Override
@@ -320,13 +353,14 @@ public class DukeCombat extends CommonCombatMethod {
 
     @Override
     public boolean customOnDeath(Hit hit) {
-        NPC npc = (NPC) entity;
-        npc.animate(10181);
         final ItemDrops drops = new ItemDrops();
+        final NPC duke = (NPC) entity;
+
+        duke.animate(DEATH_ANIMATION);
         Chain.noCtx().runFn(4, () -> {
-            computeDropTable(npc, drops);
-            npc.transmog(12192, false);
-            damageMap.clear();
+            this.computeDropTable(duke, drops);
+            duke.transmog(DEATH_TRANSFORMATION, false);
+            this.damageMap.clear();
         });
         return true;
     }
@@ -348,7 +382,8 @@ public class DukeCombat extends CommonCombatMethod {
 
     @Override
     public void doFollowLogic() {
-        this.entity.setEntityInteraction(null);
-        this.entity.face(null);
+        final NPC duke = (NPC) this.entity;
+        duke.setEntityInteraction(null);
+        duke.face(null);
     }
 }

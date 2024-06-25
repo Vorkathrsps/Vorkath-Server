@@ -1301,7 +1301,6 @@ public class ItemContainer implements Iterable<Item> {
      */
     public final void fireItemUpdatedEvent(Item oldItem, Item newItem, int index, boolean refresh) {
         if (firingEvents) {
-            System.out.println("firing events");
             listeners.forEach(evt -> evt.itemUpdated(this, Optional.ofNullable(oldItem), Optional.ofNullable(newItem),
                 index, refresh));
         }

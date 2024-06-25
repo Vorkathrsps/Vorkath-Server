@@ -23978,5 +23978,6 @@
   {"x":3337,"y":10104,"z":0,"id":7278,"walkRange":2,"direction":"s"},
   {"x":3333,"y":10102,"z":0,"id":7278,"walkRange":2,"direction":"s"},
   {"x":3340,"y":10103,"z":0,"id":7278,"walkRange":2,"direction":"s"},
-  {"x":3080,"y":3508,"z":0,"id":8500,"walkRange":0,"direction":"e"}
+  {"x":3080,"y":3508,"z":0,"id":8500,"walkRange":0,"direction":"e"},
+  {"x":3080,"y":3511,"z":0,"id":5527,"walkRange":0,"direction":"e"}
 ]

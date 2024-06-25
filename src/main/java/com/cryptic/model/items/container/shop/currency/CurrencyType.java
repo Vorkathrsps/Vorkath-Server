@@ -3,6 +3,7 @@ package com.cryptic.model.items.container.shop.currency;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.shop.currency.impl.*;
+import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.google.common.collect.ImmutableSet;
@@ -25,8 +26,9 @@ public enum CurrencyType {
     TOURNAMENT_POINTS(new TournamentPointsCurrency()),
     RISKZONE_POINTS(new RiskzonePointsCurrency()),
     VOID_ISLAND_POINTS(new VoidIslandPointCurrency()),
-    DONATOR_TICKETS(new ItemCurrency(ItemIdentifiers.DONATOR_TICKET)),
-    STARDUST(new ItemCurrency(ItemIdentifiers.STARDUST));
+    DONATOR_TICKETS(new ItemCurrency(CustomItemIdentifiers.DONATOR_TICKET)),
+    STARDUST(new ItemCurrency(ItemIdentifiers.STARDUST)),
+    ACHIEVEMENT_POINTS(new AchievementPointsCurrency());
 
     private static final ImmutableSet<CurrencyType> VALUES = ImmutableSet.copyOf(values());
 
@@ -71,6 +73,10 @@ public enum CurrencyType {
                 break;
             case STARDUST:
                 value = Utils.formatNumber(player.inventory().contains(ItemIdentifiers.STARDUST) ? player.inventory().count(ItemIdentifiers.STARDUST) : 0);
+                break;
+            case ACHIEVEMENT_POINTS:
+                int achievementPoints = player.<Integer>getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
+                value = Utils.formatNumber(achievementPoints);
                 break;
             default:
                 break;

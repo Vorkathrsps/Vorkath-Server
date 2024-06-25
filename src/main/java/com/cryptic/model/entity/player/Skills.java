@@ -21,6 +21,7 @@ import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
@@ -50,9 +51,9 @@ public class Skills {
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;
     private int combat;
-
     public boolean test;
     public final boolean[] dirty = new boolean[SKILL_COUNT];
+    public static final Area AFK_ZONE = new Area(3073, 3482, 3086, 3496);
 
     public Skills(Player player) {
         this.player = player;
@@ -67,61 +68,6 @@ public class Skills {
     public void restoreLevels(double[] xp, int[] levels) {
         this.xps = xp;
         this.levels = levels;
-    }
-
-
-    private double expModifiers(int skill) {
-       /* switch(skill) {
-            case PRAYER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 50.0;
-            }
-            case COOKING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case WOODCUTTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case FLETCHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case FISHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 40.0;
-            }
-            case FIREMAKING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case CRAFTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case SMITHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 60.0;
-            }
-            case MINING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 35 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 50 : 50.0;
-            }
-            case HERBLORE -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case AGILITY -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case THIEVING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 35.0;
-            }
-            case SLAYER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 25.0;
-            }
-            case FARMING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 55.0;
-            }
-            case RUNECRAFTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 50.0;
-            }
-            case HUNTER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-        }*/
-        return 1.0;
     }
 
     public void update() {
@@ -428,6 +374,7 @@ public class Skills {
     }
 
     private void rollAntiqueLamp() {
+        if (player.tile().inArea(AFK_ZONE)) return;
         int chance = 500;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER, SAPPHIRE_MEMBER -> chance = 450;
@@ -445,7 +392,6 @@ public class Skills {
             if (set.getSkillType().getId() == AGILITY) {
                 if (player.getEquipment().containsAll(set.getSet())) {
                     amount *= set.experienceBoost;
-                    System.out.println("yeuh");
                     break;
                 }
             }

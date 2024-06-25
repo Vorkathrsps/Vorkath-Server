@@ -7,7 +7,6 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.KINGS_LADDER;
-import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.KINGS_LADDER_10230;
 
 public class DagannothLair extends PacketInteraction {
 
@@ -15,7 +14,7 @@ public class DagannothLair extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if(option == 1) {
             //Climb the ladder down into the boss room.
-            if(obj.getId() == KINGS_LADDER_10230) {
+            if(obj.getId() == 10230) {
                 Ladders.ladderDown(player, new Tile(2900, 4449),true);
                 return true;
             }

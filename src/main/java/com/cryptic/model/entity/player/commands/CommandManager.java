@@ -6,6 +6,8 @@ import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.achievements.AchievementUtility;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
@@ -622,38 +624,9 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            ScurriusCombat.HealState state;
-            NPC npc = new NPC(7221, p.tile()).spawn(false);
-            state = ScurriusCombat.HealState.THREE;
-            if (state.equals(ScurriusCombat.HealState.ONE)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3298, 9873);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
-            } else if (state.equals(ScurriusCombat.HealState.TWO)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3303, 9867);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
-            } else if (state.equals(ScurriusCombat.HealState.THREE)) {
-                npc.getCombatInfo().setAggressive(false);
-                npc.canAttack(false);
-                var tile = new Tile(3298, 9855);
-                BooleanSupplier cancel = () -> npc.tile().equals(tile);
-                Chain.noCtx().cancelWhen(cancel).repeatingTask(1, stepTask -> {
-                    npc.setPositionToFace(tile);
-                    npc.stepAbs(tile, MovementQueue.StepType.FORCED_WALK);
-                });
+            for (var achievement : Achievements.VALUES) {
+                AchievementsManager.activate(p, achievement, 200_000);
             }
-            Chain.noCtx().runFn(15, npc::remove);
         });
 
         dev("c3", (p, c, s) -> {

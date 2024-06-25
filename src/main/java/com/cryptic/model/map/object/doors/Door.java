@@ -3,11 +3,11 @@ package com.cryptic.model.map.object.doors;
 import com.cryptic.annotate.Init;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.agility.course.WildernessCourse;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
@@ -17,10 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
-import static com.cryptic.model.content.skill.impl.agility.course.WildernessCourse.LOWER_GATE;
+import static com.cryptic.model.content.skill.impl.agility.course.wilderness.WildernessCourse.LOWER_GATE;
 
 // ~~~ DIRECTIONS ~~~ \\
 // 0 = east, 1 = south \\
@@ -39,18 +38,60 @@ public class Door {
 
     public static void handle(Player player, GameObject obj) {
         if (obj.getId() == LOWER_GATE) {
-            BooleanSupplier firstStep = () -> player.tile().equals(new Tile(2998, 3917, 0));
-            BooleanSupplier lastStep = () -> player.tile().equals(new Tile(2998, 3931, 0));
-
-            handle(player, obj, false);
-            WildernessCourse.lowergate(player, obj);
-            player.waitUntil(1, firstStep, () -> handle(player, obj, false));
-            player.waitUntil(1, lastStep, () -> {
-                final GameObject gates = new GameObject(23552, new Tile(2998, 3931, 0));
-                handle(player, gates, false);
-                Chain.noCtx().runFn(1, () -> handle(player, gates, false));
+            player.agilityWalk(false);
+            player.lockDelayDamage();
+            ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3917, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+            player.stepAbs(player.tile().transform(0, +1), MovementQueue.StepType.FORCED_WALK);
+            Chain.noCtx().runFn(2, () -> {
+                ObjectManager.addObj(new GameObject(23555, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+                player.stepAbs(player.tile().transform(0, +14), MovementQueue.StepType.FORCED_WALK);
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+            }).then(12, () -> {
+                ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(38848, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            }).then(3, () -> {
+                ObjectManager.addObj(new GameObject(23552, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(23554, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+                player.agilityWalk(true);
+                player.looks().resetRender();
+                player.unlock();
             });
             return;
+        } else if (obj.getId() == 23552) {
+            player.agilityWalk(false);
+            player.lockDelayDamage();
+            ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3931, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+            ObjectManager.addObj(new GameObject(38848, new Tile(2997, 3931, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            player.stepAbs(player.tile().transform(0, -1), MovementQueue.StepType.FORCED_WALK);
+            player.setPositionToFace(null);
+            Chain.noCtx().runFn(2, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(0, -14), MovementQueue.StepType.FORCED_WALK);
+            }).then(1, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(0, -13), MovementQueue.StepType.FORCED_WALK);
+                ObjectManager.addObj(new GameObject(23552, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(23554, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            }).then(12, () -> {
+                ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+            }).then(4, () -> {
+                ObjectManager.addObj(new GameObject(23555, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+                player.agilityWalk(true);
+                player.looks().resetRender();
+                player.unlock();
+            });
         }
         if (obj.getId() == 26760) {
             final int yPos = player.getY();

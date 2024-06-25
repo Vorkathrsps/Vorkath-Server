@@ -42,6 +42,16 @@ public class FormulaUtils {
         return false;
     }
 
+    public static final int[] RED_DRAGONS = new int[]{
+        NpcIdentifiers.RED_DRAGON,
+        NpcIdentifiers.RED_DRAGON_248,
+        NpcIdentifiers.RED_DRAGON_249,
+        NpcIdentifiers.RED_DRAGON_250,
+        NpcIdentifiers.RED_DRAGON_251,
+        NpcIdentifiers.RED_DRAGON_8075,
+        NpcIdentifiers.RED_DRAGON_8078,
+        NpcIdentifiers.RED_DRAGON_8079
+    };
     public static final int[] METAL_DRAGONS = new int[]{
         NpcIdentifiers.STEEL_DRAGON_274,
         NpcIdentifiers.STEEL_DRAGON,

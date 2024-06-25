@@ -52,6 +52,7 @@ public class ItemDrops {
                 if (isSkipped(drop.getId())) continue;
                 if (isSkipLootingBag(player, drop)) continue;
                 if (isEcumenicalKey(drop) && !WildernessArea.inWilderness(player.tile())) continue;
+                if (isKaramjaGloveEffect(npc, player, drop)) drop = drop.note();
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
                 if (isUsingBoneCrusher(player, drop)) continue;
                 if (isUsingBoneHunter(player, drop)) drop = drop.note();
@@ -59,7 +60,6 @@ public class ItemDrops {
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
                 if (isFremennikSeaBootsEffect(npc, player, drop)) drop = drop.note();
-                if (isKaramjaGloveEffect(npc, player, drop)) drop = drop.note();
                 this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
@@ -168,8 +168,12 @@ public class ItemDrops {
     final boolean isKaramjaGloveEffect(final NPC npc, final Player player, final Item drop) {
         final boolean hasGloves = player.getEquipment().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getInventory().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getBank().contains(ItemIdentifiers.KARAMJA_GLOVES_4);
         final boolean insideBrimhavenDungeon = player.tile().inArea(new Area(Tile.regionToTile(10899).getX(), Tile.regionToTile(10899).getY(), Tile.regionToTile(10899).getX() + 63, Tile.regionToTile(10899).getY() + 63));
+        final boolean insideRedDragonArea = player.tile().inArea(new Area(Tile.regionToTile(10900).getX(), Tile.regionToTile(10900).getY(), Tile.regionToTile(10900).getX() + 63, Tile.regionToTile(10900).getY() + 63));
         final boolean isMetalDragon = ArrayUtils.contains(FormulaUtils.METAL_DRAGONS, npc.id());
-        if (hasGloves && insideBrimhavenDungeon && isMetalDragon) {
+        final boolean isRedDragon = ArrayUtils.contains(FormulaUtils.RED_DRAGONS, npc.id());
+        if (hasGloves && insideRedDragonArea && isRedDragon) {
+            return drop.name().contains("dragonhide");
+        } else if (hasGloves && insideBrimhavenDungeon && isMetalDragon) {
             return drop.name().toLowerCase().contains("bar");
         }
         return false;

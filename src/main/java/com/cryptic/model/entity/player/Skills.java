@@ -224,12 +224,27 @@ public class Skills {
             if (mode.equals(player.getGameMode())) {
                 double setBonus = SkillingSets.check(player, skill);
                 amt *= setBonus;
-                if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
+                amt = checkDoubleExperienceBoost(amt);
+                amt = checkMorytaniaBoost(skill, amt);
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }
         }
         return false;
+    }
+
+    private double checkDoubleExperienceBoost(double amt) {
+        if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
+        return amt;
+    }
+
+    private double checkMorytaniaBoost(int skill, double amt) {
+        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+            if (skill == SLAYER) {
+                amt *= 1.10;
+            }
+        }
+        return amt;
     }
 
     public boolean addExperience(int skill, double amount, double multiplier, boolean counter) {

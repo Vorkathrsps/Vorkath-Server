@@ -20,6 +20,7 @@ import com.cryptic.model.content.bank_pin.BankPinSettings;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
+import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.kill_logs.BossKillLog;
@@ -1568,7 +1569,8 @@ public class Player extends Entity {
     private static void handleOnLogin(Player player) {
         PacketInteractionManager.onLogin(player);
         TournamentManager.onLogin1(player);
-        //DailyTaskManager.onLogin(player);
+        DailyTaskManager.onLogin(player);
+        SlayerTask.resetExplorerRing(player);
         Prayers.onLogin(player);
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);

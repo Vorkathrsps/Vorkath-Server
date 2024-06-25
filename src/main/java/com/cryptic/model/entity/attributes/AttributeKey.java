@@ -154,6 +154,7 @@ public enum AttributeKey {
     CANDIES_TRADED("candiestraded", AttribType.INTEGER),
     FINISHED_HALLOWEEN_TEACHER_DIALOGUE("finished_halloween_teacher_dialogue", AttribType.BOOLEAN),
     LAST_DAILY_RESET("lastdailyreset", AttribType.INTEGER),
+    LAST_DAILY_EXPLORER_RING_RESET("lastdailyreset", AttribType.INTEGER),
 
     HUNLESS_PREVIOUS_STYLE,
 
@@ -1643,7 +1644,8 @@ public enum AttributeKey {
     COOKING_IDENTIFIER(AttribType.STRING),
     REVENANT_DROP_BOOST,
     CLAIMED_PREVIOUS_ACHIEVEMENT_POINTS(AttribType.BOOLEAN),
-    ACHIEVEMENT_POINTS(AttribType.INTEGER), WILDERNESS_COURSE_STAGE;
+    ACHIEVEMENT_POINTS(AttribType.INTEGER), WILDERNESS_COURSE_STAGE,
+    DAILY_FREE_SLAYER_SKIPS(AttribType.INTEGER);
 
     private String saveName;
     private AttribType type;

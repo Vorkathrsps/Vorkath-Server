@@ -42,7 +42,14 @@ public class FormulaUtils {
         return false;
     }
 
-
+    public static final int[] DAGANNOTH_KINGS = new int[]{
+        NpcIdentifiers.DAGANNOTH_REX,
+        NpcIdentifiers.DAGANNOTH_PRIME,
+        NpcIdentifiers.DAGANNOTH_SUPREME,
+        NpcIdentifiers.DAGANNOTH_SUPREME_6496,
+        NpcIdentifiers.DAGANNOTH_PRIME_6497,
+        NpcIdentifiers.DAGANNOTH_REX_6498
+    };
     public static final int[] AVIANSIES = new int[]{
         NpcIdentifiers.AVIANSIE,
         NpcIdentifiers.AVIANSIE_3170,
@@ -229,6 +236,7 @@ public class FormulaUtils {
         11171,
         11172,
         11173};
+
     public static boolean isUndead(Entity target) {
         if (target.isNpc()) {
             NPC npc = target.getAsNpc();
@@ -255,7 +263,6 @@ public class FormulaUtils {
         }
         return false;
     }
-
 
 
     public static int[] isRevenant() {

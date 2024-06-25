@@ -164,9 +164,15 @@ public class ItemDrops {
     }
 
     final boolean isFremennikSeaBootsEffect(final NPC npc, final Player player, final Item drop) {
-        if (!ArrayUtils.contains(FormulaUtils.AVIANSIES, npc.id())) return false;
-        System.out.println("addy bars noted");
-        return player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) && drop.getId() == ADAMANTITE_BAR;
+        final boolean hasAllBoots = player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4);
+        final boolean hasSeaBoots4 = player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4);
+        if (ArrayUtils.contains(FormulaUtils.AVIANSIES, npc.id())) {
+            return hasAllBoots && drop.getId() == ADAMANTITE_BAR;
+        }
+        if (ArrayUtils.contains(FormulaUtils.DAGANNOTH_KINGS, npc.id())) {
+            return hasSeaBoots4 && drop.getId() == DAGANNOTH_BONES;
+        }
+        return false;
     }
 
     final boolean isUsingAshSanctifier(final Player player, final Item drop) {

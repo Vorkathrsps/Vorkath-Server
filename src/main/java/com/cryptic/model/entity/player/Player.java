@@ -413,6 +413,13 @@ public class Player extends Entity {
             percent += 0.10;
         }
 
+        if (this.getEquipment().contains(MORYTANIA_LEGS_4) || this.getInventory().contains(MORYTANIA_LEGS_4)) {
+            Area barrowsArea = new Area(Tile.regionToTile(14131).getX(), Tile.regionToTile(14131).getY(), Tile.regionToTile(14131).getX() + 63, Tile.regionToTile(14131).getY() + 63);
+            if (this.tile.inArea(barrowsArea)) {
+                percent += 0.05;
+            }
+        }
+
         return percent;
     }
 

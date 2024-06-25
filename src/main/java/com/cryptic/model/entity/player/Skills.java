@@ -246,6 +246,21 @@ public class Skills {
         return amt;
     }
 
+    private double checkKandarinHeadGearBoost(int skill, double amt) {
+        if (skill == WOODCUTTING) {
+            if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4)) {
+                amt *= 1.10D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3)) {
+                amt *= 1.075D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2)) {
+                amt *= 1.05D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1)) {
+                amt *= 1.025D;
+            }
+        }
+        return amt;
+    }
+
     private double checkMorytaniaSlayerBoost(int skill, double amt) {
         if (skill == SLAYER) {
             if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {

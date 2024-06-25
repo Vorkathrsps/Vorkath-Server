@@ -32,10 +32,8 @@ import lombok.Getter;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 /**
  * Created by Bart Pelle on 8/23/2014.
@@ -225,7 +223,8 @@ public class Skills {
                 double setBonus = SkillingSets.check(player, skill);
                 amt *= setBonus;
                 amt = checkDoubleExperienceBoost(amt);
-                amt = checkMorytaniaBoost(skill, amt);
+                amt = checkMorytaniaSlayerBoost(skill, amt);
+                amt = getMorytaniaFiremakingBoost(skill, amt);
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }
@@ -233,12 +232,21 @@ public class Skills {
         return false;
     }
 
+    private double getMorytaniaFiremakingBoost(int skill, double amt) {
+        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+            if (skill == FIREMAKING) {
+                amt *= 1.50;
+            }
+        }
+        return amt;
+    }
+
     private double checkDoubleExperienceBoost(double amt) {
         if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
         return amt;
     }
 
-    private double checkMorytaniaBoost(int skill, double amt) {
+    private double checkMorytaniaSlayerBoost(int skill, double amt) {
         if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
             if (skill == SLAYER) {
                 amt *= 1.10;

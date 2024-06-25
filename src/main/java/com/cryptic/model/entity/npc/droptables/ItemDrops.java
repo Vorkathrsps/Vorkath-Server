@@ -67,11 +67,21 @@ public class ItemDrops {
     final boolean isUsingBoneCrusher(Player player, Item drop) {
         if (player.getInventory().contains(BONECRUSHER) && ArrayUtils.contains(BONES, drop.getId())) {
             Bone bone = Bone.get(drop.getId());
-            if (bone != null && Objects.equal(bone.itemId, drop.getId()))
-                player.getSkills().addXp(Skill.PRAYER.getId(), bone.xp * 1.5D);
-            return true;
+            if (bone != null && Objects.equal(bone.itemId, drop.getId())) {
+                double amount = bone.xp / 2;
+                amount = getMorytaniaBoneCrusherBoost(player, amount, bone);
+                player.getSkills().addXp(Skill.PRAYER.getId(), amount);
+                return true;
+            }
         }
         return false;
+    }
+
+    final double getMorytaniaBoneCrusherBoost(Player player, double amount, Bone bone) {
+        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+            amount = bone.xp;
+        }
+        return amount;
     }
 
     final void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {

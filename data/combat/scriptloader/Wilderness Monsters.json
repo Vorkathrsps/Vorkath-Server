@@ -134,6 +134,7 @@
     "deathlen": 5,
     "aggroradius": 5,
     "aggressive": true,
+    "combattype": "MELEE",
     "slayerlvl": 1,
     "slayerxp": 75,
     "stats": {
@@ -165,6 +166,9 @@
       "death": [
         409
       ]
+    },
+    "scripts": {
+      "combat": "BasicDragonCombat"
     }
   },
   {

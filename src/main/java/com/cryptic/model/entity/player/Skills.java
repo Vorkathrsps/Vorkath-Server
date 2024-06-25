@@ -247,9 +247,15 @@ public class Skills {
     }
 
     private double checkMorytaniaSlayerBoost(int skill, double amt) {
-        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
-            if (skill == SLAYER) {
-                amt *= 1.10;
+        if (skill == SLAYER) {
+            if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+                amt *= 1.10D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_3) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_3)) {
+                amt *= 1.075D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_2) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_2)) {
+                amt *= 1.05D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_1) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_1)) {
+                amt *= 1.025D;
             }
         }
         return amt;

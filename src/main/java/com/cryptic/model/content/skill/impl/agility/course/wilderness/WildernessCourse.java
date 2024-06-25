@@ -68,7 +68,8 @@ public class WildernessCourse extends PacketInteraction {
                     player.setPerformingAction(true);
                     final int experience = 200;
                     final int count = player.getInventory().count(ItemIdentifiers.WILDERNESS_AGILITY_TICKET);
-                    final int total = count * experience;
+                    double total = count * experience;
+                    total = getKaramjaGloveBoost(player, total);
                     player.getInventory().remove(ItemIdentifiers.WILDERNESS_AGILITY_TICKET, count);
                     player.getSkills().addXp(Skills.AGILITY, total);
                     Chain.noCtx().runFn(1, player::clearPerformingAction);
@@ -234,6 +235,13 @@ public class WildernessCourse extends PacketInteraction {
             }
         }
         return false;
+    }
+
+    double getKaramjaGloveBoost(Player player, double total) {
+        if (player.getEquipment().containsAny(ItemIdentifiers.KARAMJA_GLOVES_1, ItemIdentifiers.KARAMJA_GLOVES_2,ItemIdentifiers.KARAMJA_GLOVES_3,ItemIdentifiers.KARAMJA_GLOVES_4)) {
+            total *= 1.10D;
+        }
+        return total;
     }
 
     private int getStage(Player player, int step) {

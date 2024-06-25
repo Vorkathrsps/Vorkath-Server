@@ -36,7 +36,7 @@ public class DiamondBolts implements AmmunitionDamageEffectListener {
                 always_spec = true;
             }
             if (player.getEquipment().containsAny(ItemIdentifiers.DIAMOND_DRAGON_BOLTS_E, ItemIdentifiers.DIAMOND_BOLTS_E)) {
-                if (Utils.percentageChance(RangedData.boltSpecialChance(always_spec))) {
+                if (Utils.percentageChance(RangedData.boltSpecialChance(player, always_spec))) {
                     player.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
                     target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
                     damage *= 1.15;

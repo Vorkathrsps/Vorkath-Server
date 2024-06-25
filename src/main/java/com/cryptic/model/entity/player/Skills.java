@@ -225,6 +225,7 @@ public class Skills {
                 amt = checkDoubleExperienceBoost(amt);
                 amt = checkMorytaniaSlayerBoost(skill, amt);
                 amt = getMorytaniaFiremakingBoost(skill, amt);
+                amt = checkKandarinHeadGearBoost(skill, amt);
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }
@@ -248,13 +249,13 @@ public class Skills {
 
     private double checkKandarinHeadGearBoost(int skill, double amt) {
         if (skill == WOODCUTTING) {
-            if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4)) {
+            if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4)) {
                 amt *= 1.10D;
-            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3)) {
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3)) {
                 amt *= 1.075D;
-            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2)) {
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2)) {
                 amt *= 1.05D;
-            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1)) {
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1)) {
                 amt *= 1.025D;
             }
         }

@@ -285,8 +285,9 @@ public class SlayerTask {
             int amount = this.getRemainingTaskAmount(player);
             HashMap<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
             boolean inWilderness = WildernessArea.inWilderness(player.tile());
-            if (this.isWildernessTask(player) && !inWilderness) return;
-            if (inWilderness && this.isWildernessTask(player)) {
+            boolean isWildernessTask = this.isWildernessTask(player);
+            if (isWildernessTask && !inWilderness) return;
+            if (inWilderness && isWildernessTask) {
                 isSlayerPerkEnabled(player, npc, slayerPerks);
             }
             player.getSlayerKillLog().addKill(npc);
@@ -307,7 +308,9 @@ public class SlayerTask {
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);
-                player.getInventory().addOrDrop(new Item(LARRANS_KEY, 1));
+                if (isWildernessTask) {
+                    player.getInventory().addOrDrop(new Item(LARRANS_KEY, 1));
+                }
                 return;
             }
         }

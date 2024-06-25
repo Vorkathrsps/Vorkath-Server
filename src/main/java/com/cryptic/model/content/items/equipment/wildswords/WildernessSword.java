@@ -27,6 +27,19 @@ public class WildernessSword extends PacketInteraction {
                 }
                 return true;
             }
+            if (item.getId() == ItemIdentifiers.WILDERNESS_SWORD_4) {
+                if (Teleports.canTeleport(player, true, TeleportType.ABOVE_20_WILD)) {
+                    player.lockMovement();
+                    player.animate(3872);
+                    player.graphic(283);
+                    Chain.noCtx().runFn(4, () -> {
+                        player.teleport(new Tile(3018, 3958));
+                        player.animate(Animation.DEFAULT_RESET_ANIMATION);
+                        player.unlock();
+                    });
+                }
+                return true;
+            }
         }
         return false;
     }

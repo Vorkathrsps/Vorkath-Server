@@ -2,6 +2,7 @@ package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.GameConstants;
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.skill.impl.magic.JewelleryEnchantment;
 import com.cryptic.model.content.skill.impl.smithing.Bar;
 import com.cryptic.model.World;
@@ -22,8 +23,7 @@ import com.cryptic.network.packet.incoming.IncomingHandler;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
-import static com.cryptic.utility.ItemIdentifiers.COINS_995;
+import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  * Handles the packet for using magic spells on items ingame.
@@ -77,7 +77,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                 //Do actions...
                 final MagicClickSpells.MagicSpells magicSpell2 = magicSpell.get();
                 final Spell spell = magicSpell2.getSpell();
-                final int itemValue = item.definition(World.getWorld()).highAlchValue();
+                final int value = ItemDefinition.cached.get(item.getId()).highAlchValue();
 
                 switch (magicSpell2) {
                     case SUPERHEAT_ITEM:
@@ -137,8 +137,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             return;
                         }
 
-                        Item finalItem1 = item;
-                        if (Arrays.stream(GameConstants.DONATOR_ITEMS).anyMatch(donator_item -> donator_item == finalItem1.getId())) {
+                        if (item.getValue() == 0) {
                             player.message("You cannot alch that item.");
                             return;
                         }
@@ -147,11 +146,8 @@ public class MagicOnItemPacketListener implements PacketListener {
                             return;
                         }
 
-                        int coinAmountToGive = (int) Math.floor(itemValue * 0.15);
-
-                        if (item.getValue() == 0) {
-                            coinAmountToGive = 0;
-                        }
+                        double a = value * 0.60;
+                        int coinAmountToGive = (int) (value - a);
 
                         player.sendPrivateSound(98, 0);
                         spell.cast(player, null);
@@ -159,18 +155,11 @@ public class MagicOnItemPacketListener implements PacketListener {
                         item = new Item(item.getId(), 1);
 
                         player.inventory().remove(item, slot);
-                        if (!GameServer.properties().pvpMode)
-                            player.inventory().add(COINS_995, coinAmountToGive);
+                        player.inventory().add(COINS_995, coinAmountToGive);
                         return;
                     case HIGH_ALCHEMY:
-                        if (!item.rawtradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995) {
+                        if (!item.rawtradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995 || item.getId() == PLATINUM_TOKEN) {
                             player.message("You can't alch that item.");
-                            return;
-                        }
-
-                        Item finalItem = item;
-                        if (Arrays.stream(GameConstants.DONATOR_ITEMS).anyMatch(donator_item -> donator_item == finalItem.getId())) {
-                            player.message("You cannot alch that item.");
                             return;
                         }
 
@@ -178,14 +167,15 @@ public class MagicOnItemPacketListener implements PacketListener {
                             return;
                         }
 
-                        coinAmountToGive = (int) Math.floor(itemValue * 0.25);
+                        if (item.getValue() == 0) {
+                            player.sendInformationMessage("You cannot alch this item.");
+                            return;
+                        }
+
+                        coinAmountToGive = value;
 
                         if (player.hasAttrib(AttributeKey.ALCHEMANIAC_BOOST)) {
                             coinAmountToGive *= 1.30D;
-                        }
-
-                        if (item.getValue() == 0) {
-                            coinAmountToGive = 0;
                         }
 
                         player.sendPrivateSound(97, 0);

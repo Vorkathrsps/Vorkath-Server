@@ -482,7 +482,7 @@ public class ItemDefinition implements Definition {
     public int highAlchValue() {
         if (cost <= 0)
             return 0;
-        return cost *= 0.65;
+        return cost;
     }
 
     public Map<Integer, Object> clientScriptData;

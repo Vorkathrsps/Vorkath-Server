@@ -6,6 +6,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,8 @@ import static java.lang.String.format;
 public class AchievementsManager {
 
     private static final Logger logger = LogManager.getLogger(AchievementsManager.class);
+
+    public static final int[] EXPLORER_RINGS = new int[]{ItemIdentifiers.EXPLORERS_RING_1, ItemIdentifiers.EXPLORERS_RING_2, ItemIdentifiers.EXPLORERS_RING_3, ItemIdentifiers.EXPLORERS_RING_4};
 
     public static void activate(final Player player, final Achievements achievement, final int increaseBy) {
 

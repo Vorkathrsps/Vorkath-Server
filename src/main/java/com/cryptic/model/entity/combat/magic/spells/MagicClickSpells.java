@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.magic.spells;
 
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.cryptic.model.entity.combat.method.impl.arceuus.MeleeThrall;
 import com.cryptic.model.entity.combat.method.impl.arceuus.RangeThrall;
@@ -7,6 +8,7 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -26,6 +28,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.timers.TimerKey;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,6 +43,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public class MagicClickSpells {
 
+    @Getter
     public enum MagicSpells {
 
         TELEPORT_TO_TARGET_NORMAL(new Spell() {
@@ -1287,7 +1291,8 @@ public class MagicClickSpells {
                 if (shield != null && shield.getId() == TOME_OF_FIRE) {
                     return List.of(new Item[]{new Item(NATURE_RUNE, 1)});
                 }
-                return List.of(new Item[]{new Item(FIRE_RUNE, 3), new Item(NATURE_RUNE, 1)});
+                boolean hasExplorerRing = player.getInventory().containsAny(AchievementsManager.EXPLORER_RINGS) || player.getEquipment().containsAny(AchievementsManager.EXPLORER_RINGS);
+                return hasExplorerRing ? List.of() : List.of(new Item[]{new Item(FIRE_RUNE, 3), new Item(NATURE_RUNE, 1)});
             }
 
             @Override
@@ -1300,13 +1305,16 @@ public class MagicClickSpells {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
+                    if (player.isPerformingAction()) return;
+                    player.setPerformingAction(true);
                     player.getCombat().reset();
+                    player.graphic(-1);
                     player.action.clearNonWalkableActions();
                     player.animate(713);
                     player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.getClickDelay().reset();
-                    player.getPacketSender().sendTab(6);
+                    Chain.noCtx().runFn(1, () -> player.getPacketSender().sendTab(6)).then(1, player::clearPerformingAction);
                 }
             }
 
@@ -1431,7 +1439,8 @@ public class MagicClickSpells {
                 if (shield != null && shield.getId() == TOME_OF_FIRE) {
                     return List.of(new Item[]{new Item(NATURE_RUNE, 1)});
                 }
-                return List.of(new Item[]{new Item(FIRE_RUNE, 5), new Item(NATURE_RUNE, 1)});
+                boolean hasExplorerRing = player.getInventory().contains(EXPLORERS_RING_4) || player.getEquipment().contains(EXPLORERS_RING_4);
+                return hasExplorerRing ? List.of() : List.of(new Item[]{new Item(FIRE_RUNE, 5), new Item(NATURE_RUNE, 1)});
             }
 
             @Override
@@ -1442,15 +1451,16 @@ public class MagicClickSpells {
             @Override
             public void cast(Entity cast, Entity castOn) {
                 if (cast instanceof Player player) {
+                    if (player.isPerformingAction()) return;
+                    player.setPerformingAction(true);
                     player.resetAnimation();
-                    player.graphic(-1, GraphicHeight.HIGH, 0);
-                    player.animate(new Animation(713));
+                    player.graphic(-1);
+                    player.animate(713);
                     player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getCombat().reset();
                     player.action.clearNonWalkableActions();
                     player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
-                    player.getPacketSender().sendTab(6);
-                    player.getClickDelay().reset();
+                    Chain.noCtx().runFn(1, () -> player.getPacketSender().sendTab(6)).then(1, player::clearPerformingAction);
                 }
             }
 
@@ -1772,9 +1782,6 @@ public class MagicClickSpells {
             return VALUES.stream().filter(spell -> spell.getSpell().spellId() == buttonId).findFirst();
         }
 
-        public Spell getSpell() {
-            return spell;
-        }
     }
 
     /**

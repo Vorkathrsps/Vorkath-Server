@@ -9,6 +9,8 @@ target/
 out/production/Velrai/com/ferox/game/content/areas/burthope/warriors_guild/dialogue/Shanomi.class
 *.class
 *.iml
+.gradle/
+build/
 *.zip
 *.dat
 data/cache/main_file_cache.idx0

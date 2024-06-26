@@ -23,7 +23,7 @@ object CacheTools {
             type = TaskType.RUN_JS5,
             revision = 219,
             cacheLocation = File(GameServer.settings().getCacheLocation()),
-            js5Ports = listOf(443, 43595, 49731)
+            js5Ports = listOf(43595)
         )
         js5Server.build().initialize()
     }

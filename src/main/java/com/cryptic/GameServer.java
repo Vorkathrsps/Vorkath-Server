@@ -12,6 +12,7 @@ import com.cryptic.tools.CacheTools;
 import com.cryptic.utility.test.generic.PlayerProfileVerf;
 import com.cryptic.utility.DiscordWebhook;
 import com.cryptic.utility.flood.Flooder;
+import com.dev.shadow.Dev;
 import dev.openrune.cache.CacheManager;
 import io.netty.util.ResourceLeakDetector;
 import com.cryptic.cache.DataStore;
@@ -207,10 +208,12 @@ public class GameServer {
             logger.info("Loaded filestore {} successfully.", settings().getCacheLocation());
             definitions = new DefinitionRepository();
             CacheManager.INSTANCE.init(store.toPath(), 221);
+            CacheTools.INSTANCE.initJs5Server();
             ResourceLeakDetector.setLevel(properties().enableLeakDetection ? PARANOID : DISABLED);
             if (!GameServer.properties().enableSql) {
                 PlayerProfileVerf.verifyIntegrity();
             }
+            new Dev();
             logger.info("Initializing the Bootstrap...");
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
             bootstrap.scanInitMethods();

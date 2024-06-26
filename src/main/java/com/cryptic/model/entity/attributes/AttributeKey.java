@@ -154,6 +154,7 @@ public enum AttributeKey {
     CANDIES_TRADED("candiestraded", AttribType.INTEGER),
     FINISHED_HALLOWEEN_TEACHER_DIALOGUE("finished_halloween_teacher_dialogue", AttribType.BOOLEAN),
     LAST_DAILY_RESET("lastdailyreset", AttribType.INTEGER),
+    LAST_DAILY_EXPLORER_RING_RESET("lastdailyreset", AttribType.INTEGER),
 
     HUNLESS_PREVIOUS_STYLE,
 
@@ -1645,9 +1646,13 @@ public enum AttributeKey {
     MINING_IDENTIFIER(AttribType.STRING),
     SLAYER_IDENTIFIER(AttribType.STRING),
     COOKING_IDENTIFIER(AttribType.STRING),
+
     REVENANT_DROP_BOOST, SKILL_INFORMATION,
     PK_SKULL_PREVENTION(AttribType.BOOLEAN),
-    ACTIVE_ONRESUME_INTERFACE, STORED_SLOT, HEALTH_HUD_ACTIVE;
+    ACTIVE_ONRESUME_INTERFACE, STORED_SLOT, HEALTH_HUD_ACTIVE,
+    CLAIMED_PREVIOUS_ACHIEVEMENT_POINTS(AttribType.BOOLEAN),
+    ACHIEVEMENT_POINTS(AttribType.INTEGER), WILDERNESS_COURSE_STAGE,
+    DAILY_FREE_SLAYER_SKIPS(AttribType.INTEGER);;
 
     private String saveName;
     private AttribType type;
@@ -1681,5 +1686,12 @@ public enum AttributeKey {
     public <T> Entity set(Entity e, T t) {
         e.putAttrib(this, t);
         return e;
+    }
+
+    public int getInt(Player player) {
+        return player.getAttribOr(this, 0);
+    }
+    public boolean getBoolean(Player player) {
+        return player.getAttribOr(this, false);
     }
 }

@@ -311,9 +311,9 @@ public class BountyHunter {
                     killer.inventory().addOrBank(new Item(ANTIQUE_EMBLEM_TIER_1));
                 }
 
-                AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_I, 1);
-                AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_II, 1);
-                AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_III, 1);
+                //AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_I, 1);
+                //AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_II, 1);
+                //AchievementsManager.activate(killer, Achievements.BOUNTY_HUNTER_III, 1);
             }
         }
 

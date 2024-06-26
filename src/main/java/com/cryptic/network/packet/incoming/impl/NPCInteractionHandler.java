@@ -213,9 +213,10 @@ public class NPCInteractionHandler implements PacketListener {
                     int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);
                     World.getWorld().shop(48).open(player);
                     player.message(Color.ORANGE_2.wrap("<lsprite=13><shad=0>You currently have " + points + " Void Island points.</shad>"));
+
                 }
                 case TWIGGY_OKORN -> {
-                    if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
+                   /* if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
                         if (player.inventory().getFreeSlots() < 2) {
                             player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_CAPE, 1));
                             player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_HOOD, 1));
@@ -224,7 +225,7 @@ public class NPCInteractionHandler implements PacketListener {
                         }
                     } else {
                         player.message("You haven't completed all of the achievements yet.");
-                    }
+                    }*/
                     return;
                 }
 
@@ -290,9 +291,9 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         if (option == 3) {
-            switch (npc.id()) {
+            switch (npc.id()) { //TODO comp cape stuff
                 case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
-                case TWIGGY_OKORN -> {
+                /*case TWIGGY_OKORN -> {
                     if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
                         if (player.inventory().getFreeSlots() < 2) {
                             player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_CAPE, 1));
@@ -303,7 +304,7 @@ public class NPCInteractionHandler implements PacketListener {
                     } else {
                         player.message("You haven't completed all of the achievements yet.");
                     }
-                }
+                }*/
                 case GUNDAI -> TradingPost.open(player);
             }
         }
@@ -342,6 +343,10 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         switch (npc.id()) {
+            case OLD_DWARF -> {
+                World.getWorld().shop(780).open(player);
+                return;
+            }
             case LORD_TROBIN_ARCEUUS_10962 -> World.getWorld().shop(350).open(player);
             case 2822, 2821 -> World.getWorld().shop(1).open(player);
             case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
@@ -355,8 +360,10 @@ public class NPCInteractionHandler implements PacketListener {
             }
             case 2980 -> World.getWorld().shop(6).open(player);
             case TWIGGY_OKORN -> {
+                final int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
                 npc.setPositionToFace(player.tile());
-                player.getDialogueManager().start(new TwiggyOKorn());
+                World.getWorld().shop(765).open(player);
+                player.message("<img=13><shad=0>"+Color.RUNITE.wrap("You currently have a total of " + currentAchievementPoints + " Achievement points.")+"</shad></img>");
             }
             case VOID_KNIGHT -> {
                 int points = player.<Integer>getAttribOr(AttributeKey.VOID_ISLAND_POINTS, 0);

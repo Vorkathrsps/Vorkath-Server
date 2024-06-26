@@ -47,12 +47,14 @@ public class Hit {
     public boolean isImmune = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
     @Getter
+    public boolean pidded;
+    @Getter
     private Entity attacker;
     @Getter
     private Entity target;
     private int damage;
     @Getter
-    private int delay;
+    public int delay;
     @Getter
     @Setter
     private int initialDelay;
@@ -92,7 +94,8 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.hitMark = hitMark;
     }
 
@@ -100,7 +103,8 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.damage = damage;
         this.hitMark = damage > 0 ? HitMark.HIT : HitMark.MISS;
     }
@@ -116,7 +120,8 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatMethod method) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
@@ -124,7 +129,8 @@ public class Hit {
         this.attacker = attacker;
         this.target = target;
         this.damage = damage;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.combatType = type;
     }
 
@@ -139,13 +145,15 @@ public class Hit {
     public Hit(Entity attacker, Entity target, int delay, CombatType combatType) {
         this.attacker = attacker;
         this.target = target;
-        this.delay = this.initialDelay = delay;
+        this.delay = delay;
+        this.initialDelay = delay;
         this.combatType = combatType;
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
         Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.HIT : HitMark.MISS);
-        hit.delay = hit.initialDelay = delay;
+        hit.delay = delay;
+        hit.initialDelay = delay;
         hit.combatType = type;
         return hit;
     }
@@ -164,7 +172,10 @@ public class Hit {
     }
 
     public int decrementAndGetDelay() {
-        return --delay;
+        if (attacker.pidOrderIndex <= target.pidOrderIndex) {
+            --delay;
+        }
+        return delay;
     }
 
     public final int getDamage() {
@@ -373,11 +384,11 @@ public class Hit {
     }
 
     private double calculateRangedOrMeleeXP(int damage) {
-        return Math.max((damage * (damage - 1D) / 2D), 2.0D);
+        return Math.max(4 * damage, 2.0D);
     }
 
     private double calculateHitpointsExperience(int damage) {
-        return Math.max((damage * (damage - 1D) / 2D) * 1.33D, 2.0D);
+        return Math.max(damage * 1.33D, 2.0D);
     }
 
     public Hit submit() {
@@ -399,10 +410,23 @@ public class Hit {
         if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.damage >= this.target.hp()) this.damage = this.target.hp();
-        if (this.attacker instanceof Player player)
-            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
-        target.getCombat().getHitQueue().add(this);
+        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        this.target.getCombat().getHitQueue().add(this);
         return this;
+    }
+
+    public boolean isPidded() {
+        if (target != null && !(this.target instanceof NPC)) {
+            int initialDelay = this.delay;
+            if (this.attacker.pidOrderIndex <= this.target.pidOrderIndex) {
+                --initialDelay;
+            }
+            if (initialDelay < this.delay) {
+                this.pidded = true;
+                return true;
+            }
+        }
+        return false;
     }
 
     public Hit setIsReflected() {

@@ -56,6 +56,7 @@ public class RuneConversion extends PacketInteraction {
         private final int multiplier;
         public int petOdds;
         public PetDefinitions petDefinitionsTransform;
+        public static final Altar[] VALUES = Altar.values();
 
         Altar(int levelReq, double xp, int talisman, int rune, int altarObj, int entranceObj, Tile entranceTile, int exitObject, Tile exitTile, boolean pure, int multiplier, int petOdds, PetDefinitions petDefinitionsTransform) {
             this.levelReq = levelReq;
@@ -74,7 +75,7 @@ public class RuneConversion extends PacketInteraction {
         }
 
         public static Altar get(int talisman) {
-            for (Altar altar : Altar.values()) {
+            for (Altar altar : Altar.VALUES) {
                 if (talisman == altar.talisman) {
                     return altar;
                 }
@@ -85,8 +86,8 @@ public class RuneConversion extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
-        if(option == 1) {
-            for (Altar altar : Altar.values()) {
+        if (option == 1) {
+            for (Altar altar : Altar.VALUES) {
                 if (altar.altarObj == object.getId()) {
                     craft(player, altar);
                     return true;
@@ -108,7 +109,7 @@ public class RuneConversion extends PacketInteraction {
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
         Altar talisman = Altar.get(item.getId());
 
-        for (Altar altar : Altar.values()) {
+        for (Altar altar : Altar.VALUES) {
             if (object.getId() == altar.entranceObj) {
                 if (talisman != null && altar.talisman == item.getId()) {
                     player.lock();
@@ -201,7 +202,7 @@ public class RuneConversion extends PacketInteraction {
     }
 
     public static Action<Player> action(Player player, Altar altar, int amount) {
-        return new Action<>(player,1,true) {
+        return new Action<>(player, 1, true) {
             int ticks = 0;
 
             @Override

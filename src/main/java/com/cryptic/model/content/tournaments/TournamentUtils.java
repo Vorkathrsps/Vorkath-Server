@@ -43,7 +43,7 @@ public class TournamentUtils {
     }
 
     public static final Tile TORN_START_TILE = new Tile(3294, 4958, 0);
-    public static final Tile EXIT_TILE = new Tile(3076, 3503, 0);
+    public static final Tile EXIT_TILE = new Tile(3101, 3507, 0);
     public static final int THORVALD = 8146;
     public static final int GHOST_ID = NpcIdentifiers.GHOST_DISCIPLE;
     public static final int TOURNAMENT_REGION = 13133;

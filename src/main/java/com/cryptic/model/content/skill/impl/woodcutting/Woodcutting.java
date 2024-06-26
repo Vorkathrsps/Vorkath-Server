@@ -2,6 +2,8 @@ package com.cryptic.model.content.skill.impl.woodcutting;
 
 import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
@@ -136,6 +138,7 @@ public class Woodcutting extends PacketInteraction {
             var success = success(modifiedLevel, tree, axe);
 
             if (success) {
+                handleWoodcuttingAchievements(player, tree);
                 DailyTasks.check(player, DailyTasks.WOODCUTTING, tree.name);
                 if (hasInfernalAxe(player, tree)) return;
                 int[] fellingAxes = {28196, 28199, 28202, 28205, 28208, 28211, 28214, 28217, 28220, 28226};
@@ -151,20 +154,31 @@ public class Woodcutting extends PacketInteraction {
                             rollForPet(player);
                             return;
                         }
-                        if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
+                        if (tree.leaves != null)
+                            player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
                         checkBonus(player, tree);
                         addExperience(player, tree);
                         rollForPet(player);
                         return;
                     }
                 }
-                if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
+                if (tree.leaves != null)
+                    player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
                 addLog(player, tree);
                 checkBonus(player, tree);
                 addExperience(player, tree);
                 rollForPet(player);
             }
         });
+    }
+
+    private static void handleWoodcuttingAchievements(Player player, Trees tree) {
+        switch (tree) {
+            case TREE -> AchievementsManager.activate(player, Achievements.WOODCUTTING_I, 1);
+            case WILLOW_TREE -> AchievementsManager.activate(player, Achievements.WOODCUTTING_II, 1);
+            case YEW_TREE -> AchievementsManager.activate(player, Achievements.WOODCUTTING_III, 1);
+            case MAGIC_TREE -> AchievementsManager.activate(player, Achievements.WOODCUTTING_IV, 1);
+        }
     }
 
     private static void rollForPet(Player player) {

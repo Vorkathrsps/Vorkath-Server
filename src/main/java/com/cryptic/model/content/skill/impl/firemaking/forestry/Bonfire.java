@@ -1,6 +1,8 @@
 package com.cryptic.model.content.skill.impl.firemaking.forestry;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
@@ -22,9 +24,17 @@ public class Bonfire extends PacketInteraction {
                 burn.stop();
                 return;
             }
+            handleFiremakingAchievements(player);
             animateAndRemove(player, logs);
             addExperience(player, gameObject, logs.experience);
         });
+    }
+
+    private static void handleFiremakingAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
+        AchievementsManager.activate(player, Achievements.FIREMAKING_IV, 1);
     }
 
     @Override

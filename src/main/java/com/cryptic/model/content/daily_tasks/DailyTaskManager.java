@@ -103,7 +103,7 @@ public class DailyTaskManager {
             tasks.clear();
             generateNewTasks(player, tasks);
         }
-    }//what is the name about pvp mode?
+    }
 
     public static void clearTasks(Player player) {
         player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());

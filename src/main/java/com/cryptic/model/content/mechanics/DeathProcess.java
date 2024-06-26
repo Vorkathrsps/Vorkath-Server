@@ -214,6 +214,10 @@ public class DeathProcess implements TheatreDeath {
         });
     }
 
+    public static boolean isSafeDeath(Player player) {
+        return Dueling.in_duel(player) || !WildernessArea.inWilderness(player.tile());
+    }
+
     public static void deathReset(Player player) {
 
         /**
@@ -228,7 +232,11 @@ public class DeathProcess implements TheatreDeath {
 
         //Remove auto-select
         Autocasting.setAutocast(player, null); // Set auto-cast to default; 0
-        player.getCombat().setPoweredStaffSpell(null);
+
+        if (!isSafeDeath(player)) {
+            player.getCombat().setPoweredStaffSpell(null);
+        }
+
         WeaponInterfaces.updateWeaponInterface(player); //Update the weapon interface
         player.getCombat().setRangedWeapon(null);
 

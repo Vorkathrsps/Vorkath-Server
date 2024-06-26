@@ -17,34 +17,30 @@ import java.util.Arrays;
  */
 public class TournamentArea extends Controller {
 
-    public static final Area TOURNAMENT_AREA = new Area(1698, 4690, 1722, 4716);
-
     public TournamentArea() {
         super(Arrays.asList(new Area(3321, 4940, 3325, 4979), new Area(3267, 4931, 3318, 4988)));
     }
 
     @Override
-    public void enter(Player mob) {
+    public void enter(Player player) {
+        player.getInterfaceManager().sendOverlay(TournamentUtils.TOURNAMENT_WALK_INTERFACE);
     }
 
     @Override
-    public void leave(Player mob) {
-        if (mob.isPlayer()) {
-            mob.getInterfaceManager().sendOverlay(-1);
-            TournamentManager.leaveTourny(mob, false, false);
-        }
+    public void leave(Player player) {
+        player.getInterfaceManager().sendOverlay(-1);
+        TournamentManager.leaveTourny(player, false, false);
     }
 
     @Override
-    public void process(Player mob) {
-        if (mob.isPlayer()) {
-            Player player = mob.getAsPlayer();
+    public void process(Player player) {
+        if (player.getParticipatingTournament() != null) {
             if (player.getParticipatingTournament().getFighters().size() == 1) {
                 player.getParticipatingTournament().checkForWinner();
             }
-            if(!player.isTournamentSpectating()) {
-                player.getInterfaceManager().sendOverlay(TournamentUtils.TOURNAMENT_WALK_INTERFACE);
-            }
+        }
+        if (!player.isTournamentSpectating()) {
+            player.getInterfaceManager().sendOverlay(TournamentUtils.TOURNAMENT_WALK_INTERFACE);
         }
     }
 
@@ -105,11 +101,11 @@ public class TournamentArea extends Controller {
 
     @Override
     public boolean useInsideCheck() {
-        return false; // no need, assuming coords are accurate
+        return true; // no need, assuming coords are accurate
     }
 
     @Override
     public boolean inside(Entity entity) {
-        return false;
+        return entity.tile().region() == TournamentUtils.TOURNAMENT_REGION;
     }
 }

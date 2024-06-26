@@ -25,9 +25,8 @@ public class PlayerPunishment {
     public static Set<String> ipBans = new HashSet<>(),
         macBannedUsers = new HashSet<>(),
         ipMutes = new HashSet<>(),
-        mutedNames = new HashSet<>();
-
-    public static ArrayList<String> bans = new ArrayList<>();
+        mutedNames = new HashSet<>(),
+        bans = new HashSet<>();
 
     public static void init() {
         banUsers();
@@ -141,7 +140,7 @@ public class PlayerPunishment {
      **/
     public static void addToIPBanList(String IP) {
         ipBans.add(IP);
-        addIPToFile(IP,"./data/saves/ipsbanned.txt");
+        addIPToFile(IP, "./data/saves/ipsbanned.txt");
     }
 
     public static boolean ipBanned(String IP) {

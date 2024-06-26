@@ -155,6 +155,9 @@ public class ItemDefinition implements Definition {
                 stackable = 1;
                 notelink = 0;
             }
+            case BOX_OF_VALOR -> {
+                notelink = 0;
+            }
             case DONATOR_TICKET -> {
                 name = "Donator Ticket";
                 stackable = 1;
@@ -459,7 +462,7 @@ public class ItemDefinition implements Definition {
     public int highAlchValue() {
         if (cost <= 0)
             return 0;
-        return cost *= 0.65;
+        return cost;
     }
 
     public Map<Integer, Object> clientScriptData;

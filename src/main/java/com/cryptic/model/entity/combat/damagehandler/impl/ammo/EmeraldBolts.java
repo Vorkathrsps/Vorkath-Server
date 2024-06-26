@@ -27,7 +27,7 @@ public class EmeraldBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.EMERALD_DRAGON_BOLTS_E, ItemIdentifiers.EMERALD_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 target.performGraphic(new Graphic(752, GraphicHeight.LOW, 55 + 5));
                 target.poison(5);
             }

@@ -107,6 +107,7 @@ public class Varbit {
     public static final int FALADOR_COMPOST_BIN_TYPE = 4962;
 
     public static final int RAIDS_CHEST = 1327;
+    public static final int RAIDS_REWARD = 5456;
 
     // Pets
     public static final int UNLOCKED_PET_DAGANNOTH_SUPREME = 4338;

@@ -28,7 +28,7 @@ public class OpalBolts implements AmmunitionDamageEffectListener {
             alwaysSpec = true;
         }
         if (player.getEquipment().containsAny(ItemIdentifiers.OPAL_DRAGON_BOLTS_E, ItemIdentifiers.OPAL_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 int current_range_level = player.getSkills().level(Skills.RANGED);
                 target.performGraphic(new Graphic(749, GraphicHeight.LOW, 55 + 5));
                 double boltSpecialMultiplier = (current_range_level * 0.10); // Can max deal 25% extra damage.

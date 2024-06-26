@@ -21,10 +21,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.combat.magic.spells.MagicClickSpells;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
-import com.cryptic.model.entity.player.EquipSlot;
-import com.cryptic.model.entity.player.MagicSpellbook;
-import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.QuestTab;
+import com.cryptic.model.entity.player.*;
 import com.cryptic.model.inter.clan.ClanButtons;
 import com.cryptic.clientscripts.impl.dialogue.impl.ItemActionDialogue;
 import com.cryptic.model.items.Item;
@@ -347,56 +344,68 @@ public class Buttons {
                 if (CollectionLogButtons.onButtonClick(player, button)) {
                     return;
                 }
-                WEAPON_SHOP_BUTTON = 73156;
-                if (button == WEAPON_SHOP_BUTTON) {
+                if (button == 73156) {
                     player.getPacketSender().sendConfig(1206, 0);
-                    World.getWorld().shop(5004).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(759).open(player);
+                    } else {
+                        World.getWorld().shop(5004).open(player);
+                    }
                     return;
                 }
-                ARMOR_SHOP_BUTTON = 73157;
-                if (button == ARMOR_SHOP_BUTTON) {
+                if (button == 73157) {
                     player.getPacketSender().sendConfig(1206, 1);
-                    World.getWorld().shop(5003).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(760).open(player);
+                    } else {
+                        World.getWorld().shop(5003).open(player);
+                    }
                     return;
                 }
-                MAGIC_SHOP_BUTTON_ID = 73159;
-                if (button == MAGIC_SHOP_BUTTON_ID) {
+                if (button == 73159) {
                     player.getPacketSender().sendConfig(1206, 3);
-                    World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(762).open(player);
+                    } else {
+                        World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                    }
                     return;
                 }
-                GENERAL_SHOP_BUTTON_ID = 73161;
-                if (button == GENERAL_SHOP_BUTTON_ID) {
+                if (button == 73161) {
                     player.getPacketSender().sendConfig(1206, 5);
                     World.getWorld().shop(GENERAL_STORE_SHOP_ID).open(player);
                     return;
                 }
-                RANGED_SHOP = 73158;
-                if (button == RANGED_SHOP) {
+                if (button == 73158) {
                     player.getPacketSender().sendConfig(1206, 2);
-                    World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(761).open(player);
+                    } else {
+                        World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    }
                     return;
                 }
-                PKP_SHOP = 73162;
-                if (button == PKP_SHOP) {
+                if (button == 73162) {
                     player.getPacketSender().sendConfig(1206, 6);
                     World.getWorld().shop(PKP_SHOP_ID).open(player);
                     return;
                 }
-                VOTE_SHOP = 73163;
-                if (button == VOTE_SHOP) {
+                if (button == 73163) {
                     player.getPacketSender().sendConfig(1206, 7);
                     World.getWorld().shop(VOTE_SHOP_ID).open(player);
                     return;
                 }
-                POTION_SHOP = 73160;
-                if (button == POTION_SHOP) {
+                if (button == 73160) {
                     player.getPacketSender().sendConfig(1206, 4);
-                    World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(763).open(player);
+                    } else {
+                        World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                    }
                     return;
                 }
-                SHOP_CLOSE_BUTTON = 73153;
-                if (button == SHOP_CLOSE_BUTTON) {
+
+                if (button == 73153) {
                     Shop.closeShop(player);
                     return;
                 }
@@ -406,7 +415,11 @@ public class Buttons {
                     return;
                 }
                 if (button == 73165) {
-                    World.getWorld().shop(351).open(player);
+                    if (!IronMode.NONE.equals(player.getIronManStatus())) {
+                        World.getWorld().shop(764).open(player);
+                    } else {
+                        World.getWorld().shop(351).open(player);
+                    }
                     return;
                 }
                 if (button == 73166) {

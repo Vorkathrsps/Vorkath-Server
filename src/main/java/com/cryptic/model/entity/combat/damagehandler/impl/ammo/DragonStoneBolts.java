@@ -36,7 +36,7 @@ public class DragonStoneBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.DRAGONSTONE_DRAGON_BOLTS_E, ItemIdentifiers.DRAGONSTONE_BOLTS_E)) {
-            if (Utils.percentageChance(RangedData.boltSpecialChance(alwaysSpec)) && canPerformDragonsBreath) {
+            if (Utils.percentageChance(RangedData.boltSpecialChance(player, alwaysSpec)) && canPerformDragonsBreath) {
                 target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 60));
                 int currentRangeLevel = player.getSkills().level(Skills.RANGED);
                 double boltSpecialMultiplier = currentRangeLevel * 0.20;

@@ -556,8 +556,8 @@ public class Utils {
         return srand.nextDouble() <= chance;
     }
 
-    public static boolean percentageChance(int chance) {
-        return RANDOM_GEN.nextInt(100) < chance;
+    public static boolean percentageChance(double chance) {
+        return RANDOM_GEN.nextDouble(100) < chance;
     }
 
     public static String pluralOrNot(String word, int count) {

@@ -31,10 +31,12 @@ public class HitQueue {
         if (entity.stunned()) {
             return;
         }
+
         if (entity.dead() || (entity.locked() && !entity.isDelayDamageLocked() && !entity.isDamageOkLocked() && !entity.isLogoutOkLocked() && !entity.isMoveLockedDamageOk())) {
             hits.clear();
             return;
         }
+
         if (entity.isPlayer()) {
             Player player = entity.getAsPlayer();
 
@@ -45,13 +47,20 @@ public class HitQueue {
             }
         }
 
-        if (entity.isDelayDamageLocked() || entity.isLogoutOkLocked() || hits.isEmpty()) {
+        if (entity instanceof Player player) {
+            if (player.isLogoutOkLocked() || hits.isEmpty()) {
+                return;
+            }
+        }
+
+        if (entity.isDelayDamageLocked()) {
             return;
         }
 
-        for (Hit hit : Lists.newArrayList(hits)) {
+        for (final Hit hit : Lists.newArrayList(hits)) {
             try {
                 if (hit != null) {
+
                     if (hit.getTarget() == null || hit.getTarget().isNullifyDamageLock()) {
                         hit.toremove = true;
                         continue;
@@ -79,10 +88,9 @@ public class HitQueue {
                         continue;
                     }
 
-                    int delay = hit.decrementAndGetDelay();
-                    int targetDelay = Math.max(-1, hit.getInitialDelay() - 1);
-                    if (targetDelay > 0 && delay == targetDelay) hit.applyBeforeRemove();
-                    if (delay <= 0) {
+                    hit.applyBeforeRemove();
+
+                    if (--hit.delay <= -1) {
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))
@@ -91,13 +99,13 @@ public class HitQueue {
                 }
             } catch (RuntimeException e) {
                 hit.toremove = true;
-                logger.error(entity.getMobName() + ": RTE in hits - hopefully this stack helps pinpoint the cause: " + hit, e);
+                logger.error("{}: RTE in hits - hopefully this stack helps pinpoint the cause: {}", entity.getMobName(), hit, e);
                 throw e;
             }
         }
         List<Hit> toShow = hits.stream().filter(e -> e.showSplat).collect(Collectors.toList());
         hits.removeIf(o -> o.toremove);
-        if (toShow.size() == 0) return;
+        if (toShow.isEmpty()) return;
         for (Hit hit : toShow) hit.update();
         toShow.clear();
     }

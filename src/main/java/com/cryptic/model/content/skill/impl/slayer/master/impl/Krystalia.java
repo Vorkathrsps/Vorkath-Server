@@ -25,12 +25,6 @@ public class Krystalia extends PacketInteraction {
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if (option == 1) {
-            if (npc.id() == KRYSTILIA) {
-                player.message(Color.RED.wrap("Coming soon."));
-                return true;
-            }
-        }
        /* if(option == 1) {
             if (npc.id() == KRYSTILIA) {
                 displayOptions(player);

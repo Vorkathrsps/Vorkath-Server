@@ -118,45 +118,35 @@ public class Stalls extends PacketInteraction {
         Chain.bound(player).runFn(1, () -> player.animate(832)).then(1, () -> {
             replaceStall(stall, object, replacementID, player);
             if (stall == Stall.CRAFTING_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_I, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22521, 1));
             } else if (stall == Stall.BAKERS_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22522, 1));
             } else if (stall == Stall.SILK_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22523, 1));
             } else if (stall == Stall.FUR_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22524, 1));
             } else if (stall == Stall.SILVER_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22525, 1));
             } else if (stall == Stall.MONKEY_GENERAL_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22526, 1));
             } else if (stall == Stall.MAGIC_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_III, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22527, 1));
             } else if (stall == Stall.SCIMITAR_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getTaskMasterManager().increase(Tasks.STEAL_FROM_SCIMITAR_STALL);
                 player.getInventory().add(new Item(22528, 1));
             } else if (stall == Stall.SPICE_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22529, 1));
             } else if (stall == Stall.GEM_STALL) {
-                AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
-                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                handleThievingAchievments(player);
                 player.getInventory().add(new Item(22530, 1));
             }
 
@@ -168,6 +158,13 @@ public class Stalls extends PacketInteraction {
             player.getSkills().addXp(Skills.THIEVING, stall.experience);
             player.unlock();
         });
+    }
+
+    private static void handleThievingAchievments(final Player player) {
+        AchievementsManager.activate(player, Achievements.THIEF_I, 1);
+        AchievementsManager.activate(player, Achievements.THIEF_II, 1);
+        AchievementsManager.activate(player, Achievements.THIEF_III, 1);
+        AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
     }
 
     private boolean inventoryContainsPouch(Player player) {

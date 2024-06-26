@@ -12,6 +12,7 @@ import com.cryptic.tools.CacheTools;
 import com.cryptic.utility.test.generic.PlayerProfileVerf;
 import com.cryptic.utility.DiscordWebhook;
 import com.cryptic.utility.flood.Flooder;
+import com.dev.shadow.Dev;
 import dev.openrune.cache.CacheManager;
 import io.netty.util.ResourceLeakDetector;
 import com.cryptic.cache.DataStore;
@@ -49,11 +50,13 @@ public class GameServer {
     /**
      * The flag that determines if the server is accepting non-staff logins.
      */
+    @Getter
     private static volatile boolean staffOnlyLogins = false;
 
     /**
      * The flooder used to stress-test the server.
      */
+    @Getter
     private static final Flooder flooder = new Flooder();
 
     public static ServerProperties properties() {
@@ -84,7 +87,7 @@ public class GameServer {
     }
 
     static {
-        Thread.currentThread().setName(""+GameServer.settings().getName()+"InitializationThread");
+        Thread.currentThread().setName(GameServer.settings().getName()+"InitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         logger = LogManager.getLogger(GameServer.class);
         if (properties().enableDiscordLogging) {
@@ -141,34 +144,59 @@ public class GameServer {
 
     public static String broadcast = "";
 
-    private static DatabaseService databaseService;
+    @Getter
+    public static DatabaseService databaseService;
 
-    private static DiscordWebhook commandWebHook;
-    private static DiscordWebhook warningWebHook;
+    @Getter
+    public static DiscordWebhook commandWebHook;
+    @Getter
+    public static DiscordWebhook warningWebHook;
+    @Getter
     private static DiscordWebhook chatWebHook;
+    @Getter
     private static DiscordWebhook stakeWebHook;
+    @Getter
     private static DiscordWebhook tradeWebHook;
+    @Getter
     private static DiscordWebhook pmWebHook;
+    @Getter
     private static DiscordWebhook npcDropsWebHook;
+    @Getter
     private static DiscordWebhook playerDropsWebHook;
+    @Getter
     private static DiscordWebhook pickupsWebHook;
     @Getter private static DiscordWebhook dupeDetectionWebHook;
+    @Getter
     private static DiscordWebhook loginWebHook;
+    @Getter
     private static DiscordWebhook logoutWebHook;
+    @Getter
     private static DiscordWebhook sanctionsWebHook;
+    @Getter
     private static DiscordWebhook shopsWebHook;
+    @Getter
     private static DiscordWebhook playerDeathsWebHook;
+    @Getter
     private static DiscordWebhook passwordChangeWebHook;
     private static DiscordWebhook tournamentsWebHook;
+    @Getter
     private static DiscordWebhook referralsWebHook;
     private static DiscordWebhook achievementsWebHook;
+    @Getter
     private static DiscordWebhook tradingPostSalesWebHook;
+    @Getter
     private static DiscordWebhook tradingPostPurchasesWebHook;
+    @Getter
     private static DiscordWebhook raidsWebHook;
+    @Getter
     private static DiscordWebhook starterBoxWebHook;
+    @Getter
     private static DiscordWebhook clanBoxWebHook;
+    @Getter
     private static DiscordWebhook gambleWebHook;
+    @Getter
     private static DiscordWebhook boxAndTicketsWebHookUrl;
+    @Getter
     private static DiscordWebhook fpkMerkwebHookURL;
 
     /**
@@ -178,17 +206,18 @@ public class GameServer {
         try {
             startTime = System.currentTimeMillis();
             ServerSettingsManager.INSTANCE.init();
-            CacheTools.INSTANCE.initJs5Server();
             File store = new File(settings().getCacheLocation());
             if (!store.exists()) throw new FileNotFoundException("Cannot load data store from " + store.getAbsolutePath() + " aborting.");
             fileStore = new DataStore(settings().getCacheLocation());
             logger.info("Loaded filestore {} successfully.", settings().getCacheLocation());
             definitions = new DefinitionRepository();
             CacheManager.INSTANCE.init(store.toPath(), 221);
+            CacheTools.INSTANCE.initJs5Server();
             ResourceLeakDetector.setLevel(properties().enableLeakDetection ? PARANOID : DISABLED);
             if (!GameServer.properties().enableSql) {
                 PlayerProfileVerf.verifyIntegrity();
             }
+            new Dev();
             logger.info("Initializing the Bootstrap...");
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
             bootstrap.scanInitMethods();
@@ -197,7 +226,6 @@ public class GameServer {
             initializeDatabase();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 PlayerSaves.processSaves();
-
                 for (Player player : World.getWorld().getPlayers()) {
                     if (player == null || !player.isRegistered()) continue;
                     player.requestLogout();
@@ -211,11 +239,10 @@ public class GameServer {
             }));
             PlayerSaves.start();
             boundTime = System.currentTimeMillis();
-            logger.info("Loaded "+GameServer.settings().getName()+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
-            logger.info("The Bootstrap has been bound, "+GameServer.settings().getName()+ " is now online (it took {}ms).", boundTime - startTime);
-            //DiscordBot.init();
+            logger.info("Loaded {} {}on port {} version v{}.", GameServer.settings().getName(), (GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ", GameServer.properties().gamePort, GameServer.properties().gameVersion);
+            logger.info("The Bootstrap has been bound, {} is now online (it took {}ms).", GameServer.settings().getName(), boundTime - startTime);
         } catch (Throwable t) {
-            logger.fatal("An error occurred while loading "+GameServer.settings().getName()+".", t);
+            logger.fatal("An error occurred while loading {}.", GameServer.settings().getName(), t);
             System.exit(1);
         }
     }
@@ -228,19 +255,11 @@ public class GameServer {
         GameServer.isUpdating = isUpdating;
     }
 
-    public static Flooder getFlooder() {
-        return flooder;
-    }
-
     public static boolean isLinux() {
         String osName = System.getProperty("os.name");
         String osNameMatch = osName.toLowerCase();
         String classPath = System.getProperty("java.class.path");
         return osNameMatch.contains("linux");
-    }
-
-    public static DatabaseService getDatabaseService() {
-        return databaseService;
     }
 
     public static DatabaseService votesDb;
@@ -272,112 +291,12 @@ public class GameServer {
         }
     }
 
-    public static DiscordWebhook getCommandWebHook() {
-        return commandWebHook;
-    }
-
-    public static DiscordWebhook getWarningWebHook() {
-        return warningWebHook;
-    }
-
-    public static DiscordWebhook getChatWebHook() {
-        return chatWebHook;
-    }
-
-    public static DiscordWebhook getStakeWebHook() {
-        return stakeWebHook;
-    }
-
-    public static DiscordWebhook getTradeWebHook() {
-        return tradeWebHook;
-    }
-
-    public static DiscordWebhook getPmWebHook() {
-        return pmWebHook;
-    }
-
-    public static DiscordWebhook getNpcDropsWebHook() {
-        return npcDropsWebHook;
-    }
-
-    public static DiscordWebhook getPlayerDropsWebHook() {
-        return playerDropsWebHook;
-    }
-
-    public static DiscordWebhook getPickupsWebHook() {
-        return pickupsWebHook;
-    }
-
-    public static DiscordWebhook getLoginWebHook() {
-        return loginWebHook;
-    }
-
-    public static DiscordWebhook getLogoutWebHook() {
-        return logoutWebHook;
-    }
-
-    public static DiscordWebhook getSanctionsWebHook() {
-        return sanctionsWebHook;
-    }
-
-    public static DiscordWebhook getShopsWebHook() {
-        return shopsWebHook;
-    }
-
-    public static DiscordWebhook getPlayerDeathsWebHook() {
-        return playerDeathsWebHook;
-    }
-
-    public static DiscordWebhook getPasswordChangeWebHook() {
-        return passwordChangeWebHook;
-    }
-
     public static DiscordWebhook getTournamentWebHook() {
         return tournamentsWebHook;
     }
 
-    public static DiscordWebhook getReferralsWebHook() {
-        return referralsWebHook;
-    }
-
     public static DiscordWebhook getAchievementsWebHookWebHook() {
         return achievementsWebHook;
-    }
-
-    public static DiscordWebhook getTradingPostPurchasesWebHook() {
-        return tradingPostPurchasesWebHook;
-    }
-
-    public static DiscordWebhook getTradingPostSalesWebHook() {
-        return tradingPostSalesWebHook;
-    }
-
-    public static DiscordWebhook getRaidsWebHook() {
-        return raidsWebHook;
-    }
-
-    public static DiscordWebhook getStarterBoxWebHook() {
-        return starterBoxWebHook;
-    }
-
-    public static DiscordWebhook getClanBoxWebHook() {
-        return clanBoxWebHook;
-    }
-
-    public static DiscordWebhook getGambleWebHook() {
-        return gambleWebHook;
-    }
-
-    public static DiscordWebhook getBoxAndTicketsWebHookUrl() {
-        return boxAndTicketsWebHookUrl;
-    }
-
-    public static DiscordWebhook getFpkMerkwebHookURL() {
-        return fpkMerkwebHookURL;
-    }
-
-    public static boolean isStaffOnlyLogins() {
-        return staffOnlyLogins;
     }
 
     public static void setStaffOnlyLogins(boolean staffOnlyLogins) {

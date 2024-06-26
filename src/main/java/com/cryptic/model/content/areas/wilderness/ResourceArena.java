@@ -1,6 +1,7 @@
 package com.cryptic.model.content.areas.wilderness;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.content.skill.impl.mining.Mining;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
@@ -9,6 +10,7 @@ import com.cryptic.model.content.skill.impl.mining.Ore;
 import com.cryptic.model.content.skill.impl.mining.SkillingSuccess;
 import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.clientscripts.impl.dialogue.util.Expression;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -31,7 +33,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.GATE_2
 public class ResourceArena extends PacketInteraction {
 
     private static final Area ARENA_BOUNDARIES = new Area(3174, 3924, 3196, 3944);
-    public static int[] ALLOWED_EXCHANGE = new int[] {440, 453, 444, 447, 449, 451, 1515, 1513, 11936, 11934, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 451, 13439, 10138};
+    public static int[] ALLOWED_EXCHANGE = new int[]{440, 453, 444, 447, 449, 451, 1515, 1513, 11936, 11934, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 451, 13439, 10138};
 
     private void swap(Player player, int original, int result) {
         int currency = GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995;
@@ -71,7 +73,7 @@ public class ResourceArena extends PacketInteraction {
                             }
                         });
                     }
-                } else if(option == 2) {
+                } else if (option == 2) {
                     stop();
                 }
             }
@@ -80,7 +82,26 @@ public class ResourceArena extends PacketInteraction {
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if(npc.id() == ROCKS_6601) {
+        if (npc.id() == 6599) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    sendOption("Would you like to enter the Resource Area?", "Yes", "No");
+                    setPhase(0);
+                }
+
+                @Override
+                protected void select(int option) {
+                    if (option == 1) {
+                        player.stepAbs(player.getAbsX(), -1, MovementQueue.StepType.FORCED_WALK);
+                        stop();
+                    } else if (option == 2) {
+                        stop();
+                    }
+                }
+            });
+        }
+        if (npc.id() == ROCKS_6601) {
             var pick = Mining.findPickaxe(player);
 
             if (pick.isEmpty()) {
@@ -94,6 +115,7 @@ public class ResourceArena extends PacketInteraction {
                     TaskManager.submit(player.loopTask = new Task("loop_skill_task_golem", 1) {
 
                         int internalTimer = 1;
+
                         @Override
                         protected void execute() {
                             player.animate(pick.get().anim);
@@ -148,7 +170,7 @@ public class ResourceArena extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if(obj.getId() == GATE_26760) {
+        if (obj.getId() == GATE_26760) {
             if (option == 1) {
                 String name = GameServer.properties().pvpMode ? "BM" : "coins";
                 int itemId = GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995;
@@ -156,26 +178,26 @@ public class ResourceArena extends PacketInteraction {
 
                 if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
                     if (player.inventory().count(itemId) < amount) {
-                        player.message("You do not have enough "+name+" to enter the Arena.");
+                        player.message("You do not have enough " + name + " to enter the Arena.");
                     } else {
                         player.getDialogueManager().start(new Dialogue() {
                             @Override
                             protected void start(Object... parameters) {
-                                sendOption("Pay "+amount+" "+name+" to enter?", "Yes", "No");
+                                sendOption("Pay " + amount + " " + name + " to enter?", "Yes", "No");
                                 setPhase(0);
                             }
 
                             @Override
                             protected void select(int option) {
-                                if(option == 1) {
+                                if (option == 1) {
                                     if (ObjectManager.exists(1548, new Tile(obj.tile().x, 3945))) {
                                         return;
                                     }
                                     player.lockDelayDamage();
                                     player.inventory().remove(new Item(itemId, amount));
-                                    player.message("You pay "+amount+" "+name+" and enter the resource arena.");
+                                    player.message("You pay " + amount + " " + name + " and enter the resource arena.");
                                     GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                                    GameObject spawned = new GameObject(1548, new Tile(obj.tile().x,3945), obj.getType(),2);
+                                    GameObject spawned = new GameObject(1548, new Tile(obj.tile().x, 3945), obj.getType(), 2);
                                     ObjectManager.removeObj(obj);
                                     ObjectManager.addObj(spawned);
                                     player.getMovementQueue().walkTo(new Tile(3184, 3944));
@@ -185,7 +207,7 @@ public class ResourceArena extends PacketInteraction {
                                         player.unlock();
                                     });
                                     stop();
-                                } else if(option == 2) {
+                                } else if (option == 2) {
                                     stop();
                                 }
                             }
@@ -206,7 +228,7 @@ public class ResourceArena extends PacketInteraction {
                     player.lockDelayDamage();
                     ObjectManager.removeObj(old);
                     ObjectManager.addObj(spawned);
-                    player.getMovementQueue().walkTo(new Tile(3184,  3945));
+                    player.getMovementQueue().walkTo(new Tile(3184, 3945));
                     Chain.bound(player).runFn(2, () -> {
                         ObjectManager.removeObj(spawned);
                         ObjectManager.addObj(old);
@@ -228,34 +250,32 @@ public class ResourceArena extends PacketInteraction {
                     player.lockDelayDamage();
                     ObjectManager.removeObj(old);
                     ObjectManager.addObj(spawned);
-                    player.getMovementQueue().walkTo(new Tile(3184,  3945));
+                    player.getMovementQueue().walkTo(new Tile(3184, 3945));
                     Chain.bound(null).runFn(2, () -> {
                         ObjectManager.removeObj(spawned);
                         ObjectManager.addObj(old);
                         player.unlock();
                     });
                 }
-            } else if(option == 2) {
-                if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
-
-                    int count = 0;
-                    for (Player p : World.getWorld().getPlayers()) {
-                        if (p != null && p.tile().inArea(3174, 3924, 3196, 3944))
-                            count++;
-                    }
-
-                    if (count == 0) {
-                        player.getDialogueManager().sendStatement( "You peek inside the gate and see no adventurers inside the arena.");
-                    } else {
-                        player.getDialogueManager().sendStatement( "You peek inside the gate and see " + count + " adventurer inside the arena.");
-                    }
-                } else if (player.tile().y == 3944) {
-                    player.message("All you see is the barren wasteland of the Wilderness.");
-                }
             }
-            return true;
-        }
-        return false;
-    }
+        } else if (option == 2) {
+            if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
 
+                int count = 0;
+                for (Player p : World.getWorld().getPlayers()) {
+                    if (p != null && p.tile().inArea(3174, 3924, 3196, 3944))
+                        count++;
+                }
+
+                if (count == 0) {
+                    player.getDialogueManager().sendStatement( "You peek inside the gate and see no adventurers inside the arena.");
+                } else {
+                    player.getDialogueManager().sendStatement( "You peek inside the gate and see " + count + " adventurer inside the arena.");
+                }
+            } else if (player.tile().y == 3944) {
+                player.message("All you see is the barren wasteland of the Wilderness.");
+            }
+        }
+        return true;
+    }
 }

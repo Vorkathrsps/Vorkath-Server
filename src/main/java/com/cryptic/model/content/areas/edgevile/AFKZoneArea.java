@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -14,7 +15,7 @@ import java.util.Collections;
 
 public class AFKZoneArea extends Controller {
 
-    public static final Area ROOM = new Area(3073, 3482, 3086, 3496);
+    public static final Area ROOM = Skills.AFK_ZONE;
 
     public AFKZoneArea() {
         super(Collections.emptyList());

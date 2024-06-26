@@ -2,6 +2,7 @@ package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.interfaces.GameInterface;
+import com.cryptic.model.content.DropsDisplay;
 import com.cryptic.model.content.account.AccountSelection;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
@@ -124,6 +125,11 @@ public class ButtonClickPacketListener implements PacketListener {
 
         if (button == 82002) {
             Shop.closeShop(player);
+            return;
+        }
+
+        if (button == 80057) {
+            DropsDisplay.display(player, 1);
             return;
         }
 

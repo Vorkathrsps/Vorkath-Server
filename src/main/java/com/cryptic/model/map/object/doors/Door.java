@@ -7,9 +7,11 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
+import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +19,13 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.cryptic.model.content.skill.impl.agility.course.wilderness.WildernessCourse.LOWER_GATE;
 
 // ~~~ DIRECTIONS ~~~ \\
 // 0 = east, 1 = south \\
 // 2 = west, 3 = north \\
 // ~~~~~~~~~~~~~~~~~~~~ \\
+
 /**
  * @author Runite team
  */
@@ -33,6 +37,72 @@ public class Door {
     private static final List<Integer> IGNORE = Arrays.asList(GUILD_DOOR_14910, DOOR_24309, DOOR_11726, DOOR_11727, GATE_28851, GATE_28852, 26502, 26503, 26504, 26505, DOOR_20925, ALCHEMICAL_DOOR, ALCHEMICAL_DOOR_34554);
 
     public static void handle(Player player, GameObject obj) {
+        if (obj.getId() == LOWER_GATE) {
+            player.agilityWalk(false);
+            player.lockDelayDamage();
+            ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3917, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+            player.stepAbs(player.tile().transform(0, +1), MovementQueue.StepType.FORCED_WALK);
+            Chain.noCtx().runFn(2, () -> {
+                ObjectManager.addObj(new GameObject(23555, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+                player.stepAbs(player.tile().transform(0, +14), MovementQueue.StepType.FORCED_WALK);
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+            }).then(12, () -> {
+                ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(38848, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            }).then(3, () -> {
+                ObjectManager.addObj(new GameObject(23552, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(23554, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+                player.agilityWalk(true);
+                player.looks().resetRender();
+                player.unlock();
+            });
+            return;
+        } else if (obj.getId() == 23552) {
+            player.agilityWalk(false);
+            player.lockDelayDamage();
+            ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3931, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+            ObjectManager.addObj(new GameObject(38848, new Tile(2997, 3931, 0), 0, 3));
+            ObjectManager.addObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            player.stepAbs(player.tile().transform(0, -1), MovementQueue.StepType.FORCED_WALK);
+            player.setPositionToFace(null);
+            Chain.noCtx().runFn(2, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(0, -14), MovementQueue.StepType.FORCED_WALK);
+            }).then(1, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(player.tile().transform(0, -13), MovementQueue.StepType.FORCED_WALK);
+                ObjectManager.addObj(new GameObject(23552, new Tile(2998, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1573, new Tile(2998, 3930, 0), 0, 2));
+                ObjectManager.addObj(new GameObject(23554, new Tile(2997, 3931, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1574, new Tile(2997, 3930, 0), 0, 0));
+            }).then(12, () -> {
+                ObjectManager.addObj(new GameObject(38848, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.addObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+            }).then(4, () -> {
+                ObjectManager.addObj(new GameObject(23555, new Tile(2998, 3917, 0), 0, 3));
+                ObjectManager.removeObj(new GameObject(1548, new Tile(2998, 3916, 0), 0));
+                player.agilityWalk(true);
+                player.looks().resetRender();
+                player.unlock();
+            });
+        }
+        if (obj.getId() == 26760) {
+            final int yPos = player.getY();
+            if (yPos == 3945) {
+                player.teleport(new Tile(player.getX(), yPos - 1));
+            }
+            if (yPos == 3944) {
+                player.teleport(new Tile(player.getX(), yPos + 1));
+            }
+            return;
+        }
         handle(player, obj, false);
     }
 
@@ -47,9 +117,9 @@ public class Door {
                 player.teleport(2888, player.getAbsY());
                 return;
             }
-            player.message("Unhandled door, report this to a staff member! ID: "+def.id);
+            player.message("Unhandled door, report this to a staff member! ID: " + def.id);
         }
-        if (def.doorOppositeId == -1) {
+        if (!skipJammedCheck && def.doorOppositeId == -1) {
             player.message("The " + (def.gateType ? "gate" : "door") + " won't seem to budge.");
             return;
         }
@@ -384,7 +454,7 @@ public class Door {
                     diffDir++;
                 } else {
                     diffDir--;
-                    if(dir == 0) {
+                    if (dir == 0) {
                         diffX++;
                     }
                     if (dir == 2) {
@@ -498,7 +568,7 @@ public class Door {
         for (int i = 0; i < World.getWorld().definitions().total(ObjectDefinition.class); i++) {
             ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, i);
             var ignore = IGNORE.stream().anyMatch(id -> def.id == id);
-            if(ignore) {
+            if (ignore) {
                 continue;
             }
             if (def.id >= 26502 && def.id <= 26505) // gwd doors
@@ -520,7 +590,7 @@ public class Door {
                 setSound(def, 62, 60);
             }
 
-            if(def.id == 12657)
+            if (def.id == 12657)
                 def.doorOppositeId = 12658;
             else if (def.id == 12658)
                 def.doorOppositeId = 12657;

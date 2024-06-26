@@ -4,6 +4,8 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -35,12 +37,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
-import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_REWARD_POINTS;
+import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.*;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.SLAYER_POINTS;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -167,6 +170,14 @@ public class SlayerTask {
         return this.getCurrentAssignment(player) != null;
     }
 
+    public static void resetExplorerRing(Player player) {
+        if (player.<Integer>getAttribOr(LAST_DAILY_EXPLORER_RING_RESET, -1) != ZonedDateTime.now().getDayOfMonth()) {
+            player.putAttrib(LAST_DAILY_EXPLORER_RING_RESET, ZonedDateTime.now().getDayOfMonth());
+            player.putAttrib(AttributeKey.DAILY_FREE_SLAYER_SKIPS, 0);
+            player.sendInformationMessage("Your Explorer Ring 4 daily slayer task skips have been reset.");
+        }
+    }
+
     public void cancelSlayerTask(final Player player, boolean isBlocking, boolean isCoins) {
         if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SKIPPY)) {
             player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
@@ -176,11 +187,26 @@ public class SlayerTask {
             player.clearAttrib(AttributeKey.IS_BOSS_SLAYER_TASK);
             return;
         }
+
+        int explorerRingSkips = player.getAttribOr(AttributeKey.DAILY_FREE_SLAYER_SKIPS, 0);
+        boolean hasExplorerRingFour = player.getInventory().contains(EXPLORERS_RING_4) || player.getBank().contains(EXPLORERS_RING_4) || player.getEquipment().contains(EXPLORERS_RING_4);
+        if (hasExplorerRingFour && explorerRingSkips < 8) {
+            player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
+            player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
+            player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
+            player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
+            player.clearAttrib(AttributeKey.IS_BOSS_SLAYER_TASK);
+            final int increment = player.<Integer>getAttribOr(AttributeKey.DAILY_FREE_SLAYER_SKIPS, 0) + 1;
+            player.putAttrib(AttributeKey.DAILY_FREE_SLAYER_SKIPS, increment);
+            return;
+        }
+
         int slayerPoints = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         if (!isCoins && slayerPoints < 30) {
             player.message(Color.RED.wrap("You do not have enough coins to do this."));
             return;
         }
+
         int decrement = isBlocking ? 100 : 30;
         player.clearAttrib(AttributeKey.CURRENT_SLAYER_TASK);
         player.clearAttrib(AttributeKey.SLAYER_TASK_UID);
@@ -281,8 +307,9 @@ public class SlayerTask {
             int amount = this.getRemainingTaskAmount(player);
             HashMap<Integer, String> slayerPerks = player.getSlayerRewards().getUnlocks();
             boolean inWilderness = WildernessArea.inWilderness(player.tile());
-            if (this.isWildernessTask(player) && !inWilderness) return;
-            if (inWilderness && this.isWildernessTask(player)) {
+            boolean isWildernessTask = this.isWildernessTask(player);
+            if (isWildernessTask && !inWilderness) return;
+            if (inWilderness && isWildernessTask) {
                 isSlayerPerkEnabled(player, npc, slayerPerks);
             }
             player.getSlayerKillLog().addKill(npc);
@@ -290,7 +317,7 @@ public class SlayerTask {
             amount = isUsingExpeditiousBracelet(player, amount);
             decrementTaskAmount(player, amount);
             if (this.isRemoveSlayerTask(player)) {
-                DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
+                this.increaseSlayerAchievements(player);
                 int increment = 0;
                 increment += this.getSlayerTaskCompletionPoints(player);
                 if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
@@ -303,9 +330,21 @@ public class SlayerTask {
                 this.incrementTaskCompletionSpree(player);
                 this.clearSlayerTask(player);
                 this.upgradeEmblem(player);
+                if (isWildernessTask) {
+                    player.getInventory().addOrDrop(new Item(LARRANS_KEY, 1));
+                }
                 return;
             }
         }
+    }
+
+    private void increaseSlayerAchievements(Player player) {
+        AchievementsManager.activate(player, Achievements.SLAYER_1, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_2, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_3, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_4, 1);
+        AchievementsManager.activate(player, Achievements.SLAYER_5, 1);
+        DailyTasks.check(player, DailyTasks.DAILY_SLAYER, this.getTaskName());
     }
 
     private void decrementTaskAmount(Player player, int amount) {

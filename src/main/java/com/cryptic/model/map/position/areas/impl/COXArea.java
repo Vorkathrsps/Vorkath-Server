@@ -3,15 +3,21 @@ package com.cryptic.model.map.position.areas.impl;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
+import com.cryptic.model.items.ground.GroundItem;
+import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.TimeClock;
 import com.cryptic.utility.Utils;
 
 import java.util.Collections;
 
 import static com.cryptic.model.content.raids.party.Party.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.ITEM_ID;
 import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 
 /**
@@ -26,20 +32,21 @@ public class COXArea extends Controller {
 
     @Override
     public void enter(Player player) {
+        player.getRaidTimeClock().reset();
     }
 
     @Override
     public void leave(Player player) {
+        player.getRaidTimeClock().reset();
     }
 
     @Override
     public void process(Player player) {
         var party = player.raidsParty;
-        TimeClock timeClock = new TimeClock();
         if (party != null) {
             player.getPacketSender().sendString(TOTAL_POINTS, Color.WHITE.wrap("Total: " + Utils.formatNumber(party.totalPoints())));
             player.getPacketSender().sendString(POINTS, Color.WHITE.wrap(player.getUsername() + ": " + Utils.formatNumber(player.<Integer>getAttribOr(PERSONAL_POINTS, 0))));
-            player.getPacketSender().sendString(12005, Color.WHITE.wrap("Time: " + timeClock.currentTimeClock()));
+            player.getPacketSender().sendString(12005, Color.WHITE.wrap("Time: " + player.getRaidTimeClock().currentTimeClock()));
         }
         player.getInterfaceManager().sendOverlay(POINTS_WIDGET);
     }

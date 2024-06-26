@@ -10,6 +10,7 @@ import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
+import com.cryptic.model.content.teleport.newinterface.SpecificTeleport;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.skull.SkullType;
@@ -138,6 +139,7 @@ public class PlayerSave {
 
         public static boolean loadDetails(final Player player) throws Exception {
             final Path path = SAVE_DIR.resolve(player.getUsername() + ".json");
+
             if (!Files.exists(path)) {
                 return false;
             }
@@ -192,7 +194,9 @@ public class PlayerSave {
                 player.getCombat().setFightType(FightType.valueOf(details.fightType));
             player.getCombat().getFightType().setParentId(details.fightTypeVarp);
             player.getCombat().getFightType().setChildId(details.fightTypeVarpState);
-            player.getCombat().setAutoRetaliate(details.autoRetaliate);
+            if (player.getSession() != null) {
+                player.getCombat().setAutoRetaliate(details.autoRetaliate);
+            }
             if (details.previousSpellbook != null) {
                 player.setPreviousSpellbook(details.previousSpellbook);
             }
@@ -478,7 +482,9 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
             player.setInvulnerable(details.infhp);
+
             details.varps.forEach((k, v) -> player.varps().setVarp(k, v));
+
             player.putAttrib(AttributeKey.DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(AttributeKey.DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
 
@@ -489,6 +495,7 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.setLastSavedTile(details.lastRecallSave.tile());
+            if (details.teleports != null) player.setnewtelefavs(details.teleports);
             player.putAttrib(AttributeKey.VOID_ISLAND_POINTS, details.voidIslandPoints);
             player.putAttrib(PLAYER_UID, details.playerUID);
         }
@@ -623,6 +630,7 @@ public class PlayerSave {
         private final int starterStaffCharges;
         private final int starterSwordCharges;
         private final PlainTile lastRecallSave;
+        private final List<SpecificTeleport> teleports;
         private final boolean alchemicalHydraLogClaimed;
         private final boolean ancientBarrelchestLogClaimed;
         private final boolean ancientChaosElementalLogClaimed;
@@ -974,6 +982,7 @@ public class PlayerSave {
             starterStaffCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
+            teleports = player.getnewfavs() != null ? player.getnewfavs() : null;
             voidIslandPoints = Player.getAttribIntOr(player, AttributeKey.VOID_ISLAND_POINTS, 0);
             playerUID = Player.getAttribLongOr(player, PLAYER_UID, -1L);
         }

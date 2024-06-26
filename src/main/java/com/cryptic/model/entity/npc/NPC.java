@@ -535,7 +535,7 @@ public class NPC extends Entity {
                     continue;
                 if (this.getCombat().inCombat() || !bounds.inside(player.tile())) continue;
                 if (override) {
-                    combatInfo.scripts.agro_.shouldAgro(this, player);
+                    if (!combatInfo.scripts.agro_.shouldAgro(this, player)) continue;
                     temp.add(player);
                     continue;
                 }

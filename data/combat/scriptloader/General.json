@@ -733,31 +733,6 @@
   },
   {
     "ids": [
-      6603
-    ],
-    "unstacked": true,
-    "maxhit": 2,
-    "stats": {
-      "attack": 140,
-      "strength": 140,
-      "defence": 140,
-      "hitpoints": 125
-    },
-    "bonuses": {
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "rangeddefence": 0,
-      "magicdefence": 0
-    },
-    "animations": {
-      "attack": 386,
-      "block": 388,
-      "death": 2304
-    }
-  },
-  {
-    "ids": [
       1039
     ],
     "maxhit": 7,
@@ -860,21 +835,22 @@
     "ids": [
       1275
     ],
-    "maxhit": 1,
+    "maxhit": 6,
+    "combattype": "MELEE",
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 100,
+      "attack": 40,
+      "strength": 50,
+      "defence": 50,
+      "hitpoints": 40,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 1612,
@@ -886,21 +862,22 @@
     "ids": [
       1273
     ],
-    "maxhit": 1,
+    "maxhit": 6,
+    "combattype": "MELEE",
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 100,
+      "attack": 40,
+      "strength": 50,
+      "defence": 50,
+      "hitpoints": 40,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 1626,
@@ -912,21 +889,22 @@
     "ids": [
       1274
     ],
-    "maxhit": 1,
+    "maxhit": 6,
+    "combattype": "MELEE",
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 100,
+      "attack": 40,
+      "strength": 50,
+      "defence": 50,
+      "hitpoints": 40,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 1616,

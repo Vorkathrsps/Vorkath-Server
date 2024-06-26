@@ -3,6 +3,7 @@ package com.cryptic.model.map.object.dwarf_cannon;
 import static com.cryptic.model.map.object.dwarf_cannon.DwarfCannon.*;
 
 import com.cryptic.model.World;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -15,6 +16,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * @author Origin | April, 18, 2021, 18:34
@@ -50,6 +52,7 @@ public class DwarfCannonActions extends PacketInteraction {
                         player.message("You don't have all the parts to build your cannon.");
                         return true;
                     }
+
                     if (!cannon.isValidSpot()) {
                         player.message("There's not enough room to setup your cannon here.");
                         return true;

@@ -27,16 +27,14 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        final Channel channel = ctx.channel();
-
-        if (channel == null) return;
-
-        if (!channel.isActive()) return;
-
         if (msg instanceof LoginDetailsMessage message) {
-            if (!message.getHost().isEmpty()) {
-                ctx.channel().attr(NetworkUtils.SESSION_KEY).setIfAbsent(new Session(ctx.channel()));
-                Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
+            final Channel channel = ctx.channel();
+            if (channel != null && channel.isActive() && !message.getHost().isEmpty()) {
+                Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
+                if (session == null) {
+                    session = new Session(ctx.channel());
+                    channel.attr(NetworkUtils.SESSION_KEY).set(session);
+                }
                 session.finalizeLogin(message);
             }
         }
@@ -46,63 +44,37 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     public void channelWritabilityChanged(ChannelHandlerContext ctx) {
         final Channel channel = ctx.channel();
         if (!channel.isActive()) return;
-        final boolean writable = channel.isWritable();
-        if (writable) {
-            logger.debug("writing to session writability changed");
+
+        if (channel.isWritable()) {
             Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
-            if (session != null) {
-                session.flushQueuedPackets();
-            }
+            if (session != null) session.flushQueuedPackets();
         }
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) {
         final Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
-        if (session == null) return;
-        onUnregisteredIngame(session);
+        if (session != null) onUnregisteredIngame(session);
     }
 
     private void onUnregisteredIngame(Session session) {
         session.clearQueues();
         Player player = session.getPlayer();
-        if (player == null) return;
-        if (player.getUsername() == null || player.getUsername().isEmpty()) return;
-        if (session.getState() != SessionState.LOGGED_IN) return;
-
-        player.getForcedLogoutTimer().start(60);
-        player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) throws Exception {
-        try {
-            final Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
-            // ignore on traditional socket exception (typically indicated by message starting with read0 but may change..)
-            if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("read0")) {
-                logger.error("Stack 1", throwable);
-                return;
-            }
-
-            if (throwable instanceof SocketException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("throwConnectionReset")) {
-              //  logger.error("Stack 2", throwable);
-                return;
-            }
-            if (throwable instanceof IOException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("writev0")) {
-              //  logger.error("Stack 3", throwable);
-                return;
-            }
-            if (throwable instanceof ReadTimeoutException) {
-              //  logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
-                ctx.close();
-            } else {
-                logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
-                ctx.close();
-            }
-        } catch (Exception e) {
-            logger.error("Uncaught server exception!", e);
-            ctx.close();
+        if (player != null && player.getUsername() != null && !player.getUsername().isEmpty() && session.getState() == SessionState.LOGGED_IN) {
+            player.getForcedLogoutTimer().start(60);
+            player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
         }
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) {
+        Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
+        if (throwable instanceof ReadTimeoutException) {
+            logger.debug("Channel disconnected due to read timeout (30s): {}", ctx.channel());
+            ctx.channel().close();
+        } else {
+            logger.error("An exception occurred in the pipeline: {}", session, throwable);
+            ctx.close();
+        }
+    }
 }

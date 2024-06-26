@@ -30,7 +30,7 @@ public class RubyBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.RUBY_DRAGON_BOLTS_E, ItemIdentifiers.RUBY_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 int cap = 100;
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.ZARYTE_CROSSBOW) && player.isSpecialActivated() && player.getCombatSpecial() == CombatSpecial.ZARYTE_CROSSBOW)
                 {

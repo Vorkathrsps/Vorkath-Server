@@ -94,6 +94,7 @@ public enum NewTeleData {
     GEM_ROCKS(new Tile(2825, 2998),"Gem Rocks Area", "", SKILLING, MEDIUM),
     HUNTER_AREAS(new Tile(1,1),"Hunter Areas", "", SKILLING, MEDIUM),
     SMITHING_ANVIL(new Tile(3189, 3425),"Varrock Smithing Anvil", "", SKILLING, MEDIUM),
+    HAM_HIDEOUT(new Tile(2571, 5209),"H.A.M Hideout", "", SKILLING, MEDIUM),
 
 
 

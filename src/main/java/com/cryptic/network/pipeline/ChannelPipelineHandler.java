@@ -28,7 +28,6 @@ public final class ChannelPipelineHandler extends ChannelInitializer<Channel> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.warn("Failed to initialize a channel. Closing: " + ctx.channel(), cause);
-        ctx.close();
+        ctx.channel().close();
     }
-
 }

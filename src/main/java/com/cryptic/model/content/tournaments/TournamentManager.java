@@ -2,11 +2,12 @@ package com.cryptic.model.content.tournaments;
 
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
-import com.cryptic.model.content.daily_tasks.DailyTaskManager;
-import com.cryptic.model.content.daily_tasks.DailyTasks;
+
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
@@ -14,6 +15,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
+
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.equipment.Equipment;
@@ -39,8 +41,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.LISA;
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.TWIGGY_OKORN;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.EXIT_PORTAL_27096;
 import static com.cryptic.model.content.tournaments.TournamentUtils.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.MAC_ADDRESS;
 import static java.lang.String.format;
 
 /**
@@ -79,35 +83,44 @@ public class TournamentManager extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject gameObject, int option) {
-        if (option == 1) {
-            //You can only leave if you have no tournament opponent
-            if (gameObject.getId() == EXIT_PORTAL_27096 && player.getTournamentOpponent() != null) {
-                player.message(Color.RED.wrap("The only way out is death!"));
-                return true;
-            } else if (gameObject.getId() == EXIT_PORTAL_27096 && player.getTournamentOpponent() == null) {
-                player.debugMessage("lets leave lobby");
-                leaveLobby(player);
-                return true;
-            }
-            return false;
+        if (gameObject.getId() == 26738) {
+            TournamentManager.leaveTourny(player, false, true);
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
-        if (npc.id() == THORVALD || npc.id() == LISA) {
-            if (option == 1) {
-                //player.getDialogueManager().start(new TournamentEntryDialogue());
-                TournamentManager.openTournamentWidget(player);
-                return true;
-            } else if (option == 2) {
-                TournamentManager.quickJoinLobby(player);
-                return true;
-            } else if (option == 3) {
-                TournamentManager.quickSpectate(player);
-                return true;
-            }
+        if (npc.id() == LISA) {
+            player.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    sendNpcChat(LISA, Expression.ANNOYED, "Hello, " + player.getUsername(), "Would you like to participate in the Tournament?");
+                    setPhase(0);
+                }
+
+                @Override
+                protected void select(int option) {
+                    if (isPhase(1)) {
+                        if (option == 1) {
+                            quickJoinLobby(player);
+                            stop();
+                        } else {
+                            stop();
+                        }
+                    }
+                }
+
+                @Override
+                protected void next() {
+                    if (isPhase(0)) {
+                        sendOption("Would you like to join the Tournament?", "Yes", "No");
+                        setPhase(1);
+                    }
+                }
+            });
+            return true;
         }
         return false;
     }
@@ -140,10 +153,15 @@ public class TournamentManager extends PacketInteraction {
 
     public static String nextTornStartsInMessage() { // where the fuck did i leave that print
         long difference = timeTillNext();
-        if (difference == -1)
-            return "Check back at midnight for the next tournament time.";
+        if (difference == -1) return "Check back at midnight for the next tournament time.";
+        String timeLeft = "<img=13> " + Color.MITHRIL.wrap(format("The Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)</img>"));
+        return timeLeft;
+    }
 
-        String timeLeft = format("Tournament will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
+    public static String nextTornStartsInMessageNPC() { // where the fuck did i leave that print
+        long difference = timeTillNext();
+        if (difference == -1) return "Check back at midnight for the next tournament time.";
+        String timeLeft = format("will open in %s", difference >= 3600 ? difference / 3600 + " hour(s)" : difference >= 60 ? difference / 60 + " minute(s)" : difference + " second(s)");
         return timeLeft;
     }
 
@@ -228,6 +246,7 @@ public class TournamentManager extends PacketInteraction {
         if (player.isInTournamentLobby()) {
             wipeLoadout(player);
             torn.inLobby.remove(player);
+            torn.macAddressesInLobby.remove(player.getAttribOr(MAC_ADDRESS, "invalid"));
             player.setInTournamentLobby(false);
             player.getRunePouch().clear();
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
@@ -272,8 +291,10 @@ public class TournamentManager extends PacketInteraction {
             }
             player.setTournamentOpponent(null);
             player.setParticipatingTournament(null);
+
             // TODO skill restore
             player.getPrayer().reset();
+
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
             player.getPacketSender().sendEntityHintRemoval(true);
@@ -812,7 +833,6 @@ public class TournamentManager extends PacketInteraction {
         private void process() {
             now = ZonedDateTime.now();
             nowSec = now.toEpochSecond();
-            //System.out.printf("Core openEventLobby: %s lobbyActive: %s tournaments.size: %s timeTillNext: %s | startTimes: %s nextTorn: %s %s%n", openEventLobby(), lobbyActive(), tournaments.size(), timeTillNext(), Arrays.toString(settings.startTimes), nextTorn != null ? nextTorn.getConfig().key : "none", nextEvent());
             setNextTournyType();
             if (checkAndOpenLobby(false)) return;
             tickTournys();

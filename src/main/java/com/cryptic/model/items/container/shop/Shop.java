@@ -4,9 +4,12 @@ import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.shop.currency.CurrencyType;
@@ -193,14 +196,14 @@ public abstract class Shop {
 
         int cost = (value * item.getAmount());
 
-        if (storeItem.secondaryValue.isPresent()) {
+        if (storeItem.secondaryValue != null && storeItem.secondaryValue.isPresent()) {
             if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && (currencyType.currency.currencyAmount(player, cost) >= cost)) {
                 System.out.println(storeItem.secondaryValue);
                 player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.getInstance(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
                 return;
             } else if (!player.getInventory().contains(storeItem.secondaryValue.getAsInt()) && !(currencyType.currency.currencyAmount(player, cost) >= cost)) {
-                player.message(Color.RED.wrap("<shad=0>Missing Requirement: 1x " + ItemDefinition.getInstance(storeItem.secondaryValue.getAsInt()).name + "</shad>"));
-                player.message(Color.RED.wrap("<shad=0>You don't have enough " + currencyType.toString() + " to buy this item.</shad>"));
+                player.sendHintMessage("Missing Requirement: 1x " + ItemDefinition.cached.get(storeItem.secondaryValue.getAsInt()).name);
+                player.sendHintMessage("You don't have enough " + currencyType.toString() + " to buy this item.");
                 return;
             }
         }
@@ -226,13 +229,20 @@ public abstract class Shop {
                 return;
             }
 
-            if (itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId()) && container.retrieve(slot).isPresent()) {
+            var changeId = giveNoted ? item.unnote().getId() : item.getId();
+            if (itemCache.containsKey(changeId) && container.retrieve(slot).isPresent()) {
                 if (decrementStock()) {
-                    container.retrieve(slot).get().decrementAmountBy(item.getAmount());
+                    var stockitem =container.retrieve(slot).get();
+                    stockitem.decrementAmountBy(item.getAmount());
+
+                    players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), stockitem, slot));
                 }
-            } else if (!itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId())) {
+            } else if (!itemCache.containsKey(changeId)) {
                 if (decrementStock()) {
-                    container.remove(giveNoted ? item.unnote().getId() : item.getId(), item.getAmount());
+                    container.remove(changeId, item.getAmount());
+
+                    var newSlot = container.getSlot(changeId);
+                    players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), container.get(newSlot), newSlot));
                 }
             }
         } else {
@@ -247,6 +257,9 @@ public abstract class Shop {
             else player.inventory().remove(storeItem.secondaryValue.getAsInt());
         }
 
+        if (shopId == 780) {
+            AchievementsManager.activate(player, Achievements.STARGAZE, cost);
+        }
         player.inventory().addOrBank(item);
         if (player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE)) {
             int slayerRewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
@@ -256,10 +269,7 @@ public abstract class Shop {
         shopLogs.log(SHOPS_LEVEL, player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString());
         Utils.sendDiscordInfoLog(player.getUsername() + " has bought " + item.unnote().name() + " from a shop for " + Utils.formatNumber((long) item.getAmount() * value) + " " + currencyType.currency.toString(), "shops");
 
-        //Don't refresh the shop for one player, refresh it for all players.
-        for (Player player1 : this.players) {
-            refresh(player1, false);
-        }
+        refresh(player, true);
     }
 
     public void onPurchase(Player player, Item item) {
@@ -289,6 +299,8 @@ public abstract class Shop {
                 player.inventory().addOrBank(new Item(skillcapeHoods.getHood()));
             }
         }
+
+        refresh(player, true);
     }
 
     protected final void sell(Player player, Item item, int slot) {
@@ -355,7 +367,7 @@ public abstract class Shop {
             return;
         }
 
-        Optional<Item> find = container.search(item.getId());
+        var existingSLot = container.getSlot(item.getId());
         int sellValue;
         sellValue = item.getId() == 619 ? 1 : item.getSellValue();
 
@@ -385,18 +397,20 @@ public abstract class Shop {
         boolean dontAddToContainer = shopId != 1;
 
         if (!dontAddToContainer) {
-            if (find.isPresent()) {
-                Item found = find.get();
+            if (existingSLot > 0) {
+                Item found = container.get(existingSLot);
                 found.setAmount(found.getAmount() + item.getAmount());
+
+                players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), converted.unnote(), existingSLot));
             } else {
                 container.add(converted);
+                var newSlot = container.getSlot(converted.getId());
+
+                players.stream().filter(Objects::nonNull).forEach(p -> p.getPacketSender().sendItemOnInterfaceSlot(shopWidgetId(), converted.unnote(), newSlot));
             }
         }
 
-        //refresh(player);
-        for (Player player1 : this.players) {
-            refresh(player1, false);
-        }
+        refresh(player, true);
     }
 
     public abstract void refresh(Player player, boolean redrawStrings);
@@ -507,8 +521,24 @@ public abstract class Shop {
 
     public abstract SellType sellType();
 
+    public boolean isSpriteShop() {
+        return shopId == 48 || shopId == 350 || shopId == 6 || shopId == 21;
+    }
+
     public boolean decrementStock() {
         return shopId == 1;
+    }
+
+    public int shopWidgetId() {
+
+        int shopInventoryId = 73190;
+        if (isSpriteShop()) {
+            shopInventoryId = 82004;
+        }
+        if (shopId == 7) {
+            shopInventoryId = 64016;
+        }
+        return shopInventoryId;
     }
 
     @Override

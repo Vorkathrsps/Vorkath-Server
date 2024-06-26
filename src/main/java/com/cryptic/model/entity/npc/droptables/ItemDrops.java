@@ -6,12 +6,14 @@ import com.cryptic.model.content.collection_logs.LogType;
 import com.cryptic.model.content.skill.impl.prayer.Ashes;
 import com.cryptic.model.content.skill.impl.prayer.Bone;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
@@ -49,11 +51,15 @@ public class ItemDrops {
                 this.checkPlayerEventDoubleDrops(isDoubleDropsEnabled, drop);
                 if (isSkipped(drop.getId())) continue;
                 if (isSkipLootingBag(player, drop)) continue;
+                if (isEcumenicalKey(drop) && !WildernessArea.inWilderness(player.tile())) continue;
+                if (isKaramjaGloveEffect(npc, player, drop)) drop = drop.note();
                 if (isMembersNotedDragonhide(player, drop)) drop = drop.note();
+                if (isUsingBoneCrusher(player, drop)) continue;
                 if (isUsingBoneHunter(player, drop)) drop = drop.note();
                 if (isUsingDevotionSigil(player, drop)) continue;
                 if (isUsingAshSanctifier(player, drop)) continue;
                 if (isUsingSoulBearer(player, drop)) continue;
+                if (isFremennikSeaBootsEffect(npc, player, drop)) drop = drop.note();
                 this.isRareDrop(player, npc, table, drop);
                 if (isUsingLuckOfTheDwarves(player, drop)) continue;
                 if (isUsingRingOfWealth(player, drop)) continue;
@@ -63,11 +69,31 @@ public class ItemDrops {
         }
     }
 
-    void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {
+    final boolean isUsingBoneCrusher(Player player, Item drop) {
+        if (player.getInventory().contains(BONECRUSHER) && ArrayUtils.contains(BONES, drop.getId())) {
+            Bone bone = Bone.get(drop.getId());
+            if (bone != null && Objects.equal(bone.itemId, drop.getId())) {
+                double amount = bone.xp / 2;
+                amount = getMorytaniaBoneCrusherBoost(player, amount, bone);
+                player.getSkills().addXp(Skill.PRAYER.getId(), amount);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    final double getMorytaniaBoneCrusherBoost(Player player, double amount, Bone bone) {
+        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+            amount = bone.xp;
+        }
+        return amount;
+    }
+
+    final void checkPlayerEventDoubleDrops(boolean isDoubleDropsEnabled, Item drop) {
         if (isDoubleDropsEnabled) drop.setAmount(drop.getAmount() * 2);
     }
 
-    void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
+    final void isRareDrop(Player player, NPC npc, NpcDropTable table, Item drop) {
         for (var i : table.getDrops()) {
             var parsedID = ItemRepository.getItemId(i.getItem());
             if (isRareDrop(player, npc, i, drop, parsedID)) break;
@@ -78,7 +104,11 @@ public class ItemDrops {
         return ArrayUtils.contains(ignored, id);
     }
 
-    void rollKeyTable(Player player, Tile tile) {
+    final boolean isEcumenicalKey(final Item drop) {
+        return drop.getId() == ECUMENICAL_KEY;
+    }
+
+    final void rollKeyTable(Player player, Tile tile) {
         if (Utils.rollDie(500, 1))
             GroundItemHandler.createGroundItem(new GroundItem(new Item(CRYSTAL_KEY, 1), tile, player));
         if (Utils.rollDie(800, 1))
@@ -131,6 +161,32 @@ public class ItemDrops {
             var level = WildernessArea.getWildernessLevel(player.tile());
             World.getWorld().sendWorldMessage("<lsprite=2010> " + Color.YELLOW.wrap("<shad=0>" + player.getUsername() + " has received a " + Color.BURNTORANGE.wrap(drop.name()) + " from a " + Color.BURNTORANGE.wrap(npc.getMobName()) + (!inWild ? "." : " Level: " + level + " wilderness.") + "</shad>"));
             return true;
+        }
+        return false;
+    }
+
+    final boolean isKaramjaGloveEffect(final NPC npc, final Player player, final Item drop) {
+        final boolean hasGloves = player.getEquipment().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getInventory().contains(ItemIdentifiers.KARAMJA_GLOVES_4) || player.getBank().contains(ItemIdentifiers.KARAMJA_GLOVES_4);
+        final boolean insideBrimhavenDungeon = player.tile().inArea(new Area(Tile.regionToTile(10899).getX(), Tile.regionToTile(10899).getY(), Tile.regionToTile(10899).getX() + 63, Tile.regionToTile(10899).getY() + 63));
+        final boolean insideRedDragonArea = player.tile().inArea(new Area(Tile.regionToTile(10900).getX(), Tile.regionToTile(10900).getY(), Tile.regionToTile(10900).getX() + 63, Tile.regionToTile(10900).getY() + 63));
+        final boolean isMetalDragon = ArrayUtils.contains(FormulaUtils.METAL_DRAGONS, npc.id());
+        final boolean isRedDragon = ArrayUtils.contains(FormulaUtils.RED_DRAGONS, npc.id());
+        if (hasGloves && insideRedDragonArea && isRedDragon) {
+            return drop.name().contains("dragonhide");
+        } else if (hasGloves && insideBrimhavenDungeon && isMetalDragon) {
+            return drop.name().toLowerCase().contains("bar");
+        }
+        return false;
+    }
+
+    final boolean isFremennikSeaBootsEffect(final NPC npc, final Player player, final Item drop) {
+        final boolean hasAllBoots = player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4);
+        final boolean hasSeaBoots4 = player.getEquipment().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getInventory().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4) || player.getBank().containsAny(FREMENNIK_SEA_BOOTS_1, FREMENNIK_SEA_BOOTS_2, FREMENNIK_SEA_BOOTS_3, FREMENNIK_SEA_BOOTS_4);
+        if (ArrayUtils.contains(FormulaUtils.AVIANSIES, npc.id())) {
+            return hasAllBoots && drop.getId() == ADAMANTITE_BAR;
+        }
+        if (ArrayUtils.contains(FormulaUtils.DAGANNOTH_KINGS, npc.id())) {
+            return hasSeaBoots4 && drop.getId() == DAGANNOTH_BONES;
         }
         return false;
     }

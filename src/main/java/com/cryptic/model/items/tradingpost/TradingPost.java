@@ -48,6 +48,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 @Slf4j
 public class TradingPost extends PacketInteraction {
+
     @Override
     public void onLogin(Player player) {
         PlayerListing list = getListings(player.getUsername().toLowerCase());
@@ -62,11 +63,7 @@ public class TradingPost extends PacketInteraction {
         }
     }
 
-    // is there a onLogin fcor TP you know of?
-    //not that ive seen, 95% rewrite XD i havent seen you make one i dont think
-
     private static final Logger logger = LogManager.getLogger(TradingPost.class);
-
     private static final Logger tradingPostLogs = LogManager.getLogger("TradingPostLogs");
     private static final Level TRADING_POST;
 
@@ -86,7 +83,6 @@ public class TradingPost extends PacketInteraction {
     public static boolean TRADING_POST_LISTING_ENABLED = true;
     public static boolean TRADING_POST_VALUE_ENABLED = false;
     public static final boolean TESTING = false;
-    public static final boolean BLOOD_MONEY_CURRENCY = false;
 
     public static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800, RECENT = 81600, BUY_CONFIRM_UI_ID = 81375;
     /**
@@ -149,27 +145,19 @@ public class TradingPost extends PacketInteraction {
     public static int getProtectionPrice(int itemId) {
         List<TradingPostListing> transactions = recentTransactions;
 
-        //Gets newest first
         Collections.reverse(recentTransactions);
 
-        //System.out.println("transactions: "+Arrays.toString(transactions.toArray()));
-
-        //Creates temp list to store first 5.
         List<TradingPostListing> prices = Lists.newArrayList();
         for (TradingPostListing listing : transactions) {
-            //System.out.println("enter loop");
             if (listing != null) {
-                //System.out.println("listing not null");
+
                 Item protItem = new Item(itemId);
-                /*if (prices.size() >= SALES_REQUIRED_FOR_AVERAGE_PRICE) {
-                    System.out.println("ofc u fucker");
-                    continue;
-                }*/
+
                 if (protItem.noted()) {
                     protItem.setId(protItem.unnote().getId());
                 }
+
                 if (listing.getSaleItem().getId() == protItem.getId()) {
-                    //System.out.println("item matches");
                     prices.add(listing);
                 }
             }
@@ -331,7 +319,7 @@ public class TradingPost extends PacketInteraction {
         List<TradingPostListing> list = c.getListedItems();
         String s = "%s. Inv: %s".formatted(
                 Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
-                Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))
+                Utils.formatPriceKMB((long) player.inventory().count(995) + (1000L * player.inventory().count(13307)) + (1000L * player.inventory().count(PLATINUM_TOKEN)))
         );
 
         ObjectList<Player.TextData> strings = ObjectList.of(
@@ -343,8 +331,8 @@ public class TradingPost extends PacketInteraction {
             var item = i >= (list != null ? list.size() : 0) ? null : list.get(i);
             sendOverviewIndex(item == null ? null : item.getSaleItem(),
                 item == null ? "" : item.getSaleItem().unnote().name(),
-                item == null ? "" : "%d/%d | %d (ea)"
-                    .formatted(item.getAmountSold(), item.getTotalAmount(), item.getPrice()),
+                item == null ? "" : "%s/%s | %s (ea)"
+                    .formatted(item.getAmountSold(), item.getTotalAmount(), Utils.formatValueCommas(item.getPrice())),
                 item == null ? -1 : (int) (item.amountSold * 100 / (double) item.getTotalAmount()),
                 i,
                 player);
@@ -465,7 +453,7 @@ public class TradingPost extends PacketInteraction {
     public static void openBuyUI(Player player) {
         String s = "%s. Inv: %s".formatted(
             Utils.formatPriceKMB(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L)),
-            Utils.formatPriceKMB(1L * player.inventory().count(995) + (long) (1000L * player.inventory().count(13307)) + (long) (1000L * player.inventory().count(PLATINUM_TOKEN))));
+            Utils.formatPriceKMB((long) player.inventory().count(995) + (1000L * player.inventory().count(13307)) + (1000L * player.inventory().count(PLATINUM_TOKEN))));
         ObjectList<Player.TextData> list = ObjectList.of(
             new Player.TextData("My coins",81269),
             new Player.TextData(s,81271),
@@ -676,10 +664,7 @@ public class TradingPost extends PacketInteraction {
             if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
                 tpcs.select(1);
             } else {
-                p.<Integer>setAmountScript("How many of this item would you like to purchase?:::" + p.tradingPostListedAmount, i -> {
-                    handlePurchasing(p, p.tradingPostSelectedListing, i);
-                    return true;
-                });
+                handlePurchasing(p, p.tradingPostSelectedListing, p.tradingPostListedAmount);
             }
             return true;
         }
@@ -772,7 +757,7 @@ public class TradingPost extends PacketInteraction {
                         long current = player.<Long>getAttribOr(TRADING_POST_COFFER, 0L);
                         if (current == 0L)
                             return true;
-                        long toAdd = Long.min(current, 1L * Integer.MAX_VALUE - player.inventory().count(995));
+                        long toAdd = Long.min(current, (long) Integer.MAX_VALUE - player.inventory().count(995));
                         if (player.inventory().add(995, (int) toAdd)) {
                             player.putAttrib(TRADING_POST_COFFER, Math.max(0, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) - toAdd));
                             player.message(Utils.formatNumber(toAdd)+" was removed from your coffer, it now holds "+Utils.formatNumber(player.<Long>getAttribOr(TRADING_POST_COFFER, 0L))+" gp.");
@@ -1019,11 +1004,6 @@ public class TradingPost extends PacketInteraction {
             return false;
         }
 
-        if (offerItem.unnote().definition(World.getWorld()).pvpAllowed) {
-            player.message("You can't trade spawnable items.");
-            return false;
-        }
-
         if (offerItem.getValue() <= 0) {
             player.message("You can't sell spawnable items.");
             return false;
@@ -1043,7 +1023,7 @@ public class TradingPost extends PacketInteraction {
             return false;
         }
 
-        if (currentListings.size() > 0) {
+        if (!currentListings.isEmpty()) {
             player.message("<col=ff0000>You already have a listing of this item. You cannot list it again..");
             player.message("<col=ff0000>.. You will need to edit ur current listing and change quantity.");
             return false;
@@ -1098,7 +1078,7 @@ public class TradingPost extends PacketInteraction {
 
     public static void listSale(Player player, Item sale, long price) {
         if (player == null || sale == null || !isValid(player) || price <= 0) {
-            logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+            logger.info("player: {} sale: {} price: {}", player.getUsername(), sale.getId(), price);
             return;
         }
 
@@ -1112,7 +1092,7 @@ public class TradingPost extends PacketInteraction {
         }
 
         if (!player.inventory().contains(sale.getId(), sale.getAmount())) {
-            logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+            logger.info("player: {} sale: {} price: {}", player.getUsername(), sale.getId(), price);
             return;
         }
 
@@ -1192,7 +1172,7 @@ public class TradingPost extends PacketInteraction {
 
     public static void showBuyTabOffers(Player player, List<TradingPostListing> saleMatches) {
 
-        var sumForSale = saleMatches == null ? 0L : saleMatches.stream().map(e -> e.getRemaining() * 1L).reduce(0L, (subtotal, element) -> subtotal + element);
+        var sumForSale = saleMatches == null ? 0L : saleMatches.stream().map(e -> (long) e.getRemaining()).reduce(0L, (subtotal, element) -> subtotal + element);
         player.getPacketSender().sendString(81272, Utils.formatPriceKMB(sumForSale));
         for (int i = 0; i < 10; i++) {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
@@ -1244,7 +1224,7 @@ public class TradingPost extends PacketInteraction {
         }
 
         List<TradingPostListing> list2;
-        if (player.lastTradingPostUserSearch != null && player.lastTradingPostUserSearch.length() > 0) {
+        if (player.lastTradingPostUserSearch != null && !player.lastTradingPostUserSearch.isEmpty()) {
             list2 = getSalesByUsername(Utils.capitalizeFirst(player.lastTradingPostUserSearch).toLowerCase());
         } else {
             list2 = getSalesForItemName(player, player.lastTradingPostItemSearch);
@@ -1305,15 +1285,6 @@ public class TradingPost extends PacketInteraction {
         );
         player.getPacketSender().sendMultipleStrings(list);
 
-        // prompt specific amt
-        player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
-
-            @Override
-            public boolean handle(Object value) {
-            handlePurchasing(player, selected, (Integer) value);
-            return true;
-            }
-        });
         return true;
     }
 
@@ -1340,8 +1311,8 @@ public class TradingPost extends PacketInteraction {
         player.getDialogueManager().start(new TradingPostConfirmSale(amount, price, selected));
         ObjectList<Player.TextData> list = ObjectList.of(
             new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
-            new Player.TextData("Price: " + selected.getPrice(), 81385),
-            new Player.TextData("Total Cost: " + ((long) selected.getPrice() * amount), 81386),
+            new Player.TextData("Price: " + Utils.formatValueCommas(selected.getPrice()), 81385),
+            new Player.TextData("Total Cost: " + Utils.formatValueCommas(((long) selected.getPrice() * amount)), 81386),
             new Player.TextData("" + amount, 81382)
         );
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
@@ -1349,9 +1320,9 @@ public class TradingPost extends PacketInteraction {
     }
 
     public static void finishPurchase(Player player, TradingPostListing selected, long totalPrice, int amount, boolean noted) {
-        long currency = player.inventory().count(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995);
+        long currency = player.inventory().count( COINS_995);
 
-        long tokens = player.inventory().count(BLOOD_MONEY_CURRENCY ? BLOODY_TOKEN : PLATINUM_TOKEN);
+        long tokens = player.inventory().count(PLATINUM_TOKEN);
 
         long totalPriceInPlat = tokens * 1_000;
 
@@ -1413,11 +1384,11 @@ public class TradingPost extends PacketInteraction {
         }
 
         if (coinsToRemove > 0) {
-            player.inventory().remove(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995, coinsToRemove);
+            player.inventory().remove(COINS_995, coinsToRemove);
         }
 
         if (platTokensToRemove > 0) {
-            player.inventory().remove(BLOOD_MONEY_CURRENCY ? BLOODY_TOKEN : PLATINUM_TOKEN, platTokensToRemove);
+            player.inventory().remove(PLATINUM_TOKEN, platTokensToRemove);
         }
 
         if (noted) {
@@ -1436,8 +1407,8 @@ public class TradingPost extends PacketInteraction {
         if (sel.isPresent()) {
             var p2 = sel.get();
             if (selected.profit > 0) {
-                TRADING_POST_COFFER.set(player, player.<Long>getAttribOr(TRADING_POST_COFFER, 0L) + selected.profit);
-                player.message("%s coins were added to your Trading Post Coffer from successful sales.", selected.profit);
+                TRADING_POST_COFFER.set(p2, p2.<Long>getAttribOr(TRADING_POST_COFFER, 0L) + selected.profit);
+                p2.message("%s coins were added to your Trading Post Coffer from successful sales.", selected.profit);
                 selected.resetProfit();
             }
             if (p2.getInterfaceManager().getMain() == OVERVIEW) // only refresh if open otherwise it'd interrupt our other work
@@ -1504,29 +1475,21 @@ public class TradingPost extends PacketInteraction {
             return;
         }
 
-       /* if (offer.profit <= 0) {
-            if (offer.profit < 0)
-                offer.profit = 0;
-            p.message("<col=ff0000>You don't have any funds to claim from this sell offer.</col>");
-            return;
-        }*/
-
         long profit = offer.profit;
 
         if (profit > Integer.MAX_VALUE) {
             var profitInPlatTokens = profit / 1000;
             var remainingCoins = profit - profitInPlatTokens * 1000;
-            p.inventory().addOrBank(new Item(BLOOD_MONEY_CURRENCY ? BLOODY_TOKEN : PLATINUM_TOKEN, (int) profitInPlatTokens));
+            p.inventory().addOrBank(new Item( PLATINUM_TOKEN, (int) profitInPlatTokens));
             tradingPostLogs.log(TRADING_POST, p.getUsername() + " offer claimed for: " + offer.getSaleItem().unnote().name() + " Received=" + (int) profitInPlatTokens + " bloody tokens");
 
             if (remainingCoins >= 1) {
-                p.inventory().addOrBank(new Item(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995, (int) remainingCoins));
+                p.inventory().addOrBank(new Item( COINS_995, (int) remainingCoins));
                 tradingPostLogs.log(TRADING_POST, p.getUsername() + " offer claimed for: " + offer.getSaleItem().unnote().name() + " Received=" + (int) remainingCoins + " coins");
             }
         } else {
-            //Below max int add coins.
             if (profit > 0) {
-                p.inventory().addOrBank(new Item(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995, (int) profit));
+                p.inventory().addOrBank(new Item( COINS_995, (int) profit));
                 tradingPostLogs.log(TRADING_POST, p.getUsername() + " offer claimed for: " + offer.getSaleItem().unnote().name() + " Received=" + (int) profit + " coins");
             }
         }
@@ -1580,7 +1543,7 @@ public class TradingPost extends PacketInteraction {
 
             long unclaimedProfit = offer.profit;
 
-            int inventoryAmount = player.inventory().getAmountOf(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995);
+            int inventoryAmount = player.inventory().getAmountOf(COINS_995);
 
             long total = inventoryAmount + unclaimedProfit;
 
@@ -1596,12 +1559,13 @@ public class TradingPost extends PacketInteraction {
 
             if (unclaimedProfit > 0) {
                 boolean isOver = total > Integer.MAX_VALUE;
-                int refundId = isOver ? BLOOD_MONEY_CURRENCY ? BLOODY_TOKEN : PLATINUM_TOKEN : BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995;
+                int refundId = isOver ?  PLATINUM_TOKEN :  COINS_995;
                 Item item = new Item(refundId, isOver ? (int) (unclaimedProfit / 1_000) : (int) unclaimedProfit);
                 player.inventory().addOrBank(item);
                 tradingPostLogs.log(TRADING_POST, player.getUsername() + " After canceling the offer there was already some unclaimed profits for: " + refund.unnote().name() + " Received: " + item.getAmount() + " coins!");
                 player.message("<col=ff0000" + Utils.formatNumber(unclaimedProfit) + " coins from sales was added to your inventory.");
             }
+
             sendOverviewTab(player);
             save(listing);
         }
@@ -1609,13 +1573,10 @@ public class TradingPost extends PacketInteraction {
 
     public static void refreshListing(Player player) {
         if (player.lastTradingPostUserSearch != null) {
-            //System.out.println("Searching by username... DEBUG");
             searchByUsername(player, player.lastTradingPostUserSearch, true);
         } else if (player.lastTradingPostItemSearch != null) {
-            //System.out.println("Searching by item name... DEBUG");
             searchByItemName(player, player.lastTradingPostItemSearch, true);
         }
-        //System.out.println("Searching by NUN... DEBUG");
     }
 
     public static void resetSearchVars(Player player) {

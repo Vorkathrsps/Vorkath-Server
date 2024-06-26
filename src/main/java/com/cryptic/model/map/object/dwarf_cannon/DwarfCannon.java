@@ -19,6 +19,7 @@ import com.cryptic.model.map.object.OwnedObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.RSPolygon;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
@@ -241,7 +242,7 @@ public class DwarfCannon extends OwnedObject {
             if (!n.tile().isWithinDistance(getCorrectedTile(this.tile()), CANNON_RANGE)) continue;
             var def = cached.get(n.getId());
             if (def.isPet || !def.isInteractable || def.actions[1] == null) continue;
-            if (!MultiwayCombat.includes(n.tile())) continue;
+            if (!MultiwayCombat.includes(n.tile()) && n.getCombat().getTarget() != this.getOwner()) continue;
             potentialTargets.add(n);
         }
         return potentialTargets;
@@ -319,10 +320,7 @@ public class DwarfCannon extends OwnedObject {
 
         Player player = getOwnerOpt().get();
 
-        if (ObjectManager.objWithTypeExists(
-            10, new Tile(player.tile().x, player.tile().y, player.tile().level))
-            || ObjectManager.objWithTypeExists(
-            11, new Tile(player.tile().x, player.tile().y, player.tile().level))) {
+        if (RegionManager.zarosBlock(player.tile())) {
             player.message("You can't place a cannon here.");
             return false;
         }

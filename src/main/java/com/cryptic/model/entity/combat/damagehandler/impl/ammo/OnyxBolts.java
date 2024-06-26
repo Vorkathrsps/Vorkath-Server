@@ -28,7 +28,7 @@ public class OnyxBolts implements AmmunitionDamageEffectListener {
         }
 
         if (player.getEquipment().containsAny(ItemIdentifiers.ONYX_DRAGON_BOLTS_E, ItemIdentifiers.ONYX_BOLTS_E)) {
-            if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
+            if (Utils.percentageChance(boltSpecialChance(player, alwaysSpec))) {
                 target.performGraphic(new Graphic(753, GraphicHeight.LOW, 55 + 5));
                 double boltSpecialMultiplier = 1.20; //20% extra damage
                 damage *= boltSpecialMultiplier;

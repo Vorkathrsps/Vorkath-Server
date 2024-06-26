@@ -104,6 +104,26 @@ public class World {
      */
     private final EntityList<Player> players = new EntityList<>(GameConstants.PLAYERS_LIMIT);
 
+    public Player[] getPidPlayers() {
+        return pidPlayers;
+    }
+
+    public void shufflePlayers() {
+        if (--shuffleCounter > 0) return;
+        shuffleCounter = World.getWorld().random().nextInt(10, 15);
+        final List<Player> players = new ArrayList<>(Arrays.stream(pidPlayers).toList());
+        Collections.shuffle(players);
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            pidPlayers[i] = player;
+            if (player == null) continue;
+            player.pidOrderIndex = i;
+        }
+    }
+
+    private int shuffleCounter = 0;
+    private final Player[] pidPlayers = new Player[GameConstants.PLAYERS_LIMIT];
+
     /**
      * The collection of active {@link NPC}s. Be careful when adding NPCs directly to the list without using the queue, try not to bypass the queue.
      */
@@ -266,7 +286,7 @@ public class World {
      */
     public void sequence() {
         resetSection();
-        shufflePlayerRenderOrder();
+        shufflePlayers();
         readPlayerPackets();
         processTasks();
         processObjects();
@@ -282,19 +302,6 @@ public class World {
      */
     private void resetSection() {
         Arrays.fill(section, false);
-    }
-
-    /**
-     * Shuffles the player render order if enabled in the server properties.
-     */
-    private void shufflePlayerRenderOrder() {
-        if (GameServer.properties().enablePidShuffling) {
-            long pidShuffleCounter = World.getWorld().random().nextInt(100);
-            long pidIntervalTicks = GameServer.properties().pidIntervalTicks;
-            if (pidShuffleCounter % pidIntervalTicks == 0) {
-                players.shuffleRenderOrder();
-            }
-        }
     }
 
     /**
@@ -331,7 +338,7 @@ public class World {
      * Reads packets from all connected players.
      */
     private void readPlayerPackets() {
-        for (Player player : players) {
+        for (Player player : pidPlayers) {
             if (player != null) {
                 try {
                     player.getSession().read();
@@ -368,7 +375,9 @@ public class World {
      * Reads and processes all players in the game.
      */
     private void readPlayers() {
-        for (Player player : players) {
+        // u need to make a copy of the 'players' list and shuffle it periodically
+        // and iterate that here, goa head and ill pay you for the hour.
+        for (Player player : pidPlayers) {
             if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {
                     player.sequence();

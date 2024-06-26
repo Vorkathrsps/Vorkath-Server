@@ -171,9 +171,9 @@ public class TaskMasterManager {
 
         TaskReward.reward(player);
 
-        AchievementsManager.activate(player, Achievements.TASK_MASTER_I, 1);
+        /*AchievementsManager.activate(player, Achievements.TASK_MASTER_I, 1);
         AchievementsManager.activate(player, Achievements.TASK_MASTER_II, 1);
-        AchievementsManager.activate(player, Achievements.TASK_MASTER_III, 1);
+        AchievementsManager.activate(player, Achievements.TASK_MASTER_III, 1);*/
         player.getInterfaceManager().close();
 
         //Reset old task

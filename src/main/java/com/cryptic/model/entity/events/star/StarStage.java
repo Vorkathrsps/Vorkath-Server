@@ -2,6 +2,7 @@ package com.cryptic.model.entity.events.star;
 
 import lombok.Getter;
 
+@Getter
 public enum StarStage {
     ONE(41020),
     TWO(41021),
@@ -12,7 +13,6 @@ public enum StarStage {
     SEVEN(41228),
     EIGHT(41229);
 
-    @Getter
     private final int objectId;
 
     StarStage(int objectId) {

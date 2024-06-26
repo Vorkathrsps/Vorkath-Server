@@ -10,6 +10,9 @@ import com.cryptic.interfaces.GameInterface;
 import com.cryptic.interfaces.Varbits;
 import com.cryptic.interfaces.Varps;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.AchievementUtility;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
@@ -46,6 +49,7 @@ import com.cryptic.model.entity.player.commands.impl.owner.*;
 import com.cryptic.model.entity.player.commands.impl.players.*;
 import com.cryptic.model.entity.player.commands.impl.staff.admin.*;
 import com.cryptic.model.entity.player.commands.impl.staff.moderator.*;
+import com.cryptic.model.entity.player.commands.impl.staff.server_support.MuteCommand;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.items.Item;
@@ -239,6 +243,10 @@ public class CommandManager {
         commands.put("alert", new AlertCommand());
         commands.put("globalmsg", new GlobalMsgCommand());
         commands.put("checkbank", new CheckBankCommand());
+        commands.put("ban", new BanCommand());
+        commands.put("unban", new UnbanCommand());
+        commands.put("mute", new MuteCommand());
+        commands.put("unmute", new UnMuteCommand());
         commands.put("checkinv", new CheckInventoryCommand());
         commands.put("giveitem", new GiveItemCommand());
         UpdatePasswordCommand updatePasswordCommand = new UpdatePasswordCommand();
@@ -293,6 +301,7 @@ public class CommandManager {
         commands.put("setlevel", new SetLevelCommand());
         commands.put("lvl", new SetLevelCommand());
         commands.put("click", new ClickLinkCommand());
+        commands.put("ctrlt", new TeleportInterfaceCommand());
         commands.put("sethp", new SetHitPointsCommand());
         commands.put("noclip", new NoclipCommandCommand());
         commands.put("tasknames", new TaskNamesCommand());
@@ -354,7 +363,7 @@ public class CommandManager {
 
             @Override
             public boolean canUse(Player player) {
-                return true;
+                return player.getPlayerRights().isSupport(player);
             }
         });
 
@@ -571,7 +580,7 @@ public class CommandManager {
         dev("dclips", (p, c, s) -> {
             CLIP.toggle();
         });
-        dev("lr", (p, c, s) -> {
+        dev("lr", (p, c, s) -> { // reload region objects from cache to restore doors
             RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
             p.tile().getRegion().activeTiles.forEach(t -> t.gameObjects.clear());
             p.tile().getRegion().activeTiles.clear();
@@ -600,7 +609,7 @@ public class CommandManager {
             GroundItemHandler.getGroundItems().clear();
         });
         dev("test11", (p, c, s) -> {
-            CommandManager.attempt(p, "npc 106 1 5 1");  // ID HP AMOUNT RESPAWN=1
+//            CommandManager.attempt(p, "npc 106 1 5 1");  // ID HP AMOUNT RESPAWN=1
         });
         dev("olm2", (p, c, s) -> {
             var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
@@ -668,6 +677,9 @@ public class CommandManager {
 
         dev("sp", (p, c, s) -> {
             p.getPacketSender().runClientScriptNew(ScriptID.GUIDE_PRICE_SEARCH, "Search For:", 1, -1, 0);
+            for (var achievement : Achievements.VALUES) {
+                AchievementsManager.activate(p, achievement, 200_000);
+            }
         });
 
         dev("c3", (p, c, s) -> {
@@ -1227,10 +1239,10 @@ public class CommandManager {
             player.getMovementQueue().interpolate(player.tile().transform(1, 1));
         });
 
-        dev("t21", (player, c, parts) ->
+        dev("opentorn", (player, c, parts) ->
 
         {
-            player.getMovementQueue().step(1, 1, MovementQueue.StepType.REGULAR);
+            TournamentManager.checkAndOpenLobby(true);
         });
 
         dev("t22", (player, c, parts) ->
@@ -1299,7 +1311,6 @@ public class CommandManager {
         });
 
         dev("region", (p, c, s) ->
-
         {
             var t = Tile.regionToTile(Integer.parseInt(s[1]));
             p.teleport(t);
@@ -1320,10 +1331,12 @@ public class CommandManager {
             player.getTheatreInstance().buildParty().startRaid();
         });
 
-        dev("test14", (player, c, s) ->
-
-        {
-
+        dev("test14", (player, c, s) -> {
+            TournamentManager.setNextTorn(null); // process will re-init next one
+            TournamentManager.getSettings().setStartTimes(new String[]{"23:59"});
+            TournamentManager.getSettings().usingOverrideTimes = true;
+            TournamentManager.checkAndOpenLobby(false);
+            player.getInterfaceManager().close();
         });
 
         dev("teles", (player, c, s) ->
@@ -1444,7 +1457,7 @@ public class CommandManager {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             int inc = s.length > 1 ? Integer.parseInt(s[1]) : 1;
             for (int i = 0; i < inc; i++) {
-                DailyTaskManager.increase(tasks.get(0), player);
+                //DailyTaskManager.increase(tasks.get(0), player);
             }
         });
 
@@ -1465,11 +1478,10 @@ public class CommandManager {
             player.putAttrib(tasks.get(0).isRewardClaimed, false);
         });
 
-        dev("rp1", (player, c, s) ->
+        dev("shufflepid", (player, c, s) ->
 
         {
-            player.getPacketSender().resetParallelInterfaces();
-            player.getInterfaceManager().close(true);
+            World.getWorld().getPlayers().shuffleRenderOrder();
         });
 
         dev("slay1", (player, c, s) ->
@@ -1486,6 +1498,19 @@ public class CommandManager {
 
         {
             player.getPacketSender().sendParallelInterfaceVisibility(Integer.parseInt(s[1]), Boolean.parseBoolean(s[2]));
+        });
+
+        dev("test69", (player, c, s) ->
+
+        {
+            DailyTasks.BOSSING.getTask(player).isRewardClaimed.set(player, false);
+            DailyTasks.BOSSING.getTask(player).currentlyCompletedAmount.set(player,Integer.parseInt(s[1]));
+        });
+
+        dev("test70", (player, c, s) ->
+
+        {
+            player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD + 4 , 50);
         });
     }
 

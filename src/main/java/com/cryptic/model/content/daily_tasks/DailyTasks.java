@@ -508,17 +508,33 @@ public enum DailyTasks {
     public void increment(final Player player) {
         DailyTasks found = getTask(player);
         if (found == null || !found.canIncrease(player)) return;
-        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0) + 1;
+        int points = player.<Integer>getAttribOr(found.currentlyCompletedAmount, 0);
         if (found.canIncrease(player)) {
-            found.currentlyCompletedAmount.set(player, points);
-            return;
+            found.currentlyCompletedAmount.set(player, points + 1);
         }
+        if (points + 1 < found.totalCompletionAmount.<Integer>get(player))
+            return;
+        //
         boolean isClaimed = found.isRewardClaimed.get(player);
         if (!isClaimed) {
             found.isRewardClaimed.set(player, true);
+            var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+            var extensionAmt = extensions.getOrDefault(found, 0);
             player.getInventory().addOrBank(found.rewards);
-            player.getSkills().addXp(found.type.getId(), 10_000);
-            player.message("<lsprite=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></img>");
+
+            if (found.type != null) {
+                player.getSkills().addXp(found.type.getId(), 10_000);
+            }
+            player.message("<lsprite=13><shad=0>You have completed your daily task " + found.assignmentName.get(player) + "!</shad></lsprite>");
+
+            if (extensionAmt > 0) {
+                if (found.type != null) {
+                    player.getSkills().addXp(found.type.getId(), 10_000);
+                }
+                player.getInventory().addOrBank(found.rewards);
+                player.message("<img=13><shad=0>Your rewards were doubled for completing an extended task.</shad></img>");
+            }
+
         }
     }
 

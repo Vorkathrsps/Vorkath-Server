@@ -53,7 +53,7 @@ abstract class Dbt<T> : DatabaseTransaction<T>() {
  */
 @JvmName("submitT")
 fun <T> DatabaseTransaction<T>.submit(): DatabaseTransaction<T> {
-    GameServer.getDatabaseService().submit(this)
+    GameServer.databaseService.submit(this)
     return this
 }
 
@@ -61,7 +61,7 @@ fun <T> DatabaseTransaction<T>.submit(): DatabaseTransaction<T> {
  * submits query to db for execution
  */
 fun DatabaseTransaction<out Any?>.submit(): DatabaseTransaction<out Any?> {
-    GameServer.getDatabaseService().submit(this)
+    GameServer.databaseService.submit(this)
     return this
 }
 
@@ -69,7 +69,7 @@ fun DatabaseTransaction<out Any?>.submit(): DatabaseTransaction<out Any?> {
  * submits query to db for execution. consume accepts the query's result and runs code thread-safely on gamethread.
  */
 fun <T> DatabaseTransaction<T>.submit(consumer: Consumer<T>): DatabaseTransaction<T> {
-    GameServer.getDatabaseService().submit(this, consumer)
+    GameServer.databaseService.submit(this, consumer)
     return this
 }
 
@@ -77,7 +77,7 @@ fun <T> DatabaseTransaction<T>.submit(consumer: Consumer<T>): DatabaseTransactio
  * submits query to db for execution. consume accepts the query's result and runs code thread-safely on gamethread.
  */
 fun <T> DatabaseTransaction<T>.submit(consumer: (T) -> Unit): DatabaseTransaction<T> {
-    GameServer.getDatabaseService().submit(this, consumer)
+    GameServer.databaseService.submit(this, consumer)
     return this
 }
 

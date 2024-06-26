@@ -450,6 +450,7 @@ public class CombatFactory {
                 Debugs.CMB.debug(entity, "cant attack not in an attackable area", other, true);
                 return false;
             }
+
             if (!TournamentManager.canAttack(entity, other)) {
                 Debugs.CMB.debug(entity, "cant attack tourny", other, true);
                 return false;

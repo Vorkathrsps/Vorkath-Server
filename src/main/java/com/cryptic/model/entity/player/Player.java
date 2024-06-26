@@ -17,6 +17,7 @@ import com.cryptic.interfaces.InterfaceSystem;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.wilderness.content.RiskManagement;
 import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
@@ -27,6 +28,7 @@ import com.cryptic.model.content.bank_pin.BankPinSettings;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
+import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.kill_logs.BossKillLog;
@@ -154,6 +156,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -176,6 +179,7 @@ import java.util.stream.IntStream;
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMENT_SIZE;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
+import static com.cryptic.model.content.tournaments.TournamentUtils.TOURNAMENT_REGION;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.WORLD_BOSS_SPAWN;
@@ -430,6 +434,13 @@ public class Player extends Entity {
             percent += 0.10;
         }
 
+        if (this.getEquipment().contains(MORYTANIA_LEGS_4) || this.getInventory().contains(MORYTANIA_LEGS_4)) {
+            Area barrowsArea = new Area(Tile.regionToTile(14131).getX(), Tile.regionToTile(14131).getY(), Tile.regionToTile(14131).getX() + 63, Tile.regionToTile(14131).getY() + 63);
+            if (this.tile.inArea(barrowsArea)) {
+                percent += 0.05;
+            }
+        }
+
         return percent;
     }
 
@@ -538,6 +549,11 @@ public class Player extends Entity {
             player.getPacketSender().sendString(80068, "Slayer Task: @whi@" + amount + " " + assignment.getTaskName());
         } else {
             player.getPacketSender().sendString(80068, "Slayer Task: @whi@N/A");
+        }
+        int currentAchievementPoints = player.getAttribOr(AttributeKey.ACHIEVEMENT_POINTS, 0);
+        player.getPacketSender().sendString(80069, "Achievement Points: @whi@" + currentAchievementPoints);
+        for (int index = 0; index < 19; index++) {
+            player.getPacketSender().sendString(80070 + index, "");
         }
     }
 
@@ -822,56 +838,25 @@ public class Player extends Entity {
         this.putAttrib(SLAYER_WIDGET_TYPE, type);
     }
 
+    @Getter
     private final SlayerRewards slayerRewards = new SlayerRewards(this);
 
-    public SlayerRewards getSlayerRewards() {
-        return slayerRewards;
-    }
-
+    @Getter
     private final List<TitleUnlockRequirement.UnlockableTitle> unlockedTitles = new ArrayList<>();
 
-    public List<TitleUnlockRequirement.UnlockableTitle> getUnlockedTitles() {
-        return unlockedTitles;
-    }
-
+    @Getter
+    @Setter
     private TitleCategory currentCategory = TitleCategory.PKING;
+    @Getter
+    @Setter
     private AvailableTitle currentSelectedTitle;
+    @Getter
+    @Setter
     private TitleColour currentSelectedColour;
 
-    public TitleColour getCurrentSelectedColour() {
-        return currentSelectedColour;
-    }
-
-    public void setCurrentSelectedColour(TitleColour currentSelectedColour) {
-        this.currentSelectedColour = currentSelectedColour;
-    }
-
-    public AvailableTitle getCurrentSelectedTitle() {
-        return currentSelectedTitle;
-    }
-
-    public void setCurrentSelectedTitle(AvailableTitle currentSelectedTitle) {
-
-        this.currentSelectedTitle = currentSelectedTitle;
-    }
-
-    public TitleCategory getCurrentCategory() {
-        return currentCategory;
-    }
-
-    public void setCurrentCategory(TitleCategory currentCategory) {
-        this.currentCategory = currentCategory;
-    }
-
+    @Getter
+    @Setter
     private Optional<Skillable> skillable = Optional.empty();
-
-    public Optional<Skillable> getSkillable() {
-        return skillable;
-    }
-
-    public void setSkillable(Optional<Skillable> skillable) {
-        this.skillable = skillable;
-    }
 
     public int slayerTaskAmount() {
         return this.getAttribOr(AttributeKey.SLAYER_TASK_AMT, 0);
@@ -881,13 +866,10 @@ public class Player extends Entity {
         return this.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
     }
 
+    @Getter
     private final TaskMasterManager taskMasterManager = new TaskMasterManager(this);
 
-    public TaskMasterManager getTaskMasterManager() {
-        return taskMasterManager;
-    }
-
-    private Varps varps;
+    private final Varps varps;
 
     public Varps varps() {
         return varps;
@@ -896,11 +878,8 @@ public class Player extends Entity {
     /**
      * Our achieved skill levels
      */
+    @Getter
     private Skills skills;
-
-    public Skills getSkills() {
-        return skills;
-    }
 
     public void skills(Skills skills) {
         this.skills = skills;
@@ -921,78 +900,44 @@ public class Player extends Entity {
     }
 
 
+    @Getter
     private final CollectionLog collectionLog = new CollectionLog(this);
 
-    public CollectionLog getCollectionLog() {
-        return collectionLog;
-    }
-
+    @Setter
+    @Getter
     private Clan clan;
+    @Setter
+    @Getter
     private String clanChat;
+    @Setter
     private String savedClan;
+    @Setter
+    @Getter
     private String clanPromote;
-
-    public Clan getClan() {
-        return clan;
-    }
-
-    public void setClan(Clan clan) {
-        this.clan = clan;
-    }
 
     public String getSavedClan() {
         return savedClan;
     }
 
-    public void setSavedClan(String savedClan) {
-        this.savedClan = savedClan;
-    }
-
-    public String getClanPromote() {
-        return clanPromote;
-    }
-
-    public void setClanPromote(String clanPromote) {
-        this.clanPromote = clanPromote;
-    }
-
-    public String getClanChat() {
-        return clanChat;
-    }
-
-    public void setClanChat(String clanChat) {
-        this.clanChat = clanChat;
-    }
-
     public ChatBoxItemDialogue chatBoxItemDialogue;
 
-    //This task keeps looping until the player action has been completed.
     public Task loopTask;
 
     /**
      * Their skull icon identification
      */
+    @Setter
+    @Getter
     private SkullType skullType = SkullType.NO_SKULL;
-
-    public SkullType getSkullType() {
-        return skullType;
-    }
-
-    public void setSkullType(SkullType skullType) {
-        this.skullType = skullType;
-    }
 
     /**
      * The map which was recently sent to show
      */
+    @Setter
     private Tile activeMap;
 
     public Tile activeMap() {
         return activeMap;
-    }
-
-    public void setActiveMap(Tile tile) {
-        activeMap = tile;
     }
 
     public Area activeArea() {
@@ -1007,15 +952,9 @@ public class Player extends Entity {
         return activeArea().contains(new Tile(x, z));
     }
 
+    @Setter
+    @Getter
     private boolean[] savedDuelConfig = new boolean[22]; // 22 rules
-
-    public boolean[] getSavedDuelConfig() {
-        return savedDuelConfig;
-    }
-
-    public void setSavedDuelConfig(boolean[] savedDuelConfig) {
-        this.savedDuelConfig = savedDuelConfig;
-    }
 
     public void setSavedDuelConfig(int index, boolean value) {
         this.savedDuelConfig[index] = value;
@@ -1034,11 +973,8 @@ public class Player extends Entity {
 
     public Map<Integer, Integer> commonStringsCache;
 
+    @Getter
     private final InterfaceManager interfaceManager = new InterfaceManager(this);
-
-    public InterfaceManager getInterfaceManager() {
-        return interfaceManager;
-    }
 
     public final RuntimeException initializationSource;
 
@@ -1133,6 +1069,11 @@ public class Player extends Entity {
         packetSender.sendMapRegion().sendDetails().sendRights().sendTabs();
         Tile.occupy(this);
         onLogin();
+        // we need to find a null index instead here
+        int freeIndex = ArrayUtils.indexOf(World.getWorld().getPidPlayers(), null);
+        if (freeIndex == -1) throw new IllegalStateException(); // just in case
+        this.pidOrderIndex = freeIndex;
+        World.getWorld().getPidPlayers()[freeIndex] = this;
     }
 
     /**
@@ -1141,6 +1082,9 @@ public class Player extends Entity {
     @Override
     public void onRemove() {
         // onlogout moved to logout service
+        if (this.pidOrderIndex != -1) {
+            World.getWorld().getPidPlayers()[this.pidOrderIndex] = null;
+        }
     }
 
     @Override
@@ -1303,10 +1247,10 @@ public class Player extends Entity {
 
     private String captureState() {
         StringBuilder sb = new StringBuilder();
-        sb.append(username + " state: ");
+        sb.append(username).append(" state: ");
         sb.append(String.format("ded %s, lock %s, moving %s", dead(), lockState(), getMovementQueue().isMoving()));
-        sb.append(" inv: " + Arrays.toString(inventory.getValidItems().stream().map(i -> i.toShortString()).toArray()));
-        sb.append(" equipment: " + Arrays.toString(equipment.getValidItems().stream().map(i -> i.toShortString()).toArray()));
+        sb.append(" inv: ").append(Arrays.toString(inventory.getValidItems().stream().map(i -> i.toShortString()).toArray()));
+        sb.append(" equipment: " + Arrays.toString(equipment.getValidItems().stream().map(Item::toShortString).toArray()));
         return sb.toString();
     }
 
@@ -1374,7 +1318,9 @@ public class Player extends Entity {
      */
     public void requestLogout() {
         stopActions(true);
-        getSession().setState(SessionState.REQUESTED_LOG_OUT);
+        if (this.getSession() != null) {
+            getSession().setState(SessionState.REQUESTED_LOG_OUT);
+        }
         logoutLock();
         onLogout();
         ObjectList<Item> temp = new ObjectArrayList<>();
@@ -1510,7 +1456,9 @@ public class Player extends Entity {
         this.getPrayer().reset();
 
         // Update session state
-        getSession().setState(SessionState.LOGGING_OUT);
+        if (this.getSession() != null) {
+            getSession().setState(SessionState.LOGGING_OUT);
+        }
 
         clearAttrib(AttributeKey.PLAYER_AUTO_SAVE_TASK_RUNNING);
 
@@ -1616,6 +1564,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
+
         setSpecialActivated(false);
         message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName() + "!");
         handleForcedTeleports();
@@ -1632,12 +1581,28 @@ public class Player extends Entity {
         restartTasks();
         auditTabs();
         setHitMarkVarbits();
+        checkUnlockedAchievements();
         getUpdateFlag().flag(Flag.ANIMATION);
         getUpdateFlag().flag(Flag.APPEARANCE);
         //World.getWorld().sendBroadcast("<cimg=22> Hi");
         //World.getWorld().sendBroadcast("<img=2> Hi Osrs Sprite");
         //World.getWorld().sendBroadcast("<lsprite=2009> Hi Legacy Sprite");
         //World.getWorld().sendBroadcast("<sprite=3152> Hi OSRS SPRITE");
+    }
+
+    private void checkUnlockedAchievements() {
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SIGIL_DROPPER)) {
+            AchievementsManager.activate(this, Achievements.SIGIL_HUNTER, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.PVP_ARMOURS)) {
+            AchievementsManager.activate(this, Achievements.WHAT_A_BLESSING, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DEATHS_TOUCH)) {
+            AchievementsManager.activate(this, Achievements.GRIM, 1);
+        }
+        if (this.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYERS_GREED)) {
+            AchievementsManager.activate(this, Achievements.GREEDY, 1);
+        }
     }
 
     private void setHitMarkVarbits() {
@@ -1648,7 +1613,12 @@ public class Player extends Entity {
     private static void handleOnLogin(Player player) {
         PacketInteractionManager.onLogin(player);
         TournamentManager.onLogin1(player);
+
         //DailyTaskManager.onLogin(player);
+
+        DailyTaskManager.onLogin(player);
+        SlayerTask.resetExplorerRing(player);
+
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);
         ControllerManager.process(player);
@@ -1672,6 +1642,9 @@ public class Player extends Entity {
     }
 
     private void handleForcedTeleports() {
+        if (tile().region() == TOURNAMENT_REGION) {
+            TournamentManager.onLogin1(this);
+        }
         if (getInstancedArea() == null && getZ() > 3) this.teleport(3096, 3498, 0);
         if (jailed() && tile().region() != 13103) Teleports.basicTeleport(this, new Tile(3290, 3017));
     }
@@ -1682,6 +1655,7 @@ public class Player extends Entity {
         if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile()))
             putAttrib(MULTIWAY_AREA, 0);
         if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) askForAccountPin();
+        AchievementsManager.checkPreviousAchievementPointsClaimed(this);
     }
 
     private void applyPoweredStaffSpells() {
@@ -2793,6 +2767,14 @@ public class Player extends Entity {
         return achievementsCompleted() >= Achievements.getTotal() - 1;
     }
 
+    public void sendHintMessage(String message) {
+        this.message("<img=1388><shad=0> " + Color.RUNITE.wrap(message) + "</shad></img>");
+    }
+
+    public void sendInformationMessage(String message) {
+        this.message("<img=13><shad=0> " + Color.RUNITE.wrap(message) + "</shad></img>");
+    }
+
     /**
      * -- GETTER --
      * Returns the single instance of the
@@ -3298,6 +3280,12 @@ public class Player extends Entity {
     @Getter
     @Setter
     Player tournamentOpponent;
+
+    @Getter
+    TimeClock raidTimeClock = new TimeClock();
+
+    @Getter
+    public List<Item> wildernessAgilityLoot = new ArrayList<>();
 
     @RequiredArgsConstructor
     public static class DailyTask {

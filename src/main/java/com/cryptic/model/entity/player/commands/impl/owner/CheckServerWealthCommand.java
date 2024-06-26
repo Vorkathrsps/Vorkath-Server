@@ -270,7 +270,7 @@ public class CheckServerWealthCommand implements Command {
         GameEngine.getInstance().submitLowPriority(() -> {
             try (Stream<Path> walk = Files.walk(Paths.get("data", "saves", "characters"))) {
                 List<String> result = walk.filter(Files::isRegularFile)
-                    .map(Path::toString).collect(Collectors.toList());
+                    .map(Path::toString).toList();
 
                 // TODO possible to sort by modified date? recent first. just for niceity when reading dump file. 2k files scan surprisingly fast. <2s
                 logger.trace("scanning offline profiles: {} : {}", result.size(), Arrays.toString(result.toArray()));

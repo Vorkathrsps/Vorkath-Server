@@ -24,8 +24,11 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public class RangedData {
 
-    public static int boltSpecialChance(boolean always_spec) {
-        int percentage = 10;
+    public static double boltSpecialChance(final Player player, final boolean always_spec) {
+        double percentage = 10;
+        if (player.getEquipment().containsAny(ItemIdentifiers.KANDARIN_HEADGEAR_4, ItemIdentifiers.KANDARIN_HEADGEAR_3, ItemIdentifiers.KANDARIN_HEADGEAR_2, ItemIdentifiers.KANDARIN_HEADGEAR_1)) {
+            percentage *= 1.10D;
+        }
         return always_spec ? 100 : percentage;
     }
 

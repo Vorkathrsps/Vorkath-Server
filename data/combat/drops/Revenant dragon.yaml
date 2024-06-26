@@ -139,7 +139,7 @@ drops:
 - item: CRAWS_BOW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 5000
+  chance: 2000
   rareDrop: true
   sendToBank: false
 - item: NOTED_MAHOGANY_PLANK
@@ -205,7 +205,7 @@ drops:
 - item: THAMMARONS_SCEPTRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 5000
+  chance: 2000
   rareDrop: true
   sendToBank: false
 - item: ONYX_BOLT_TIPS
@@ -247,7 +247,7 @@ drops:
 - item: VIGGORAS_CHAINMACE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 5000
+  chance: 2000
   rareDrop: true
   sendToBank: false
 - item: ANCIENT_EMBLEM

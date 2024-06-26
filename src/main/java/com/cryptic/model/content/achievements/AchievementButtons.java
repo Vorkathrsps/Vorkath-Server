@@ -34,11 +34,11 @@ public class AchievementButtons {
 
     public static boolean handleButtons(Player player, int buttonId) {
         if(buttonId == 80003 || buttonId == 80053 || buttonId == 80203) {
-            //AchievementWidget.open(player, Difficulty.EASY);
+            AchievementWidget.open(player);
             return true;
         }
         if (buttonId == 39408) {
-            AchievementWidget.open(player, Difficulty.EASY);
+            AchievementWidget.open(player);
             //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_I);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.EASY);
             player.getPacketSender().sendConfig(1160, 1);
@@ -50,7 +50,7 @@ public class AchievementButtons {
         }
 
         if (buttonId == 39409) {
-            AchievementWidget.open(player, Difficulty.MED);
+            AchievementWidget.open(player);
             //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_II);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.MED);
             player.getPacketSender().sendConfig(1160, 0);
@@ -62,7 +62,7 @@ public class AchievementButtons {
         }
 
         if (buttonId == 39410) {
-            AchievementWidget.open(player, Difficulty.HARD);
+            AchievementWidget.open(player);
             //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_III);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.HARD);
             player.getPacketSender().sendConfig(1160, 0);

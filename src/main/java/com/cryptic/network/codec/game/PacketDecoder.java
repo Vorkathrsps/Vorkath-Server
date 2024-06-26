@@ -78,7 +78,7 @@ public final class PacketDecoder extends ByteToMessageDecoder {
                 }
                 case -3 -> {
                     logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + player);
-                    ctx.close();
+                    ctx.channel().close();
                     return;
                 }
             }

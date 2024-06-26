@@ -3,6 +3,8 @@ package com.cryptic.model.entity.player;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
+import com.cryptic.model.content.achievements.Achievements;
+import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.skill.Skillable;
@@ -16,6 +18,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
@@ -43,9 +46,9 @@ public class Skills {
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;
     private int combat;
-
     public boolean test;
     public final boolean[] dirty = new boolean[SKILL_COUNT];
+    public static final Area AFK_ZONE = new Area(3073, 3482, 3086, 3496);
 
     public Skills(Player player) {
         this.player = player;
@@ -60,61 +63,6 @@ public class Skills {
     public void restoreLevels(double[] xp, int[] levels) {
         this.xps = xp;
         this.levels = levels;
-    }
-
-
-    private double expModifiers(int skill) {
-       /* switch(skill) {
-            case PRAYER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 50.0;
-            }
-            case COOKING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case WOODCUTTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case FLETCHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case FISHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 40.0;
-            }
-            case FIREMAKING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case CRAFTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case SMITHING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 60.0;
-            }
-            case MINING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 35 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 50 : 50.0;
-            }
-            case HERBLORE -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case AGILITY -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-            case THIEVING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 35.0;
-            }
-            case SLAYER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 25.0;
-            }
-            case FARMING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 55.0;
-            }
-            case RUNECRAFTING -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 50.0;
-            }
-            case HUNTER -> {
-                return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
-            }
-        }*/
-        return 1.0;
     }
 
     public void update() {
@@ -175,18 +123,20 @@ public class Skills {
         }
 
         //Only unlockable for trained accounts.
-        if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
-            if (totalLevel() >= 750) {
-                // AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
-            }
-            if (totalLevel() >= 1000) {
-                // AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
-            }
-            if (totalLevel() >= 1500) {
-                // AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
-            }
-            if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
-                // AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
+        if (player.getParticipatingTournament() == null) {
+            if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
+                if (totalLevel() >= 750) {
+                    AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
+                }
+                if (totalLevel() >= 1000) {
+                    AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
+                }
+                if (totalLevel() >= 1500) {
+                    AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
+                }
+                if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
+                    AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
+                }
             }
         }
 
@@ -269,12 +219,59 @@ public class Skills {
             if (mode.equals(player.getGameMode())) {
                 double setBonus = SkillingSets.check(player, skill);
                 amt *= setBonus;
-                if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
+                amt = checkDoubleExperienceBoost(amt);
+                amt = checkMorytaniaSlayerBoost(skill, amt);
+                amt = getMorytaniaFiremakingBoost(skill, amt);
+                amt = checkKandarinHeadGearBoost(skill, amt);
                 if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }
         }
         return false;
+    }
+
+    private double getMorytaniaFiremakingBoost(int skill, double amt) {
+        if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+            if (skill == FIREMAKING) {
+                amt *= 1.50;
+            }
+        }
+        return amt;
+    }
+
+    private double checkDoubleExperienceBoost(double amt) {
+        if (player.getTimers().has(TimerKey.DOUBLE_EXPERIENCE)) amt *= 2.0D;
+        return amt;
+    }
+
+    private double checkKandarinHeadGearBoost(int skill, double amt) {
+        if (skill == WOODCUTTING) {
+            if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_4)) {
+                amt *= 1.10D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_3)) {
+                amt *= 1.075D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_2)) {
+                amt *= 1.05D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getInventory().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1) || player.getBank().contains(ItemIdentifiers.KANDARIN_HEADGEAR_1)) {
+                amt *= 1.025D;
+            }
+        }
+        return amt;
+    }
+
+    private double checkMorytaniaSlayerBoost(int skill, double amt) {
+        if (skill == SLAYER) {
+            if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_4) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_4)) {
+                amt *= 1.10D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_3) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_3)) {
+                amt *= 1.075D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_2) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_2)) {
+                amt *= 1.05D;
+            } else if (player.getEquipment().contains(ItemIdentifiers.MORYTANIA_LEGS_1) || player.getInventory().contains(ItemIdentifiers.MORYTANIA_LEGS_1)) {
+                amt *= 1.025D;
+            }
+        }
+        return amt;
     }
 
     public boolean addExperience(int skill, double amount, double multiplier, boolean counter) {
@@ -419,6 +416,7 @@ public class Skills {
     }
 
     private void rollAntiqueLamp() {
+        if (player.tile().inArea(AFK_ZONE)) return;
         int chance = 500;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER, SAPPHIRE_MEMBER -> chance = 450;
@@ -436,7 +434,6 @@ public class Skills {
             if (set.getSkillType().getId() == AGILITY) {
                 if (player.getEquipment().containsAll(set.getSet())) {
                     amount *= set.experienceBoost;
-                    System.out.println("yeuh");
                     break;
                 }
             }

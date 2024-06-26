@@ -1,11 +1,10 @@
 package com.cryptic.model.content.items.equipment.wildswords;
 
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
 import com.cryptic.model.content.teleport.TeleportType;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
@@ -36,14 +35,14 @@ public class WildernessSword extends PacketInteraction {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
-                send(DialogueType.STATEMENT, "This Teleport will take you into Level " + wildernessLevel + " Deep Wilderness.");
+                sendStatement("This Teleport will take you into Level " + wildernessLevel + " Deep Wilderness.");
                 setPhase(0);
             }
 
             @Override
             protected void next() {
                 if (isPhase(0)) {
-                    send(DialogueType.OPTION, "Would you like to continue?", "Yes", "No");
+                    sendOption("Would you like to continue?", "Yes", "No");
                 }
             }
 

@@ -1,13 +1,12 @@
 package com.cryptic.model.content.skill.impl;
 
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
+import com.cryptic.clientscripts.impl.dialogue.Dialogue;
+import com.cryptic.clientscripts.impl.dialogue.util.Expression;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
-import com.cryptic.model.inter.dialogue.Expression;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 public class SkillReset extends PacketInteraction {
@@ -19,14 +18,14 @@ public class SkillReset extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Hello " + player.getUsername(), "Would you like to reset a combat skill of your choice?");
+                        sendNpcChat(NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Hello " + player.getUsername(), "Would you like to reset a combat skill of your choice?");
                         setPhase(0);
                     }
 
                     @Override
                     protected void next() {
                         if (isPhase(0)) {
-                            send(DialogueType.OPTION, "Would you like to reset a combat skill?", "Yes", "No");
+                            sendOption("Would you like to reset a combat skill?", "Yes", "No");
                             setPhase(1);
                             return;
                         }
@@ -39,7 +38,7 @@ public class SkillReset extends PacketInteraction {
                     protected void select(int option) {
                         if (isPhase(1)) {
                             if (option == 1) {
-                                send(DialogueType.OPTION, "Choose Skill", "Attack", "Strength", "Defence", "Ranged", "Next Page");
+                                sendOption("Choose Skill", "Attack", "Strength", "Defence", "Ranged", "Next Page");
                                 setPhase(2);
                             } else {
                                 stop();
@@ -54,7 +53,7 @@ public class SkillReset extends PacketInteraction {
                             } else if (option == 4) {
                                 resetSkill(Skills.RANGED);
                             } else if (option == 5) {
-                                send(DialogueType.OPTION, "Choose Skill", "Prayer", "Magic", "Hitpoints", "Nevermind");
+                                sendOption("Choose Skill", "Prayer", "Magic", "Hitpoints", "Nevermind");
                                 setPhase(3);
                             }
                         } else if (isPhase(3)) {
@@ -82,7 +81,7 @@ public class SkillReset extends PacketInteraction {
                         player.getSkills().setXp(skill, amount);
                         player.getSkills().update();
                         player.getSkills().recalculateCombat();
-                        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Alright,", "I've reset your " + Skill.values()[skill].getName() + " Skill!");
+                        sendNpcChat(NpcIdentifiers.MERCENARY_8213, Expression.DEFAULT, "Alright,", "I've reset your " + Skill.values()[skill].getName() + " Skill!");
                         setPhase(4);
                     }
                 });

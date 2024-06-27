@@ -11,8 +11,6 @@ out/production/Velrai/com/ferox/game/content/areas/burthope/warriors_guild/dialo
 .gradle/
 build/
 *.zip
-*.dat
-*.gz
 functions/
 functions/*.jar
 dependency-reduced-pom.xml

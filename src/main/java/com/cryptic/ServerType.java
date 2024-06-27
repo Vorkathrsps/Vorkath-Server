@@ -13,7 +13,7 @@ public enum ServerType {
         this.homeTile = homeTile;
     }
 
-    private final String name;
+    public final String name;
 
     private final Tile homeTile;
 

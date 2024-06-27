@@ -1,0 +1,9 @@
+id = 63001
+objectModels = [63001]
+name = "Well of Goodwill"
+description = "The beast that feasts upon your items.."
+ambient = 50
+contrast = 60
+option1 = "Donate"
+sizeX = 2
+sizeY = 2

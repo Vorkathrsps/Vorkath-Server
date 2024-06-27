@@ -142,5 +142,42 @@ tasks {
         args = listOf("serverType=VORKATH")
         jvmArgs = defaultJvmArgs
     }
+
+    val buildVarlamoreCache by creating(JavaExec::class) {
+        group = "cache"
+        description = "Build Varlamore Cache"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.tools.CacheToolsKt")
+        args = listOf("build","Varlamore")
+        jvmArgs = defaultJvmArgs
+    }
+
+    val buildVorkathCache by creating(JavaExec::class) {
+        group = "cache"
+        description = "Build Vorkath Cache"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.tools.CacheToolsKt")
+        args = listOf("build","Vorkath")
+        jvmArgs = defaultJvmArgs
+    }
+
+    val freshVarlamoreCache by creating(JavaExec::class) {
+        group = "cache"
+        description = "Fresh Install Varlamore Cache"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.tools.CacheToolsKt")
+        args = listOf("update","Varlamore")
+        jvmArgs = defaultJvmArgs
+    }
+
+    val freshVorkathCache by creating(JavaExec::class) {
+        group = "cache"
+        description = "Fresh Install Vorkath Cache"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.tools.CacheToolsKt")
+        args = listOf("update","Vorkath")
+        jvmArgs = defaultJvmArgs
+    }
+
 }
 

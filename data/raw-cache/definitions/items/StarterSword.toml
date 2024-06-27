@@ -1,0 +1,15 @@
+id = 32003
+name = "Starter Sword"
+description = "A sword from the gods of valor."
+inventoryModel = 63004
+zoom2d = 2650
+yan2d = 1715
+xan2d = 1643
+zan2d = 465
+xOffset2d = -9
+yOffset2d = 60
+maleModel = 63004
+femaleModel = 63004
+contrast = 40
+ambient = 30
+ioption2 = "Wear"

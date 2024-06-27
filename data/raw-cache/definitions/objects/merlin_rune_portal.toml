@@ -1,0 +1,8 @@
+id = 60005
+name = "Merlin’s Rune Portal"
+animationId = 2212
+description = "Adventures can use this to loot items, exchange points and invest for rewards."
+sizeX = 2
+sizeY = 2
+option1 = "Teleport"
+objectModels = [63101]

@@ -1,5 +1,6 @@
 package com.cryptic.model.map.region;
 
+import com.cryptic.GameServer;
 import com.cryptic.model.World;
 import com.cryptic.model.map.position.Area;
 import com.displee.cache.CacheLibrary;
@@ -36,10 +37,11 @@ public class RegionManager {
 
     public static Int2ObjectOpenHashMap<Region> regions = new Int2ObjectOpenHashMap<>();
 
-    public static final Path OSRS = Path.of("data", "cache");
+    public static Path OSRS = Path.of("data", "cache-"+ GameServer.serverType.name.toLowerCase());
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
 
     public static void init() throws Exception {
+        OSRS = Path.of("data", "cache-"+ GameServer.serverType.name.toLowerCase());
         var index = cache.index(5);
         Archive[] archives = index.archives();
         Int2IntMap hashNameToArchive = new Int2IntOpenHashMap(archives.length);

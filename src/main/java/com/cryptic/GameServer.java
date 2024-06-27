@@ -195,7 +195,7 @@ public class GameServer {
     private static DiscordWebhook fpkMerkwebHookURL;
 
     @Getter
-    private static ServerType serverType = ServerType.VORKATH;
+    public static ServerType serverType = ServerType.VORKATH;
 
     /**
      * The main method that will put the server online.
@@ -233,6 +233,7 @@ public class GameServer {
                 System.exit(1);
             }
 
+            System.out.println("CACHE: " + getCacheLocation());
             logger.info("Loading Server: {}" , serverType.getName());
             startTime = System.currentTimeMillis();
             File store = new File(getCacheLocation());

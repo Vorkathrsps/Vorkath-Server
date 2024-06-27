@@ -1,6 +1,7 @@
 package com.cryptic.tools
 
 import com.cryptic.GameServer
+import com.cryptic.ServerType
 import com.cryptic.getCacheLocation
 import com.cryptic.getRawCacheLocation
 import com.cryptic.tools.custom.PackDats
@@ -16,6 +17,7 @@ import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.cache.tools.tasks.impl.defs.PackMode
 import dev.openrune.cache.tools.tasks.impl.defs.json.PackItems
 import java.io.File
+import kotlin.system.exitProcess
 
 object CacheTools {
 
@@ -32,30 +34,60 @@ object CacheTools {
 }
 
 fun main(args : Array<String>) {
-    val type = args.first()
+    if (args.size < 2) {
+        println("Usage: <buildType> <serverName>")
+        exitProcess(1)
+    }
+
+    val type = args[0]
+    val serverName = args[1]
     val rev = 221
 
-    val tasks : Array<CacheTask> = arrayOf(
+    // Validate build type
+    if (type != "update" && type != "build") {
+        println("Invalid build type. Use 'update' or 'build'.")
+        exitProcess(1)
+    }
+
+    // Validate server name
+    if (!isValidServerName(serverName)) {
+        println("Invalid server name: $serverName")
+        exitProcess(1)
+    }
+
+    GameServer.serverType = ServerType.valueOf(serverName.uppercase())
+
+    val tasks : MutableList<CacheTask> = listOf(
         PackSprites(spritesDirectory = getRawCacheLocation("osrs_sprites/")),
         PackSpritesCustom(getRawCacheLocation("sprites/")),
         PackDats(getRawCacheLocation("dats/")),
         PackModels(getRawCacheLocation("models/")),
-        PackMaps(getRawCacheLocation("maps/")),
-        //PackItems(settings.getRawCacheLocation("definitions/items/"))//Old json way but its not gonna be supported long just convert them takes like 10 mins..
-        //PackConfig(PackMode.OBJECTS,settings.getRawCacheLocation("definitions/objects/")),
         PackConfig(PackMode.ITEMS,getRawCacheLocation("definitions/items/")),
         PackConfig(PackMode.OBJECTS, getRawCacheLocation("definitions/objects/"))
-    )
+    ).toMutableList()
+
+    when(GameServer.serverType) {
+        ServerType.VORKATH -> {
+            tasks.add(PackMaps(getRawCacheLocation("Vorkath/maps/")))
+        }
+        ServerType.VARLAMORE -> {
+            tasks.add(PackMaps(getRawCacheLocation("Varlamore/maps/")))
+        }
+    }
 
     when(type) {
         "update" -> {
             val builder = Builder(type = TaskType.FRESH_INSTALL, revision = rev, File(getCacheLocation()))
-            builder.extraTasks(*tasks, RemoveXteas(File(getCacheLocation(),"xteas.json"))).build().initialize()
+            builder.extraTasks(*tasks.toTypedArray(), RemoveXteas(File(getCacheLocation(),"xteas.json"))).build().initialize()
         }
         "build" -> {
             val builder = Builder(type = TaskType.BUILD, revision = rev, File(getCacheLocation()))
-            builder.extraTasks(*tasks).build().initialize()
+            builder.extraTasks(*tasks.toTypedArray()).build().initialize()
         }
     }
+}
+
+fun isValidServerName(serverName: String): Boolean {
+    return ServerType.entries.any { it.name == serverName }
 }
 

@@ -1,0 +1,15 @@
+id = 32001
+name = "Starter Bow"
+description = "A bow from the gods of valor."
+inventoryModel = 63003
+zoom2d = 2461
+yan2d = 791
+xan2d = 513
+zan2d = 1435
+xOffset2d = 90
+yOffset2d = 80
+maleModel = 63003
+femaleModel = 63003
+contrast = 40
+ambient = 30
+ioption2 = "Wear"

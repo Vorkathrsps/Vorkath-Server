@@ -104,19 +104,43 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.add("--enable-preview")
 }
 
-application {
-    mainClass.set("com.cryptic.GameServer")
+val defaultJvmArgs = listOf(
+    "-noverify",
+    "-Dio.netty.tryReflectionSetAccessible=true",
+    "-XX:TieredStopAtLevel=1",
+    "-XX:CompileThreshold=1500",
+    "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
+    "--add-opens", "java.base/jdk.internal.vm=ALL-UNNAMED",
+    "--add-opens", "java.base/java.time=ALL-UNNAMED",
+    "--add-opens", "java.base/java.util=ALL-UNNAMED",
+    "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+    "--enable-preview"
+)
 
-    applicationDefaultJvmArgs = listOf(
-        "-noverify",
-        "-Dio.netty.tryReflectionSetAccessible=true",
-        "-XX:TieredStopAtLevel=1",
-        "-XX:CompileThreshold=1500",
-        "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
-        "--add-opens", "java.base/jdk.internal.vm=ALL-UNNAMED",
-        "--add-opens", "java.base/java.time=ALL-UNNAMED",
-        "--add-opens", "java.base/java.util=ALL-UNNAMED",
-        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-        "--enable-preview"
-    )
+
+tasks {
+
+    named<JavaExec>("run") {
+        enabled = false
+        group = "hidden"
+    }
+
+    val runVarlamore by creating(JavaExec::class) {
+        group = "application"
+        description = "Run Varlamore Server"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.GameServer")
+        args = listOf("serverType=VARLAMORE")
+        jvmArgs = defaultJvmArgs
+    }
+
+    val runVorkath by creating(JavaExec::class) {
+        group = "application"
+        description = "Run Vorkath Server"
+        classpath = sourceSets["main"].runtimeClasspath
+        mainClass.set("com.cryptic.GameServer")
+        args = listOf("serverType=VORKATH")
+        jvmArgs = defaultJvmArgs
+    }
 }
+

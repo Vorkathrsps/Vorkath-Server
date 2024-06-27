@@ -123,7 +123,7 @@ public class MemberZone extends PacketInteraction {
                 if(player.getMemberRights().isRegularMemberOrGreater(player)) {
                     Teleports.basicTeleport(player, new Tile(2457, 2858));
                 } else {
-                    Teleports.basicTeleport(player, GameServer.settings().getHomeTile());
+                    Teleports.basicTeleport(player, GameServer.getServerType().getHomeTile());
                 }
                 return true;
             }
@@ -205,7 +205,7 @@ public class MemberZone extends PacketInteraction {
             }
             if (obj.getId() == PORTAL_34752) {
                 if (Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
-                    Teleports.basicTeleport(player, GameServer.settings().getHomeTile());
+                    Teleports.basicTeleport(player, GameServer.getServerType().getHomeTile());
                 }
                 return true;
             }

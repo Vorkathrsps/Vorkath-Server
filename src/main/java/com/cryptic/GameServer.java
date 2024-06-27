@@ -22,7 +22,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.cryptic.SettingsKt.getCacheLocation;
 import static io.netty.util.ResourceLeakDetector.Level.DISABLED;
 import static io.netty.util.ResourceLeakDetector.Level.PARANOID;
 
@@ -63,10 +66,6 @@ public class GameServer {
         return ServerProperties.current;
     }
 
-    public static ServerSettings settings() {
-        return ServerSettingsManager.INSTANCE.getSettings();
-    }
-
     public static DefinitionRepository definitions;
 
     public static DefinitionRepository definitions() {
@@ -83,7 +82,7 @@ public class GameServer {
     }
 
     static {
-        Thread.currentThread().setName(GameServer.settings().getName()+"InitializationThread");
+        Thread.currentThread().setName("GameInitializationThread");
         System.setProperty("log4j2.contextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
         logger = LogManager.getLogger(GameServer.class);
         if (properties().enableDiscordLogging) {
@@ -195,17 +194,51 @@ public class GameServer {
     @Getter
     private static DiscordWebhook fpkMerkwebHookURL;
 
+    @Getter
+    private static ServerType serverType = ServerType.VORKATH;
+
     /**
      * The main method that will put the server online.
      */
     public static void main(String[] args) {
         try {
+            Map<String, String> argMap = new HashMap<>();
+
+            // Parse arguments into a map
+            for (String arg : args) {
+                String[] keyValue = arg.split("=");
+                if (keyValue.length == 2) {
+                    argMap.put(keyValue[0], keyValue[1]);
+                }
+            }
+
+            // Check for serverType argument
+            String serverTypeArg = argMap.get("serverType");
+            if (serverTypeArg == null) {
+                logger.fatal("No serverType provided");
+                System.exit(1);
+            }
+
+
+            // Validate serverType
+            for (ServerType type : ServerType.values()) {
+                if (type.getName().equalsIgnoreCase(serverTypeArg)) {
+                    serverType = type;
+                    break;
+                }
+            }
+
+            if (serverType == null) {
+                logger.fatal("Invalid serverType provided: {}",serverTypeArg);
+                System.exit(1);
+            }
+
+            logger.info("Loading Server: {}" , serverType.getName());
             startTime = System.currentTimeMillis();
-            ServerSettingsManager.INSTANCE.init();
-            File store = new File(settings().getCacheLocation());
+            File store = new File(getCacheLocation());
             if (!store.exists()) throw new FileNotFoundException("Cannot load data store from " + store.getAbsolutePath() + " aborting.");
-            fileStore = new DataStore(settings().getCacheLocation());
-            logger.info("Loaded filestore {} successfully.", settings().getCacheLocation());
+            fileStore = new DataStore(getCacheLocation());
+            logger.info("Loaded filestore {} successfully.", getCacheLocation());
             definitions = new DefinitionRepository();
             CacheManager.INSTANCE.init(store.toPath(), 221);
             CacheTools.INSTANCE.initJs5Server();
@@ -235,10 +268,10 @@ public class GameServer {
             }));
             PlayerSaves.start();
             boundTime = System.currentTimeMillis();
-            logger.info("Loaded {} {}on port {} version v{}.", GameServer.settings().getName(), (GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ", GameServer.properties().gamePort, GameServer.properties().gameVersion);
-            logger.info("The Bootstrap has been bound, {} is now online (it took {}ms).", GameServer.settings().getName(), boundTime - startTime);
+            logger.info("Loaded {} {}on port {} version v{}.", GameServer.getServerType().getName(), (GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ", GameServer.properties().gamePort, GameServer.properties().gameVersion);
+            logger.info("The Bootstrap has been bound, {} is now online (it took {}ms).", GameServer.getServerType().getName(), boundTime - startTime);
         } catch (Throwable t) {
-            logger.fatal("An error occurred while loading {}.", GameServer.settings().getName(), t);
+            logger.fatal("An error occurred while loading {}.", GameServer.getServerType().getName(), t);
             System.exit(1);
         }
     }

@@ -24,13 +24,13 @@ public class Tutorial extends Dialogue {
 
     public static void start(Player player) {
         player.lock();
-        player.teleport(GameServer.settings().getHomeTile());
+        player.teleport(GameServer.getServerType().getHomeTile());
         player.getDialogueManager().start(new Tutorial());
     }
 
     @Override
     protected void start(Object... parameters) {
-        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Welcome to " + GameServer.settings().getName() + "!", "Let's start off by picking your game mode...");
+        send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Welcome to " + GameServer.getServerType().getName() + "!", "Let's start off by picking your game mode...");
         setPhase(1);
     }
 
@@ -68,8 +68,8 @@ public class Tutorial extends Dialogue {
             send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "And the revenants can be found here deep in the wilderness.", "You can use the teleporting mage or a quick access", "command for both entrances. ::revs offers to teleport you", "to the level 17 or level 39 entrance.");
             setPhase(12);
         } else if (isPhase(12)) {
-            player.teleport(GameServer.settings().getHomeTile());
-            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "Enjoy your stay here at " + GameServer.settings().getName() + "!");
+            player.teleport(GameServer.getServerType().getHomeTile());
+            send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "Enjoy your stay here at " + GameServer.getServerType().getName() + "!");
             setPhase(13);
         } else if (isPhase(13)) {
             stop();
@@ -99,7 +99,7 @@ public class Tutorial extends Dialogue {
                 System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
                 player.getBank().shift();
 
-                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Let me show you how to get started in " + GameServer.settings().getName() + ".");
+                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.HAPPY, "Let me show you how to get started in " + GameServer.getServerType().getName() + ".");
                 setPhase(7);
             } else {
                 AccountSelection.open(player);

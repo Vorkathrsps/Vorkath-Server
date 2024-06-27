@@ -508,7 +508,7 @@ public class Player extends Entity {
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
         SlayerTask slayerTask = World.getWorld().getSlayerTasks();
         var assignment = slayerTask.getCurrentAssignment(player);
-        player.getPacketSender().sendString(80055, GameServer.settings().getName() + " Information");
+        player.getPacketSender().sendString(80055, GameServer.getServerType().getName() + " Information");
         player.getPacketSender().sendString(80059, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
         player.getPacketSender().sendString(80060, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
         player.getPacketSender().sendString(80061, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
@@ -963,7 +963,7 @@ public class Player extends Entity {
      * @param playerIO
      */
     public Player(Session playerIO) {
-        super(NodeType.PLAYER, GameServer.settings().getHomeTile());
+        super(NodeType.PLAYER, GameServer.getServerType().getHomeTile());
         initializationSource = new RuntimeException("player created");
         this.session = playerIO;
         this.appearance = new Appearance(this);
@@ -972,7 +972,7 @@ public class Player extends Entity {
     }
 
     public Player() {
-        super(NodeType.PLAYER, GameServer.settings().getHomeTile());
+        super(NodeType.PLAYER, GameServer.getServerType().getHomeTile());
         initializationSource = new RuntimeException("player created");
         this.appearance = new Appearance(this);
         this.skills = new Skills(this);
@@ -1533,7 +1533,7 @@ public class Player extends Entity {
             this.putAttrib(STARTER_STAFF_CHARGES, 2500);
             this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
-        message("Welcome " + (newAccount ? "" : "back ") + GameServer.settings().getName() + "!");
+        message("Welcome " + (newAccount ? "" : "back ") + GameServer.getServerType().getName() + "!");
         handleForcedTeleports();
         applyAttributes();
         updatePlayer();
@@ -1867,7 +1867,7 @@ public class Player extends Entity {
         putAttrib(IS_RUNNING, false);
         Arrays.fill(getPresets(), null);
         //place player at edge
-        setTile(GameServer.settings().getHomeTile().copy());
+        setTile(GameServer.getServerType().getHomeTile().copy());
 
         //Save player save to re-index
         PlayerSave.save(this);
@@ -1886,7 +1886,7 @@ public class Player extends Entity {
         putAttrib(IS_RUNNING, false);
         putAttrib(RUN_ENERGY, 100.0);
         //place player at edge
-        setTile(GameServer.settings().getHomeTile().copy());
+        setTile(GameServer.getServerType().getHomeTile().copy());
 
         //Clear content
         Arrays.fill(getPresets(), null);
@@ -1958,7 +1958,7 @@ public class Player extends Entity {
         putAttrib(AttributeKey.ELO_RATING, DEFAULT_ELO_RATING);
         getRecentKills().clear();
 
-        setTile(GameServer.settings().getHomeTile().copy());
+        setTile(GameServer.getServerType().getHomeTile().copy());
 
         //Reset skills
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
@@ -2040,7 +2040,7 @@ public class Player extends Entity {
         getEquipment().clear(false);
         getRunePouch().clear(false);
         getLootingBag().clear(false);
-        setTile(GameServer.settings().getHomeTile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
+        setTile(GameServer.getServerType().getHomeTile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
         setSpellbook(MagicSpellbook.NORMAL);
         setMemberRights(MemberRights.NONE);
         putAttrib(AttributeKey.TOTAL_PAYMENT_AMOUNT, 0D);

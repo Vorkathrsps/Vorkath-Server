@@ -38,7 +38,7 @@ public final class QuestTabInterface {
     public static void helpInterface(Player player) {
         clearQuestInterface(player);
         player.getPacketSender().sendString(8144, "                   "+Color.RED.tag()+"General Help:");
-        player.getPacketSender().sendString(8147, "Thank you " + player.getUsername() + " for playing "+ GameServer.settings().getName()+"!");
+        player.getPacketSender().sendString(8147, "Thank you " + player.getUsername() + " for playing "+ GameServer.getServerType().getName()+"!");
         player.getPacketSender().sendString(8149, "New player tips:");
         player.getPacketSender().sendString(8150, "1. Re-watch the tutorial by talking to the town crier.");
         player.getPacketSender().sendString(8151, "2. View available commands to you by using"+Color.RED.tag()+" ::Commands");

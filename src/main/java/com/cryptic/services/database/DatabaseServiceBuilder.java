@@ -45,7 +45,7 @@ public final class DatabaseServiceBuilder {
 
         if (executor == null) {
             executor = Executors.newFixedThreadPool(slaves - 1, new ThreadFactoryBuilder()
-                .setNameFormat(GameServer.settings().getName()+"DatabaseServiceThread")
+                .setNameFormat(GameServer.getServerType().getName()+"DatabaseServiceThread")
                 .build());
         }
 

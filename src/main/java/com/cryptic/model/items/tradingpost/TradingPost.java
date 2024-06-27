@@ -1105,7 +1105,7 @@ public class TradingPost extends PacketInteraction {
                     Utils.sendDiscordInfoLog(player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price), "trading_post_sales");
                     tradingPostLogs.log(TRADING_POST, player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price));
                     save(listing);
-                    player.message("You've successfully listed your offer to the " + GameServer.settings().getName() + " marketplace!");
+                    player.message("You've successfully listed your offer to the " + GameServer.getServerType().getName() + " marketplace!");
                     refreshOverview(player);
                     openSellUI(player);
                     player.tradingPostListedItemId = -1;

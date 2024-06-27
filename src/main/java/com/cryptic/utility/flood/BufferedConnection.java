@@ -92,7 +92,7 @@ public final class BufferedConnection implements Runnable {
             if (!isWriter) {
                 isWriter = true;
                 Thread t = new Thread(this);
-                t.setName(""+ GameServer.settings().getName() +"FlooderIOThread");
+                t.setName(""+ GameServer.getServerType().getName() +"FlooderIOThread");
                 t.setPriority(3);
                 t.start();
             }

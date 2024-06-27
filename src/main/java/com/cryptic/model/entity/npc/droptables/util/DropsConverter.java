@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.cryptic.SettingsKt.getCacheLocation;
+
 public class DropsConverter {
     public static Int2ObjectMap<NpcDropTable> tables = new Int2ObjectArrayMap<>();
 
@@ -33,7 +35,7 @@ public class DropsConverter {
         ItemRepository.load();
         MonsterLoader.load();
 
-        GameServer.fileStore = new DataStore(GameServer.settings().getCacheLocation());
+        GameServer.fileStore = new DataStore(getCacheLocation());
         GameServer.definitions = new DefinitionRepository();
         new BloodMoneyPriceLoader().load();
         MonsterLoader.monsters.int2ObjectEntrySet().fastForEach(monster -> {

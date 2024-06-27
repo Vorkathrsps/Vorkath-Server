@@ -28,7 +28,7 @@ public enum TabletData {
     CAMELOT(new Item(CAMELOT_TELEPORT), new Tile(2757, 3477, 0), false),
     ARDOUGNE(new Item(ARDOUGNE_TELEPORT), new Tile(2662, 3305, 0), false),
     WATCH_TOWER(new Item(WATCHTOWER_TELEPORT), new Tile(2549, 3112, 0), false),
-    HOUSE(new Item(TELEPORT_TO_HOUSE), GameServer.settings().getHomeTile(), false),
+    HOUSE(new Item(TELEPORT_TO_HOUSE), GameServer.getServerType().getHomeTile(), false),
     RIMMINGTON(new Item(RIMMINGTON_TELEPORT), new Tile(2956, 3223, 0), false),
     TAVERLEY(new Item(TAVERLEY_TELEPORT), new Tile(2896, 3456, 0), false),
     POLLNIVNEACH(new Item(POLLNIVNEACH_TELEPORT), new Tile(3356, 2966, 0), false),

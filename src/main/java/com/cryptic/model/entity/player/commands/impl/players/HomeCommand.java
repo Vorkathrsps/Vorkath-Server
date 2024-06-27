@@ -10,7 +10,7 @@ import com.cryptic.model.map.position.Tile;
 public class HomeCommand implements Command {
 
     public void execute(Player player, String command, String[] parts) {
-        Tile tile = GameServer.settings().getHomeTile();
+        Tile tile = GameServer.getServerType().getHomeTile();
 
         if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
             return;

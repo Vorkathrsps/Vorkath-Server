@@ -35,8 +35,8 @@ public class CommandsCommand implements Command {
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::duel</col> - Teleports you to the Duel Arena.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::gamble</col> - Teleports you to the gambling area.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::changepassword</col> - Change your password.");
-        commands.add("<br><col=" + Color.RED.getColorValue() + ">::vote</col> - Opens the store on the " + GameServer.settings().getName() + " website.");
-        commands.add("<br><col=" + Color.RED.getColorValue() + ">::donate</col> - Opens the store on the " + GameServer.settings().getName() + " website.");
+        commands.add("<br><col=" + Color.RED.getColorValue() + ">::vote</col> - Opens the store on the " + GameServer.getServerType().getName() + " website.");
+        commands.add("<br><col=" + Color.RED.getColorValue() + ">::donate</col> - Opens the store on the " + GameServer.getServerType().getName() + " website.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::discord</col> - Opens the link to our Discord server.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::rules</col> - Opens the link to our rules.");
         commands.add("<br><col=" + Color.RED.getColorValue() + ">::yell</col> - Allows you to use the yell channel.");

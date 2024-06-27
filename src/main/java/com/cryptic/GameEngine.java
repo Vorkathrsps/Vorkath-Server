@@ -71,7 +71,7 @@ public final class GameEngine implements Runnable {
     private final ScheduledExecutorService gameThread =
         Executors.newSingleThreadScheduledExecutor(
             new ThreadFactoryBuilder()
-                .setNameFormat(GameServer.settings().getName() + " GameThread")
+                .setNameFormat(GameServer.getServerType().getName() + " GameThread")
                 .build());
 
     /**
@@ -96,7 +96,7 @@ public final class GameEngine implements Runnable {
                 nWorkers, nWorkers, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         executor.allowCoreThreadTimeOut(false);
         executor.setThreadFactory(
-            new CountingThreadFactory("" + GameServer.settings().getName() + "WorkerThread"));
+            new CountingThreadFactory("" + GameServer.getServerType().getName() + "WorkerThread"));
         lowPriorityThreadPool = MoreExecutors.listeningDecorator(executor);
 
         ThreadPoolExecutor discordExecutor =
@@ -104,7 +104,7 @@ public final class GameEngine implements Runnable {
                 1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         discordExecutor.allowCoreThreadTimeOut(false);
         discordExecutor.setThreadFactory(
-            new SingleThreadFactory("" + GameServer.settings().getName() + "DiscordThread"));
+            new SingleThreadFactory("" + GameServer.getServerType().getName() + "DiscordThread"));
         discordThreadPool = MoreExecutors.listeningDecorator(discordExecutor);
     }
 

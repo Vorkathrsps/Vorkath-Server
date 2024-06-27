@@ -22,7 +22,7 @@ public class AmuletOfGlory extends PacketInteraction {
     public static final int[] GLORY = new int[] {AMULET_OF_GLORY, AMULET_OF_GLORY1, AMULET_OF_GLORY2, AMULET_OF_GLORY3, AMULET_OF_GLORY4, AMULET_OF_GLORY5, AMULET_OF_GLORY6, AMULET_OF_ETERNAL_GLORY};
 
     private void teleport(Player player) {
-        Tile tile = GameServer.settings().getHomeTile();
+        Tile tile = GameServer.getServerType().getHomeTile();
 
         if (Teleports.canTeleport(player,true, TeleportType.ABOVE_20_WILD)) {
             Teleports.basicTeleport(player, tile);

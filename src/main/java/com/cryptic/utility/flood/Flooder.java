@@ -41,7 +41,7 @@ public class Flooder implements Runnable {
         if (!running) {
             running = true;
             Thread t = new Thread(this);
-            t.setName(""+ GameServer.settings().getName()+"FlooderThread");
+            t.setName(""+ GameServer.getServerType().getName()+"FlooderThread");
             t.start();
         }
     }

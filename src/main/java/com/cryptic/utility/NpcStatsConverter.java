@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.cryptic.SettingsKt.getCacheLocation;
+
 public class NpcStatsConverter {
 
     static final Int2ObjectOpenHashMap<NPCCombatInfo> info = new Int2ObjectOpenHashMap<>();
@@ -30,7 +32,7 @@ public class NpcStatsConverter {
 
     public static void main(String[] args) throws IOException {
         MonsterLoader.load();
-        GameServer.fileStore = new DataStore(GameServer.settings().getCacheLocation());
+        GameServer.fileStore = new DataStore(getCacheLocation());
         GameServer.definitions = new DefinitionRepository();
         mapAnimsAndNpcs();
        /* ObjectMapper mapper = new ObjectMapper();

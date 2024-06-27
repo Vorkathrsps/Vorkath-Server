@@ -24,7 +24,7 @@ public class TwiggyOKorn extends Dialogue {
     @Override
     protected void next() {
         if (isPhase(0)) {
-            send(DialogueType.NPC_STATEMENT, TWIGGY_OKORN, Expression.HAPPY, "Hi there, my name is Twiggy O'Korn and I'm the Master", "of Achievements here at " + GameServer.settings().getName() + ".");
+            send(DialogueType.NPC_STATEMENT, TWIGGY_OKORN, Expression.HAPPY, "Hi there, my name is Twiggy O'Korn and I'm the Master", "of Achievements here at " + GameServer.getServerType().getName() + ".");
             setPhase(1);
         } else if (isPhase(1)) {
             send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "What is an achievement?", "Do you sell anything?", "Can you tell me about your cape?");

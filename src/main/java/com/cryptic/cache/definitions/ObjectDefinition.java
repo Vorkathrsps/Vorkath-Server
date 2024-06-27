@@ -125,7 +125,7 @@ public class ObjectDefinition implements Definition {
         }
 
         if(id == 23311) {
-            name = GameServer.settings().getName()+ " Teleporter";
+            name = GameServer.getServerType().getName()+ " Teleporter";
             actions = new String[] {"Teleport", null, null, null, null};
         }
 

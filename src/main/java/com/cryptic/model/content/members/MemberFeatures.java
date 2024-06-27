@@ -26,7 +26,7 @@ public class MemberFeatures {
         if(World.getWorld().getCalendar().get(Calendar.DAY_OF_MONTH) == 1) {
             player.putAttrib(AttributeKey.RECEIVED_MONTHLY_SPONSOR_REWARDS, true);
             player.inventory().addOrBank(new Item(DONATOR_MYSTERY_BOX), new Item(LEGENDARY_MYSTERY_BOX));
-            player.message(Color.PURPLE.wrap("You have received your monthly sponsor rewards. Thank you for supporting "+ GameServer.settings().getName()+"!"));
+            player.message(Color.PURPLE.wrap("You have received your monthly sponsor rewards. Thank you for supporting "+ GameServer.getServerType().getName()+"!"));
         }
     }
 }

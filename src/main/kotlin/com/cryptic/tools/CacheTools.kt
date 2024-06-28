@@ -63,7 +63,8 @@ fun main(args : Array<String>) {
         PackDats(getRawCacheLocation("dats/")),
         PackModels(getRawCacheLocation("models/")),
         PackConfig(PackMode.ITEMS,getRawCacheLocation("definitions/items/")),
-        PackConfig(PackMode.OBJECTS, getRawCacheLocation("definitions/objects/"))
+        PackConfig(PackMode.OBJECTS, getRawCacheLocation("definitions/objects/")),
+        PackConfig(PackMode.NPCS, getRawCacheLocation("definitions/npcs/"))
     ).toMutableList()
 
     when(GameServer.serverType) {

@@ -7,6 +7,7 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.task.TaskManager;
+import com.cryptic.filestore.NpcLoader;
 import com.cryptic.model.content.areas.burthope.warriors_guild.dialogue.Shanomi;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.minigames.MinigameManager;
@@ -693,44 +694,6 @@ public class World {
 
     public static final ThreadLocal<Gson> gson = ThreadLocal.withInitial(Gson::new);
 
-    public static void loadNpcSpawns(String dirPath) {
-        long start = System.currentTimeMillis();
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new AfterburnerModule());
-        try (BufferedReader r = Files.newBufferedReader(Path.of(dirPath))) {
-            NpcSpawn[] s = objectMapper.readValue(r, NpcSpawn[].class);
-            for (NpcSpawn sp : s) {
-                Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
-                NPC npc = NPC.of(sp.id, spawnTile);
-                npc.spawnDirection(sp.dir());
-                npc.walkRadius(sp.walkRange);
-
-                if (npc.id() == SHANOMI) {
-                    Shanomi.shoutMessage(npc);
-                }
-
-                // successfully added to game world
-                KrakenBoss.onNpcSpawn(npc);
-
-                if (npc.id() == NpcIdentifiers.VENENATIS_6610) {
-                    npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
-                }
-
-                // Set the max return to spawnpoint distance for gwd room npcs
-                if (npc.def().gwdRoomNpc) {
-                    npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
-                }
-
-                // successfully added to game world
-                World.getWorld().registerNpc(npc);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        long elapsed = System.currentTimeMillis() - start;
-        logger.info("Loaded World Npc Spawns. It took {}ms.", elapsed);
-    }
-
     @Getter
     EquipmentLoader equipmentLoader = new EquipmentLoader();
     @Getter
@@ -792,7 +755,7 @@ public class World {
         }
 
         try {
-            loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
+            NpcLoader.loadAllNpcSpawns();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -802,7 +765,6 @@ public class World {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        logger.info("Loaded {} NPC spawns.", npcs.size());
 
         try {
             loadItemSpawns(new File("data/def/items/worldspawns/"));

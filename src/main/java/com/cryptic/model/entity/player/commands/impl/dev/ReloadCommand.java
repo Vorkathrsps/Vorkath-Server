@@ -2,6 +2,7 @@ package com.cryptic.model.entity.player.commands.impl.dev;
 
 import com.cryptic.GameEngine;
 import com.cryptic.cache.definitions.NpcDefinition;
+import com.cryptic.filestore.NpcLoader;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.entity.npc.NPC;
@@ -16,9 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import static com.cryptic.model.World.loadNpcSpawns;
 import static java.lang.String.format;
 
 public class ReloadCommand implements Command {
@@ -63,7 +62,7 @@ public class ReloadCommand implements Command {
                         }
                         worldNpcs.remove();
                     }
-                    loadNpcSpawns("data/def/npcs/worldspawns/npc_spawns.json");
+                    NpcLoader.loadAllNpcSpawns();
                     try {
                         Fishing.respawnAllSpots(World.getWorld());
                     } catch (FileNotFoundException e) {

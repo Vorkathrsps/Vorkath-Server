@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.events.star;
 
+import com.cryptic.GameServer;
 import com.cryptic.model.World;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
@@ -18,7 +19,7 @@ public class StarEvent {
     private LocalDateTime next = LocalDateTime.now().plus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
 
     private final Tile[] POSSIBLE_SPAWNS = {
-        new Tile(3104, 3509), // Home
+        new Tile(0, 0), // Home
         new Tile(3090, 3962), // Mage bank
         new Tile(2968, 3857) // 44s
     };
@@ -45,7 +46,12 @@ public class StarEvent {
         last = LocalDateTime.now();
         next = LocalDateTime.now().plus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
 
-        currentSpawnPos = POSSIBLE_SPAWNS[secureRandom.nextInt(POSSIBLE_SPAWNS.length)];
+        int index = secureRandom.nextInt(POSSIBLE_SPAWNS.length);
+
+        currentSpawnPos = POSSIBLE_SPAWNS[index];
+        if (index == 0) {
+            currentSpawnPos = GameServer.serverType.getCrashedStarLocation();
+        }
         ANNOUNCE_TIMER = false;
 
         CrashedStar star = new CrashedStar(41019, currentSpawnPos);

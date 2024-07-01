@@ -1,4 +1,26 @@
 [
-  {"x":3108,"y":3502,"z":0,"id":2668,"walkRange":0,"direction":"n"},
-  {"x":3080,"y":3492,"z":0,"id":3231,"walkRange":0,"direction":"e"}
+  {"x":3104,"y":3512,"z":0,"id":2668,"walkRange":0,"direction":"w"},
+  {"x":3075,"y":3491,"z":0,"id":3231,"walkRange":0,"direction":"e"},
+  {"x":3108,"y":3517,"z":0,"id":6797,"walkRange":0,"direction":"s"},
+  {"x":3109,"y":3517,"z":0,"id":7663,"direction":"s"},
+  {"x":3110,"y":3517,"z":0,"id":8623,"walkRange":0,"direction":"s"},
+  {"x":3106,"y":3501,"z":0,"id":8500,"walkRange":0,"direction":"w"},
+  {"x":3075,"y":3492,"z":0,"id":10962,"walkRange":0,"direction":"e"},
+  {"x":3075,"y":3497,"z":0,"id":5527,"walkRange":0,"direction":"e"},
+  {"x":3090,"y":3498,"z":0,"id":2408,"walkRange":0,"direction":"w"},
+  {"x":3095,"y":3501,"z":0,"id":1306,"walkRange":0,"direction":"n"},
+  {"x":3089,"y":3492,"z":0,"id":10382,"walkRange":0,"direction":"w"},
+  {"x":3088,"y":3514,"z":0,"id":308,"walkRange":0,"direction":"n"},
+  {"x":3075,"y":3493,"z":0,"id":2821,"walkRange":0,"direction":"e"},
+  {"x":3075,"y":3496,"z":0,"id":1755,"walkRange":0,"direction":"e"},
+  {"x":3075,"y":3495,"z":0,"id":6481,"walkRange":0,"direction":"e"},
+  {"x":3075,"y":3494,"z":0,"id":2980,"walkRange":0,"direction":"e"},
+  {"x":3111,"y":3505,"z":0,"id":5919,"walkRange":0,"direction":"n"},
+  {"x":3097,"y":3501,"z":0,"id":8213,"walkRange":0,"direction":"n"},
+  {"x":3084,"y":3498,"z":0,"id":7316,"walkRange":0,"direction":"e"},
+  {"x":3097,"y":3493,"z":0,"id":2897,"direction":"w"},
+  {"x":3097,"y":3492,"z":0,"id":2897,"direction":"w"},
+  {"x":3097,"y":3490,"z":0,"id":2897,"direction":"w"},
+  {"x":3097,"y":3491,"z":0,"id":2897,"direction":"w"},
+  {"x":3088,"y":3510,"z":0,"id":2897,"direction":"e"}
 ]

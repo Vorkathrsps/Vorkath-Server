@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum ServerType {
-    VORKATH("Vorkath",new Tile(3097, 3501, 0)),
+    VORKATH("Vorkath",new Tile(3092, 3501, 0)),
     VARLAMORE("Varlamore",new Tile(1647, 3108, 0));
 
     ServerType(String name,Tile homeTile) {

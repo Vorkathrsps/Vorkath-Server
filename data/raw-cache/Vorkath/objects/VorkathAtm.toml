@@ -1,0 +1,10 @@
+id = 63002
+objectModels = [63121]
+name = "Vorkath ATM"
+description = "ATM of Vorkath coin"
+ambient = 50
+contrast = 60
+option1 = "Deposit"
+option2 = "Withdraw"
+sizeX = 2
+sizeY = 2

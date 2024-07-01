@@ -15,7 +15,6 @@ import dev.openrune.cache.tools.tasks.impl.PackSprites
 import dev.openrune.cache.tools.tasks.impl.RemoveXteas
 import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.cache.tools.tasks.impl.defs.PackMode
-import dev.openrune.cache.tools.tasks.impl.defs.json.PackItems
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -70,6 +69,7 @@ fun main(args : Array<String>) {
     when(GameServer.serverType) {
         ServerType.VORKATH -> {
             tasks.add(PackMaps(getRawCacheLocation("Vorkath/maps/")))
+            tasks.add(PackConfig(PackMode.OBJECTS,getRawCacheLocation("Vorkath/objects/")))
         }
         ServerType.VARLAMORE -> {
             tasks.add(PackMaps(getRawCacheLocation("Varlamore/maps/")))

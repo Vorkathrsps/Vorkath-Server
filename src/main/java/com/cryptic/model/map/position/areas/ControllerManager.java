@@ -1,6 +1,5 @@
 package com.cryptic.model.map.position.areas;
 
-import com.cryptic.model.content.areas.edgevile.AFKZoneArea;
 import com.cryptic.model.content.raids.theatreofblood.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.muspah.area.MuspahArea;
@@ -40,7 +39,6 @@ public class ControllerManager {
         CONTROLLERS.add(new NightmareArea());
         CONTROLLERS.add(new BlueMoonArea());
         CONTROLLERS.add(new BlueMoonLobbyArea());
-        CONTROLLERS.add(new AFKZoneArea());
         CONTROLLERS.add(new TheDukeArea());
         CONTROLLERS.add(new MuspahArea());
     }
